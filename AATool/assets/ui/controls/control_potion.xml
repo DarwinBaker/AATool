@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control width="256" height="52" flow_direction="toptobottom" drawmode="children_only">
+    <text_block margin="2,0,2,0" horizontal_align="left"/>
+    <flow_panel height="32" margin_top="2" draw_mode="children_only">
+        <picture name="potion" width="32" height="32" vertical_align="top"/>
+        <picture name="arrow"  width="32" height="32" vertical_align="top" margin_left="10"/>
+    </flow_panel>
+</control>
