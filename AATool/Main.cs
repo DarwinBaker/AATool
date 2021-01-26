@@ -25,7 +25,7 @@ namespace AATool
         {
             var version  = Assembly.GetExecutingAssembly().GetName().Version;
             string name  = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title;
-            Window.Title = name + " " + version.Major + "." + version.Minor;
+            Window.Title = name + " " + version.Major + "." + version.Minor + "." + version.Revision;
 
             GraphicsManager   = new GraphicsDeviceManager(this);
             TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 60);
