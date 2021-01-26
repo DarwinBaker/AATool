@@ -5,7 +5,7 @@
 ![](preview_main.gif)
 
 ## What's New?
-This is a complete rewrite of the [Advancements Tracker I created back in November of 2020](https://github.com/DarwinBaker/AdvancementsTracker). I ended up being extremely limited by the performance of the framework that the original program was built on, and couldn't add many of the great features people have been requesting. This new version has no such limitations, so the sky is the limit! 
+This is a complete rewrite of the [Advancements Tracker I created back in November of 2020](https://github.com/DarwinBaker/AdvancementsTracker). I ended up being extremely limited by the performance of the framework that the original program was built on, and couldn't add many of the great features people have been requesting. This new version has no such limitations, so the sky is the limit! These massive performance improvements are thanks to the new version being built on DirectX, meaning it's rendered exclusively on the GPU. The old tracker was rendered on the CPU using GDI+, which while faster and easier to code, is *much* slower. Since the GPU is barely utilized at all in vanilla Minecraft anyway, having the tracker open should translate to zero impact on the game's performance. This could potentially lead to chunks generating perceptibly faster for people on very slow machines when switching from the old tracker.
 
 In addition to being lightning fast (even on very old PCs) this new version also includes the totally customizable stream overlay that you have likely seen if you've watched [Elysaku's Stream](https://www.twitch.tv/elysaku). (Big thanks to him for beta testing!)
 
