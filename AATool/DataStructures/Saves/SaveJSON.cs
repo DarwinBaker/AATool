@@ -76,11 +76,14 @@ namespace AATool.DataStructures
         {
             if (!Directory.Exists(TrackerSettings.Instance.SavesFolder))
                 return null;
-
-            //get most recently accessed save file
-            var worlds = new DirectoryInfo(TrackerSettings.Instance.SavesFolder)?.GetDirectories().OrderBy(d => d.LastAccessTime).ToList();
-            if (worlds.Count > 0)
-                return new DirectoryInfo(Path.Combine(worlds.Last().FullName, folderName)).GetFiles().First().FullName;
+            try
+            {
+                //get most recently accessed save file
+                var worlds = new DirectoryInfo(TrackerSettings.Instance.SavesFolder)?.GetDirectories().OrderBy(d => d.LastAccessTime).ToList();
+                if (worlds.Count > 0)
+                    return new DirectoryInfo(Path.Combine(worlds.Last().FullName, folderName)).GetFiles().First().FullName;
+            }
+            catch { }
             return null;
         }
     }
