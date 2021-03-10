@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Adventure">
+    <advancement id="minecraft:adventure/root"                  name="Adventure"                  icon="adventure"/>
+    <advancement id="minecraft:adventure/kill_a_mob"            name="Monster Hunter"/>
+    <advancement id="minecraft:adventure/sleep_in_bed"          name="Sweet Dreams"/>
+    <advancement id="minecraft:adventure/trade"                 name="What a Deal!"/>
+    <advancement id="minecraft:adventure/honey_block_slide"     name="Sticky Situation"/>
+    <advancement id="minecraft:adventure/bullseye"              name="Bullseye"                   type="challenge"/>
+    <advancement id="minecraft:adventure/shoot_arrow"           name="Take Aim"/>
+    <advancement id="minecraft:adventure/sniper_duel"           name="Sniper Duel"                type="challenge"/>
+    <advancement id="minecraft:adventure/ol_betsy"              name="Ol' Betsy"/>
+    <advancement id="minecraft:adventure/whos_the_pillager_now" name="Who's the Pillager Now?"/>
+    <advancement id="minecraft:adventure/two_birds_one_arrow"   name="Two Birds, One Arrow"       type="challenge"/>
+    <advancement id="minecraft:adventure/arbalistic"            name="Arbalistic"                 type="challenge"/>
+    <advancement id="minecraft:adventure/summon_iron_golem"     name="Hired Help"                 type="goal"/>
+    <advancement id="minecraft:adventure/totem_of_undying"      name="Postmortal"                 type="goal"/>
+    <advancement id="minecraft:adventure/throw_trident"         name="A Throwaway Joke"/>
+    <advancement id="minecraft:adventure/very_very_frightening" name="Very Very Frightening"/>
+    <advancement id="minecraft:adventure/voluntary_exile"       name="Voluntary Exile"            icon="pillager_banner"/>
+    <advancement id="minecraft:adventure/hero_of_the_village"   name="Hero of the Village"        icon="pillager_banner"      type="challenge"/>
+    <advancement id="minecraft:adventure/adventuring_time"      name="Adventuring Time"           type="challenge" >
+        <criteria goal="Biomes Visited">
+            <criterion id="minecraft:plains"/>
+            <criterion id="minecraft:forest"/>
+            <criterion id="minecraft:birch_forest"/>
+            <criterion id="minecraft:birch_forest_hills"      name="Birch Hills"/>
+            <criterion id="minecraft:swamp"/>
+            <criterion id="minecraft:dark_forest"/> 
+            <criterion id="minecraft:taiga"/>
+            <criterion id="minecraft:taiga_hills"/>
+            <criterion id="minecraft:giant_tree_taiga"        name="Mega Taiga"/>
+            <criterion id="minecraft:giant_tree_taiga_hills"  name="Mega Taiga Hill"/>
+            <criterion id="minecraft:snowy_taiga"/>
+            <criterion id="minecraft:snowy_taiga_hills"       name="Snow Taiga Hill"/>
+            <criterion id="minecraft:snowy_tundra"/>
+            <criterion id="minecraft:snowy_mountains"         name="Snow Mountain"/>
+            <criterion id="minecraft:snowy_beach"/>
+            <criterion id="minecraft:desert"/>
+            <criterion id="minecraft:desert_hills"/>
+            <criterion id="minecraft:savanna"/>
+            <criterion id="minecraft:savanna_plateau"         name="Savanna Plat"/>
+            <criterion id="minecraft:jungle"/>
+            <criterion id="minecraft:jungle_edge"/>
+            <criterion id="minecraft:jungle_hills"/>
+            <criterion id="minecraft:bamboo_jungle"           name="Bamboo"/>
+            <criterion id="minecraft:bamboo_jungle_hills"     name="Bamboo Hills"/>
+            <criterion id="minecraft:mountains"/>
+            <criterion id="minecraft:wooded_mountains"        name="Wooded Mtn"/>
+            <criterion id="minecraft:stone_shore"/>
+            <criterion id="minecraft:mushroom_fields"         name="Mushroom"/>
+            <criterion id="minecraft:mushroom_field_shore"    name="Mush-Shore"/>
+            <criterion id="minecraft:badlands"/>
+            <criterion id="minecraft:badlands_plateau"        name="Badlands Plat"/>
+            <criterion id="minecraft:wooded_badlands_plateau" name="Wooded Plat"/>
+            <criterion id="minecraft:wooded_hills"/>
+            <criterion id="minecraft:beach"/>
+            <criterion id="minecraft:river"/>
+            <criterion id="minecraft:frozen_river"/>
+            <criterion id="minecraft:warm_ocean"/>
+            <criterion id="minecraft:lukewarm_ocean"/>
+            <criterion id="minecraft:deep_lukewarm_ocean"     name="Deep Lukewarm"/>
+            <criterion id="minecraft:cold_ocean"/>
+            <criterion id="minecraft:deep_cold_ocean"/>
+            <criterion id="minecraft:deep_frozen_ocean"       name="Deep Frozen"/>
+        </criteria>
+    </advancement>
+    <advancement id="minecraft:adventure/kill_all_mobs" name="Monsters Hunted" type="challenge" >
+        <criteria goal="Monsters Killed">
+            <criterion id="minecraft:creeper"/>
+            <criterion id="minecraft:zombie"/>
+            <criterion id="minecraft:skeleton"/>
+            <criterion id="minecraft:husk"/>
+            <criterion id="minecraft:drowned"/>
+            <criterion id="minecraft:stray"/>
+            <criterion id="minecraft:spider"/>
+            <criterion id="minecraft:cave_spider"/>
+            <criterion id="minecraft:enderman"/>
+            <criterion id="minecraft:slime"/>
+            <criterion id="minecraft:magma_cube"/>
+            <criterion id="minecraft:ghast"/>
+            <criterion id="minecraft:blaze"/>
+            <criterion id="minecraft:wither_skeleton"/>
+            <criterion id="minecraft:piglin"/>
+            <criterion id="minecraft:piglin_brute"/>
+            <criterion id="minecraft:zombified_piglin"  name="Zombie Piglin"/>
+            <criterion id="minecraft:hoglin"/>
+            <criterion id="minecraft:zoglin"/>
+            <criterion id="minecraft:silverfish"/>
+            <criterion id="minecraft:ender_dragon"/>
+            <criterion id="minecraft:endermite"/>
+            <criterion id="minecraft:shulker"/>
+            <criterion id="minecraft:wither"/>
+            <criterion id="minecraft:phantom"/>
+            <criterion id="minecraft:guardian"/>
+            <criterion id="minecraft:elder_guardian"/>
+            <criterion id="minecraft:witch"/>
+            <criterion id="minecraft:pillager"/>
+            <criterion id="minecraft:vindicator"/>
+            <criterion id="minecraft:evoker"/>
+            <criterion id="minecraft:vex"/>
+            <criterion id="minecraft:zombie_villager"/>
+            <criterion id="minecraft:ravager"/>
+        </criteria>
+    </advancement>
+</group>

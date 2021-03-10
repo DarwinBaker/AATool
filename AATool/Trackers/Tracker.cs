@@ -13,7 +13,7 @@ namespace AATool.Trackers
 
         public Tracker()
         {
-            refreshTimer = new Timer(TrackerSettings.Instance.RefreshInterval);
+            refreshTimer = new Timer(TrackerSettings.Instance.RefreshInterval / 1000.0);
             ParseReferences();
         }
 
@@ -22,22 +22,28 @@ namespace AATool.Trackers
 
         public void Update(Time time)
         {
-            //update save file check refresh rate
+            //if user changes refresh rate create a new timer with the new refresh rate
             double targetRefresh = TrackerSettings.Instance.RefreshInterval / 1000.0;
             if (refreshTimer.Duration != targetRefresh)
                 refreshTimer = new Timer(targetRefresh);
             refreshTimer.Update(time);
 
+            //if user changes game version clear tracked data and load appropriate list for new version
+            if (TrackerSettings.Instance.ValueChanged(TrackerSettings.GAME_VERSION))
+            {
+                ParseReferences();
+                refreshTimer.Expire();
+            }
+
             JSON.Update();
             if (refreshTimer.IsExpired || CurrentSaveName != JSON.CurrentSaveName)
             {
+                //time to refresh or current save changed; read json again
                 JSON.Read();
                 refreshTimer.Reset();
                 ReadSave();
                 CurrentSaveName = JSON.CurrentSaveName;
             }
         }
-
-        
     }
 }

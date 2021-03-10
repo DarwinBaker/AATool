@@ -13,9 +13,8 @@ namespace AATool.UI.Controls
         protected int NextIndex;
         
         private Timer timer;
-        private int moveRatio = 1;
 
-        protected override void UpdateThis(Time time) => Slide(time);
+        protected int Direction => OverlaySettings.Instance.RightToLeft ? 1 : -1;
         protected void Clear() => Children.Clear();
         protected abstract UIControl NextControl();
         protected abstract void UpdateSourceList();
@@ -27,6 +26,17 @@ namespace AATool.UI.Controls
             timer = new Timer(1 / 60.0);
             HorizontalAlign = HorizontalAlign.Left;
             VerticalAlign = VerticalAlign.Top;
+        }
+
+        protected override void UpdateThis(Time time)
+        {
+            //reset carousel if settings change
+            if (OverlaySettings.Instance.ValueChanged(OverlaySettings.RIGHT_TO_LEFT))
+                Clear();
+            if (OverlaySettings.Instance.ValueChanged(OverlaySettings.ONLY_FAVORITES))
+                Clear();
+
+            Slide(time);
         }
 
         public override void MoveTo(Point point)
@@ -50,7 +60,7 @@ namespace AATool.UI.Controls
             {
                 //slide controls to the left
                 for (int i = 0; i < Children.Count; i++)
-                    Children[i].MoveBy(new Point(-moveRatio, 0));
+                    Children[i].MoveBy(new Point(-Direction, 0));
 
                 //remove controls that leave the viewport
                 if (Children.Count > 0 && Children[0].Right < 0)
@@ -62,12 +72,12 @@ namespace AATool.UI.Controls
         protected virtual void Fill()
         {
             //calculate widths
-            int gap = 20;
-            int singleWidth = 102 + gap;
-            int totalWidth = Children.Count > 0 ? Children.Last().Right : 0;
+            int x = 0;
+            if (Children.Count > 0)
+                x = OverlaySettings.Instance.RightToLeft ? Children.Last().Right : Width - Children.Last().Left;
 
             //while more controls will fit, add them
-            while (totalWidth < Width + singleWidth)
+            while (x < Width)
             {
                 if (SourceList.Count == 0)
                     return;
@@ -78,11 +88,15 @@ namespace AATool.UI.Controls
                 var control = NextControl();
                 control.ResizeRecursive(Rectangle);
                 control.VerticalAlign = VerticalAlign.Top;
-                control.MoveTo(new Point(totalWidth, ContentRectangle.Top));
+                if (OverlaySettings.Instance.RightToLeft)
+                    control.MoveTo(new Point(x, ContentRectangle.Top));
+                else
+                    control.MoveTo(new Point(Width - x - control.Width, ContentRectangle.Top));
+                
                 AddControl(control);
 
                 //add control width to total width
-                totalWidth += control.Width;
+                x += control.Width;
                 NextIndex++;
             }
         }

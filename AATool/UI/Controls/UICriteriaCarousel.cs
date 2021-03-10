@@ -1,4 +1,5 @@
 ﻿using AATool.DataStructures;
+using AATool.Settings;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -16,8 +17,9 @@ namespace AATool.UI.Controls
         protected override void UpdateThis(Time time)
         {
             UpdateSourceList();
-
             Fill();
+
+            //remove ones that have been completed
             for (int i = Children.Count - 1; i >= 0; i--)
                 if ((Children[i] as UICriterion).IsCompleted)
                     Children.RemoveAt(i);
@@ -27,21 +29,37 @@ namespace AATool.UI.Controls
 
         protected override void UpdateSourceList()
         {
+            //populate source list with all criteria
             SourceList = new List<object>();
-            foreach (Advancement advancement in GetRootScreen().AdvancementTracker.AdvancementList.Values)
-                if (advancement.HasCriteria)
-                    foreach (Criterion criterion in advancement.Criteria.Values)
-                        if (!criterion.IsCompleted)
-                            SourceList.Add(criterion);
+            foreach (Advancement advancement in GetRootScreen().AdvancementTracker.ComplexAdvancementList.Values)
+                foreach (Criterion criterion in advancement.Criteria.Values)
+                    if (!criterion.IsCompleted)
+                        SourceList.Add(criterion);
+
+            //remove all completed criteria from pool if configured to do so
+            for (int i = SourceList.Count - 1; i >= 0; i--)
+                if ((SourceList[i] as Criterion).IsCompleted)
+                    SourceList.RemoveAt(i);
+
+            //remove all criteria not marked as favorites from pool if configured to do so
+            if (OverlaySettings.Instance.OnlyShowFavorites)
+                for (int i = SourceList.Count - 1; i >= 0; i--)
+                {
+                    var criterion = SourceList[i] as Criterion;
+                    if (!OverlaySettings.Instance.Favorites.Criteria.Contains(criterion.AdvancementID + "/" + criterion.ID))
+                        SourceList.RemoveAt(i);
+                }
         }
 
         protected override void Fill()
         {
             //calculate widths
-            int totalWidth = Children.Count > 0 ? Children.Last().Right : 0;
+            int x = Children.Count > 0 ? Children.Last().Right : 0;
+            if (Children.Count > 0)
+                x = OverlaySettings.Instance.RightToLeft ? Children.Last().Right : Width - Children.Last().Left;
 
             //while more controls will fit, add them
-            while (totalWidth < Width)
+            while (x < Width)
             {
                 if (SourceList.Count == 0)
                     return;
@@ -50,13 +68,19 @@ namespace AATool.UI.Controls
                     NextIndex = 0;
 
                 var control = NextControl();
-                AddControl(control);
+                
 
                 control.InitializeRecursive(GetRootScreen());
                 control.ResizeRecursive(Rectangle);
-                control.MoveTo(new Point(totalWidth, ContentRectangle.Top));
+
+                if (OverlaySettings.Instance.RightToLeft)
+                    control.MoveTo(new Point(x, ContentRectangle.Top));
+                else
+                    control.MoveTo(new Point(Width - x - control.Width, ContentRectangle.Top));
+                AddControl(control);
+
                 NextIndex++;
-                totalWidth += Children[0].Width;
+                x += Children[0].Width;
             }
         }
 

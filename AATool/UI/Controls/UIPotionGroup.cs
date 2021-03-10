@@ -27,14 +27,18 @@ namespace AATool.UI.Controls
         private IList<Potion> ReadPotions()
         {
             var potions = new List<Potion>();
-            var doc = new XmlDocument();
-            using (var stream = File.OpenRead(Path.Combine("assets", "potions", "potions.xml")))
+            try
             {
-                doc.Load(stream);
-                XmlNode root = doc.SelectSingleNode("potions");
-                foreach (XmlNode potionNode in root.ChildNodes)
-                    potions.Add(new Potion(potionNode));
+                var doc = new XmlDocument();
+                using (var stream = File.OpenRead(Paths.PotionsFile))
+                {
+                    doc.Load(stream);
+                    XmlNode root = doc.SelectSingleNode("potions");
+                    foreach (XmlNode potionNode in root.ChildNodes)
+                        potions.Add(new Potion(potionNode));
+                }
             }
+            catch { Main.ForceQuit(); }
             return potions;
         }
 

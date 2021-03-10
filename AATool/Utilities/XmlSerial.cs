@@ -17,6 +17,7 @@ namespace AATool.Utilities
             value.ReadDocument(document);
             return value;
         }
+
         public static T FromNode<T>(XmlNode node) where T : XmlSerial, new()
         {
             T value = new T();
@@ -32,6 +33,7 @@ namespace AATool.Utilities
 
         private XmlDocument GetXml()
         {
+            //write this object into an xml doc
             var document = new XmlDocument();
             try
             {
@@ -54,6 +56,7 @@ namespace AATool.Utilities
 
         public bool LoadXml(string file)
         {
+            //read values from an xml doc into this object
             try
             {
                 var document = new XmlDocument();
@@ -67,6 +70,7 @@ namespace AATool.Utilities
 
         public bool SaveXml(string file)
         {
+            //save values from this object's xml representation into a file
             try
             {
                 using (var stream = File.Create(file))
@@ -104,8 +108,7 @@ namespace AATool.Utilities
                 string[] csv = value.Replace(" ", "").Split(',');
 
                 //switch on type and parse accordingly
-                object parsed = defaultValue switch
-                {
+                object parsed = defaultValue switch {
                     string          _ => value,
                     char            _ => value[1],
                     int             _ => int.Parse(value),
@@ -116,13 +119,13 @@ namespace AATool.Utilities
                     Point           _ => new Point(int.Parse(csv[0]), int.Parse(csv[1])),
                     Rectangle       _ => new Rectangle(int.Parse(csv[0]), int.Parse(csv[1]), int.Parse(csv[2]), int.Parse(csv[3])),
                     Color           _ => Color.FromNonPremultiplied(int.Parse(csv[0]), int.Parse(csv[1]), int.Parse(csv[2]), csv.Length == 4 ? int.Parse(csv[3]) : 255),
+                    HorizontalAlign _ => Enum.TryParse(value, true, out HorizontalAlign converted)                  ? converted : default,
+                    VerticalAlign   _ => Enum.TryParse(value, true, out VerticalAlign converted)                    ? converted : default,
+                    FlowDirection   _ => Enum.TryParse(value.Replace("_", ""), true, out FlowDirection converted)   ? converted : default,
+                    DrawMode        _ => Enum.TryParse(value.Replace("_", ""), true, out DrawMode converted)        ? converted : default,
                     Size            _ => Size.Parse(value),
                     Margin          _ => Margin.Parse(value),
-                    HorizontalAlign _ => Enum.TryParse(value, true, out HorizontalAlign converted)           ? converted : default,
-                    VerticalAlign   _ => Enum.TryParse(value, true, out VerticalAlign converted)             ? converted : default,
-                    FlowDirection   _ => Enum.TryParse(value, true, out FlowDirection converted)             ? converted : default,
-                    DrawMode        _ => Enum.TryParse(value.Replace("_", ""), true, out DrawMode converted) ? converted : default,
-                    _ => null
+                                    _ => null
                 };
 
                 if (parsed != null)
@@ -134,6 +137,7 @@ namespace AATool.Utilities
 
         public static ICollection<string> ParseListNode<T>(XmlNode node)
         {
+            //read list from xml
             var list = new List<string>();
             foreach (XmlNode itemNode in node.ChildNodes)
                 if (!string.IsNullOrWhiteSpace(itemNode.InnerText))

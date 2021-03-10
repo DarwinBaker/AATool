@@ -124,7 +124,7 @@
     <value>This iteration of the tracker is a complete from-the-ground-up re-write that is now completely unbounded by performance limitations. If you have any suggestions for new features or improvements, don't be afraid to hit me up! Discord is a great place to reach me, and if you want to be even more involved in the development process, consider backing me on Patreon!</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>I plan for this program to support automatic updates in the future, but for now you can simply head over to the GitHub page for new releases. Other planned features include support for all game versions 1.12 and up, multiple languages, and a tool to keep track of coordinates.</value>
+    <value>I plan for this program to support automatic updates in the future, but for now you can simply head over to the GitHub page for new releases. This program is provided "as is," with no warranty of any kind.</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

@@ -14,25 +14,14 @@ namespace AATool.UI.Screens
         private UITextBlock progress;
         private UICarousel advancements;
         private UICarousel criteria;
-        private UIControl counts;
+        private UIFlowPanel counts;
 
         private bool isResizing;
 
         public OverlayScreen(Main main) : base(main, GameWindow.Create(main, 1920, 380), 1920, 380)
         {
-            LoadXml(Path.Combine(Paths.DIR_SCREENS, "screen_overlay.xml"));
-            Form.Text = "CTM's Advancement Overlay";
-
-            progress = new UITextBlock("minecraft", 24);
-            progress.Margin = new Margin(12, 0, 8, 0);
-            progress.HorizontalAlign = HorizontalAlign.Left;
-            progress.VerticalAlign = VerticalAlign.Top;
-            progress.ResizeRecursive(Rectangle);
-            AddControl(progress);
-
-            advancements = GetControlByName("advancements") as UICarousel;
-            criteria     = GetControlByName("criteria") as UICarousel;
-            counts       = GetControlByName("grid_counts");
+            ReloadLayout();
+            Form.Text = "All Advancements Stream Overlay";
 
             Window.AllowUserResizing = true;
             Form.ControlBox = false;
@@ -44,6 +33,26 @@ namespace AATool.UI.Screens
             MoveTo(new Point(0, 0));
             if (settings.Enabled)
                 Show();
+        }
+
+        private void ReloadLayout()
+        {
+            //clear and load layout if window just opened or game version changed
+            Children.Clear();
+            if (!LoadXml(Paths.GetLayoutFor("overlay")))
+                Main.ForceQuit();
+
+            progress = new UITextBlock("minecraft", 24);
+            progress.Margin = new Margin(12, 0, 8, 0);
+            progress.HorizontalAlign = HorizontalAlign.Left;
+            progress.VerticalAlign = VerticalAlign.Top;
+            progress.ResizeRecursive(Rectangle);
+            AddControl(progress);
+
+            //find named controls
+            advancements = GetControlByName("advancements") as UICarousel;
+            criteria = GetControlByName("criteria") as UICarousel;
+            counts = GetControlByName("counts") as UIFlowPanel;
         }
 
         private void OnResizeBegin(object sender, EventArgs e)
@@ -60,25 +69,38 @@ namespace AATool.UI.Screens
 
         protected override void UpdateThis(Time time)
         {
+            //update enabled state
             if (!Form.IsDisposed)
                 Form.Visible = settings.Enabled;
             if (!Form.Visible)
                 return;
+            if (settings.ValueChanged(OverlaySettings.ENABLED) && settings.Enabled)
+                ReloadLayout();
+
+            //update game version
+            if (TrackerSettings.Instance.ValueChanged(TrackerSettings.GAME_VERSION))
+                ReloadLayout();
 
             UpdateVisibility();
             UpdateSpawnHeights();
             UpdateWidth();
 
-            progress.SetText(AdvancementTracker.CompletedCount + " / " + AdvancementTracker.AdvancementCount);
+            if (settings.OnlyShowFavorites && settings.Favorites.IsEmpty)
+                progress.SetText("\"Show Favorites Only\" is enabled, but no user favorites have been picked!");
+            else
+                progress.SetText(AdvancementTracker.CompletedCount + " / " + AdvancementTracker.AdvancementCount);
+
+            if (counts != null)
+                counts.FlowDirection = OverlaySettings.Instance.RightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
         }
 
         private void UpdateSpawnHeights()
         {
             //update vertical position of rows based on what is or isn't enabled
-            int progressHeight      = progress.IsCollapsed      ? 16 : 42;
-            int criteriaHeight      = criteria.IsCollapsed      ? 0  : 64;
-            int advancementHeight   = advancements.IsCollapsed  ? 0  : settings.ShowLabels ? 160 : 110;
-            int countHeight         = counts.IsCollapsed        ? 0  : 128;
+            int progressHeight      = progress     == null || progress.IsCollapsed      ? 16 : 42;
+            int criteriaHeight      = criteria     == null || criteria.IsCollapsed      ? 0  : 64;
+            int advancementHeight   = advancements == null || advancements.IsCollapsed  ? 0  : settings.ShowLabels ? 160 : 110;
+            int countHeight         = counts       == null || counts.IsCollapsed        ? 0  : 128;
 
             criteria?.MoveTo(new Point(0, progressHeight));
             advancements?.MoveTo(new Point(0, progressHeight + criteriaHeight));
@@ -90,18 +112,21 @@ namespace AATool.UI.Screens
         private void UpdateVisibility()
         {
             //update overview visibility
-            if (progress.IsCollapsed == settings.ShowOverview)
+            if (progress?.IsCollapsed == settings.ShowOverview)
                 if (settings.ShowOverview)
                     progress.Expand();
                 else
                     progress.Collapse();
 
             //update criteria visibility
-            if (criteria.IsCollapsed == settings.ShowCriteria)
+            if (criteria?.IsCollapsed == settings.ShowCriteria)
                 if (settings.ShowCriteria)
                     criteria.Expand();
                 else
                     criteria.Collapse();
+
+            if (counts == null)
+                return;
 
             //update item count visibility
             if (counts.IsCollapsed == settings.ShowCounts)
@@ -109,6 +134,26 @@ namespace AATool.UI.Screens
                     counts.Expand();
                 else
                     counts.Collapse();
+
+            //update visibility for individual item counters (favorites)
+            foreach (var control in counts.Children)
+            {
+                var count = control as UIItemCount;
+                bool shouldBeCollapsed = false;
+                if (settings.OnlyShowFavorites && !settings.Favorites.Statistics.Contains(count.ItemName))
+                    shouldBeCollapsed = true;              
+                if (!settings.ShowCounts)
+                    shouldBeCollapsed = true;
+
+                if (count?.IsCollapsed != shouldBeCollapsed)
+                {
+                    if (shouldBeCollapsed)
+                        count.Collapse();
+                    else
+                        count.Expand();
+                    counts.ReflowChildren();
+                } 
+            }
         }
 
         private void UpdateWidth()
@@ -121,13 +166,6 @@ namespace AATool.UI.Screens
         {
             base.Prepare(display);
             GraphicsDevice.Clear(settings.BackColor);
-        }
-
-        public override void Present(Display display)
-        {
-            if (isResizing)
-                display.DrawRectangle(Rectangle, settings.BackColor);
-            base.Present(display);
         }
     }
 }

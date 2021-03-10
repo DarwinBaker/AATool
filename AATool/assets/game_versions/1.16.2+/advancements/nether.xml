@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Nether">
+    <advancement id="minecraft:nether/root"                   name="Nether"                       icon="nether"/>
+    <advancement id="minecraft:nether/find_fortress"          name="A Terrible Fortress"/>
+    <advancement id="minecraft:nether/find_bastion"           name="Those Were the Days"/>
+    <advancement id="minecraft:nether/loot_bastion"           name="War Pigs"/>
+    <advancement id="minecraft:nether/obtain_crying_obsidian" name="Who is Cutting Onions?"/>
+    <advancement id="minecraft:nether/charge_respawn_anchor"  name='Not Quite "Nine" Lives'/>
+    <advancement id="minecraft:nether/distract_piglin"        name="Oh Shiny"/>
+    <advancement id="minecraft:nether/obtain_blaze_rod"       name="Into Fire"/>
+    <advancement id="minecraft:nether/get_wither_skull"       name="Spooky Scary Skeleton"/>
+    <advancement id="minecraft:nether/obtain_ancient_debris"  name="Hidden in the Depths"/>
+    <advancement id="minecraft:nether/netherite_armor"        name="Cover Me in Debris"           type="challenge"/>
+    <advancement id="minecraft:nether/return_to_sender"       name="Return to Sender"             type="challenge"/>
+    <advancement id="minecraft:nether/ride_strider"           name="This Boat Has Legs"/>
+    <advancement id="minecraft:nether/brew_potion"            name="Local Brewery"/>
+    <advancement id="minecraft:nether/summon_wither"          name="Withering Heights"/>
+    <advancement id="minecraft:nether/use_lodestone"          name="Country Lode, Take Me Home"/>
+    <advancement id="minecraft:nether/explore_nether"         name="Hot Tourist Destinations"     type="challenge">
+        <criteria goal="Visited">
+            <criterion id="minecraft:nether_wastes"/>
+            <criterion id="minecraft:crimson_forest"/>
+            <criterion id="minecraft:warped_forest"/>
+            <criterion id="minecraft:basalt_deltas"/>
+            <criterion id="minecraft:soul_sand_valley"            name="Soul Valley"/>
+        </criteria>
+    </advancement>
+    <advancement id="minecraft:nether/uneasy_alliance"        name="Uneasy Alliance"              type="challenge"/>
+    <advancement id="minecraft:nether/fast_travel"            name="Subspace Bubble"              type="challenge"/>
+    <advancement id="minecraft:nether/create_beacon"          name="Bring Home the Beacon"        icon="beacon"/>
+    <advancement id="minecraft:nether/create_full_beacon"     name="Beaconator"                   icon="beacon"         type="goal"/>
+    <advancement id="minecraft:nether/all_potions"            name="A Furious Cocktail"           type="challenge"/>
+    <advancement id="minecraft:nether/all_effects"            name="How Did We Get Here?"         type="challenge"/>
+</group>

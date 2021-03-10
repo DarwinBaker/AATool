@@ -10,7 +10,6 @@ namespace AATool
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
             using (var main = new Main())
                 main.Run(); 
         }

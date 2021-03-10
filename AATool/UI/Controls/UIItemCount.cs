@@ -10,7 +10,7 @@ namespace AATool.UI.Controls
     {
         public string ItemName;
 
-        private ItemStats itemCount;
+        private Statistic itemCount;
         private UIPicture frame;
         private UIPicture icon;
         private UITextBlock label;
@@ -37,7 +37,7 @@ namespace AATool.UI.Controls
                 DrawMode = DrawMode.ThisOnly;
 
             int textScale = scale < 3 ? 1 : 2;
-            FlexWidth *= Math.Min(scale + textScale - 1, 4);
+            //FlexWidth *= Math.Min(scale + textScale - 1, 4);
             FlexHeight *= scale;
             Padding = new Margin(0, 0, 4 * scale, 0);
 
@@ -68,10 +68,13 @@ namespace AATool.UI.Controls
 
         protected override void UpdateThis(Time time)
         {
+            itemCount = GetRootScreen().StatisticsTracker.ItemCount(ItemName);
+
             //update count display
             if (itemCount != null)
             {
                 frame?.SetTexture(itemCount.CurrentFrame);
+                icon?.SetTexture(itemCount.Icon);
 
                 int percent = (int)Math.Round((float)itemCount.PickedUp / itemCount.TargetCount * 100);
                 if (itemCount.TargetCount == 1)
@@ -100,7 +103,7 @@ namespace AATool.UI.Controls
                 if (frame != null)
                 {
                     frame.DrawThis(display);
-                    display.Draw(ItemStats.FrameComplete, frame.ContentRectangle, Color.White * opacity);
+                    display.Draw(Statistic.FRAME_COMPLETE, frame.ContentRectangle, Color.White * opacity);
                 }
                 if (icon != null)
                     display.Draw(itemCount.Icon, icon.ContentRectangle, Color.White);

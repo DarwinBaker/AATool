@@ -8,7 +8,8 @@ namespace AATool.Utilities
 
         public bool IsExpired => TimeLeft <= 0;
         
-        public void Reset() => TimeLeft = Duration;
+        public void Reset()           => TimeLeft = Duration;
+        public void Expire()          => TimeLeft = 0;
         public void Update(Time time) => TimeLeft -= time.Delta;
 
         public Timer(double duration)

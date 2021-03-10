@@ -57,7 +57,7 @@ namespace AATool.DataStructures
         {
             try
             {
-                if (IsOpen)
+                if (IsOpen && stream.CanRead)
                 {
                     //reset stream to beginning, read all, and deserialize into dynamic JSON
                     stream.Position = 0;

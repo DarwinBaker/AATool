@@ -16,18 +16,19 @@ namespace AATool
         public Display(GraphicsDeviceManager manager)
         {
             batch = new SpriteBatch(manager.GraphicsDevice);
+            
+            //configure graphics parameters
             manager.GraphicsProfile = GraphicsProfile.Reach;
             manager.SynchronizeWithVerticalRetrace = true;
             manager.HardwareModeSwitch = false;
             manager.ApplyChanges();
         }
 
-        public void Begin(Matrix? matrix = null)    => batch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, matrix);
-        public void End()                           => batch.End();
+        public void Begin(BlendState blend = null) => batch.Begin(SpriteSortMode.Immediate, blend ?? BlendState.NonPremultiplied, SamplerState.PointClamp);
+        public void End()                          => batch.End();
 
         public void Update(Time time)
         {
-            TextureSet.Update(time);
             UpdateRainbowColor(time);
         }
 
@@ -36,13 +37,17 @@ namespace AATool
             if (string.IsNullOrWhiteSpace(texture))
                 return;
 
-            var source = TextureSet.RectangleOf(texture);
+            //if texture id not found, check for resolution specific variant of it
+            var source = SpriteSheet.RectangleOf(texture);
+            if (source.IsEmpty)
+                source = SpriteSheet.RectangleOf(texture + SpriteSheet.RESOLUTION_PREFIX + rectangle.Width);
+
             if (frameCount == 1)
-                batch.Draw(TextureSet.Atlas, rectangle, source, tint ?? Color.White);
+                batch.Draw(SpriteSheet.Atlas, rectangle, source, tint ?? Color.White);
             else
             {
                 //sprite is animated; calculate sub-rectangle for current frame
-                batch.Draw(TextureSet.Atlas, rectangle, source, tint ?? Color.White);
+                batch.Draw(SpriteSheet.Atlas, rectangle, source, tint ?? Color.White);
             }
         }
 
@@ -51,30 +56,33 @@ namespace AATool
             borderColor ??= color;
             if (border > 0 && borderColor != color)
             {
-                batch.Draw(TextureSet.Atlas, rectangle, TextureSet.RectangleOf("pixel"), borderColor.Value);
+                //draw rectangle with border
+                batch.Draw(SpriteSheet.Atlas, rectangle, SpriteSheet.RectangleOf("pixel"), borderColor.Value);
                 var inner = new Rectangle(rectangle.X + border, rectangle.Y + border, rectangle.Width - border * 2, rectangle.Height - border * 2);
-                batch.Draw(TextureSet.Atlas, inner, TextureSet.RectangleOf("pixel"), color);
+                batch.Draw(SpriteSheet.Atlas, inner, SpriteSheet.RectangleOf("pixel"), color);
 
                 //draw rounded corners
-                if (MainSettings.Instance.RenderRoundedCorners)
+                if (MainSettings.Instance.RenderFancyCorners)
                 {
-                    batch.Draw(TextureSet.Atlas, new Rectangle(rectangle.Left + 1, rectangle.Top + 1, 1, 1), TextureSet.RectangleOf("pixel"), borderColor.Value);
-                    batch.Draw(TextureSet.Atlas, new Rectangle(rectangle.Right - 2, rectangle.Top + 1, 1, 1), TextureSet.RectangleOf("pixel"), borderColor.Value);
-                    batch.Draw(TextureSet.Atlas, new Rectangle(rectangle.Right - 2, rectangle.Bottom - 2, 1, 1), TextureSet.RectangleOf("pixel"), borderColor.Value);
-                    batch.Draw(TextureSet.Atlas, new Rectangle(rectangle.Left + 1, rectangle.Bottom - 2, 1, 1), TextureSet.RectangleOf("pixel"), borderColor.Value);
+                    batch.Draw(SpriteSheet.Atlas, new Rectangle(rectangle.Left + 1, rectangle.Top + 1, 1, 1), SpriteSheet.RectangleOf("pixel"), borderColor.Value);
+                    batch.Draw(SpriteSheet.Atlas, new Rectangle(rectangle.Right - 2, rectangle.Top + 1, 1, 1), SpriteSheet.RectangleOf("pixel"), borderColor.Value);
+                    batch.Draw(SpriteSheet.Atlas, new Rectangle(rectangle.Right - 2, rectangle.Bottom - 2, 1, 1), SpriteSheet.RectangleOf("pixel"), borderColor.Value);
+                    batch.Draw(SpriteSheet.Atlas, new Rectangle(rectangle.Left + 1, rectangle.Bottom - 2, 1, 1), SpriteSheet.RectangleOf("pixel"), borderColor.Value);
                 }
             }
             else
-                batch.Draw(TextureSet.Atlas, rectangle, TextureSet.RectangleOf("pixel"), color);
+                batch.Draw(SpriteSheet.Atlas, rectangle, SpriteSheet.RectangleOf("pixel"), color);
         }
 
         public void DrawLine(Vector2 a, Vector2 b, int thickness, Color? tint = null)
         {
+            //draw a line between two points
             float dist = Vector2.Distance(a, b);
             float angle = (float)Math.Acos(Vector2.Dot(Vector2.Normalize(a - b), -Vector2.UnitX));
-            if (a.Y > b.Y) angle = MathHelper.TwoPi - angle;
+            if (a.Y > b.Y)
+                angle = MathHelper.TwoPi - angle;
 
-            batch.Draw(TextureSet.Atlas, new Rectangle((int)a.X, (int)a.Y, (int)dist, thickness), TextureSet.RectangleOf("pixel"), tint ?? Color.White, angle, Vector2.Zero, SpriteEffects.None, 0);
+            batch.Draw(SpriteSheet.Atlas, new Rectangle((int)a.X, (int)a.Y, (int)dist, thickness), SpriteSheet.RectangleOf("pixel"), tint ?? Color.White, angle, Vector2.Zero, SpriteEffects.None, 0);
         }
 
         public void DrawString(DynamicSpriteFont font, string text, Vector2 location, Color color)
@@ -82,14 +90,9 @@ namespace AATool
             batch.DrawString(font, text, location, color);
         }
 
-        public void DrawStringCentered(DynamicSpriteFont font, string text, Vector2 location, Color color)
-        {
-            var size = font.MeasureString(text);
-            batch.DrawString(font, text, (location - size / 2).ToPoint().ToVector2(), color);
-        }
-
         private void UpdateRainbowColor(Time time)
         {
+            //fade rainbow to next color
             float hue = time.TotalFrames % 360;
             int primary = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
 

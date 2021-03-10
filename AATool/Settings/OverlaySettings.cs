@@ -1,5 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AATool.DataStructures;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
 
 namespace AATool.Settings
 {
@@ -8,80 +11,80 @@ namespace AATool.Settings
     {
         public static OverlaySettings Instance = new OverlaySettings();
 
-        private const string ENABLED        = "enabled";
-        private const string SHOW_LABELS      = "show_labels";
-        private const string SHOW_OVERVIEW  = "show_overview";
-        private const string SHOW_CRITERIA  = "show_criteria";
-        private const string SHOW_COUNTS    = "show_counts";
-        private const string ONLY_FAVORITES = "only_chosen";
-        private const string HIDE_COMPLETED = "hide_completed";
-        private const string SPEED          = "speed";
-        private const string WIDTH          = "width";
-        private const string BACK_COLOR     = "back_color";
-        private const string TEXT_COLOR     = "text_color";
-        private const string FAVORITES      = "favorites";
+        public const string ENABLED        = "enabled";
+        public const string SHOW_LABELS    = "show_labels";
+        public const string SHOW_OVERVIEW  = "show_overview";
+        public const string SHOW_CRITERIA  = "show_criteria";
+        public const string SHOW_COUNTS    = "show_counts";
+        public const string ONLY_FAVORITES = "only_chosen";
+        public const string HIDE_COMPLETED = "hide_completed";
+        public const string RIGHT_TO_LEFT  = "right_to_left";
+        public const string SPEED          = "speed";
+        public const string WIDTH          = "width";
+        public const string BACK_COLOR     = "back_color";
+        public const string TEXT_COLOR     = "text_color";
 
-        public bool Enabled                 { get => (bool)Entries[ENABLED];                set => Entries[ENABLED]         = value; }
-        public bool OnlyShowFavorites       { get => (bool)Entries[ONLY_FAVORITES];         set => Entries[ONLY_FAVORITES]  = value; }
-        public bool HideCompleted           { get => (bool)Entries[HIDE_COMPLETED];         set => Entries[HIDE_COMPLETED]  = value; }
-        public bool ShowLabels              { get => (bool)Entries[SHOW_LABELS];            set => Entries[SHOW_LABELS]       = value; }
-        public bool ShowCriteria            { get => (bool)Entries[SHOW_CRITERIA];          set => Entries[SHOW_CRITERIA]   = value; }
-        public bool ShowCounts              { get => (bool)Entries[SHOW_COUNTS];            set => Entries[SHOW_COUNTS]     = value; }
-        public bool ShowOverview            { get => (bool)Entries[SHOW_OVERVIEW];          set => Entries[SHOW_OVERVIEW]   = value; }
-        public int Speed                    { get => (int)Entries[SPEED];                   set => Entries[SPEED]           = value; }
-        public int Width                    { get => (int)Entries[WIDTH];                   set => Entries[WIDTH]           = value; }
-        public Color BackColor              { get => (Color)Entries[BACK_COLOR];            set => Entries[BACK_COLOR]      = value; }
-        public Color TextColor              { get => (Color)Entries[TEXT_COLOR];            set => Entries[TEXT_COLOR]      = value; }
-        public HashSet<string> Favorites    { get => (HashSet<string>)Entries[FAVORITES];   set => Entries[FAVORITES]       = value; }
+        public FavoritesList Favorites;
 
-        public readonly HashSet<string> DefaultFavorites = new HashSet<string>()
-        {
-            "minecraft:story/cure_zombie_villager",
-            "minecraft:nether/netherite_armor",
-            "minecraft:nether/use_lodestone",
-            "minecraft:nether/uneasy_alliance",
-            "minecraft:nether/fast_travel",
-            "minecraft:nether/summon_wither",
-            "minecraft:nether/create_full_beacon",
-            "minecraft:nether/all_effects",
-            "minecraft:end/levitate",
-            "minecraft:husbandry/silk_touch_nest",
-            "minecraft:husbandry/obtain_netherite_hoe",
-            "minecraft:husbandry/balanced_diet",
-            "minecraft:husbandry/complete_catalogue",
-            "minecraft:adventure/two_birds_one_arrow",
-            "minecraft:adventure/arbalistic",
-            "minecraft:adventure/bullseye",
-            "minecraft:adventure/very_very_frightening",
-            "minecraft:adventure/hero_of_the_village",
-            "minecraft:adventure/adventuring_time",
-            "minecraft:adventure/kill_all_mobs"
-        };
+        public bool Enabled                 { get => Get<bool>(ENABLED);                set => Set(ENABLED, value); }
+        public bool OnlyShowFavorites       { get => Get<bool>(ONLY_FAVORITES);         set => Set(ONLY_FAVORITES, value); }
+        public bool HideCompleted           { get => Get<bool>(HIDE_COMPLETED);         set => Set(HIDE_COMPLETED, value); }
+        public bool ShowLabels              { get => Get<bool>(SHOW_LABELS);            set => Set(SHOW_LABELS, value); }
+        public bool ShowCriteria            { get => Get<bool>(SHOW_CRITERIA);          set => Set(SHOW_CRITERIA, value); }
+        public bool ShowCounts              { get => Get<bool>(SHOW_COUNTS);            set => Set(SHOW_COUNTS, value); }
+        public bool ShowOverview            { get => Get<bool>(SHOW_OVERVIEW);          set => Set(SHOW_OVERVIEW, value); }
+        public bool RightToLeft             { get => Get<bool>(RIGHT_TO_LEFT);          set => Set(RIGHT_TO_LEFT, value); }
+        public int Speed                    { get => Get<int>(SPEED);                   set => Set(SPEED, value); }
+        public int Width                    { get => Get<int>(WIDTH);                   set => Set(WIDTH, value); }
+        public Color BackColor              { get => Get<Color>(BACK_COLOR);            set => Set(BACK_COLOR, value); }
+        public Color TextColor              { get => Get<Color>(TEXT_COLOR);            set => Set(TEXT_COLOR, value); }
 
         private OverlaySettings()
         {
             FileName = "overlay";
             Load();
-            Favorites = new HashSet<string>((ICollection<string>)Entries[FAVORITES]);
+        }
+
+        public void LoadFavorites()
+        {
+            if (!Favorites.LoadXml(Path.Combine(Paths.DIR_FAVORITES, TrackerSettings.Instance.GameVersion + ".xml")))
+                Favorites.Clear();
+        }
+
+        public void SaveFavorites()
+        {
+            Directory.CreateDirectory(Paths.DIR_FAVORITES);
+            Favorites.SaveXml(Path.Combine(Paths.DIR_FAVORITES, TrackerSettings.Instance.GameVersion + ".xml"));
+        }
+
+        public override void ReadDocument(XmlDocument document)
+        {
+            base.ReadDocument(document);
+            LoadFavorites();
+        }
+
+        public override void WriteDocument(XmlWriter writer)
+        {
+            base.WriteDocument(writer);
+            SaveFavorites();
         }
 
         public override void ResetToDefaults()
         {
-            Entries = new Dictionary<string, object>()
-            {
-                { ENABLED,         false },
-                { ONLY_FAVORITES,  false },
-                { HIDE_COMPLETED,  false },
-                { SHOW_LABELS,     true },
-                { SHOW_OVERVIEW,   true},
-                { SHOW_CRITERIA,   true },
-                { SHOW_COUNTS,     true },
-                { SPEED,           5 },
-                { WIDTH,           1920 },
-                { BACK_COLOR,      Color.Green },
-                { TEXT_COLOR,      Color.White }
-            };
-            Favorites = DefaultFavorites;
+            Entries = new Dictionary<string, object>();
+            Set(ENABLED, false);
+            Set(HIDE_COMPLETED, false);
+            Set(SHOW_LABELS, true);
+            Set(SHOW_OVERVIEW, true);
+            Set(SHOW_CRITERIA, true);
+            Set(SHOW_COUNTS, true);
+            Set(RIGHT_TO_LEFT, true);
+            Set(SPEED, 5);
+            Set(WIDTH, 1920);
+            Set(BACK_COLOR, Color.FromNonPremultiplied(0, 170, 0, 255));
+            Set(TEXT_COLOR, Color.White);
+            Favorites = new FavoritesList();
+            base.ResetToDefaults();
         }
     }
 }

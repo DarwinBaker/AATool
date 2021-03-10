@@ -1,17 +1,17 @@
 ﻿using AATool.DataStructures;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
-using System.Xml;
 
 namespace AATool.UI.Controls
 {
-    class UICriterion : UIPicture
+    class UICriterion : UIControl
     {
         public string AdvancementName;
         public string CriterionName;
         public bool IsStatic;
 
         private Criterion criterion;
+        private UIPicture icon;
         private int scale;
         private int imageSize;
 
@@ -30,7 +30,10 @@ namespace AATool.UI.Controls
             imageSize = 16 * scale;
             FlexWidth *= scale;
             if (scale > 1)
-                FlexWidth = new Size(68, SizeMode.Absolute);
+            {
+                FlexWidth  = new Size(68, SizeMode.Absolute);
+                FlexHeight = new Size(68, SizeMode.Absolute);
+            }
             Margin = new Margin(8 * scale, 0, 2, 0);
         }
 
@@ -40,27 +43,31 @@ namespace AATool.UI.Controls
             if (criterion == null)
                 return;
 
-            Texture = criterion.Icon;
-            if (scale == 1)
+            icon = GetControlByName("icon", true) as UIPicture;
+            if (icon != null)
             {
-                var label = GetControlByName("label", true) as UITextBlock;
-                label?.SetFont("minecraft", 12);
-                label?.SetText(criterion.Name);
+                icon.SetTexture(criterion.Icon);
+                icon.FlexWidth = new Size(imageSize, SizeMode.Absolute);
+                icon.FlexHeight = new Size(imageSize, SizeMode.Absolute);
             }
 
+            var label = GetControlByName("label", true) as UITextBlock;
+            if (scale == 1)
+                label?.SetText(criterion.Name);
+            else
+                RemoveControl(label);
             base.InitializeRecursive(screen);
         }
 
-        public override void DrawThis(Display display)
+        protected override void UpdateThis(Time time)
         {
             if (criterion != null)
             {
                 if (IsStatic)
-                    Tint = Color.White;
+                    icon?.SetTint(Color.White);
                 else
-                    Tint = criterion.IsCompleted ? Color.White : Color.White * 0.35f;
-                display.Draw(Texture, new Rectangle(Left, Top, imageSize, imageSize), Tint);
-            } 
+                    icon?.SetTint(criterion.IsCompleted ? Color.White : Color.White * 0.35f);
+            }
         }
     }
 }

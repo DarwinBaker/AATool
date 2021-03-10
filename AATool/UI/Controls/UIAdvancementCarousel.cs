@@ -7,11 +7,7 @@ using System.Linq;
 namespace AATool.UI.Controls
 {
     class UIAdvancementCarousel : UICarousel
-    {
-        private bool showLabels;
-        private bool onlyRemaining;
-        private bool onlyFavorites;
-         
+    {  
         public override void InitializeRecursive(Screen screen)
         {
             UpdateSourceList();
@@ -21,24 +17,16 @@ namespace AATool.UI.Controls
         {
             UpdateSourceList();
 
-            //update show remaining only
-            if (onlyRemaining != OverlaySettings.Instance.HideCompleted)
-            {
-                onlyRemaining = OverlaySettings.Instance.HideCompleted;
+            if (TrackerSettings.Instance.ValueChanged(TrackerSettings.GAME_VERSION))
                 Clear();
-            }
-
-            //update show important only
-            if (onlyFavorites != OverlaySettings.Instance.OnlyShowFavorites)
-            {
-                onlyFavorites = OverlaySettings.Instance.OnlyShowFavorites;
+            if (OverlaySettings.Instance.ValueChanged(OverlaySettings.HIDE_COMPLETED))
                 Clear();
-            }
+            if (OverlaySettings.Instance.ValueChanged(OverlaySettings.ONLY_FAVORITES))
+                Clear();
 
             //update text visibility
-            if (showLabels != OverlaySettings.Instance.ShowLabels)
+            if (OverlaySettings.Instance.ValueChanged(OverlaySettings.SHOW_LABELS))
             {
-                showLabels = OverlaySettings.Instance.ShowLabels;
                 if (OverlaySettings.Instance.ShowLabels)
                     foreach (var control in Children)
                         (control as UIAdvancement).ShowText();
@@ -50,7 +38,7 @@ namespace AATool.UI.Controls
             Fill();
 
             //remove completed advancements from carousel if configured to do so
-            if (onlyRemaining)
+            if (OverlaySettings.Instance.HideCompleted)
                 for (int i = Children.Count - 1; i >= 0; i--)
                     if ((Children[i] as UIAdvancement).IsCompleted)
                         Children.RemoveAt(i);
@@ -60,7 +48,7 @@ namespace AATool.UI.Controls
 
         protected override void UpdateSourceList()
         {
-            var advancements = GetRootScreen().AdvancementTracker.AdvancementList.Values.ToList();
+            var advancements = GetRootScreen().AdvancementTracker.FullAdvancementList.Values.ToList();
             SourceList = new List<object>(advancements);
 
             //remove all completed advancements from pool if configured to do so
@@ -72,7 +60,7 @@ namespace AATool.UI.Controls
             //remove all advancements not marked as favorites from pool if configured to do so
             if (OverlaySettings.Instance.OnlyShowFavorites)
                 for (int i = SourceList.Count - 1; i >= 0; i--)
-                    if (!OverlaySettings.Instance.Favorites.Contains((SourceList[i] as Advancement).ID))
+                    if (!OverlaySettings.Instance.Favorites.Advancements.Contains((SourceList[i] as Advancement).ID))
                         SourceList.RemoveAt(i);
         }
 
@@ -82,7 +70,7 @@ namespace AATool.UI.Controls
             var control = new UIAdvancement(3);
             control.AdvancementName = (SourceList[NextIndex] as Advancement).ID;
             control.InitializeRecursive(GetRootScreen());
-            if (!showLabels) 
+            if (!OverlaySettings.Instance.ShowLabels) 
                 control.HideText();
             return control;
         }

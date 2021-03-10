@@ -34,7 +34,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>assets\system\icon.ico</ApplicationIcon>
+    <ApplicationIcon>assets\graphics\system\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -84,13 +84,16 @@
     <Compile Include="DataStructures\Advancement.cs" />
     <Compile Include="DataStructures\Criterion.cs" />
     <Compile Include="DataStructures\AdvancementGroup.cs" />
-    <Compile Include="DataStructures\ItemStats.cs" />
+    <Compile Include="DataStructures\FavoritesList.cs" />
+    <Compile Include="DataStructures\PotionIngredient.cs" />
+    <Compile Include="DataStructures\Statistic.cs" />
     <Compile Include="DataStructures\Potion.cs" />
     <Compile Include="DataStructures\Saves\StatisticsJSON.cs" />
     <Compile Include="DataStructures\Saves\AdvancementsJSON.cs" />
     <Compile Include="DataStructures\Saves\SaveJSON.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -102,11 +105,19 @@
     <Compile Include="UI\Controls\UIAdvancementCarousel.cs" />
     <Compile Include="UI\Controls\UICarousel.cs" />
     <Compile Include="UI\Controls\UICriteriaCarousel.cs" />
+    <Compile Include="UI\Controls\UIEnchantmentTable.cs" />
+    <Compile Include="Utilities\GameVersionDetector.cs" />
     <Compile Include="Winforms\Forms\FAbout.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Winforms\Forms\FAbout.Designer.cs">
       <DependentUpon>FAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Winforms\Forms\FDebug.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Winforms\Forms\FDebug.Designer.cs">
+      <DependentUpon>FDebug.cs</DependentUpon>
     </Compile>
     <Compile Include="Winforms\Forms\FPickFavorites.cs">
       <SubType>Form</SubType>
@@ -142,7 +153,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Screens\Screen.cs" />
-    <Compile Include="Graphics\TextureSet.cs" />
+    <Compile Include="Graphics\SpriteSheet.cs" />
     <Compile Include="Time.cs" />
     <Compile Include="UI\Controls\UIGrid.cs" />
     <Compile Include="UI\Margin.cs" />
@@ -185,875 +196,1586 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="app.manifest" />
-    <None Include="assets\fonts\minecraft.otf">
+    <None Include="assets\graphics\fonts\minecraft.otf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\advancements\1.16\adventure.xml">
+    <Content Include="assets\game_versions\1.12\advancements\adventure.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\advancements\1.16\end.xml">
+    <Content Include="assets\game_versions\1.12\advancements\end.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\advancements\1.16\husbandry.xml">
+    <Content Include="assets\game_versions\1.12\advancements\husbandry.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\advancements\1.16\minecraft.xml">
+    <Content Include="assets\game_versions\1.12\advancements\minecraft.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\advancements\1.16\nether.xml">
+    <Content Include="assets\game_versions\1.12\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\statistics\item_counts.xml">
+    <Content Include="assets\game_versions\1.13\advancements\adventure.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\potions\potions.xml">
+    <Content Include="assets\game_versions\1.13\advancements\end.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\system\icon.ico" />
-    <Content Include="assets\textures\advancements\adventure\adventure.png">
+    <Content Include="assets\game_versions\1.13\advancements\husbandry.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\adventuring_time.png">
+    <Content Include="assets\game_versions\1.13\advancements\minecraft.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\arbalistic.png">
+    <Content Include="assets\game_versions\1.13\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\bullseye.png">
+    <Content Include="assets\game_versions\1.13\potions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\hero_of_the_village.png">
+    <Content Include="assets\game_versions\1.14\advancements\adventure.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\honey_block_slide.png">
+    <Content Include="assets\game_versions\1.14\advancements\end.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\kill_all_mobs.png">
+    <Content Include="assets\game_versions\1.14\advancements\husbandry.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\kill_a_mob.png">
+    <Content Include="assets\game_versions\1.14\advancements\minecraft.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\ol_betsy.png">
+    <Content Include="assets\game_versions\1.14\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\shoot_arrow.png">
+    <Content Include="assets\game_versions\1.14\potions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\sleep_in_bed.png">
+    <Content Include="assets\game_versions\1.15\advancements\adventure.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\sniper_duel.png">
+    <Content Include="assets\game_versions\1.15\advancements\end.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\summon_iron_golem.png">
+    <Content Include="assets\game_versions\1.15\advancements\husbandry.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\throw_trident.png">
+    <Content Include="assets\game_versions\1.15\advancements\minecraft.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\totem_of_undying.png">
+    <Content Include="assets\game_versions\1.15\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\trade.png">
+    <Content Include="assets\game_versions\1.15\potions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\two_birds_one_arrow.png">
+    <Content Include="assets\game_versions\1.16.2+\advancements\adventure.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\very_very_frightening.png">
+    <Content Include="assets\game_versions\1.16.2+\potions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\voluntary_exile.png">
+    <Content Include="assets\game_versions\1.16\advancements\adventure.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\adventure\whos_the_pillager_now.png">
+    <Content Include="assets\game_versions\1.16\advancements\end.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\bee.png">
+    <Content Include="assets\game_versions\1.16\advancements\husbandry.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\cat.png">
+    <Content Include="assets\game_versions\1.16\advancements\minecraft.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\chicken.png">
+    <Content Include="assets\game_versions\1.16\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\cow.png">
+    <Content Include="assets\game_versions\1.16.2+\advancements\end.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\donkey.png">
+    <Content Include="assets\game_versions\1.16.2+\advancements\husbandry.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\fox.png">
+    <Content Include="assets\game_versions\1.16.2+\advancements\minecraft.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\horse.png">
+    <Content Include="assets\game_versions\1.16.2+\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\llama.png">
+    <Content Include="assets\game_versions\1.12\potions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\mooshroom.png">
+    <Content Include="assets\game_versions\1.13\statistics.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\mule.png">
+    <Content Include="assets\game_versions\1.12\statistics.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\ocelot.png">
+    <Content Include="assets\game_versions\1.14\statistics.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\panda.png">
+    <Content Include="assets\game_versions\1.15\statistics.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\pig.png">
+    <Content Include="assets\game_versions\1.16.2+\statistics.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\rabbit.png">
+    <Content Include="assets\game_versions\1.16\statistics.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\sheep.png">
+    <Content Include="assets\game_versions\1.16\potions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\strider.png">
+    <Content Include="assets\graphics\sprites\ingredients\fermented_spider_eye_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\turtle.png">
+    <Content Include="assets\graphics\sprites\ingredients\pufferfish_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\animals\wolf.png">
+    <Content Include="assets\graphics\sprites\ingredients\rabbit_foot_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\badlands.png">
+    <Content Include="assets\graphics\sprites\ingredients\sugar_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\badlands_plateau.png">
+    <Content Include="assets\graphics\system\icon.ico" />
+    <Content Include="assets\graphics\sprites\advancements\adventure\adventure.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\bamboo_jungle.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\adventuring_time.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\bamboo_jungle_hills.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\arbalistic.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\basalt_deltas.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\bullseye^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\beach.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\bullseye^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\birch_forest.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\bullseye^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\birch_forest_hills.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\adventure_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\cold_ocean.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\adventuring_time_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\crimson_forest.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\honey_block_slide^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\dark_forest.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\honey_block_slide^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\deep_cold_ocean.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\pillager_banner^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\deep_frozen_ocean.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\pillager_banner^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\deep_lukewarm_ocean.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\sleep_in_bed^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\desert.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\sleep_in_bed^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\desert_hills.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\sleep_in_bed_1.12^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\desert_lakes.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\sleep_in_bed_1.12^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\forest.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\sleep_in_bed_1.12^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\frozen_river.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\summon_iron_golem^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\giant_tree_taiga.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\summon_iron_golem^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\giant_tree_taiga_hills.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\summon_iron_golem_1.12^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\jungle.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\summon_iron_golem_1.12^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\jungle_edge.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\summon_iron_golem_1.12^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\jungle_hills.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\trade_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\lukewarm_ocean.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\kill_all_mobs_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\mountains.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\honey_block_slide^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\mushroom_fields.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\kill_a_mob_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\mushroom_field_shore.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\kill_all_mobs.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\nether_wastes.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\kill_a_mob.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\plains.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\ol_betsy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\river.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\shoot_arrow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\savanna.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\sleep_in_bed^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\savanna_plateau.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\sniper_duel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\snowy_beach.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\summon_iron_golem^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\snowy_mountains.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\throw_trident.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\snowy_taiga.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\totem_of_undying.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\snowy_taiga_hills.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\totem_of_undying_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\snowy_tundra.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\trade.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\soul_sand_valley.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\two_birds_one_arrow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\stone_shore.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\very_very_frightening.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\swamp.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\pillager_banner^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\taiga.png">
+    <Content Include="assets\graphics\sprites\advancements\adventure\whos_the_pillager_now.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\taiga_hills.png">
+    <Content Include="assets\graphics\sprites\advancements\end\dragon_breath_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\warm_ocean.png">
+    <Content Include="assets\graphics\sprites\advancements\end\dragon_egg^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\warped_forest.png">
+    <Content Include="assets\graphics\sprites\advancements\end\dragon_egg^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\wooded_badlands_plateau.png">
+    <Content Include="assets\graphics\sprites\advancements\end\elytra_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\wooded_hills.png">
+    <Content Include="assets\graphics\sprites\advancements\end\end^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\biomes\wooded_mountains.png">
+    <Content Include="assets\graphics\sprites\advancements\end\end^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\cats\black.png">
+    <Content Include="assets\graphics\sprites\advancements\end\end^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\cats\british_shorthair.png">
+    <Content Include="assets\graphics\sprites\advancements\end\enter_end_gateway_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\cats\calico.png">
+    <Content Include="assets\graphics\sprites\advancements\end\find_end_city^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\cats\jellie.png">
+    <Content Include="assets\graphics\sprites\advancements\end\find_end_city^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\cats\ocelot.png">
+    <Content Include="assets\graphics\sprites\advancements\end\find_end_city_1.12^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\cats\persian.png">
+    <Content Include="assets\graphics\sprites\advancements\end\find_end_city_1.12^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\cats\ragdoll.png">
+    <Content Include="assets\graphics\sprites\advancements\end\find_end_city_1.12^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\cats\red.png">
+    <Content Include="assets\graphics\sprites\advancements\end\kill_dragon^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\cats\siamese.png">
+    <Content Include="assets\graphics\sprites\advancements\end\kill_dragon^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\cats\tabby.png">
+    <Content Include="assets\graphics\sprites\advancements\end\kill_dragon^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\cats\tuxedo.png">
+    <Content Include="assets\graphics\sprites\advancements\end\kill_dragon_1.12^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\cats\white.png">
+    <Content Include="assets\graphics\sprites\advancements\end\kill_dragon_1.12^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\end\dragon_breath.png">
+    <Content Include="assets\graphics\sprites\advancements\end\levitate_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\end\dragon_egg.png">
+    <Content Include="assets\graphics\sprites\advancements\end\respawn_dragon_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\end\elytra.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\balanced_diet_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\end\end.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\bred_all_animals_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\end\enter_end_gateway.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\breed_an_animal_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\end\find_end_city.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\break_diamond_hoe.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\end\kill_dragon.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\husbandry^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\end\levitate.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\husbandry^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\end\respawn_dragon.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\husbandry_1.12^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\apple.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\husbandry_1.12^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\baked_potato.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\husbandry_1.12^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\beef.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\plant_seed_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\beetroot.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\silk_touch_nest^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\beetroot_soup.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\silk_touch_nest^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\bread.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\tactical_fishing_1.13.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\carrot.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\tame_an_animal_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\chorus_fruit.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\cure_zombie_villager_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\cod.png">
+    <Content Include="assets\graphics\sprites\advancements\end\end_1.12^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\cooked_beef.png">
+    <Content Include="assets\graphics\sprites\advancements\end\end_1.12^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\cooked_chicken.png">
+    <Content Include="assets\graphics\sprites\advancements\end\end_1.12^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\cooked_cod.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\deflect_arrow^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\cooked_mutton.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\deflect_arrow^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\cooked_porkchop.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\deflect_arrow^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\cooked_rabbit.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\deflect_arrow_1.12^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\cooked_salmon.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\deflect_arrow_1.12^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\cookie.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\enter_the_nether_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\dried_kelp.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\follow_ender_eye_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\golden_apple.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\form_obsidian^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\golden_carrot.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\form_obsidian^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\honey_bottle.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\form_obsidian_1.12^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\melon_slice.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\form_obsidian_1.12^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\mushroom_stew.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\form_obsidian_1.12^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\mutton.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\grass^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\poisonous_potato.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\grass^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\porkchop.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\grass^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\potato.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\grass_1.12^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\pufferfish.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\grass_1.12^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\pumpkin_pie.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\iron_tools_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\rabbit_stew.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\mine_stone_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\raw_chicken.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\smelt_iron_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\raw_rabbit.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\obtain_armor_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\rotten_flesh.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\lava_bucket_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\salmon.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\shiny_gear_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\spider_eye.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\mine_diamond_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\suspicious_stew.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\upgrade_tools_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\sweet_berries.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\brew_potion_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\tropical_fish.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\all_potions_1.12.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\gif\enchant_item.gif">
+    <Content Include="assets\graphics\sprites\advancements\nether\charge_respawn_anchor^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\charge_respawn_anchor^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\beacon_1.12^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\beacon^16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\beacon^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\beacon^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\beacon_1.12^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\beacon_1.12^16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\fast_travel_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\all_effects_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\find_bastion^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\find_bastion^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\find_fortress^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\find_fortress^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\find_fortress^16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\find_fortress_1.12^16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\find_fortress_1.12^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\get_wither_skull^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\get_wither_skull^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\get_wither_skull^16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\get_wither_skull_1.12^16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\get_wither_skull_1.12^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\loot_bastion^16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\loot_bastion^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\nether^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\nether^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\nether^16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\nether_1.12^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\nether_1.12^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\nether_1.12^16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\obtain_ancient_debris^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\obtain_ancient_debris^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\obtain_crying_obsidian^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\obtain_crying_obsidian^16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\summon_wither_1.12%2446.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\uneasy_alliance_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\return_to_sender_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\use_lodestone^16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\nether\use_lodestone^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\chicken_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\cow_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\horse_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\llama_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\mooshroom_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\ocelot_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\pig_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\rabbit_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\sheep_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\apple_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\baked_potato_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\beef_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\beetroot_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\beetroot_soup_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\bread_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\carrot_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\golden_carrot_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\mushroom_stew_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\poisonous_potato_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\rabbit_stew_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\raw_rabbit_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\raw_chicken_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\chorus_fruit_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cooked_beef_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cooked_chicken_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cooked_cod_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cooked_mutton_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cooked_porkchop_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cooked_rabbit_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cooked_salmon_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cookie_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\golden_apple_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\mutton_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\porkchop_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\potato_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\pumpkin_pie_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\rotten_flesh_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\salmon_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\spider_eye_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\bee.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\cat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\chicken.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\cow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\donkey.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\polar_bear.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\fox.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\horse.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\llama.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\mooshroom.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\mule.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\ocelot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\panda.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\pig.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\rabbit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\sheep.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\strider.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\turtle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\animals\wolf.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\badlands.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\badlands_plateau.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\bamboo_jungle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\bamboo_jungle_hills.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\basalt_deltas.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\beach.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\birch_forest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\birch_forest_hills.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\deep_ocean.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\ocean.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\cold_ocean.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\crimson_forest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\dark_forest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\deep_cold_ocean.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\deep_frozen_ocean.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\deep_lukewarm_ocean.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\desert.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\desert_hills.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\desert_lakes.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\forest_hills.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\forest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\frozen_river.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\giant_tree_taiga.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\giant_tree_taiga_hills.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\jungle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\jungle_edge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\jungle_hills.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\lukewarm_ocean.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\mountains.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\mushroom_fields.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\mushroom_field_shore.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\nether_wastes.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\plains.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\river.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\savanna.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\savanna_plateau.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\snowy_beach.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\snowy_mountains.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\snowy_taiga.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\snowy_taiga_hills.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\snowy_tundra.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\soul_sand_valley.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\stone_shore.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\swamp.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\taiga.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\taiga_hills.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\warm_ocean.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\warped_forest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\wooded_badlands_plateau.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\wooded_hills.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\wooded_mountains.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\cats\black.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\cats\british_shorthair.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\cats\calico.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\cats\jellie.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\cats\ocelot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\cats\persian.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\cats\ragdoll.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\cats\red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\cats\siamese.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\cats\tabby.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\cats\tuxedo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\cats\white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\end\dragon_breath.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\end\dragon_egg^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\end\elytra.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\end\enter_end_gateway.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\end\find_end_city^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\end\kill_dragon_1.12^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\end\levitate.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\end\respawn_dragon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\apple.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\baked_potato.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\beef.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\beetroot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\beetroot_soup.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\bread.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\carrot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\chorus_fruit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cod.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cooked_beef.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cooked_chicken.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cooked_cod.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cooked_mutton.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cooked_porkchop.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cooked_rabbit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cooked_salmon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\cookie.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\dried_kelp.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\enchanted_golden_apple_1.12%24780.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\golden_apple.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\golden_carrot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\honey_bottle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\melon_slice.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\mushroom_stew.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\mutton.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\poisonous_potato.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\porkchop.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\potato.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\pufferfish.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\pumpkin_pie.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\rabbit_stew.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\raw_chicken.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\raw_rabbit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\rotten_flesh.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\salmon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\spider_eye.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\suspicious_stew.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\sweet_berries.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\food\tropical_fish.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\mobs\blaze_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\mobs\cave_spider_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\mobs\evoker_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\mobs\ghast_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\mobs\skeleton_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\mobs\spider_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\mobs\stray_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\mobs\vindicator_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\mobs\witch_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\mobs\wither_skeleton_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\mobs\zombie_pigman.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\mobs\zombie_villager_1.12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gif\enchanted_golden_apple.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gif\enchant_item.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\gui\bar_active_left.png">
+    <Content Include="assets\graphics\sprites\gif\enchanted_golden_apple_1.12.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\gui\bar_active_right.png">
+    <Content Include="assets\graphics\sprites\gif\summon_wither.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\gui\bar_active_middle.png">
+    <Content Include="assets\graphics\sprites\gif\summon_wither_1.12.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\gui\bar_inactive_left.png">
+    <Content Include="assets\graphics\sprites\gui\enchantment_table_closed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\gui\bar_inactive_middle.png">
+    <Content Include="assets\graphics\sprites\gui\enchantment_table_closing%2410.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\gui\bar_inactive_right.png">
+    <Content Include="assets\graphics\sprites\gui\enchantment_table_opening%2410.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\gui\frame_challenge_complete.png">
+    <Content Include="assets\graphics\sprites\gui\enchantment_table_reading%24124.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\gui\frame_challenge_incomplete.png">
+    <Content Include="assets\graphics\sprites\gui\bar_active_left.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\gui\frame_count_complete.png">
+    <Content Include="assets\graphics\sprites\gui\bar_active_right.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\bar_active_middle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\bar_inactive_left.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\bar_inactive_middle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\bar_inactive_right.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\frame_challenge_complete.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\frame_challenge_incomplete.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\frame_count_complete.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\gui\frame_count_incomplete.png">
+    <Content Include="assets\graphics\sprites\gui\frame_count_incomplete.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\gui\frame_goal_complete.png">
+    <Content Include="assets\graphics\sprites\gui\frame_goal_complete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\gui\frame_goal_incomplete.png">
+    <Content Include="assets\graphics\sprites\gui\frame_goal_incomplete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\gui\frame_normal_complete.png">
+    <Content Include="assets\graphics\sprites\gui\frame_normal_complete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\gui\frame_normal_incomplete.png">
+    <Content Include="assets\graphics\sprites\gui\frame_normal_incomplete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\husbandry\balanced_diet.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\balanced_diet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\husbandry\bred_all_animals.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\bred_all_animals.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\husbandry\breed_an_animal.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\breed_an_animal.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\husbandry\complete_catalogue.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\complete_catalogue.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\husbandry\fishy_business.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\fishy_business.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\husbandry\husbandry.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\husbandry^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\husbandry\obtain_netherite_hoe.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\obtain_netherite_hoe.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\husbandry\plant_seed.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\plant_seed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\husbandry\safely_harvest_honey.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\safely_harvest_honey.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\husbandry\silk_touch_nest.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\silk_touch_nest^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\husbandry\tactical_fishing.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\tactical_fishing.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\husbandry\tame_an_animal.png">
+    <Content Include="assets\graphics\sprites\advancements\husbandry\tame_an_animal.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\ingredients\arrow.png">
+    <Content Include="assets\graphics\sprites\ingredients\arrow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\ingredients\blaze_powder.png">
+    <Content Include="assets\graphics\sprites\ingredients\blaze_powder.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\ingredients\fermented_spider_eye.png">
+    <Content Include="assets\graphics\sprites\ingredients\fermented_spider_eye.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\ingredients\nether_wart.png">
+    <Content Include="assets\graphics\sprites\ingredients\nether_wart.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\ingredients\phantom_membrane.png">
+    <Content Include="assets\graphics\sprites\ingredients\phantom_membrane.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\ingredients\pufferfish.png">
+    <Content Include="assets\graphics\sprites\ingredients\pufferfish.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\ingredients\rabbit_foot.png">
+    <Content Include="assets\graphics\sprites\ingredients\rabbit_foot.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\ingredients\spider_eye.png">
+    <Content Include="assets\graphics\sprites\ingredients\sugar.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\ingredients\sugar.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\cure_zombie_villager.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\cure_zombie_villager.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\deflect_arrow_1.12^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\deflect_arrow.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\enter_the_nether.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\enter_the_end.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\follow_ender_eye.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\enter_the_nether.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\form_obsidian^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\follow_ender_eye.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\grass_1.12^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\form_obsidian.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\iron_tools.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\grass.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\lava_bucket.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\iron_tools.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\mine_diamond.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\lava_bucket.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\mine_stone.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\mine_diamond.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\obtain_armor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\mine_stone.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\shiny_gear.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\obtain_armor.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\smelt_iron.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\shiny_gear.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\upgrade_tools.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\smelt_iron.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\blaze.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\upgrade_tools.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\cave_spider.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\blaze.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\creeper.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\cave_spider.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\drowned.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\creeper.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\elder_guardian.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\drowned.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\enderman.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\elder_guardian.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\endermite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\enderman.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\ender_dragon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\endermite.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\evoker.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\ender_dragon.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\ghast.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\evoker.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\guardian.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\ghast.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\hoglin.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\guardian.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\husk.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\hoglin.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\magma_cube.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\husk.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\phantom.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\magma_cube.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\piglin.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\phantom.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\piglin_brute.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\piglin.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\pillager.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\piglin_brute.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\ravager.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\pillager.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\shulker.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\ravager.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\silverfish.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\shulker.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\skeleton.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\silverfish.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\slime.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\skeleton.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\spider.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\slime.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\stray.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\spider.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\vex.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\stray.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\vindicator.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\vex.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\witch.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\vindicator.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\wither.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\witch.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\wither_skeleton.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\wither.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\zoglin.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\wither_skeleton.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\zombie.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\zoglin.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\zombie_villager.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\zombie.png">
+    <Content Include="assets\graphics\sprites\criteria\mobs\zombified_piglin.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\zombie_villager.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\all_effects.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\mobs\zombified_piglin.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\all_potions.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\all_effects.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\brew_potion.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\all_potions.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\charge_respawn_anchor^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\brew_potion.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\distract_piglin.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\charge_respawn_anchor.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\explore_nether.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\create_beacon.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\fast_travel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\create_full_beacon.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\find_bastion^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\distract_piglin.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\find_fortress_1.12^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\explore_nether.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\get_wither_skull_1.12^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\fast_travel.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\loot_bastion^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\find_bastion.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\netherite_armor.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\find_fortress.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\obtain_ancient_debris^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\get_wither_skull.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\obtain_blaze_rod.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\loot_bastion.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\obtain_crying_obsidian^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\nether.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\return_to_sender.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\netherite_armor.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\ride_strider.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\obtain_ancient_debris.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\summon_wither%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\obtain_blaze_rod.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\uneasy_alliance.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\obtain_crying_obsidian.png">
+    <Content Include="assets\graphics\sprites\advancements\nether\use_lodestone^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\return_to_sender.png">
+    <Content Include="assets\graphics\sprites\criteria\food\enchanted_golden_apple%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\ride_strider.png">
+    <Content Include="assets\graphics\sprites\advancements\minecraft\enchant_item%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\summon_wither.png">
+    <Content Include="assets\graphics\sprites\items\gold_block^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\uneasy_alliance.png">
+    <Content Include="assets\graphics\sprites\items\gold_block^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\nether\use_lodestone.png">
+    <Content Include="assets\graphics\sprites\items\gold_block_1.12^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\criteria\food\enchanted_golden_apple%24825.png">
+    <Content Include="assets\graphics\sprites\items\gold_block_1.12^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\advancements\minecraft\enchant_item%24825.png">
+    <Content Include="assets\graphics\sprites\items\gold_block_1.12^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\items\gold_block.png">
+    <Content Include="assets\graphics\sprites\items\gold_block^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\items\nautilus_shell.png">
+    <Content Include="assets\graphics\sprites\items\nautilus_shell.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\markers\nether_fortress.png">
+    <Content Include="assets\graphics\sprites\markers\nether_fortress.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\markers\bastion.png">
+    <Content Include="assets\graphics\sprites\markers\bastion.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\markers\pillager_outpost.png">
+    <Content Include="assets\graphics\sprites\markers\pillager_outpost.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\markers\nether_portal%2432.png">
+    <Content Include="assets\graphics\sprites\markers\nether_portal%2432.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\markers\ocean_monument%2416.png">
+    <Content Include="assets\graphics\sprites\markers\ocean_monument%2416.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\markers\stronghold.png">
+    <Content Include="assets\graphics\sprites\markers\stronghold.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\potions\potion_swiftness%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_swiftness%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\potions\potion_slowness%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_slowness%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\potions\potion_night_vision%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_night_vision%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\potions\potion_weakness%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_weakness%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\potions\potion_water_breathing%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_water_breathing%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\potions\potion_invisibility%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_invisibility%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\potions\potion_slow_falling%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_slow_falling%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\potions\potion_strength%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_strength%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\textures\potions\potion_leaping%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_leaping%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\controls\control_item_count.xml">
+    <Content Include="assets\ui\control_item_count.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\controls\control_advancement_group.xml">
+    <Content Include="assets\ui\control_advancement_group.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\controls\control_potion.xml">
+    <Content Include="assets\ui\control_potion.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\controls\control_potion_group.xml">
+    <Content Include="assets\ui\control_potion_group.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\controls\control_criterion.xml">
+    <Content Include="assets\ui\control_criterion.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\controls\control_advancement.xml">
+    <Content Include="assets\ui\control_advancement.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\controls\control_criteria_group.xml">
+    <Content Include="assets\ui\control_criteria_group.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\screens\screen_overlay.xml">
+    <Content Include="assets\game_versions\1.13\layouts\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\screens\screen_main.xml">
+    <Content Include="assets\game_versions\1.13\layouts\overlay.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.12\layouts\main.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.14\layouts\main.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.14\layouts\overlay.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.15\layouts\main.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.15\layouts\overlay.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16.2+\layouts\main.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16.2+\layouts\overlay.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.12\layouts\overlay.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16\layouts\overlay.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16\layouts\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\patreon.png" />
@@ -1081,6 +1803,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Winforms\Forms\FAbout.resx">
       <DependentUpon>FAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Winforms\Forms\FDebug.resx">
+      <DependentUpon>FDebug.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Winforms\Forms\FPickFavorites.resx">
       <DependentUpon>FPickFavorites.cs</DependentUpon>

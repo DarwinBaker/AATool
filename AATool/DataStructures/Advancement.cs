@@ -6,19 +6,29 @@ namespace AATool.DataStructures
 {
     public class Advancement
     {
+        //advancement frame textures
+        public static readonly Dictionary<AdvancementType, string> CompleteFrames = new Dictionary<AdvancementType, string>()  {
+            { AdvancementType.Normal,    "frame_normal_complete"}, 
+            { AdvancementType.Goal,      "frame_goal_complete"}, 
+            { AdvancementType.Challenge, "frame_challenge_complete"}
+        };
+        public static readonly Dictionary<AdvancementType, string> IncompleteFrames = new Dictionary<AdvancementType, string>()  {
+            { AdvancementType.Normal,    "frame_normal_incomplete"}, 
+            { AdvancementType.Goal,      "frame_goal_incomplete"}, 
+            { AdvancementType.Challenge, "frame_challenge_incomplete"}
+        };
+
         public string ID                                { get; private set; }
         public string Name                              { get; private set; }
         public string Icon                              { get; private set; }
         public string CriteriaGoal                      { get; private set; }
         public int CriteriaCompleted                    { get; private set; }
         public bool IsCompleted                         { get; private set; }
-        public string FrameComplete                     { get; private set; }
-        public string FrameIncomplete                   { get; private set; }
         public Dictionary<string, Criterion> Criteria   { get; private set; }
         public AdvancementType Type                     { get; private set; }        
 
         public bool HasCriteria    => Criteria.Count > 0;
-        public string CurrentFrame => IsCompleted ? FrameComplete : FrameIncomplete;
+        public string CurrentFrame => IsCompleted ? CompleteFrames[Type] : IncompleteFrames[Type];
         public int CriteriaCount   => HasCriteria ? Criteria.Count : 0;
         public int CriteriaPercent => (int)(CriteriaCompleted / (double)Criteria.Count * 100);
 
@@ -37,9 +47,6 @@ namespace AATool.DataStructures
             if (Enum.TryParse(node.Attributes["type"]?.Value ?? "normal", true, out AdvancementType parsed)) 
                 Type = parsed;
 
-             FrameComplete   = "frame_" + Type.ToString().ToLower() + "_complete";
-             FrameIncomplete = "frame_" + Type.ToString().ToLower() + "_incomplete";
-
             //parse criteria
             Criteria = new Dictionary<string, Criterion>();
             if (node.HasChildNodes)
@@ -56,9 +63,7 @@ namespace AATool.DataStructures
 
         public void Update(AdvancementsJSON advancements)
         {
-            if (IsCompleted != advancements.IsCompleted(ID))
-                IsCompleted = !IsCompleted;
-
+            IsCompleted = advancements.IsCompleted(ID);
             if (HasCriteria)
             {
                 var completedCriteria = advancements.GetCompletedCriteriaFor(ID);

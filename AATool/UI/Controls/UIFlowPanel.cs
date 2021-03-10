@@ -17,33 +17,53 @@ namespace AATool.UI.Controls
             ReflowChildren();
         }
 
-        protected void ReflowChildren()
+        public void ReflowChildren()
         {
-            int currentX = ContentRectangle.Left;
-            int currentY = ContentRectangle.Top;
+            int currentX = FlowDirection == FlowDirection.RightToLeft ? ContentRectangle.Right - CellWidth : ContentRectangle.Left;
+            int currentY = FlowDirection == FlowDirection.BottomToTop ? ContentRectangle.Bottom - CellHeight : ContentRectangle.Top;
             int temp = 0;
 
             foreach (var child in Children)
             {
-                if (FlowDirection == FlowDirection.LeftToRight)
+                if (child.IsCollapsed)
+                    continue;
+
+                switch (FlowDirection)
                 {
-                    if (currentX + CellWidth > ContentRectangle.Right)
-                    {
-                        //control won't fit horizontally; go to beginning of next row
-                        currentX = ContentRectangle.Left;
-                        currentY += temp;
-                        temp = 0;
-                    }
-                }
-                else
-                {
-                    //control won't fit vertically; go to top of next column
-                    if (currentY + CellHeight > ContentRectangle.Bottom)
-                    {
-                        currentY = ContentRectangle.Top;
-                        currentX += temp;
-                        temp = 0;
-                    }
+                    case FlowDirection.LeftToRight:
+                        if (currentX + CellWidth > ContentRectangle.Right)
+                        {
+                            //control won't fit horizontally; go to beginning of next row
+                            currentX = ContentRectangle.Left;
+                            currentY += temp;
+                            temp = 0;
+                        }
+                        break;
+                    case FlowDirection.RightToLeft:
+                        if (currentX < ContentRectangle.Left)
+                        {
+                            currentX = ContentRectangle.Right - CellWidth;
+                            currentY += temp;
+                            temp = 0;
+                        }
+                        break;
+                    case FlowDirection.TopToBottom:
+                        if (currentY + CellHeight > ContentRectangle.Bottom)
+                        {
+                            //control won't fit vertically; go to top of next column
+                            currentY = ContentRectangle.Top;
+                            currentX += temp;
+                            temp = 0;
+                        }
+                        break;
+                    case FlowDirection.BottomToTop:
+                        if (currentY < ContentRectangle.Top)
+                        {
+                            currentY = ContentRectangle.Bottom - CellHeight;
+                            currentX += temp;
+                            temp = 0;
+                        }
+                        break;
                 }
 
                 //move control into place
@@ -54,15 +74,24 @@ namespace AATool.UI.Controls
                 child.ResizeRecursive(new Rectangle(currentX, currentY, finalWidth, finalHeight));
 
                 //move flow "cursor"
-                if (FlowDirection == FlowDirection.LeftToRight)
+                switch (FlowDirection)
                 {
-                    currentX += child.Width;
-                    temp = Math.Max(temp, finalHeight);
-                }
-                else
-                {
-                    currentY += child.Height;
-                    temp = Math.Max(temp, finalWidth);
+                    case FlowDirection.LeftToRight:
+                        currentX += child.Width;
+                        temp = Math.Max(temp, finalHeight);
+                        break;
+                    case FlowDirection.RightToLeft:
+                        currentX -= child.Width;
+                        temp = Math.Max(temp, finalHeight);
+                        break;
+                    case FlowDirection.TopToBottom:
+                        currentY += child.Height;
+                        temp = Math.Max(temp, finalWidth);
+                        break;
+                    case FlowDirection.BottomToTop:
+                        currentY -= child.Height;
+                        temp = Math.Max(temp, finalWidth);
+                        break;
                 }
             }
         }

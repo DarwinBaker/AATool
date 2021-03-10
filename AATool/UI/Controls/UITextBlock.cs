@@ -11,7 +11,10 @@ namespace AATool.UI.Controls
     public class UITextBlock : UIControl
     {
         public DynamicSpriteFont Font;
-        public string WrappedText { get; private set; }
+
+        public string WrappedText       { get; private set; }
+        public Rectangle TextRectangle  { get; private set; }
+
         public bool IsEmpty => Font == null || builder.Length == 0;
         public override string ToString() => builder.ToString();
 
@@ -75,6 +78,8 @@ namespace AATool.UI.Controls
                 {
                     string trimmed = line.Trim();
                     var size = Font.MeasureString(trimmed).ToPoint();
+
+                    //calculate horizontal position of this line
                     int x = HorizontalAlign switch
                     {
                         HorizontalAlign.Center => (bounds.Left + (bounds.Width / 2 - size.X / 2)),
@@ -88,6 +93,16 @@ namespace AATool.UI.Controls
                     y += size.Y;
                 }
             }
+        }
+
+        public override void DrawDebugRecursive(Display display)
+        {
+            if (IsCollapsed)
+                return;
+            if (DebugColor != Color.Transparent)
+                display.DrawRectangle(new Rectangle(TextRectangle.Left, TextRectangle.Top, TextRectangle.Width, TextRectangle.Height), DebugColor * 0.3f);
+            for (int i = 0; i < Children.Count; i++)
+                Children[i].DrawDebugRecursive(display);
         }
 
         public void UpdateWrappedText()
@@ -122,6 +137,16 @@ namespace AATool.UI.Controls
                 }
             }
             WrappedText = wrappedBuilder.ToString();
+            Point size = Font.MeasureString(WrappedText).ToPoint();
+
+            //calculate horizontal offset of text align
+            int x = HorizontalAlign switch
+            {
+                HorizontalAlign.Center => (Left + (Width / 2 - size.X / 2)),
+                HorizontalAlign.Left => Left,
+                _ => Right - size.X
+            };
+            TextRectangle = new Rectangle(x, Y, size.X, size.Y);
         }
 
         public override void ResizeThis(Rectangle parentRectangle)

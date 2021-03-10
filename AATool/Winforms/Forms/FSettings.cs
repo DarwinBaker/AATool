@@ -1,6 +1,5 @@
 ﻿using AATool.Settings;
 using AATool.Trackers;
-using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 using System;
 using System.Windows.Forms;
@@ -14,12 +13,19 @@ namespace AATool.Winforms.Forms
         private OverlaySettings overlay = OverlaySettings.Instance;
 
         private AdvancementTracker advancementTracker;
+        private StatisticsTracker statisticsTracker;
 
-        public FSettings(AdvancementTracker advancementTracker)
+        public FSettings(AdvancementTracker advancementTracker, StatisticsTracker statisticsTracker)
         {
             InitializeComponent();
             LoadSettings();
             this.advancementTracker = advancementTracker;
+            this.statisticsTracker = statisticsTracker;
+
+            trackerGameVersion.Items.Clear();
+            foreach (var version in TrackerSettings.SupportedVersions)
+                trackerGameVersion.Items.Add(version);
+            trackerGameVersion.Text = tracker.GameVersion;
         }
 
         public Color ToXNAColor(System.Drawing.Color color)     => new Color(color.R, color.G, color.B, color.A);
@@ -29,10 +35,13 @@ namespace AATool.Winforms.Forms
         {
             trackerUseDefault.Checked           = tracker.UseDefaultPath;
             trackerCustomSavesFolder.Text       = tracker.CustomPath;
+            trackerGameVersion.Text             = tracker.GameVersion;
+            trackerAutoVersion.Checked          = tracker.AutoDetectVersion;
             trackerRefreshDelay.Value           = tracker.RefreshInterval;
 
             mainShowBasic.Checked               = main.ShowBasic;
-            mainRoundedCorners.Checked          = main.RenderRoundedCorners;
+            mainFancyCorners.Checked            = main.RenderFancyCorners;
+            mainLayoutDebug.Checked             = main.LayoutDebug;
             mainBackColor.BackColor             = ToDrawingColor(main.BackColor);
             mainTextColor.BackColor             = ToDrawingColor(main.TextColor);
             mainBorderColor.BackColor           = ToDrawingColor(main.BorderColor);
@@ -44,10 +53,13 @@ namespace AATool.Winforms.Forms
             overlayShowCriteria.Checked         = overlay.ShowCriteria;
             overlayShowCounts.Checked           = overlay.ShowCounts;
             overlayShowOverview.Checked         = overlay.ShowOverview;
+            overlayDirection.SelectedIndex = overlay.RightToLeft ? 0 : 1;
             overlaySpeed.Value                  = MathHelper.Clamp(overlay.Speed, overlaySpeed.Minimum, overlaySpeed.Maximum);
             overlayWidth.Value                  = overlay.Width;
             overlayBackColor.BackColor          = ToDrawingColor(overlay.BackColor);
             overlayTextColor.BackColor          = ToDrawingColor(overlay.TextColor);
+            copyColorKey.Text                   = "Copy BG color " + $"#{overlayBackColor.BackColor.R:X2}{overlayBackColor.BackColor.G:X2}{overlayBackColor.BackColor.B:X2}" + " for OBS";
+            copyColorKey.LinkColor              = overlayBackColor.BackColor;
 
             mainTheme.Text = "Custom";
             if (main.RainbowMode)
@@ -69,11 +81,14 @@ namespace AATool.Winforms.Forms
         {
             tracker.UseDefaultPath      = trackerUseDefault.Checked;
             tracker.CustomPath          = trackerCustomSavesFolder.Text;
+            tracker.AutoDetectVersion   = trackerAutoVersion.Checked;
             tracker.RefreshInterval     = (int)trackerRefreshDelay.Value;
+            tracker.TrySetGameVersion(trackerGameVersion.Text);
             tracker.Save();
 
             main.ShowBasic              = mainShowBasic.Checked;
-            main.RenderRoundedCorners   = mainRoundedCorners.Checked;
+            main.RenderFancyCorners     = mainFancyCorners.Checked;
+            main.LayoutDebug            = mainLayoutDebug.Checked;
             main.RainbowMode            = mainTheme.Text == "Pride Mode";
             main.BackColor              = ToXNAColor(mainBackColor.BackColor);
             main.TextColor              = ToXNAColor(mainTextColor.BackColor);
@@ -83,15 +98,21 @@ namespace AATool.Winforms.Forms
             overlay.Enabled             = overlayEnabled.Checked;
             overlay.HideCompleted       = overlayHideCompleted.Checked;
             overlay.OnlyShowFavorites   = overlayOnlyShowFavorites.Checked;
-            overlay.ShowLabels            = overlayShowText.Checked;
+            overlay.ShowLabels          = overlayShowText.Checked;
             overlay.ShowCriteria        = overlayShowCriteria.Checked;
             overlay.ShowCounts          = overlayShowCounts.Checked;
             overlay.ShowOverview        = overlayShowOverview.Checked;
             overlay.Speed               = overlaySpeed.Value;
+            overlay.RightToLeft         = overlayDirection.SelectedIndex == 0;
             overlay.Width               = (int)overlayWidth.Value;
             overlay.BackColor           = ToXNAColor(overlayBackColor.BackColor);
             overlay.TextColor           = ToXNAColor(overlayTextColor.BackColor);
             overlay.Save();
+        }
+
+        public void UpdateGameVersion()
+        {
+            trackerGameVersion.Text = tracker.GameVersion;
         }
 
         public void UpdateRainbow(Color color)
@@ -120,8 +141,8 @@ namespace AATool.Winforms.Forms
             }
             else if (sender == defaults)
             {
-                string msg = "This will clear all customized settings, including user marked favorite advancements and your custom save path. "
-                           + "These cannot be recovered. Are you sure you want to reset?";
+                string msg = "This will clear all customized settings, including user marked favorites and your custom save path. "
+                           + "Are you sure you want to revert to the default settings?";
                 if (MessageBox.Show(this, msg, "Warning!", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.OK)
                 {
                     main.ResetToDefaults();
@@ -134,15 +155,13 @@ namespace AATool.Winforms.Forms
                 }
             }
             else if (sender == about)
-            {
                 using (var dialog = new FAbout())
                     dialog.ShowDialog();
-            }
             else if (sender == overlayPickFavorites)
-            {
-                using (var dialog = new FPickFavorites(advancementTracker))
+                using (var dialog = new FPickFavorites(advancementTracker, statisticsTracker))
                     dialog.ShowDialog();
-            }
+            else if (sender == copyColorKey)
+                Clipboard.SetText($"#{overlayBackColor.BackColor.R:X2}{overlayBackColor.BackColor.G:X2}{overlayBackColor.BackColor.B:X2}");
             else
             {
                 using (var dialog = new ColorDialog())
@@ -152,6 +171,11 @@ namespace AATool.Winforms.Forms
                         (sender as Control).BackColor = dialog.Color;
                         if (sender == mainBackColor || sender == mainTextColor || sender == mainBorderColor)
                             mainTheme.SelectedItem = "Custom";
+                        else if (sender == overlayBackColor)
+                        {
+                            copyColorKey.Text = "Copy BG color " + $"#{overlayBackColor.BackColor.R:X2}{overlayBackColor.BackColor.G:X2}{overlayBackColor.BackColor.B:X2}" + " for OBS";
+                            copyColorKey.LinkColor = dialog.Color;
+                        }
                     }
                 }
             }
@@ -161,10 +185,17 @@ namespace AATool.Winforms.Forms
         {
             if (sender == trackerUseDefault)
                 trackerCustomSavesFolder.Enabled = !trackerUseDefault.Checked;
+            else if (sender == trackerAutoVersion)
+                trackerGameVersion.Enabled = !trackerAutoVersion.Checked;
         }
 
         private void OnTextChanged(object sender, EventArgs e)
         {
+            if (sender == trackerGameVersion)
+            {
+                tracker.TrySetGameVersion(trackerGameVersion.Text);
+                overlay.LoadFavorites();
+            }
             if (sender == mainTheme)
             {
                 string themeName = mainTheme.Text;

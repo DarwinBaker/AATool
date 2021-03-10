@@ -5,6 +5,9 @@ using System.Reflection;
 using AATool.Graphics;
 using AATool.UI.Screens;
 using AATool.Trackers;
+using AATool.Settings;
+using System.Diagnostics;
+using AATool.Utilities;
 
 namespace AATool
 {
@@ -16,6 +19,7 @@ namespace AATool
 
         private Time time;
         private Display display;
+        private GameVersionDetector gameVersionDetector;
         private Screen mainScreen;
         private Dictionary<Type, Screen> altScreens;
 
@@ -23,6 +27,7 @@ namespace AATool
 
         public Main()
         {
+            //set window title based on version
             var version  = Assembly.GetExecutingAssembly().GetName().Version;
             string name  = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title;
             Window.Title = name + " " + version.Major + "." + version.Minor + "." + version.Revision;
@@ -36,13 +41,14 @@ namespace AATool
         protected override void Initialize()
         {
             //instantiate important objects
-            display            = new Display(GraphicsManager);
-            time               = new Time();
-            AdvancementTracker = new AdvancementTracker();
-            StatisticsTracker  = new StatisticsTracker();
-            
+            time                = new Time();
+            display             = new Display(GraphicsManager);
+            gameVersionDetector = new GameVersionDetector();
+            AdvancementTracker  = new AdvancementTracker();
+            StatisticsTracker   = new StatisticsTracker();
+
             //load assets
-            TextureSet.Initialize(GraphicsDevice);
+            SpriteSheet.Initialize(GraphicsDevice);
             FontSet.Initialize(GraphicsDevice);
 
             //instantiate screens
@@ -50,6 +56,7 @@ namespace AATool
             mainScreen = new MainScreen(this);
             AddScreen(new OverlayScreen(this));
             mainScreen.Form.BringToFront();
+
             base.Initialize();
         }
 
@@ -57,6 +64,7 @@ namespace AATool
         {
             time.Update(gameTime);
             display.Update(time);
+            gameVersionDetector.Update();
             AdvancementTracker.Update(time);
             StatisticsTracker.Update(time);
 
@@ -64,7 +72,12 @@ namespace AATool
             mainScreen.UpdateRecursive(time);
             foreach (var screen in altScreens.Values)
                 screen.UpdateRecursive(time);
-            
+
+            TrackerSettings.Instance.Update();
+            MainSettings.Instance.Update();
+            OverlaySettings.Instance.Update();
+            SpriteSheet.Update(time);
+
             base.Update(gameTime);
         }
 
@@ -75,15 +88,28 @@ namespace AATool
             {
                 screen.Prepare(display);
                 screen.DrawRecursive(display);
+                if (MainSettings.Instance.LayoutDebug)
+                    screen.DrawDebugRecursive(display);
                 screen.Present(display);
             }
 
             //render main screen to default backbuffer
             mainScreen.Prepare(display);
             mainScreen.DrawRecursive(display);
+            if (MainSettings.Instance.LayoutDebug)
+                mainScreen.DrawDebugRecursive(display);
             mainScreen.Present(display);
 
             base.Draw(gameTime);
+        }
+
+        public static void ForceQuit()
+        {
+            //show user a message and quit if for some reason the program fails to load properly
+            string message = "Error: One or more required assets failed to load. Did you move \"AATool.exe\" away from the \"assets\" folder? Try re-installing.";
+            string caption = "Missing Assets";
+            System.Windows.Forms.MessageBox.Show(message, caption, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            Environment.Exit(1);
         }
     }
 }

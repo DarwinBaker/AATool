@@ -11,54 +11,142 @@ namespace AATool.Winforms.Forms
 {
     public partial class FPickFavorites : Form
     {
-        Dictionary<string, CheckBox> boxes;
+        Dictionary<string, CheckBox> advancementBoxes;
+        Dictionary<string, CheckBox> criterionBoxes;
+        Dictionary<string, CheckBox> statisticBoxes;
 
-        public FPickFavorites(AdvancementTracker advancementTracker)
+        Dictionary<string, string> pngs;
+        Dictionary<string, string> gifs;
+
+        public FPickFavorites(AdvancementTracker tracker, StatisticsTracker statisticsTracker)
         {
             InitializeComponent();
-            Populate(advancementTracker);
+            LoadImageDictionaries();
+            Populate(tracker, statisticsTracker);
+            Text += " (" + TrackerSettings.Instance.GameVersion + ")";
         }
 
-        private void Populate(AdvancementTracker advancementTracker)
+        private void LoadImageDictionaries()
         {
-            var pngs = new Dictionary<string, string>();
+            //get dictionary of all png images
+            pngs = new Dictionary<string, string>();
             foreach (var file in Directory.GetFiles(Paths.DIR_TEXTURES, "*.png", SearchOption.AllDirectories))
                 pngs[Path.GetFileNameWithoutExtension(file)] = file;
 
-            var gifs = new Dictionary<string, string>();
+            //get dictionary of all gif images
+            gifs = new Dictionary<string, string>();
             foreach (var file in Directory.GetFiles(Paths.DIR_TEXTURES, "*.gif", SearchOption.AllDirectories))
                 gifs[Path.GetFileNameWithoutExtension(file)] = file;
-
-            boxes = new Dictionary<string, CheckBox>();
-            foreach (var advancement in advancementTracker.AdvancementList)
-            {
-                var box = new CheckBox();
-                box.Text = "     " + advancement.Value.Name;
-                box.Width = 175;
-                box.Margin = new Padding(0, 0, 1, 1);
-                box.ImageAlign = ContentAlignment.MiddleLeft;
-                box.Appearance = Appearance.Button;
-                box.AutoSize = false;
-                box.Tag = advancement.Value.Type;
-                box.CheckedChanged += OnCheckedChanged;
-                string file;
-                if (pngs.TryGetValue(advancement.Value.Icon, out file))
-                    box.Image = TextureSet.BitmapFromFile(file, 16, 16);
-                else if (gifs.TryGetValue(advancement.Value.Icon, out file))
-                    box.Image = Image.FromFile(file);
-
-                boxes[advancement.Key] = box;
-                flow.Controls.Add(box);
-            }
-            foreach (var important in OverlaySettings.Instance.Favorites)
-                boxes[important].Checked = true;
         }
+
+        private void Populate(AdvancementTracker tracker, StatisticsTracker statisticsTracker)
+        {
+            advancementBoxes = new Dictionary<string, CheckBox>();
+            criterionBoxes = new Dictionary<string, CheckBox>();
+            statisticBoxes = new Dictionary<string, CheckBox>();
+            foreach (var advancement in tracker.FullAdvancementList)
+            {
+                AddAdvancement(advancement);
+                foreach (var criterion in advancement.Value.Criteria)
+                    AddCriterion(criterion);
+            }
+            foreach (var statistic in statisticsTracker.ItemCountList)
+                AddStatistic(statistic);
+            CheckBoxes();
+        }
+
+        private void AddAdvancement(KeyValuePair<string, Advancement> advancement)
+        {
+            //create new check box for this advancement
+            var box = new CheckBox();
+            box.Text = "     " + advancement.Value.Name;
+            box.Width = 175;
+            box.Margin = new Padding(0, 0, 1, 1);
+            box.ImageAlign = ContentAlignment.MiddleLeft;
+            box.Appearance = Appearance.Button;
+            box.AutoSize = false;
+            box.Tag = advancement.Value.Type;
+            box.CheckedChanged += OnCheckedChanged;
+
+            //find appropriate image
+            if (pngs.TryGetValue(advancement.Value.Icon, out string icon))
+                box.Image = SpriteSheet.BitmapFromFile(icon, 16, 16);
+            else if (pngs.TryGetValue(advancement.Value.Icon + SpriteSheet.RESOLUTION_PREFIX + "16", out icon))
+                box.Image = SpriteSheet.BitmapFromFile(icon, 16, 16);
+            else if (gifs.TryGetValue(advancement.Value.Icon, out icon))
+                box.Image = Image.FromFile(icon);
+
+            advancementBoxes[advancement.Key] = box;
+            advancements.Controls.Add(box);
+        }
+
+        private void AddCriterion(KeyValuePair<string, Criterion> criterion)
+        {
+            //create new check box for this criterion
+            var box = new CheckBox();
+            box.Text = "     " + criterion.Value.Name;
+            box.Width = 120;
+            box.Margin = new Padding(0, 0, 1, 1);
+            box.ImageAlign = ContentAlignment.MiddleLeft;
+            box.Appearance = Appearance.Button;
+            box.AutoSize = false;
+
+            //find appropriate image
+            if (pngs.TryGetValue(criterion.Value.Icon, out string icon))
+                box.Image = SpriteSheet.BitmapFromFile(icon, 16, 16);
+            else if (pngs.TryGetValue(criterion.Value.Icon + SpriteSheet.RESOLUTION_PREFIX + "16", out icon))
+                box.Image = SpriteSheet.BitmapFromFile(icon, 16, 16);
+            else if (gifs.TryGetValue(criterion.Value.Icon, out icon))
+                box.Image = Image.FromFile(icon);
+
+            criterionBoxes[criterion.Value.AdvancementID + "/" + criterion.Key] = box;
+            criteria.Controls.Add(box);
+        }
+
+        private void AddStatistic(KeyValuePair<string, Statistic> statistic)
+        {
+            //create new check box for this advancement
+            var box = new CheckBox();
+            box.Text = "     " + statistic.Value.Name;
+            box.Width = 120;
+            box.Margin = new Padding(0, 0, 1, 1);
+            box.ImageAlign = ContentAlignment.MiddleLeft;
+            box.Appearance = Appearance.Button;
+            box.AutoSize = false;
+            box.CheckedChanged += OnCheckedChanged;
+
+            //find appropriate image
+            if (pngs.TryGetValue(statistic.Value.Icon, out string icon))
+                box.Image = SpriteSheet.BitmapFromFile(icon, 16, 16);
+            else if (pngs.TryGetValue(statistic.Value.Icon + SpriteSheet.RESOLUTION_PREFIX + "16", out icon))
+                box.Image = SpriteSheet.BitmapFromFile(icon, 16, 16);
+            else if (gifs.TryGetValue(statistic.Value.Icon, out icon))
+                box.Image = Image.FromFile(icon);
+
+            statisticBoxes[statistic.Key] = box;
+            statistics.Controls.Add(box);
+        }
+
+        private void CheckBoxes()
+        {
+            //start appropriate boxes checked
+            foreach (var advancement in OverlaySettings.Instance.Favorites.Advancements)
+                if (advancementBoxes.ContainsKey(advancement))
+                    advancementBoxes[advancement].Checked = true;
+            foreach (var criterion in OverlaySettings.Instance.Favorites.Criteria)
+                if (criterionBoxes.ContainsKey(criterion))
+                    criterionBoxes[criterion].Checked = true;
+            foreach (var statistic in OverlaySettings.Instance.Favorites.Statistics)
+                if (statisticBoxes.ContainsKey(statistic))
+                    statisticBoxes[statistic].Checked = true;
+        }
+
 
         private void UpdateLabels()
         {
             int total, normal, goal, challenge, minecraft, nether, end, adventure, husbandry;
             total = normal = goal = challenge = minecraft = nether = end = adventure = husbandry = 0;
-            foreach (var box in boxes)
+            foreach (var box in advancementBoxes)
             {
                 if (!box.Value.Checked)
                     continue;
@@ -108,31 +196,33 @@ namespace AATool.Winforms.Forms
         {
             if (sender == save)
             {
-                var important = new HashSet<string>();
-                foreach (var box in boxes)
+                OverlaySettings.Instance.Favorites.Clear();
+                foreach (var box in advancementBoxes)
                     if (box.Value.Checked)
-                        important.Add(box.Key);
-                OverlaySettings.Instance.Favorites = important;
+                        OverlaySettings.Instance.Favorites.Advancements.Add(box.Key);
+                foreach (var box in criterionBoxes)
+                    if (box.Value.Checked)
+                        OverlaySettings.Instance.Favorites.Criteria.Add(box.Key);
+                foreach (var box in statisticBoxes)
+                    if (box.Value.Checked)
+                        OverlaySettings.Instance.Favorites.Statistics.Add(box.Key);
                 OverlaySettings.Instance.Save();
                 Close();
             }
             else if (sender == cancel)
                 Close();
-            else if (sender == all)
-                foreach (var box in boxes.Values)
+            else if (sender == advancementsAll)
+                foreach (var box in advancementBoxes.Values)
                     box.Checked = true;
-            else if (sender == none)
-                foreach (var box in boxes.Values)
+            else if (sender == advancementsNone)
+                foreach (var box in advancementBoxes.Values)
                     box.Checked = false;
-            else if (sender == defaults)
-            {
-                foreach (var box in boxes.Values)
+            else if (sender == criteriaAll)
+                foreach (var box in criterionBoxes.Values)
+                    box.Checked = true;
+            else if (sender == criteriaNone)
+                foreach (var box in criterionBoxes.Values)
                     box.Checked = false;
-                foreach (var favorite in OverlaySettings.Instance.DefaultFavorites)
-                    if (boxes.TryGetValue(favorite, out var box))
-                        box.Checked = true;
-            }
-                
         }
     }
 }

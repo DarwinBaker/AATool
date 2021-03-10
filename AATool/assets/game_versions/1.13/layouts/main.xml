@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control width="1156" height="886">
+    <grid width="1*" height="1*" drawmode="all">
+        <rows>
+            <row height="500"/>
+            <row height="344"/>
+            <row height="42"/>
+        </rows>
+
+        <!-- basic advancements -->
+        <grid width="1*" height="1*" row="0" col="0" drawmode="all">
+            <rows>
+                <row height="200"/>
+                <row height="200"/>
+                <row height="100"/>
+            </rows>
+            <columns>
+                <column width="204"/>
+                <column width="204"/>
+                <column width="272"/>
+                <column width="204"/>
+                <column width="272"/>
+            </columns>
+            
+            <advancement_group group="minecraft" row="0" col="0" colspan="3"/>
+            <advancement_group group="nether"    row="0" col="3" rowspan="3"/>
+            <advancement_group group="end"       row="1" col="0" rowspan="2"/>
+            <advancement_group group="adventure" row="1" col="2" rowspan="2"/>
+            <advancement_group group="husbandry" row="1" col="1" rowspan="2"/>
+            <potion_group                        row="0" col="4" rowspan="3"/>
+        </grid>
+
+        <!-- advancements with subcriteria -->
+        <grid width="1*" height="1*" row="1" col="0" drawmode="all">
+            <columns>
+                <column width="340"/>
+                <column width="272"/>
+                <column width="336"/>
+                <column width="212"/>
+            </columns>
+            
+            <criteria_group advancement="minecraft:adventure/adventuring_time"   col="0"/>
+            <criteria_group advancement="minecraft:adventure/kill_all_mobs"      col="1"/>
+            <criteria_group advancement="minecraft:husbandry/balanced_diet"      col="2"/>
+            <criteria_group advancement="minecraft:husbandry/bred_all_animals"   col="3"/>
+        </grid>
+
+        <!-- progress bars and controls -->
+        <grid row="2">
+            <columns>
+                <column width="340"/>
+                <column width="340"/>
+                <column width="476"/>
+            </columns>
+
+            <panel col="0">
+                <enchantment_table name="enchantment_table" width="36" height="36" horizontal_align="left" vertical_align="bottom" margin_left="2" margin_bottom="4"/>
+                <text_block name="label_save" height="12" horizontal_align="left" margin_left="45"/>
+            </panel>
+            <panel col="1">
+                <text_block name="label_progress" height="12" vertical_align="bottom" margin_bottom="22"/>
+                <progress_bar name="progress_bar" width="0.9*" vertical_align="bottom" margin="6,6,0,8"/>
+            </panel>
+            <panel col="2">
+                <text_block width="300" height="12" horizontal_align="left" vertical_align="top" margin="8,50,8,0" 
+                text="If you like this tool and want to support its continued development, please consider donating! Anything helps! :)"/>
+            </panel>         
+        </grid>
+    </grid>
+</control>

@@ -35,21 +35,21 @@ namespace AATool.UI.Controls
             advancement = screen.AdvancementTracker.Advancement(AdvancementName);
 
             int textScale = scale < 3 ? 1 : 2;
-            FlexWidth *= Math.Min(scale + textScale - 1, 4);
+            FlexWidth  *= Math.Min(scale + textScale - 1, 4);
             FlexHeight *= scale;
             Padding = new Margin(0, 0, 4 * scale, 0);
 
             frame = GetControlByName("frame", true) as UIPicture;
             if (frame != null)
             {
-                frame.FlexWidth *= scale;
+                frame.FlexWidth  *= scale;
                 frame.FlexHeight *= scale;
             }
             
             var icon = GetControlByName("icon", true) as UIPicture;
             if (icon != null) 
             {
-                icon.FlexWidth *= scale;
+                icon.FlexWidth  *= scale;
                 icon.FlexHeight *= scale;
                 icon.SetTexture(advancement.Icon);
             }

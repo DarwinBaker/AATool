@@ -8,25 +8,28 @@ namespace AATool.Settings
     {
         public static MainSettings Instance = new MainSettings();
 
-        private const string SHOW_BASIC       = "show_basic_advancements";
-        private const string ROUNDED_CORNERS  = "rounded_corners";
-        private const string RAINBOW_MODE     = "rainbow_mode";
-        private const string BACK_COLOR       = "main_back_color";
-        private const string TEXT_COLOR       = "main_text_color";
-        private const string BORDER_COLOR     = "main_border_color";
-
-        public bool ShowBasic               { get => (bool)Entries[SHOW_BASIC];         set => Entries[SHOW_BASIC] = value; }
-        public bool RenderRoundedCorners    { get => (bool)Entries[ROUNDED_CORNERS];    set => Entries[ROUNDED_CORNERS] = value; }
-        public bool RainbowMode             { get => (bool)Entries[RAINBOW_MODE];       set => Entries[RAINBOW_MODE] = value; }
-        public Color BackColor              { get => (Color)Entries[BACK_COLOR];        set => Entries[BACK_COLOR] = value; }
-        public Color TextColor              { get => (Color)Entries[TEXT_COLOR];        set => Entries[TEXT_COLOR] = value; }
-        public Color BorderColor            { get => (Color)Entries[BORDER_COLOR];      set => Entries[BORDER_COLOR] = value; }
+        public const string SHOW_BASIC      = "show_basic_advancements";
+        public const string FANCY_CORNERS   = "fancy_corners";
+        public const string LAYOUT_DEBUG    = "layout_debug";
+        public const string RAINBOW_MODE    = "rainbow_mode";
+        public const string BACK_COLOR      = "main_back_color";
+        public const string TEXT_COLOR      = "main_text_color";
+        public const string BORDER_COLOR    = "main_border_color";
+        
+        public bool ShowBasic               { get => Get<bool>(SHOW_BASIC);     set => Set(SHOW_BASIC, value); }
+        public bool RenderFancyCorners      { get => Get<bool>(FANCY_CORNERS);  set => Set(FANCY_CORNERS, value); }
+        public bool RainbowMode             { get => Get<bool>(RAINBOW_MODE);   set => Set(RAINBOW_MODE, value); }
+        public bool LayoutDebug             { get => Get<bool>(LAYOUT_DEBUG);   set => Set(LAYOUT_DEBUG, value); }
+        public Color BackColor              { get => Get<Color>(BACK_COLOR);    set => Set(BACK_COLOR, value); }
+        public Color TextColor              { get => Get<Color>(TEXT_COLOR);    set => Set(TEXT_COLOR, value); }
+        public Color BorderColor            { get => Get<Color>(BORDER_COLOR);  set => Set(BORDER_COLOR, value); }
 
         public static readonly Dictionary<string, (Color, Color, Color)> Themes = new Dictionary<string, (Color, Color, Color)>()
         {
             //establish theme presets
-            { "Light Mode", (Color.FromNonPremultiplied(240, 240, 240, 255), Color.Black, Color.FromNonPremultiplied(196, 196, 196, 255)) },
-            { "Dark Mode", (Color.FromNonPremultiplied(64, 64, 64, 255), Color.White, Color.FromNonPremultiplied(128, 128, 128, 255)) }
+            { "Light Mode",     (Color.FromNonPremultiplied(240, 240, 240, 255), Color.Black, Color.FromNonPremultiplied(196, 196, 196, 255)) },
+            { "Dark Mode",      (Color.FromNonPremultiplied(64, 64, 64, 255),    Color.White, Color.FromNonPremultiplied(128, 128, 128, 255)) },
+            { "High Contrast",  (Color.Black,                                    Color.White, Color.FromNonPremultiplied(64, 64, 64, 255)) }
         };
 
         private MainSettings()
@@ -37,15 +40,15 @@ namespace AATool.Settings
 
         public override void ResetToDefaults()
         {
-            Entries = new Dictionary<string, object>()
-            {
-                { SHOW_BASIC,        true },
-                { ROUNDED_CORNERS,   false },
-                { RAINBOW_MODE,      false },
-                { BACK_COLOR,   Color.FromNonPremultiplied(240, 240, 240, 255) },
-                { TEXT_COLOR,   Color.Black },
-                { BORDER_COLOR, Color.FromNonPremultiplied(196, 196, 196, 255) },
-            };
+            Entries = new Dictionary<string, object>();
+            Set(SHOW_BASIC, true);
+            Set(FANCY_CORNERS, false);
+            Set(RAINBOW_MODE, false);
+            Set(LAYOUT_DEBUG, false);
+            Set(BACK_COLOR, Color.FromNonPremultiplied(240, 240, 240, 255));
+            Set(TEXT_COLOR, Color.Black);
+            Set(BORDER_COLOR, Color.FromNonPremultiplied(196, 196, 196, 255));
+            base.ResetToDefaults();
         }
     }
 }

@@ -165,6 +165,18 @@ namespace AATool.UI.Controls
                 display.DrawRectangle(cell, Color.Green, Color.Lime, 1);
         }
 
+        public override void DrawDebugRecursive(Display display)
+        {
+            base.DrawDebugRecursive(display);
+            foreach (var cell in cells)
+            {
+                display.DrawRectangle(new Rectangle(cell.Left, cell.Top, cell.Width, 1),                DebugColor * 0.5f);
+                display.DrawRectangle(new Rectangle(cell.Right - 1, cell.Top + 1, 1, cell.Height - 2),  DebugColor * 0.5f);
+                display.DrawRectangle(new Rectangle(cell.Left + 1, cell.Bottom - 1, cell.Width - 1, 1), DebugColor * 0.5f);
+                display.DrawRectangle(new Rectangle(cell.Left, cell.Top + 1, 1, cell.Height - 1),       DebugColor * 0.5f);
+            }
+        }
+
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);

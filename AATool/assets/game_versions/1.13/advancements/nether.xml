@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Nether">
+    <advancement id="minecraft:nether/root"                 name="Nether"                   icon="nether_1.12"/>
+    <advancement id="minecraft:nether/find_fortress"        name="A Terrible Fortress"      icon="find_fortress_1.12"/>        
+    <advancement id="minecraft:nether/obtain_blaze_rod"     name="Into Fire"/>
+    <advancement id="minecraft:nether/get_wither_skull"     name="Spooky Scary Skeleton"    icon="get_wither_skull_1.12"/>
+    <advancement id="minecraft:nether/summon_wither"        name="Withering Heights"        icon="summon_wither_1.12"/>
+    <advancement id="minecraft:nether/brew_potion"          name="Local Brewery"            icon="brew_potion_1.12"/>
+    <advancement id="minecraft:nether/return_to_sender"     name="Return to Sender"         icon="return_to_sender_1.12"    type="challenge"/>
+    <advancement id="minecraft:nether/create_beacon"        name="Bring Home the Beacon"    icon="beacon_1.12"/>
+    <advancement id="minecraft:nether/all_potions"          name="A Furious Cocktail"       icon="all_potions_1.12"         type="challenge"/>    
+    <advancement id="minecraft:nether/uneasy_alliance"      name="Uneasy Alliance"          icon="uneasy_alliance_1.12"     type="challenge"/>
+    <advancement id="minecraft:nether/create_full_beacon"   name="Beaconator"               icon="beacon_1.12"              type="goal"/>
+    <advancement id="minecraft:nether/all_effects"          name="How Did We Get Here?"     icon="all_effects_1.12"         type="challenge"/>
+    <advancement id="minecraft:nether/fast_travel"          name="Subspace Bubble"          icon="fast_travel_1.12"         type="challenge"/>
+</group>

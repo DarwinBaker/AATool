@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<potions>
+    <potion name="Potion of Strength"               icon="potion_strength">
+        <ingredient id="nether_wart"/>
+        <ingredient id="blaze_powder"/>
+    </potion>
+    <potion name="Potion of Weakness"               icon="potion_weakness">
+        <ingredient id="fermented_spider_eye"/>
+    </potion>
+    <potion name="Potion of Swiftness"              icon="potion_swiftness">
+        <ingredient id="nether_wart"/>
+        <ingredient id="sugar"/>
+    </potion>
+    <potion name="Potion of Slowness"               icon="potion_slowness">
+        <ingredient id="nether_wart"/>
+        <ingredient id="sugar"/>
+        <ingredient id="fermented_spider_eye"/>
+    </potion>
+    <potion name="Potion of Night Vision"           icon="potion_night_vision">
+        <ingredient id="nether_wart"/>
+        <ingredient id="golden_carrot"/>
+    </potion>
+    <potion name="Potion of Invisibility"           icon="potion_invisibility">
+        <ingredient id="nether_wart"/>
+        <ingredient id="golden_carrot"/>
+        <ingredient id="fermented_spider_eye"/>
+    </potion>
+    <potion name="Potion of Leaping"                icon="potion_leaping">
+        <ingredient id="nether_wart"/>
+        <ingredient id="rabbit_foot"/>
+    </potion>
+    <potion name="Potion of Slow Falling"           icon="potion_slow_falling">
+        <ingredient id="nether_wart"/>
+        <ingredient id="phantom_membrane"/>
+    </potion>
+    <potion name="Potion of Water Breathing"        icon="potion_water_breathing">
+        <ingredient id="nether_wart"/>
+        <ingredient id="pufferfish"/>
+    </potion>
+</potions>

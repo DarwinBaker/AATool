@@ -30,9 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FSettings));
             this.trackerCustomSavesFolder = new System.Windows.Forms.TextBox();
-            this.trackerRefreshDelay = new System.Windows.Forms.NumericUpDown();
             this.labelCustomPath = new System.Windows.Forms.Label();
-            this.labelRefresh = new System.Windows.Forms.Label();
             this.save = new System.Windows.Forms.Button();
             this.cancel = new System.Windows.Forms.Button();
             this.trackerUseDefault = new System.Windows.Forms.CheckBox();
@@ -40,17 +38,17 @@
             this.trackerBrowse = new System.Windows.Forms.Button();
             this.mainShowBasic = new System.Windows.Forms.CheckBox();
             this.groupOverlay = new System.Windows.Forms.GroupBox();
+            this.overlayHideCompleted = new System.Windows.Forms.CheckBox();
+            this.overlayShowText = new System.Windows.Forms.CheckBox();
+            this.overlayDirection = new System.Windows.Forms.ComboBox();
+            this.overlayOnlyShowFavorites = new System.Windows.Forms.CheckBox();
             this.overlayShowCounts = new System.Windows.Forms.CheckBox();
+            this.overlayPickFavorites = new System.Windows.Forms.Button();
             this.overlayShowCriteria = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.overlayWidth = new System.Windows.Forms.NumericUpDown();
             this.overlaySpeed = new System.Windows.Forms.TrackBar();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.overlayHideCompleted = new System.Windows.Forms.CheckBox();
-            this.overlayShowText = new System.Windows.Forms.CheckBox();
-            this.overlayPickFavorites = new System.Windows.Forms.Button();
-            this.overlayOnlyShowFavorites = new System.Windows.Forms.CheckBox();
             this.overlayShowOverview = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.overlayBackColor = new System.Windows.Forms.Button();
@@ -58,9 +56,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.overlayEnabled = new System.Windows.Forms.CheckBox();
             this.groupTracker = new System.Windows.Forms.GroupBox();
-            this.labelVersion = new System.Windows.Forms.Label();
+            this.trackerRefreshDelay = new System.Windows.Forms.NumericUpDown();
+            this.labelRefresh = new System.Windows.Forms.Label();
+            this.trackerGameVersion = new System.Windows.Forms.ComboBox();
             this.groupMain = new System.Windows.Forms.GroupBox();
-            this.mainRoundedCorners = new System.Windows.Forms.CheckBox();
+            this.mainLayoutDebug = new System.Windows.Forms.CheckBox();
+            this.mainFancyCorners = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
             this.mainTheme = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -71,73 +72,39 @@
             this.label8 = new System.Windows.Forms.Label();
             this.defaults = new System.Windows.Forms.Button();
             this.about = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.trackerRefreshDelay)).BeginInit();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.trackerAutoVersion = new System.Windows.Forms.CheckBox();
+            this.copyColorKey = new System.Windows.Forms.LinkLabel();
             this.groupOverlay.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.overlayWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.overlaySpeed)).BeginInit();
-            this.groupBox1.SuspendLayout();
             this.groupTracker.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackerRefreshDelay)).BeginInit();
             this.groupMain.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // trackerCustomSavesFolder
             // 
-            this.trackerCustomSavesFolder.Location = new System.Drawing.Point(9, 42);
+            this.trackerCustomSavesFolder.Location = new System.Drawing.Point(6, 67);
             this.trackerCustomSavesFolder.Name = "trackerCustomSavesFolder";
-            this.trackerCustomSavesFolder.Size = new System.Drawing.Size(402, 20);
+            this.trackerCustomSavesFolder.Size = new System.Drawing.Size(381, 20);
             this.trackerCustomSavesFolder.TabIndex = 0;
-            // 
-            // trackerRefreshDelay
-            // 
-            this.trackerRefreshDelay.Increment = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.trackerRefreshDelay.Location = new System.Drawing.Point(388, 85);
-            this.trackerRefreshDelay.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.trackerRefreshDelay.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.trackerRefreshDelay.Name = "trackerRefreshDelay";
-            this.trackerRefreshDelay.Size = new System.Drawing.Size(100, 20);
-            this.trackerRefreshDelay.TabIndex = 3;
-            this.trackerRefreshDelay.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
             // 
             // labelCustomPath
             // 
             this.labelCustomPath.AutoSize = true;
-            this.labelCustomPath.Location = new System.Drawing.Point(6, 26);
+            this.labelCustomPath.Location = new System.Drawing.Point(3, 51);
             this.labelCustomPath.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this.labelCustomPath.Name = "labelCustomPath";
             this.labelCustomPath.Size = new System.Drawing.Size(135, 13);
             this.labelCustomPath.TabIndex = 3;
             this.labelCustomPath.Text = "Custom Saves Folder Path:";
             // 
-            // labelRefresh
-            // 
-            this.labelRefresh.AutoSize = true;
-            this.labelRefresh.Location = new System.Drawing.Point(385, 69);
-            this.labelRefresh.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
-            this.labelRefresh.Name = "labelRefresh";
-            this.labelRefresh.Size = new System.Drawing.Size(107, 13);
-            this.labelRefresh.TabIndex = 7;
-            this.labelRefresh.Text = "Refresh Interval (ms):";
-            // 
             // save
             // 
             this.save.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.save.Location = new System.Drawing.Point(12, 399);
+            this.save.Location = new System.Drawing.Point(12, 376);
             this.save.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(100, 32);
@@ -149,7 +116,7 @@
             // cancel
             // 
             this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancel.Location = new System.Drawing.Point(125, 399);
+            this.cancel.Location = new System.Drawing.Point(125, 376);
             this.cancel.Margin = new System.Windows.Forms.Padding(10, 10, 9, 3);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(100, 32);
@@ -161,7 +128,7 @@
             // trackerUseDefault
             // 
             this.trackerUseDefault.AutoSize = true;
-            this.trackerUseDefault.Location = new System.Drawing.Point(9, 68);
+            this.trackerUseDefault.Location = new System.Drawing.Point(6, 23);
             this.trackerUseDefault.Name = "trackerUseDefault";
             this.trackerUseDefault.Size = new System.Drawing.Size(264, 17);
             this.trackerUseDefault.TabIndex = 6;
@@ -177,9 +144,9 @@
             // 
             // trackerBrowse
             // 
-            this.trackerBrowse.Location = new System.Drawing.Point(417, 40);
+            this.trackerBrowse.Location = new System.Drawing.Point(393, 66);
             this.trackerBrowse.Name = "trackerBrowse";
-            this.trackerBrowse.Size = new System.Drawing.Size(75, 24);
+            this.trackerBrowse.Size = new System.Drawing.Size(100, 22);
             this.trackerBrowse.TabIndex = 1;
             this.trackerBrowse.Text = "Browse";
             this.trackerBrowse.UseVisualStyleBackColor = true;
@@ -198,25 +165,72 @@
             // 
             // groupOverlay
             // 
+            this.groupOverlay.Controls.Add(this.copyColorKey);
+            this.groupOverlay.Controls.Add(this.overlayHideCompleted);
+            this.groupOverlay.Controls.Add(this.overlayShowText);
+            this.groupOverlay.Controls.Add(this.overlayDirection);
+            this.groupOverlay.Controls.Add(this.overlayOnlyShowFavorites);
             this.groupOverlay.Controls.Add(this.overlayShowCounts);
+            this.groupOverlay.Controls.Add(this.overlayPickFavorites);
             this.groupOverlay.Controls.Add(this.overlayShowCriteria);
             this.groupOverlay.Controls.Add(this.label3);
             this.groupOverlay.Controls.Add(this.label5);
             this.groupOverlay.Controls.Add(this.overlayWidth);
             this.groupOverlay.Controls.Add(this.overlaySpeed);
-            this.groupOverlay.Controls.Add(this.groupBox1);
             this.groupOverlay.Controls.Add(this.overlayShowOverview);
             this.groupOverlay.Controls.Add(this.label4);
             this.groupOverlay.Controls.Add(this.overlayBackColor);
             this.groupOverlay.Controls.Add(this.overlayTextColor);
             this.groupOverlay.Controls.Add(this.label2);
             this.groupOverlay.Controls.Add(this.overlayEnabled);
-            this.groupOverlay.Location = new System.Drawing.Point(237, 134);
+            this.groupOverlay.Location = new System.Drawing.Point(237, 112);
             this.groupOverlay.Name = "groupOverlay";
-            this.groupOverlay.Size = new System.Drawing.Size(273, 252);
+            this.groupOverlay.Size = new System.Drawing.Size(391, 252);
             this.groupOverlay.TabIndex = 9;
             this.groupOverlay.TabStop = false;
             this.groupOverlay.Text = "Stream Overlay";
+            // 
+            // overlayHideCompleted
+            // 
+            this.overlayHideCompleted.AutoSize = true;
+            this.overlayHideCompleted.Location = new System.Drawing.Point(7, 111);
+            this.overlayHideCompleted.Name = "overlayHideCompleted";
+            this.overlayHideCompleted.Size = new System.Drawing.Size(175, 17);
+            this.overlayHideCompleted.TabIndex = 10;
+            this.overlayHideCompleted.Text = "Hide Completed Advancements";
+            this.overlayHideCompleted.UseVisualStyleBackColor = true;
+            // 
+            // overlayShowText
+            // 
+            this.overlayShowText.AutoSize = true;
+            this.overlayShowText.Location = new System.Drawing.Point(6, 134);
+            this.overlayShowText.Name = "overlayShowText";
+            this.overlayShowText.Size = new System.Drawing.Size(156, 17);
+            this.overlayShowText.TabIndex = 15;
+            this.overlayShowText.Text = "Show Advancement Labels";
+            this.overlayShowText.UseVisualStyleBackColor = true;
+            // 
+            // overlayDirection
+            // 
+            this.overlayDirection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.overlayDirection.FormattingEnabled = true;
+            this.overlayDirection.Items.AddRange(new object[] {
+            "Scroll Right to Left",
+            "Scroll Left to Right"});
+            this.overlayDirection.Location = new System.Drawing.Point(232, 61);
+            this.overlayDirection.Name = "overlayDirection";
+            this.overlayDirection.Size = new System.Drawing.Size(144, 21);
+            this.overlayDirection.TabIndex = 28;
+            // 
+            // overlayOnlyShowFavorites
+            // 
+            this.overlayOnlyShowFavorites.AutoSize = true;
+            this.overlayOnlyShowFavorites.Location = new System.Drawing.Point(6, 157);
+            this.overlayOnlyShowFavorites.Name = "overlayOnlyShowFavorites";
+            this.overlayOnlyShowFavorites.Size = new System.Drawing.Size(123, 17);
+            this.overlayOnlyShowFavorites.TabIndex = 18;
+            this.overlayOnlyShowFavorites.Text = "Show Favorites Only";
+            this.overlayOnlyShowFavorites.UseVisualStyleBackColor = true;
             // 
             // overlayShowCounts
             // 
@@ -227,6 +241,16 @@
             this.overlayShowCounts.TabIndex = 27;
             this.overlayShowCounts.Text = "Show Item Count Row";
             this.overlayShowCounts.UseVisualStyleBackColor = true;
+            // 
+            // overlayPickFavorites
+            // 
+            this.overlayPickFavorites.Location = new System.Drawing.Point(6, 180);
+            this.overlayPickFavorites.Name = "overlayPickFavorites";
+            this.overlayPickFavorites.Size = new System.Drawing.Size(110, 23);
+            this.overlayPickFavorites.TabIndex = 19;
+            this.overlayPickFavorites.Text = "Pick Favorites";
+            this.overlayPickFavorites.UseVisualStyleBackColor = true;
+            this.overlayPickFavorites.Click += new System.EventHandler(this.OnButtonClick);
             // 
             // overlayShowCriteria
             // 
@@ -241,7 +265,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 202);
+            this.label3.Location = new System.Drawing.Point(229, 19);
             this.label3.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
@@ -251,7 +275,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(72, 202);
+            this.label5.Location = new System.Drawing.Point(229, 95);
             this.label5.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(41, 13);
@@ -260,7 +284,7 @@
             // 
             // overlayWidth
             // 
-            this.overlayWidth.Location = new System.Drawing.Point(6, 218);
+            this.overlayWidth.Location = new System.Drawing.Point(232, 35);
             this.overlayWidth.Maximum = new decimal(new int[] {
             3840,
             0,
@@ -284,66 +308,13 @@
             // 
             this.overlaySpeed.AutoSize = false;
             this.overlaySpeed.LargeChange = 1;
-            this.overlaySpeed.Location = new System.Drawing.Point(71, 218);
+            this.overlaySpeed.Location = new System.Drawing.Point(232, 111);
             this.overlaySpeed.Maximum = 5;
             this.overlaySpeed.Minimum = 1;
             this.overlaySpeed.Name = "overlaySpeed";
-            this.overlaySpeed.Size = new System.Drawing.Size(196, 23);
+            this.overlaySpeed.Size = new System.Drawing.Size(144, 23);
             this.overlaySpeed.TabIndex = 25;
             this.overlaySpeed.Value = 5;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.overlayHideCompleted);
-            this.groupBox1.Controls.Add(this.overlayShowText);
-            this.groupBox1.Controls.Add(this.overlayPickFavorites);
-            this.groupBox1.Controls.Add(this.overlayOnlyShowFavorites);
-            this.groupBox1.Location = new System.Drawing.Point(6, 111);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(261, 86);
-            this.groupBox1.TabIndex = 20;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Advancements Row";
-            // 
-            // overlayHideCompleted
-            // 
-            this.overlayHideCompleted.AutoSize = true;
-            this.overlayHideCompleted.Location = new System.Drawing.Point(6, 19);
-            this.overlayHideCompleted.Name = "overlayHideCompleted";
-            this.overlayHideCompleted.Size = new System.Drawing.Size(101, 17);
-            this.overlayHideCompleted.TabIndex = 10;
-            this.overlayHideCompleted.Text = "Hide Completed";
-            this.overlayHideCompleted.UseVisualStyleBackColor = true;
-            // 
-            // overlayShowText
-            // 
-            this.overlayShowText.AutoSize = true;
-            this.overlayShowText.Location = new System.Drawing.Point(6, 42);
-            this.overlayShowText.Name = "overlayShowText";
-            this.overlayShowText.Size = new System.Drawing.Size(87, 17);
-            this.overlayShowText.TabIndex = 15;
-            this.overlayShowText.Text = "Show Labels";
-            this.overlayShowText.UseVisualStyleBackColor = true;
-            // 
-            // overlayPickFavorites
-            // 
-            this.overlayPickFavorites.Location = new System.Drawing.Point(156, 57);
-            this.overlayPickFavorites.Name = "overlayPickFavorites";
-            this.overlayPickFavorites.Size = new System.Drawing.Size(100, 23);
-            this.overlayPickFavorites.TabIndex = 19;
-            this.overlayPickFavorites.Text = "Pick Favorites";
-            this.overlayPickFavorites.UseVisualStyleBackColor = true;
-            this.overlayPickFavorites.Click += new System.EventHandler(this.OnButtonClick);
-            // 
-            // overlayOnlyShowFavorites
-            // 
-            this.overlayOnlyShowFavorites.AutoSize = true;
-            this.overlayOnlyShowFavorites.Location = new System.Drawing.Point(6, 65);
-            this.overlayOnlyShowFavorites.Name = "overlayOnlyShowFavorites";
-            this.overlayOnlyShowFavorites.Size = new System.Drawing.Size(123, 17);
-            this.overlayOnlyShowFavorites.TabIndex = 18;
-            this.overlayOnlyShowFavorites.Text = "Show Favorites Only";
-            this.overlayOnlyShowFavorites.UseVisualStyleBackColor = true;
             // 
             // overlayShowOverview
             // 
@@ -358,7 +329,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(205, 63);
+            this.label4.Location = new System.Drawing.Point(283, 195);
             this.label4.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(55, 13);
@@ -367,7 +338,7 @@
             // 
             // overlayBackColor
             // 
-            this.overlayBackColor.Location = new System.Drawing.Point(167, 15);
+            this.overlayBackColor.Location = new System.Drawing.Point(344, 148);
             this.overlayBackColor.Name = "overlayBackColor";
             this.overlayBackColor.Size = new System.Drawing.Size(32, 32);
             this.overlayBackColor.TabIndex = 10;
@@ -376,7 +347,7 @@
             // 
             // overlayTextColor
             // 
-            this.overlayTextColor.Location = new System.Drawing.Point(167, 53);
+            this.overlayTextColor.Location = new System.Drawing.Point(344, 186);
             this.overlayTextColor.Name = "overlayTextColor";
             this.overlayTextColor.Size = new System.Drawing.Size(32, 32);
             this.overlayTextColor.TabIndex = 13;
@@ -386,7 +357,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(205, 25);
+            this.label2.Location = new System.Drawing.Point(279, 158);
             this.label2.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 13);
@@ -405,33 +376,70 @@
             // 
             // groupTracker
             // 
-            this.groupTracker.Controls.Add(this.labelVersion);
             this.groupTracker.Controls.Add(this.labelCustomPath);
             this.groupTracker.Controls.Add(this.trackerCustomSavesFolder);
             this.groupTracker.Controls.Add(this.trackerBrowse);
             this.groupTracker.Controls.Add(this.trackerUseDefault);
-            this.groupTracker.Controls.Add(this.labelRefresh);
             this.groupTracker.Controls.Add(this.trackerRefreshDelay);
+            this.groupTracker.Controls.Add(this.labelRefresh);
             this.groupTracker.Location = new System.Drawing.Point(12, 12);
             this.groupTracker.Name = "groupTracker";
-            this.groupTracker.Size = new System.Drawing.Size(498, 116);
+            this.groupTracker.Size = new System.Drawing.Size(498, 94);
             this.groupTracker.TabIndex = 10;
             this.groupTracker.TabStop = false;
             this.groupTracker.Text = "Tracker Settings";
             // 
-            // labelVersion
+            // trackerRefreshDelay
             // 
-            this.labelVersion.AutoSize = true;
-            this.labelVersion.Location = new System.Drawing.Point(399, 14);
-            this.labelVersion.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
-            this.labelVersion.Name = "labelVersion";
-            this.labelVersion.Size = new System.Drawing.Size(93, 13);
-            this.labelVersion.TabIndex = 17;
-            this.labelVersion.Text = "For Minecraft 1.16";
+            this.trackerRefreshDelay.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.trackerRefreshDelay.Location = new System.Drawing.Point(393, 40);
+            this.trackerRefreshDelay.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.trackerRefreshDelay.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.trackerRefreshDelay.Name = "trackerRefreshDelay";
+            this.trackerRefreshDelay.Size = new System.Drawing.Size(100, 20);
+            this.trackerRefreshDelay.TabIndex = 3;
+            this.trackerRefreshDelay.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // labelRefresh
+            // 
+            this.labelRefresh.AutoSize = true;
+            this.labelRefresh.Location = new System.Drawing.Point(390, 24);
+            this.labelRefresh.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
+            this.labelRefresh.Name = "labelRefresh";
+            this.labelRefresh.Size = new System.Drawing.Size(107, 13);
+            this.labelRefresh.TabIndex = 7;
+            this.labelRefresh.Text = "Refresh Interval (ms):";
+            // 
+            // trackerGameVersion
+            // 
+            this.trackerGameVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.trackerGameVersion.FormattingEnabled = true;
+            this.trackerGameVersion.Location = new System.Drawing.Point(6, 66);
+            this.trackerGameVersion.Name = "trackerGameVersion";
+            this.trackerGameVersion.Size = new System.Drawing.Size(100, 21);
+            this.trackerGameVersion.TabIndex = 18;
+            this.trackerGameVersion.SelectedIndexChanged += new System.EventHandler(this.OnTextChanged);
             // 
             // groupMain
             // 
-            this.groupMain.Controls.Add(this.mainRoundedCorners);
+            this.groupMain.Controls.Add(this.mainLayoutDebug);
+            this.groupMain.Controls.Add(this.mainFancyCorners);
             this.groupMain.Controls.Add(this.label10);
             this.groupMain.Controls.Add(this.mainTheme);
             this.groupMain.Controls.Add(this.label9);
@@ -441,27 +449,37 @@
             this.groupMain.Controls.Add(this.mainBackColor);
             this.groupMain.Controls.Add(this.mainTextColor);
             this.groupMain.Controls.Add(this.label8);
-            this.groupMain.Location = new System.Drawing.Point(12, 134);
+            this.groupMain.Location = new System.Drawing.Point(12, 112);
             this.groupMain.Name = "groupMain";
             this.groupMain.Size = new System.Drawing.Size(213, 252);
             this.groupMain.TabIndex = 11;
             this.groupMain.TabStop = false;
             this.groupMain.Text = "Main Window";
             // 
-            // mainRoundedCorners
+            // mainLayoutDebug
             // 
-            this.mainRoundedCorners.AutoSize = true;
-            this.mainRoundedCorners.Location = new System.Drawing.Point(9, 42);
-            this.mainRoundedCorners.Name = "mainRoundedCorners";
-            this.mainRoundedCorners.Size = new System.Drawing.Size(132, 17);
-            this.mainRoundedCorners.TabIndex = 24;
-            this.mainRoundedCorners.Text = "Render Fancy Corners";
-            this.mainRoundedCorners.UseVisualStyleBackColor = true;
+            this.mainLayoutDebug.AutoSize = true;
+            this.mainLayoutDebug.Location = new System.Drawing.Point(9, 65);
+            this.mainLayoutDebug.Name = "mainLayoutDebug";
+            this.mainLayoutDebug.Size = new System.Drawing.Size(119, 17);
+            this.mainLayoutDebug.TabIndex = 25;
+            this.mainLayoutDebug.Text = "Layout Debug View";
+            this.mainLayoutDebug.UseVisualStyleBackColor = true;
+            // 
+            // mainFancyCorners
+            // 
+            this.mainFancyCorners.AutoSize = true;
+            this.mainFancyCorners.Location = new System.Drawing.Point(9, 42);
+            this.mainFancyCorners.Name = "mainFancyCorners";
+            this.mainFancyCorners.Size = new System.Drawing.Size(132, 17);
+            this.mainFancyCorners.TabIndex = 24;
+            this.mainFancyCorners.Text = "Render Fancy Corners";
+            this.mainFancyCorners.UseVisualStyleBackColor = true;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 72);
+            this.label10.Location = new System.Drawing.Point(6, 91);
             this.label10.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(43, 13);
@@ -476,7 +494,7 @@
             "Dark Mode",
             "Pride Mode",
             "Custom"});
-            this.mainTheme.Location = new System.Drawing.Point(9, 88);
+            this.mainTheme.Location = new System.Drawing.Point(9, 107);
             this.mainTheme.Name = "mainTheme";
             this.mainTheme.Size = new System.Drawing.Size(103, 21);
             this.mainTheme.TabIndex = 22;
@@ -486,7 +504,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(47, 206);
+            this.label9.Location = new System.Drawing.Point(104, 222);
             this.label9.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(65, 13);
@@ -495,7 +513,7 @@
             // 
             // mainBorderColor
             // 
-            this.mainBorderColor.Location = new System.Drawing.Point(9, 196);
+            this.mainBorderColor.Location = new System.Drawing.Point(175, 212);
             this.mainBorderColor.Name = "mainBorderColor";
             this.mainBorderColor.Size = new System.Drawing.Size(32, 32);
             this.mainBorderColor.TabIndex = 19;
@@ -505,7 +523,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(47, 168);
+            this.label7.Location = new System.Drawing.Point(114, 185);
             this.label7.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(55, 13);
@@ -514,7 +532,7 @@
             // 
             // mainBackColor
             // 
-            this.mainBackColor.Location = new System.Drawing.Point(9, 120);
+            this.mainBackColor.Location = new System.Drawing.Point(175, 136);
             this.mainBackColor.Name = "mainBackColor";
             this.mainBackColor.Size = new System.Drawing.Size(32, 32);
             this.mainBackColor.TabIndex = 15;
@@ -523,7 +541,7 @@
             // 
             // mainTextColor
             // 
-            this.mainTextColor.Location = new System.Drawing.Point(9, 158);
+            this.mainTextColor.Location = new System.Drawing.Point(175, 174);
             this.mainTextColor.Name = "mainTextColor";
             this.mainTextColor.Size = new System.Drawing.Size(32, 32);
             this.mainTextColor.TabIndex = 17;
@@ -533,7 +551,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(47, 130);
+            this.label8.Location = new System.Drawing.Point(110, 146);
             this.label8.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(59, 13);
@@ -542,7 +560,7 @@
             // 
             // defaults
             // 
-            this.defaults.Location = new System.Drawing.Point(304, 399);
+            this.defaults.Location = new System.Drawing.Point(237, 376);
             this.defaults.Name = "defaults";
             this.defaults.Size = new System.Drawing.Size(100, 32);
             this.defaults.TabIndex = 20;
@@ -552,7 +570,7 @@
             // 
             // about
             // 
-            this.about.Location = new System.Drawing.Point(410, 399);
+            this.about.Location = new System.Drawing.Point(528, 376);
             this.about.Name = "about";
             this.about.Size = new System.Drawing.Size(100, 32);
             this.about.TabIndex = 21;
@@ -560,12 +578,46 @@
             this.about.UseVisualStyleBackColor = true;
             this.about.Click += new System.EventHandler(this.OnButtonClick);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.trackerAutoVersion);
+            this.groupBox1.Controls.Add(this.trackerGameVersion);
+            this.groupBox1.Location = new System.Drawing.Point(516, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(112, 94);
+            this.groupBox1.TabIndex = 22;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Game Version";
+            // 
+            // trackerAutoVersion
+            // 
+            this.trackerAutoVersion.AutoSize = true;
+            this.trackerAutoVersion.Location = new System.Drawing.Point(6, 43);
+            this.trackerAutoVersion.Name = "trackerAutoVersion";
+            this.trackerAutoVersion.Size = new System.Drawing.Size(83, 17);
+            this.trackerAutoVersion.TabIndex = 26;
+            this.trackerAutoVersion.Text = "Auto-Detect";
+            this.trackerAutoVersion.UseVisualStyleBackColor = true;
+            this.trackerAutoVersion.CheckedChanged += new System.EventHandler(this.OnCheckedChanged);
+            // 
+            // copyColorKey
+            // 
+            this.copyColorKey.AutoSize = true;
+            this.copyColorKey.Location = new System.Drawing.Point(217, 231);
+            this.copyColorKey.Name = "copyColorKey";
+            this.copyColorKey.Size = new System.Drawing.Size(168, 13);
+            this.copyColorKey.TabIndex = 29;
+            this.copyColorKey.TabStop = true;
+            this.copyColorKey.Text = "Copy BG Color (#00aa00) for OBS";
+            this.copyColorKey.Click += new System.EventHandler(this.OnButtonClick);
+            // 
             // FSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancel;
-            this.ClientSize = new System.Drawing.Size(521, 443);
+            this.ClientSize = new System.Drawing.Size(640, 420);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.about);
             this.Controls.Add(this.defaults);
             this.Controls.Add(this.groupMain);
@@ -582,18 +634,18 @@
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Settings";
-            ((System.ComponentModel.ISupportInitialize)(this.trackerRefreshDelay)).EndInit();
+            this.Text = "Application Settings";
             this.groupOverlay.ResumeLayout(false);
             this.groupOverlay.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.overlayWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.overlaySpeed)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupTracker.ResumeLayout(false);
             this.groupTracker.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackerRefreshDelay)).EndInit();
             this.groupMain.ResumeLayout(false);
             this.groupMain.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -601,9 +653,7 @@
         #endregion
 
         private System.Windows.Forms.TextBox trackerCustomSavesFolder;
-        private System.Windows.Forms.NumericUpDown trackerRefreshDelay;
         private System.Windows.Forms.Label labelCustomPath;
-        private System.Windows.Forms.Label labelRefresh;
         private System.Windows.Forms.Button save;
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.CheckBox trackerUseDefault;
@@ -628,8 +678,6 @@
         private System.Windows.Forms.ComboBox mainTheme;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox overlayShowOverview;
-        private System.Windows.Forms.Label labelVersion;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox overlayHideCompleted;
         private System.Windows.Forms.CheckBox overlayShowText;
         private System.Windows.Forms.Button overlayPickFavorites;
@@ -641,7 +689,15 @@
         private System.Windows.Forms.Button defaults;
         private System.Windows.Forms.CheckBox overlayShowCounts;
         private System.Windows.Forms.CheckBox overlayShowCriteria;
-        private System.Windows.Forms.CheckBox mainRoundedCorners;
+        private System.Windows.Forms.CheckBox mainFancyCorners;
         private System.Windows.Forms.Button about;
+        private System.Windows.Forms.ComboBox trackerGameVersion;
+        private System.Windows.Forms.ComboBox overlayDirection;
+        private System.Windows.Forms.CheckBox mainLayoutDebug;
+        private System.Windows.Forms.NumericUpDown trackerRefreshDelay;
+        private System.Windows.Forms.Label labelRefresh;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox trackerAutoVersion;
+        private System.Windows.Forms.LinkLabel copyColorKey;
     }
 }

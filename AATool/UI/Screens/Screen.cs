@@ -33,31 +33,31 @@ namespace AATool.UI.Screens
                 SetWindowSize(width, height);
             ResizeThis(new Rectangle(0, 0, width, height));
         }
-
-        private void OnResize(object sender, System.EventArgs e)
-        {
-            SetWindowSize(Form.ClientSize.Width, Form.ClientSize.Height);
-        }
-
+       
         public void Show() => Form?.Show();
         public void Hide() => Form?.Hide();
+        private void OnResize(object sender, System.EventArgs e) => SetWindowSize(Form.ClientSize.Width, Form.ClientSize.Height);
         public override void MoveTo(Point point) => Form.Location = new System.Drawing.Point(point.X, point.Y);
+        public virtual void Prepare(Display display) => GraphicsDevice.SetRenderTarget(SwapChain);
+        public virtual void Present(Display display) => SwapChain?.Present();
 
-        public virtual void Prepare(Display display)
+        public override void DrawRecursive(Display display)
         {
-            GraphicsDevice.SetRenderTarget(SwapChain);
             display.Begin();
+            base.DrawRecursive(display);
+            display.End();
         }
 
-        public virtual void Present(Display display)
+        public override void DrawDebugRecursive(Display display)
         {
+            display.Begin(BlendState.AlphaBlend);
+            base.DrawDebugRecursive(display);
             display.End();
-            SwapChain?.Present();
         }
 
         public virtual void SetWindowSize(int width, int height)
         {
-            //if window size doesn't match, resize it and create new rendertarget of proper size
+            //if window size doesn't match, resize it and create new render target of proper size
             if (width > 0 && height > 0)
             {
                 if (SwapChain == null || width != SwapChain.Bounds.Width || height != SwapChain.Bounds.Height)

@@ -35,13 +35,13 @@ namespace AATool.Winforms.Forms
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.gitHub = new System.Windows.Forms.LinkLabel();
             this.patreon = new System.Windows.Forms.Button();
             this.youtube = new System.Windows.Forms.Button();
             this.twitch = new System.Windows.Forms.Button();
             this.discord = new System.Windows.Forms.Button();
             this.picture = new System.Windows.Forms.PictureBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.gitHub = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.picture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -93,6 +93,27 @@ namespace AATool.Winforms.Forms
             this.label5.TabIndex = 5;
             this.label5.Text = resources.GetString("label5.Text");
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(19, 177);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(136, 13);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Find me on these platforms!";
+            // 
+            // gitHub
+            // 
+            this.gitHub.BackColor = System.Drawing.SystemColors.Control;
+            this.gitHub.Location = new System.Drawing.Point(300, 248);
+            this.gitHub.Margin = new System.Windows.Forms.Padding(0);
+            this.gitHub.Name = "gitHub";
+            this.gitHub.Size = new System.Drawing.Size(40, 15);
+            this.gitHub.TabIndex = 11;
+            this.gitHub.TabStop = true;
+            this.gitHub.Text = "GitHub";
+            this.gitHub.Click += new System.EventHandler(this.OnClick);
+            // 
             // patreon
             // 
             this.patreon.Image = global::AATool.Properties.Resources.patreon;
@@ -143,27 +164,6 @@ namespace AATool.Winforms.Forms
             this.picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picture.TabIndex = 1;
             this.picture.TabStop = false;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(19, 177);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(136, 13);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "Find me on these platforms!";
-            // 
-            // gitHub
-            // 
-            this.gitHub.BackColor = System.Drawing.SystemColors.Control;
-            this.gitHub.Location = new System.Drawing.Point(300, 248);
-            this.gitHub.Margin = new System.Windows.Forms.Padding(0);
-            this.gitHub.Name = "gitHub";
-            this.gitHub.Size = new System.Drawing.Size(40, 15);
-            this.gitHub.TabIndex = 11;
-            this.gitHub.TabStop = true;
-            this.gitHub.Text = "GitHub";
-            this.gitHub.Click += new System.EventHandler(this.OnClick);
             // 
             // FAbout
             // 

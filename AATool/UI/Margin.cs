@@ -47,10 +47,6 @@ namespace AATool.UI
 
         public static Margin Parse(string encoded)
         {
-            if (encoded == "512,0,0,512")
-            {
-
-            }
             string[] csv = encoded.Split(',');
             if (csv.Length == 4)
                 return new Margin(Size.Parse(csv[0]), Size.Parse(csv[1]), Size.Parse(csv[2]), Size.Parse(csv[3]));

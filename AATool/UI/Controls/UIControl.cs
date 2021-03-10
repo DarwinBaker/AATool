@@ -18,6 +18,18 @@ namespace AATool.UI.Controls
         //static dictionary to hold source documents for initializing controls
         private static Dictionary<Type, XmlDocument> sourceDocs;
 
+        //static dictionary to hold colors for drawing debug layout
+        private static Dictionary<Type, Color> debugColors = new Dictionary<Type, Color>()
+        {
+
+            { typeof(UIFlowPanel),   Color.Blue },
+            { typeof(UIGrid),        Color.Blue },
+            { typeof(UITextBlock),   Color.Yellow },
+            { typeof(UIPicture),     Color.Lime },
+            { typeof(UIAdvancement), Color.Red },
+            { typeof(UICriterion),   Color.Magenta }
+        };
+
         public List<UIControl> Children     { get; protected set; }
         public UIControl Parent             { get; protected set; }
         public Rectangle ContentRectangle   { get; protected set; }
@@ -59,6 +71,7 @@ namespace AATool.UI.Controls
         public int Right      => X + Width;
 
         public Screen GetRootScreen()            => this as Screen ?? Parent.GetRootScreen();
+        public Color DebugColor                  => debugColors.TryGetValue(GetType(), out var val) ? val : Color.Transparent;
         public void Expand()                     => IsCollapsed = false;
         public void Collapse()                   => IsCollapsed = true;
         public void ParentTo(UIControl parent)   => Parent = parent;
@@ -82,7 +95,7 @@ namespace AATool.UI.Controls
                 try
                 {
                     var newDocument = new XmlDocument();
-                    foreach (var file in Directory.GetFiles(Paths.DIR_UI + "controls", "*.xml"))
+                    foreach (var file in Directory.GetFiles(Paths.DIR_UI, "*.xml"))
                     {
                         if (Path.GetFileNameWithoutExtension(file).Replace("_", "") == "control" + type.Name.ToLower().Substring(2))
                         {
@@ -188,7 +201,8 @@ namespace AATool.UI.Controls
                 else if (recursive)
                 {
                     UIControl subControl = control.GetControlByName(name, true);
-                    if (subControl != null) return subControl;
+                    if (subControl != null) 
+                        return subControl;
                 }
             }
             return null;
@@ -204,7 +218,8 @@ namespace AATool.UI.Controls
                 else if (recursive)
                 {
                     UIControl subControl = control.GetFirstOfType(type, true);
-                    if (subControl != null) return subControl;
+                    if (subControl != null) 
+                        return subControl;
                 }
             }
             return null;
@@ -222,17 +237,31 @@ namespace AATool.UI.Controls
         }
 
         public virtual void DrawThis(Display display)  { }
-
-        public void DrawRecursive(Display display)
+        public virtual void DrawRecursive(Display display)
         {
             if (IsCollapsed) 
                 return;
-
-            if (DrawMode == DrawMode.All || DrawMode == DrawMode.ThisOnly) DrawThis(display);
-
+            if (DrawMode == DrawMode.All || DrawMode == DrawMode.ThisOnly) 
+                DrawThis(display);
             if (DrawMode == DrawMode.All || DrawMode == DrawMode.ChildrenOnly)
                 for (int i = 0; i < Children.Count; i++)
                     Children[i].DrawRecursive(display);
+        }
+
+        public virtual void DrawDebugRecursive(Display display)
+        {
+            if (IsCollapsed)
+                return;
+            if (DebugColor != Color.Transparent)
+            {
+                display.DrawRectangle(new Rectangle(ContentRectangle.Left, ContentRectangle.Top, ContentRectangle.Width, 1), DebugColor * 0.8f);
+                display.DrawRectangle(new Rectangle(ContentRectangle.Right - 1, ContentRectangle.Top + 1, 1, ContentRectangle.Height - 2), DebugColor * 0.8f);
+                display.DrawRectangle(new Rectangle(ContentRectangle.Left + 1, ContentRectangle.Bottom - 1, ContentRectangle.Width - 1, 1), DebugColor * 0.8f);
+                display.DrawRectangle(new Rectangle(ContentRectangle.Left, ContentRectangle.Top + 1, 1, ContentRectangle.Height - 1), DebugColor * 0.8f);
+                display.DrawRectangle(new Rectangle(ContentRectangle.Left, ContentRectangle.Top, ContentRectangle.Width, ContentRectangle.Height), DebugColor * 0.2f);
+            }
+            for (int i = 0; i < Children.Count; i++)
+                Children[i].DrawDebugRecursive(display);
         }
 
         public override void ReadNode(XmlNode node)

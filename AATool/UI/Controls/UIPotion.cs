@@ -23,7 +23,6 @@ namespace AATool.UI.Controls
             arrow?.SetTexture("arrow");
 
             var label = GetFirstOfType(typeof(UITextBlock)) as UITextBlock;
-            label?.SetFont("minecraft", 12);
             label?.SetText(Potion.Name);
 
             var flow = GetFirstOfType(typeof(UIFlowPanel));
@@ -35,7 +34,7 @@ namespace AATool.UI.Controls
                 ingredient.FlexWidth = new Size(32, SizeMode.Absolute);
                 ingredient.FlexHeight = new Size(32, SizeMode.Absolute);
                 ingredient.Margin = new Margin(i * 10 + 20, 0, 0, 0);
-                ingredient.SetTexture(Potion.Ingredients[i]);
+                ingredient.SetTexture(Potion.Ingredients[i].Icon);
                 flow.AddControl(ingredient);
             }
 

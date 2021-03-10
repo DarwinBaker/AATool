@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<control height="370">
-    <flow_panel cell_width="100" cell_height="20" direction="toptobottom" padding="8,8,8,32">
-        <advancement/>
-    </flow_panel>
-    <progress_bar name="bar" margin="8,8,0,8" horizontal_align="left" vertical_align="bottom"/>
-    <text_block   name="progress" height="12" horizontal_align="center" vertical_align="bottom" margin_bottom="0,0,0,22"/>
-</control>
