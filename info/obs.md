@@ -3,14 +3,14 @@ AATool contains an optional, scrolling overview window for the purposes of givin
 ###### If you don't stream using OBS this guide won't be the exact steps you need to take, but any major streaming software should be compatible.
 
 ## Add a window capture to your scene
-![](info/obs_1.png)
+![](obs_1.png)
 
 Click on the plus icon in the bottom left of the *Sources* dock and click *Window Capture*.
 
 Then, click the *Window* drop-down and select the entry that matches the program *AATool.exe*, and the window title *All Advancements Stream Overlay*.
 
 ## Removing the background
-![](info/obs_2.png)
+![](obs_2.png)
 
 To make the background transparent, start by right-clicking your new window capture, and clicking *Filters*. (almost at the very bottom of the drop-down)
 
