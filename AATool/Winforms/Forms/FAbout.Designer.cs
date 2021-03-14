@@ -36,7 +36,6 @@ namespace AATool.Winforms.Forms
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.gitHub = new System.Windows.Forms.LinkLabel();
             this.patreon = new System.Windows.Forms.Button();
             this.youtube = new System.Windows.Forms.Button();
             this.twitch = new System.Windows.Forms.Button();
@@ -91,7 +90,7 @@ namespace AATool.Winforms.Forms
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(404, 55);
             this.label5.TabIndex = 5;
-            this.label5.Text = resources.GetString("label5.Text");
+            this.label5.Text = "This program is provided \"as is,\" with no warranty of any kind.";
             // 
             // label6
             // 
@@ -101,18 +100,6 @@ namespace AATool.Winforms.Forms
             this.label6.Size = new System.Drawing.Size(136, 13);
             this.label6.TabIndex = 10;
             this.label6.Text = "Find me on these platforms!";
-            // 
-            // gitHub
-            // 
-            this.gitHub.BackColor = System.Drawing.SystemColors.Control;
-            this.gitHub.Location = new System.Drawing.Point(300, 248);
-            this.gitHub.Margin = new System.Windows.Forms.Padding(0);
-            this.gitHub.Name = "gitHub";
-            this.gitHub.Size = new System.Drawing.Size(40, 15);
-            this.gitHub.TabIndex = 11;
-            this.gitHub.TabStop = true;
-            this.gitHub.Text = "GitHub";
-            this.gitHub.Click += new System.EventHandler(this.OnClick);
             // 
             // patreon
             // 
@@ -170,7 +157,6 @@ namespace AATool.Winforms.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 327);
-            this.Controls.Add(this.gitHub);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.patreon);
             this.Controls.Add(this.youtube);
@@ -210,6 +196,5 @@ namespace AATool.Winforms.Forms
         private System.Windows.Forms.Button youtube;
         private System.Windows.Forms.Button patreon;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.LinkLabel gitHub;
     }
 }
