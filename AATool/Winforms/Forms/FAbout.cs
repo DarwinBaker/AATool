@@ -13,9 +13,7 @@ namespace AATool.Winforms.Forms
 
         private void OnClick(object sender, EventArgs e)
         {
-            if (sender == gitHub)
-                Process.Start("https://github.com/DarwinBaker/AATool");
-            else if (sender == patreon)
+            if (sender == patreon)
                 Process.Start("https://www.patreon.com/_ctm");
             else if (sender == discord)
                 Process.Start("https://discordapp.com/users/190165309309583360");
