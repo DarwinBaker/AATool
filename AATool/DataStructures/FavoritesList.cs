@@ -4,7 +4,7 @@ using System.Xml;
 
 namespace AATool.DataStructures
 {
-    public class FavoritesList : XmlSerial
+    public class FavoritesList : XmlObject
     {
         public HashSet<string> Advancements;
         public HashSet<string> Criteria;

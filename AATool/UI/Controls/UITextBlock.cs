@@ -158,7 +158,7 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            string text = ParseAttribute(node, "text", "");
+            string text = ParseAttribute(node, "text", string.Empty);
             if (!string.IsNullOrEmpty(text))
                 SetText(text);
         }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <items>
     <item id="minecraft:enchanted_golden_apple" target_count="1"    name="Find God Apple"               icon="enchanted_golden_apple_1.12"/>
-    <item id="minecraft:wither_skeleton_skull"  target_count="3"    name="Skulls"                       icon="get_wither_skull_1.12"/>
+    <item id="minecraft:skull"  target_count="3"    name="Skulls"                       icon="get_wither_skull_1.12"/>
     <item id="minecraft:gold_block"             target_count="240"  name="Gold"     estimate="true"     icon="gold_block_1.12"/>
 </items>

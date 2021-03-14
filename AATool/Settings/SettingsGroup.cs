@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace AATool.Settings
 {
-    public abstract class SettingsGroup : XmlSerial
+    public abstract class SettingsGroup : XmlObject
     {
         protected Dictionary<string, object> Entries;
         protected Dictionary<string, bool> Changed;

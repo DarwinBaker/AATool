@@ -154,6 +154,8 @@ namespace AATool.Winforms.Forms
                     Close();
                 }
             }
+            else if (sender == update)
+                Main.CheckForUpdatesAsync(false);
             else if (sender == about)
                 using (var dialog = new FAbout())
                     dialog.ShowDialog();

@@ -10,7 +10,7 @@ using System.Xml;
 
 namespace AATool.UI.Controls
 {
-    public abstract class UIControl : XmlSerial
+    public abstract class UIControl : XmlObject
     {
         //static dictionary to hold all control types for dynamic instantiation
         private static Dictionary<string, Type> types;
@@ -50,7 +50,7 @@ namespace AATool.UI.Controls
         public VerticalAlign VerticalAlign     = VerticalAlign.Center;
         public DrawMode DrawMode               = DrawMode.All;
 
-        public string Name      = "";
+        public string Name      = string.Empty;
         public int Row          = 0;
         public int Column       = 0;
         public int RowSpan      = 1;
@@ -97,7 +97,7 @@ namespace AATool.UI.Controls
                     var newDocument = new XmlDocument();
                     foreach (var file in Directory.GetFiles(Paths.DIR_UI, "*.xml"))
                     {
-                        if (Path.GetFileNameWithoutExtension(file).Replace("_", "") == "control" + type.Name.ToLower().Substring(2))
+                        if (Path.GetFileNameWithoutExtension(file).Replace("_", string.Empty) == "control" + type.Name.ToLower().Substring(2))
                         {
                             newDocument.Load(file);
                             sourceDocs[type] = newDocument;
@@ -315,7 +315,7 @@ namespace AATool.UI.Controls
                 if (subNode.Name == "rows" || subNode.Name == "columns")
                     continue;
 
-                UIControl subControl = CreateInstance("ui" + subNode.Name.Replace("_", ""));
+                UIControl subControl = CreateInstance("ui" + subNode.Name.Replace("_", string.Empty));
                 subControl?.ReadNode(subNode);
                 AddControl(subControl);
             }

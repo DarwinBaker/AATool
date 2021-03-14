@@ -53,7 +53,7 @@ namespace AATool.Graphics
 
         public static DynamicSpriteFont Get(string key, int scale)
         {
-            if (fonts.TryGetValue(key ?? "", out var dynamicFont))
+            if (fonts.TryGetValue(key ?? string.Empty, out var dynamicFont))
             {
                 if (dynamicFont.TryGetValue(scale, out var spriteFont))
                     return spriteFont;

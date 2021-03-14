@@ -91,8 +91,8 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            ItemName    = ParseAttribute(node, "id", "");
-            scale = ParseAttribute(node, "scale", scale);
+            ItemName = ParseAttribute(node, "id", string.Empty);
+            scale    = ParseAttribute(node, "scale", scale);
         }
 
         public override void DrawThis(Display display)

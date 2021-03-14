@@ -43,12 +43,13 @@ namespace AATool.Settings
         public override void ResetToDefaults()
         {
             Entries = new Dictionary<string, object>();
-            Set(GAME_VERSION, "1.16");
+            Set(GAME_VERSION, "1.12");
             Set(REFRESH_INTERVAL, 1000);
             Set(USE_DEFAULT_PATH, true);
             Set(AUTO_GAME_VERSION, true);
-            Set(CUSTOM_FOLDER, "");
+            Set(CUSTOM_FOLDER, string.Empty);
             base.ResetToDefaults();
+            Set(GAME_VERSION, "1.16");
         }
     }
 }

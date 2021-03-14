@@ -10,7 +10,7 @@
     <!-- item count display -->
     <flow_panel name="counts" cell_width="128" cell_height="102" height="102" vertical_align="bottom" draw_mode="children_only">
         <item_count id="minecraft:gold_block"               scale="3"/>
-        <item_count id="minecraft:wither_skeleton_skull"    scale="3"/>
+        <item_count id="minecraft:skull"                    scale="3"/>
         <item_count id="minecraft:enchanted_golden_apple"   scale="3"/>
     </flow_panel>
 </control>

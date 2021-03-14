@@ -5,16 +5,38 @@ VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AATool", "AATool\AATool.csproj", "{7751A4F9-B666-40B6-BC96-47544696271F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AAUpdate", "AAUpdate\AAUpdate.csproj", "{2167121D-E3C2-442E-934D-07F819FA4B3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7751A4F9-B666-40B6-BC96-47544696271F}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{7751A4F9-B666-40B6-BC96-47544696271F}.Debug|Any CPU.Build.0 = Debug|x86
+		{7751A4F9-B666-40B6-BC96-47544696271F}.Debug|x64.ActiveCfg = Debug|x86
+		{7751A4F9-B666-40B6-BC96-47544696271F}.Debug|x64.Build.0 = Debug|x86
 		{7751A4F9-B666-40B6-BC96-47544696271F}.Debug|x86.ActiveCfg = Debug|x86
 		{7751A4F9-B666-40B6-BC96-47544696271F}.Debug|x86.Build.0 = Debug|x86
+		{7751A4F9-B666-40B6-BC96-47544696271F}.Release|Any CPU.ActiveCfg = Release|x86
+		{7751A4F9-B666-40B6-BC96-47544696271F}.Release|x64.ActiveCfg = Release|x86
 		{7751A4F9-B666-40B6-BC96-47544696271F}.Release|x86.ActiveCfg = Release|x86
 		{7751A4F9-B666-40B6-BC96-47544696271F}.Release|x86.Build.0 = Release|x86
+		{2167121D-E3C2-442E-934D-07F819FA4B3A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{2167121D-E3C2-442E-934D-07F819FA4B3A}.Debug|Any CPU.Build.0 = Debug|x86
+		{2167121D-E3C2-442E-934D-07F819FA4B3A}.Debug|x64.ActiveCfg = Debug|x86
+		{2167121D-E3C2-442E-934D-07F819FA4B3A}.Debug|x64.Build.0 = Debug|x86
+		{2167121D-E3C2-442E-934D-07F819FA4B3A}.Debug|x86.ActiveCfg = Debug|x86
+		{2167121D-E3C2-442E-934D-07F819FA4B3A}.Debug|x86.Build.0 = Debug|x86
+		{2167121D-E3C2-442E-934D-07F819FA4B3A}.Release|Any CPU.ActiveCfg = Release|x86
+		{2167121D-E3C2-442E-934D-07F819FA4B3A}.Release|x64.ActiveCfg = Release|x86
+		{2167121D-E3C2-442E-934D-07F819FA4B3A}.Release|x86.ActiveCfg = Release|x86
+		{2167121D-E3C2-442E-934D-07F819FA4B3A}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

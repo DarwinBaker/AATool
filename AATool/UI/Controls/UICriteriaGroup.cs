@@ -68,7 +68,7 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            AdvancementName = ParseAttribute(node, "advancement", "");
+            AdvancementName = ParseAttribute(node, "advancement", string.Empty);
         }
     }
 }

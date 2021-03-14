@@ -97,7 +97,7 @@ namespace AATool.UI.Screens
                 progressLabel.Append("%)");
             }
 
-            progressBar?.SetValue(AdvancementTracker.CompletedPercent);
+            progressBar?.SetValue(AdvancementTracker.CompletedCount);
 
             var grid = GetFirstOfType(typeof(UIGrid)) as UIGrid;
             if (grid == null || grid.CollapsedRows.Count == 0)

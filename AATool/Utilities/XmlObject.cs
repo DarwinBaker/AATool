@@ -8,17 +8,17 @@ using System.Xml;
 
 namespace AATool.Utilities
 {
-    public abstract class XmlSerial
+    public abstract class XmlObject
     {
         //currently unused but very cool functions to return instances directly from xml
-        public static T FromDocument<T>(XmlDocument document) where T : XmlSerial, new()
+        public static T FromDocument<T>(XmlDocument document) where T : XmlObject, new()
         {
             T value = new T();
             value.ReadDocument(document);
             return value;
         }
 
-        public static T FromNode<T>(XmlNode node) where T : XmlSerial, new()
+        public static T FromNode<T>(XmlNode node) where T : XmlObject, new()
         {
             T value = new T();
             value.ReadNode(node);
@@ -105,7 +105,7 @@ namespace AATool.Utilities
                     return defaultValue;
 
                 //split string into comma separated values
-                string[] csv = value.Replace(" ", "").Split(',');
+                string[] csv = value.Replace(" ", string.Empty).Split(',');
 
                 //switch on type and parse accordingly
                 object parsed = defaultValue switch {
@@ -121,8 +121,8 @@ namespace AATool.Utilities
                     Color           _ => Color.FromNonPremultiplied(int.Parse(csv[0]), int.Parse(csv[1]), int.Parse(csv[2]), csv.Length == 4 ? int.Parse(csv[3]) : 255),
                     HorizontalAlign _ => Enum.TryParse(value, true, out HorizontalAlign converted)                  ? converted : default,
                     VerticalAlign   _ => Enum.TryParse(value, true, out VerticalAlign converted)                    ? converted : default,
-                    FlowDirection   _ => Enum.TryParse(value.Replace("_", ""), true, out FlowDirection converted)   ? converted : default,
-                    DrawMode        _ => Enum.TryParse(value.Replace("_", ""), true, out DrawMode converted)        ? converted : default,
+                    FlowDirection   _ => Enum.TryParse(value.Replace("_", string.Empty), true, out FlowDirection converted)   ? converted : default,
+                    DrawMode        _ => Enum.TryParse(value.Replace("_", string.Empty), true, out DrawMode converted)        ? converted : default,
                     Size            _ => Size.Parse(value),
                     Margin          _ => Margin.Parse(value),
                                     _ => null

@@ -33,7 +33,7 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            GroupName = ParseAttribute(node, "group", "");
+            GroupName = ParseAttribute(node, "group", string.Empty);
         }
     }
 }
