@@ -166,7 +166,7 @@ namespace AATool
                 return;
             }
 
-            using (var dialog = new FUpdate(latestDecimal, patchNotes))
+            using (var dialog = new FUpdate(latestVersion, patchNotes))
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.Yes)
                     RunUpdateAssistant(false);
         }
