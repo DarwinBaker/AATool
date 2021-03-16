@@ -12,39 +12,18 @@ namespace AATool.UI.Screens
     public class MainScreen : Screen
     {
         private MainSettings settings = MainSettings.Instance;
+        private UIButton settingsButton;
+        private UIButton patreonButton;
         private UIProgressBar progressBar;
         private UITextBlock progressLabel;
         private UITextBlock saveLabel;
         private UIEnchantmentTable status;
-
-        private System.Windows.Forms.Button donate;
         private FSettings settingsMenu;
 
         public MainScreen(Main main) : base(main, main.Window, 0, 0)
         {
             ReloadLayout();
             Show();
-
-            //add winforms buttons because lazy. I'll roll my own buttons eventually :p
-            var settings = new System.Windows.Forms.Button();
-            settings.Name = "settings";
-            settings.Text = "Settings";
-            settings.Click += ButtonClick;
-            settings.Size = new System.Drawing.Size(70, 30);
-            settings.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            settings.Location = new System.Drawing.Point(260, Height - 6 - settings.Height);
-            Form.Controls.Add(settings);
-
-            donate = new System.Windows.Forms.Button();
-            donate.Name = "donate";
-            donate.Text = "♥ Support me on Patreon ♥";
-            donate.Click += ButtonClick;
-            donate.Size = new System.Drawing.Size(170, 29);
-            donate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            donate.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            donate.Location = new System.Drawing.Point(Width - donate.Width - 6, Height - 6 - donate.Height);
-            donate.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            Form.Controls.Add(donate);
         }
 
         private void ReloadLayout()
@@ -61,6 +40,30 @@ namespace AATool.UI.Screens
             progressBar?.SetMax(AdvancementTracker.AdvancementCount);
             status = GetControlByName("enchantment_table", true) as UIEnchantmentTable;
             status?.SetTint(Color.White * 0.85f);
+            settingsButton = GetControlByName("button_settings", true) as UIButton;
+            if (settingsButton != null)
+                settingsButton.Click += OnClick;
+            patreonButton = GetControlByName("button_patreon", true) as UIButton;
+            if (patreonButton != null)
+            {
+                patreonButton.UseCustomColor = true;
+                patreonButton.SetTextColor(Color.Black);
+                patreonButton.Click += OnClick;
+            } 
+        }
+
+        private void OnClick(object sender)
+        {
+            if (sender == settingsButton)
+            {
+                if (settingsMenu == null || settingsMenu.IsDisposed)
+                {
+                    settingsMenu = new FSettings(Form, AdvancementTracker, StatisticsTracker);
+                    settingsMenu.Show(Form);
+                }
+            }
+            else if (sender == patreonButton)
+                Process.Start("https://www.patreon.com/_ctm");
         }
 
         protected override void UpdateThis(Time time)
@@ -141,34 +144,20 @@ namespace AATool.UI.Screens
             SetWindowSize(Width, Height);
         }
 
-        private void ButtonClick(object sender, EventArgs e)
-        {
-            switch ((sender as System.Windows.Forms.Control).Name)
-            {
-                case "settings":
-                    using (var dialog = new FSettings(AdvancementTracker, StatisticsTracker))
-                    {
-                        settingsMenu = dialog;
-                        dialog.ShowDialog();
-                    }
-                    break;
-                case "donate":
-                    Process.Start("https://www.patreon.com/_ctm");
-                    break;
-            }
-        }
-
         public override void DrawThis(Display display)
         {
             var color = display.RainbowColor;
             settingsMenu?.UpdateRainbow(color);
-            if (donate != null)
-                donate.BackColor = System.Drawing.Color.FromArgb(255, color.R, color.G, color.B);
+            if (patreonButton != null)
+            {
+                patreonButton.BackColor   = color;
+                patreonButton.BorderColor = Color.FromNonPremultiplied((int)(color.R / 1.5f), (int)(color.G / 1.5f), (int)(color.B / 1.5f), 255);
+            }
             if (settings.RainbowMode)
             {
-                settings.BackColor = color;
+                settings.BackColor   = color;
                 settings.BorderColor = new Color((int)(color.R / 1.25f), (int)(color.G / 1.25f), (int)(color.B / 1.25f), 255);
-                settings.TextColor = Color.Black;
+                settings.TextColor   = Color.Black;
             }
         }
     }

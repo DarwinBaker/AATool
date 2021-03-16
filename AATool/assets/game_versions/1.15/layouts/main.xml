@@ -57,6 +57,7 @@
             <panel col="0">
                 <enchantment_table name="enchantment_table" width="36" height="36" horizontal_align="left" vertical_align="bottom" margin_left="2" margin_bottom="4"/>
                 <text_block name="label_save" height="12" horizontal_align="left" margin_left="45"/>
+                <button name="button_settings" text="Settings" width="70" height="29" horizontal_align="right" margin_right="6"/>
             </panel>
             <panel col="1">
                 <text_block name="label_progress" height="12" vertical_align="bottom" margin_bottom="22"/>
@@ -64,7 +65,8 @@
             </panel>
             <panel col="2">
                 <text_block width="300" height="12" horizontal_align="left" vertical_align="top" margin="8,50,8,0" 
-                text="If you like this tool and want to support its continued development, please consider donating! Anything helps! :)"/>
+                text="If you like this tool and want to support its continued development, please consider donating! :)"/>
+                <button name="button_patreon" text="♥ Support me on Patreon ♥" width="170" height="29" horizontal_align="right" margin_right="5"/>
             </panel>         
         </grid>
     </grid>

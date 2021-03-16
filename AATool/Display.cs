@@ -11,12 +11,17 @@ namespace AATool
     {
         public Color RainbowColor { get; private set; }
 
-        private SpriteBatch batch;
+        private SpriteBatch[] batches;
+        private SpriteBatch batchAdditive;
+
+        private SpriteBatch BatchOf(Layer layer) => batches[(int)layer];
 
         public Display(GraphicsDeviceManager manager)
         {
-            batch = new SpriteBatch(manager.GraphicsDevice);
-            
+            batches = new SpriteBatch[Enum.GetNames(typeof(Layer)).Length];
+            foreach (var layer in Enum.GetValues(typeof(Layer)))
+                batches[(int)layer] = new SpriteBatch(manager.GraphicsDevice);
+
             //configure graphics parameters
             manager.GraphicsProfile = GraphicsProfile.Reach;
             manager.SynchronizeWithVerticalRetrace = true;
@@ -24,15 +29,25 @@ namespace AATool
             manager.ApplyChanges();
         }
 
-        public void Begin(BlendState blend = null) => batch.Begin(SpriteSortMode.Immediate, blend ?? BlendState.NonPremultiplied, SamplerState.PointClamp);
-        public void End()                          => batch.End();
+        public void Begin(BlendState blend = null)
+        {
+            BatchOf(Layer.Main).Begin(SpriteSortMode.Deferred, blend ?? BlendState.NonPremultiplied, SamplerState.PointClamp);
+            BatchOf(Layer.Glow).Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.AnisotropicClamp);
+            BatchOf(Layer.Fore).Begin(SpriteSortMode.Deferred, blend ?? BlendState.NonPremultiplied, SamplerState.PointClamp);
+        }
+
+        public void End()
+        {
+            foreach (var batch in batches)
+                batch.End();
+        }
 
         public void Update(Time time)
         {
             UpdateRainbowColor(time);
         }
 
-        public void Draw(string texture, Rectangle rectangle, Color? tint = null, int frameCount = 1)
+        public void Draw(string texture, Rectangle rectangle, Color? tint = null, Layer layer = Layer.Main)
         {
             if (string.IsNullOrWhiteSpace(texture))
                 return;
@@ -41,18 +56,20 @@ namespace AATool
             var source = SpriteSheet.RectangleOf(texture);
             if (source.IsEmpty)
                 source = SpriteSheet.RectangleOf(texture + SpriteSheet.RESOLUTION_PREFIX + rectangle.Width);
-
-            if (frameCount == 1)
-                batch.Draw(SpriteSheet.Atlas, rectangle, source, tint ?? Color.White);
-            else
-            {
-                //sprite is animated; calculate sub-rectangle for current frame
-                batch.Draw(SpriteSheet.Atlas, rectangle, source, tint ?? Color.White);
-            }
+            BatchOf(layer).Draw(SpriteSheet.Atlas, rectangle, source, tint ?? Color.White);
         }
 
-        public void DrawRectangle(Rectangle rectangle, Color color, Color? borderColor = null, int border = 0)
+        public void Draw(string texture, Vector2 center, float rotation, Color? tint = null, Layer layer = Layer.Main)
         {
+            if (string.IsNullOrWhiteSpace(texture))
+                return;
+            var source = SpriteSheet.RectangleOf(texture);
+            BatchOf(layer).Draw(SpriteSheet.Atlas, center, source, tint ?? Color.White, rotation, new Vector2(source.Width / 2, source.Height / 2), new Vector2(1), SpriteEffects.None, 0);
+        }
+
+        public void DrawRectangle(Rectangle rectangle, Color color, Color? borderColor = null, int border = 0, Layer layer = Layer.Main)
+        {
+            var batch = BatchOf(layer);
             borderColor ??= color;
             if (border > 0 && borderColor != color)
             {
@@ -74,7 +91,7 @@ namespace AATool
                 batch.Draw(SpriteSheet.Atlas, rectangle, SpriteSheet.RectangleOf("pixel"), color);
         }
 
-        public void DrawLine(Vector2 a, Vector2 b, int thickness, Color? tint = null)
+        public void DrawLine(Vector2 a, Vector2 b, int thickness, Color? tint = null, Layer layer = Layer.Main)
         {
             //draw a line between two points
             float dist = Vector2.Distance(a, b);
@@ -82,12 +99,12 @@ namespace AATool
             if (a.Y > b.Y)
                 angle = MathHelper.TwoPi - angle;
 
-            batch.Draw(SpriteSheet.Atlas, new Rectangle((int)a.X, (int)a.Y, (int)dist, thickness), SpriteSheet.RectangleOf("pixel"), tint ?? Color.White, angle, Vector2.Zero, SpriteEffects.None, 0);
+            BatchOf(layer).Draw(SpriteSheet.Atlas, new Rectangle((int)a.X, (int)a.Y, (int)dist, thickness), SpriteSheet.RectangleOf("pixel"), tint ?? Color.White, angle, Vector2.Zero, SpriteEffects.None, 0);
         }
 
-        public void DrawString(DynamicSpriteFont font, string text, Vector2 location, Color color)
+        public void DrawString(DynamicSpriteFont font, string text, Vector2 location, Color color, Layer layer = Layer.Main)
         {
-            batch.DrawString(font, text, location, color);
+            BatchOf(layer).DrawString(font, text, location, color);
         }
 
         private void UpdateRainbowColor(Time time)
@@ -97,7 +114,7 @@ namespace AATool
             int primary = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
 
             double f = hue / 60 - Math.Floor(hue / 60);
-            double sat = 0.25;
+            double sat = 0.33;
             double value = 255;
 
             int v = Convert.ToInt32(value);

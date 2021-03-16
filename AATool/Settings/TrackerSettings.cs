@@ -44,7 +44,7 @@ namespace AATool.Settings
         {
             Entries = new Dictionary<string, object>();
             Set(GAME_VERSION, "1.12");
-            Set(REFRESH_INTERVAL, 1000);
+            Set(REFRESH_INTERVAL, 2000);
             Set(USE_DEFAULT_PATH, true);
             Set(AUTO_GAME_VERSION, true);
             Set(CUSTOM_FOLDER, string.Empty);

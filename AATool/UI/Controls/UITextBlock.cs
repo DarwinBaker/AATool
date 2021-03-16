@@ -14,22 +14,20 @@ namespace AATool.UI.Controls
 
         public string WrappedText       { get; private set; }
         public Rectangle TextRectangle  { get; private set; }
-
-        public bool IsEmpty => Font == null || builder.Length == 0;
-        public override string ToString() => builder.ToString();
+        public Color TextColor;
 
         private StringBuilder builder;
+
+        public bool IsEmpty                         => Font == null || builder.Length == 0;
+        public override string ToString()           => builder.ToString();
+        public void SetFont(string font, int scale) => Font = FontSet.Get(font, scale);
+        public void SetTextColor(Color color)       => TextColor = color;
 
         public UITextBlock() : this("minecraft", 12) { }
         public UITextBlock(string font, int scale)
         {
             builder = new StringBuilder();
             SetFont(font, scale);
-        }
-
-        public void SetFont(string font, int scale)
-        {
-            Font = FontSet.Get(font, scale);
         }
 
         public void SetText(string text) 
@@ -66,7 +64,9 @@ namespace AATool.UI.Controls
                 return;
 
             //get what color text should be based on root screen
-            var color = GetRootScreen() is MainScreen ? MainSettings.Instance.TextColor : OverlaySettings.Instance.TextColor;
+            var color = TextColor;
+            if (TextColor == Color.Transparent)
+                color = GetRootScreen() is MainScreen ? MainSettings.Instance.TextColor : OverlaySettings.Instance.TextColor;
             if (Rectangle.Size == Point.Zero)
                 display.DrawString(Font, text, Location.ToVector2(), color);
             else

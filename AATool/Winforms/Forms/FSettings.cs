@@ -15,7 +15,7 @@ namespace AATool.Winforms.Forms
         private AdvancementTracker advancementTracker;
         private StatisticsTracker statisticsTracker;
 
-        public FSettings(AdvancementTracker advancementTracker, StatisticsTracker statisticsTracker)
+        public FSettings(Form parent, AdvancementTracker advancementTracker, StatisticsTracker statisticsTracker)
         {
             InitializeComponent();
             LoadSettings();
@@ -31,6 +31,12 @@ namespace AATool.Winforms.Forms
         public Color ToXNAColor(System.Drawing.Color color)     => new Color(color.R, color.G, color.B, color.A);
         public System.Drawing.Color ToDrawingColor(Color color) => System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
 
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            CenterToParent();
+        }
+
         private void LoadSettings()
         {
             trackerUseDefault.Checked           = tracker.UseDefaultPath;
@@ -41,6 +47,7 @@ namespace AATool.Winforms.Forms
 
             mainShowBasic.Checked               = main.ShowBasic;
             mainFancyCorners.Checked            = main.RenderFancyCorners;
+            mainCompletionGlow.Checked          = main.RenderCompletionGlow;
             mainLayoutDebug.Checked             = main.LayoutDebug;
             mainBackColor.BackColor             = ToDrawingColor(main.BackColor);
             mainTextColor.BackColor             = ToDrawingColor(main.TextColor);
@@ -61,20 +68,19 @@ namespace AATool.Winforms.Forms
             copyColorKey.Text                   = "Copy BG color " + $"#{overlayBackColor.BackColor.R:X2}{overlayBackColor.BackColor.G:X2}{overlayBackColor.BackColor.B:X2}" + " for OBS";
             copyColorKey.LinkColor              = overlayBackColor.BackColor;
 
-            mainTheme.Text = "Custom";
+            mainTheme.Items.Clear();
+            foreach (var theme in MainSettings.Themes)
+            {
+                mainTheme.Items.Add(theme.Key);
+                if (main.BackColor == theme.Value.Item1 && main.TextColor == theme.Value.Item2 && main.BorderColor == theme.Value.Item3)
+                    mainTheme.Text = theme.Key;
+            }
+            mainTheme.Items.Add("Pride Mode");
+            mainTheme.Items.Add("Custom");
             if (main.RainbowMode)
                 mainTheme.Text = "Pride Mode";
-            else
-            {
-                foreach (var theme in MainSettings.Themes)
-                {
-                    if (main.BackColor == theme.Value.Item1 && main.TextColor == theme.Value.Item2 && main.BorderColor == theme.Value.Item3)
-                    {
-                        mainTheme.Text = theme.Key;
-                        break;
-                    }
-                }
-            }
+            else if (string.IsNullOrEmpty(mainTheme.Text))
+                mainTheme.Text = "Custom";
         }
 
         private void SaveSettings()
@@ -88,6 +94,7 @@ namespace AATool.Winforms.Forms
 
             main.ShowBasic              = mainShowBasic.Checked;
             main.RenderFancyCorners     = mainFancyCorners.Checked;
+            main.RenderCompletionGlow   = mainCompletionGlow.Checked;
             main.LayoutDebug            = mainLayoutDebug.Checked;
             main.RainbowMode            = mainTheme.Text == "Pride Mode";
             main.BackColor              = ToXNAColor(mainBackColor.BackColor);
@@ -119,8 +126,8 @@ namespace AATool.Winforms.Forms
         {
             if (mainTheme.Text == "Pride Mode")
             {
-                mainBackColor.BackColor = System.Drawing.Color.FromArgb(255, color.R, color.G, color.B);
-                mainTextColor.BackColor = System.Drawing.Color.Black;
+                mainBackColor.BackColor   = System.Drawing.Color.FromArgb(255, color.R, color.G, color.B);
+                mainTextColor.BackColor   = System.Drawing.Color.Black;
                 mainBorderColor.BackColor = System.Drawing.Color.FromArgb(255, (int)(color.R / 1.25f), (int)(color.G / 1.25f), (int)(color.B / 1.25f));
             }
         }
@@ -168,6 +175,7 @@ namespace AATool.Winforms.Forms
             {
                 using (var dialog = new ColorDialog())
                 {
+                    dialog.Color = (sender as Control).BackColor;
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
                         (sender as Control).BackColor = dialog.Color;

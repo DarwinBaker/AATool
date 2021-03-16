@@ -117,35 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="youtube" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\about\youtube.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="twitch" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\about\twitch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="supporter_patreon_diamond" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\supporters\supporter_patreon_diamond.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="darwin" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\about\darwin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="supporter_beta" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\supporters\supporter_beta.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="discord" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\about\discord.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="supporter_patreon_gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\supporters\supporter_patreon_gold.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="supporter_patreon_netherite" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\supporters\supporter_patreon_netherite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="patreon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\about\patreon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="supporter_developer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\supporters\supporter_developer.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
 </root>

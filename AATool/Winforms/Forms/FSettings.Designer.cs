@@ -61,6 +61,7 @@
             this.labelRefresh = new System.Windows.Forms.Label();
             this.trackerGameVersion = new System.Windows.Forms.ComboBox();
             this.groupMain = new System.Windows.Forms.GroupBox();
+            this.mainCompletionGlow = new System.Windows.Forms.CheckBox();
             this.mainLayoutDebug = new System.Windows.Forms.CheckBox();
             this.mainFancyCorners = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -76,6 +77,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.trackerAutoVersion = new System.Windows.Forms.CheckBox();
             this.update = new System.Windows.Forms.Button();
+            this.credits = new AATool.Winforms.Controls.CCredits();
             this.groupOverlay.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.overlayWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.overlaySpeed)).BeginInit();
@@ -194,7 +196,7 @@
             // copyColorKey
             // 
             this.copyColorKey.AutoSize = true;
-            this.copyColorKey.Location = new System.Drawing.Point(200, 229);
+            this.copyColorKey.Location = new System.Drawing.Point(203, 229);
             this.copyColorKey.Name = "copyColorKey";
             this.copyColorKey.Size = new System.Drawing.Size(168, 13);
             this.copyColorKey.TabIndex = 29;
@@ -286,7 +288,7 @@
             // 
             // overlayBackColor
             // 
-            this.overlayBackColor.Location = new System.Drawing.Point(336, 156);
+            this.overlayBackColor.Location = new System.Drawing.Point(298, 194);
             this.overlayBackColor.Name = "overlayBackColor";
             this.overlayBackColor.Size = new System.Drawing.Size(32, 32);
             this.overlayBackColor.TabIndex = 10;
@@ -295,13 +297,13 @@
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(271, 166);
+            this.label2.Location = new System.Drawing.Point(298, 178);
             this.label2.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 13);
+            this.label2.Size = new System.Drawing.Size(32, 13);
             this.label2.TabIndex = 12;
-            this.label2.Text = "Back Color";
+            this.label2.Text = "Back";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // overlayWidth
             // 
@@ -327,13 +329,13 @@
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(275, 204);
+            this.label4.Location = new System.Drawing.Point(336, 178);
             this.label4.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(55, 13);
+            this.label4.Size = new System.Drawing.Size(32, 13);
             this.label4.TabIndex = 14;
-            this.label4.Text = "Text Color";
+            this.label4.Text = "Text";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // overlayShowOverview
             // 
@@ -424,7 +426,7 @@
             this.trackerRefreshDelay.Size = new System.Drawing.Size(100, 20);
             this.trackerRefreshDelay.TabIndex = 3;
             this.trackerRefreshDelay.Value = new decimal(new int[] {
-            1000,
+            2000,
             0,
             0,
             0});
@@ -451,6 +453,7 @@
             // 
             // groupMain
             // 
+            this.groupMain.Controls.Add(this.mainCompletionGlow);
             this.groupMain.Controls.Add(this.mainLayoutDebug);
             this.groupMain.Controls.Add(this.mainFancyCorners);
             this.groupMain.Controls.Add(this.label10);
@@ -470,10 +473,20 @@
             this.groupMain.TabStop = false;
             this.groupMain.Text = "Main Window";
             // 
+            // mainCompletionGlow
+            // 
+            this.mainCompletionGlow.AutoSize = true;
+            this.mainCompletionGlow.Location = new System.Drawing.Point(9, 65);
+            this.mainCompletionGlow.Name = "mainCompletionGlow";
+            this.mainCompletionGlow.Size = new System.Drawing.Size(136, 17);
+            this.mainCompletionGlow.TabIndex = 26;
+            this.mainCompletionGlow.Text = "Completion Glow Effect";
+            this.mainCompletionGlow.UseVisualStyleBackColor = true;
+            // 
             // mainLayoutDebug
             // 
             this.mainLayoutDebug.AutoSize = true;
-            this.mainLayoutDebug.Location = new System.Drawing.Point(9, 65);
+            this.mainLayoutDebug.Location = new System.Drawing.Point(9, 88);
             this.mainLayoutDebug.Name = "mainLayoutDebug";
             this.mainLayoutDebug.Size = new System.Drawing.Size(119, 17);
             this.mainLayoutDebug.TabIndex = 25;
@@ -493,7 +506,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 91);
+            this.label10.Location = new System.Drawing.Point(6, 114);
             this.label10.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(43, 13);
@@ -502,32 +515,27 @@
             // 
             // mainTheme
             // 
+            this.mainTheme.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mainTheme.FormattingEnabled = true;
-            this.mainTheme.Items.AddRange(new object[] {
-            "Light Mode",
-            "Dark Mode",
-            "Pride Mode",
-            "Custom"});
-            this.mainTheme.Location = new System.Drawing.Point(9, 107);
+            this.mainTheme.Location = new System.Drawing.Point(9, 130);
             this.mainTheme.Name = "mainTheme";
-            this.mainTheme.Size = new System.Drawing.Size(103, 21);
+            this.mainTheme.Size = new System.Drawing.Size(108, 21);
             this.mainTheme.TabIndex = 22;
-            this.mainTheme.Text = "Light Mode";
             this.mainTheme.TextChanged += new System.EventHandler(this.OnTextChanged);
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(47, 222);
+            this.label9.Location = new System.Drawing.Point(83, 194);
             this.label9.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(65, 13);
+            this.label9.Size = new System.Drawing.Size(38, 13);
             this.label9.TabIndex = 20;
-            this.label9.Text = "Border Color";
+            this.label9.Text = "Border";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // mainBorderColor
             // 
-            this.mainBorderColor.Location = new System.Drawing.Point(9, 212);
+            this.mainBorderColor.Location = new System.Drawing.Point(85, 210);
             this.mainBorderColor.Name = "mainBorderColor";
             this.mainBorderColor.Size = new System.Drawing.Size(32, 32);
             this.mainBorderColor.TabIndex = 19;
@@ -536,17 +544,17 @@
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(47, 184);
+            this.label7.Location = new System.Drawing.Point(47, 194);
             this.label7.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(55, 13);
+            this.label7.Size = new System.Drawing.Size(32, 13);
             this.label7.TabIndex = 18;
-            this.label7.Text = "Text Color";
+            this.label7.Text = "Text";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // mainBackColor
             // 
-            this.mainBackColor.Location = new System.Drawing.Point(9, 136);
+            this.mainBackColor.Location = new System.Drawing.Point(9, 210);
             this.mainBackColor.Name = "mainBackColor";
             this.mainBackColor.Size = new System.Drawing.Size(32, 32);
             this.mainBackColor.TabIndex = 15;
@@ -555,7 +563,7 @@
             // 
             // mainTextColor
             // 
-            this.mainTextColor.Location = new System.Drawing.Point(9, 174);
+            this.mainTextColor.Location = new System.Drawing.Point(47, 210);
             this.mainTextColor.Name = "mainTextColor";
             this.mainTextColor.Size = new System.Drawing.Size(32, 32);
             this.mainTextColor.TabIndex = 17;
@@ -564,13 +572,13 @@
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(47, 146);
+            this.label8.Location = new System.Drawing.Point(9, 194);
             this.label8.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(59, 13);
+            this.label8.Size = new System.Drawing.Size(32, 13);
             this.label8.TabIndex = 16;
-            this.label8.Text = "Back Color";
+            this.label8.Text = "Back";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // defaults
             // 
@@ -624,12 +632,20 @@
             this.update.UseVisualStyleBackColor = true;
             this.update.Click += new System.EventHandler(this.OnButtonClick);
             // 
+            // credits
+            // 
+            this.credits.Location = new System.Drawing.Point(617, 12);
+            this.credits.Name = "credits";
+            this.credits.Size = new System.Drawing.Size(224, 396);
+            this.credits.TabIndex = 24;
+            // 
             // FSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancel;
-            this.ClientSize = new System.Drawing.Size(624, 420);
+            this.ClientSize = new System.Drawing.Size(851, 420);
+            this.Controls.Add(this.credits);
             this.Controls.Add(this.update);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.about);
@@ -714,5 +730,7 @@
         private System.Windows.Forms.CheckBox trackerAutoVersion;
         private System.Windows.Forms.LinkLabel copyColorKey;
         private System.Windows.Forms.Button update;
+        private Controls.CCredits credits;
+        private System.Windows.Forms.CheckBox mainCompletionGlow;
     }
 }

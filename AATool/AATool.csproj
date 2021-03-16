@@ -108,7 +108,20 @@
     <Compile Include="UI\Controls\UICarousel.cs" />
     <Compile Include="UI\Controls\UICriteriaCarousel.cs" />
     <Compile Include="UI\Controls\UIEnchantmentTable.cs" />
+    <Compile Include="UI\Controls\UIButton.cs" />
     <Compile Include="Utilities\GameVersionDetector.cs" />
+    <Compile Include="Winforms\Controls\CCreditsGroup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Winforms\Controls\CCreditsGroup.Designer.cs">
+      <DependentUpon>CCreditsGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Winforms\Controls\CCredits.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Winforms\Controls\CCredits.Designer.cs">
+      <DependentUpon>CCredits.cs</DependentUpon>
+    </Compile>
     <Compile Include="Winforms\Forms\FAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,6 +218,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\credits\credits.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\game_versions\1.12\advancements\adventure.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -338,6 +354,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\gif\nether_portal.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\frames\frame_glow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\ingredients\fermented_spider_eye_1.12.png">
@@ -1343,58 +1362,58 @@
     <Content Include="assets\graphics\sprites\gif\summon_wither_1.12.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\enchantment_table_closed.png">
+    <Content Include="assets\graphics\sprites\gui\enchantment_table\enchantment_table_closed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\enchantment_table_closing%2410.png">
+    <Content Include="assets\graphics\sprites\gui\enchantment_table\enchantment_table_closing%2410.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\enchantment_table_opening%2410.png">
+    <Content Include="assets\graphics\sprites\gui\enchantment_table\enchantment_table_opening%2410.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\enchantment_table_reading%24124.png">
+    <Content Include="assets\graphics\sprites\gui\enchantment_table\enchantment_table_reading%24124.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\bar_active_left.png">
+    <Content Include="assets\graphics\sprites\gui\progress_bars\bar_active_left.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\bar_active_right.png">
+    <Content Include="assets\graphics\sprites\gui\progress_bars\bar_active_right.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\bar_active_middle.png">
+    <Content Include="assets\graphics\sprites\gui\progress_bars\bar_active_middle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\bar_inactive_left.png">
+    <Content Include="assets\graphics\sprites\gui\progress_bars\bar_inactive_left.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\bar_inactive_middle.png">
+    <Content Include="assets\graphics\sprites\gui\progress_bars\bar_inactive_middle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\bar_inactive_right.png">
+    <Content Include="assets\graphics\sprites\gui\progress_bars\bar_inactive_right.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\frame_challenge_complete.png">
+    <Content Include="assets\graphics\sprites\gui\frames\frame_challenge_complete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\frame_challenge_incomplete.png">
+    <Content Include="assets\graphics\sprites\gui\frames\frame_challenge_incomplete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\frame_count_complete.png">
+    <Content Include="assets\graphics\sprites\gui\frames\frame_count_complete.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\frame_count_incomplete.png">
+    <Content Include="assets\graphics\sprites\gui\frames\frame_count_incomplete.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\frame_goal_complete.png">
+    <Content Include="assets\graphics\sprites\gui\frames\frame_goal_complete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\frame_goal_incomplete.png">
+    <Content Include="assets\graphics\sprites\gui\frames\frame_goal_incomplete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\frame_normal_complete.png">
+    <Content Include="assets\graphics\sprites\gui\frames\frame_normal_complete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\frame_normal_incomplete.png">
+    <Content Include="assets\graphics\sprites\gui\frames\frame_normal_incomplete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\advancements\husbandry\balanced_diet.png">
@@ -1733,25 +1752,25 @@
     <Content Include="assets\graphics\sprites\potions\potion_leaping%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\control_item_count.xml">
+    <Content Include="assets\ui\controls\control_item_count.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\control_advancement_group.xml">
+    <Content Include="assets\ui\controls\control_advancement_group.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\control_potion.xml">
+    <Content Include="assets\ui\controls\control_potion.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\control_potion_group.xml">
+    <Content Include="assets\ui\controls\control_potion_group.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\control_criterion.xml">
+    <Content Include="assets\ui\controls\control_criterion.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\control_advancement.xml">
+    <Content Include="assets\ui\controls\control_advancement.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\ui\control_criteria_group.xml">
+    <Content Include="assets\ui\controls\control_criteria_group.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.13\layouts\main.xml">
@@ -1790,11 +1809,16 @@
     <Content Include="assets\game_versions\1.16\layouts\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\patreon.png" />
-    <None Include="Resources\youtube.png" />
-    <None Include="Resources\twitch.png" />
-    <None Include="Resources\discord.png" />
-    <None Include="Resources\darwin.png" />
+    <Content Include="Resources\supporters\supporter_beta.gif" />
+    <Content Include="Resources\supporters\supporter_patreon_gold.png" />
+    <Content Include="Resources\supporters\supporter_patreon_diamond.png" />
+    <Content Include="Resources\supporters\supporter_patreon_netherite.png" />
+    <None Include="Resources\supporters\supporter_developer.gif" />
+    <None Include="Resources\about\patreon.png" />
+    <None Include="Resources\about\youtube.png" />
+    <None Include="Resources\about\twitch.png" />
+    <None Include="Resources\about\discord.png" />
+    <None Include="Resources\about\darwin.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">
@@ -1811,8 +1835,14 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Winforms\Controls\CCredits.resx">
+      <DependentUpon>CCredits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Winforms\Controls\CCreditsGroup.resx">
+      <DependentUpon>CCreditsGroup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Winforms\Forms\FAbout.resx">
       <DependentUpon>FAbout.cs</DependentUpon>
@@ -1830,6 +1860,7 @@
       <DependentUpon>FUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

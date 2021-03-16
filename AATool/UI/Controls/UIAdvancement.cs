@@ -1,5 +1,7 @@
 ﻿using AATool.DataStructures;
+using AATool.Settings;
 using AATool.UI.Screens;
+using Microsoft.Xna.Framework;
 using System;
 using System.Xml;
 
@@ -11,8 +13,10 @@ namespace AATool.UI.Controls
 
         private Advancement advancement;
         private UIPicture frame;
+        private UIPicture icon;
         private UITextBlock label;
         private int scale;
+        private float glowRotation;
 
         public bool IsCompleted => advancement?.IsCompleted ?? false;
 
@@ -45,13 +49,14 @@ namespace AATool.UI.Controls
                 frame.FlexWidth  *= scale;
                 frame.FlexHeight *= scale;
             }
-            
-            var icon = GetControlByName("icon", true) as UIPicture;
+
+            icon = GetControlByName("icon", true) as UIPicture;
             if (icon != null) 
             {
                 icon.FlexWidth  *= scale;
                 icon.FlexHeight *= scale;
                 icon.SetTexture(advancement.Icon);
+                icon.SetLayer(Layer.Fore);
             }
 
             label = GetControlByName("label", true) as UITextBlock;
@@ -67,6 +72,19 @@ namespace AATool.UI.Controls
         protected override void UpdateThis(Time time)
         {
             frame?.SetTexture(advancement.CurrentFrame);
+            if (IsCompleted)
+                glowRotation += (float)time.Delta * 0.25f;
+        }
+
+        public override void DrawRecursive(Display display)
+        {
+            frame?.DrawRecursive(display);
+
+            if (IsCompleted && MainSettings.Instance.RenderCompletionGlow && scale == 2)
+                display.Draw("frame_glow", frame.Center.ToVector2(), glowRotation, Color.White, Layer.Glow);
+
+            icon?.DrawRecursive(display);
+            label?.DrawRecursive(display);
         }
 
         public override void ReadNode(XmlNode node)

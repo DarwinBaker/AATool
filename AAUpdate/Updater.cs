@@ -8,9 +8,6 @@ using System.Net;
 
 namespace AAUpdate
 {
-    public delegate void StatusEventHandler(int key, string value);
-    public delegate void ProgressEventHandler(int key, (int, int) value);
-
     public class Updater
     {
         //keys to refer to specific labels/progress bars on main window
@@ -37,6 +34,8 @@ namespace AAUpdate
         public bool StartAAToolWhenDone;
 
         //events to send ui updates to main thread
+        public delegate void StatusEventHandler(int key, string value);
+        public delegate void ProgressEventHandler(int key, (int, int) value);
         public event StatusEventHandler StatusChanged;
         public event ProgressEventHandler ProgressChanged;
 

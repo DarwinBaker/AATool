@@ -25,6 +25,7 @@ namespace AATool.UI.Controls
             { typeof(UIFlowPanel),   Color.Blue },
             { typeof(UIGrid),        Color.Blue },
             { typeof(UITextBlock),   Color.Yellow },
+            { typeof(UIButton),      Color.Orange },
             { typeof(UIPicture),     Color.Lime },
             { typeof(UIAdvancement), Color.Red },
             { typeof(UICriterion),   Color.Magenta }
@@ -95,7 +96,7 @@ namespace AATool.UI.Controls
                 try
                 {
                     var newDocument = new XmlDocument();
-                    foreach (var file in Directory.GetFiles(Paths.DIR_UI, "*.xml"))
+                    foreach (var file in Directory.GetFiles(Paths.DIR_UI_CONTROLS, "*.xml"))
                     {
                         if (Path.GetFileNameWithoutExtension(file).Replace("_", string.Empty) == "control" + type.Name.ToLower().Substring(2))
                         {
