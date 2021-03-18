@@ -9,7 +9,7 @@ This is a complete rewrite of the [Advancements Tracker I created back in Novemb
 
 In addition to being lightning fast (even on very old PCs) this new version also includes the totally customizable stream overlay that you have likely seen if you've watched [Elysaku's Stream](https://www.twitch.tv/elysaku). (Big thanks to him for beta testing!) [For a guide on how to set this up yourself, click here!](info/obs.md)
 
-This tool supports all game versions 1.12+, and will eventually support multiple languages and have a built-in automatic update system.
+This tool supports all game versions 1.12+, has a built-in automatic update system and will eventually support multiple languages.
 
 ## How It Works
 
