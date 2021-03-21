@@ -18,7 +18,9 @@ Click the plus icon in the bottom left of the newly opened *Filters* window, and
 
 Click *Select Color*, and make sure the *Key Color* setting in OBS matches the overlay background color chosen in AATool. You can either copy this value from AATool and paste it in the *HTML* box of the color picker, or if you're using the default color in AATool (which I personally recommend) simply choose the green five columns from the left in the top row. ```#00aa00 in HEX, (0,170,0) in RBG``` 
 
-You can leave all the sliders at their default values.
+If you also plan on enabling the *Show Completion Glow* setting, you'll need to adjust *Similarity* to prevent the glow effect from bleeding onto the green screen. In testing I've found a value of 100 to work perfectly, but depending on your background color you may need to tweak this.
+
+You can leave all other sliders at their default values.
 
 ## Odd quirk in OBS
 
