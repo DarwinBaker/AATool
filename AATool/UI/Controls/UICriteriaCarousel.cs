@@ -31,10 +31,19 @@ namespace AATool.UI.Controls
         {
             //populate source list with all criteria
             SourceList = new List<object>();
-            foreach (Advancement advancement in GetRootScreen().AdvancementTracker.ComplexAdvancementList.Values)
-                foreach (Criterion criterion in advancement.Criteria.Values)
+            if (TrackerSettings.IsPostExplorationUpdate)
+            {
+                foreach (Criterion criterion in GetRootScreen().AdvancementTracker.FullCriteriaList.Values)
                     if (!criterion.IsCompleted)
                         SourceList.Add(criterion);
+            }
+            else
+            {
+                foreach (Criterion criterion in GetRootScreen().AchievementTracker.FullCriteriaList.Values)
+                    if (!criterion.IsCompleted)
+                        SourceList.Add(criterion);
+            }
+                
 
             //remove all completed criteria from pool if configured to do so
             for (int i = SourceList.Count - 1; i >= 0; i--)
@@ -46,7 +55,7 @@ namespace AATool.UI.Controls
                 for (int i = SourceList.Count - 1; i >= 0; i--)
                 {
                     var criterion = SourceList[i] as Criterion;
-                    if (!OverlaySettings.Instance.Favorites.Criteria.Contains(criterion.AdvancementID + "/" + criterion.ID))
+                    if (!OverlaySettings.Instance.Favorites.Criteria.Contains(criterion.ParentID + "/" + criterion.ID))
                         SourceList.RemoveAt(i);
                 }
         }
@@ -89,7 +98,7 @@ namespace AATool.UI.Controls
             var criterion = SourceList[NextIndex] as Criterion;
             var control = new UICriterion(3);
             control.IsStatic = true;
-            control.AdvancementName = criterion.AdvancementID;
+            control.AdvancementName = criterion.ParentID;
             control.CriterionName = criterion.ID;
             return control;
         }

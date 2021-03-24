@@ -19,21 +19,26 @@ namespace AATool.Trackers
 
         protected abstract void ParseReferences();
         protected abstract void ReadSave();
-
+        public abstract bool VersionMismatch();
+        
         public void Update(Time time)
         {
-            //if user changes refresh rate create a new timer with the new refresh rate
-            double targetRefresh = TrackerSettings.Instance.RefreshInterval / 1000.0;
-            if (refreshTimer.Duration != targetRefresh)
-                refreshTimer = new Timer(targetRefresh);
-            refreshTimer.Update(time);
-
             //if user changes game version clear tracked data and load appropriate list for new version
             if (TrackerSettings.Instance.ValueChanged(TrackerSettings.GAME_VERSION))
             {
                 ParseReferences();
                 refreshTimer.Expire();
             }
+
+            //skip updating if game version doesn't match version required for derived tracker
+            if (VersionMismatch())
+                return;
+
+            //if user changes refresh rate create a new timer with the new refresh rate
+            double targetRefresh = TrackerSettings.Instance.RefreshInterval / 1000.0;
+            if (refreshTimer.Duration != targetRefresh)
+                refreshTimer = new Timer(targetRefresh);
+            refreshTimer.Update(time);
 
             JSON.Update();
             if (refreshTimer.IsExpired || CurrentSaveName != JSON.CurrentSaveName)

@@ -18,11 +18,11 @@ namespace AATool.Winforms.Forms
         Dictionary<string, string> pngs;
         Dictionary<string, string> gifs;
 
-        public FPickFavorites(AdvancementTracker tracker, StatisticsTracker statisticsTracker)
+        public FPickFavorites(AdvancementTracker advancementTracker, AchievementTracker achievementTracker, StatisticsTracker statisticsTracker)
         {
             InitializeComponent();
             LoadImageDictionaries();
-            Populate(tracker, statisticsTracker);
+            Populate(advancementTracker, achievementTracker, statisticsTracker);
             Text += " (" + TrackerSettings.Instance.GameVersion + ")";
         }
 
@@ -39,44 +39,58 @@ namespace AATool.Winforms.Forms
                 gifs[Path.GetFileNameWithoutExtension(file)] = file;
         }
 
-        private void Populate(AdvancementTracker tracker, StatisticsTracker statisticsTracker)
+        private void Populate(AdvancementTracker advancementTracker, AchievementTracker achievementTracker, StatisticsTracker statisticsTracker)
         {
             advancementBoxes = new Dictionary<string, CheckBox>();
             criterionBoxes = new Dictionary<string, CheckBox>();
             statisticBoxes = new Dictionary<string, CheckBox>();
-            foreach (var advancement in tracker.FullAdvancementList)
+
+            if (TrackerSettings.IsPostExplorationUpdate)
             {
-                AddAdvancement(advancement);
-                foreach (var criterion in advancement.Value.Criteria)
-                    AddCriterion(criterion);
+                foreach (var advancement in advancementTracker.FullAdvancementList)
+                {
+                    AddAdvancement(advancement.Key, advancement.Value);
+                    foreach (var criterion in advancement.Value.Criteria)
+                        AddCriterion(criterion);
+                }
             }
+            else
+            {
+                foreach (var achievement in achievementTracker.FullAchievementList)
+                {
+                    AddAdvancement(achievement.Key, achievement.Value);
+                    foreach (var criterion in achievement.Value.Criteria)
+                        AddCriterion(criterion);
+                }
+            }
+            
             foreach (var statistic in statisticsTracker.ItemCountList)
                 AddStatistic(statistic);
             CheckBoxes();
         }
 
-        private void AddAdvancement(KeyValuePair<string, Advancement> advancement)
+        private void AddAdvancement(string key, Advancement advancement)
         {
             //create new check box for this advancement
             var box = new CheckBox();
-            box.Text = "     " + advancement.Value.Name;
+            box.Text = "     " + advancement.Name;
             box.Width = 175;
             box.Margin = new Padding(0, 0, 1, 1);
             box.ImageAlign = ContentAlignment.MiddleLeft;
             box.Appearance = Appearance.Button;
             box.AutoSize = false;
-            box.Tag = advancement.Value.Type;
+            box.Tag = advancement.Type;
             box.CheckedChanged += OnCheckedChanged;
 
             //find appropriate image
-            if (pngs.TryGetValue(advancement.Value.Icon, out string icon))
+            if (pngs.TryGetValue(advancement.Icon, out string icon))
                 box.Image = SpriteSheet.BitmapFromFile(icon, 16, 16);
-            else if (pngs.TryGetValue(advancement.Value.Icon + SpriteSheet.RESOLUTION_PREFIX + "16", out icon))
+            else if (pngs.TryGetValue(advancement.Icon + SpriteSheet.RESOLUTION_PREFIX + "16", out icon))
                 box.Image = SpriteSheet.BitmapFromFile(icon, 16, 16);
-            else if (gifs.TryGetValue(advancement.Value.Icon, out icon))
+            else if (gifs.TryGetValue(advancement.Icon, out icon))
                 box.Image = Image.FromFile(icon);
 
-            advancementBoxes[advancement.Key] = box;
+            advancementBoxes[key] = box;
             advancements.Controls.Add(box);
         }
 
@@ -99,7 +113,7 @@ namespace AATool.Winforms.Forms
             else if (gifs.TryGetValue(criterion.Value.Icon, out icon))
                 box.Image = Image.FromFile(icon);
 
-            criterionBoxes[criterion.Value.AdvancementID + "/" + criterion.Key] = box;
+            criterionBoxes[criterion.Value.ParentID + "/" + criterion.Key] = box;
             criteria.Controls.Add(box);
         }
 
@@ -152,15 +166,15 @@ namespace AATool.Winforms.Forms
                     continue;
 
                 total++;
-                switch ((AdvancementType)box.Value.Tag)
+                switch ((FrameType)box.Value.Tag)
                 {
-                    case AdvancementType.Normal:
+                    case FrameType.Normal:
                         normal++;
                         break;
-                    case AdvancementType.Goal:
+                    case FrameType.Goal:
                         goal++;
                         break;
-                    case AdvancementType.Challenge:
+                    case FrameType.Challenge:
                         challenge++;
                         break;
                 }

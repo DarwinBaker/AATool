@@ -79,9 +79,10 @@ namespace AATool.DataStructures
             try
             {
                 //get most recently accessed save file
-                var worlds = new DirectoryInfo(TrackerSettings.Instance.SavesFolder)?.GetDirectories().OrderBy(d => d.LastAccessTime).ToList();
-                if (worlds.Count > 0)
-                    return new DirectoryInfo(Path.Combine(worlds.Last().FullName, folderName)).GetFiles().First().FullName;
+                var worldList = new DirectoryInfo(TrackerSettings.Instance.SavesFolder)?.GetDirectories().OrderBy(d => d.LastAccessTime).ToList();
+                var directory = new DirectoryInfo(Path.Combine(worldList.Last().FullName, folderName));
+                if (worldList.Count > 0 && directory.Exists)
+                    return directory.GetFiles().First().FullName;
             }
             catch { }
             return null;

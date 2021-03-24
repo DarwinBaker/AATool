@@ -87,8 +87,11 @@ namespace AATool.UI.Screens
 
             if (settings.OnlyShowFavorites && settings.Favorites.IsEmpty)
                 progress.SetText("\"Show Favorites Only\" is enabled, but no user favorites have been picked!");
-            else
+            else if (TrackerSettings.IsPostExplorationUpdate)
                 progress.SetText(AdvancementTracker.CompletedCount + " / " + AdvancementTracker.AdvancementCount);
+            else
+                progress.SetText(AchievementTracker.CompletedCount + " / " + AchievementTracker.AchievementCount);
+
 
             if (counts != null)
                 counts.FlowDirection = OverlaySettings.Instance.RightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;

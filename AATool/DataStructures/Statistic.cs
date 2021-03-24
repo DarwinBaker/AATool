@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using AATool.Settings;
+using System.Xml;
 
 namespace AATool.DataStructures
 {
@@ -7,15 +8,15 @@ namespace AATool.DataStructures
         public const string FRAME_COMPLETE   = "frame_count_complete";
         public const string FRAME_INCOMPLETE = "frame_count_incomplete";
 
-        public string ID                { get; private set; }
-        public string Name              { get; private set; }
-        public int PickedUp             { get; private set; }
-        public int Mined                { get; private set; }
-        public int TargetCount          { get; private set; }
-        public string Icon              { get; private set; }
-        public bool IsCompleted         { get; private set; }
-        public bool IsEstimate          { get; private set; }
-        public string CurrentFrame      => IsCompleted ? FRAME_COMPLETE : FRAME_INCOMPLETE;
+        public string ID            { get; private set; }
+        public string Name          { get; private set; }
+        public int PickedUp         { get; private set; }
+        public int Mined            { get; private set; }
+        public int TargetCount      { get; private set; }
+        public string Icon          { get; private set; }
+        public bool IsCompleted     { get; private set; }
+        public bool IsEstimate      { get; private set; }
+        public string CurrentFrame  => IsCompleted ? FRAME_COMPLETE : FRAME_INCOMPLETE;
 
         public Statistic(XmlNode node)
         {
@@ -37,9 +38,18 @@ namespace AATool.DataStructures
 
         public void Update(StatisticsJSON statistics)
         {
-            PickedUp    = statistics.PickedUpCount(ID);
-            Mined       = statistics.MinedCount(ID);
-            IsCompleted = PickedUp >= TargetCount;
+            if (TrackerSettings.IsPostExplorationUpdate)
+            {
+                PickedUp = statistics.PickedUpCount(ID);
+                Mined = statistics.MinedCount(ID);
+                IsCompleted = PickedUp >= TargetCount;
+            }
+            else
+            {
+                PickedUp = statistics.PickedUpCountOld(ID);
+                Mined = statistics.MinedCountOld(ID);
+                IsCompleted = PickedUp >= TargetCount;
+            }
         }
     }
 }

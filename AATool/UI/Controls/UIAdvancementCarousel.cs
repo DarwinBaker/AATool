@@ -48,7 +48,15 @@ namespace AATool.UI.Controls
 
         protected override void UpdateSourceList()
         {
-            var advancements = GetRootScreen().AdvancementTracker.FullAdvancementList.Values.ToList();
+            var advancements = new List<Advancement>();
+            if (TrackerSettings.IsPostExplorationUpdate)
+                foreach (var advancement in GetRootScreen().AdvancementTracker.FullAdvancementList.Values)
+                    advancements.Add(advancement);
+            else
+                foreach (var achievement in GetRootScreen().AchievementTracker.FullAchievementList.Values)
+                    advancements.Add(achievement);
+
+
             SourceList = new List<object>(advancements);
 
             //remove all completed advancements from pool if configured to do so

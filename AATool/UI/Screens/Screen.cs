@@ -15,6 +15,7 @@ namespace AATool.UI.Screens
         public SwapChainRenderTarget SwapChain;
         public GraphicsDevice GraphicsDevice;
         public AdvancementTracker AdvancementTracker;
+        public AchievementTracker AchievementTracker;
         public StatisticsTracker StatisticsTracker;
 
         public Screen(Main main, GameWindow window, int width, int height)
@@ -23,6 +24,7 @@ namespace AATool.UI.Screens
             Window = window;
             GraphicsDevice = main.GraphicsDevice;
             AdvancementTracker = main.AdvancementTracker;
+            AchievementTracker = main.AchievementTracker;
             StatisticsTracker  = main.StatisticsTracker;
             Form = Control.FromHandle(window.Handle) as Form;
             Form.Resize += OnResize;
@@ -63,6 +65,7 @@ namespace AATool.UI.Screens
                 if (SwapChain == null || width != SwapChain.Bounds.Width || height != SwapChain.Bounds.Height)
                 {
                     Form.ClientSize = new System.Drawing.Size(width, height);
+                    SwapChain?.Dispose();
                     SwapChain = new SwapChainRenderTarget(GraphicsDevice, Window.Handle, width, height);
                     ResizeRecursive(new Rectangle(0, 0, width, height));
                 }

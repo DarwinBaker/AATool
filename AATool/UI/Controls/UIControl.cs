@@ -22,13 +22,14 @@ namespace AATool.UI.Controls
         private static Dictionary<Type, Color> debugColors = new Dictionary<Type, Color>()
         {
 
-            { typeof(UIFlowPanel),   Color.Blue },
-            { typeof(UIGrid),        Color.Blue },
-            { typeof(UITextBlock),   Color.Yellow },
-            { typeof(UIButton),      Color.Orange },
-            { typeof(UIPicture),     Color.Lime },
-            { typeof(UIAdvancement), Color.Red },
-            { typeof(UICriterion),   Color.Magenta }
+            { typeof(UIFlowPanel),          Color.Blue },
+            { typeof(UIGrid),               Color.Blue },
+            { typeof(UIAchievementTree),    Color.Blue },
+            { typeof(UITextBlock),          Color.Yellow },
+            { typeof(UIButton),             Color.Orange },
+            { typeof(UIPicture),            Color.Lime },
+            { typeof(UIAdvancement),        Color.Red },
+            { typeof(UICriterion),          Color.Magenta }
         };
 
         public List<UIControl> Children     { get; protected set; }

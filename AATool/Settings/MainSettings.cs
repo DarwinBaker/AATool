@@ -55,7 +55,6 @@ namespace AATool.Settings
             Set(BACK_COLOR, Color.FromNonPremultiplied(240, 240, 240, 255));
             Set(TEXT_COLOR, Color.Black);
             Set(BORDER_COLOR, Color.FromNonPremultiplied(196, 196, 196, 255));
-            base.ResetToDefaults();
         }
     }
 }

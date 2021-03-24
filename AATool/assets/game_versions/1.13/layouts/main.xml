@@ -1,14 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<control width="1156" height="886">
-    <grid width="1*" height="1*" drawmode="all">
+<control width="1224" height="912">
+    <grid drawmode="all">
         <rows>
             <row height="500"/>
-            <row height="344"/>
+            <row height="370"/>
             <row height="42"/>
         </rows>
-
+        <columns>
+            <column width="1156"/>
+            <column width="68"/>
+        </columns>
+        
         <!-- basic advancements -->
-        <grid width="1*" height="1*" row="0" col="0" drawmode="all">
+        <grid row="0" col="0" drawmode="all">
             <rows>
                 <row height="200"/>
                 <row height="200"/>
@@ -31,12 +35,12 @@
         </grid>
 
         <!-- advancements with subcriteria -->
-        <grid width="1*" height="1*" row="1" col="0" drawmode="all">
+        <grid row="1" col="0" drawmode="all">
             <columns>
-                <column width="340"/>
+                <column width="408"/>
                 <column width="272"/>
-                <column width="336"/>
-                <column width="212"/>
+                <column width="340"/>
+                <column width="204"/>
             </columns>
             
             <criteria_group advancement="minecraft:adventure/adventuring_time"   col="0"/>
@@ -45,10 +49,19 @@
             <criteria_group advancement="minecraft:husbandry/bred_all_animals"   col="3"/>
         </grid>
 
+        <!-- item count display (trident, shells, skulls etc.) -->
+        <flow_panel name="counts" width="68" col="1" rowpan="2" vertical_align="top" cell_width="68" cell_height="82">
+            <item_count id="minecraft:enchanted_golden_apple"/>
+            <item_count id="minecraft:trident"/>
+            <item_count id="minecraft:nautilus_shell"/>
+            <item_count id="minecraft:wither_skeleton_skull"/>
+            <item_count id="minecraft:gold_block"/>
+        </flow_panel>
+
         <!-- progress bars and controls -->
         <grid row="2">
             <columns>
-                <column width="340"/>
+                <column width="408"/>
                 <column width="340"/>
                 <column width="476"/>
             </columns>

@@ -58,6 +58,44 @@ namespace AATool.UI.Controls
             base.UpdateThis(time);
         }
 
+        public override void ResizeThis(Rectangle parentRectangle)
+        {
+            //scale all relative values to parent rectangle
+            Margin.Resize(parentRectangle.Size);
+            FlexWidth.Resize(parentRectangle.Width);
+            FlexHeight.Resize(parentRectangle.Height);
+            MaxWidth.Resize(parentRectangle.Width);
+            MinWidth.Resize(parentRectangle.Width);
+            MaxHeight.Resize(parentRectangle.Height);
+            MinHeight.Resize(parentRectangle.Height);
+
+            //clamp size to min and max
+            Width  = MathHelper.Clamp(FlexWidth.Absolute / SEGMENT_WIDTH, MinWidth.Absolute, MaxWidth.Absolute) * SEGMENT_WIDTH;
+            Height = MathHelper.Clamp(FlexHeight.Absolute, MinHeight.Absolute, MaxHeight.Absolute);
+
+            //if control is square, conform both width and height to the larger of the two
+            if (IsSquare) Width = Height = Math.Min(Width, Height);
+
+            X = HorizontalAlign switch
+            {
+                HorizontalAlign.Center => (parentRectangle.X + (parentRectangle.Width / 2) - (Width / 2)),
+                HorizontalAlign.Left => parentRectangle.Left + Margin.Left,
+                _ => parentRectangle.Right - Width - Margin.Right
+            };
+
+            Y = VerticalAlign switch
+            {
+                VerticalAlign.Center => (parentRectangle.Top + parentRectangle.Height / 2 - Height / 2),
+                VerticalAlign.Top => parentRectangle.Top + Margin.Top,
+                _ => parentRectangle.Bottom - Height - Margin.Bottom
+            };
+
+            Padding.Resize(Size);
+
+            //calculate internal rectangle
+            ContentRectangle = new Rectangle(X + Margin.Left + Padding.Left, Y + Margin.Top + Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical);
+        }
+
         public override void DrawThis(Display display)
         {
             DrawSegments(display, "inactive", Rectangle);

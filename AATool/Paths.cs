@@ -20,14 +20,15 @@ namespace AATool
         public const string DIR_CREDITS         = DIR_ASSETS   + "credits/";
 
         //getters for version-dependant folders
-        public static string VersionFolder      => Path.Combine(DIR_GAME_VERSIONS, TrackerSettings.Instance.GameVersion);
-        public static string AdvancementsFolder => Path.Combine(VersionFolder, "advancements/");
-        public static string LayoutsFolder      => Path.Combine(VersionFolder, "layouts/");
+        public static string CurrentVersionFolder   => Path.Combine(DIR_GAME_VERSIONS, TrackerSettings.Instance.GameVersion);
+        public static string AdvancementsFolder     => Path.Combine(CurrentVersionFolder, "advancements/");
+        public static string LayoutsFolder          => Path.Combine(CurrentVersionFolder, "layouts/");
 
         //getters for version-dependant files
-        public static string StatisticsFile     => Path.Combine(VersionFolder, "statistics.xml");
-        public static string PotionsFile        => Path.Combine(VersionFolder, "potions.xml");
-        public static string CreditsFile        => Path.Combine(DIR_CREDITS, "credits.xml");
+        public static string AchievementsFile       => Path.Combine(CurrentVersionFolder, "achievements.xml");
+        public static string StatisticsFile         => Path.Combine(CurrentVersionFolder, "statistics.xml");
+        public static string PotionsFile            => Path.Combine(CurrentVersionFolder, "potions.xml");
+        public static string CreditsFile            => Path.Combine(DIR_CREDITS, "credits.xml");
         public static IEnumerable<string> AdvancementFiles => Directory.EnumerateFiles(AdvancementsFolder, "*.xml", SearchOption.TopDirectoryOnly);
         public static string GetLayoutFor(string name)     => Path.Combine(LayoutsFolder, name + ".xml");
     }

@@ -11,7 +11,8 @@ namespace AATool.UI.Controls
         public List<Size> Rows;
         public List<bool> CollapsedColumns;
         public List<bool> CollapsedRows;
-        protected Rectangle[,] cells;
+        protected Rectangle[,] cellRectangles;
+        protected UIControl[,] cellContents;
 
         public UIGrid()
         {
@@ -82,7 +83,8 @@ namespace AATool.UI.Controls
                 CollapsedColumns.Add(false);
             }
             
-            cells = new Rectangle[Rows.Count, Columns.Count];
+            cellRectangles = new Rectangle[Rows.Count, Columns.Count];
+            cellContents   = new UIControl[Rows.Count, Columns.Count];
 
             double remainderY = 0;
             int y = ContentRectangle.Y;
@@ -110,7 +112,7 @@ namespace AATool.UI.Controls
                     remainderX -= (int)remainderX;
 
                     //set rectangle at row and column to appropriate size
-                    cells[r, c] = new Rectangle(x, y, width, height);
+                    cellRectangles[r, c] = new Rectangle(x, y, width, height);
                     x += width;
                 }
                 y += height;
@@ -145,15 +147,16 @@ namespace AATool.UI.Controls
                     child.Expand();
 
                 //conform child control size to cell size
-                Rectangle rect = cells[child.Row, child.Column];
+                Rectangle rect = cellRectangles[child.Row, child.Column];
                 int width = 0;
                 for (int c = child.Column; c < Math.Min(child.Column + child.ColumnSpan, Columns.Count); c++)
-                    width += cells[child.Row, c].Width;
+                    width += cellRectangles[child.Row, c].Width;
 
                 int height = 0;
                 for (int r = child.Row; r < Math.Min(child.Row + child.RowSpan, Rows.Count); r++)
-                    height += cells[r, child.Column].Height;
+                    height += cellRectangles[r, child.Column].Height;
 
+                cellContents[child.Row, child.Column] = child;
                 child.ResizeRecursive(new Rectangle(rect.X, rect.Y, width, height));
             }
         }
@@ -161,14 +164,14 @@ namespace AATool.UI.Controls
         public override void DrawThis(Display display)
         {
             base.DrawThis(display);
-            foreach (var cell in cells)
+            foreach (var cell in cellRectangles)
                 display.DrawRectangle(cell, Color.Green, Color.Lime, 1);
         }
 
         public override void DrawDebugRecursive(Display display)
         {
             base.DrawDebugRecursive(display);
-            foreach (var cell in cells)
+            foreach (var cell in cellRectangles)
             {
                 display.DrawRectangle(new Rectangle(cell.Left, cell.Top, cell.Width, 1),                DebugColor * 0.5f);
                 display.DrawRectangle(new Rectangle(cell.Right - 1, cell.Top + 1, 1, cell.Height - 2),  DebugColor * 0.5f);

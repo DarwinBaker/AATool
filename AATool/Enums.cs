@@ -1,7 +1,7 @@
 ﻿namespace AATool
 {
     //data structures
-    public enum AdvancementType { Normal, Goal, Challenge }
+    public enum FrameType { Normal, Goal, Challenge }
 
     //ui
     public enum HorizontalAlign { Center, Left, Right }

@@ -1,4 +1,5 @@
 ﻿using AATool.DataStructures;
+using AATool.Settings;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 
@@ -39,7 +40,10 @@ namespace AATool.UI.Controls
 
         public override void InitializeRecursive(Screen screen)
         {
-            criterion = screen.AdvancementTracker.Advancement(AdvancementName).Criteria.TryGetValue(CriterionName, out var val) ? val : null;
+            if (TrackerSettings.IsPostExplorationUpdate)
+                criterion = screen.AdvancementTracker.Advancement(AdvancementName).Criteria.TryGetValue(CriterionName, out var val) ? val : null;
+            else
+                criterion = screen.AchievementTracker.Achievement(AdvancementName).Criteria.TryGetValue(CriterionName, out var val) ? val : null;
             if (criterion == null)
                 return;
 

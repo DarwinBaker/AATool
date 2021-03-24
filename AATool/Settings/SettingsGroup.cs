@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace AATool.Settings
@@ -16,13 +15,7 @@ namespace AATool.Settings
 
         protected string FilePath => Path.Combine(Paths.DIR_SETTINGS, FileName + ".xml");
 
-        public virtual void ResetToDefaults()
-        {
-            //initialize dictionary to recognize changes in values
-            Changed = new Dictionary<string, bool>();
-            foreach (var key in Entries.Keys)
-                Changed[key] = false;
-        }
+        public abstract void ResetToDefaults();
 
         protected T Get<T>(string key)
         {
@@ -56,6 +49,7 @@ namespace AATool.Settings
 
         public void Load()
         {
+            Changed = new Dictionary<string, bool>();
             ResetToDefaults();
             //attempt to read settings from xml file
             if (!LoadXml(FilePath))

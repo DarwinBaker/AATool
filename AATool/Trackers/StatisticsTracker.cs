@@ -1,5 +1,4 @@
 ﻿using AATool.DataStructures;
-using AATool.Settings;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -10,7 +9,8 @@ namespace AATool.Trackers
     {
         public Dictionary<string, Statistic> ItemCountList { get; private set; }
 
-        public Statistic ItemCount(string id) => ItemCountList.TryGetValue(id, out var val) ? val : null;
+        public Statistic ItemCount(string id)   => ItemCountList.TryGetValue(id, out var val) ? val : null;
+        public override bool VersionMismatch()  => false;
 
         public StatisticsTracker()
         {
@@ -19,8 +19,13 @@ namespace AATool.Trackers
 
         protected override void ParseReferences()
         {
-            //load list of items to count
             ItemCountList = new Dictionary<string, Statistic>();
+
+            //skip loading if this version is before achievements were changed to advancements
+            if (VersionMismatch())
+                return;
+
+            //load list of items to count
             try
             {
                 var document = new XmlDocument();

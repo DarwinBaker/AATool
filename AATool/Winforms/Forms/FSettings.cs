@@ -2,6 +2,8 @@
 using AATool.Trackers;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace AATool.Winforms.Forms
@@ -13,17 +15,19 @@ namespace AATool.Winforms.Forms
         private OverlaySettings overlay = OverlaySettings.Instance;
 
         private AdvancementTracker advancementTracker;
+        private AchievementTracker achievementTracker;
         private StatisticsTracker statisticsTracker;
 
-        public FSettings(Form parent, AdvancementTracker advancementTracker, StatisticsTracker statisticsTracker)
+        public FSettings(Form parent, AdvancementTracker advancementTracker, AchievementTracker achievementTracker, StatisticsTracker statisticsTracker)
         {
             InitializeComponent();
             LoadSettings();
             this.advancementTracker = advancementTracker;
-            this.statisticsTracker = statisticsTracker;
+            this.achievementTracker = achievementTracker;
+            this.statisticsTracker  = statisticsTracker;
 
             trackerGameVersion.Items.Clear();
-            foreach (var version in TrackerSettings.SupportedVersions)
+            foreach (var version in TrackerSettings.SupportedVersions.Reverse())
                 trackerGameVersion.Items.Add(version);
             trackerGameVersion.Text = tracker.GameVersion;
         }
@@ -158,6 +162,7 @@ namespace AATool.Winforms.Forms
                     tracker.Save();
                     overlay.ResetToDefaults();
                     overlay.Save();
+                    Directory.Delete(Paths.DIR_FAVORITES, true);
                     Close();
                 }
             }
@@ -167,7 +172,7 @@ namespace AATool.Winforms.Forms
                 using (var dialog = new FAbout())
                     dialog.ShowDialog();
             else if (sender == overlayPickFavorites)
-                using (var dialog = new FPickFavorites(advancementTracker, statisticsTracker))
+                using (var dialog = new FPickFavorites(advancementTracker, achievementTracker, statisticsTracker))
                     dialog.ShowDialog();
             else if (sender == copyColorKey)
                 Clipboard.SetText($"#{overlayBackColor.BackColor.R:X2}{overlayBackColor.BackColor.G:X2}{overlayBackColor.BackColor.B:X2}");
@@ -199,7 +204,7 @@ namespace AATool.Winforms.Forms
                 trackerGameVersion.Enabled = !trackerAutoVersion.Checked;
         }
 
-        private void OnTextChanged(object sender, EventArgs e)
+        private void OnIndexChanged(object sender, EventArgs e)
         {
             if (sender == trackerGameVersion)
             {

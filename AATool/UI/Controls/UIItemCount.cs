@@ -1,4 +1,5 @@
 ﻿using AATool.DataStructures;
+using AATool.Settings;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 using System;
@@ -15,6 +16,9 @@ namespace AATool.UI.Controls
         private UIPicture icon;
         private UITextBlock label;
         private int scale;
+        private float glowRotation;
+
+        public bool IsCompleted => itemCount?.IsCompleted ?? false;
 
         public UIItemCount() 
         {
@@ -54,6 +58,7 @@ namespace AATool.UI.Controls
                 icon.FlexWidth *= scale;
                 icon.FlexHeight *= scale;
                 icon.SetTexture(itemCount.Icon);
+                icon.SetLayer(Layer.Fore);
             }
 
             label = GetControlByName("label", true) as UITextBlock;
@@ -86,6 +91,9 @@ namespace AATool.UI.Controls
                 else
                     label?.SetText(itemCount.Name + "\n~" + Math.Min(percent, 100) + "%");
             }
+
+            if (IsCompleted)
+                glowRotation += (float)time.Delta * 0.25f;
         }
 
         public override void ReadNode(XmlNode node)
@@ -95,8 +103,12 @@ namespace AATool.UI.Controls
             scale    = ParseAttribute(node, "scale", scale);
         }
 
-        public override void DrawThis(Display display)
+        public override void DrawRecursive(Display display)
         {
+            if (IsCollapsed)
+                return;
+
+            frame?.DrawRecursive(display);
             if (itemCount?.IsEstimate ?? false)
             {
                 float opacity = (float)itemCount.PickedUp / itemCount.TargetCount;
@@ -105,10 +117,21 @@ namespace AATool.UI.Controls
                     frame.DrawThis(display);
                     display.Draw(Statistic.FRAME_COMPLETE, frame.ContentRectangle, Color.White * opacity);
                 }
-                if (icon != null)
-                    display.Draw(itemCount.Icon, icon.ContentRectangle, Color.White);
-                label?.DrawThis(display);
+
+                if (IsCompleted && MainSettings.Instance.RenderCompletionGlow)
+                    display.Draw("frame_glow", frame.Center.ToVector2(), glowRotation, Color.White * opacity, Layer.Glow);
             }
+            else
+                if (IsCompleted && MainSettings.Instance.RenderCompletionGlow)
+                    display.Draw("frame_glow", frame.Center.ToVector2(), glowRotation, Color.White, Layer.Glow);
+
+            icon?.DrawRecursive(display);
+            label?.DrawRecursive(display);
+        }
+
+        public override void DrawThis(Display display)
+        {
+            
         }
     }
 }

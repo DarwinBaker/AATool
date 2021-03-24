@@ -6,23 +6,23 @@ namespace AATool.DataStructures
 {
     public class Criterion
     {
-        public string ID                { get; private set; }
-        public string Name              { get; private set; }
-        public string Icon              { get; private set; }
-        public string AdvancementID     { get; private set; }
-        public bool IsCompleted         { get; private set; }
+        public string ID        { get; private set; }
+        public string Name      { get; private set; }
+        public string Icon      { get; private set; }
+        public string ParentID  { get; private set; }
+        public bool IsCompleted { get; private set; }
 
         public void Update(HashSet<string> completed) => IsCompleted = completed.Contains(ID);
 
-        public Criterion(XmlNode node, string advancementName)
+        public Criterion(XmlNode node, Advancement advancement)
         {
             //initialize members from xml 
-            AdvancementID = advancementName;
+            ParentID = advancement.ID;
             ID = node.Attributes["id"]?.Value;
             var idParts = ID.Split(':');
             string shortID = idParts.Length > 0 ? idParts[idParts.Length - 1] : null;
             Name = node.Attributes["name"]?.Value ?? new CultureInfo("en-US", false).TextInfo.ToTitleCase(shortID.Replace('_', ' '));
-            Icon = node.Attributes["icon"]?.Value ?? shortID;
+            Icon = node.Attributes["icon"]?.Value ?? shortID.Replace(' ', '_').ToLower();
         }
     }
 }

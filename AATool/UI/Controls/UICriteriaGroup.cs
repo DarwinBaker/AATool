@@ -1,4 +1,5 @@
 ﻿using AATool.DataStructures;
+using AATool.Settings;
 using AATool.UI.Screens;
 using System.Xml;
 
@@ -20,7 +21,10 @@ namespace AATool.UI.Controls
 
         public override void InitializeRecursive(Screen screen)
         {
-            advancement = screen.AdvancementTracker.Advancement(AdvancementName);
+            if (TrackerSettings.IsPostExplorationUpdate)
+                advancement = screen.AdvancementTracker.Advancement(AdvancementName);
+            else
+                advancement = screen.AchievementTracker.Achievement(AdvancementName);
             if (advancement == null)
                 return;
 

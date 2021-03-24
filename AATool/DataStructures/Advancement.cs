@@ -7,25 +7,25 @@ namespace AATool.DataStructures
     public class Advancement
     {
         //advancement frame textures
-        public static readonly Dictionary<AdvancementType, string> CompleteFrames = new Dictionary<AdvancementType, string>()  {
-            { AdvancementType.Normal,    "frame_normal_complete"}, 
-            { AdvancementType.Goal,      "frame_goal_complete"}, 
-            { AdvancementType.Challenge, "frame_challenge_complete"}
+        protected static readonly Dictionary<FrameType, string> CompleteFrames = new Dictionary<FrameType, string>()  {
+            { FrameType.Normal,    "frame_normal_complete"}, 
+            { FrameType.Goal,      "frame_goal_complete"}, 
+            { FrameType.Challenge, "frame_challenge_complete"}
         };
-        public static readonly Dictionary<AdvancementType, string> IncompleteFrames = new Dictionary<AdvancementType, string>()  {
-            { AdvancementType.Normal,    "frame_normal_incomplete"}, 
-            { AdvancementType.Goal,      "frame_goal_incomplete"}, 
-            { AdvancementType.Challenge, "frame_challenge_incomplete"}
+        protected static readonly Dictionary<FrameType, string> IncompleteFrames = new Dictionary<FrameType, string>()  {
+            { FrameType.Normal,    "frame_normal_incomplete"}, 
+            { FrameType.Goal,      "frame_goal_incomplete"}, 
+            { FrameType.Challenge, "frame_challenge_incomplete"}
         };
 
-        public string ID                                { get; private set; }
-        public string Name                              { get; private set; }
-        public string Icon                              { get; private set; }
-        public string CriteriaGoal                      { get; private set; }
-        public int CriteriaCompleted                    { get; private set; }
-        public bool IsCompleted                         { get; private set; }
-        public Dictionary<string, Criterion> Criteria   { get; private set; }
-        public AdvancementType Type                     { get; private set; }        
+        public string ID                                { get; protected set; }
+        public string Name                              { get; protected set; }
+        public string Icon                              { get; protected set; }
+        public string CriteriaGoal                      { get; protected set; }
+        public int CriteriaCompleted                    { get; protected set; }
+        public bool IsCompleted                         { get; protected set; }
+        public Dictionary<string, Criterion> Criteria   { get; protected set; }
+        public FrameType Type                           { get; protected set; }        
 
         public bool HasCriteria    => Criteria.Count > 0;
         public string CurrentFrame => IsCompleted ? CompleteFrames[Type] : IncompleteFrames[Type];
@@ -44,29 +44,37 @@ namespace AATool.DataStructures
                 if (idParts.Length > 0)
                     Icon = idParts[idParts.Length - 1];
             }
-            if (Enum.TryParse(node.Attributes["type"]?.Value ?? "normal", true, out AdvancementType parsed)) 
+            if (Enum.TryParse(node.Attributes["type"]?.Value ?? "normal", true, out FrameType parsed)) 
                 Type = parsed;
+            
+            ParseCriteria(node);
+        }
 
-            //parse criteria
+        protected void ParseCriteria(XmlNode node)
+        {
             Criteria = new Dictionary<string, Criterion>();
             if (node.HasChildNodes)
             {
                 XmlNode criteriaNode = node.SelectSingleNode("criteria");
+                if (criteriaNode == null)
+                    return;
+
                 CriteriaGoal = criteriaNode.Attributes["goal"]?.Value ?? "Completed";
                 foreach (XmlNode criterionNode in criteriaNode.ChildNodes)
                 {
-                    var criterion = new Criterion(criterionNode, ID);
+                    var criterion = new Criterion(criterionNode, this);
                     Criteria.Add(criterion.ID, criterion);
                 }
             }
         }
 
-        public void Update(AdvancementsJSON advancements)
+        public virtual void Update(SaveJSON json)
         {
+            var advancements = json as AdvancementsJSON;
             IsCompleted = advancements.IsCompleted(ID);
             if (HasCriteria)
             {
-                var completedCriteria = advancements.GetCompletedCriteriaFor(ID);
+                var completedCriteria = advancements.GetCompletedCriteriaFor(this);
                 CriteriaCompleted = completedCriteria.Count;
                 foreach (var criterion in Criteria.Values)
                     criterion.Update(completedCriteria);

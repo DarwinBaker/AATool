@@ -18,6 +18,7 @@ namespace AATool.UI.Screens
         private UITextBlock progressLabel;
         private UITextBlock saveLabel;
         private UIEnchantmentTable status;
+        private UIGrid grid;
         private FSettings settingsMenu;
 
         public MainScreen(Main main) : base(main, main.Window, 0, 0)
@@ -34,10 +35,15 @@ namespace AATool.UI.Screens
 
             //find named controls
             saveLabel = GetControlByName("label_save", true) as UITextBlock;
+
             progressLabel = GetControlByName("label_progress", true) as UITextBlock;
             progressBar = GetControlByName("progress_bar", true) as UIProgressBar;
             progressBar?.SetMin(0);
-            progressBar?.SetMax(AdvancementTracker.AdvancementCount);
+            if (TrackerSettings.IsPostExplorationUpdate)
+                progressBar?.SetMax(AdvancementTracker.AdvancementCount);
+            else
+                progressBar?.SetMax(AchievementTracker.AchievementCount);
+
             status = GetControlByName("enchantment_table", true) as UIEnchantmentTable;
             status?.SetTint(Color.White * 0.85f);
             settingsButton = GetControlByName("button_settings", true) as UIButton;
@@ -49,7 +55,9 @@ namespace AATool.UI.Screens
                 patreonButton.UseCustomColor = true;
                 patreonButton.SetTextColor(Color.Black);
                 patreonButton.Click += OnClick;
-            } 
+            }
+            grid = GetFirstOfType(typeof(UIGrid)) as UIGrid;
+            UpdateCollapsedState();
         }
 
         private void OnClick(object sender)
@@ -58,7 +66,7 @@ namespace AATool.UI.Screens
             {
                 if (settingsMenu == null || settingsMenu.IsDisposed)
                 {
-                    settingsMenu = new FSettings(Form, AdvancementTracker, StatisticsTracker);
+                    settingsMenu = new FSettings(Form, AdvancementTracker, AchievementTracker, StatisticsTracker);
                     settingsMenu.Show(Form);
                 }
             }
@@ -75,7 +83,7 @@ namespace AATool.UI.Screens
             //update save name display
             if (saveLabel != null)
             {
-                string save = AdvancementTracker.CurrentSaveName; 
+                string save = TrackerSettings.IsPostExplorationUpdate ? AdvancementTracker.CurrentSaveName : AchievementTracker.CurrentSaveName; 
                 if (save == null)
                     saveLabel.SetText("Not Currently Reading a Save.");
                 else
@@ -87,22 +95,32 @@ namespace AATool.UI.Screens
                 status?.UpdateState(save != null);
             }
 
+            int completed = TrackerSettings.IsPostExplorationUpdate ? AdvancementTracker.CompletedCount   : AchievementTracker.CompletedCount;
+            int total     = TrackerSettings.IsPostExplorationUpdate ? AdvancementTracker.AdvancementCount : AchievementTracker.AchievementCount;
+            int percent   = TrackerSettings.IsPostExplorationUpdate ? AdvancementTracker.CompletedPercent : AchievementTracker.CompletedPercent;
+
             //update total completion progress display
             if (progressLabel != null)
             {
                 progressLabel.SetText("(" + TrackerSettings.Instance.GameVersion + ") ");
-                progressLabel.Append("Advancements Completed: ");
-                progressLabel.Append(AdvancementTracker.CompletedCount.ToString());
+                progressLabel.Append((TrackerSettings.IsPostExplorationUpdate ? "Advancements" : "Achievements") + " Completed: ");
+                progressLabel.Append(completed.ToString());
                 progressLabel.Append(" / ");
-                progressLabel.Append(AdvancementTracker.AdvancementCount.ToString());
+                progressLabel.Append(total.ToString());
                 progressLabel.Append(" (");
-                progressLabel.Append(AdvancementTracker.CompletedPercent.ToString());
+                progressLabel.Append(percent.ToString());
                 progressLabel.Append("%)");
             }
+            progressBar?.SetValue(completed);
 
-            progressBar?.SetValue(AdvancementTracker.CompletedCount);
+            UpdateCollapsedState();
 
-            var grid = GetFirstOfType(typeof(UIGrid)) as UIGrid;
+            if (TrackerSettings.Instance.ValueChanged(TrackerSettings.GAME_VERSION))
+                settingsMenu?.UpdateGameVersion();
+        }
+
+        private void UpdateCollapsedState()
+        {
             if (grid == null || grid.CollapsedRows.Count == 0)
                 return;
 
@@ -116,13 +134,13 @@ namespace AATool.UI.Screens
                 }
                 else
                 {
-                    grid.CollapseRow(0);
-                    SetWindowSize(grid.Width, grid.Height);
+                    if (TrackerSettings.IsPostExplorationUpdate)
+                    {
+                        grid.CollapseRow(0);
+                        SetWindowSize(grid.Width, grid.Height);
+                    }
                 }
             }
-
-            if (TrackerSettings.Instance.ValueChanged(TrackerSettings.GAME_VERSION))
-                settingsMenu?.UpdateGameVersion();
         }
 
         public override void Prepare(Display display)

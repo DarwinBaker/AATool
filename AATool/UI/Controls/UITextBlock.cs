@@ -15,6 +15,7 @@ namespace AATool.UI.Controls
         public string WrappedText       { get; private set; }
         public Rectangle TextRectangle  { get; private set; }
         public Color TextColor;
+        public bool DrawBackground;
 
         private StringBuilder builder;
 
@@ -62,6 +63,9 @@ namespace AATool.UI.Controls
             string text = ToString();
             if (string.IsNullOrWhiteSpace(text))
                 return;
+
+            if (DrawBackground)
+                display.DrawRectangle(new Rectangle(TextRectangle.Left, TextRectangle.Top, TextRectangle.Width, TextRectangle.Height + 4), MainSettings.Instance.BackColor);
 
             //get what color text should be based on root screen
             var color = TextColor;
@@ -125,7 +129,10 @@ namespace AATool.UI.Controls
                 {
                     //text overflowed; start on new line
                     lineWidth = 0;
-                    wrappedBuilder.Append("\n" + words[i]);
+                    if (words.Length > 1)
+                        wrappedBuilder.Append("\n" + words[i]);
+                    else
+                        wrappedBuilder.Append(words[i]);
                 }
                     
                 lineWidth += currentSize.X + spaceWidth;

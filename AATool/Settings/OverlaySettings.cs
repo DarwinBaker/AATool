@@ -84,7 +84,6 @@ namespace AATool.Settings
             Set(BACK_COLOR, Color.FromNonPremultiplied(0, 170, 0, 255));
             Set(TEXT_COLOR, Color.White);
             Favorites = new FavoritesList();
-            base.ResetToDefaults();
         }
     }
 }

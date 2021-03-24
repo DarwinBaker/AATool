@@ -3,9 +3,9 @@
     <advancement id="minecraft:husbandry/root"                      name="Husbandry"                    icon="husbandry"/>
     <advancement id="minecraft:husbandry/plant_seed"                name="A Seedy Place"/>
     <advancement id="minecraft:husbandry/breed_an_animal"           name="The Parrots and the Bats"/>
+    <advancement id="minecraft:husbandry/tame_an_animal"            name="Best Friends Forever"/>
     <advancement id="minecraft:husbandry/fishy_business"            name="Fishy Business"/>
     <advancement id="minecraft:husbandry/tactical_fishing"          name="Tactical Fishing"/>
-    <advancement id="minecraft:husbandry/tame_an_animal"            name="Best Friends Forever"/>
     <advancement id="minecraft:husbandry/balanced_diet"             name="A Balanced Diet"              type="challenge">
         <criteria goal="Food Eaten">
             <criterion id="bread"/>

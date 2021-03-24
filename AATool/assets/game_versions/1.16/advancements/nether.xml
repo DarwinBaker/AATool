@@ -22,7 +22,7 @@
             <criterion id="minecraft:crimson_forest"/>
             <criterion id="minecraft:warped_forest"/>
             <criterion id="minecraft:basalt_deltas"/>
-            <criterion id="minecraft:soul_sand_valley"            name="Soul Valley"/>
+            <criterion id="minecraft:soul_sand_valley"        name="Soul Valley"/>
         </criteria>
     </advancement>
     <advancement id="minecraft:nether/uneasy_alliance"        name="Uneasy Alliance"              type="challenge"/>

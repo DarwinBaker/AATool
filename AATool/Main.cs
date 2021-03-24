@@ -17,9 +17,10 @@ namespace AATool
 {
     public class Main : Game
     {
-        public GraphicsDeviceManager GraphicsManager    { get; private set; }
-        public AdvancementTracker AdvancementTracker    { get; private set; }
-        public StatisticsTracker StatisticsTracker      { get; private set; }
+        public GraphicsDeviceManager GraphicsManager { get; private set; }
+        public AdvancementTracker AdvancementTracker { get; private set; }
+        public StatisticsTracker StatisticsTracker   { get; private set; }
+        public AchievementTracker AchievementTracker { get; private set; }
 
         private Time time;
         private Display display;
@@ -51,6 +52,7 @@ namespace AATool
             gameVersionDetector = new GameVersionDetector();
             AdvancementTracker  = new AdvancementTracker();
             StatisticsTracker   = new StatisticsTracker();
+            AchievementTracker  = new AchievementTracker();
 
             //load assets
             SpriteSheet.Initialize(GraphicsDevice);
@@ -73,6 +75,7 @@ namespace AATool
             gameVersionDetector.Update();
             AdvancementTracker.Update(time);
             StatisticsTracker.Update(time);
+            AchievementTracker.Update(time);
 
             //update each screen
             mainScreen.UpdateRecursive(time);

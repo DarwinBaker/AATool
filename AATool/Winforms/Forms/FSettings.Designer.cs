@@ -449,7 +449,7 @@
             this.trackerGameVersion.Name = "trackerGameVersion";
             this.trackerGameVersion.Size = new System.Drawing.Size(83, 21);
             this.trackerGameVersion.TabIndex = 18;
-            this.trackerGameVersion.SelectedIndexChanged += new System.EventHandler(this.OnTextChanged);
+            this.trackerGameVersion.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
             // 
             // groupMain
             // 
@@ -521,7 +521,7 @@
             this.mainTheme.Name = "mainTheme";
             this.mainTheme.Size = new System.Drawing.Size(108, 21);
             this.mainTheme.TabIndex = 22;
-            this.mainTheme.TextChanged += new System.EventHandler(this.OnTextChanged);
+            this.mainTheme.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
             // 
             // label9
             // 
@@ -687,7 +687,6 @@
         private System.Windows.Forms.Button save;
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.CheckBox trackerUseDefault;
-        private System.Windows.Forms.TextBox rgb;
         private System.Windows.Forms.ColorDialog colors;
         private System.Windows.Forms.Button trackerBrowse;
         private System.Windows.Forms.CheckBox mainShowBasic;
