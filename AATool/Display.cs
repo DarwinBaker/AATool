@@ -12,7 +12,6 @@ namespace AATool
         public Color RainbowColor { get; private set; }
 
         private SpriteBatch[] batches;
-        private SpriteBatch batchAdditive;
 
         private SpriteBatch BatchOf(Layer layer) => batches[(int)layer];
 
@@ -81,10 +80,10 @@ namespace AATool
                 //draw rounded corners
                 if (MainSettings.Instance.RenderFancyCorners)
                 {
-                    batch.Draw(SpriteSheet.Atlas, new Rectangle(rectangle.Left + 1, rectangle.Top + 1, 1, 1), SpriteSheet.RectangleOf("pixel"), borderColor.Value);
-                    batch.Draw(SpriteSheet.Atlas, new Rectangle(rectangle.Right - 2, rectangle.Top + 1, 1, 1), SpriteSheet.RectangleOf("pixel"), borderColor.Value);
+                    batch.Draw(SpriteSheet.Atlas, new Rectangle(rectangle.Left + 1,  rectangle.Top + 1, 1, 1),    SpriteSheet.RectangleOf("pixel"), borderColor.Value);
+                    batch.Draw(SpriteSheet.Atlas, new Rectangle(rectangle.Right - 2, rectangle.Top + 1, 1, 1),    SpriteSheet.RectangleOf("pixel"), borderColor.Value);
                     batch.Draw(SpriteSheet.Atlas, new Rectangle(rectangle.Right - 2, rectangle.Bottom - 2, 1, 1), SpriteSheet.RectangleOf("pixel"), borderColor.Value);
-                    batch.Draw(SpriteSheet.Atlas, new Rectangle(rectangle.Left + 1, rectangle.Bottom - 2, 1, 1), SpriteSheet.RectangleOf("pixel"), borderColor.Value);
+                    batch.Draw(SpriteSheet.Atlas, new Rectangle(rectangle.Left + 1,  rectangle.Bottom - 2, 1, 1), SpriteSheet.RectangleOf("pixel"), borderColor.Value);
                 }
             }
             else

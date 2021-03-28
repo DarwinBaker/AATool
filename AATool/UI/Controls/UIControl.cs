@@ -143,6 +143,7 @@ namespace AATool.UI.Controls
         public virtual void RemoveControl(UIControl control)
         {
             Children.Remove(control);
+            control.ParentTo(null);
         }
 
         public virtual void ResizeRecursive(Rectangle rectangle)

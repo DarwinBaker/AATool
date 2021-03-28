@@ -22,8 +22,6 @@ namespace AATool.UI.Controls
         public bool IsCompleted => Advancement?.IsCompleted ?? false;
         public Point IconCenter => icon?.Center ?? Point.Zero;
 
-        private List<UIAdvancement> childAchievements;
-
         public UIAdvancement() 
         {
             InitializeFromSourceDocument();

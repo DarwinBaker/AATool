@@ -51,7 +51,7 @@ namespace AATool.UI.Controls
             if (icon != null)
             {
                 icon.SetTexture(criterion.Icon);
-                icon.FlexWidth = new Size(imageSize, SizeMode.Absolute);
+                icon.FlexWidth  = new Size(imageSize, SizeMode.Absolute);
                 icon.FlexHeight = new Size(imageSize, SizeMode.Absolute);
             }
 

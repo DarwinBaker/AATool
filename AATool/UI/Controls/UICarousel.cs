@@ -63,7 +63,7 @@ namespace AATool.UI.Controls
                     Children[i].MoveBy(new Point(-Direction, 0));
 
                 //remove controls that leave the viewport
-                if (Children.Count > 0 && Children[0].Right < 0)
+                if (Children.Count > 0 && (Children[0].Right < 0 || Children[0].Left > Width))
                     RemoveControl(Children[0]);
                 timer.Reset();
             }
