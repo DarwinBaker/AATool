@@ -46,7 +46,7 @@ namespace AATool.UI.Controls
                     SetState(UIButtonState.Pressed);
                 else
                 {
-                    if (mousePrev.LeftButton == ButtonState.Pressed)
+                    if (mousePrev.LeftButton == ButtonState.Pressed && (GetRootScreen()?.HasFocus ?? false))
                         Click(this);
                     SetState(UIButtonState.Hovered);
                 }
