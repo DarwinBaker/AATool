@@ -18,6 +18,8 @@ namespace AATool.UI.Screens
         public AchievementTracker AchievementTracker;
         public StatisticsTracker StatisticsTracker;
 
+        public bool HasFocus => Main?.IsActive ?? false;
+
         public Screen(Main main, GameWindow window, int width, int height)
         {
             Main = main;
