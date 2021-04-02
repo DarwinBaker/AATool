@@ -18,7 +18,7 @@ namespace AATool.UI.Controls
         private MouseState mouseNow;
         private MouseState mousePrev;
 
-        public void SetTextColor(Color color) => textBlock?.SetTextColor(color);
+        public void SetTextColor(Color color)         => textBlock?.SetTextColor(color);
         private void SetState(UIButtonState newState) => state = newState;
 
         public UIButton()

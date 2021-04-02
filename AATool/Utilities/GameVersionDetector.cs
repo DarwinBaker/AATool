@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AATool.Utilities
 {
-    class GameVersionDetector
+    static class GameVersionDetector
     {
         [DllImport("user32.dll")]
         static extern IntPtr GetForegroundWindow();
@@ -14,7 +14,7 @@ namespace AATool.Utilities
         [DllImport("user32.dll")]
         static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
 
-        public void Update()
+        public static void Update()
         {
             if (!TrackerSettings.Instance.AutoDetectVersion)
                 return;
@@ -33,7 +33,7 @@ namespace AATool.Utilities
             }
         }
 
-        private void TrySetVersion(string version)
+        private static void TrySetVersion(string version)
         {
             //select appropriate tracker version
             if (version == "1.16.0" || version == "1.16.1")

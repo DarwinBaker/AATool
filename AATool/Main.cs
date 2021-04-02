@@ -24,7 +24,6 @@ namespace AATool
 
         private Time time;
         private Display display;
-        private GameVersionDetector gameVersionDetector;
         private Screen mainScreen;
         private Dictionary<Type, Screen> altScreens;
 
@@ -49,7 +48,6 @@ namespace AATool
             //instantiate important objects
             time                = new Time();
             display             = new Display(GraphicsManager);
-            gameVersionDetector = new GameVersionDetector();
             AdvancementTracker  = new AdvancementTracker();
             StatisticsTracker   = new StatisticsTracker();
             AchievementTracker  = new AchievementTracker();
@@ -72,7 +70,10 @@ namespace AATool
         {
             time.Update(gameTime);
             display.Update(time);
-            gameVersionDetector.Update();
+
+            //check minecraft version
+            GameVersionDetector.Update();
+
             AdvancementTracker.Update(time);
             StatisticsTracker.Update(time);
             AchievementTracker.Update(time);
