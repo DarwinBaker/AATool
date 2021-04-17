@@ -21,18 +21,26 @@ namespace AATool.UI.Screens
         public OverlayScreen(Main main) : base(main, GameWindow.Create(main, 1920, 380), 1920, 380)
         {
             ReloadLayout();
-            Form.Text = "All Advancements Stream Overlay";
+            Form.Text = "Stream Overlay";
 
             Window.AllowUserResizing = true;
-            Form.ControlBox = false;
+            Form.MinimizeBox = false;
+            Form.MaximizeBox = false;
             Form.MinimumSize = new System.Drawing.Size(Form.Width - Form.ClientSize.Width + 768, 128);
             Form.MaximumSize = new System.Drawing.Size(5120, 512);
             Form.ResizeBegin += OnResizeBegin;
-            Form.ResizeEnd += OnResizeEnd;
+            Form.ResizeEnd   += OnResizeEnd;
+            Form.FormClosed  += OnFormClosed;
 
             MoveTo(new Point(0, 0));
             if (settings.Enabled)
                 Show();
+        }
+
+        private void OnFormClosed(object sender, FormClosedEventArgs e)
+        {
+            settings.Enabled = false;
+            settings.Save();
         }
 
         private void ReloadLayout()

@@ -30,6 +30,8 @@ namespace AATool.UI.Screens
             StatisticsTracker  = main.StatisticsTracker;
             Form = Control.FromHandle(window.Handle) as Form;
             Form.Resize += OnResize;
+            Form.Icon = new System.Drawing.Icon("assets/graphics/system/icon.ico");
+            Form.ShowIcon = true;
             DrawMode = DrawMode.All;
 
             //only create swap chain if this is a secondary window
