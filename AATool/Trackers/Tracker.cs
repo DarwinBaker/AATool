@@ -1,6 +1,7 @@
 ﻿using AATool.DataStructures;
 using AATool.Settings;
 using AATool.Utilities;
+using System;
 
 namespace AATool.Trackers
 {
@@ -9,11 +10,12 @@ namespace AATool.Trackers
         public SaveJSON JSON            { get; protected set; }
         public string CurrentSaveName   { get; protected set; }
 
+        protected DateTime lastModified;
         private Timer refreshTimer;
 
         public Tracker()
         {
-            refreshTimer = new Timer(TrackerSettings.Instance.RefreshInterval / 1000.0);
+            refreshTimer = new Timer(1.0 / 4);
             ParseReferences();
         }
 
@@ -23,8 +25,10 @@ namespace AATool.Trackers
         
         public void Update(Time time)
         {
+            bool versionHasChanged = TrackerSettings.Instance.ValueChanged(TrackerSettings.GAME_VERSION);
+
             //if user changes game version clear tracked data and load appropriate list for new version
-            if (TrackerSettings.Instance.ValueChanged(TrackerSettings.GAME_VERSION))
+            if (versionHasChanged)
             {
                 ParseReferences();
                 refreshTimer.Expire();
@@ -34,20 +38,16 @@ namespace AATool.Trackers
             if (VersionMismatch())
                 return;
 
-            //if user changes refresh rate create a new timer with the new refresh rate
-            double targetRefresh = TrackerSettings.Instance.RefreshInterval / 1000.0;
-            if (refreshTimer.Duration != targetRefresh)
-                refreshTimer = new Timer(targetRefresh);
             refreshTimer.Update(time);
-
-            JSON.Update();
-            if (refreshTimer.IsExpired || CurrentSaveName != JSON.CurrentSaveName)
+            if (refreshTimer.IsExpired)
             {
                 //time to refresh or current save changed; read json again
-                JSON.Read();
+                if (JSON.TryRead() || versionHasChanged)
+                {
+                    ReadSave();
+                    CurrentSaveName = JSON.CurrentSaveName;
+                }
                 refreshTimer.Reset();
-                ReadSave();
-                CurrentSaveName = JSON.CurrentSaveName;
             }
         }
     }

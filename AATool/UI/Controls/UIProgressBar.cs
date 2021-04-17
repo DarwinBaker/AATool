@@ -29,9 +29,13 @@ namespace AATool.UI.Controls
 
         public void SetValue(double value)
         {
+            if (Value == 0)
+                DisplayValue = value;
+
             value = Math.Min(Math.Max(value, Min), Max);
             if (Value == value)
                 return;
+
             Value = value;
             UpdatePercent();
         }
