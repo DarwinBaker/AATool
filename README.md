@@ -5,11 +5,11 @@
 ![](info/preview_main.gif)
 
 ## What's New?
-This is a complete rewrite of the [Advancements Tracker I created back in November of 2020](https://github.com/DarwinBaker/AdvancementsTracker). I ended up being extremely limited by the performance of the framework that the original program was built on, and couldn't add many of the great features people have been requesting. This new version has no such limitations, so the sky is the limit! These massive performance improvements are thanks to the new version being built on DirectX, meaning it's rendered exclusively on the GPU. The old tracker was rendered on the CPU using GDI+, which while simpler to code, is *much* slower. Since the GPU is barely utilized at all in vanilla Minecraft anyway, having the tracker open should translate to zero impact on the game's performance. This could potentially lead to chunks generating perceptibly faster for people on very slow machines when switching from the old tracker.
+This is a complete rewrite of the [Advancements Tracker I created back in November of 2020](https://github.com/DarwinBaker/AdvancementsTracker). I ended up being extremely limited by the performance of the framework that the original program was built on, and couldn't add many of the great features people have been requesting. This new version has no such limitations, so the sky is the limit! These massive performance improvements are thanks to the new version being built on DirectX, meaning it's rendered exclusively on the GPU. The old tracker was rendered on the CPU using GDI+, which while simpler to code, is *much* slower. Since Minecraft is largely CPU-bound, this change in rendering this should free up valuable performance for generating chunks and whatnot.
 
 In addition to being lightning fast (even on very old PCs) this new version also includes the totally customizable stream overlay that you have likely seen if you've watched [Elysaku's Stream](https://www.twitch.tv/elysaku). (Big thanks to him for beta testing!) [For a guide on how to set this up yourself, click here!](info/obs.md)
 
-This tool supports all game versions 1.12+, has a built-in automatic update system and will eventually support multiple languages.
+This tool supports all game versions 1.11+, has a built-in automatic update system and will eventually support multiple languages.
 
 ## How It Works
 
