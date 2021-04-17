@@ -104,6 +104,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Settings\NotesSettings.cs" />
     <Compile Include="Trackers\AchievementTracker.cs" />
     <Compile Include="Trackers\StatisticsTracker.cs" />
     <Compile Include="Trackers\Tracker.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="UI\Controls\UIEnchantmentTable.cs" />
     <Compile Include="UI\Controls\UIButton.cs" />
     <Compile Include="Utilities\GameVersionDetector.cs" />
+    <Compile Include="Utilities\UpdateChecker.cs" />
     <Compile Include="Winforms\Controls\CCreditsGroup.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -132,6 +134,12 @@
     </Compile>
     <Compile Include="Winforms\Forms\FAbout.Designer.cs">
       <DependentUpon>FAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Winforms\Forms\FNotes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Winforms\Forms\FNotes.Designer.cs">
+      <DependentUpon>FNotes.cs</DependentUpon>
     </Compile>
     <Compile Include="Winforms\Forms\FPickFavorites.cs">
       <SubType>Form</SubType>
@@ -571,7 +579,9 @@
     <Content Include="assets\graphics\sprites\achievements\spawnWither^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\system\icon.ico" />
+    <Content Include="assets\graphics\system\icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\graphics\sprites\advancements\adventure\adventure.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -2047,6 +2057,9 @@
     <EmbeddedResource Include="Winforms\Forms\FAbout.resx">
       <DependentUpon>FAbout.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Winforms\Forms\FNotes.resx">
+      <DependentUpon>FNotes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Winforms\Forms\FPickFavorites.resx">
       <DependentUpon>FPickFavorites.cs</DependentUpon>

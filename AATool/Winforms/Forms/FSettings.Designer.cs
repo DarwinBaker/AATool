@@ -78,6 +78,7 @@
             this.trackerAutoVersion = new System.Windows.Forms.CheckBox();
             this.update = new System.Windows.Forms.Button();
             this.credits = new AATool.Winforms.Controls.CCredits();
+            this.notesEnabled = new System.Windows.Forms.CheckBox();
             this.groupOverlay.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.overlayWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.overlaySpeed)).BeginInit();
@@ -453,6 +454,7 @@
             // 
             // groupMain
             // 
+            this.groupMain.Controls.Add(this.notesEnabled);
             this.groupMain.Controls.Add(this.mainCompletionGlow);
             this.groupMain.Controls.Add(this.mainLayoutDebug);
             this.groupMain.Controls.Add(this.mainFancyCorners);
@@ -486,7 +488,7 @@
             // mainLayoutDebug
             // 
             this.mainLayoutDebug.AutoSize = true;
-            this.mainLayoutDebug.Location = new System.Drawing.Point(9, 88);
+            this.mainLayoutDebug.Location = new System.Drawing.Point(9, 122);
             this.mainLayoutDebug.Name = "mainLayoutDebug";
             this.mainLayoutDebug.Size = new System.Drawing.Size(119, 17);
             this.mainLayoutDebug.TabIndex = 25;
@@ -506,7 +508,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 114);
+            this.label10.Location = new System.Drawing.Point(6, 148);
             this.label10.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(43, 13);
@@ -517,7 +519,7 @@
             // 
             this.mainTheme.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mainTheme.FormattingEnabled = true;
-            this.mainTheme.Location = new System.Drawing.Point(9, 130);
+            this.mainTheme.Location = new System.Drawing.Point(9, 164);
             this.mainTheme.Name = "mainTheme";
             this.mainTheme.Size = new System.Drawing.Size(108, 21);
             this.mainTheme.TabIndex = 22;
@@ -639,6 +641,16 @@
             this.credits.Size = new System.Drawing.Size(224, 396);
             this.credits.TabIndex = 24;
             // 
+            // notesEnabled
+            // 
+            this.notesEnabled.AutoSize = true;
+            this.notesEnabled.Location = new System.Drawing.Point(9, 88);
+            this.notesEnabled.Name = "notesEnabled";
+            this.notesEnabled.Size = new System.Drawing.Size(126, 17);
+            this.notesEnabled.TabIndex = 27;
+            this.notesEnabled.Text = "Show Notes Window";
+            this.notesEnabled.UseVisualStyleBackColor = true;
+            // 
             // FSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -731,5 +743,6 @@
         private System.Windows.Forms.Button update;
         private Controls.CCredits credits;
         private System.Windows.Forms.CheckBox mainCompletionGlow;
+        private System.Windows.Forms.CheckBox notesEnabled;
     }
 }

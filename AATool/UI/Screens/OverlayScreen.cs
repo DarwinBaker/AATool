@@ -30,15 +30,17 @@ namespace AATool.UI.Screens
             Form.MaximumSize = new System.Drawing.Size(5120, 512);
             Form.ResizeBegin += OnResizeBegin;
             Form.ResizeEnd   += OnResizeEnd;
-            Form.FormClosed  += OnFormClosed;
+            Form.FormClosing += OnFormClosing;
 
             MoveTo(new Point(0, 0));
             if (settings.Enabled)
                 Show();
         }
 
-        private void OnFormClosed(object sender, FormClosedEventArgs e)
+        private void OnFormClosing(object sender, FormClosingEventArgs e)
         {
+            e.Cancel = true;
+            Form.Hide();
             settings.Enabled = false;
             settings.Save();
         }

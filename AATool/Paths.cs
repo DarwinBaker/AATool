@@ -9,6 +9,7 @@ namespace AATool
         //constant settings paths
         public const string DIR_SETTINGS        = "settings/";
         public const string DIR_FAVORITES       = DIR_SETTINGS + "favorites";
+        public const string DIR_NOTES           = "notes/";
 
         //constant asset paths
         public const string DIR_ASSETS          = "assets/";

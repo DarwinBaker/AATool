@@ -1,5 +1,6 @@
 ﻿using AATool.Settings;
 using AATool.Trackers;
+using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -13,6 +14,7 @@ namespace AATool.Winforms.Forms
         private TrackerSettings tracker = TrackerSettings.Instance;
         private MainSettings main       = MainSettings.Instance;
         private OverlaySettings overlay = OverlaySettings.Instance;
+        private NotesSettings notes     = NotesSettings.Instance;
 
         private AdvancementTracker advancementTracker;
         private AchievementTracker achievementTracker;
@@ -69,7 +71,10 @@ namespace AATool.Winforms.Forms
             overlayWidth.Value                  = overlay.Width;
             overlayBackColor.BackColor          = ToDrawingColor(overlay.BackColor);
             overlayTextColor.BackColor          = ToDrawingColor(overlay.TextColor);
-            copyColorKey.Text                   = "Copy BG color " + $"#{overlayBackColor.BackColor.R:X2}{overlayBackColor.BackColor.G:X2}{overlayBackColor.BackColor.B:X2}" + " for OBS";
+
+            notesEnabled.Checked = notes.Enabled;
+
+            copyColorKey.Text                   = $"Copy BG color #{overlayBackColor.BackColor.R:X2}{overlayBackColor.BackColor.G:X2}{overlayBackColor.BackColor.B:X2} for OBS";
             copyColorKey.LinkColor              = overlayBackColor.BackColor;
 
             mainTheme.Items.Clear();
@@ -119,6 +124,9 @@ namespace AATool.Winforms.Forms
             overlay.BackColor           = ToXNAColor(overlayBackColor.BackColor);
             overlay.TextColor           = ToXNAColor(overlayTextColor.BackColor);
             overlay.Save();
+
+            notes.Enabled               = notesEnabled.Checked;
+            notes.Save();
         }
 
         public void UpdateGameVersion()
@@ -154,7 +162,7 @@ namespace AATool.Winforms.Forms
             {
                 string msg = "This will clear all customized settings, including user marked favorites and your custom save path. "
                            + "Are you sure you want to revert to the default settings?";
-                if (MessageBox.Show(this, msg, "Warning!", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.OK)
+                if (MessageBox.Show(this, msg, "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                 {
                     main.ResetToDefaults();
                     main.Save();
@@ -167,7 +175,7 @@ namespace AATool.Winforms.Forms
                 }
             }
             else if (sender == update)
-                Main.CheckForUpdatesAsync(false);
+                UpdateHelper.TryCheckForUpdatesAsync(false);
             else if (sender == about)
                 using (var dialog = new FAbout())
                     dialog.ShowDialog();

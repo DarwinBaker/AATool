@@ -23,46 +23,54 @@ namespace AATool.DataStructures
         {
             //attempt to open stream
             TryOpen(GetCurrentJSON(folderName));
-            
-            //check if minecraft has saved changes to this file since last update
-            DateTime latestAccessDate = new FileInfo(currentFile).LastWriteTime;
-            if (CurrentAccessDate < latestAccessDate)
+
+            try
             {
-                try
+                //check if minecraft has saved changes to this file since last update
+                DateTime latestAccessDate = new FileInfo(currentFile).LastWriteTime;
+                if (CurrentAccessDate < latestAccessDate)
                 {
-                    if (IsOpen && stream.CanRead)
+                    try
                     {
-                        //reset stream to beginning, read all, and deserialize into dynamic JSON
-                        stream.Position = 0;
-                        json = JsonConvert.DeserializeObject(reader.ReadToEnd());
+                        if (IsOpen && stream.CanRead)
+                        {
+                            //reset stream to beginning, read all, and deserialize into dynamic JSON
+                            stream.Position = 0;
+                            json = JsonConvert.DeserializeObject(reader.ReadToEnd());
+                        }
                     }
+                    catch
+                    {
+                        //something went wrong, probably file missing
+                        if (IsOpen)
+                            Close();
+                    }
+                    CurrentAccessDate = latestAccessDate;
+                    return true;
                 }
-                catch
-                {
-                    //something went wrong, probably file missing
-                    if (IsOpen)
-                        Close();
-                }
-                CurrentAccessDate = latestAccessDate;
-                return true;
             }
+            catch (Exception) { }
             return false;
         }
 
         private void TryOpen(string latestFile)
         {
-            if (currentFile != latestFile)
+            try
             {
-                //most recently accessed save changed. close old streams and open new ones
-                Close();
-                if (!File.Exists(latestFile))
-                    return;
+                if (currentFile != latestFile)
+                {
+                    //most recently accessed save changed. close old streams and open new ones
+                    Close();
+                    if (!File.Exists(latestFile))
+                        return;
 
-                CurrentSaveName = Directory.GetParent(Directory.GetParent(latestFile).FullName).Name;
-                stream          = new FileStream(latestFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                reader          = new StreamReader(stream);
-                currentFile     = latestFile;
+                    CurrentSaveName = Directory.GetParent(Directory.GetParent(latestFile).FullName).Name;
+                    stream          = new FileStream(latestFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    reader          = new StreamReader(stream);
+                    currentFile     = latestFile;
+                }
             }
+            catch (Exception) { }
         }
 
         private void Close()

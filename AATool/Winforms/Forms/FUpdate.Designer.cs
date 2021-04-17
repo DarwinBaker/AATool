@@ -107,6 +107,7 @@ namespace AATool.Winforms.Forms
             this.Controls.Add(this.no);
             this.Controls.Add(this.yes);
             this.Controls.Add(this.patchNotes);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;

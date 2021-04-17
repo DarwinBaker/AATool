@@ -26,6 +26,7 @@ namespace AATool
         private Display display;
         private Screen mainScreen;
         private Dictionary<Type, Screen> altScreens;
+        private FNotes notesWindow;
 
         private void AddScreen(Screen screen) => altScreens[screen.GetType()] = screen;
 
@@ -63,7 +64,7 @@ namespace AATool
             mainScreen.Form.BringToFront();
 
             base.Initialize();
-            CheckForUpdatesAsync();
+            UpdateHelper.TryCheckForUpdatesAsync();
         }
 
         protected override void Update(GameTime gameTime)
@@ -82,6 +83,22 @@ namespace AATool
             mainScreen.UpdateRecursive(time);
             foreach (var screen in altScreens.Values)
                 screen.UpdateRecursive(time);
+
+            //update notes screen
+            if (NotesSettings.Instance.Enabled)
+            {
+                if (notesWindow == null || notesWindow.IsDisposed)
+                {
+                    notesWindow = new FNotes();
+                    notesWindow.Show();
+                }
+                else if (TrackerSettings.IsPostExplorationUpdate)
+                    notesWindow.UpdateCurrentSave(AdvancementTracker.CurrentSaveName);
+                else
+                    notesWindow.UpdateCurrentSave(AchievementTracker.CurrentSaveName);
+            }
+            else if (notesWindow != null && !notesWindow.IsDisposed)
+                notesWindow.Close();
 
             TrackerSettings.Instance.Update();
             MainSettings.Instance.Update();
@@ -121,7 +138,7 @@ namespace AATool
             {
                 string message = "Error: One or more required assets failed to load. Would you like to repair your installation?";
                 if (System.Windows.Forms.MessageBox.Show(message, caption, System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Error) == System.Windows.Forms.DialogResult.Yes)
-                    RunUpdateAssistant(true);
+                    UpdateHelper.RunUpdateAssistant(true);
             }
             else
             {
@@ -130,61 +147,6 @@ namespace AATool
                     Process.Start("https://github.com/DarwinBaker/AATool/releases/latest");
             }
             Environment.Exit(1);
-        }
-
-        public static async void CheckForUpdatesAsync(bool failSilently = true)
-        {
-            string html;
-            using (var client = new WebClient())
-                html = await client.DownloadStringTaskAsync("https://github.com/DarwinBaker/AATool/releases/latest/");
-
-            //get latest github release page
-            int startIndex       = html.IndexOf("DarwinBaker/AATool/releases/download/");
-            int endIndex         = html.IndexOf(".zip");
-            string latestLink    = html.Substring(startIndex, endIndex - startIndex);                  
-            string patchNotes    = html.Substring(html.IndexOf("<div class=\"markdown-body\">"));
-            patchNotes           = Regex.Replace(patchNotes.Substring(0, patchNotes.IndexOf("<details")), @"<[^>]*>", string.Empty);
-
-            //get latest version number from download link
-            string latestVersion = latestLink.Substring(latestLink.LastIndexOf('_') + 1);
-            string[] latestSplit = latestVersion.Split('.');
-            string latestDecimal = string.Empty;
-            for (int i = 0; i < latestSplit.Length; i++)
-                latestDecimal += (i == 1 ? "." : string.Empty) + latestSplit[i];
-
-            //get current version number from this exe
-            string currentVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            string[] currentSplit = currentVersion.Split('.');
-            string currentDecimal = string.Empty;
-            for (int i = 0; i < currentSplit.Length; i++)
-                currentDecimal += (i == 1 ? "." : string.Empty) + currentSplit[i];
-
-            //compare version numbers to determine if updates are available
-            if (!double.TryParse(latestDecimal, out var latestNumber))
-                return;
-            if (latestNumber <= double.Parse(currentDecimal))
-            {
-                //aready have the latest version
-                if (!failSilently)
-                    System.Windows.Forms.MessageBox.Show("You already have the lastest version (" + currentVersion + ") of CTM's AATool.", "No Updates Available");
-                return;
-            }
-
-            using (var dialog = new FUpdate(latestVersion, patchNotes))
-                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.Yes)
-                    RunUpdateAssistant(false);
-        }
-
-        public static void RunUpdateAssistant(bool isError = false)
-        {
-            //start update executable with "return to AATool" flag
-            using (var process = new Process())
-            {
-                process.StartInfo.FileName = "AAUpdate.exe";
-                process.StartInfo.Arguments = "-r";
-                process.Start();
-                Environment.Exit(isError ? 1 : 0);
-            }
         }
     }
 }
