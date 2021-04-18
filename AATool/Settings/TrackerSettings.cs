@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -35,7 +36,7 @@ namespace AATool.Settings
             if (SupportedVersions?.Contains(version) ?? false)
                 Set(GAME_VERSION, version);
             string formatted = new string(GameVersion.Where(c => char.IsDigit(c)).ToArray()).Insert(1, ".");
-            double.TryParse(formatted, out double number);
+            double.TryParse(formatted, NumberStyles.Any, CultureInfo.InvariantCulture, out double number);
             IsPostExplorationUpdate = 1.12 <= number;
         }
 
@@ -58,7 +59,7 @@ namespace AATool.Settings
                     foreach (var versionFolder in directory.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
                         SupportedVersions.Add(versionFolder.Name);
             }
-            catch { Main.ForceQuit(); }
+            catch { Main.ForceQuit(this); }
         }
 
         public override void ResetToDefaults()

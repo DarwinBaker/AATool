@@ -38,7 +38,7 @@ namespace AATool.UI.Controls
                         potions.Add(new Potion(potionNode));
                 }
             }
-            catch { Main.ForceQuit(); }
+            catch { Main.ForceQuit(this); }
             return potions;
         }
 

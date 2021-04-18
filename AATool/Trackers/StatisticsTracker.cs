@@ -36,7 +36,7 @@ namespace AATool.Trackers
                         ItemCountList.Add(itemNode.Attributes["id"]?.Value, new Statistic(itemNode));
                 }
             }
-            catch { Main.ForceQuit(); }
+            catch { Main.ForceQuit(this); }
         }
 
         protected override void ReadSave()

@@ -50,7 +50,7 @@ namespace AATool.Trackers
                             FullCriteriaList[criterion.Key] = criterion.Value;
                 }
             }
-            catch { Main.ForceQuit(); }
+            catch { Main.ForceQuit(this); }
         }
 
         protected override void ReadSave()

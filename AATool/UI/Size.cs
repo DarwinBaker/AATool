@@ -1,4 +1,6 @@
 ﻿
+using System.Globalization;
+
 namespace AATool.UI
 {
     public class Size
@@ -30,8 +32,8 @@ namespace AATool.UI
         public static Size Parse(string encoded)
         {
             if (encoded[encoded.Length - 1] == CHAR_RELATIVE)
-                return new Size(double.Parse(encoded.Substring(0, encoded.Length - 1)), SizeMode.Relative);
-            return new Size(double.Parse(encoded), SizeMode.Absolute);
+                return new Size(double.Parse(encoded.Substring(0, encoded.Length - 1), NumberStyles.Any, CultureInfo.InvariantCulture), SizeMode.Relative);
+            return new Size(double.Parse(encoded, NumberStyles.Any, CultureInfo.InvariantCulture), SizeMode.Absolute);
         }
 
         public static Size operator *(Size size, double multiplier)

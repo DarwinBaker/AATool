@@ -130,7 +130,7 @@ namespace AATool
             base.Draw(gameTime);
         }
 
-        public static void ForceQuit()
+        public static void ForceQuit(object sender)
         {
             //show user a message and quit if for some reason the program fails to load properly
             string caption = "Missing Assets";

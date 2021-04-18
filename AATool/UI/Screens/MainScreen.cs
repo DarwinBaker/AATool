@@ -31,7 +31,7 @@ namespace AATool.UI.Screens
         {
             Children.Clear();
             if (!LoadXml(Paths.GetLayoutFor("main")))
-                Main.ForceQuit();
+                Main.ForceQuit(this);
 
             //find named controls
             saveLabel = GetControlByName("label_save", true) as UITextBlock;

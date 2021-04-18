@@ -50,7 +50,7 @@ namespace AATool.UI.Screens
             //clear and load layout if window just opened or game version changed
             Children.Clear();
             if (!LoadXml(Paths.GetLayoutFor("overlay")))
-                Main.ForceQuit();
+                Main.ForceQuit(this);
 
             progress = new UITextBlock("minecraft", 24);
             progress.Margin = new Margin(12, 0, 8, 0);
