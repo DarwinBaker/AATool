@@ -1,5 +1,5 @@
 # CTM's AA Speedrun Tool
-###### "The Swiss Army Knife of Minecraft Speedrun Tools"
+###### "The Ultimate All Advancements Tracker"
 
 ![](info/preview_overlay.gif)
 ![](info/preview_main.gif)
