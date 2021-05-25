@@ -21,8 +21,7 @@ This tool was designed from the beginning to strictly adhere to the category rul
 
 ## Installation
 
-If you're thinking about taking on the All Advancements category and would like to take advantage of this tool, simply download and extract the zip file from the [Releases](https://github.com/DarwinBaker/AATool/releases) page. The tracker is currently only tailored for 1.16, but it should still work as far back as 1.12 (although this is untested) 
-It's a standalone executable, so just run the exe inside and you're all set, no installation required!  
+If you're thinking about taking on the All Advancements category and would like to take advantage of this tool, simply download and run "Setup.exe" or extract the zip file from the [Releases](https://github.com/DarwinBaker/AATool/releases) page. (running Setup.exe will install the necessary files in the same folder you ran it) The tracker supports all minecraft versions 1.11 and up.
 
 By default the program will look in your `AppData\Roaming\.minecraft\saves` folder, but if you're using a custom launcher or have moved your save directory, custom save paths are supported. This software is provided "as is", without warranty of any kind. 
 
