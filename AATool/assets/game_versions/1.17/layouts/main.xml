@@ -18,18 +18,19 @@
                 <row height="200"/>
             </rows>
             <columns>
-                <column width="340"/>
+                <column width="272"/>
+                <column width="68"/>
                 <column width="544"/>
                 <column width="340"/>
                 <column width="204"/>
             </columns>
 
-            <advancement_group group="minecraft" row="0" col="0"/>
-            <advancement_group group="nether"    row="0" col="1"/>
+            <advancement_group group="minecraft" row="0" col="0" colspan="2"/>
+            <advancement_group group="nether"    row="0" col="2"/>
             <advancement_group group="end"       row="1" col="0" rowspan="2"/>
-            <advancement_group group="adventure" row="0" col="2" rowspan="3"/>
-            <advancement_group group="husbandry" row="1" col="1" rowspan="2"/>
-            <potion_group                        row="0" col="3" rowspan="3"/>
+            <advancement_group group="adventure" row="0" col="3" rowspan="3"/>
+            <advancement_group group="husbandry" row="1" col="1" rowspan="2" colspan="2"/>
+            <potion_group                        row="0" col="4" rowspan="3"/>
         </grid>
 
         <!-- advancements with subcriteria -->

@@ -561,6 +561,9 @@
     <Content Include="assets\graphics\sprites\advancements\husbandry\axolotl_in_a_bucket.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\graphics\sprites\advancements\husbandry\ride_a_boat_with_a_goat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\graphics\sprites\advancements\husbandry\wax_off.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

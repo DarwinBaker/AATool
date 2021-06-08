@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <group name="Husbandry">
-    <advancement id="minecraft:husbandry/root"                      name="Husbandry"                    icon="husbandry" hidden="true"/>
+    <advancement id="minecraft:husbandry/root"                      name="Husbandry"                    icon="husbandry"/>
     <advancement id="minecraft:husbandry/plant_seed"                name="A Seedy Place"/>
     <advancement id="minecraft:husbandry/breed_an_animal"           name="The Parrots and the Bats"/>
     <advancement id="minecraft:husbandry/tame_an_animal"            name="Best Friends Forever"/>
@@ -13,7 +13,8 @@
     <advancement id="minecraft:husbandry/silk_touch_nest"           name="Total Beelocation"/>
     <advancement id="minecraft:husbandry/wax_on"                    name="Wax On"/>
     <advancement id="minecraft:husbandry/wax_off"                   name="Wax Off"/>
-
+    <advancement id="minecraft:husbandry/ride_a_boat_with_a_goat"   name="Whatever Floats Your Goat!"/>
+    
     <advancement id="minecraft:husbandry/balanced_diet"             name="A Balanced Diet"              type="challenge">
         <criteria goal="Food Eaten">
             <criterion id="bread"/>
