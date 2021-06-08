@@ -20,10 +20,13 @@ namespace AATool.UI.Controls
             group = screen.AdvancementTracker.Group(GroupName);
             if (group != null)
             {
-                foreach (var advancement in group.Advancements.Keys)
+                foreach (var advancement in group.Advancements)
                 {
+                    if (advancement.Value.Hidden)
+                        continue;
+
                     var temp = new UIAdvancement();
-                    temp.AdvancementName = advancement;
+                    temp.AdvancementName = advancement.Key;
                     AddControl(temp);
                 }
             }

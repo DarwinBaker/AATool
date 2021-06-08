@@ -23,6 +23,7 @@ namespace AATool.DataStructures
         public string Icon                              { get; protected set; }
         public string CriteriaGoal                      { get; protected set; }
         public int CriteriaCompleted                    { get; protected set; }
+        public bool Hidden                              { get; protected set; }
         public bool IsCompleted                         { get; protected set; }
         public Dictionary<string, Criterion> Criteria   { get; protected set; }
         public FrameType Type                           { get; protected set; }        
@@ -46,7 +47,10 @@ namespace AATool.DataStructures
             }
             if (Enum.TryParse(node.Attributes["type"]?.Value ?? "normal", true, out FrameType parsed)) 
                 Type = parsed;
-            
+
+            if (bool.TryParse(node.Attributes["hidden"]?.Value, out bool hidden))
+                Hidden = hidden;
+
             ParseCriteria(node);
         }
 

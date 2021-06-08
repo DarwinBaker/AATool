@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<control width="1564" height="912">
+<control width="1496" height="912">
     <grid drawmode="all">
         <rows>
             <row height="500"/>
@@ -7,7 +7,7 @@
             <row height="42"/>
         </rows>
         <columns>
-            <column width="1496"/>
+            <column width="1428"/>
             <column width="68"/>
         </columns>
 
@@ -15,28 +15,27 @@
         <grid row="0" col="0" drawmode="all">
             <rows>
                 <row height="300"/>
-                <row height="100"/>
-                <row height="100"/>
+                <row height="200"/>
             </rows>
             <columns>
-                <column width="408"/>
-                <column width="408"/>
-                <column width="408"/>
-                <column width="272"/>
+                <column width="340"/>
+                <column width="544"/>
+                <column width="340"/>
+                <column width="204"/>
             </columns>
 
             <advancement_group group="minecraft" row="0" col="0"/>
-            <advancement_group group="nether"    row="0" col="1" rowspan="2"/>
+            <advancement_group group="nether"    row="0" col="1"/>
             <advancement_group group="end"       row="1" col="0" rowspan="2"/>
-            <advancement_group group="adventure" row="0" col="2" rowspan="2"/>
-            <advancement_group group="husbandry" row="2" col="1" colspan="2"/>
+            <advancement_group group="adventure" row="0" col="2" rowspan="3"/>
+            <advancement_group group="husbandry" row="1" col="1" rowspan="2"/>
             <potion_group                        row="0" col="3" rowspan="3"/>
         </grid>
 
         <!-- advancements with subcriteria -->
         <grid row="1" col="0" drawmode="all">
             <columns>
-                <column width="408"/>
+                <column width="340"/>
                 <column width="336"/>
                 <column width="344"/>
                 <column width="204"/>
@@ -65,7 +64,7 @@
         <!-- progress bars and controls -->
         <grid row="2">
             <columns>
-                <column width="408"/>
+                <column width="340"/>
                 <column width="680"/>
                 <column width="476"/>
             </columns>

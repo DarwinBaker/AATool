@@ -29,7 +29,7 @@ namespace AATool.Utilities
                 //title contains "minecraft"; parse version number
                 string[] words = title.Split(' ');
                 if (words.Length > 0)
-                    TrySetVersion(words.Last());
+                    TrySetVersion(words[1]);
             }
         }
 

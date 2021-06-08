@@ -78,7 +78,7 @@
             <criterion id="textures/entity/cat/black.png"             name="Tuxedo"                 icon="tuxedo"/>
             <criterion id="textures/entity/cat/white.png"             name="White"                  icon="white"/>
             <criterion id="textures/entity/cat/ragdoll.png"           name="Ragdoll"                icon="ragdoll"/>
-            <criterion id="textures/entity/cat/british_shorthair.png" name="Brit Shorthair"         icon="british_shorthair"/>
+            <criterion id="textures/entity/cat/british_shorthair.png" name="British"                icon="british_shorthair"/>
             <criterion id="textures/entity/cat/tabby.png"             name="Tabby"                  icon="tabby"/>
             <criterion id="textures/entity/cat/all_black.png"         name="Black"                  icon="black"/>
             <criterion id="textures/entity/cat/persian.png"           name="Persian"                icon="persian"/>

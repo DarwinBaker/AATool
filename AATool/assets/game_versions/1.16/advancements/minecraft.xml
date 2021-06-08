@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <group name="Minecraft">
-    <advancement id="minecraft:story/root"                  name="Minecraft"                icon="grass"/>
+    <advancement id="minecraft:story/root"                  name="Minecraft"                icon="grass" hidden="true"/>
     <advancement id="minecraft:story/mine_stone"            name="Stone Age"/>
     <advancement id="minecraft:story/upgrade_tools"         name="Getting an Upgrade"/>
     <advancement id="minecraft:story/iron_tools"            name="Isn't It Iron Pick"/>

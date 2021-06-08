@@ -16,8 +16,9 @@ namespace AATool.UI.Controls
         }
 
         public override void InitializeRecursive(Screen screen)
-        {       
-            (GetControlByName("potion", true) as UIPicture)?.SetTexture(Potion.Icon);
+        {
+            UIPicture potion = (GetControlByName("potion", true) as UIPicture);
+            potion?.SetTexture(Potion.Icon);
 
             arrow = (GetControlByName("arrow", true) as UIPicture);
             arrow?.SetTexture("arrow");
@@ -26,18 +27,18 @@ namespace AATool.UI.Controls
             label?.SetText(Potion.Name);
 
             var flow = GetFirstOfType(typeof(UIFlowPanel));
-            if (flow == null)
-                return;
-            for (int i = 0; i < Potion.Ingredients.Count; i++)
+            if (flow != null)
             {
-                var ingredient = new UIPicture();
-                ingredient.FlexWidth = new Size(32, SizeMode.Absolute);
-                ingredient.FlexHeight = new Size(32, SizeMode.Absolute);
-                ingredient.Margin = new Margin(i * 10 + 20, 0, 0, 0);
-                ingredient.SetTexture(Potion.Ingredients[i].Icon);
-                flow.AddControl(ingredient);
+                for (int i = 0; i < Potion.Ingredients.Count; i++)
+                {
+                    var ingredient = new UIPicture();
+                    ingredient.FlexWidth = new Size(32, SizeMode.Absolute);
+                    ingredient.FlexHeight = new Size(32, SizeMode.Absolute);
+                    //ingredient.Margin = new Margin(3, 0, 0, 0);
+                    ingredient.SetTexture(Potion.Ingredients[i].Icon);
+                    flow.AddControl(ingredient);
+                }
             }
-
             base.InitializeRecursive(screen);
         }
 
