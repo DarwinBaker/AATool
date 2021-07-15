@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Windows.Forms;
 
 namespace AAUpdate
 {
@@ -174,7 +175,7 @@ namespace AAUpdate
             StatusChanged(STATUS_2, "Compiling file lists...");
 
             //populate lists of files from source and destination to compare diffs
-            OldFiles = GetFilesRecursive(Destination);
+            OldFiles = GetFilesRecursive(new DirectoryInfo(Path.Combine(Destination.FullName, "assets")));
             NewFiles = GetFilesRecursive(Source);
         }
 
@@ -212,16 +213,35 @@ namespace AAUpdate
             {
                 StatusChanged(STATUS_2, "Deleting depricated files...");
                 int processed = 0;
+
+                try
+                {
+                    File.Delete("AATool.exe");
+                }
+                catch { }
+
+                try
+                {
+                    File.Delete("AAUpdate.exe");
+                }
+                catch { }
+
+                try
+                {
+                    File.Delete("VersionHistory.txt");
+                }
+                catch { }
+
                 foreach (var file in OldFiles)
                 {
                     processed++;
                     ProgressChanged(PROGRESS_2, (processed, OldFiles.Count));
 
                     //if file from current install isn't in latest release delete it
-                    if (!NewFiles.Contains(file))
+                    if (!NewFiles.Contains(Path.Combine("assets", file)))
                     {
                         StatusChanged(STATUS_3, file);
-                        File.Delete(Path.Combine(Destination.FullName, file));
+                        File.Delete(Path.Combine(Destination.FullName, "assets", file));
                     }
                 }
                 //clear out any empty directories
