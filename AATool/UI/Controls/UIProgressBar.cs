@@ -1,5 +1,7 @@
 ﻿using AATool;
+using AATool.Graphics;
 using AATool.UI.Controls;
+using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 using System;
 using System.Xml;
@@ -8,102 +10,108 @@ namespace AATool.UI.Controls
 {
     public class UIProgressBar : UIControl
     {
-        private const int SEGMENT_WIDTH = 20;
+        private const int SEGMENT_WIDTH  = 20;
         private const int SEGMENT_HEIGHT = 10;
 
-        public double Value     { get; private set; }
-        public double Min       { get; private set; }
-        public double Max       { get; private set; }
-        public double Range     { get; private set; }
-        public double Percent   { get; private set; }
+        public float Value         { get; private set; }
+        public float Min           { get; private set; }
+        public float Max           { get; private set; }
+        public float Range         { get; private set; }
+        public float Percent       { get; private set; }
+        public float DisplayValue  { get; private set; }
 
-        public double DisplayValue { get; private set; }
+        private void ClampValue()    => this.LerpToValue(this.Value);
+        private void UpdateRange()   => this.Range = Math.Abs(this.Min - this.Max);
+        private void UpdatePercent() => this.Percent = (this.Value - this.Min) / (this.Max - this.Min);
 
-        protected float lerpSpeed = 20;
-        protected Color backColor = Color.DarkGreen;
-        protected Color foreColor = Color.Lime;
-
-        public void ClampValue() => SetValue(Value);
-        public void UpdateRange() => Range = Math.Abs(Min - Max);
-        public void UpdatePercent() => Percent = (Value - Min) / (Max - Min);
-
-        public void SetValue(double value)
+        public void LerpToValue(float value)
         {
-            if (Value == 0)
-                DisplayValue = value;
-
-            value = Math.Min(Math.Max(value, Min), Max);
-            if (Value == value)
+            value = Math.Min(Math.Max(value, this.Min), this.Max);
+            if (this.Value == value)
                 return;
 
-            Value = value;
-            UpdatePercent();
+            this.Value = value;
+            this.UpdatePercent();
         }
 
-        public void SetMin(double value)
+        public void SkipToValue(float value)
         {
-            Min = value;
-            ClampValue();
-            UpdateRange();
-            UpdatePercent();
+            this.Value = Math.Min(Math.Max(value, this.Min), this.Max);
+            this.DisplayValue = this.Value;
+            this.UpdatePercent();
         }
 
-        public void SetMax(double value)
+        public void SetMin(float value)
         {
-            Max = value;
-            ClampValue();
-            UpdateRange();
-            UpdatePercent();
+            this.Min = value;
+            this.ClampValue();
+            this.UpdateRange();
+            this.UpdatePercent();
+        }
+
+        public void SetMax(float value)
+        {
+            this.Max = value;
+            this.ClampValue();
+            this.UpdateRange();
+            this.UpdatePercent();
         }
 
         protected override void UpdateThis(Time time)
         {
-            DisplayValue = MathHelper.Lerp((float)DisplayValue, (float)Value, lerpSpeed * (float)time.Delta);
-            base.UpdateThis(time);
+            if (this.DisplayValue == this.Value)
+                return;
+
+            float smoothingFactor = this.Width * (float)time.Delta * 0.8f;
+            if (this.DisplayValue > this.Value)
+                this.DisplayValue = Math.Max((float)(this.DisplayValue - smoothingFactor), (float)this.Value);
+            else if (this.DisplayValue < this.Value)
+                this.DisplayValue = Math.Min((float)(this.DisplayValue + smoothingFactor), (float)this.Value);
         }
 
         public override void ResizeThis(Rectangle parentRectangle)
         {
             //scale all relative values to parent rectangle
-            Margin.Resize(parentRectangle.Size);
-            FlexWidth.Resize(parentRectangle.Width);
-            FlexHeight.Resize(parentRectangle.Height);
-            MaxWidth.Resize(parentRectangle.Width);
-            MinWidth.Resize(parentRectangle.Width);
-            MaxHeight.Resize(parentRectangle.Height);
-            MinHeight.Resize(parentRectangle.Height);
+            this.Margin.Resize(parentRectangle.Size);
+            this.FlexWidth.Resize(parentRectangle.Width);
+            this.FlexHeight.Resize(parentRectangle.Height);
+            this.MaxWidth.Resize(parentRectangle.Width);
+            this.MinWidth.Resize(parentRectangle.Width);
+            this.MaxHeight.Resize(parentRectangle.Height);
+            this.MinHeight.Resize(parentRectangle.Height);
 
             //clamp size to min and max
-            Width  = MathHelper.Clamp(FlexWidth.Absolute / SEGMENT_WIDTH, MinWidth.Absolute, MaxWidth.Absolute) * SEGMENT_WIDTH;
-            Height = MathHelper.Clamp(FlexHeight.Absolute, MinHeight.Absolute, MaxHeight.Absolute);
+            this.Width  = MathHelper.Clamp(this.FlexWidth.Absolute / SEGMENT_WIDTH, MinWidth.Absolute, MaxWidth.Absolute) * SEGMENT_WIDTH;
+            this.Height = MathHelper.Clamp(this.FlexHeight.Absolute, MinHeight.Absolute, MaxHeight.Absolute);
 
             //if control is square, conform both width and height to the larger of the two
-            if (IsSquare) Width = Height = Math.Min(Width, Height);
+            if (this.IsSquare)
+                this.Width = this.Height = Math.Min(this.Width, this.Height);
 
-            X = HorizontalAlign switch
+            this.X = this.HorizontalAlign switch
             {
-                HorizontalAlign.Center => (parentRectangle.X + (parentRectangle.Width / 2) - (Width / 2)),
-                HorizontalAlign.Left => parentRectangle.Left + Margin.Left,
-                _ => parentRectangle.Right - Width - Margin.Right
+                HorizontalAlign.Center => parentRectangle.X + (parentRectangle.Width / 2) - (this.Width / 2),
+                HorizontalAlign.Left => parentRectangle.Left + this.Margin.Left,
+                _ => parentRectangle.Right - this.Width - this.Margin.Right
             };
 
-            Y = VerticalAlign switch
+            this.Y = this.VerticalAlign switch
             {
-                VerticalAlign.Center => (parentRectangle.Top + parentRectangle.Height / 2 - Height / 2),
-                VerticalAlign.Top => parentRectangle.Top + Margin.Top,
-                _ => parentRectangle.Bottom - Height - Margin.Bottom
+                VerticalAlign.Center => parentRectangle.Top + (parentRectangle.Height / 2) - (this.Height / 2),
+                VerticalAlign.Top => parentRectangle.Top + this.Margin.Top,
+                _ => parentRectangle.Bottom - this.Height - this.Margin.Bottom
             };
 
-            Padding.Resize(Size);
+            this.Padding.Resize(this.Size);
 
             //calculate internal rectangle
-            ContentRectangle = new Rectangle(X + Margin.Left + Padding.Left, Y + Margin.Top + Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical);
+            this.Content = new Rectangle(this.X + this.Margin.Left + this.Padding.Left, Y + Margin.Top + Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical);
         }
 
         public override void DrawThis(Display display)
         {
-            DrawSegments(display, "inactive", Rectangle);
-            DrawSegments(display, "active", new Rectangle(X, Y, (int)Math.Round(Width * (DisplayValue - Min) / (Max - Min)), Height));
+            this.DrawSegments(display, "inactive", this.Bounds);
+            this.DrawSegments(display, "active", new Rectangle(X, Y, (int)Math.Round(Width * (DisplayValue - Min) / (Max - Min)), Height));
         }
 
         private void DrawSegments(Display display, string texture, Rectangle rectangle)
@@ -123,10 +131,28 @@ namespace AATool.UI.Controls
             }
         }
 
+        public override void DrawDebugRecursive(Display display)
+        {
+            if (IsCollapsed)
+                return;
+            //for (int i = 0; i < lastSegment; i++)
+            {
+
+                display.DrawRectangle(new Rectangle(Bounds.Left, Bounds.Top, Bounds.Width, 1), DebugColor * 0.8f);
+                display.DrawRectangle(new Rectangle(Bounds.Right - 1, Bounds.Top + 1, 1, Bounds.Height - 2), DebugColor * 0.8f);
+                display.DrawRectangle(new Rectangle(Bounds.Left + 1, Bounds.Bottom - 1, Bounds.Width - 1, 1), DebugColor * 0.8f);
+                display.DrawRectangle(new Rectangle(Bounds.Left, Bounds.Top + 1, 1, Bounds.Height - 1), DebugColor * 0.8f);
+                display.DrawRectangle(new Rectangle(Bounds.Left, Bounds.Top, Bounds.Width, Bounds.Height), DebugColor * 0.2f);
+            }
+            for (int i = 0; i < Children.Count; i++)
+                Children[i].DrawDebugRecursive(display);
+        }
+
+
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            FlexHeight = new Size(SEGMENT_HEIGHT, SizeMode.Absolute);
+            this.FlexHeight = new Size(SEGMENT_HEIGHT, SizeMode.Absolute);
         }
     }
 }

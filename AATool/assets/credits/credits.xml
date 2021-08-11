@@ -1,14 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <credits>
     <group name="Developer">
-        <user name="CTM"                tier="dev" link="https://www.youtube.com/channel/UCdJ1FnTvTpna4VGkEyJ9_NA/videos"/>
+        <user name="CTM"                link="https://www.youtube.com/channel/UCdJ1FnTvTpna4VGkEyJ9_NA/videos"/>
     </group>
     <group name="Beta Testers">
-        <user name="Elysaku"            tier="beta" link="https://www.twitch.tv/elysaku"/>
-        <user name="Churro the Cat :3"  tier="beta" link="https://www.instagram.com/theelysaku/"/>
+        <user name="Elysaku"            link="https://www.twitch.tv/elysaku"/>
+        <user name="Churro the Cat :3"  link="https://www.instagram.com/theelysaku/"/>
     </group>
     <group name="Patreon Supporters">
         <user name="Antoine"            tier="gold"/>
         <user name="TheSwordElf"        tier="gold"/>
+        <user name="MeisterMaki"        tier="gold"/>
+    </group>
+    <group name="Paypal Donors">
+        <user name="NiceTwice"/>
+    </group>
+    <group name="Special Dedication">
+        <user name="Wroxy"/>
     </group>
 </credits>

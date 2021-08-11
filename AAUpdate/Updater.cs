@@ -26,12 +26,12 @@ namespace AAUpdate
 
         public DirectoryInfo Source      { get; private set; }
         public DirectoryInfo Destination { get; private set; }
-        public FileInfo TempZip          { get; private set; }
-        public HashSet<string> NewFiles  { get; private set; }
-        public HashSet<string> OldFiles  { get; private set; }
-        public string LatestVersion      { get; private set; }
+        public bool ReturnWhenDone       { get; set; }
 
-        public bool StartAAToolWhenDone;
+        private FileInfo tempZip;
+        private HashSet<string> newFiles;
+        private HashSet<string> oldFiles;
+        private string latestVersion;
 
         //events to send ui updates to main thread
         public delegate void StatusEventHandler(int key, string value);
@@ -39,30 +39,39 @@ namespace AAUpdate
         public event StatusEventHandler StatusChanged;
         public event ProgressEventHandler ProgressChanged;
 
-        public string TempToolFolder            => Path.Combine(Path.GetTempPath(), PROGRAM_NAME);
-        public string TempUpdaterFolder         => Path.Combine(Path.GetTempPath(), Process.GetCurrentProcess().ProcessName);
-        public string TempUpdaterExecutable     => Path.Combine(Path.GetTempPath(), Process.GetCurrentProcess().ProcessName, AppDomain.CurrentDomain.FriendlyName);
-        public void SetDestination(string path) => Destination = new DirectoryInfo(path);
+        public static string TempToolFolder            => Path.Combine(Path.GetTempPath(), PROGRAM_NAME);
+        public static string TempUpdaterFolder         => Path.Combine(Path.GetTempPath(), Process.GetCurrentProcess().ProcessName);
+        public static string TempUpdaterExecutable     => Path.Combine(Path.GetTempPath(), Process.GetCurrentProcess().ProcessName, AppDomain.CurrentDomain.FriendlyName);
+        
+        public void SetDestination(string path) => this.Destination = new DirectoryInfo(path);
 
-        public bool FileContentsEqual(FileInfo a, FileInfo b)
+        public static bool FileContentsEqual(FileInfo a, FileInfo b)
         {
             //compare two files on binary level
             if (a.Length != b.Length)
                 return false;
             if (a.Length == 0)
                 return false;
-            if (!File.ReadAllBytes(a.FullName).SequenceEqual(File.ReadAllBytes(b.FullName)))
-                return false;
-            return true;
+
+            byte[] bytesA = File.ReadAllBytes(a.FullName);
+            byte[] bytesB = File.ReadAllBytes(b.FullName);
+            return bytesA.SequenceEqual(bytesB);
         }
 
         public HashSet<string> GetFilesRecursive(DirectoryInfo directory)
         {
             //recursively build and return a hashset containing all files in all sub-folders of a directory
             var files = new HashSet<string>();
-            foreach (var file in directory.GetFiles("*.*", SearchOption.AllDirectories))
-                if (!file.DirectoryName.Contains("settings"))
-                    files.Add(file.FullName.Replace(directory.FullName, "").Trim(new char[] { '\\', '/' }));
+            foreach (FileInfo file in directory.GetFiles("*.*", SearchOption.AllDirectories))
+            {
+                if (file.DirectoryName.Contains("settings"))
+                    continue;
+
+                files.Add(file.FullName
+                    .Replace(directory.FullName, "")
+                    .Trim(new char[] { '\\', '/' }));
+            }
+
             return files;
         }
 
@@ -82,31 +91,31 @@ namespace AAUpdate
         {
             //download and extract latest release
             ProgressChanged(PROGRESS_1, (1, 4));
-            DownloadLatestZip();
+            this.DownloadLatestZip();
             ProgressChanged(PROGRESS_1, (2, 4));
-            ExtractLatestZip();
+            this.ExtractLatestZip();
 
             //compare latest release against current install
             ProgressChanged(PROGRESS_1, (3, 4));
-            if (VerifyInstallation())
+            if (this.VerifyInstallation())
             {
                 //all files match and everything is up to date
-                StatusChanged(STATUS_1, "You already have the lastest version (" + LatestVersion + ") of CTM's AATool.");
+                StatusChanged(STATUS_1, $"You already have the lastest version {this.latestVersion} of CTM's AATool.");
                 StatusChanged(STATUS_2, "Installation verified!");
             }
             else
             {
                 //current install isn't up to date or is corrupted; replace missing/outdated files
                 StatusChanged(STATUS_1, "Updating...");
-                MirrorSourceToDestination();
+                this.MirrorSourceToDestination();
                 StatusChanged(STATUS_3, "");
 
-                if (VerifyInstallation())
+                if (this.VerifyInstallation())
                 {
                     //all files match and everything is up to date
                     ProgressChanged(PROGRESS_2, (0, 100));
                     ProgressChanged(PROGRESS_2, (100, 100));
-                    StatusChanged(STATUS_1, "CTM's AATool succesfully updated to version " + LatestVersion + "!");
+                    StatusChanged(STATUS_1, $"CTM's AATool succesfully updated to version {this.latestVersion} !");
                     StatusChanged(STATUS_2, "Installation verified!");
                 }
                 else
@@ -114,7 +123,7 @@ namespace AAUpdate
                     //files still don't match, os is probably locking a file
                     ProgressChanged(PROGRESS_2, (0, 100));
                     ProgressChanged(PROGRESS_2, (100, 100));
-                    StatusChanged(STATUS_1, "Update to version " + LatestVersion + " may have failed!");
+                    StatusChanged(STATUS_1, $"Update to version {this.latestVersion} may have failed!");
                     StatusChanged(STATUS_2, "Installation couldn't be verified.");
                     StatusChanged(STATUS_3, "Try restarting your PC then updating again, or manually re-install.");
                 }
@@ -141,8 +150,8 @@ namespace AAUpdate
                 string zipName   = zipLink.Substring(zipLink.LastIndexOf('/') + 1);
                 string zipFile   = Path.Combine(TempToolFolder, zipName);
                 string zipFolder = Path.Combine(TempToolFolder, zipFile.Remove(zipFile.IndexOf(ZIP_EXTENSION)));
-                Source           = new DirectoryInfo(zipFolder);
-                LatestVersion    = zipFile.Substring(zipFile.LastIndexOf('_') + 1).Replace(".zip", "");
+                this.Source        = new DirectoryInfo(zipFolder);
+                this.latestVersion = zipFile.Substring(zipFile.LastIndexOf('_') + 1).Replace(".zip", "");
 
                 //delete and re-create temp folder to download and extract new version to
                 if (Directory.Exists(TempToolFolder))
@@ -152,11 +161,11 @@ namespace AAUpdate
 
                 ProgressChanged(PROGRESS_2, (0, 100));
                 ProgressChanged(PROGRESS_2, (100, 100));
-                StatusChanged(STATUS_2, "Downloading latest release (" + LatestVersion + ")  from GitHub...");
+                StatusChanged(STATUS_2, $"Downloading latest release ({this.latestVersion}) from GitHub...");
 
                 //download release zip to temp folder
-                TempZip = new FileInfo(Path.Combine(TempToolFolder, zipName));
-                client.DownloadFile(zipLink, TempZip.FullName);   
+                this.tempZip = new FileInfo(Path.Combine(TempToolFolder, zipName));
+                client.DownloadFile(zipLink, this.tempZip.FullName);   
             }
         }
 
@@ -167,15 +176,18 @@ namespace AAUpdate
             StatusChanged(STATUS_2, "Extracting latest release to temporary location...");
 
             //extract release zip
-            ZipFile.ExtractToDirectory(TempZip.FullName, TempToolFolder);
+            ZipFile.ExtractToDirectory(this.tempZip.FullName, TempToolFolder);
 
             ProgressChanged(PROGRESS_2, (0, 100));
             ProgressChanged(PROGRESS_2, (100, 100));
             StatusChanged(STATUS_2, "Compiling file lists...");
 
+            if (!Directory.Exists(Path.Combine(this.Destination.FullName , "assets")))
+                Directory.CreateDirectory(Path.Combine(this.Destination.FullName , "assets"));
+
             //populate lists of files from source and destination to compare diffs
-            OldFiles = GetFilesRecursive(Destination);
-            NewFiles = GetFilesRecursive(Source);
+            this.oldFiles = this.GetFilesRecursive(new DirectoryInfo(Path.Combine(this.Destination.FullName, "assets")));
+            this.newFiles = this.GetFilesRecursive(this.Source);
         }
 
         public bool VerifyInstallation()
@@ -185,10 +197,10 @@ namespace AAUpdate
             StatusChanged(STATUS_2, "Verifying current installation...");
 
             //compare binary contents of all files
-            foreach (var file in NewFiles)
+            foreach (string file in this.newFiles)
             {
-                var destinationInfo = new FileInfo(Path.Combine(Destination.FullName, file));
-                var sourceInfo = new FileInfo(Path.Combine(Source.FullName, file));
+                var destinationInfo = new FileInfo(Path.Combine(this.Destination.FullName, file));
+                var sourceInfo = new FileInfo(Path.Combine(this.Source.FullName, file));
                 if (!destinationInfo.Exists || !FileContentsEqual(destinationInfo, sourceInfo))
                     return false;
             }
@@ -198,9 +210,9 @@ namespace AAUpdate
         public void DeleteEmptyDirectories(DirectoryInfo directory)
         {
             //recursively delete all empty folders in a directory
-            foreach (var subDirectory in directory.GetDirectories())
+            foreach (DirectoryInfo subDirectory in directory.GetDirectories())
             {
-                DeleteEmptyDirectories(subDirectory);
+                this.DeleteEmptyDirectories(subDirectory);
                 if (subDirectory.GetFiles().Length == 0 && subDirectory.GetDirectories().Length == 0)
                     subDirectory.Delete(false);
             }
@@ -212,34 +224,53 @@ namespace AAUpdate
             {
                 StatusChanged(STATUS_2, "Deleting depricated files...");
                 int processed = 0;
-                foreach (var file in OldFiles)
+
+                try
+                {
+                    File.Delete("AATool.exe");
+                }
+                catch { }
+
+                try
+                {
+                    File.Delete("AAUpdate.exe");
+                }
+                catch { }
+
+                try
+                {
+                    File.Delete("VersionHistory.txt");
+                }
+                catch { }
+
+                foreach (string file in this.oldFiles)
                 {
                     processed++;
-                    ProgressChanged(PROGRESS_2, (processed, OldFiles.Count));
+                    ProgressChanged(PROGRESS_2, (processed, oldFiles.Count));
 
                     //if file from current install isn't in latest release delete it
-                    if (!NewFiles.Contains(file))
+                    if (!this.newFiles.Contains(Path.Combine("assets", file)))
                     {
                         StatusChanged(STATUS_3, file);
-                        File.Delete(Path.Combine(Destination.FullName, file));
+                        File.Delete(Path.Combine(this.Destination.FullName, "assets", file));
                     }
                 }
                 //clear out any empty directories
-                DeleteEmptyDirectories(Destination);
+                this.DeleteEmptyDirectories(this.Destination);
 
                 StatusChanged(STATUS_2, "Copying updated files...");
                 processed = 0;
-                foreach (var file in NewFiles)
+                foreach (string file in this.newFiles)
                 {
                     processed++;
-                    ProgressChanged(PROGRESS_2, (processed, NewFiles.Count));
+                    ProgressChanged(PROGRESS_2, (processed, this.newFiles.Count));
+                    StatusChanged(STATUS_3, file);
 
                     //if file from latest release isn't in current install or is different replace it
-                    var oldInfo = new FileInfo(Path.Combine(Destination.FullName, file));
-                    var newInfo = new FileInfo(Path.Combine(Source.FullName, file));
+                    var oldInfo = new FileInfo(Path.Combine(this.Destination.FullName, file));
+                    var newInfo = new FileInfo(Path.Combine(this.Source.FullName, file));
                     if (!oldInfo.Exists || !FileContentsEqual(oldInfo, newInfo))
                     {
-                        StatusChanged(STATUS_3, file);
                         oldInfo.Directory.Create();
                         newInfo.CopyTo(oldInfo.FullName, true);
                     }

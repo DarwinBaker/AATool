@@ -1,4 +1,5 @@
-﻿using AATool.Settings;
+﻿using AATool.Graphics;
+using AATool.Settings;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -8,83 +9,88 @@ namespace AATool.UI.Controls
 {
     public class UIButton : UIPanel
     {
-        public delegate void ClickEventHandler(object sender);
-        public event ClickEventHandler Click;
+        public delegate void ClickEventHandler(UIControl sender);
+        public event ClickEventHandler OnClick;
+
+        public UITextBlock TextBlock { get; private set; }
 
         public bool UseCustomColor;
 
-        private UITextBlock textBlock;
         private UIButtonState state;
         private MouseState mouseNow;
         private MouseState mousePrev;
 
-        public void SetTextColor(Color color)         => textBlock?.SetTextColor(color);
-        private void SetState(UIButtonState newState) => state = newState;
+        public void SetText(string text)              => this.TextBlock?.SetText(text);
+        public void SetTextColor(Color color)         => this.TextBlock?.SetTextColor(color);
+        private void SetState(UIButtonState newState) => this.state = newState;
 
         public UIButton()
         {
-            textBlock = new UITextBlock();
-            AddControl(textBlock);
+            this.TextBlock = new UITextBlock();
+            this.AddControl(this.TextBlock);
         }
 
-        public override void InitializeRecursive(Screen screen)
+        public override void InitializeRecursive(UIScreen screen)
         {
-
-            textBlock.FlexHeight = new Size(13, SizeMode.Absolute);
-            textBlock.VerticalAlign = VerticalAlign.Center;
-
+            this.TextBlock.FlexHeight = new Size(13, SizeMode.Absolute);
+            this.TextBlock.VerticalAlign = VerticalAlign.Center;
+            this.TextBlock.TextAlign = HorizontalAlign.Center;
             base.InitializeRecursive(screen);
         }
 
         protected override void UpdateThis(Time time)
         {
             //update button state
-            mouseNow = Mouse.GetState();
-            if (Rectangle.Contains(mouseNow.Position))
+            this.mouseNow = Mouse.GetState();
+            if (this.Bounds.Contains(this.mouseNow.Position))
             {
-                if (mouseNow.LeftButton == ButtonState.Pressed)
-                    SetState(UIButtonState.Pressed);
+                if (this.mouseNow.LeftButton is ButtonState.Pressed)
+                {
+                    this.SetState(UIButtonState.Pressed);
+                }
                 else
                 {
-                    if (mousePrev.LeftButton == ButtonState.Pressed && (GetRootScreen()?.HasFocus ?? false))
-                        Click(this);
-                    SetState(UIButtonState.Hovered);
+                    if (this.mousePrev.LeftButton is ButtonState.Pressed && this.GetRootScreen().HasFocus)
+                        OnClick?.Invoke(this);
+                    this.SetState(UIButtonState.Hovered);
                 }
             }
             else
-                SetState(UIButtonState.Released);
-            mousePrev = mouseNow;
+            {
+                this.SetState(UIButtonState.Released);
+            }
+            this.mousePrev = this.mouseNow;
         }
 
         public override void DrawThis(Display display)
         {
-            if (UseCustomColor)
+            if (this.UseCustomColor)
             {
-                switch (state)
+                switch (this.state)
                 {
                     case UIButtonState.Released:
-                        display.DrawRectangle(Rectangle, BackColor, BorderColor, 2);
+                        display.DrawRectangle(this.Bounds, this.BackColor, this.BorderColor, 2);
                         break;
                     case UIButtonState.Hovered:
-                        display.DrawRectangle(Rectangle, BackColor, BorderColor * 1.25f, 2);
+                        display.DrawRectangle(this.Bounds, this.BackColor, this.BorderColor * 1.25f, 2);
                         break;
                     case UIButtonState.Pressed:
-                        display.DrawRectangle(Rectangle, BackColor * 1.25f, BorderColor * 1.5f, 3);
+                        display.DrawRectangle(this.Bounds, this.BackColor * 1.25f, this.BorderColor * 1.5f, 3);
                         break;
                 }
             }
             else
             {
-                switch (state)
+                switch (this.state)
                 {
                     case UIButtonState.Released:
-                        display.DrawRectangle(Rectangle, MainSettings.Instance.BackColor,         MainSettings.Instance.BorderColor, 2);
+                        display.DrawRectangle(this.Bounds, Config.Main.BackColor, Config.Main.BorderColor, 2);
                         break;
                     case UIButtonState.Hovered:
-                        display.DrawRectangle(Rectangle, MainSettings.Instance.BackColor * 1.25f, MainSettings.Instance.BorderColor, 2);
+                        display.DrawRectangle(this.Bounds, Config.Main.BackColor * 1.25f, Config.Main.BorderColor, 2);
                         break;
                     case UIButtonState.Pressed:
-                        display.DrawRectangle(Rectangle, MainSettings.Instance.BackColor * 1.25f, MainSettings.Instance.BorderColor * 1.5f, 3);
+                        display.DrawRectangle(this.Bounds, Config.Main.BackColor * 1.25f, Config.Main.BorderColor * 1.5f, 3);
                         break;
                 }
             }
@@ -95,7 +101,7 @@ namespace AATool.UI.Controls
             base.ReadNode(node);
             string text = ParseAttribute(node, "text", string.Empty);
             if (!string.IsNullOrEmpty(text))
-                textBlock?.SetText(text);
+                this.TextBlock?.SetText(text);
         }
     }
 }

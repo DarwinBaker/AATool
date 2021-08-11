@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid drawmode="all">
+        <rows>
+            <row height="40"/>
+            <row height="1*"/>
+        </rows>
+        <panel>
+            <textblock text="Co-op Lobby" font_size="24" horizontal_align="center" vertical_align="top" margin_top="6"/>
+        </panel>
+        <flow_panel name="player_list" row="1" direction="toptobottom"/>
+    </grid>
+</control>

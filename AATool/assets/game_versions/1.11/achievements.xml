@@ -8,7 +8,7 @@
 					<achievement id="bakeCake" name="The Lie"/>
 				</achievement>
 				
-				<achievement id="buildSword" name="Time to Strike!">			
+				<achievement id="buildSword" name="Time&#160;to&#160;Strike!">			
 					<achievement id="killEnemy" name="Monster Hunter">
                         <achievement id="snipeSkeleton" name="Sniper Duel" type="challenge"/>
 					</achievement>
@@ -27,9 +27,9 @@
 					<achievement id="buildFurnace" name="Hot Topic">
 						<achievement id="cookFish" name="Delicious Fish"/>				
 						<achievement id="acquireIron" name="Aquire Hardware">
-                            <achievement id="onARail"  name="" type="On a Rail"/>
+                            <achievement id="onARail"  name="On a Rail" type="challenge"/>
 							<achievement id="diamonds" name="DIAMONDS!">
-                                <achievement id="diamondsToYou" name="Diamonds to You!"/>
+                                <achievement id="diamondsToYou" name="Diamonds to&#160;You!"/>
 								<achievement id="enchantments" name="Enchanter">
 									<achievement id="overkill" name="Overkill" type="challenge"/>
 									<achievement id="bookcase" name="Librarian"/>
@@ -43,7 +43,7 @@
 										<achievement id="theEnd" name="The End?" type="challenge">
 											<achievement id="theEnd2" name="The End." type="challenge">
 												<achievement id="spawnWither" name="The Beginning?">
-													<achievement id="killWither" name="The Beginning." icon="summon_wither_1.12">
+													<achievement id="killWither" name="The Beginning." icon="summon_wither">
 														<achievement id="fullBeacon" name="Beaconator" type="challenge"/>
 													</achievement>
 												</achievement>

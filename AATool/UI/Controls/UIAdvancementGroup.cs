@@ -1,5 +1,7 @@
-﻿using AATool.DataStructures;
+﻿using AATool.Data;
+using AATool.Settings;
 using AATool.UI.Screens;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace AATool.UI.Controls
@@ -12,22 +14,32 @@ namespace AATool.UI.Controls
 
         public UIAdvancementGroup()
         {
-            InitializeFromSourceDocument();
+            this.BuildFromSourceDocument();
         }
 
-        public override void InitializeRecursive(Screen screen)
+        public override void InitializeRecursive(UIScreen screen)
         {
-            group = screen.AdvancementTracker.Group(GroupName);
-            if (group != null)
+            if (Config.Main.CompactMode)
             {
-                foreach (var advancement in group.Advancements)
+                this.CellWidth  = 66;
+                this.CellHeight = 68;
+                this.DrawMode = DrawMode.ChildrenOnly;
+            }
+
+            Tracker.TryGetAdvancementGroup(this.GroupName, out group);
+            if (this.group != null)
+            {
+                foreach (KeyValuePair<string, Advancement> advancement in this.group.Advancements)
                 {
-                    if (advancement.Value.Hidden)
+                    //skip hidden advancements
+                    if (!Config.Main.CompactMode && advancement.Value.HiddenWhenRelaxed)
+                        continue;
+                    else if (Config.Main.CompactMode && advancement.Value.HiddenWhenCompact)
                         continue;
 
                     var temp = new UIAdvancement();
                     temp.AdvancementName = advancement.Key;
-                    AddControl(temp);
+                    this.AddControl(temp);
                 }
             }
             base.InitializeRecursive(screen);
@@ -36,7 +48,7 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            GroupName = ParseAttribute(node, "group", string.Empty);
+            this.GroupName = ParseAttribute(node, "group", string.Empty);
         }
     }
 }

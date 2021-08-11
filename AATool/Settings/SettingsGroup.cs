@@ -9,54 +9,54 @@ namespace AATool.Settings
 {
     public abstract class SettingsGroup : XmlObject
     {
-        protected Dictionary<string, object> Entries;
-        protected Dictionary<string, bool> Changed;
-        protected string FileName;
+        protected Dictionary<string, object> Entries    { get; private set; }
+        protected Dictionary<string, bool> ChangedFlags { get; private set; }
+        protected string FileName                       { get; private set; }
+        protected string FilePath                       { get; private set; }
 
-        protected string FilePath => Path.Combine(Paths.DIR_SETTINGS, FileName + ".xml");
+        public SettingsGroup()
+        {
+            this.Entries = new ();
+            this.ChangedFlags   = new ();
+        }
 
         public abstract void ResetToDefaults();
 
-        protected T Get<T>(string key)
-        {
-            if (Entries.TryGetValue(key, out var currentValue) && currentValue is T)
-                return (T)currentValue;
-            return default;
-        }
+        public bool ValueChanged(string key) =>
+            this.ChangedFlags.TryGetValue(key, out bool changed) && changed;
+
+        protected T Get<T>(string key) => 
+            this.Entries.TryGetValue(key, out object val) && val is T t ? t : default;
 
         protected void Set(string key, object newValue)
         {
             //if different, add key to list of values modified this frame
-            if (Entries.TryGetValue(key, out var currentValue))
+            if (this.Entries.TryGetValue(key, out object currentValue))
             {
-                if ((currentValue != null && !currentValue.Equals(newValue)) || (newValue != null && !newValue.Equals(currentValue)))
-                    Changed[key] = true;
-            }    
-            Entries[key] = newValue;
+                if (( currentValue is not null && !currentValue.Equals(newValue) ) || ( newValue != null && !newValue.Equals(currentValue) ))
+                    this.ChangedFlags[key] = true;
+            }
+            this.Entries[key] = newValue;
         }
 
-        public bool ValueChanged(string key)
-        {
-            return Changed.TryGetValue(key, out bool changed) ? changed : false;
-        }
-
-        public void Update()
+        public void ClearFlags()
         {
             //new frame is starting; clear list of values modified this frame
-            foreach (var key in Changed.Keys.ToList())
-                Changed[key] = false;
+            foreach (string key in this.ChangedFlags.Keys.ToList())
+                this.ChangedFlags[key] = false;
         }
 
-        public void Load()
+        public void Load(string file)
         {
-            Changed = new Dictionary<string, bool>();
-            ResetToDefaults();
+            this.FileName = file;
+            this.FilePath = Path.Combine(Paths.DIR_SETTINGS, file + ".xml");
+            this.ResetToDefaults();
             //attempt to read settings from xml file
-            if (!LoadXml(FilePath))
+            if (!this.TryLoadXml(this.FilePath))
             {
                 //error parsing xml; restore defaults and overwrite bad settings file
-                ResetToDefaults();
-                Save();
+                this.ResetToDefaults();
+                this.Save();
             }
         }
 
@@ -64,7 +64,7 @@ namespace AATool.Settings
         {
             //create settings directory if it doesn't already exist
             Directory.CreateDirectory(Paths.DIR_SETTINGS);
-            SaveXml(FilePath);
+            this.SaveXml(this.FilePath);
         }
 
         public override void ReadDocument(XmlDocument document)
@@ -72,25 +72,25 @@ namespace AATool.Settings
             foreach (XmlNode settingNode in document.SelectSingleNode("settings").ChildNodes)
             {
                 //parse node to proper data type and add value with associated key
-                string key = settingNode.Attributes["key"].Value;
+                string key   = settingNode.Attributes["key"].Value;
                 string value = settingNode.Attributes["value"]?.Value;
                 switch (settingNode.Name)
                 {
                     case "string":
-                        Set(key, value);
+                        this.Set(key, value);
                         break;
                     case "bool":
-                        Set(key, bool.Parse(value));
+                        this.Set(key, bool.Parse(value));
                         break;
                     case "int":
-                        Set(key, int.Parse(value));
+                        this.Set(key, int.Parse(value));
                         break;
                     case "color":
-                        var split = value.Split(',');
-                        Set(key, Color.FromNonPremultiplied(int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), 255));
+                        string[] split = value.Split(',');
+                        this.Set(key, Color.FromNonPremultiplied(int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), 255));
                         break;
                     case "list":
-                        Set(key, ParseListNode<string>(settingNode));
+                        this.Set(key, ParseListNode<string>(settingNode));
                         break;
                 }
             }
@@ -99,8 +99,8 @@ namespace AATool.Settings
         public override void WriteDocument(XmlWriter writer)
         {
             writer.WriteStartElement("settings");
-            foreach (var entry in Entries)
-                WriteEntryElement(writer, entry);
+            foreach (KeyValuePair<string, object> entry in this.Entries)
+                this.WriteEntryElement(writer, entry);
             writer.WriteEndElement();
         }
 
@@ -108,11 +108,11 @@ namespace AATool.Settings
         {
             //convert type to user-friendly name
             string typeName = entry.Value switch {
-                bool                _ => "bool",
-                int                 _ => "int",
-                Color               _ => "color",
-                ICollection<string> _ => "list",
-                                    _ => "string"
+                bool                => "bool",
+                int                 => "int",
+                Color               => "color",
+                ICollection<string> => "list",
+                _ => "string"
             };
 
             writer.WriteStartElement(typeName);
@@ -126,13 +126,15 @@ namespace AATool.Settings
             }
             else if (typeName == "list")
             {
-                var list = (ICollection<string>)entry.Value;
-                foreach (var item in list)
+                var list = entry.Value as ICollection<string>;
+                foreach (string item in list)
                     writer.WriteElementString("item", item);
             }
             else
-                writer.WriteAttributeString("value", entry.Value.ToString().ToLower());
-
+            {
+                if (entry.Value != null)
+                    writer.WriteAttributeString("value", entry.Value?.ToString() ?? "");
+            }
             writer.WriteEndElement();
         }
     }

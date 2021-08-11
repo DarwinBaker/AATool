@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control width="1214" height="420">
+    <panel name="panel_congrats" draw_mode="children_only" collapsed="true">
+        <!-- run completion overview -->
+        <run_complete/>
+    </panel>
+    <panel name="panel_carousel" draw_mode="children_only">
+        <!-- criteria carousel -->
+        <criteria_carousel name="criteria"/>
+
+        <!-- advancement carousel -->
+        <advancement_carousel name="advancements"/>
+
+        <!-- item count display (trident, shells, skulls etc.) -->
+        <flow_panel name="counts" cell_width="128" cell_height="102" height="152" vertical_align="bottom" draw_mode="children_only"/>
+    </panel>  
+</control>

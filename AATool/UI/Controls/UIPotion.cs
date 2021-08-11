@@ -1,50 +1,40 @@
-﻿using AATool.DataStructures;
+﻿using AATool.Data;
 using AATool.Settings;
 using AATool.UI.Screens;
 
 namespace AATool.UI.Controls
 {
-    class UIPotion : UIControl
+    public class UIPotion : UIControl
     {
-        public Potion Potion;
+        public Potion Potion { get; set; }
 
         private UIPicture arrow;
 
         public UIPotion()
         {
-            InitializeFromSourceDocument();
+            this.BuildFromSourceDocument();
         }
 
-        public override void InitializeRecursive(Screen screen)
+        public override void InitializeRecursive(UIScreen screen)
         {
-            UIPicture potion = (GetControlByName("potion", true) as UIPicture);
-            potion?.SetTexture(Potion.Icon);
+            this.arrow = this.First<UIPicture>("arrow");
+            this.First<UIPicture>("potion").SetTexture(this.Potion.Icon);
+            this.First<UITextBlock>().SetText(this.Potion.Name);
 
-            arrow = (GetControlByName("arrow", true) as UIPicture);
-            arrow?.SetTexture("arrow");
-
-            var label = GetFirstOfType(typeof(UITextBlock)) as UITextBlock;
-            label?.SetText(Potion.Name);
-
-            var flow = GetFirstOfType(typeof(UIFlowPanel));
-            if (flow != null)
+            UIFlowPanel flow = this.First<UIFlowPanel>();
+            for (int i = 0; i < this.Potion.Ingredients.Count; i++)
             {
-                for (int i = 0; i < Potion.Ingredients.Count; i++)
-                {
-                    var ingredient = new UIPicture();
-                    ingredient.FlexWidth = new Size(32, SizeMode.Absolute);
-                    ingredient.FlexHeight = new Size(32, SizeMode.Absolute);
-                    //ingredient.Margin = new Margin(3, 0, 0, 0);
-                    ingredient.SetTexture(Potion.Ingredients[i].Icon);
-                    flow.AddControl(ingredient);
-                }
+                var ingredient = new UIPicture {
+                    FlexWidth  = new Size(32, SizeMode.Absolute),
+                    FlexHeight = new Size(32, SizeMode.Absolute)
+                };
+                ingredient.SetTexture(this.Potion.Ingredients[i]);
+                flow.AddControl(ingredient);
             }
             base.InitializeRecursive(screen);
         }
 
-        protected override void UpdateThis(Time time)
-        {
-            arrow?.SetTint(MainSettings.Instance.BorderColor);
-        }
+        protected override void UpdateThis(Time time) => 
+            this.arrow.SetTint(MainSettings.Instance.BorderColor);
     }
 }

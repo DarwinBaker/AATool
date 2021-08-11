@@ -1,4 +1,6 @@
-﻿using AATool.DataStructures;
+﻿using AATool.Data;
+using AATool.Graphics;
+using AATool.Net;
 using AATool.Settings;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
@@ -10,22 +12,41 @@ namespace AATool.UI.Controls
 {
     class UIAdvancement : UIControl
     {
+        private static readonly Dictionary<FrameType, string> CompleteFrames = new () {
+            { FrameType.Normal,     "frame_normal_complete"},
+            { FrameType.Goal,       "frame_goal_complete"},
+            { FrameType.Challenge,  "frame_challenge_complete"}
+        };
+        private static readonly Dictionary<FrameType, string> IncompleteFrames = new () {
+            { FrameType.Normal,     "frame_normal_incomplete"},
+            { FrameType.Goal,       "frame_goal_incomplete"},
+            { FrameType.Challenge,  "frame_challenge_incomplete"}
+        };
+
+        private const float ALPHA_LOCKED_FRAME = 0.25f;
+        private const float ALPHA_LOCKED_ICON  = 0.1f;
+        private const float ALPHA_LOCKED_TEXT  = 0.6f;
+
+        private string completeFrame;
+        private string incompleteFrame;
+
         public Advancement Advancement { get; private set; }
         public string AdvancementName;
-        
-        private UIPicture frame;
+
+        private UIControl frame;
         private UIPicture icon;
+        private UIGlowEffect glow;
         private UITextBlock label;
         private int scale;
-        private float glowRotation;
+        private bool isMainWindow;
 
-        public bool IsCompleted => Advancement?.IsCompleted ?? false;
-        public Point IconCenter => icon?.Center ?? Point.Zero;
+        public bool IsCompleted => this.Advancement?.CompletedByAnyone() ?? false;
+        public Point IconCenter => this.icon?.Center ?? Point.Zero;
 
         public UIAdvancement() 
         {
-            InitializeFromSourceDocument();
-            scale = 2;
+            this.scale = 2;
+            this.BuildFromSourceDocument();
         }
 
         public UIAdvancement(int scale = 2) : this()
@@ -33,95 +54,159 @@ namespace AATool.UI.Controls
             this.scale = scale;
         }
 
-        public void ShowText() => label.Expand();
-        public void HideText() => label.Collapse();
+        public void ShowText() => this.label.Expand();
+        public void HideText() => this.label.Collapse();
 
-        public override void InitializeRecursive(Screen screen)
+        public override void InitializeRecursive(UIScreen screen)
         {
-            if (TrackerSettings.IsPostExplorationUpdate)
-                Advancement = screen.AdvancementTracker.Advancement(AdvancementName);
-            else
-                Advancement = screen.AchievementTracker.Achievement(AdvancementName);
-            if (Advancement == null)
-                return;
+            this.isMainWindow    = screen is UIMainScreen;
 
-            Name = Advancement.ID;
-            int textScale = scale < 3 ? 1 : 2;
-            FlexWidth  *= Math.Min(scale + textScale - 1, 4);
-            FlexHeight *= scale;
+            Tracker.TryGetAdvancement(this.AdvancementName, out Advancement advancement);
+            this.Advancement = advancement;
 
-            if (TrackerSettings.IsPostExplorationUpdate)
-                Padding = new Margin(0, 0, 4 * scale, 0);
-            else
-                Padding = new Margin(0, 0, 6, 0);
+            this.incompleteFrame = IncompleteFrames[advancement.Type];
+            this.completeFrame   = CompleteFrames[advancement.Type];
 
-            frame = GetControlByName("frame", true) as UIPicture;
-            if (frame != null)
+            int textScale = this.scale < 3 ? 1 : 2;
+            this.FlexWidth *= Math.Min(this.scale + textScale - 1, 4);
+
+            this.Padding = Config.IsPostExplorationUpdate 
+                ? new Margin(0, 0, 4 * this.scale, 0) 
+                : new Margin(0, 0, 6, 0);
+
+            this.icon  = this.First<UIPicture>("icon");
+            this.frame = this.First("frame");
+            this.glow  = this.First<UIGlowEffect>();
+            this.label = this.First<UITextBlock>("label");
+            
+            this.frame.FlexWidth  *= this.scale;
+            this.frame.FlexHeight *= this.scale;
+            this.icon.FlexWidth   *= this.scale;
+            this.icon.FlexHeight  *= this.scale;
+
+            this.Name = this.Advancement.Id;
+            this.icon.SetTexture(this.Advancement.Icon);
+            this.icon.SetLayer(Layer.Fore);
+
+            int textSize = this.isMainWindow
+                ? 12
+                : 12 * ((Config.Overlay.Scale + 1) / 2);
+
+            if (this.label is not null)
             {
-                frame.FlexWidth  *= scale;
-                frame.FlexHeight *= scale;
+                this.label.Margin = new Margin(0, 0, 26 * this.scale, 0);
+                if (this.isMainWindow)
+                {
+                    this.label.FlexHeight = Config.Main.CompactMode
+                        ? new Size(textSize)
+                        : new Size(textSize * 2);
+                }
+                else
+                {
+                    this.label.FlexHeight = new Size(textSize * 2);
+                }
+                if (this.isMainWindow)
+                    this.label.SetFont("minecraft", 12);
+                else
+                    this.label.SetFont("minecraft", textSize);
+
+                this.label.SetText(this.Advancement.Name);
+
+                if (!Config.IsPostExplorationUpdate && screen is UIMainScreen)
+                    this.label.DrawBackground = true;
             }
 
-            icon = GetControlByName("icon", true) as UIPicture;
-            if (icon != null) 
+            if (this.isMainWindow && Config.Main.CompactMode)
             {
-                icon.FlexWidth  *= scale;
-                icon.FlexHeight *= scale;
-                icon.SetTexture(Advancement.Icon);
-                icon.SetLayer(Layer.Fore);
+                //compact mode
+                this.FlexWidth  = new Size(66);
+                this.FlexHeight = new Size(68);
+                this.label.SetText(this.Advancement.ShortName);
+            }
+            else
+            {
+                //relaxed mode
+                this.FlexHeight *= this.scale;
             }
 
-            label = GetControlByName("label", true) as UITextBlock;
-            if (label != null)
-            {
-                label.Margin = new Margin(0, 0, (int)frame.FlexHeight.InternalValue, 0);
-                label.SetFont("minecraft", 12 * textScale);
-                label.SetText(Advancement.Name);
-
-                if (TrackerSettings.IsPreExplorationUpdate && screen is MainScreen)
-                    label.DrawBackground = true;
-            }         
+            this.UpdateGlowBrightness(null); 
             base.InitializeRecursive(screen);
+        }
+
+        private void UpdateGlowBrightness(Time time)
+        {
+            if (this.isMainWindow && Config.Main.CompletionGlow)
+                this.glow.Expand();
+            else
+                this.glow.Collapse();
+
+            float target = this.IsCompleted ? 1f : 0f;
+            if (time is not null)
+            {
+                float brightness = MathHelper.Lerp(this.glow.Brightness, target, (float)(10 * time.Delta));
+                this.glow.LerpToBrightness(brightness);
+            }
+            else
+            {
+                this.glow.LerpToBrightness(target);
+            }
         }
 
         protected override void UpdateThis(Time time)
         {
-            frame?.SetTexture(Advancement.CurrentFrame);
-            if (IsCompleted)
-                glowRotation += (float)time.Delta * 0.25f;
+            this.UpdateGlowBrightness(time);
+            base.UpdateThis(time);
+        }
+
+        public override void DrawThis(Display display)
+        {
+            bool grayOut = this.Advancement is Achievement achievement && achievement.IsLocked;
+            if (this.isMainWindow && grayOut)
+            {
+                //achievement is locked. gray it out
+                this.icon.SetTint(Color.Gray * ALPHA_LOCKED_ICON);
+                this.label?.SetTextColor(MainSettings.Instance.TextColor * ALPHA_LOCKED_TEXT);
+                display.Draw(this.incompleteFrame, this.frame.Bounds, Color.Gray * ALPHA_LOCKED_FRAME);
+            }
+            else 
+            {
+                //normal advancement rendering
+                this.icon.SetTint(Color.White);
+                if (this.isMainWindow)
+                    this.label?.SetTextColor(Config.Main.TextColor);
+                else
+                    this.label?.SetTextColor(Config.Overlay.TextColor);
+
+                display.Draw(this.incompleteFrame, this.frame.Bounds, Color.White);
+                display.Draw(this.completeFrame, this.frame.Bounds, Color.White * this.glow.Brightness);
+            }
         }
 
         public override void DrawRecursive(Display display)
         {
-            if (Advancement is Achievement && scale == 2)
+            if (this.IsCollapsed)
+                return;
+
+            base.DrawRecursive(display);
+            //draw player head if in co-op mode
+            if (Peer.IsConnected && this.IsCompleted)
             {
-                if ((Advancement as Achievement).CanBeDoneYet)
-                {
-                    icon?.SetTint(Color.White);
-                    frame?.SetTint(Color.White);
-                    label?.SetTextColor(MainSettings.Instance.TextColor);
-                }
-                else
-                {
-                    icon?.SetTint(Color.Gray * 0.1f);
-                    frame?.SetTint(Color.Gray * 0.2f);
-                    label?.SetTextColor(MainSettings.Instance.TextColor * 0.5f);
-                }
+                int x  = this.frame.Left - (4 * this.scale);
+                int y = this.frame.Top - (3 * this.scale);
+                int size  = 18 * this.scale;
+                var frameRectangle = new Rectangle(x, y, size, size);
+
+                display.Draw(this.completeFrame + "_head", frameRectangle);
+                var headRectangle = new Rectangle(this.frame.Left, this.frame.Top + this.scale, 8 * this.scale, 8 * this.scale);
+                display.Draw(this.Advancement.FirstCompletionist.ToString(), headRectangle);
             }
-
-            frame?.DrawRecursive(display);
-            if (IsCompleted && MainSettings.Instance.RenderCompletionGlow)
-                display.Draw("frame_glow", frame.Center.ToVector2(), glowRotation, Color.White, Layer.Glow);
-
-            icon?.DrawRecursive(display);
-            label?.DrawRecursive(display);
         }
 
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            AdvancementName = ParseAttribute(node, "id", string.Empty);
-            scale = ParseAttribute(node, "scale", scale);
+            this.AdvancementName = ParseAttribute(node, "id", string.Empty);
+            this.scale = ParseAttribute(node, "scale", this.scale);
         }
     }
 }

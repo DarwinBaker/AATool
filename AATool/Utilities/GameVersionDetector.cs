@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AATool.Utilities
 {
-    static class GameVersionDetector
+    public static class GameVersionDetector
     {
         [DllImport("user32.dll")]
         static extern IntPtr GetForegroundWindow();
@@ -16,12 +16,12 @@ namespace AATool.Utilities
 
         public static void Update()
         {
-            if (!TrackerSettings.Instance.AutoDetectVersion)
+            if (!Config.Tracker.AutoDetectVersion)
                 return;
 
             //read active window title
             var builder = new StringBuilder(256);
-            if (GetWindowText(GetForegroundWindow(), builder, 256) == 0)
+            if (GetWindowText(GetForegroundWindow(), builder, 256) is 0)
                 return;
             string title = builder.ToString().ToLower();
             if (title.Contains("minecraft"))
@@ -29,19 +29,19 @@ namespace AATool.Utilities
                 //title contains "minecraft"; parse version number
                 string[] words = title.Split(' ');
                 if (words.Length > 0)
-                    TrySetVersion(words[1]);
+                    TrySetVersion(words.Last());
             }
         }
 
         private static void TrySetVersion(string version)
         {
             //select appropriate tracker version
-            if (version == "1.16.0" || version == "1.16.1")
-                TrackerSettings.Instance.TrySetGameVersion("1.16");
+            if (version is "1.16.0" or "1.16.1")
+                Config.Tracker.TrySetGameVersion("1.16");
             else if (version.StartsWith("1.16"))
-                TrackerSettings.Instance.TrySetGameVersion("1.16.2+");
+                Config.Tracker.TrySetGameVersion("1.16.2+");
             else
-                TrackerSettings.Instance.TrySetGameVersion(version.Substring(0, 4));
+                Config.Tracker.TrySetGameVersion(version.Substring(0, 4));
         }
     }
 }

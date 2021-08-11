@@ -56,7 +56,7 @@
     <DefineConstants>TRACE;DEBUG;WINDOWS</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -67,7 +67,7 @@
     <Optimize>true</Optimize>
     <DebugType>none</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
@@ -83,40 +83,90 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DataStructures\Achievement.cs" />
-    <Compile Include="DataStructures\Advancement.cs" />
-    <Compile Include="DataStructures\Cell.cs" />
-    <Compile Include="DataStructures\Criterion.cs" />
-    <Compile Include="DataStructures\AdvancementGroup.cs" />
-    <Compile Include="DataStructures\FavoritesList.cs" />
-    <Compile Include="DataStructures\PotionIngredient.cs" />
-    <Compile Include="DataStructures\Saves\AchievementJSON.cs" />
-    <Compile Include="DataStructures\Statistic.cs" />
-    <Compile Include="DataStructures\Potion.cs" />
-    <Compile Include="DataStructures\Saves\StatisticsJSON.cs" />
-    <Compile Include="DataStructures\Saves\AdvancementsJSON.cs" />
-    <Compile Include="DataStructures\Saves\SaveJSON.cs" />
-    <Compile Include="Display.cs" />
+    <Compile Include="Data\Achievement.cs" />
+    <Compile Include="Data\AchievementManifest.cs" />
+    <Compile Include="Data\Advancement.cs" />
+    <Compile Include="Data\AdvancementGroup.cs" />
+    <Compile Include="Data\AdvancementManifest.cs" />
+    <Compile Include="Data\Cell.cs" />
+    <Compile Include="Data\CriteriaSet.cs" />
+    <Compile Include="Data\Criterion.cs" />
+    <Compile Include="Data\FavoritesList.cs" />
+    <Compile Include="Data\IAchievable.cs" />
+    <Compile Include="Data\IManifest.cs" />
+    <Compile Include="Graphics\Glow.cs" />
+    <Compile Include="Net\Lobby.cs" />
+    <Compile Include="Net\PeerStatic.cs" />
+    <Compile Include="Net\Requests\NetRequestStatic.cs" />
+    <Compile Include="Net\Requests\NetRequestObject.cs" />
+    <Compile Include="Net\Player.cs" />
+    <Compile Include="Graphics\Display.cs" />
+    <Compile Include="Net\Requests\SkinRequest.cs" />
+    <Compile Include="Net\Requests\NameRequest.cs" />
+    <Compile Include="Net\User.cs" />
+    <Compile Include="Data\Potion.cs" />
+    <Compile Include="Data\Progress\Contribution.cs" />
+    <Compile Include="Data\Progress\ProgressState.cs" />
+    <Compile Include="Net\Uuid.cs" />
+    <Compile Include="Saves\AchievementsFolder.cs" />
+    <Compile Include="Saves\AdvancementsFolder.cs" />
+    <Compile Include="Saves\JSONFolder.cs" />
+    <Compile Include="Saves\JSONStream.cs" />
+    <Compile Include="Saves\StatisticsFolder.cs" />
+    <Compile Include="Saves\World.cs" />
+    <Compile Include="Data\Statistic.cs" />
+    <Compile Include="Data\StatisticsManifest.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Graphics\Sprite.cs" />
+    <Compile Include="Net\Client.cs" />
+    <Compile Include="Net\INetworkController.cs" />
+    <Compile Include="Net\Message.cs" />
+    <Compile Include="Net\NetworkHelper.cs" />
+    <Compile Include="Net\PeerObject.cs" />
+    <Compile Include="Net\Protocol.cs" />
+    <Compile Include="Net\Server.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Settings\Config.cs" />
+    <Compile Include="Settings\NetworkSettings.cs" />
     <Compile Include="Settings\NotesSettings.cs" />
-    <Compile Include="Trackers\AchievementTracker.cs" />
-    <Compile Include="Trackers\StatisticsTracker.cs" />
-    <Compile Include="Trackers\Tracker.cs" />
+    <Compile Include="Tracker.cs" />
     <Compile Include="UI\Controls\UIAchievementTree.cs" />
+    <Compile Include="UI\Controls\UIGlowEffect.cs" />
+    <Compile Include="UI\Controls\UIPlayerFace.cs" />
+    <Compile Include="UI\Controls\UIStatusBar.cs" />
+    <Compile Include="UI\Controls\UIMinecraftPanel.cs" />
+    <Compile Include="UI\Controls\UIRefreshIcon.cs" />
+    <Compile Include="UI\Controls\UIFlowCarousel.cs" />
     <Compile Include="UI\Controls\UIItemCount.cs" />
     <Compile Include="UI\Controls\UIAdvancementCarousel.cs" />
     <Compile Include="UI\Controls\UICarousel.cs" />
     <Compile Include="UI\Controls\UICriteriaCarousel.cs" />
     <Compile Include="UI\Controls\UIEnchantmentTable.cs" />
     <Compile Include="UI\Controls\UIButton.cs" />
+    <Compile Include="UI\Controls\UILobby.cs" />
+    <Compile Include="UI\Controls\UIPlayer.cs" />
+    <Compile Include="UI\Controls\UIPlayerPicker.cs" />
+    <Compile Include="UI\Controls\UIRunComplete.cs" />
+    <Compile Include="Utilities\ColorHelper.cs" />
+    <Compile Include="Utilities\Easings\Easing.cs" />
+    <Compile Include="Utilities\Easings\Functions\Back.cs" />
+    <Compile Include="Utilities\Easings\Functions\Bounce.cs" />
+    <Compile Include="Utilities\Easings\Functions\Circular.cs" />
+    <Compile Include="Utilities\Easings\Functions\Cubic.cs" />
+    <Compile Include="Utilities\Easings\Functions\Elastic.cs" />
+    <Compile Include="Utilities\Easings\Functions\Exponential.cs" />
+    <Compile Include="Utilities\Easings\Functions\IEasingFunction.cs" />
+    <Compile Include="Utilities\Easings\Functions\Quadratic.cs" />
+    <Compile Include="Utilities\Easings\Functions\Quartic.cs" />
+    <Compile Include="Utilities\Easings\Functions\Quintic.cs" />
+    <Compile Include="Utilities\Easings\Functions\Sinusoidal.cs" />
     <Compile Include="Utilities\GameVersionDetector.cs" />
-    <Compile Include="Utilities\UpdateChecker.cs" />
+    <Compile Include="Utilities\SequenceTimer.cs" />
+    <Compile Include="Utilities\UpdateHelper.cs" />
     <Compile Include="Winforms\Controls\CCreditsGroup.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -129,23 +179,41 @@
     <Compile Include="Winforms\Controls\CCredits.Designer.cs">
       <DependentUpon>CCredits.cs</DependentUpon>
     </Compile>
+    <Compile Include="Winforms\Controls\COverlaySettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Winforms\Controls\COverlaySettings.Designer.cs">
+      <DependentUpon>COverlaySettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Winforms\Controls\CMainSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Winforms\Controls\CMainSettings.Designer.cs">
+      <DependentUpon>CMainSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Winforms\Controls\CNetworkSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Winforms\Controls\CNetworkSettings.Designer.cs">
+      <DependentUpon>CNetworkSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Winforms\Forms\FAbout.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Winforms\Forms\FAbout.Designer.cs">
       <DependentUpon>FAbout.cs</DependentUpon>
     </Compile>
+    <Compile Include="Winforms\Forms\FNetworkSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Winforms\Forms\FNetworkSetup.Designer.cs">
+      <DependentUpon>FNetworkSetup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Winforms\Forms\FNotes.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Winforms\Forms\FNotes.Designer.cs">
       <DependentUpon>FNotes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Winforms\Forms\FPickFavorites.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Winforms\Forms\FPickFavorites.Designer.cs">
-      <DependentUpon>FPickFavorites.cs</DependentUpon>
     </Compile>
     <Compile Include="Winforms\Forms\FSettings.cs">
       <SubType>Form</SubType>
@@ -170,19 +238,18 @@
     <Compile Include="UI\Controls\UIPotionGroup.cs" />
     <Compile Include="UI\Controls\UIProgressBar.cs" />
     <Compile Include="UI\Controls\UITextBlock.cs" />
-    <Compile Include="UI\Screens\OverlayScreen.cs" />
+    <Compile Include="UI\Screens\UIOverlayScreen.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\Screens\Screen.cs" />
+    <Compile Include="UI\Screens\UIScreen.cs" />
     <Compile Include="Graphics\SpriteSheet.cs" />
     <Compile Include="Time.cs" />
     <Compile Include="UI\Controls\UIGrid.cs" />
     <Compile Include="UI\Margin.cs" />
     <Compile Include="UI\Size.cs" />
     <Compile Include="Utilities\Timer.cs" />
-    <Compile Include="Trackers\AdvancementTracker.cs" />
-    <Compile Include="UI\Screens\MainScreen.cs" />
+    <Compile Include="UI\Screens\UIMainScreen.cs" />
     <Compile Include="UI\Controls\UIControl.cs" />
     <Compile Include="Utilities\XmlObject.cs" />
     <Compile Include="Winforms\Forms\FUpdate.cs">
@@ -193,15 +260,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="FontStashSharp.MonoGame, Version=0.8.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FontStashSharp.MonoGame.0.8.8\lib\net45\FontStashSharp.MonoGame.dll</HintPath>
+    <Reference Include="Cyotek.Drawing.BitmapFont, Version=1.0.0.0, Culture=neutral, PublicKeyToken=58daa28b0b2de221, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cyotek.Drawing.BitmapFont.2.0.1\lib\net48\Cyotek.Drawing.BitmapFont.dll</HintPath>
+    </Reference>
+    <Reference Include="FontStashSharp.MonoGame, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontStashSharp.MonoGame.1.0.0\lib\net45\FontStashSharp.MonoGame.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MonoGame.Framework, Version=3.8.0.1641, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\lib\net452\MonoGame.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
@@ -212,13 +282,20 @@
     <Reference Include="SharpDX.DXGI, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.DXGI.4.2.0\lib\net45\SharpDX.DXGI.dll</HintPath>
     </Reference>
-    <Reference Include="SpriteFontPlus, Version=0.8.5.43, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SpriteFontPlus.0.8.5.43\lib\net45\SpriteFontPlus.dll</HintPath>
+    <Reference Include="SpriteFontPlus, Version=0.9.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SpriteFontPlus.0.9.2\lib\net45\SpriteFontPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="StbImageSharp, Version=2.22.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StbImageSharp.2.22.6\lib\net45\StbImageSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="StbTrueTypeSharp, Version=1.24.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StbTrueTypeSharp.1.24.8\lib\net45\StbTrueTypeSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -237,16 +314,22 @@
     <Content Include="assets\game_versions\1.11\achievements.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\game_versions\1.11\layouts\main.xml">
+    <Content Include="assets\game_versions\1.11\layouts\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\game_versions\1.11\layouts\overlay.xml">
+    <Content Include="assets\game_versions\1.11\layouts\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.11\potions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.11\statistics.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.12\advancements\adventure_1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.12\advancements\adventure_2.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.12\advancements\adventure.xml">
@@ -264,10 +347,28 @@
     <Content Include="assets\game_versions\1.12\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\game_versions\1.12\layouts\main_compact.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.12\layouts\main_relaxed.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.13\advancements\adventure_2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.13\advancements\adventure_1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\game_versions\1.13\advancements\adventure.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.13\advancements\end.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.13\advancements\husbandry_2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.13\advancements\husbandry_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.13\advancements\husbandry.xml">
@@ -279,7 +380,19 @@
     <Content Include="assets\game_versions\1.13\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\game_versions\1.13\layouts\main_compact.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.13\layouts\main_relaxed.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\game_versions\1.13\potions.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.14\advancements\adventure_2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.14\advancements\adventure_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.14\advancements\adventure.xml">
@@ -291,13 +404,28 @@
     <Content Include="assets\game_versions\1.14\advancements\husbandry.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\game_versions\1.14\advancements\husbandry_1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.14\advancements\husbandry_2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\game_versions\1.14\advancements\minecraft.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.14\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\game_versions\1.14\layouts\main_compact.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\game_versions\1.14\potions.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.15\advancements\adventure_1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.15\advancements\adventure_2.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.15\advancements\adventure.xml">
@@ -315,7 +443,88 @@
     <Content Include="assets\game_versions\1.15\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\game_versions\1.15\layouts\main_compact.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\game_versions\1.15\potions.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16.2+\advancements\adventure.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16.2+\advancements\adventure_1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16.2+\advancements\adventure_2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16.2+\advancements\end.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16.2+\advancements\husbandry_1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16.2+\advancements\husbandry_2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16.2+\advancements\minecraft.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16.2+\advancements\nether.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16.2+\advancements\husbandry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16.2+\layouts\main_compact.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16.2+\layouts\main_relaxed.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16.2+\potions.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16\advancements\adventure.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16\advancements\adventure_1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16\advancements\adventure_2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16\advancements\end.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16\advancements\husbandry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16\advancements\husbandry_1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16\advancements\husbandry_2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16\advancements\minecraft.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16\advancements\nether.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16\layouts\main_compact.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16\layouts\main_relaxed.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.16\potions.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.17\advancements\adventure_2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.17\advancements\adventure_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.17\advancements\adventure.xml">
@@ -333,49 +542,79 @@
     <Content Include="assets\game_versions\1.17\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\game_versions\1.17\layouts\main.xml">
+    <Content Include="assets\game_versions\1.17\layouts\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\game_versions\1.17\layouts\overlay.xml">
+    <Content Include="assets\game_versions\1.17\layouts\main_relaxed.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\coop\player_glow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\bread_flipped.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\chest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\ender_pearls.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\ender_pearl.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\bread_stat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\enchanted_crossbow%24825.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\tnt.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\heal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\temple.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\ctm_glow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\linked^24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\patreon\enchanted_emerald%24825.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\ender_chest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\sugarcane.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\enchanted_diamond_sword%24825.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\netherrack.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\cat_stats.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\salmon_stats.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\ui\controls\control_player_face.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\ui\screens\screen_overlay.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.17\potions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.17\statistics.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16.2+\advancements\adventure.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16.2+\potions.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16\advancements\adventure.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16\advancements\end.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16\advancements\husbandry.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16\advancements\minecraft.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16\advancements\nether.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16.2+\advancements\end.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16.2+\advancements\husbandry.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16.2+\advancements\minecraft.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16.2+\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.12\potions.xml">
@@ -397,9 +636,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.16\statistics.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16\potions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\achievements\bookcase^16.png">
@@ -588,34 +824,130 @@
     <Content Include="assets\graphics\sprites\gif\nether_portal.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\achievements\arrow_head_up.png">
+    <Content Include="assets\graphics\sprites\gui\achievements\compact\arrow_compact_bg_down.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\achievements\arrow_head_down.png">
+    <Content Include="assets\graphics\sprites\gui\achievements\compact\arrow_compact_bg_left.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\achievements\arrow_head_left.png">
+    <Content Include="assets\graphics\sprites\gui\achievements\compact\arrow_compact_bg_right.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\achievements\arrow_head_right.png">
+    <Content Include="assets\graphics\sprites\gui\achievements\compact\arrow_compact_bg_up.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\achievements\arrow_bg_down.png">
+    <Content Include="assets\graphics\sprites\gui\achievements\compact\arrow_compact_head_down.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\achievements\arrow_bg_left.png">
+    <Content Include="assets\graphics\sprites\gui\achievements\compact\arrow_compact_head_left.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\achievements\arrow_bg_right.png">
+    <Content Include="assets\graphics\sprites\gui\achievements\compact\arrow_compact_head_right.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\achievements\arrow_bg_up.png">
+    <Content Include="assets\graphics\sprites\gui\achievements\compact\arrow_compact_head_up.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\frames\frame_potion.png">
+    <Content Include="assets\graphics\sprites\gui\achievements\relaxed\arrow_relaxed_head_up.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\achievements\relaxed\arrow_relaxed_head_down.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\achievements\relaxed\arrow_relaxed_head_left.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\achievements\relaxed\arrow_relaxed_head_right.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\achievements\relaxed\arrow_relaxed_bg_down.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\achievements\relaxed\arrow_relaxed_bg_left.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\achievements\relaxed\arrow_relaxed_bg_right.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\achievements\relaxed\arrow_relaxed_bg_up.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\coop\unloaded_player.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\frames\frame_challenge_complete_head.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\frames\frame_normal_incomplete.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\frames\frame_goal_complete_head.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\frames\frame_normal_complete_head.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\frames\minecraft_panel_gold.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\frames\minecraft_panel_light.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\ctm.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\linked^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\respawn_anchor_glow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\unlinked.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\respawn_anchor_top_off.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\respawn_anchor_top_on%2432.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\linked^16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\xp_orb_glow%2420.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\xp_orb_back.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\compass%2428.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\compass_needle%2428.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\compass_empty.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\enchantment_table_closed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\xp_orb%2420.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\gui\frames\frame_glow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\sync.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\patreon\patreon_diamond.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\patreon\patreon_gold.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\patreon\patreon_netherite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\ingredients\fermented_spider_eye_1.12.png">
@@ -646,6 +978,64 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\achievements\spawnWither^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\cactus_side.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\debris.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\diamond_axe.png" />
+    <Content Include="assets\graphics\sprites\items\enchanted_elytra%24825.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\enchanted_diamond_pickaxe%24825.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\iron_axe.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\iron_sword.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\music_disc_pigstep.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\netherite_axe.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\netherite_sword.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\poppy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\rockets.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\rocket.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\lectern.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\trident.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\wither_skull.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\enchantment_axe%24825.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\enchanted_diamond_axe%24825.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\items\xp_bottle%24825.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\potions\enchantment_potion%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\system\icon.ico">
@@ -1069,9 +1459,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\advancements\nether\obtain_crying_obsidian^16.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\graphics\sprites\advancements\nether\summon_wither_1.12%2446.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\advancements\nether\uneasy_alliance_1.12.png">
@@ -1641,16 +2028,16 @@
     <Content Include="assets\graphics\sprites\gif\summon_wither_1.12.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\enchantment_table\enchantment_table_closed.png">
+    <Content Include="assets\graphics\sprites\gui\icons\enchantment_table_glow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\enchantment_table\enchantment_table_closing%2410.png">
+    <Content Include="assets\graphics\sprites\gui\icons\enchantment_table_closing%2412.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\enchantment_table\enchantment_table_opening%2410.png">
+    <Content Include="assets\graphics\sprites\gui\icons\enchantment_table_opening%2412.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\enchantment_table\enchantment_table_reading%24124.png">
+    <Content Include="assets\graphics\sprites\gui\icons\enchantment_table_reading%24124.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\gui\progress_bars\bar_active_left.png">
@@ -1692,7 +2079,7 @@
     <Content Include="assets\graphics\sprites\gui\frames\frame_normal_complete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\frames\frame_normal_incomplete.png">
+    <Content Include="assets\graphics\sprites\gui\frames\minecraft_panel_dark.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\advancements\husbandry\balanced_diet.png">
@@ -1998,43 +2385,55 @@
     <Content Include="assets\graphics\sprites\markers\nether_portal%2432.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\markers\ocean_monument%2416.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="assets\graphics\sprites\markers\stronghold.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\potions\potion_swiftness%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_swiftness.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\potions\potion_slowness%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_slowness.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\potions\potion_night_vision%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_night_vision.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\potions\potion_weakness%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_weakness.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\potions\potion_water_breathing%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_water_breathing.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\potions\potion_invisibility%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_invisibility.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\potions\potion_slow_falling%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_slow_falling.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\potions\potion_strength%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_strength.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\potions\potion_leaping%24825.png">
+    <Content Include="assets\graphics\sprites\potions\potion_leaping.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\ui\controls\control_status_bar.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\ui\controls\control_item_count.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\ui\controls\control_advancement_group.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\ui\controls\control_run_complete.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\ui\controls\control_lobby.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\ui\controls\control_player.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\ui\controls\control_refresh_icon.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\ui\controls\control_potion.xml">
@@ -2052,42 +2451,16 @@
     <Content Include="assets\ui\controls\control_criteria_group.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\game_versions\1.13\layouts\main.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.13\layouts\overlay.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="assets\game_versions\1.12\layouts\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\game_versions\1.14\layouts\main.xml">
+    <Content Include="assets\game_versions\1.14\layouts\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\game_versions\1.14\layouts\overlay.xml">
+    <Content Include="assets\game_versions\1.15\layouts\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\game_versions\1.15\layouts\main.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.15\layouts\overlay.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16.2+\layouts\main.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16.2+\layouts\overlay.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.12\layouts\overlay.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16\layouts\overlay.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\game_versions\1.16\layouts\main.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="Resources\emerald.png" />
     <Content Include="Resources\supporters\supporter_beta.gif" />
     <Content Include="Resources\supporters\supporter_patreon_gold.png" />
     <Content Include="Resources\supporters\supporter_patreon_diamond.png" />
@@ -2117,22 +2490,24 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Winforms\Controls\CCredits.resx">
-      <DependentUpon>CCredits.cs</DependentUpon>
+    <EmbeddedResource Include="Winforms\Controls\CMainSettings.resx">
+      <DependentUpon>CMainSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Winforms\Controls\CCreditsGroup.resx">
-      <DependentUpon>CCreditsGroup.cs</DependentUpon>
+    <EmbeddedResource Include="Winforms\Controls\CNetworkSettings.resx">
+      <DependentUpon>CNetworkSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Winforms\Controls\COverlaySettings.resx">
+      <DependentUpon>COverlaySettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Winforms\Forms\FAbout.resx">
       <DependentUpon>FAbout.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Winforms\Forms\FNetworkSetup.resx">
+      <DependentUpon>FNetworkSetup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Winforms\Forms\FNotes.resx">
       <DependentUpon>FNotes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Winforms\Forms\FPickFavorites.resx">
-      <DependentUpon>FPickFavorites.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Winforms\Forms\FSettings.resx">
       <DependentUpon>FSettings.cs</DependentUpon>

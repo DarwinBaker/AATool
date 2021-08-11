@@ -38,35 +38,52 @@ namespace AATool.Winforms.Controls
         {
             //parse credits groups and add them
             var group = new CCreditsGroup();
-            group.SetTitle(XmlObject.ParseAttribute(node, "name", string.Empty));
+            string groupName = XmlObject.ParseAttribute(node, "name", string.Empty);
+            if (groupName is "Special Dedication")
+                return null;
+
+            group.SetTitle(groupName);
             foreach (XmlNode userNode in node.ChildNodes)
-                group.AddUser(ParseUser(userNode));
+                group.AddUser(this.ParseUser(userNode, groupName));
             return group;
         }
 
-        private Label ParseUser(XmlNode node)
+        private Label ParseUser(XmlNode node, string groupName)
         {
             //parse user credits entry
             Label label;
             string link = XmlObject.ParseAttribute(node, "link", string.Empty);
             if (!string.IsNullOrEmpty(link))
             {
-                label = new LinkLabel();
-                label.Tag = link;
+                label = new LinkLabel {
+                    Tag = link
+                };
                 (label as LinkLabel).LinkBehavior = LinkBehavior.HoverUnderline;
-                label.Click += new EventHandler(OnClick);
+                label.Click += new EventHandler(this.OnClick);
             }
             else
+            {
                 label = new Label();
+            }
 
-            label.Image = XmlObject.ParseAttribute(node, "tier", "patreon_gold") switch {
-                "gold"      => Resources.supporter_patreon_gold,
-                "diamond"   => Resources.supporter_patreon_diamond,
-                "netherite" => Resources.supporter_patreon_netherite,
-                "beta"      => Resources.supporter_beta,
-                _           => Resources.supporter_developer
-            };
-
+            if (groupName is "Patreon Supporters")
+            {
+                string tier = XmlObject.ParseAttribute(node, "tier", "gold").ToLower();
+                label.Image = tier switch {
+                    "netherite" => Resources.supporter_patreon_netherite,
+                    "diamond"   => Resources.supporter_patreon_diamond,
+                    _           => Resources.supporter_patreon_gold
+                };
+            }
+            else
+            {
+                label.Image = groupName switch {
+                    "Paypal Donors" => Resources.supporter_paypal,
+                    "Beta Testers"  => Resources.supporter_beta,
+                    _               => Resources.supporter_developer
+                };
+            }
+            
             label.ImageAlign = ContentAlignment.MiddleLeft;
             label.Margin = new Padding(3);
             label.Size = new Size(128, 16);

@@ -1,4 +1,6 @@
-﻿using AATool.DataStructures;
+﻿using AATool.Data;
+using AATool.Graphics;
+using AATool.Net;
 using AATool.Settings;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
@@ -16,41 +18,42 @@ namespace AATool.UI.Controls
 
         public UIAchievementTree()
         {
-            DrawMode = DrawMode.All;
+            this.DrawMode = DrawMode.All;
         }
 
-        public override void InitializeRecursive(Screen screen)
+        public override void InitializeRecursive(UIScreen screen)
         {
             base.InitializeRecursive(screen);
-            achievements = new List<UIAdvancement>();
-            occupied = new bool[Rows.Count, Columns.Count];
-            foreach (var control in Children)
+            this.achievements = new List<UIAdvancement>();
+            this.occupied = new bool[this.Rows.Count, this.Columns.Count];
+            foreach (UIControl control in this.Children)
             {
                 if (control is UIAdvancement)
-                {
-                    achievements.Add(control as UIAdvancement);
-                    occupied[control.Row, control.Column] = true;
-                }
+                    this.achievements.Add(control as UIAdvancement);
+                this.occupied[control.Row, control.Column] = true;
             }
         }
 
         public override void ResizeRecursive(Rectangle rectangle)
         {
             base.ResizeRecursive(rectangle);
-            GeneratePaths();
+            this.GeneratePaths();
         }
 
         private void GeneratePaths()
-        { 
-            paths = new List<List<Cell>>();
-            foreach (var achievement in achievements)
+        {
+            this.paths = new List<List<Cell>>();
+            if (Peer.IsRunning)
+                return;
+
+            foreach (UIAdvancement achievement in this.achievements)
             {
                 //iterate each direct descendant and construct an arrow to it
-                foreach (var key in (achievement.Advancement as Achievement).Children.Keys)
+                foreach (string key in (achievement.Advancement as Achievement)?.Children.Keys)
                 {
-                    var control = GetControlByName(key);
-                    var path = FindPathOf(new Cell(achievement.Row, achievement.Column), new Cell(control.Row, control.Column));
-                    paths.Add(path);
+                    UIControl control = this.First(key);
+                    List<Cell> path = this.FindPathOf(new Cell(achievement.Row, achievement.Column), new Cell(control.Row, control.Column));
+                    this.paths.Add(path);
                 }
             }
         }
@@ -71,7 +74,7 @@ namespace AATool.UI.Controls
 
                 //iterate adjacent cells and check if they're what we're looking for
                 //if they're not, check if they're empty and queue a new path
-                foreach (var neighbor in GetNeighboringCells(node.Row, node.Column, path.Count > 1 ? path[path.Count - 2] : node))
+                foreach (var neighbor in this.GetNeighboringCells(node.Row, node.Column, path.Count > 1 ? path[path.Count - 2] : node))
                 {
                     if (neighbor.Equals(destination))
                     {
@@ -82,7 +85,7 @@ namespace AATool.UI.Controls
                     else if (!visited.Contains(new Cell(neighbor.Row, neighbor.Column)))
                     {
                         //cell isn't empty and isn't destination; this path is at an end
-                        if (occupied[neighbor.Row, neighbor.Column])
+                        if (this.occupied[neighbor.Row, neighbor.Column])
                             continue;
 
                         //add neighbor to path and add path to queue
@@ -101,25 +104,28 @@ namespace AATool.UI.Controls
             //perform bounds check and return adjacent cells
             var neighbors = new List<Cell>();
 
+            Rectangle cell = this.CellRectangles[previous.Row, previous.Column];
+            bool canTurn = cell.Width is 64 && cell.Height is 64;
+
             //prefer current direction to find path with fewest angle changes
             if (previous.Column == col)
             {
-                if (row + 1 < Rows.Count)
+                if (row + 1 < this.Rows.Count)
                     neighbors.Add(new Cell(row + 1, col));
                 if (row - 1 >= 0)
                     neighbors.Add(new Cell(row - 1, col));
-                if (col + 1 < Columns.Count)
+                if (col + 1 < this.Columns.Count)
                     neighbors.Add(new Cell(row, col + 1));
                 if (col - 1 >= 0)
                     neighbors.Add(new Cell(row, col - 1));
             }
             else
             {
-                if (col + 1 < Columns.Count)
+                if (col + 1 < this.Columns.Count)
                     neighbors.Add(new Cell(row, col + 1));
                 if (col - 1 >= 0)
                     neighbors.Add(new Cell(row, col - 1));
-                if (row + 1 < Rows.Count)
+                if (row + 1 < this.Rows.Count)
                     neighbors.Add(new Cell(row + 1, col));
                 if (row - 1 >= 0)
                     neighbors.Add(new Cell(row - 1, col));
@@ -129,15 +135,15 @@ namespace AATool.UI.Controls
 
         public override void DrawThis(Display display)
         {
-            display.DrawRectangle(Rectangle, MainSettings.Instance.BackColor, MainSettings.Instance.BorderColor, 1);
+            display.DrawRectangle(this.Bounds, MainSettings.Instance.BackColor, MainSettings.Instance.BorderColor, 1);
 
             int thickness = 8;
             int halfThickness = thickness / 2;
-            foreach (var path in paths)
+            foreach (List<Cell> path in this.paths)
             {
                 //calculate arrow color based on completion of parent achievement
-                var start = cellContents[path.First().Row, path.First().Column] as UIAdvancement;
-                double blend = (start.Advancement.IsCompleted) ? 2 : 0.5;
+                var start = this.CellContents[path.First().Row, path.First().Column] as UIAdvancement;
+                double blend = (start.Advancement.CompletedByAnyone()) ? 2 : 0.5;
                 byte r   = (byte)((MainSettings.Instance.BorderColor.R * blend) + MainSettings.Instance.BackColor.R * (1 - blend));
                 byte g   = (byte)((MainSettings.Instance.BorderColor.G * blend) + MainSettings.Instance.BackColor.G * (1 - blend));
                 byte b   = (byte)((MainSettings.Instance.BorderColor.B * blend) + MainSettings.Instance.BackColor.B * (1 - blend));
@@ -148,7 +154,7 @@ namespace AATool.UI.Controls
                     Cell current = path[i];
                     Cell prev    = path[i - 1];
                     Cell next    = path[i + 1];
-                    var bounds   = cellRectangles[current.Row, current.Column];
+                    Rectangle bounds = this.CellRectangles[current.Row, current.Column];
 
                     //get connection states
                     bool connectedLeft   = current.Column > prev.Column || current.Column > next.Column;
@@ -182,8 +188,10 @@ namespace AATool.UI.Controls
                             direction = "up";
                         if (current.Row < next.Row)
                             direction = "down";
-                        display.Draw("arrow_bg_" + direction, bounds, MainSettings.Instance.BackColor);
-                        display.Draw("arrow_head_" + direction, bounds, tint);
+
+                        string mode = (bounds.Width < 64 || bounds.Height < 64) ? "compact" : "relaxed";
+                        display.Draw($"arrow_{mode}_bg_{direction}", bounds, MainSettings.Instance.BackColor);
+                        display.Draw($"arrow_{mode}_head_{direction}", bounds, tint);
                     }                    
                 }
             } 

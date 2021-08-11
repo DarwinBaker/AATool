@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control width="1150" height="700">
+    <grid drawmode="all">
+        <rows>
+            <row height="348"/>
+            <row height="310"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="924"/>
+            <column width="66"/>
+        </columns>
+
+        <panel col="1"></panel>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <!-- basic advancements -->
+        <panel row="0" col="1" drawmode="all" padding_bottom="4">
+            <advancement_group group="minecraft"   width="5 * 66" height="3 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="nether"      width="5 * 66" height="3 * 68" margin_left="5 * 66"    horizontal_align="left" vertical_align="top" direction="righttoleft"/>
+            <advancement_group group="end"         width="4 * 66" height="2 * 68" margin_top="3 * 68"     horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="adventure_1" width="4 * 66" height="3 * 68" margin_left="10 * 66"   horizontal_align="left" vertical_align="top" direction="righttoleft"/>
+            <advancement_group group="adventure_2" width="4 * 66" height="2 * 68" margin_top="3 * 68"     margin_left="10 * 66" horizontal_align="left" vertical_align="top" direction="righttoleft"/>
+            <advancement_group group="husbandry"   width="6 * 66" height="2 * 68" margin_left="4 * 66"    margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement id="minecraft:story/cure_zombie_villager" width="66" height="68" margin="330,0,136,0" horizontal_align="left" vertical_align="top"/>
+        </panel>
+
+        <!-- advancements with subcriteria -->
+        <flow_panel row="1" col="1" drawmode="all">
+            <criteria_group width="276" advancement="minecraft:adventure/adventuring_time"/>
+            <criteria_group width="180" advancement="minecraft:adventure/kill_all_mobs"/>
+            <criteria_group width="288" advancement="minecraft:husbandry/balanced_diet"/>
+            <criteria_group width="160" advancement="minecraft:husbandry/bred_all_animals"/>
+            <criteria_group width="86"  advancement="minecraft:husbandry/complete_catalogue"/>
+        </flow_panel>
+
+        <!-- item count display (trident, shells, skulls etc.) -->
+        <flow_panel name="counts" col="2" cell_width="68">
+            <item_count name="count_gapples"  id="minecraft:enchanted_golden_apple"/>
+            <item_count name="count_tridents" id="minecraft:trident"/>
+            <item_count name="count_shells"   id="minecraft:nautilus_shell"/>
+            <item_count name="count_skulls"   id="minecraft:wither_skeleton_skull"/>
+        </flow_panel>
+
+        <!-- status strip -->
+        <status_bar row="2" col="1" colspan="3" right="376"/>
+    </grid>
+</control>

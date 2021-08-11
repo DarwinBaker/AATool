@@ -8,58 +8,58 @@ namespace AATool.UI.Controls
     {
         public FlowDirection FlowDirection;
 
-        public int CellWidth = 0;
+        public int CellWidth  = 0;
         public int CellHeight = 0;
 
         public override void ResizeRecursive(Rectangle rectangle)
         {
             base.ResizeRecursive(rectangle);
-            ReflowChildren();
+            this.ReflowChildren();
         }
 
         public void ReflowChildren()
         {
-            int currentX = FlowDirection == FlowDirection.RightToLeft ? ContentRectangle.Right - CellWidth : ContentRectangle.Left;
-            int currentY = FlowDirection == FlowDirection.BottomToTop ? ContentRectangle.Bottom - CellHeight : ContentRectangle.Top;
+            int currentX = this.FlowDirection is FlowDirection.RightToLeft ? this.Content.Right - this.CellWidth : this.Content.Left;
+            int currentY = this.FlowDirection is FlowDirection.BottomToTop ? this.Content.Bottom - this.CellHeight : this.Content.Top;
             int temp = 0;
 
-            foreach (var child in Children)
+            foreach (UIControl child in this.Children)
             {
                 if (child.IsCollapsed)
                     continue;
 
-                switch (FlowDirection)
+                switch (this.FlowDirection)
                 {
                     case FlowDirection.LeftToRight:
-                        if (currentX + CellWidth > ContentRectangle.Right)
+                        if (currentX + this.CellWidth > this.Content.Right)
                         {
                             //control won't fit horizontally; go to beginning of next row
-                            currentX = ContentRectangle.Left;
+                            currentX = this.Content.Left;
                             currentY += temp;
                             temp = 0;
                         }
                         break;
                     case FlowDirection.RightToLeft:
-                        if (currentX < ContentRectangle.Left)
+                        if (currentX < this.Content.Left)
                         {
-                            currentX = ContentRectangle.Right - CellWidth;
+                            currentX = this.Content.Right - this.CellWidth;
                             currentY += temp;
                             temp = 0;
                         }
                         break;
                     case FlowDirection.TopToBottom:
-                        if (currentY + CellHeight > ContentRectangle.Bottom)
+                        if (currentY + this.CellHeight > this.Content.Bottom)
                         {
                             //control won't fit vertically; go to top of next column
-                            currentY = ContentRectangle.Top;
+                            currentY = this.Content.Top;
                             currentX += temp;
                             temp = 0;
                         }
                         break;
                     case FlowDirection.BottomToTop:
-                        if (currentY < ContentRectangle.Top)
+                        if (currentY < this.Content.Top)
                         {
-                            currentY = ContentRectangle.Bottom - CellHeight;
+                            currentY = this.Content.Bottom - this.CellHeight;
                             currentX += temp;
                             temp = 0;
                         }
@@ -67,14 +67,12 @@ namespace AATool.UI.Controls
                 }
 
                 //move control into place
-                child.HorizontalAlign = HorizontalAlign.Left;
-                child.VerticalAlign = VerticalAlign.Top;
-                int finalWidth = Math.Max(CellWidth, child.Width + child.Margin.Horizontal);
-                int finalHeight = Math.Max(CellHeight, child.Height + child.Margin.Vertical);
+                int finalWidth = Math.Max(this.CellWidth, child.Width + child.Margin.Horizontal);
+                int finalHeight = Math.Max(this.CellHeight, child.Height + child.Margin.Vertical);
                 child.ResizeRecursive(new Rectangle(currentX, currentY, finalWidth, finalHeight));
 
                 //move flow "cursor"
-                switch (FlowDirection)
+                switch (this.FlowDirection)
                 {
                     case FlowDirection.LeftToRight:
                         currentX += Math.Max(child.Width, finalWidth);
@@ -99,9 +97,9 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            FlowDirection = ParseAttribute(node, "direction", FlowDirection.LeftToRight);
-            CellWidth = ParseAttribute(node, "cell_width", CellWidth);
-            CellHeight = ParseAttribute(node, "cell_height", CellHeight);
+            this.FlowDirection = ParseAttribute(node, "direction", FlowDirection.LeftToRight);
+            this.CellWidth     = ParseAttribute(node, "cell_width", this.CellWidth);
+            this.CellHeight    = ParseAttribute(node, "cell_height", this.CellHeight);
         }
     }
 }

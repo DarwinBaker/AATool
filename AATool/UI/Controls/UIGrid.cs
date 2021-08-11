@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AATool.Graphics;
+using AATool.Settings;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Xml;
@@ -7,176 +9,227 @@ namespace AATool.UI.Controls
 {
     class UIGrid : UIControl
     {
-        public List<Size> Columns;
-        public List<Size> Rows;
-        public List<bool> CollapsedColumns;
-        public List<bool> CollapsedRows;
-        protected Rectangle[,] cellRectangles;
-        protected UIControl[,] cellContents;
+        public List<bool> CollapsedColumns  { get; private set; }
+        public List<bool> CollapsedRows     { get; private set; }
+        public int ExpandedWidth            { get; private set; }
+        public int ExpandedHeight           { get; private set; }
+
+        protected List<Size> Columns        { get; private set; }
+        protected List<Size> Rows           { get; private set; }
+
+        protected Rectangle[,] CellRectangles;
+        protected UIControl[,] CellContents;
 
         public UIGrid()
         {
-            Columns = new List<Size>();
-            Rows = new List<Size>();
-            CollapsedColumns = new List<bool>();
-            CollapsedRows = new List<bool>();
-            DrawMode = DrawMode.ChildrenOnly;
+            this.Columns          = new ();
+            this.Rows             = new ();
+            this.CollapsedColumns = new ();
+            this.CollapsedRows    = new ();
+            this.DrawMode         = DrawMode.ChildrenOnly;
+        }
+
+        public int GetExpandedWidth()
+        {
+            int total = 0;
+            for (int col = 0; col < Math.Min(this.Columns.Count, this.CollapsedColumns.Count); col++)
+            {
+                if (!this.CollapsedColumns[col])
+                    total += this.Columns[col].GetAbsoluteInt(this.Content.Width);
+            }
+            return total;
+        }
+
+        public int GetExpandedHeight()
+        {
+            int total = 0;
+            for (int row = 0; row < Math.Min(this.Rows.Count, this.CollapsedRows.Count); row++)
+            {
+                if (!this.CollapsedRows[row])
+                    total += this.Rows[row].GetAbsoluteInt(this.Content.Height);
+            }
+            return total;
         }
 
         public void CollapseRow(int row)
         {
-            if (row >= 0 && row < Rows.Count)
-                CollapsedRows[row] = true;
-            ScaleTo(new Point(Width, Height - Rows[row].GetAbsoluteInt(Height)));
-            ResizeCells();
+            //collapse row and resize this
+            if (this.CollapsedRows.Count > row && !this.CollapsedRows[row])
+            {
+                if (0 > row || row >= this.Rows.Count)
+                    return;
+                this.CollapsedRows[row] = true;
+                this.ScaleTo(new Point(this.Width, this.Height - this.Rows[row].GetAbsoluteInt(this.Height)));
+                this.ResizeCells();
+            }
         }
 
         public void ExpandRow(int row)
         {
-            if (row >= 0 && row < Rows.Count)
-                CollapsedRows[row] = false;
-            ScaleTo(new Point(Width, Height + Rows[row].GetAbsoluteInt(Height)));
-            ResizeCells();
+            //expand row and resize this
+            if (this.CollapsedRows.Count > row && this.CollapsedRows[row])
+            {
+                if (0 > row || row >= this.Rows.Count)
+                    return;
+                this.CollapsedRows[row] = false;
+                this.ScaleTo(new Point(this.Width, this.Height + this.Rows[row].GetAbsoluteInt(this.Height)));
+                this.ResizeCells();
+            }
         }
 
         public void CollapseCol(int col)
         {
-            if (col >= 0 && col < Columns.Count)
-                CollapsedColumns[col] = true;
-            ScaleTo(new Point(Width - Columns[col].GetAbsoluteInt(Width), Height));
-            ResizeCells();
+            //collapse column and resize this
+            if (this.CollapsedColumns.Count > col && !this.CollapsedColumns[col])
+            {
+                if (0 > col || col >= this.Columns.Count)
+                    return;
+                this.CollapsedColumns[col] = true;
+                this.ScaleTo(new Point(this.Width - this.Columns[col].GetAbsoluteInt(this.Width), this.Height));
+                this.ResizeCells();
+            }
         }
 
         public void ExpandCol(int col)
         {
-            if (col >= 0 && col < Columns.Count)
-                CollapsedColumns[col] = false;
-            ScaleTo(new Point(Width + Columns[col].GetAbsoluteInt(Width), Height));
-            ResizeCells();
+            //collapse column and resize this
+            if (this.CollapsedColumns.Count > col && this.CollapsedColumns[col])
+            {
+                if (0 > col || col >= this.Columns.Count)
+                    return;
+                this.CollapsedColumns[col] = false;
+                this.ScaleTo(new Point(this.Width + this.Columns[col].GetAbsoluteInt(this.Width), this.Height));
+                this.ResizeCells();
+            }
         }
 
         private void ResizeCells()
         {
             //if no rows/columns exist, create one with 100% relative size
-            if (Rows.Count == 0)
-                Rows.Add(new Size(1, SizeMode.Relative));
+            if (this.Rows.Count is 0)
+                this.Rows.Add(new Size(1, SizeMode.Relative));
 
-            if (Columns.Count == 0)
-                Columns.Add(new Size(1, SizeMode.Relative));
+            if (this.Columns.Count is 0)
+                this.Columns.Add(new Size(1, SizeMode.Relative));
 
-            int totalAbsoluteWidth = 0;
+            int totalAbsoluteWidth  = 0;
             int totalAbsoluteHeight = 0;
 
             //set up row lists
-            foreach (var row in Rows)
+            foreach (Size row in this.Rows)
             {
-                if (row.Mode == SizeMode.Absolute)
+                if (row.Mode is SizeMode.Absolute)
                     totalAbsoluteHeight += (int)row.InternalValue;
-                CollapsedRows.Add(false);
             }
 
             //set up column lists
-            foreach (var col in Columns)
+            foreach (Size col in this.Columns)
             { 
-                if (col.Mode == SizeMode.Absolute)
+                if (col.Mode is SizeMode.Absolute)
                     totalAbsoluteWidth += (int)col.InternalValue;
-                CollapsedColumns.Add(false);
             }
-            
-            cellRectangles = new Rectangle[Rows.Count, Columns.Count];
-            cellContents   = new UIControl[Rows.Count, Columns.Count];
 
+            this.CellRectangles = new Rectangle[this.Rows.Count, this.Columns.Count];
+            this.CellContents   = new UIControl[this.Rows.Count, this.Columns.Count];
+
+            //keep track of remainder from rounding errors so we don't end up with gaps
             double remainderY = 0;
-            int y = ContentRectangle.Y;
-            for (int r = 0; r < Rows.Count; r++)
+            int y = this.Content.Y;
+            for (int r = 0; r < this.Rows.Count; r++)
             {
                 //skip row if collapsed
-                if (CollapsedRows[r])
+                if (this.CollapsedRows[r])
                     continue;
 
+                //keep track of remainder from rounding errors so we don't end up with gaps
                 double remainderX = 0;
-                int x = ContentRectangle.X;
-                int height = Rows[r].GetAbsoluteInt(ContentRectangle.Height - totalAbsoluteHeight);
-                remainderY += Rows[r].GetAbsoluteDouble(ContentRectangle.Height - totalAbsoluteHeight) - height;
-                height += (int)remainderY;
+                int x = this.Content.X;
+                int height  = this.Rows[r].GetAbsoluteInt(this.Content.Height - totalAbsoluteHeight);
+                remainderY += this.Rows[r].GetAbsoluteDouble(this.Content.Height - totalAbsoluteHeight) - height;
+                height     += (int)remainderY;
                 remainderY -= (int)remainderY;
-                for (int c = 0; c < Columns.Count; c++)
+
+                for (int c = 0; c < this.Columns.Count; c++)
                 {
                     //skip column if collapsed
-                    if (CollapsedColumns[c])
+                    if (this.CollapsedColumns[c])
                         continue;
 
-                    int width = Columns[c].GetAbsoluteInt(ContentRectangle.Width - totalAbsoluteWidth);
-                    remainderX += Columns[c].GetAbsoluteDouble(ContentRectangle.Width - totalAbsoluteWidth) - width;
-                    width += (int)remainderX;
+                    int width   = this.Columns[c].GetAbsoluteInt(this.Content.Width - totalAbsoluteWidth);
+                    remainderX += this.Columns[c].GetAbsoluteDouble(this.Content.Width - totalAbsoluteWidth) - width;
+                    width      += (int)remainderX;
                     remainderX -= (int)remainderX;
 
                     //set rectangle at row and column to appropriate size
-                    cellRectangles[r, c] = new Rectangle(x, y, width, height);
+                    this.CellRectangles[r, c] = new Rectangle(x, y, width, height);
                     x += width;
                 }
                 y += height;
             }
 
-            ResizeChildren();
+            this.ResizeChildren();
         }
 
         public override void ResizeRecursive(Rectangle rectangle)
         {
-            ResizeThis(rectangle);
-            ResizeCells();
+            this.ResizeThis(rectangle);
+            this.ResizeCells();
         }
 
         public override void ResizeChildren()
         {
-            foreach (var child in Children)
+            foreach (UIControl child in this.Children)
             {
-                if (child.Row >= Rows.Count || child.Column >= Columns.Count)
+                //make sure row and column are valid
+                if (child.Row < 0 || child.Row >= this.Rows.Count)
+                    continue;
+                if (child.Column < 0 || child.Column >= this.Columns.Count)
                     continue;
 
-                if (child.Row < 0 || child.Column < 0)
-                    continue;
-                
                 //collapse or expand child control to match cell state
-                if (CollapsedRows[child.Row] || CollapsedColumns[child.Column])
+                if (this.CollapsedRows[child.Row] || this.CollapsedColumns[child.Column])
                 {
                     child.Collapse();
                     continue;
                 }
                 else
+                {
                     child.Expand();
+                }
 
                 //conform child control size to cell size
-                Rectangle rect = cellRectangles[child.Row, child.Column];
-                int width = 0;
-                for (int c = child.Column; c < Math.Min(child.Column + child.ColumnSpan, Columns.Count); c++)
-                    width += cellRectangles[child.Row, c].Width;
+                Rectangle rectangle = this.CellRectangles[child.Row, child.Column];
+                int width   = 0;
+                int colSpan = Math.Min(child.Column + child.ColumnSpan, this.Columns.Count);
+                for (int c = child.Column; c < colSpan; c++)
+                    width += this.CellRectangles[child.Row, c].Width;
 
-                int height = 0;
-                for (int r = child.Row; r < Math.Min(child.Row + child.RowSpan, Rows.Count); r++)
-                    height += cellRectangles[r, child.Column].Height;
+                int height  = 0;
+                int rowSpan = Math.Min(child.Row + child.RowSpan, this.Rows.Count);
+                for (int r = child.Row; r < rowSpan; r++)
+                    height += this.CellRectangles[r, child.Column].Height;
 
-                cellContents[child.Row, child.Column] = child;
-                child.ResizeRecursive(new Rectangle(rect.X, rect.Y, width, height));
+                this.CellContents[child.Row, child.Column] = child;
+                child.ResizeRecursive(new Rectangle(rectangle.X, rectangle.Y, width, height));
             }
         }
 
         public override void DrawThis(Display display)
         {
             base.DrawThis(display);
-            foreach (var cell in cellRectangles)
-                display.DrawRectangle(cell, Color.Green, Color.Lime, 1);
+            foreach (Rectangle cell in this.CellRectangles)
+                display.DrawRectangle(cell, Config.Main.BackColor, Config.Main.BorderColor, 1);
         }
 
         public override void DrawDebugRecursive(Display display)
         {
             base.DrawDebugRecursive(display);
-            foreach (var cell in cellRectangles)
+            foreach (Rectangle cell in this.CellRectangles)
             {
-                display.DrawRectangle(new Rectangle(cell.Left, cell.Top, cell.Width, 1),                DebugColor * 0.5f);
-                display.DrawRectangle(new Rectangle(cell.Right - 1, cell.Top + 1, 1, cell.Height - 2),  DebugColor * 0.5f);
-                display.DrawRectangle(new Rectangle(cell.Left + 1, cell.Bottom - 1, cell.Width - 1, 1), DebugColor * 0.5f);
-                display.DrawRectangle(new Rectangle(cell.Left, cell.Top + 1, 1, cell.Height - 1),       DebugColor * 0.5f);
+                display.DrawRectangle(new Rectangle(cell.Left, cell.Top, cell.Width, 1),                this.DebugColor * 0.5f);
+                display.DrawRectangle(new Rectangle(cell.Right - 1, cell.Top + 1, 1, cell.Height - 2),  this.DebugColor * 0.5f);
+                display.DrawRectangle(new Rectangle(cell.Left + 1, cell.Bottom - 1, cell.Width - 1, 1), this.DebugColor * 0.5f);
+                display.DrawRectangle(new Rectangle(cell.Left, cell.Top + 1, 1, cell.Height - 1),       this.DebugColor * 0.5f);
             }
         }
 
@@ -184,25 +237,37 @@ namespace AATool.UI.Controls
         {
             base.ReadNode(node);
 
-            Rows = new List<Size>();
+            this.Rows       = new ();
             XmlNode rowNode = node.SelectSingleNode("rows");
-            if (rowNode != null && rowNode.HasChildNodes)
+            if (rowNode is not null && rowNode.HasChildNodes)
             {
                 foreach (XmlNode row in rowNode.ChildNodes)
-                    Rows.Add(ParseAttribute(row, "height", new Size(1, SizeMode.Relative)));
+                {
+                    this.Rows.Add(ParseAttribute(row, "height", new Size(1, SizeMode.Relative)));
+                    this.CollapsedRows.Add(ParseAttribute(row, "collapsed", false));
+                }   
             }
             else
-                Rows.Add(new Size(1, SizeMode.Relative));
+            {
+                this.Rows.Add(new Size(1, SizeMode.Relative));
+                this.CollapsedRows.Add(false);
+            }
 
-            Columns = new List<Size>();
+            this.Columns    = new ();
             XmlNode colNode = node.SelectSingleNode("columns");
-            if (colNode != null && colNode.HasChildNodes)
+            if (colNode is not null && colNode.HasChildNodes)
             {
                 foreach (XmlNode col in colNode.ChildNodes)
-                    Columns.Add(ParseAttribute(col, "width", new Size(1, SizeMode.Relative)));
+                {
+                    this.Columns.Add(ParseAttribute(col, "width", new Size(1, SizeMode.Relative)));
+                    this.CollapsedColumns.Add(ParseAttribute(col, "collapsed", false));
+                }
             }
             else
-                Columns.Add(new Size(1, SizeMode.Relative));
+            {
+                this.Columns.Add(new Size(1, SizeMode.Relative));
+                this.CollapsedColumns.Add(false);
+            }
         }
     }
 }

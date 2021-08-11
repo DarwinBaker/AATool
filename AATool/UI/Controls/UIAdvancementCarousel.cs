@@ -1,47 +1,41 @@
-﻿using AATool.DataStructures;
+﻿using AATool.Data;
 using AATool.Settings;
-using AATool.UI.Screens;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace AATool.UI.Controls
 {
     class UIAdvancementCarousel : UICarousel
     {  
-        public override void InitializeRecursive(Screen screen)
-        {
-            UpdateSourceList();
-        }
-
         protected override void UpdateThis(Time time)
         {
-            UpdateSourceList();
+            this.UpdateSourceList();
 
-            if (TrackerSettings.Instance.ValueChanged(TrackerSettings.GAME_VERSION))
-                Clear();
-            if (OverlaySettings.Instance.ValueChanged(OverlaySettings.HIDE_COMPLETED))
-                Clear();
-            if (OverlaySettings.Instance.ValueChanged(OverlaySettings.ONLY_FAVORITES))
-                Clear();
+            if (Config.Tracker.GameVersionChanged())
+                this.Clear();
 
             //update text visibility
-            if (OverlaySettings.Instance.ValueChanged(OverlaySettings.SHOW_LABELS))
+            if (Config.Overlay.ShowLabelsChanged())
             {
-                if (OverlaySettings.Instance.ShowLabels)
+                if (Config.Overlay.ShowLabels)
+                {
                     foreach (var control in Children)
                         (control as UIAdvancement).ShowText();
+                }
                 else
+                {
                     foreach (var control in Children)
                         (control as UIAdvancement).HideText();
+                }
             }
 
             Fill();
 
-            //remove completed advancements from carousel if configured to do so
-            if (OverlaySettings.Instance.HideCompleted)
-                for (int i = Children.Count - 1; i >= 0; i--)
-                    if ((Children[i] as UIAdvancement).IsCompleted)
-                        Children.RemoveAt(i);
+            //remove completed advancements from carousel
+            for (int i = this.Children.Count - 1; i >= 0; i--)
+            {
+                if ((this.Children[i] as UIAdvancement).IsCompleted)
+                    this.Children.RemoveAt(i);
+            }
 
             base.UpdateThis(time);
         }
@@ -49,36 +43,28 @@ namespace AATool.UI.Controls
         protected override void UpdateSourceList()
         {
             var advancements = new List<Advancement>();
-            if (TrackerSettings.IsPostExplorationUpdate)
-                foreach (var advancement in GetRootScreen().AdvancementTracker.FullAdvancementList.Values)
-                    advancements.Add(advancement);
-            else
-                foreach (var achievement in GetRootScreen().AchievementTracker.FullAchievementList.Values)
-                    advancements.Add(achievement);
+            foreach (Advancement advancement in Tracker.AllAdvancements.Values)
+                advancements.Add(advancement);
 
+            this.SourceList = new List<object>(advancements);
 
-            SourceList = new List<object>(advancements);
-
-            //remove all completed advancements from pool if configured to do so
-            if (OverlaySettings.Instance.HideCompleted)
-                for (int i = SourceList.Count - 1; i >= 0; i--)
-                    if (advancements[i].IsCompleted)
-                        SourceList.RemoveAt(i);
-
-            //remove all advancements not marked as favorites from pool if configured to do so
-            if (OverlaySettings.Instance.OnlyShowFavorites)
-                for (int i = SourceList.Count - 1; i >= 0; i--)
-                    if (!OverlaySettings.Instance.Favorites.Advancements.Contains((SourceList[i] as Advancement).ID))
-                        SourceList.RemoveAt(i);
+            //remove all completed advancements from pool
+            for (int i = this.SourceList.Count - 1; i >= 0; i--)
+            {
+                if (advancements[i].CompletedByAnyone())
+                    this.SourceList.RemoveAt(i);
+            }
         }
 
         protected override UIControl NextControl()
         {
             //instantiate next control
-            var control = new UIAdvancement(3);
-            control.AdvancementName = (SourceList[NextIndex] as Advancement).ID;
-            control.InitializeRecursive(GetRootScreen());
-            if (!OverlaySettings.Instance.ShowLabels) 
+            var nextAdvancement = this.SourceList[this.NextIndex] as Advancement;
+            var control = new UIAdvancement(3) {
+                AdvancementName = nextAdvancement.Id
+            };
+            control.InitializeRecursive(this.GetRootScreen());
+            if (!Config.Overlay.ShowLabels) 
                 control.HideText();
             return control;
         }

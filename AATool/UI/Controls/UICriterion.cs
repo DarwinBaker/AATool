@@ -1,4 +1,5 @@
-﻿using AATool.DataStructures;
+﻿using AATool.Data;
+using AATool.Net;
 using AATool.Settings;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
@@ -7,70 +8,87 @@ namespace AATool.UI.Controls
 {
     class UICriterion : UIControl
     {
-        public string AdvancementName;
-        public string CriterionName;
-        public bool IsStatic;
+        public string AdvancementID { get; set; }
+        public string CriterionID   { get; set; }
+        public bool IsStatic        { get; set; }
 
+        private readonly int scale;
+        private readonly int imageSize;
+        
         private Criterion criterion;
         private UIPicture icon;
-        private int scale;
-        private int imageSize;
+        private UITextBlock label;
+        private float iconBrightness;
+        private float textBrightness;
 
-        public bool IsCompleted => criterion?.IsCompleted ?? false;
+        public bool IsCompleted => this.criterion?.CompletedBy(this.criterion.ParentAdvancement.GetDesignatedPlayer()) ?? false;
 
         public UICriterion() 
         {
-            InitializeFromSourceDocument();
-            scale = 1;
-            imageSize = 16 * scale;
+            this.BuildFromSourceDocument(); 
+            this.imageSize = 16;
+            this.scale = 1;
         }
 
         public UICriterion(int scale = 1) : this()
         {
             this.scale = scale;
-            imageSize = 16 * scale;
-            FlexWidth *= scale;
+            this.imageSize = 16 * scale;
+            this.FlexWidth *= scale;
             if (scale > 1)
             {
-                FlexWidth  = new Size(68, SizeMode.Absolute);
-                FlexHeight = new Size(68, SizeMode.Absolute);
+                this.FlexWidth  = new Size(68, SizeMode.Absolute);
+                this.FlexHeight = new Size(68, SizeMode.Absolute);
             }
-            Margin = new Margin(8 * scale, 0, 2, 0);
         }
 
-        public override void InitializeRecursive(Screen screen)
+        public override void InitializeRecursive(UIScreen screen)
         {
-            if (TrackerSettings.IsPostExplorationUpdate)
-                criterion = screen.AdvancementTracker.Advancement(AdvancementName).Criteria.TryGetValue(CriterionName, out var val) ? val : null;
-            else
-                criterion = screen.AchievementTracker.Achievement(AdvancementName).Criteria.TryGetValue(CriterionName, out var val) ? val : null;
-            if (criterion == null)
-                return;
+            Tracker.TryGetCriterion(this.AdvancementID, this.CriterionID, out this.criterion);
 
-            icon = GetControlByName("icon", true) as UIPicture;
-            if (icon != null)
+            if (Config.Main.CompactMode && this.scale is 1)
+                this.FlexWidth = new Size(95, SizeMode.Absolute);
+
+            this.icon = this.First<UIPicture>("icon");
+            if (this.icon is not null)
             {
-                icon.SetTexture(criterion.Icon);
-                icon.FlexWidth  = new Size(imageSize, SizeMode.Absolute);
-                icon.FlexHeight = new Size(imageSize, SizeMode.Absolute);
+                this.icon.SetTexture(this.criterion.Icon);
+                this.icon.FlexWidth  = new Size(this.imageSize, SizeMode.Absolute);
+                this.icon.FlexHeight = new Size(this.imageSize, SizeMode.Absolute);
             }
 
-            var label = GetControlByName("label", true) as UITextBlock;
-            if (scale == 1)
-                label?.SetText(criterion.Name);
+            this.label = this.First<UITextBlock>("label");
+            if (this.scale is 1)
+            { 
+                if (Config.Main.CompactMode)
+                    this.label?.SetText(this.criterion.ShortName);
+                else
+                    this.label?.SetText(this.criterion.Name);
+            }    
             else
-                RemoveControl(label);
+            {
+                this.RemoveControl(this.label);
+            }
+
+            if (!this.IsStatic)
+            {
+                this.iconBrightness = this.criterion.CompletedBy(this.criterion.DesignatedPlayer) ? 1f : 0.35f;
+                this.textBrightness = this.criterion.CompletedBy(this.criterion.DesignatedPlayer) ? 1f : 0.5f;
+            }
             base.InitializeRecursive(screen);
         }
 
         protected override void UpdateThis(Time time)
         {
-            if (criterion != null)
+            if (!this.IsStatic)
             {
-                if (IsStatic)
-                    icon?.SetTint(Color.White);
-                else
-                    icon?.SetTint(criterion.IsCompleted ? Color.White : Color.White * 0.35f);
+                float iconTarget = this.IsCompleted ? 1f : 0.35f;
+                this.iconBrightness = MathHelper.Lerp(this.iconBrightness, iconTarget, (float)(10 * time.Delta));
+                this.icon?.SetTint(Color.White * this.iconBrightness);
+
+                float textTarget = this.IsCompleted ? 1f : 0.5f;
+                this.textBrightness = MathHelper.Lerp(this.textBrightness, textTarget, (float)(10 * time.Delta));        
+                this.label?.SetTextColor(Config.Main.TextColor * textTarget);
             }
         }
     }

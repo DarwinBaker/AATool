@@ -100,7 +100,11 @@ namespace AATool.Winforms.Forms
             if (sender == menuClearNotesFolder)
             {
                 if (MessageBox.Show(this, "This will permanently delete all of your previous notes (the current one is preserved). Are you sure?", "Confirm Clear", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-                    Directory.Delete(Paths.DIR_NOTES, true);
+                    try
+                    {
+                        Directory.Delete(Paths.DIR_NOTES, true);
+                    }
+                    catch (Exception) { }
                 lastSavedNotes = null;
                 TrySaveNotes();
             }

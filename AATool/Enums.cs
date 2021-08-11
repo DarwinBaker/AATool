@@ -1,7 +1,18 @@
 ﻿namespace AATool
 {
     //data structures
-    public enum FrameType { Normal, Goal, Challenge }
+    public enum FrameType       { Normal, Goal, Challenge }
+
+    public enum SaveFolderState 
+    { 
+        Valid, 
+        NoWorlds, 
+        NonExistentPath,
+        EmptyPath,
+        InvalidPath,
+        PathTooLong,
+        PermissionError
+    }
 
     //ui
     public enum HorizontalAlign { Center, Left, Right }
@@ -10,10 +21,12 @@
     public enum SizeMode        { Absolute, Relative }
     public enum DrawMode        { All, ThisOnly, ChildrenOnly, None }
     public enum UIButtonState   { Released, Hovered, Pressed }
+    public enum UIRefreshStyle  { Compass, Xp }
 
     //graphics
-    public enum Layer { Main, Glow, Fore }
+    public enum Layer           { Main, Glow, Fore }
 
     //misc
-    public enum SupportTier { Developer, BetaTester, PatreonGold, PatreonDiamond, PatreonNetherite }
+    public enum Ease            { Back, Bounce, Circular, Cubic, Elastic, Exponential, Quadratic, Quartic, Quintic, Sinusoidal }
+    public enum SupportTier     { Developer, BetaTester, PatreonGold, PatreonDiamond, PatreonNetherite }
 }

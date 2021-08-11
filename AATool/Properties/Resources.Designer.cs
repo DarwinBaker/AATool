@@ -143,6 +143,16 @@ namespace AATool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap supporter_paypal {
+            get {
+                object obj = ResourceManager.GetObject("supporter_paypal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap twitch {
             get {
                 object obj = ResourceManager.GetObject("twitch", resourceCulture);

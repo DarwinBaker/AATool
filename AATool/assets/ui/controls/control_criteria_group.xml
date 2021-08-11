@@ -1,8 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<control height="370">
-    <flow_panel cell_width="100" cell_height="20" direction="toptobottom" padding="8,8,8,32">
-        <advancement/>
+<control>
+    <flow_panel name="criteria" cell_width="100" cell_height="20" direction="toptobottom" padding="8">
+        <panel name="advancement_space" draw_mode="none" width="68" height="100"/>
     </flow_panel>
-    <progress_bar name="bar" width="0.9*" margin="0,0,0,8" horizontal_align="center" vertical_align="bottom"/>
-    <text_block   name="progress" height="12" horizontal_align="center" vertical_align="bottom" margin_bottom="0,0,0,22"/>
+    <progress_bar name="bar" width="0.5*" margin="8,0,0,8" horizontal_align="left" vertical_align="bottom"/>
+    <text_block name="progress" height="12" text_align="left" horizontal_align="left" vertical_align="bottom" margin="10,0,0,24"/>
+
+    <flow_panel name="players" cell_width="68" cell_height="68" direction="lefttoright" collapsed="true">
+        <button name="auto" width="38" height="38" square="true" padding="3">
+            <text_block name="auto_text" height="12" text="Auto-Link" margin_bottom="-18" vertical_align="bottom"/>
+            <picture square="true" texture="nether_portal"/>
+            <picture square="true" texture="linked" layer="glow"/>
+            <glow_effect texture="respawn_anchor_glow" tint="238,130,238"/>
+        </button>
+    </flow_panel>
+
+    <button name="player_button" width="38" height="38" margin="0,-1,0,-1" horizontal_align="right" vertical_align="bottom">
+        <player_face scale="4"/>
+        <picture name="mode" margin_top="-20" width="16" height="16" vertical_align="top"/>
+    </button>
+
+    <advancement margin="8,0,8,0" horizontal_align="left" vertical_align="top"/>
+    <text_block name="single" collapsed="true" max_width="200" text="The current Minecraft world only contains save data for one player"/>
+    <text_block name="nobody" collapsed="true" max_width="200" text="There is currently no player save data to track"/>
 </control>

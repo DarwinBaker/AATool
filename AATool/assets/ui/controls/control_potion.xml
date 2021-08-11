@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<control width="188" height="52" flow_direction="toptobottom" drawmode="children_only">
-    <text_block margin="2,0,2,0" horizontal_align="left"/>
+<control width="188" height="46" flow_direction="toptobottom" drawmode="children_only">
+    <text_block margin="2,0,-3,0" text_align="left" vertical_align="top"/>
     <flow_panel height="32" cell_width="37" margin_top="2" draw_mode="children_only">
-        <picture name="potion" width="32" height="32" vertical_align="top"/>
-        <picture name="arrow"  width="32" height="32" vertical_align="top"/>
+        <picture name="potion" width="32" height="32" vertical_align="top">
+            <picture texture="enchantment_potion" layer="glow" width="32" height="32"/>
+        </picture>
+        <picture name="arrow" texture="arrow" width="32" height="32" vertical_align="top" margin_top="1"/>
     </flow_panel>
 </control>

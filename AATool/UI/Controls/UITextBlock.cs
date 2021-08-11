@@ -10,88 +10,89 @@ namespace AATool.UI.Controls
 {
     public class UITextBlock : UIControl
     {
-        public DynamicSpriteFont Font;
+        public DynamicSpriteFont Font    { get; private set; }
+        public string WrappedText        { get; private set; }
+        public Rectangle TextBounds      { get; private set; }
 
-        public string WrappedText       { get; private set; }
-        public Rectangle TextRectangle  { get; private set; }
-        public Color TextColor;
+        public HorizontalAlign TextAlign { get; set; }
+        public Color TextColor           { get; set; }
+
         public bool DrawBackground;
-
         private StringBuilder builder;
 
         public bool IsEmpty                         => Font == null || builder.Length == 0;
         public override string ToString()           => builder.ToString();
-        public void SetFont(string font, int scale) => Font = FontSet.Get(font, scale);
+        public void SetFont(string font, int size) => Font = FontSet.Get(font, size);
         public void SetTextColor(Color color)       => TextColor = color;
 
         public UITextBlock() : this("minecraft", 12) { }
         public UITextBlock(string font, int scale)
         {
-            builder = new StringBuilder();
-            SetFont(font, scale);
+            this.builder = new StringBuilder();
+            this.SetFont(font, scale);
         }
 
         public void SetText(string text) 
-        { 
-            builder = new StringBuilder(text);
-            UpdateWrappedText();
+        {
+            this.builder = new StringBuilder(text);
+            this.UpdateWrappedText();
         }
 
         public void Append(string text) 
         {
-            builder.Append(text);
-            UpdateWrappedText();
+            this.builder.Append(text);
+            this.UpdateWrappedText();
         }
 
         public void AppendLine(string text) 
-        { 
-            builder.Append(text + "\n");
-            UpdateWrappedText();
+        {
+            this.builder.Append(text + "\n");
+            this.UpdateWrappedText();
         }
 
         public void Clear() 
         {
-            builder.Clear();
-            UpdateWrappedText();
+            this.builder.Clear();
+            this.UpdateWrappedText();
         }
 
         public override void DrawThis(Display display)
         {
-            if (IsEmpty)
+            if (this.IsEmpty)
                 return;
 
-            string text = ToString();
+            string text = this.ToString();
             if (string.IsNullOrWhiteSpace(text))
                 return;
 
-            if (DrawBackground)
-                display.DrawRectangle(new Rectangle(TextRectangle.Left, TextRectangle.Top, TextRectangle.Width, TextRectangle.Height + 4), MainSettings.Instance.BackColor);
+            if (this.DrawBackground)
+                display.DrawRectangle(new Rectangle(this.TextBounds.Left, this.TextBounds.Top, this.TextBounds.Width, this.TextBounds.Height + 4), MainSettings.Instance.BackColor);
 
             //get what color text should be based on root screen
-            var color = TextColor;
-            if (TextColor == Color.Transparent)
-                color = GetRootScreen() is MainScreen ? MainSettings.Instance.TextColor : OverlaySettings.Instance.TextColor;
-            if (Rectangle.Size == Point.Zero)
-                display.DrawString(Font, text, Location.ToVector2(), color);
+            Color color = this.TextColor;
+            if (this.TextColor == Color.Transparent)
+                color = this.GetRootScreen() is UIMainScreen ? MainSettings.Instance.TextColor : OverlaySettings.Instance.TextColor;
+            if (this.Bounds.Size == Point.Zero)
+            {
+                display.DrawString(this.Font, text, this.Location.ToVector2(), color);
+            }
             else
             {
                 //draw text wrapped and aligned in bounding box
-                var bounds = Rectangle;
-                float y = bounds.Top;
-                foreach (var line in WrappedText.Split('\n'))
+                float y = this.Content.Top;
+                foreach (string line in this.WrappedText.Split('\n'))
                 {
-                    string trimmed = line.Trim();
-                    var size = Font.MeasureString(trimmed).ToPoint();
+                    var size = this.Font.MeasureString(line).ToPoint();
 
                     //calculate horizontal position of this line
-                    int x = HorizontalAlign switch
+                    int x = this.TextAlign switch
                     {
-                        HorizontalAlign.Center => (bounds.Left + (bounds.Width / 2 - size.X / 2)),
-                        HorizontalAlign.Left => bounds.Left,
-                        _ => bounds.Right - size.X
+                        HorizontalAlign.Center => this.Content.Left + this.Margin.Left + ((this.Content.Width / 2) - (size.X / 2)),
+                        HorizontalAlign.Left   => this.Content.Left,
+                        _                      => this.Content.Right + this.Margin.Right - size.X
                     };
 
-                    display.DrawString(Font, trimmed, new Vector2(x, y), color);
+                    display.DrawString(this.Font, line, new Vector2(x, y), color);
                     
                     //next line
                     y += size.Y;
@@ -101,30 +102,33 @@ namespace AATool.UI.Controls
 
         public override void DrawDebugRecursive(Display display)
         {
-            if (IsCollapsed)
+            base.DrawDebugRecursive(display);
+            if (this.IsCollapsed)
                 return;
-            if (DebugColor != Color.Transparent)
-                display.DrawRectangle(new Rectangle(TextRectangle.Left, TextRectangle.Top, TextRectangle.Width, TextRectangle.Height), DebugColor * 0.3f);
-            for (int i = 0; i < Children.Count; i++)
-                Children[i].DrawDebugRecursive(display);
+            if (this.DebugColor != Color.Transparent)
+                display.DrawRectangle(new Rectangle(this.TextBounds.Left, this.TextBounds.Top, this.TextBounds.Width, this.TextBounds.Height), DebugColor * 0.3f);
+            for (int i = 0; i < this.Children.Count; i++)
+                this.Children[i].DrawDebugRecursive(display);
         }
 
         public void UpdateWrappedText()
         {
-            if (IsEmpty)
+            if (this.IsEmpty)
                 return;
 
             var wrappedBuilder = new StringBuilder();
             float lineWidth = 0;
-            float spaceWidth = Font.MeasureString(" ").X;
+            float spaceWidth = this.Font.MeasureString(" ").X;
 
             //split text into array of words
-            string[] words = ToString().Split(' ');
+            string[] words = this.ToString().Replace("\n", "\n ").Split(' ');
             for (int i = 0; i < words.Length; i++)
             {
-                Vector2 currentSize = Font.MeasureString(words[i]);
-                if (lineWidth + currentSize.X < Width)
+                Vector2 currentSize = this.Font.MeasureString(words[i]);
+                if (lineWidth + currentSize.X < this.Content.Width)
+                {
                     wrappedBuilder.Append(words[i]);
+                }
                 else
                 {
                     //text overflowed; start on new line
@@ -138,36 +142,37 @@ namespace AATool.UI.Controls
                 lineWidth += currentSize.X + spaceWidth;
                 if (i < words.Length - 1)
                 {
-                    Vector2 nextSize = Font.MeasureString(words[i + 1]);
-                    if (lineWidth + nextSize.X < Width)
+                    Vector2 nextSize = this.Font.MeasureString(words[i + 1]);
+                    if (lineWidth + nextSize.X < this.Width)
                         wrappedBuilder.Append(" ");
                 }
             }
-            WrappedText = wrappedBuilder.ToString();
-            Point size = Font.MeasureString(WrappedText).ToPoint();
+            this.WrappedText = wrappedBuilder.ToString();
+            var size = this.Font.MeasureString(this.WrappedText).ToPoint();
 
             //calculate horizontal offset of text align
-            int x = HorizontalAlign switch
+            int x = this.TextAlign switch
             {
-                HorizontalAlign.Center => (Left + (Width / 2 - size.X / 2)),
-                HorizontalAlign.Left => Left,
-                _ => Right - size.X
+                HorizontalAlign.Center => this.Content.Left + ((this.Content.Width / 2) - (size.X / 2)),
+                HorizontalAlign.Left   => this.Content.Left,
+                HorizontalAlign.Right  => this.Content.Right - size.X
             };
-            TextRectangle = new Rectangle(x, Y, size.X, size.Y);
+            this.TextBounds = new Rectangle(x, this.Content.Top, size.X, size.Y);
         }
 
         public override void ResizeThis(Rectangle parentRectangle)
         {
             base.ResizeThis(parentRectangle);
-            UpdateWrappedText();
+            this.UpdateWrappedText();
         }
 
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            string text = ParseAttribute(node, "text", string.Empty);
-            if (!string.IsNullOrEmpty(text))
-                SetText(text);
+            this.SetText(ParseAttribute(node, "text", string.Empty));
+            this.SetFont("minecraft", ParseAttribute(node, "font_size", 12));
+            this.SetTextColor(ParseAttribute(node, "color", Color.Transparent));
+            this.TextAlign = ParseAttribute(node, "text_align", this.TextAlign);
         }
     }
 }

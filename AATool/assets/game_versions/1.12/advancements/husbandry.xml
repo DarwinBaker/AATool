@@ -1,11 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <group name="Husbandry">
     <advancement id="minecraft:husbandry/root"                      name="Husbandry"                    icon="husbandry_1.12"/>
-    <advancement id="minecraft:husbandry/plant_seed"                name="A Seedy Place"                icon="plant_seed_1.12"/>
-    <advancement id="minecraft:husbandry/breed_an_animal"           name="The Parrots and the Bats"     icon="breed_an_animal_1.12"/>
-    <advancement id="minecraft:husbandry/tame_an_animal"            name="Best Friends Forever"         icon="tame_an_animal_1.12"/>
-    <advancement id="minecraft:husbandry/balanced_diet"             name="A Balanced Diet"              icon="balanced_diet_1.12"     type="challenge">
-        <criteria goal="Food Eaten">
+    <advancement id="minecraft:husbandry/plant_seed"                name="A Seedy Place" short_name="Seedy Place" icon="plant_seed_1.12"/>
+    <advancement id="minecraft:husbandry/breed_an_animal"           name="The Parrots and the Bats" short_name="Parrots" icon="breed_an_animal_1.12"/>
+    <advancement id="minecraft:husbandry/tame_an_animal"            name="Best Friends Forever" short_name="BFF's" icon="tame_an_animal_1.12"/>
+    <advancement id="minecraft:husbandry/bred_all_animals"          name="Two by Two"     icon="bred_all_animals_1.12"     type="challenge">
+        <criteria goal="Animals">
+            <criterion id="bred_pig"         icon="pig_1.12"/>
+            <criterion id="bred_sheep"       icon="sheep_1.12"/>
+            <criterion id="bred_chicken"     icon="chicken_1.12"/>
+            <criterion id="bred_cow"         icon="cow_1.12"/>
+            <criterion id="bred_mooshroom"   icon="mooshroom_1.12"/>
+            <criterion id="bred_wolf"        icon="wolf"/>
+            <criterion id="bred_ocelot"      icon="ocelot_1.12"/>
+            <criterion id="bred_rabbit"      icon="rabbit_1.12"/>
+            <criterion id="bred_horse"       icon="horse_1.12"/>
+            <criterion id="bred_llama"       icon="llama_1.12"/>
+        </criteria>
+    </advancement>
+    <advancement id="minecraft:husbandry/balanced_diet"                     name="A Balanced Diet" short_name="ABD" icon="balanced_diet_1.12"     type="challenge">
+        <criteria goal="Foods Eaten">
             <criterion id="bread"                                           icon="bread_1.12"/>
             <criterion id="cooked_porkchop"         name="Porkchop"         icon="cooked_porkchop_1.12"/>
             <criterion id="porkchop"                name="Raw Porkchop"     icon="porkchop_1.12"/>
@@ -17,12 +31,12 @@
             <criterion id="mutton"                  name="Raw Mutton"       icon="mutton_1.12"/>
             <criterion id="cooked_rabbit"           name="Rabbit"           icon="cooked_rabbit_1.12"/>
             <criterion id="rabbit"                  name="Raw Rabbit"       icon="raw_rabbit_1.12"/>
-            <criterion id="cooked_cod"              name="Fish"             icon="cooked_cod_1.12"/>
-            <criterion id="raw_cod"                 name="Raw Fish"         icon="cod_1.12"/>
-            <criterion id="cooked_salmon"           name="Salmon"           icon="cooked_salmon_1.12"/>
-            <criterion id="raw_salmon"              name="Raw Salmon"       icon="salmon_1.12"/>
-            <criterion id="clownfish"                                       icon="tropical_fish_1.12"/>
-            <criterion id="pufferfish"                                      icon="pufferfish_1.12"/>
+            <criterion id="cooked_cod"              name="Cod"/>
+            <criterion id="raw_cod"                 name="Raw Cod"          icon="cod"/>
+            <criterion id="cooked_salmon"           name="Salmon"/>
+            <criterion id="raw_salmon"              name="Raw Salmon"       icon="salmon"/>
+            <criterion id="clownfish"/>
+            <criterion id="pufferfish"/>
             <criterion id="cookie"                                          icon="cookie_1.12"/>
             <criterion id="pumpkin_pie"                                     icon="pumpkin_pie_1.12"/>
             <criterion id="apple"                                           icon="apple_1.12"/>
@@ -43,19 +57,5 @@
             <criterion id="spider_eye"                                      icon="spider_eye_1.12"/>
         </criteria>
     </advancement>
-    <advancement id="minecraft:husbandry/bred_all_animals"      name="Two by Two"     icon="bred_all_animals_1.12"     type="challenge">
-        <criteria goal="Animals Bred">
-            <criterion id="bred_pig"         icon="pig_1.12"/>
-            <criterion id="bred_sheep"       icon="sheep_1.12"/>
-            <criterion id="bred_chicken"     icon="chicken_1.12"/>
-            <criterion id="bred_cow"         icon="cow_1.12"/>
-            <criterion id="bred_mooshroom"   icon="mooshroom_1.12"/>
-            <criterion id="bred_wolf"        icon="wolf"/>
-            <criterion id="bred_ocelot"      icon="ocelot_1.12"/>
-            <criterion id="bred_rabbit"      icon="rabbit_1.12"/>
-            <criterion id="bred_horse"       icon="horse_1.12"/>
-            <criterion id="bred_llama"       icon="llama_1.12"/>
-        </criteria>
-    </advancement>
-    <advancement id="minecraft:husbandry/break_diamond_hoe"         name="Serious Dedication"           icon="break_diamond_hoe"      type="challenge"/>
+    <advancement id="minecraft:husbandry/break_diamond_hoe" name="Serious Dedication" short_name="Dedication" icon="break_diamond_hoe" type="challenge"/>
 </group>

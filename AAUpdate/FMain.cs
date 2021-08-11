@@ -6,18 +6,20 @@ namespace AAUpdate
 {
     public partial class FMain : Form
     {
-        private void SetBar(MinecraftBar bar, int percent) => background.ReportProgress(0, (bar, percent));
-        private void SetLabel(Label label, string text)    => background.ReportProgress(0, (label, text));
+        private void SetBar(MinecraftBar bar, int percent) => 
+            this.background.ReportProgress(0, (bar, percent));
+        private void SetLabel(Label label, string text)    =>
+            this.background.ReportProgress(0, (label, text));
 
         private Updater updater;
 
         public FMain(Updater updater)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.updater = updater;
-            updater.ProgressChanged += OnProgressChanged;
-            updater.StatusChanged   += OnStatusChanged;
-            background.RunWorkerAsync();
+            updater.ProgressChanged += this.OnProgressChanged;
+            updater.StatusChanged   += this.OnStatusChanged;
+            this.background.RunWorkerAsync();
         }
 
         private void OnStatusChanged(int key, string value)
@@ -25,51 +27,54 @@ namespace AAUpdate
             switch (key)
             {
                 case Updater.STATUS_1:
-                    SetLabel(statusGeneric, value);
+                    this.SetLabel(this.statusGeneric, value);
                     break;
                 case Updater.STATUS_2:
-                    SetLabel(statusSpecific, value);
+                    this.SetLabel(this.statusSpecific, value);
                     break;
                 case Updater.STATUS_3:
-                    SetLabel(statusFile, value);
+                    this.SetLabel(this.statusFile, value);
                     break;
             }
         }
 
-        private void OnProgressChanged(int key, (int, int) value)
+        private void OnProgressChanged(int key, (int numerator, int denominator) value)
         {
             MinecraftBar bar = null;
-            Label labelTotal = null;
-            Label labelPercent = null;
-            switch (key)
+            Label labelTotal = null, labelPercent = null;
+            if (key is Updater.PROGRESS_1)
             {
-                case Updater.PROGRESS_1:
-                    bar = barOverall;
-                    labelTotal = totalOverall;
-                    labelPercent = percentOverall;
-                    break;
-                case Updater.PROGRESS_2:
-                    bar = barCurrent;
-                    labelTotal = totalCurrent;
-                    labelPercent = percentCurrent;
-                    break;
+                bar          = this.barOverall;
+                labelTotal   = this.totalOverall;
+                labelPercent = this.percentOverall;
+            }
+            else if (key is Updater.PROGRESS_2)
+            {
+                bar          = this.barCurrent;
+                labelTotal   = this.totalCurrent;
+                labelPercent = this.percentCurrent;
             }
 
             //update label text
-            int percent = (int)Math.Round(((double)value.Item1 / value.Item2) * 100);
+            int percent = (int)Math.Round(((double)value.numerator / value.denominator) * 100);
             if (bar.Value == 0 && percent == 100 || bar.Value == 100 && percent == 100)
-                SetLabel(labelTotal, "");
+                this.SetLabel(labelTotal, "");
             else
-                SetLabel(labelTotal, value.Item1 + " / " + value.Item2);
-            SetLabel(labelPercent, percent + "%");
+                this.SetLabel(labelTotal, value.numerator + " / " + value.denominator);
+            this.SetLabel(labelPercent, percent + "%");
 
             //update progress bar fill
-            SetBar(bar, percent);
+            this.SetBar(bar, percent);
+        }
+
+        private void UpdateProgress()
+        { 
+            
         }
 
         private void OnDoWork(object sender, DoWorkEventArgs e)
         {
-            updater.TryUpdate();
+            this.updater.TryUpdate();
         }
 
         private void OnReportProgress(object sender, ProgressChangedEventArgs e)
@@ -91,7 +96,7 @@ namespace AAUpdate
 
         private void OnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (updater.StartAAToolWhenDone)
+            if (updater.ReturnWhenDone)
                 Close();
         }
     }

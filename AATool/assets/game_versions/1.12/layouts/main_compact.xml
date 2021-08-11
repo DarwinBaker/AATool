@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control width="1084" height="700">
+    <grid drawmode="all">
+        <rows>
+            <row height="348"/>
+            <row height="310"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="858"/>
+            <column width="66"/>
+        </columns>
+
+        <panel col="1"/>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <!-- basic advancements -->
+        <panel row="0" col="1" drawmode="all">
+            <advancement_group group="minecraft" width="5 * 66" height="3 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="nether"    width="5 * 66" height="3 * 68" margin_left="5 * 66"    horizontal_align="left" vertical_align="top" direction="righttoleft"/>
+            <advancement_group group="end"       width="4 * 66" height="2 * 68" margin_top="3 * 68"     horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="adventure" width="2 * 66" height="4 * 68" margin_left="11 * 66"   horizontal_align="left" vertical_align="top" direction="righttoleft"/>
+            <advancement_group group="husbandry" width="7 * 66" height="1 * 68" margin_left="4 * 66"    margin_top="4 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement id="minecraft:story/cure_zombie_villager" width="66" height="68" margin="264,0,204,0" horizontal_align="left" vertical_align="top"/>
+        </panel>
+
+        <!-- advancements with subcriteria -->
+        <flow_panel row="1" col="1" drawmode="all">
+            <criteria_group width="4.5 * 66" advancement="minecraft:adventure/adventuring_time"/>
+            <criteria_group width="3 * 66"   advancement="minecraft:adventure/kill_all_mobs"/>
+            <criteria_group width="4.5 * 66" advancement="minecraft:husbandry/balanced_diet"/>
+            <criteria_group width="2 * 66"   advancement="minecraft:husbandry/bred_all_animals"/>
+        </flow_panel>
+
+        <!-- item count display (trident, shells, skulls etc.) -->
+        <flow_panel name="counts" col="2" cell_width="68">
+            <item_count id="minecraft:enchanted_golden_apple"/>
+            <item_count id="minecraft:skull"/>
+        </flow_panel>
+
+        <!-- status strip -->
+        <status_bar row="2" col="1" colspan="3" right="330"/>
+    </grid>
+</control>

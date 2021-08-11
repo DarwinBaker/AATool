@@ -1,4 +1,4 @@
-﻿using AATool.DataStructures;
+﻿using AATool.Data;
 using AATool.Settings;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
@@ -9,20 +9,22 @@ namespace AATool.UI.Controls
 {
     class UICriteriaCarousel : UICarousel
     {
-        public override void InitializeRecursive(Screen screen)
+        public override void InitializeRecursive(UIScreen screen)
         {
-            UpdateSourceList();
+            this.UpdateSourceList();
         }
 
         protected override void UpdateThis(Time time)
         {
-            UpdateSourceList();
-            Fill();
+            this.UpdateSourceList();
+            this.Fill();
 
             //remove ones that have been completed
-            for (int i = Children.Count - 1; i >= 0; i--)
-                if ((Children[i] as UICriterion).IsCompleted)
-                    Children.RemoveAt(i);
+            for (int i = this.Children.Count - 1; i >= 0; i--)
+            {
+                if ((this.Children[i] as UICriterion).IsCompleted)
+                    this.Children.RemoveAt(i);
+            }
 
             base.UpdateThis(time);
         }
@@ -30,45 +32,29 @@ namespace AATool.UI.Controls
         protected override void UpdateSourceList()
         {
             //populate source list with all criteria
-            SourceList = new List<object>();
-            if (TrackerSettings.IsPostExplorationUpdate)
+            this.SourceList.Clear();
+            foreach (Criterion criterion in Tracker.AllCriteria.Values)
             {
-                foreach (Criterion criterion in GetRootScreen().AdvancementTracker.FullCriteriaList.Values)
-                    if (!criterion.IsCompleted)
-                        SourceList.Add(criterion);
+                if (!criterion.CompletedByAnyone())
+                    this.SourceList.Add(criterion);
             }
-            else
-            {
-                foreach (Criterion criterion in GetRootScreen().AchievementTracker.FullCriteriaList.Values)
-                    if (!criterion.IsCompleted)
-                        SourceList.Add(criterion);
-            }
-                
 
             //remove all completed criteria from pool if configured to do so
             for (int i = SourceList.Count - 1; i >= 0; i--)
-                if ((SourceList[i] as Criterion).IsCompleted)
+                if ((SourceList[i] as Criterion).CompletedByAnyone())
                     SourceList.RemoveAt(i);
-
-            //remove all criteria not marked as favorites from pool if configured to do so
-            if (OverlaySettings.Instance.OnlyShowFavorites)
-                for (int i = SourceList.Count - 1; i >= 0; i--)
-                {
-                    var criterion = SourceList[i] as Criterion;
-                    if (!OverlaySettings.Instance.Favorites.Criteria.Contains(criterion.ParentID + "/" + criterion.ID))
-                        SourceList.RemoveAt(i);
-                }
         }
 
         protected override void Fill()
         {
             //calculate widths
-            int x = Children.Count > 0 ? Children.Last().Right : 0;
-            if (Children.Count > 0)
-                x = OverlaySettings.Instance.RightToLeft ? Children.Last().Right : Width - Children.Last().Left;
+            int x = this.Children.Count > 0 ? this.Children.Last().Right : 0;
+            if (this.Children.Count > 0)
+                x = this.RightToLeft ? this.Children.Last().Right : this.Width - this.Children.Last().Left;
 
             //while more controls will fit, add them
-            while (x < Width)
+            int attempts = 0;
+            while (x < this.Width)
             {
                 if (SourceList.Count == 0)
                     return;
@@ -78,14 +64,13 @@ namespace AATool.UI.Controls
 
                 var control = NextControl();
                 
-
                 control.InitializeRecursive(GetRootScreen());
-                control.ResizeRecursive(Rectangle);
+                control.ResizeRecursive(Bounds);
 
-                if (OverlaySettings.Instance.RightToLeft)
-                    control.MoveTo(new Point(x, ContentRectangle.Top));
+                if (RightToLeft)
+                    control.MoveTo(new Point(x, Content.Top));
                 else
-                    control.MoveTo(new Point(Width - x - control.Width, ContentRectangle.Top));
+                    control.MoveTo(new Point(Width - x - control.Width, Content.Top));
                 AddControl(control);
 
                 NextIndex++;
@@ -98,8 +83,8 @@ namespace AATool.UI.Controls
             var criterion = SourceList[NextIndex] as Criterion;
             var control = new UICriterion(3);
             control.IsStatic = true;
-            control.AdvancementName = criterion.ParentID;
-            control.CriterionName = criterion.ID;
+            control.AdvancementID = criterion.ParentAdvancement.Id;
+            control.CriterionID = criterion.ID;
             return control;
         }
     }

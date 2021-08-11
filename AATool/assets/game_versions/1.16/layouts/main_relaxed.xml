@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <rows>
+            <row height="416"/>
+            <row height="370"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="20 * 68"/>
+            <column width="68"/>
+        </columns>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <!-- basic advancements -->
+        <grid row="0" col="1" drawmode="all">
+            <rows>
+                <row height="248"/>
+                <row height="168"/>
+            </rows>
+            <columns>
+                <column width="5 * 68"/>
+                <column width="8 * 68"/>
+                <column width="4 * 68"/>
+                <column width="3 * 68"/>
+            </columns>
+
+            <advancement_group group="minecraft"   row="0" col="0"/>
+            <advancement_group group="nether"      row="0" col="1" direction="righttoleft"/>
+            <advancement_group group="end"         row="1" col="0"/>
+            <advancement_group group="adventure_1" row="0" col="2"/>
+            <advancement_group group="adventure_2" row="1" col="2"/>
+            <advancement_group group="husbandry"   row="1" col="1"/>
+            <potion_group                          row="0" col="3" rowspan="2"/>
+        </grid>
+
+        <!-- advancements with subcriteria -->
+        <flow_panel row="1" col="1" colspan="2">
+            <criteria_group width="5 * 68" advancement="minecraft:adventure/adventuring_time"/>
+            <criteria_group width="320" advancement="minecraft:adventure/kill_all_mobs"/>
+            <criteria_group width="320" advancement="minecraft:husbandry/balanced_diet"/>
+            <criteria_group width="176" advancement="minecraft:husbandry/bred_all_animals"/>
+            <criteria_group width="2 * 68" advancement="minecraft:husbandry/complete_catalogue"/>
+            <criteria_group width="2 * 68" advancement="minecraft:nether/explore_nether"/>
+        </flow_panel>
+
+        <!-- item count display (trident, shells, skulls etc.) -->
+        <flow_panel name="counts" col="2" cell_width="68" cell_height="80">
+            <item_count id="minecraft:enchanted_golden_apple"/>
+            <item_count id="minecraft:trident"/>
+            <item_count id="minecraft:nautilus_shell"/>
+            <item_count id="minecraft:wither_skeleton_skull"/>
+            <item_count id="minecraft:ancient_debris"/>
+        </flow_panel>
+
+        <!-- status strip -->
+        <status_bar row="2" col="1" colspan="3" right="500"/>
+    </grid>
+</control>

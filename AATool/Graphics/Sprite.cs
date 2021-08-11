@@ -2,15 +2,20 @@
 
 namespace AATool.Graphics
 {
-    public struct Sprite
+    public readonly struct Sprite
     {
-        public Rectangle SourceRectangle;
-        public int FrameCount;
+        public readonly Rectangle Source;
+        public readonly int Frames;
 
-        public Sprite(Rectangle sourceRectangle, int frameCount)
+        public int X      => this.Source.X;
+        public int Y      => this.Source.Y;
+        public int Width  => this.Source.Width;
+        public int Height => this.Source.Height;
+
+        public Sprite(Rectangle source, int frames)
         {
-            SourceRectangle = sourceRectangle;
-            FrameCount = frameCount;
+            this.Source = source;
+            this.Frames = frames;
         }
     }
 }

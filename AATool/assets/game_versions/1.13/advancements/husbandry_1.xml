@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Husbandry">
+    <advancement id="minecraft:husbandry/root"                      name="Husbandry"                    icon="husbandry_1.12"/>
+    <advancement id="minecraft:husbandry/plant_seed"                name="A Seedy Place" short_name="Seedy Place" icon="plant_seed_1.12"/>
+    <advancement id="minecraft:husbandry/breed_an_animal"           name="The Parrots and the Bats" short_name="Parrots" icon="breed_an_animal_1.12"/>
+    <advancement id="minecraft:husbandry/tame_an_animal"            name="Best Friends Forever" short_name="BFF's" icon="tame_an_animal_1.12"/>
+    <advancement id="minecraft:husbandry/fishy_business"            name="Fishy Business" short_name="Fishy Biz"/>
+</group>

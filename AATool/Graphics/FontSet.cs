@@ -8,20 +8,20 @@ namespace AATool.Graphics
 {
     public static class FontSet
     {
-        private static Dictionary<string, FontSystem> systems;
-        private static Dictionary<string, Dictionary<int, DynamicSpriteFont>> fonts;
+        private static Dictionary<string, FontSystem> Systems;
+        private static Dictionary<string, Dictionary<int, DynamicSpriteFont>> Fonts;
 
         public static void Initialize(GraphicsDevice device)
         {
-            systems = new Dictionary<string, FontSystem>();
-            fonts = new Dictionary<string, Dictionary<int, DynamicSpriteFont>>();
+            Systems = new ();
+            Fonts   = new ();
 
-            if (!Directory.Exists(Paths.DIR_FONTS))
-                return;
-
-            //support both .ttf and .otf font types
-            LoadFiles(device, Paths.DIR_FONTS, "ttf");
-            LoadFiles(device, Paths.DIR_FONTS, "otf");
+            if (Directory.Exists(Paths.DIR_FONTS))
+            {
+                //support both .ttf and .otf font types
+                LoadFiles(device, Paths.DIR_FONTS, "ttf");
+                LoadFiles(device, Paths.DIR_FONTS, "otf");
+            }
         }
 
         private static void LoadFiles(GraphicsDevice device, string directory, string extension)
@@ -29,39 +29,38 @@ namespace AATool.Graphics
             //recursively read all font files
             foreach (string file in Directory.EnumerateFiles(directory, "*." + extension, SearchOption.AllDirectories))
             {
-                var font = FromFile(file, device);
-                systems[Path.GetFileNameWithoutExtension(file)] = font;
-                fonts[Path.GetFileNameWithoutExtension(file)] = new Dictionary<int, DynamicSpriteFont>();
+                FontSystem font = FromFile(file, device);
+                Systems[Path.GetFileNameWithoutExtension(file)] = font;
+                Fonts[Path.GetFileNameWithoutExtension(file)] = new Dictionary<int, DynamicSpriteFont>();
             }
         }
 
         private static FontSystem FromFile(string file, GraphicsDevice device)
         {
+            var fontSystem = new FontSystem();
             try
             {
-                using (var stream = File.OpenRead(file))
-                {
-                    var fontSystem = FontSystemFactory.Create(device, 1024, 1024, true);
-                    fontSystem.UseKernings = false;
-                    fontSystem.AddFont(stream);
-                    return fontSystem;
-                }
+                using FileStream stream = File.OpenRead(file);
+                fontSystem.AddFont(stream);
             }
             catch { }
-            return null;
+            return fontSystem;
         }
 
         public static DynamicSpriteFont Get(string key, int scale)
         {
-            if (fonts.TryGetValue(key ?? string.Empty, out var dynamicFont))
+            if (Fonts.TryGetValue(key ?? string.Empty, out Dictionary<int, DynamicSpriteFont> dynamicFont))
             {
-                if (dynamicFont.TryGetValue(scale, out var spriteFont))
+                if (dynamicFont.TryGetValue(scale, out DynamicSpriteFont spriteFont))
+                {
+                    //return cached scale
                     return spriteFont;
+                }
                 else
                 {
-                    //font is loaded, but requested scale isn't cached; create it
-                    var font = systems[key].GetFont(scale);
-                    fonts[key][scale] = font;
+                    //font is loaded, but requested scale isn't cached. build it
+                    DynamicSpriteFont font = Systems[key].GetFont(scale);
+                    Fonts[key][scale] = font;
                     return font;
                 }
             }

@@ -15,15 +15,13 @@ namespace AATool.Settings
 
         private NotesSettings()
         {
-            FileName = "notes";
-            Load();
+            this.Load("notes");
         }
 
         public override void ResetToDefaults()
         {
-            Entries = new Dictionary<string, object>();
-            Set(ENABLED, false);
-            Set(ALWAYS_ON_TOP, true);
+            this.Set(ENABLED, false);
+            this.Set(ALWAYS_ON_TOP, true);
         }
     }
 }

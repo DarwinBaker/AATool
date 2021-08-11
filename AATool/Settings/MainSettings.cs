@@ -1,60 +1,71 @@
-﻿using Microsoft.Xna.Framework;
+﻿using AATool.Utilities;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 namespace AATool.Settings
 {
     //i don't love the way these classes work, i might change them later
     public class MainSettings : SettingsGroup
     {
-        public static MainSettings Instance = new MainSettings();
+        public static MainSettings Instance = new ();
 
         public const string SHOW_BASIC      = "show_basic_advancements";
-        public const string FANCY_CORNERS   = "fancy_corners";
         public const string COMPLETION_GLOW = "completion_glow";
         public const string LAYOUT_DEBUG    = "layout_debug";
+        public const string COMPACT_MODE    = "compact_mode";
+        public const string REFRESH_ICON    = "refresh_icon";
         public const string RAINBOW_MODE    = "rainbow_mode";
         public const string BACK_COLOR      = "main_back_color";
         public const string TEXT_COLOR      = "main_text_color";
         public const string BORDER_COLOR    = "main_border_color";
         
-        public bool ShowBasic               { get => Get<bool>(SHOW_BASIC);      set => Set(SHOW_BASIC, value); }
-        public bool RenderFancyCorners      { get => Get<bool>(FANCY_CORNERS);   set => Set(FANCY_CORNERS, value); }
-        public bool RenderCompletionGlow    { get => Get<bool>(COMPLETION_GLOW); set => Set(COMPLETION_GLOW, value); }
-        public bool RainbowMode             { get => Get<bool>(RAINBOW_MODE);    set => Set(RAINBOW_MODE, value); }
-        public bool LayoutDebug             { get => Get<bool>(LAYOUT_DEBUG);    set => Set(LAYOUT_DEBUG, value); }
-        public Color BackColor              { get => Get<Color>(BACK_COLOR);     set => Set(BACK_COLOR, value); }
-        public Color TextColor              { get => Get<Color>(TEXT_COLOR);     set => Set(TEXT_COLOR, value); }
-        public Color BorderColor            { get => Get<Color>(BORDER_COLOR);   set => Set(BORDER_COLOR, value); }
+        public bool ShowBasic               { get => this.Get<bool>(SHOW_BASIC);      set => this.Set(SHOW_BASIC, value); }
+        public bool CompletionGlow          { get => this.Get<bool>(COMPLETION_GLOW); set => this.Set(COMPLETION_GLOW, value); }
+        public bool RainbowMode             { get => this.Get<bool>(RAINBOW_MODE);    set => this.Set(RAINBOW_MODE, value); }
+        public bool CompactMode             { get => this.Get<bool>(COMPACT_MODE);    set => this.Set(COMPACT_MODE, value); }
+        public bool LayoutDebug             { get => this.Get<bool>(LAYOUT_DEBUG);    set => this.Set(LAYOUT_DEBUG, value); }
+        public string RefreshIcon           { get => this.Get<string>(REFRESH_ICON);  set => this.Set(REFRESH_ICON, value); }
+        public Color BackColor              { get => this.Get<Color>(BACK_COLOR);     set => this.Set(BACK_COLOR, value); }
+        public Color TextColor              { get => this.Get<Color>(TEXT_COLOR);     set => this.Set(TEXT_COLOR, value); }
+        public Color BorderColor            { get => this.Get<Color>(BORDER_COLOR);   set => this.Set(BORDER_COLOR, value); }
 
-        private static Color ColorOf(int r, int g, int b) => Color.FromNonPremultiplied(r, g, b, 255);
+        private static Color Hex(string hex) => 
+            ColorHelper.TryGetHexColor(hex, out Color color) ? color : Color.White;
 
-        public static readonly Dictionary<string, (Color, Color, Color)> Themes = new Dictionary<string, (Color, Color, Color)>()
+        public static readonly Dictionary<string, (Color back, Color text, Color border)> Themes = new ()
         {
-            //establish theme presets
-            { "Light Mode",     (ColorOf(240, 240, 240), Color.Black,            ColorOf(196, 196, 196)  )},
-            { "Dark Mode",      (ColorOf(64, 64, 64),    Color.White,            ColorOf(128, 128, 128)  )},
-            { "Brick",          (ColorOf(128, 64, 64),   Color.White,            ColorOf(170, 90, 90)    )},
-            { "90's Hacker",    (Color.Black,            Color.Lime,             ColorOf(0, 80, 0)       )},
-            { "High Contrast",  (Color.Black,            Color.White,            Color.White             )}
+            //theme presets
+            {"Dark Mode",      (Hex("36393F"), Hex("DCDDDE"), Hex("4E5156"))},
+            {"Light Mode",     (Hex("F0F0F0"), Hex("000000"), Hex("C4C4C4"))},
+
+            {"GitHub Dark",    (Hex("0D1117"), Hex("C9D1D9"), Hex("30363D"))},
+
+            {"Ender Pearl",    (Hex("0C3730"), Hex("C6F2EA"), Hex("349988"))},
+            {"Blaze Rod",      (Hex("953300"), Hex("FFF87E"), Hex("FFC100"))},
+            
+            {"Brick",          (Hex("804040"), Hex("FFFFFF"), Hex("AA5A5A"))},
+            {"Berry",          (Hex("411126"), Hex("C9D1D9"), Hex("5E1938"))},
+            {"90's Hacker",    (Hex("001800"), Hex("00FF00"), Hex("005000"))},
+            {"High Contrast",  (Hex("000000"), Hex("FFFFFF"), Hex("FFFFFF"))}
         };
 
         private MainSettings()
         {
-            FileName = "main";
-            Load();
+            this.Load("main");
         }
 
         public override void ResetToDefaults()
         {
-            Entries = new Dictionary<string, object>();
-            Set(SHOW_BASIC, true);
-            Set(FANCY_CORNERS, false);
-            Set(COMPLETION_GLOW, false);
-            Set(RAINBOW_MODE, false);
-            Set(LAYOUT_DEBUG, false);
-            Set(BACK_COLOR, Color.FromNonPremultiplied(240, 240, 240, 255));
-            Set(TEXT_COLOR, Color.Black);
-            Set(BORDER_COLOR, Color.FromNonPremultiplied(196, 196, 196, 255));
+            this.Set(SHOW_BASIC,        true);
+            this.Set(COMPLETION_GLOW,   true);
+            this.Set(RAINBOW_MODE,      false);
+            this.Set(COMPACT_MODE,      false);
+            this.Set(REFRESH_ICON,      "xp_orb");
+            this.Set(LAYOUT_DEBUG,      false);
+            this.Set(BACK_COLOR,        Hex("36393F"));
+            this.Set(TEXT_COLOR,        Hex("DCDDDE"));
+            this.Set(BORDER_COLOR,      Hex("4E5156"));
         }
     }
 }

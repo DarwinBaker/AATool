@@ -1,2 +1,2 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<control flow_direction="toptobottom" padding="8,8,8,8" cell_width="188" cell_height="55"/>
+<control flow_direction="toptobottom" padding="8,0,6,0" cell_width="188"/>

@@ -1,4 +1,5 @@
-﻿using AATool.DataStructures;
+﻿using AATool.Data;
+using AATool.Graphics;
 using AATool.Settings;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
@@ -9,21 +10,25 @@ namespace AATool.UI.Controls
 {
     class UIItemCount : UIControl
     {
+        private const string FRAME_INCOMPLETE = "frame_count_incomplete";
+        private const string FRAME_COMPLETE   = "frame_count_complete";
+
         public string ItemName;
 
         private Statistic itemCount;
         private UIPicture frame;
         private UIPicture icon;
+        private UIGlowEffect glow;
         private UITextBlock label;
         private int scale;
-        private float glowRotation;
+        private bool isMainWindow;
 
         public bool IsCompleted => itemCount?.IsCompleted ?? false;
 
         public UIItemCount() 
         {
-            InitializeFromSourceDocument();
-            scale = 2;
+            this.BuildFromSourceDocument();
+            this.scale = 2;
         }
 
         public UIItemCount(int scale = 2) : this()
@@ -31,69 +36,115 @@ namespace AATool.UI.Controls
             this.scale = scale;
         }
 
-        public override void InitializeRecursive(Screen screen)
+        public override void InitializeRecursive(UIScreen screen)
         {
-            itemCount = screen.StatisticsTracker.ItemCount(ItemName);
-            if (itemCount == null)
+            this.isMainWindow = screen is UIMainScreen;
+
+            if (!Tracker.TryGetItem(this.ItemName, out this.itemCount))
                 return;
 
-            if (itemCount.IsEstimate)
-                DrawMode = DrawMode.ThisOnly;
+            this.glow  = this.First<UIGlowEffect>();
 
-            int textScale = scale < 3 ? 1 : 2;
+            int textSize = 12 * ((Config.Overlay.Scale + 1) / 2);
+            int textScale = this.scale < 3 ? 1 : 2;
             //FlexWidth *= Math.Min(scale + textScale - 1, 4);
-            FlexHeight *= scale;
-            Padding = new Margin(0, 0, 4 * scale, 0);
+            this.Padding = new Margin(0, 0, 4 * this.scale, 0);
 
-            frame = GetControlByName("frame", true) as UIPicture;
-            if (frame != null)
+            this.frame = this.First<UIPicture>("frame");
+            if (this.frame != null)
             {
-                frame.FlexWidth *= scale;
-                frame.FlexHeight *= scale;
-            }
-            
-            icon = GetControlByName("icon", true) as UIPicture;
-            if (icon != null)
-            {
-                icon.FlexWidth *= scale;
-                icon.FlexHeight *= scale;
-                icon.SetTexture(itemCount.Icon);
-                icon.SetLayer(Layer.Fore);
+                this.frame.FlexWidth *= this.scale;
+                this.frame.FlexHeight *= this.scale;
             }
 
-            label = GetControlByName("label", true) as UITextBlock;
-            if (label != null)
+            this.icon = this.First<UIPicture>("icon");
+            if (this.icon != null)
             {
-                label.Margin = new Margin(0, 0, (int)frame.FlexHeight.InternalValue, 0);
-                label.SetFont("minecraft", 12 * textScale);
+                this.icon.FlexWidth *= this.scale;
+                this.icon.FlexHeight *= this.scale;
+                this.icon.SetTexture(this.itemCount.Icon);
+                this.icon.SetLayer(Layer.Fore);
             }
 
+            this.label = this.First<UITextBlock>("label");
+            if (this.label != null)
+            {
+                this.label.Margin = new Margin(0, 0, (int)this.frame.FlexHeight.InternalValue, 0);
+                this.label.SetFont("minecraft", 12 * textScale);
+            }
+
+            //compact mode
+            if (this.isMainWindow && Config.Main.CompactMode)
+            {
+                this.FlexWidth  = new Size(66);
+                this.FlexHeight = new Size(68);
+            }
+            else
+            {
+                this.FlexHeight *= this.scale;
+            }
+
+            this.UpdateGlowBrightness(null);
             base.InitializeRecursive(screen);
         }
 
         protected override void UpdateThis(Time time)
         {
-            itemCount = GetRootScreen().StatisticsTracker.ItemCount(ItemName);
+            Tracker.TryGetItem(this.ItemName, out itemCount);
 
             //update count display
-            if (itemCount != null)
+            if (this.itemCount is not null)
             {
-                frame?.SetTexture(itemCount.CurrentFrame);
-                icon?.SetTexture(itemCount.Icon);
+                this.UpdateGlowBrightness(time);
 
-                int percent = (int)Math.Round((float)itemCount.PickedUp / itemCount.TargetCount * 100);
-                if (itemCount.TargetCount == 1)
-                    label?.SetText(itemCount.Name);
-                else if (!itemCount.IsEstimate)
-                    label?.SetText(itemCount.Name + "\n" + itemCount.PickedUp + " / " + itemCount.TargetCount);
+                this.frame?.SetTexture(this.itemCount.CurrentFrame);
+                this.icon?.SetTexture(this.itemCount.Icon);
+
+                int percent = (int)Math.Round((float)this.itemCount.PickedUp / this.itemCount.TargetCount * 100);
+
+                if (Config.Main.CompactMode && scale is 2)
+                { 
+                    if (this.itemCount.TargetCount == 1)
+                        this.label?.SetText(this.itemCount.PickedUp.ToString());
+                    else if (!this.itemCount.IsEstimate)
+                        this.label?.SetText(this.itemCount.PickedUp + " / " + this.itemCount.TargetCount);
+                    else if (percent == 0)
+                        this.label?.SetText(Math.Min(percent, 100) + "%");
+                    else
+                        this.label?.SetText("~" + Math.Min(percent, 100) + "%");
+                }                   
+                else if (this.itemCount.TargetCount == 1)
+                    this.label?.SetText(this.itemCount.Name);
+                else if (!this.itemCount.IsEstimate)
+                    this.label?.SetText(this.itemCount.Name + "\n" + this.itemCount.PickedUp + " / " + this.itemCount.TargetCount);
                 else if (percent == 0)
-                    label?.SetText(itemCount.Name + "\n" + Math.Min(percent, 100) + "%");
+                    this.label?.SetText(this.itemCount.Name + "\n" + Math.Min(percent, 100) + "%");
                 else
-                    label?.SetText(itemCount.Name + "\n~" + Math.Min(percent, 100) + "%");
+                    this.label?.SetText(this.itemCount.Name + "\n~" + Math.Min(percent, 100) + "%");
             }
+        }
 
-            if (IsCompleted)
-                glowRotation += (float)time.Delta * 0.25f;
+        private void UpdateGlowBrightness(Time time)
+        {
+            if (this.isMainWindow && Config.Main.CompletionGlow)
+                this.glow.Expand();
+            else
+                this.glow.Collapse();
+
+            float target = this.itemCount.IsCompleted ? 1 : 0;
+            if (this.itemCount.IsEstimate && this.itemCount.PickedUp > 0)
+                target = this.itemCount.PickedUp / this.itemCount.TargetCount;
+
+            if (time is null)
+            {
+                //skip lerping 
+                this.glow.LerpToBrightness(target);
+            }
+            else
+            {
+                float brightness = MathHelper.Lerp(this.glow.Brightness, target, (float)(10 * time.Delta));
+                this.glow.LerpToBrightness(brightness);
+            }   
         }
 
         public override void ReadNode(XmlNode node)
@@ -105,33 +156,13 @@ namespace AATool.UI.Controls
 
         public override void DrawRecursive(Display display)
         {
-            if (IsCollapsed)
-                return;
-
-            frame?.DrawRecursive(display);
-            if (itemCount?.IsEstimate ?? false)
-            {
-                float opacity = (float)itemCount.PickedUp / itemCount.TargetCount;
-                if (frame != null)
-                {
-                    frame.DrawThis(display);
-                    display.Draw(Statistic.FRAME_COMPLETE, frame.ContentRectangle, Color.White * opacity);
-                }
-
-                if (IsCompleted && MainSettings.Instance.RenderCompletionGlow)
-                    display.Draw("frame_glow", frame.Center.ToVector2(), glowRotation, Color.White * opacity, Layer.Glow);
-            }
-            else
-                if (IsCompleted && MainSettings.Instance.RenderCompletionGlow)
-                    display.Draw("frame_glow", frame.Center.ToVector2(), glowRotation, Color.White, Layer.Glow);
-
-            icon?.DrawRecursive(display);
-            label?.DrawRecursive(display);
+            base.DrawRecursive(display);
         }
 
         public override void DrawThis(Display display)
         {
-            
+            display.Draw(FRAME_INCOMPLETE, this.frame.Bounds, Color.White);
+            display.Draw(FRAME_COMPLETE, this.frame.Bounds, Color.White * this.glow.Brightness);
         }
     }
 }

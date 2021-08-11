@@ -4,34 +4,38 @@ using System.Linq;
 
 namespace AATool
 {
-    public class Time
+    public sealed class Time
     {
-        public double Delta         { get; private set; }
-        public long TotalFrames     { get; private set; }
+        private const int SAMPLE_SIZE = 60;
+
         public double TotalSeconds  { get; private set; }
+        public long TotalFrames     { get; private set; }
+        public double Delta         { get; private set; }
         public double AverageFPS    { get; private set; }
         public double CurrentFPS    { get; private set; }
 
-        private Queue<double> sampleBuffer = new Queue<double>();
+        private static readonly Queue<double> SampleBuffer = new ();
 
         public void Update(GameTime gameTime)
         {
             //get time since last frame
-            Delta = gameTime.ElapsedGameTime.TotalSeconds;
-            CurrentFPS = 1 / Delta;
+            this.Delta = gameTime.ElapsedGameTime.TotalSeconds;
+            this.CurrentFPS = 1 / this.Delta;
 
             //calculate fps
-            sampleBuffer.Enqueue(CurrentFPS);
-            if (sampleBuffer.Count > 60)
+            SampleBuffer.Enqueue(this.CurrentFPS);
+            if (SampleBuffer.Count > SAMPLE_SIZE)
             {
-                sampleBuffer.Dequeue();
-                AverageFPS = sampleBuffer.Average(i => i);
+                SampleBuffer.Dequeue();
+                this.AverageFPS = SampleBuffer.Average(i => i);
             }
             else
-                AverageFPS = CurrentFPS;
+            {
+                this.AverageFPS = this.CurrentFPS;
+            }
 
             TotalFrames++;
-            TotalSeconds += Delta;
+            TotalSeconds += this.Delta;
         }
     }
 }

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control square="true" texture="unloaded_player">
+    <textblock height="12" margin_bottom="-18" vertical_align="bottom"/>
+    <picture name="face" square="true" layer="fore">
+        <glow_effect texture="player_glow"/>
+    </picture>
+</control>

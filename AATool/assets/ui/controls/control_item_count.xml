@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <control width="128" height="34">
     <picture name="frame" width="26" height="26" vertical_align="top">
-        <picture name="icon" width="16" height="16"/>
+        <picture name="icon" width="16" height="16" layer="fore">
+            <glow_effect texture="frame_glow" layer="glow"/>
+        </picture>
     </picture>
-    <text_block name="label" vertical_align="top"/>
+    <text_block name="label" height="24" text_align="center" vertical_align="top"/>
 </control>

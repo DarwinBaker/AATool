@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control width="32" height="32">
+    <picture name="layer1" layer="fore"/>
+    <picture name="layer2" layer="fore"/>
+    <picture name="glow" layer="glow"/>
+</control>

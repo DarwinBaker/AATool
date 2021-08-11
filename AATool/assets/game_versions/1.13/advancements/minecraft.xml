@@ -1,20 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <group name="Minecraft">
-    <advancement id="minecraft:story/root"                  name="Minecraft"                icon="grass_1.12"/>
     <advancement id="minecraft:story/mine_stone"            name="Stone Age"                icon="mine_stone_1.12"/>
-    <advancement id="minecraft:story/upgrade_tools"         name="Getting an Upgrade"       icon="upgrade_tools_1.12"/>
-    <advancement id="minecraft:story/iron_tools"            name="Isn't It Iron Pick"       icon="iron_tools_1.12"/>
-    <advancement id="minecraft:story/smelt_iron"            name="Acquire Hardware"         icon="smelt_iron_1.12"/>
-    <advancement id="minecraft:story/obtain_armor"          name="Suit Up"                  icon="obtain_armor_1.12"/>
-    <advancement id="minecraft:story/deflect_arrow"         name="Not Today, Thank You"     icon="deflect_arrow_1.12"/>
-    <advancement id="minecraft:story/lava_bucket"           name="Hot Stuff"                icon="lava_bucket_1.12"/>
-    <advancement id="minecraft:story/enter_the_nether"      name="We Need to Go Deeper"     icon="enter_the_nether_1.12"/>
-    <advancement id="minecraft:story/form_obsidian"         name="Ice Bucket Challenge"     icon="form_obsidian_1.12"/>
+    <advancement id="minecraft:story/upgrade_tools"         name="Getting an Upgrade"       icon="upgrade_tools_1.12"    short_name="Upgrade"/>
+    <advancement id="minecraft:story/iron_tools"            name="Isn't It Iron&#160;Pick"  icon="iron_tools_1.12"       short_name="Iron Pick"/>
+    <advancement id="minecraft:story/smelt_iron"            name="Acquire Hardware"         icon="smelt_iron_1.12"       short_name="Hardware"/>
     <advancement id="minecraft:story/mine_diamond"          name="Diamonds!"                icon="mine_diamond_1.12"/>
-    <advancement id="minecraft:story/shiny_gear"            name="Cover Me With Diamonds"   icon="shiny_gear_1.12"/>
+    <advancement id="minecraft:story/lava_bucket"           name="Hot Stuff"                icon="lava_bucket_1.12"/>
+    <advancement id="minecraft:story/form_obsidian"         name="Ice Bucket Challenge"     icon="form_obsidian_1.12"    short_name="Ice Bucket"/>
+    <advancement id="minecraft:story/enter_the_nether"      name="We Need to Go Deeper"     icon="enter_the_nether_1.12" short_name="Go Deeper"/>
+    <advancement id="minecraft:story/obtain_armor"          name="Suit Up"                  icon="obtain_armor_1.12"/>
+    <advancement id="minecraft:story/shiny_gear"            name="Cover Me With Diamonds"   icon="shiny_gear_1.12"       short_name="W/Diamonds"/>
+    <advancement id="minecraft:story/root"                  name="Minecraft"                icon="grass_1.12" hidden="relaxed"/>
+    <advancement id="minecraft:story/cure_zombie_villager"  name="Zombie Doctor"            icon="cure_zombie_villager_1.12" short_name="Z Doctor" type="goal" hidden="compact"/>
+    <advancement id="minecraft:story/deflect_arrow"         name="Not Today, Thank You"     icon="deflect_arrow_1.12"    short_name="Not Today"/>
     <advancement id="minecraft:story/follow_ender_eye"      name="Eye Spy"                  icon="follow_ender_eye_1.12"/>
-    <advancement id="minecraft:story/enchant_item"          name="Enchanter"/>
-    <advancement id="minecraft:story/cure_zombie_villager"  name="Zombie Doctor"            icon="cure_zombie_villager_1.12"    type="goal"/>
     <advancement id="minecraft:story/enter_the_end"         name="The End?"                 icon="end_1.12"/>
+    <advancement id="minecraft:story/enchant_item"          name="Enchanter"/>
 </group>
-

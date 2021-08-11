@@ -1,4 +1,5 @@
-﻿using AATool.UI.Screens;
+﻿using AATool.Graphics;
+using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace AATool.UI.Controls
@@ -13,242 +15,272 @@ namespace AATool.UI.Controls
     public abstract class UIControl : XmlObject
     {
         //static dictionary to hold all control types for dynamic instantiation
-        private static Dictionary<string, Type> types;
+        private static Dictionary<string, Type> Types;
 
         //static dictionary to hold source documents for initializing controls
-        private static Dictionary<Type, XmlDocument> sourceDocs;
+        private static Dictionary<Type, XmlDocument> SourceDocs;
 
         //static dictionary to hold colors for drawing debug layout
-        private static Dictionary<Type, Color> debugColors = new Dictionary<Type, Color>()
-        {
-
+        private static readonly Dictionary<Type, Color> DebugColors = new () {
             { typeof(UIFlowPanel),          Color.Blue },
             { typeof(UIGrid),               Color.Blue },
-            { typeof(UIAchievementTree),    Color.Blue },
+            { typeof(UIAchievementTree),    Color.Violet },
+            { typeof(UIAdvancementGroup),   Color.Red },
             { typeof(UITextBlock),          Color.Yellow },
             { typeof(UIButton),             Color.Orange },
             { typeof(UIPicture),            Color.Lime },
             { typeof(UIAdvancement),        Color.Red },
-            { typeof(UICriterion),          Color.Magenta }
+            { typeof(UICriterion),          Color.Magenta },
+            { typeof(UIEnchantmentTable),   Color.Lime },
+            { typeof(UIProgressBar),        Color.Magenta }
         };
 
-        public List<UIControl> Children     { get; protected set; }
-        public UIControl Parent             { get; protected set; }
-        public Rectangle ContentRectangle   { get; protected set; }
+        public Margin Margin    { get; set; } = new(0, SizeMode.Absolute);
+        public Margin Padding   { get; set; } = new(0, SizeMode.Absolute);
+        public Size FlexWidth   { get; set; } = new(1, SizeMode.Relative);
+        public Size FlexHeight  { get; set; } = new(1, SizeMode.Relative);
+        public Size MinWidth    { get; set; } = new(0, SizeMode.Relative);
+        public Size MinHeight   { get; set; } = new(0, SizeMode.Relative);
+        public Size MaxWidth    { get; set; } = new(1, SizeMode.Relative);
+        public Size MaxHeight   { get; set; } = new(1, SizeMode.Relative);
 
-        public Point Location;
-        public Point Size;
+        public string Name      { get; set; } = string.Empty;
+        public object Tag       { get; set; } = null;
+        public int Row          { get; set; } = 0;
+        public int Column       { get; set; } = 0;
+        public int RowSpan      { get; set; } = 1;
+        public int ColumnSpan   { get; set; } = 1;
+        public bool IsClickable { get; set; } = true;
+        public bool IsCollapsed { get; set; } = false;
+        public bool IsSquare    { get; set; } = false;
 
-        public Margin Margin    = new Margin(0, SizeMode.Absolute);
-        public Margin Padding   = new Margin(0, SizeMode.Absolute);
-        public Size FlexWidth   = new Size(1, SizeMode.Relative);
-        public Size FlexHeight  = new Size(1, SizeMode.Relative);
-        public Size MaxWidth    = new Size(1, SizeMode.Relative);     
-        public Size MinWidth    = new Size(0, SizeMode.Relative);
-        public Size MaxHeight   = new Size(1, SizeMode.Relative);
-        public Size MinHeight   = new Size(0, SizeMode.Relative);
+        public List<UIControl> Children { get; protected set; }
+        public UIControl Parent         { get; protected set; }
+        public Rectangle Bounds         { get; protected set; }
+        public Rectangle Content        { get; protected set; }
 
         public HorizontalAlign HorizontalAlign = HorizontalAlign.Center;
-        public VerticalAlign VerticalAlign     = VerticalAlign.Center;
-        public DrawMode DrawMode               = DrawMode.All;
+        public VerticalAlign VerticalAlign = VerticalAlign.Center;
+        public DrawMode DrawMode = DrawMode.All;
 
-        public string Name      = string.Empty;
-        public int Row          = 0;
-        public int Column       = 0;
-        public int RowSpan      = 1;
-        public int ColumnSpan   = 1;
-        public bool IsClickable = true;
-        public bool IsCollapsed = false;
-        public bool IsSquare    = false;
+        public int X          
+        { 
+            get => this.Location.X; 
+            set => this.Bounds = new (value, this.Y, this.Width, this.Height); 
+        }
 
-        public Rectangle Rectangle  => new Rectangle(Location, Size);
-        public Point Center         => new Point(Location.X + Size.X / 2, Location.Y + Size.Y / 2);
-        public int X          { get => Location.X; set => Location.X = value; }
-        public int Y          { get => Location.Y; set => Location.Y = value; }
-        public int Width      { get => Size.X; set => Size.X = value; }
-        public int Height     { get => Size.Y; set => Size.Y = value; }
-        public int Top        => Y;
-        public int Bottom     => Y + Height;
-        public int Left       => X;
-        public int Right      => X + Width;
+        public int Y          
+        { 
+            get => this.Location.Y; 
+            set => this.Bounds = new(this.X, value, this.Width, this.Height);
+        }
 
-        public Screen GetRootScreen()            => this as Screen ?? Parent.GetRootScreen();
-        public Color DebugColor                  => debugColors.TryGetValue(GetType(), out var val) ? val : Color.Transparent;
-        public void Expand()                     => IsCollapsed = false;
-        public void Collapse()                   => IsCollapsed = true;
-        public void ParentTo(UIControl parent)   => Parent = parent;
-        public virtual void MoveTo(Point point)  => ResizeRecursive(new Rectangle(point, Size));
-        public virtual void MoveBy(Point point)  => ResizeRecursive(new Rectangle(Location + point, Size));
-        public virtual void ScaleTo(Point point) => ResizeRecursive(new Rectangle(Location, point));
+        public int Width      
+        { 
+            get => this.Size.X; 
+            set => this.Bounds = new(this.X, this.Y, value, this.Height);
+        }
+
+        public int Height 
+        { 
+            get => this.Size.Y; 
+            set => this.Bounds = new(this.X, this.Y, this.Width, value);
+        }
+
+        public Point Location => this.Bounds.Location;
+        public Point Center   => this.Bounds.Center;
+        public Point Size     => this.Bounds.Size;
+        public int Top        => this.Y;
+        public int Bottom     => this.Y + this.Height;
+        public int Left       => this.X;
+        public int Right      => this.X + this.Width;
+
+        public UIScreen GetRootScreen()          => this as UIScreen ?? this.Parent?.GetRootScreen();
+        public Color DebugColor                  => DebugColors.TryGetValue(this.GetType(), out Color val) ? val : Color.Transparent;
+        public void Expand()                     => this.IsCollapsed = false;
+        public void Collapse()                   => this.IsCollapsed = true;
+
+        public virtual void MoveTo(Point point)  => this.ResizeRecursive(new Rectangle(point, this.Size));
+        public virtual void MoveBy(Point point)  => this.ResizeRecursive(new Rectangle(this.Location + point, this.Size));
+        public virtual void ScaleTo(Point point) => this.ResizeRecursive(new Rectangle(this.Location, point));
 
         public UIControl()
         {
-            Children = new List<UIControl>();
+            this.Children = new ();
         }
 
-        public void InitializeFromSourceDocument()
+        public void BuildFromSourceDocument()
         {
             //attempt to construct control from blueprint xml file
-            sourceDocs ??= new Dictionary<Type, XmlDocument>();
-            var type = GetType();
-            if (!sourceDocs.ContainsKey(type))
+            SourceDocs ??= new Dictionary<Type, XmlDocument>();
+            Type type = this.GetType();
+            if (!SourceDocs.ContainsKey(type))
             {
                 //this control type doesn't have a cached blueprint; try and load one
                 try
                 {
                     var newDocument = new XmlDocument();
-                    foreach (var file in Directory.GetFiles(Paths.DIR_UI_CONTROLS, "*.xml"))
+                    foreach (string file in Directory.GetFiles(Paths.DIR_UI_CONTROLS, "*.xml"))
                     {
                         if (Path.GetFileNameWithoutExtension(file).Replace("_", string.Empty) == "control" + type.Name.ToLower().Substring(2))
                         {
                             newDocument.Load(file);
-                            sourceDocs[type] = newDocument;
+                            SourceDocs[type] = newDocument;
+                            break;
                         }
                     }
                 }
                 catch { }
             }          
-            if (sourceDocs.TryGetValue(type, out XmlDocument document))
-                ReadNode(document.SelectSingleNode("control"));
+            if (SourceDocs.TryGetValue(type, out XmlDocument document))
+                this.ReadNode(document.SelectSingleNode("control"));
         }
 
         public static UIControl CreateInstance(string type)
         {
             //if static type list is null, create and populate with all control types
-            types ??= (from t in Assembly.GetExecutingAssembly().GetTypes()
+            Types ??= (from t in Assembly.GetExecutingAssembly().GetTypes()
                        where t.IsClass && t.Namespace == "AATool.UI.Controls"
-                       select t).ToDictionary(t => t.Name.ToString().ToLower(), t => t, StringComparer.OrdinalIgnoreCase);
+                       select t).ToDictionary(t => t.Name.ToString().ToLower(), 
+                                              t => t, StringComparer.OrdinalIgnoreCase);
 
             //if type name is valid, create instance of type
-            if (types.TryGetValue(type, out Type realType))
-                return Activator.CreateInstance(realType) as UIControl;
-            return null;
+            return Types.TryGetValue(type, out Type realType) 
+                ? Activator.CreateInstance(realType) as UIControl 
+                : null;
         }
 
-        public virtual void InitializeRecursive(Screen screen)
+        public void ParentTo(UIControl parent) => this.Parent = parent;
+
+        public virtual void InitializeRecursive(UIScreen screen)
         {
-            foreach (var control in Children)
+            foreach (UIControl control in this.Children)
                 control.InitializeRecursive(screen);
+        }
+
+        public void ClearControls()
+        {
+            while (this.Children.Count > 0)
+                this.RemoveControl(this.Children[0]);
         }
 
         public virtual void AddControl(UIControl control)
         {
-            if (control != null && !Children.Contains(control))
+            if (control is not null && !this.Children.Contains(control))
             {
-                Children.Add(control);
+                this.Children.Add(control);
                 control.ParentTo(this);
             }
         }
 
         public virtual void RemoveControl(UIControl control)
         {
-            Children.Remove(control);
-            control.ParentTo(null);
+            this.Children.Remove(control);
+            control?.ParentTo(null);
         }
 
         public virtual void ResizeRecursive(Rectangle rectangle)
         {
-            ResizeThis(rectangle);
-            ResizeChildren();
+            this.ResizeThis(rectangle);
+            this.ResizeChildren();
         }
 
-        public virtual void ResizeThis(Rectangle parentRectangle)
+        public virtual void ResizeThis(Rectangle parent)
         {
             //scale all relative values to parent rectangle
-            Margin.Resize(parentRectangle.Size);
-            FlexWidth.Resize(parentRectangle.Width);
-            FlexHeight.Resize(parentRectangle.Height);
-            MaxWidth.Resize(parentRectangle.Width);
-            MinWidth.Resize(parentRectangle.Width);
-            MaxHeight.Resize(parentRectangle.Height);
-            MinHeight.Resize(parentRectangle.Height);
+            this.Margin.Resize(parent.Size);
+            this.FlexWidth.Resize(parent.Width);
+            this.FlexHeight.Resize(parent.Height);
+            this.MaxWidth.Resize(parent.Width);
+            this.MinWidth.Resize(parent.Width);
+            this.MaxHeight.Resize(parent.Height);
+            this.MinHeight.Resize(parent.Height);
 
             //clamp size to min and max
-            Width = MathHelper.Clamp(FlexWidth.Absolute, MinWidth.Absolute, MaxWidth.Absolute);
-            Height = MathHelper.Clamp(FlexHeight.Absolute, MinHeight.Absolute, MaxHeight.Absolute);
+            this.Width  = MathHelper.Clamp(this.FlexWidth.Absolute, this.MinWidth.Absolute, this.MaxWidth.Absolute);
+            this.Height = MathHelper.Clamp(this.FlexHeight.Absolute, this.MinHeight.Absolute, this.MaxHeight.Absolute);
 
             //if control is square, conform both width and height to the larger of the two
-            if (IsSquare) Width = Height = Math.Min(Width, Height);
+            if (this.IsSquare)
+                this.Width = this.Height = Math.Min(this.Width, this.Height);
 
-            X = HorizontalAlign switch {
-                HorizontalAlign.Center => (parentRectangle.X + (parentRectangle.Width / 2) - (Width / 2)),
-                HorizontalAlign.Left => parentRectangle.Left + Margin.Left,
-                _ => parentRectangle.Right - Width - Margin.Right
+            this.X = this.HorizontalAlign switch {
+                HorizontalAlign.Center => parent.X + (parent.Width / 2) - (this.Width / 2),
+                HorizontalAlign.Left => parent.Left + this.Margin.Left,
+                _ => parent.Right - this.Width - this.Margin.Right
             };
 
-            Y = VerticalAlign switch {
-                VerticalAlign.Center => (parentRectangle.Top + parentRectangle.Height / 2 - Height / 2),
-                VerticalAlign.Top => parentRectangle.Top + Margin.Top,
-                _ => parentRectangle.Bottom - Height - Margin.Bottom
-            };
+            this.Y = this.VerticalAlign switch {
+                VerticalAlign.Center => parent.Top + (parent.Height / 2) - (this.Height / 2),
+                VerticalAlign.Top => parent.Top + this.Margin.Top,
+                _ => parent.Bottom - this.Height - this.Margin.Bottom
+            }; 
 
-            Padding.Resize(Size);
+            this.Padding.Resize(this.Size);
 
             //calculate internal rectangle
-            ContentRectangle = new Rectangle(X + Margin.Left + Padding.Left, Y + Margin.Top + Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical);
+            this.Content = new Rectangle(
+                this.X + this.Padding.Left, 
+                this.Y + this.Padding.Top, 
+                this.Width - this.Padding.Horizontal, 
+                this.Height - this.Padding.Vertical);
         }
 
         public virtual void ResizeChildren()
         {
-            foreach (var control in Children) 
-                control.ResizeRecursive(ContentRectangle);
+            foreach (UIControl child in this.Children) 
+                child.ResizeRecursive(this.Content);
         }
 
-        public UIControl GetControlByName(string name, bool recursive = false)
+        public UIControl First(string name) => this.First<UIControl>(name);
+
+        public T First<T>(string name = null) where T : UIControl
         {
-            //search child controls for control with name
-            foreach (var control in Children)
+            //search child controls (depth-first)
+            foreach (UIControl child in this.Children)
             {
-                if (control.Name == name) 
-                    return control;
-                else if (recursive)
+                if (child is T control)
                 {
-                    UIControl subControl = control.GetControlByName(name, true);
-                    if (subControl != null) 
-                        return subControl;
+                    if (name is null || control.Name == name)
+                        return control;
                 }
+
+                //recursively search child's children
+                control = child.First<T>(name);
+                if (control is not null)
+                    return control;
             }
             return null;
         }
 
-        public UIControl GetFirstOfType(Type type, bool recursive = false)
+        public void GetTreeRecursive(List<UIControl> children)
         {
-            //search child controls for first control of type
-            foreach (var control in Children)
-            {
-                if (control.GetType() == type) 
-                    return control;
-                else if (recursive)
-                {
-                    UIControl subControl = control.GetFirstOfType(type, true);
-                    if (subControl != null) 
-                        return subControl;
-                }
-            }
-            return null;
+            children.Add(this);
+            foreach (UIControl child in this.Children)
+                child.GetTreeRecursive(children);
         }
 
         protected virtual void UpdateThis(Time time) { }
-        public void UpdateRecursive(Time time)
+        public virtual void UpdateRecursive(Time time)
         {
-            if (IsCollapsed) 
+            if (this.IsCollapsed) 
                 return;
 
-            UpdateThis(time);
-            foreach (var control in Children) 
+            this.UpdateThis(time);
+            foreach (UIControl control in this.Children.ToArray()) 
                 control.UpdateRecursive(time);
         }
 
         public virtual void DrawThis(Display display)  { }
         public virtual void DrawRecursive(Display display)
         {
-            if (IsCollapsed) 
+            if (this.IsCollapsed) 
                 return;
-            if (DrawMode == DrawMode.All || DrawMode == DrawMode.ThisOnly) 
-                DrawThis(display);
-            if (DrawMode == DrawMode.All || DrawMode == DrawMode.ChildrenOnly)
-                for (int i = 0; i < Children.Count; i++)
-                    Children[i].DrawRecursive(display);
+            if (this.DrawMode is DrawMode.All || this.DrawMode is DrawMode.ThisOnly)
+                this.DrawThis(display);
+            if (this.DrawMode is DrawMode.All || this.DrawMode is DrawMode.ChildrenOnly)
+                for (int i = 0; i < this.Children.Count; i++)
+                    this.Children[i].DrawRecursive(display);
         }
 
         public virtual void DrawDebugRecursive(Display display)
@@ -257,11 +289,11 @@ namespace AATool.UI.Controls
                 return;
             if (DebugColor != Color.Transparent)
             {
-                display.DrawRectangle(new Rectangle(ContentRectangle.Left, ContentRectangle.Top, ContentRectangle.Width, 1), DebugColor * 0.8f);
-                display.DrawRectangle(new Rectangle(ContentRectangle.Right - 1, ContentRectangle.Top + 1, 1, ContentRectangle.Height - 2), DebugColor * 0.8f);
-                display.DrawRectangle(new Rectangle(ContentRectangle.Left + 1, ContentRectangle.Bottom - 1, ContentRectangle.Width - 1, 1), DebugColor * 0.8f);
-                display.DrawRectangle(new Rectangle(ContentRectangle.Left, ContentRectangle.Top + 1, 1, ContentRectangle.Height - 1), DebugColor * 0.8f);
-                display.DrawRectangle(new Rectangle(ContentRectangle.Left, ContentRectangle.Top, ContentRectangle.Width, ContentRectangle.Height), DebugColor * 0.2f);
+                display.DrawRectangle(new Rectangle(Bounds.Left, Bounds.Top, Bounds.Width, Bounds.Height), DebugColor * 0.1f);
+                display.DrawRectangle(new Rectangle(Bounds.Left, Bounds.Top, Bounds.Width, 1), DebugColor * 0.8f);
+                display.DrawRectangle(new Rectangle(Bounds.Right - 1, Bounds.Top + 1, 1, Bounds.Height - 2), DebugColor * 0.8f);
+                display.DrawRectangle(new Rectangle(Bounds.Left + 1, Bounds.Bottom - 1, Bounds.Width - 1, 1), DebugColor * 0.8f);
+                display.DrawRectangle(new Rectangle(Bounds.Left, Bounds.Top + 1, 1, Bounds.Height - 1), DebugColor * 0.8f);
             }
             for (int i = 0; i < Children.Count; i++)
                 Children[i].DrawDebugRecursive(display);
@@ -269,85 +301,89 @@ namespace AATool.UI.Controls
 
         public override void ReadNode(XmlNode node)
         {
-            if (node == null)
+            if (node is null)
                 return;
 
-            Name            = ParseAttribute(node, "name", Name);
-            FlexWidth       = ParseAttribute(node, "width", FlexWidth);
-            FlexHeight      = ParseAttribute(node, "height", FlexHeight);
-            MaxWidth        = ParseAttribute(node, "max_width", MaxWidth);
-            MaxHeight       = ParseAttribute(node, "max_height", MaxHeight);
-            MinWidth        = ParseAttribute(node, "min_width", MinWidth);
-            MinHeight       = ParseAttribute(node, "min_height", MinHeight);
-            Row             = ParseAttribute(node, "row", Row);
-            Column          = ParseAttribute(node, "col", Column);
-            RowSpan         = ParseAttribute(node, "rowspan", RowSpan);
-            ColumnSpan      = ParseAttribute(node, "colspan", ColumnSpan);
-            IsCollapsed     = ParseAttribute(node, "collapsed", IsCollapsed);
-            IsSquare        = ParseAttribute(node, "square", IsSquare);
-            DrawMode        = ParseAttribute(node, "draw_mode", DrawMode);
-            VerticalAlign   = ParseAttribute(node, "vertical_align", VerticalAlign);
-            HorizontalAlign = ParseAttribute(node, "horizontal_align", HorizontalAlign);
+            //properties
+            this.Name            = ParseAttribute(node, "name",             this.Name);
+            this.FlexWidth       = ParseAttribute(node, "width",            this.FlexWidth);
+            this.FlexHeight      = ParseAttribute(node, "height",           this.FlexHeight);
+            this.MaxWidth        = ParseAttribute(node, "max_width",        this.MaxWidth);
+            this.MaxHeight       = ParseAttribute(node, "max_height",       this.MaxHeight);
+            this.MinWidth        = ParseAttribute(node, "min_width",        this.MinWidth);
+            this.MinHeight       = ParseAttribute(node, "min_height",       this.MinHeight);
+            this.Row             = ParseAttribute(node, "row",              this.Row);
+            this.Column          = ParseAttribute(node, "col",              this.Column);
+            this.RowSpan         = ParseAttribute(node, "rowspan",          this.RowSpan);
+            this.ColumnSpan      = ParseAttribute(node, "colspan",          this.ColumnSpan);
+            this.IsCollapsed     = ParseAttribute(node, "collapsed",        this.IsCollapsed);
+            this.IsSquare        = ParseAttribute(node, "square",           this.IsSquare);
+            this.DrawMode        = ParseAttribute(node, "draw_mode",        this.DrawMode);
+            this.VerticalAlign   = ParseAttribute(node, "vertical_align",   this.VerticalAlign);
+            this.HorizontalAlign = ParseAttribute(node, "horizontal_align", this.HorizontalAlign);
 
-
-            if (node.Attributes["margin"] != null)
-                Margin = ParseAttribute(node, "margin", Margin);
+            //margin
+            if (node.Attributes["margin"] is not null)
+            {
+                this.Margin = ParseAttribute(node, "margin", this.Margin);
+            }
             else
             {
                 Size left   = ParseAttribute(node, "margin_left",   new Size());
                 Size right  = ParseAttribute(node, "margin_right",  new Size());
                 Size top    = ParseAttribute(node, "margin_top",    new Size());
                 Size bottom = ParseAttribute(node, "margin_bottom", new Size());
-                Margin      = new Margin(left, right, top, bottom);
+                this.Margin = new Margin(left, right, top, bottom);
             }
 
-            if (node.Attributes["padding"] != null)
-                Padding = ParseAttribute(node, "padding", Padding);
+            //padding
+            if (node.Attributes["padding"] is not null)
+            {
+                this.Padding = ParseAttribute(node, "padding", this.Padding);
+            }
             else
             {
-                Size left   = ParseAttribute(node, "padding_left",   new Size());
-                Size right  = ParseAttribute(node, "padding_right",  new Size());
-                Size top    = ParseAttribute(node, "padding_top",    new Size());
-                Size bottom = ParseAttribute(node, "padding_bottom", new Size());
-                Padding     = new Margin(left, right, top, bottom);
+                Size left    = ParseAttribute(node, "padding_left",   new Size());
+                Size right   = ParseAttribute(node, "padding_right",  new Size());
+                Size top     = ParseAttribute(node, "padding_top",    new Size());
+                Size bottom  = ParseAttribute(node, "padding_bottom", new Size());
+                this.Padding = new Margin(left, right, top, bottom);
             }
 
             foreach (XmlNode subNode in node.ChildNodes)
             {
                 //skip "rows" and "columns" elements, as they aren't controls
-                if (subNode.Name == "rows" || subNode.Name == "columns")
+                if (subNode.Name is "rows" or "columns")
                     continue;
 
                 UIControl subControl = CreateInstance("ui" + subNode.Name.Replace("_", string.Empty));
                 subControl?.ReadNode(subNode);
-                AddControl(subControl);
+                this.AddControl(subControl);
             }
         }
 
         public override void ReadDocument(XmlDocument document)
         {
-            if (document == null)
+            if (document?.DocumentElement is null)
                 return;
 
-            XmlNode root = document.SelectSingleNode("control");
-            if (root == null)
-                return;
+            this.ReadNode(document.DocumentElement);
+            this.Width      = ParseAttribute(document.DocumentElement, "width", 640);
+            this.Height     = ParseAttribute(document.DocumentElement, "height", 360);
+            this.FlexWidth  = new Size(this.Width, SizeMode.Absolute);
+            this.FlexHeight = new Size(this.Height, SizeMode.Absolute);
 
-            ReadNode(root);
-            Width = ParseAttribute(root, "width", 640);
-            Height = ParseAttribute(root, "height", 360);
-            FlexWidth = new Size(Width, SizeMode.Absolute);
-            FlexHeight = new Size(Height, SizeMode.Absolute);
-
-            if (root.Attributes["padding"] != null)
-                Padding = ParseAttribute(root, "padding", Padding);
+            if (document.DocumentElement.Attributes["padding"] is not null)
+            {
+                this.Padding = ParseAttribute(document.DocumentElement, "padding", this.Padding);
+            }
             else
             {
-                Size left   = ParseAttribute(root, "padding_left",   new Size());
-                Size right  = ParseAttribute(root, "padding_right",  new Size());
-                Size top    = ParseAttribute(root, "padding_top",    new Size());
-                Size bottom = ParseAttribute(root, "padding_bottom", new Size());
-                Padding     = new Margin(left, right, top, bottom);
+                Size left    = ParseAttribute(document.DocumentElement, "padding_left",   new Size());
+                Size right   = ParseAttribute(document.DocumentElement, "padding_right",  new Size());
+                Size top     = ParseAttribute(document.DocumentElement, "padding_top",    new Size());
+                Size bottom  = ParseAttribute(document.DocumentElement, "padding_bottom", new Size());
+                this.Padding = new Margin(left, right, top, bottom);
             }
         }
     }
