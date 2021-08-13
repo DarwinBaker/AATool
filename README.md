@@ -1,25 +1,26 @@
-# CTM's AA Speedrun Tool
-###### "The Ultimate All Advancements Tracker"
+# CTM's AATool
 
-![](info/preview_main.gif)
+![](info/preview_co_op.png)
 ![](info/preview_overlay.gif)
 
-## What's New?
-This is a complete rewrite of the [original Advancements Tracker](https://github.com/DarwinBaker/AdvancementsTracker) I created back in November of 2020 and supports all game versions from 1.11 to 1.17. I ended up being extremely limited by the performance of the framework that the original program was built on, and couldn't add many of the great features people had been requesting. This new version has no such limitations, so the sky is the limit! These massive performance improvements are thanks to the new version being built on DirectX, meaning it's rendered exclusively on the GPU. The old tracker was rendered on the CPU using GDI+, which while simpler to code, is *much* slower. Since Minecraft is largely CPU-bound in the first place, this change in rendering should free up valuable performance for generating chunks and whatnot.
+## What is AATool?
+AATool is a light-weight, standalone program for tracking Minecraft advancement completion progress! Its clean, yet visually appealing design makes it perfect for professional speedrunners, casual players, and hardcore completionists alike!
 
-In addition to being lightning fast (even on very old PCs) this new version also includes the totally customizable stream overlay that you have likely seen if you've watched [Elysaku's Stream](https://www.twitch.tv/elysaku). (Big thanks to him for beta testing!) [For a guide on how to set this up yourself, click here!](info/obs.md)
+It also includes the totally customizable stream overlay that you have likely seen if you've watched [Elysaku's Stream](https://www.twitch.tv/elysaku). Big thanks to him for beta testing this feature! [For a guide on how to set this up yourself, click here!](info/obs.md)
 
-_As of June 2021, the AATool project now contains over 12,000 lines of code!_ 🎉
+AATool even supports automatic synchronization of multiplayer worlds, and allows you to view the progress of individual players!
 
+_As of August 2021, the AATool project now contains over 13,000 lines of code!_ 🎉
 
 ## Want to Contribute?
 If you find this tool helpful or enjoy watching someone else who does, consider supporting me on [Patreon](https://www.patreon.com/_ctm) or making a [PayPal](https://www.paypal.com/donate?hosted_button_id=EN29468P8CY24) donation! This is of course completely optional and this program is and always will be completely free for everyone's use! Also, anyone who donates will have their name added to the tool's credits!
 
-Found a bug? Open an [Issue](https://github.com/DarwinBaker/AATool/issues/) and I'll get back to you ASAP!
+Found a bug? Open an [Issue](https://github.com/DarwinBaker/AATool/issues/) and I'll get back to you ASAP! 
+Experience a crash? AATool will automatically write a crash log text file in the "logs" folder. Send this to me, and I can get working on a fix!
 
 
 ## How It Works
-Due to its unintrusive nature, the tracker only refreshes whenever Minecraft saves. This can be when it autosaves every 5 minutes, but **a save can also be manually triggered by simply pausing and unpausing the game**. (Think of *Escape* like a split key for the tracker). When Minecraft saves it writes all of your advancement progress and stats to JSON files. This program then reads those files and displays their info in a nicely orginized view. The only privilege given to the tracker is `FileAccess.Read`, and `FileShare.ReadWrite` is used while parsing the file so as not to inturrupt Minecraft if it happens to save during a refresh. AATool also comes with an automatic update system, so once you have it up and running you never have to download anything again!
+Due to its unintrusive nature, the tracker only refreshes whenever Minecraft saves. This can be when it autosaves every 5 minutes, but **a save can also be manually triggered by simply pausing and unpausing the game**. Think of *Escape* like a split key for the tracker. (Note that this doesn't work if the game is open to LAN, as the Minecraft server won't pause or save when you press escape) When Minecraft saves it writes all of your advancement progress and stats to JSON files. This program then reads those files and displays their info in a nicely orginized view. The only privilege given to the tracker is `FileAccess.Read`, and `FileShare.ReadWrite | FileShare.Delete` is used while parsing the file so as not to inturrupt Minecraft if it happens to save during a refresh. AATool also comes with an automatic update system, so once you have it up and running you never have to download anything again!
 
 
 ## Speedrun Legality
@@ -38,7 +39,7 @@ You will likely run into a Windows SmartScreen pop up stating "Windows protected
 ## Compatibility
 Due to its use of DirectX for multi-window rendering, this tool is only supported on Microsoft Windows. The official targetted OS is Windows 10, but this should work at least as far back as Windows 7. You _might_ be able to get AATool to work on Linux using the Wine compatibility layer, but I have never tested this. Unfortunately if you're on a Mac you're out of luck. (although I really wouldn't recommend gaming on a Mac in the first place to be honest)
 
-The minimum recommended resolution for using this program is 1920x1080, although I'm hoping to get this down to 1600x900 in the next patch by making the window a little smaller. The next patch will also include a workaround for people with even smaller monitors that the tool currently might not fit on. Having a second monitor is by no means necessary, but I can highly recommend it.
+The minimum recommended resolution for using this program is 1280x720. Having a second monitor is by no means necessary, but I can highly recommend it.
 
 ## FAQ
 **Q:** _Is this a mod or datapack?_
@@ -71,7 +72,7 @@ The minimum recommended resolution for using this program is 1920x1080, although
 ##
 **Q:** _When will the next patch be done?_
 
-**A:** It's hard to know, but probably soon! I have a full-time programming job, so finding time to work on AATool isn't always easy. That being said, I love working on it, and even if the GitHub looks static I assure you I'm almost always working on AATool in some capacity, I just don't usually commit changes to the GitHub until they're nice and polished. For example, patch 1.3.0 currently has changes in 195 different files waiting to be committed!
+**A:** It's hard to know, but probably soon! I have a full-time programming job, so finding time to work on AATool isn't always easy. That being said, I love working on it, and even if the GitHub looks static I assure you I'm almost always working on AATool in some capacity!
 ##
 
 **Q:** _Can I modify this program myself?_
