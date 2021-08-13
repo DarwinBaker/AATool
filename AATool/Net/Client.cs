@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using AATool.Settings;
-using Newtonsoft.Json;
 
 namespace AATool.Net
 {

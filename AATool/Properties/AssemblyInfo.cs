@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CTM's AATool")]
 [assembly: AssemblyProduct("CTM's Speedrun AATool")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyDescription("Beta 3")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("Darwin Baker Software Solutions")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]

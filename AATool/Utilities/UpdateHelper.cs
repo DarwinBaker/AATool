@@ -3,6 +3,8 @@ using AATool.Winforms.Forms;
 using Microsoft.Xna.Framework;
 using System;
 using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -14,17 +16,21 @@ namespace AATool.Utilities
 {
     public static class UpdateHelper
     {
-        public static string current => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public static string Current => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-        private static double ToNumber(string versionString)
+        public static double ToNumber(string version)
         {
-            //turn version string into a double for comparisons (needed when comparing "major.minor.build" with "major.minor.build.revision")
-            string[] split = versionString.Split('.');
-            versionString  = string.Empty;
-            for (int i = 0; i < split.Length; i++)
-                versionString += (i == 1 ? "." : string.Empty) + split[i];
+            if (!string.IsNullOrWhiteSpace(version))
+            {
+                string formatted = new string(version.Where(c => char
+                .IsDigit(c))
+                .ToArray())
+                .Insert(1, ".");
 
-            return double.TryParse(versionString, out var versionDouble) ? versionDouble : 0;
+                if (double.TryParse(formatted, NumberStyles.Any, CultureInfo.InvariantCulture, out double parsed))
+                    return parsed;
+            }
+            return 0;
         }
 
         private static async Task<string> DownloadLatestReleaseHTML()
@@ -63,26 +69,18 @@ namespace AATool.Utilities
             return Regex.Replace(patchNotes.Substring(0, patchNotes.IndexOf("<details")), @"<[^>]*>", string.Empty);
         }
 
-        public static void ShowFirstSetupMessage()
+        public static void TryFirstSetupRoutine()
         {
-            bool isDarkMode = true;
-            (Color back, Color text, Color border) = MainSettings.Themes["Dark Mode"];
-            isDarkMode &= Config.Main.BackColor   == back;
-            isDarkMode &= Config.Main.TextColor   == text;
-            isDarkMode &= Config.Main.BorderColor == border;
-            if (isDarkMode)
-                return;
-
-            string title = $"Welcome to the AATool Co-op Update!";
-            string body  = $"Dark mode is the new default theme! Would you like to give it a try?";
-            DialogResult result = MessageBox.Show(body, title, MessageBoxButtons.YesNo);
-            if (result is DialogResult.Yes)
+            if (ToNumber(Main.Version) > ToNumber(Config.Tracker.LastAAToolRun))
             {
+                Config.ResetToDefaults();
+                (Color back, Color text, Color border) = MainSettings.Themes["Dark Mode"];
                 Config.Main.BackColor   = back;
                 Config.Main.TextColor   = text;
                 Config.Main.BorderColor = border;
                 Config.Main.Save();
             }
+            Config.Tracker.LastAAToolRun = Main.Version;
         }
 
         public static async void CheckAsync(bool failSilently = true)
@@ -98,9 +96,9 @@ namespace AATool.Utilities
                 string patchNotes = ParsePatchNotes(html);
 
                 //compare version numbers to determine if updates are available
-                if (ToNumber(current) >= ToNumber(latest))
+                if (ToNumber(Current) >= ToNumber(latest))
                 {
-                    if (Main.IsBeta && ToNumber(current) == ToNumber(latest))
+                    if (Main.IsBeta && ToNumber(Current) == ToNumber(latest))
                         ShowDialog(true, latest, patchNotes);
                     else if (!failSilently)
                         ShowDialog(false);
@@ -129,7 +127,7 @@ namespace AATool.Utilities
             }
             else
             {
-                MessageBox.Show($"You already have the lastest version ({current}) of CTM's AATool.", "No Updates Available");
+                MessageBox.Show($"You already have the lastest version ({Current}) of CTM's AATool.", "No Updates Available");
             }
         }
 

@@ -71,6 +71,8 @@ namespace AATool
 
         protected override void Initialize()
         {
+            UpdateHelper.TryFirstSetupRoutine();
+
             //instantiate important objects
             this.display = new Display(Graphics);
 

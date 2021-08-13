@@ -170,6 +170,7 @@ namespace AAUpdate
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FMain";
             this.Padding = new System.Windows.Forms.Padding(12, 16, 12, 12);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AATool Update Assistant";
             this.ResumeLayout(false);
 

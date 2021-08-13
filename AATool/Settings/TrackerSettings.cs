@@ -20,8 +20,8 @@ namespace AATool.Settings
         private const string AUTO_GAME_VERSION  = "auto_game_version";
         private const string CUSTOM_FOLDER      = "custom_saves_folder";
 
-        public string LastAAToolRun     { get => this.Get<string>(TRACKER_VERSION); private set => this.Set(TRACKER_VERSION, value); }
         public string GameVersion       { get => this.Get<string>(GAME_VERSION);    private set => this.Set(GAME_VERSION, value); }
+        public string LastAAToolRun     { get => this.Get<string>(TRACKER_VERSION); set => this.Set(TRACKER_VERSION, value); }
         public bool UseDefaultPath      { get => this.Get<bool>(USE_DEFAULT_PATH);  set => this.Set(USE_DEFAULT_PATH, value); }
         public bool AutoDetectVersion   { get => this.Get<bool>(AUTO_GAME_VERSION); set => this.Set(AUTO_GAME_VERSION, value); }
         public string CustomPath        { get => this.Get<string>(CUSTOM_FOLDER);   set => this.Set(CUSTOM_FOLDER, value); }
@@ -31,26 +31,11 @@ namespace AATool.Settings
         public bool CustomPathChanged()     => Instance.ValueChanged(CUSTOM_FOLDER);
 
         public static bool IsPostExplorationUpdate { get; private set; }
-        
+
         public static string DefaultSavesFolder => 
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft", "saves");
         
         public string SavesFolder => this.UseDefaultPath ? DefaultSavesFolder : CustomPath;
-
-        private static double VersionNumberToDouble(string version)
-        {
-            if (!string.IsNullOrWhiteSpace(version))
-            {
-                string formatted = new string(version.Where(c => char
-                .IsDigit(c))
-                .ToArray())
-                .Insert(1, ".");
-
-                if (double.TryParse(formatted, NumberStyles.Any, CultureInfo.InvariantCulture, out double parsed))
-                    return parsed;
-            }
-            return 0.0;
-        }
 
         public void TrySetGameVersion(string version)
         {
@@ -58,7 +43,7 @@ namespace AATool.Settings
             {
                 if (SupportedVersions.Contains(version))
                     this.Set(GAME_VERSION, version);
-                IsPostExplorationUpdate = VersionNumberToDouble(version) >= 1.12;
+                IsPostExplorationUpdate = UpdateHelper.ToNumber(version) >= 1.12;
             }
             catch { }
         }
@@ -67,11 +52,7 @@ namespace AATool.Settings
         {
             this.ParseSupportedGameVersions();
             this.Load("tracker");
-            if (VersionNumberToDouble(Main.Version) > VersionNumberToDouble(this.LastAAToolRun))
-                UpdateHelper.ShowFirstSetupMessage();
-
             this.TrySetGameVersion(this.GameVersion);
-            this.Set(TRACKER_VERSION, Main.Version);
             this.Save();
         }
 
