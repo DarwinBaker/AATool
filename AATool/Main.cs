@@ -37,7 +37,7 @@ namespace AATool
         ====================================================HDWGH?*/
 
 
-        public static readonly bool IsBeta = true;
+        public static readonly bool IsBeta = false;
 
         public static bool IsClosing          { get; set; }
         public static string FullTitle        { get; private set; }
