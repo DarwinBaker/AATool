@@ -1026,9 +1026,6 @@
     <Content Include="assets\graphics\sprites\items\wither_skull.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\items\enchantment_axe%24825.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="assets\graphics\sprites\items\enchanted_diamond_axe%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

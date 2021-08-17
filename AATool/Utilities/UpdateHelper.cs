@@ -96,31 +96,28 @@ namespace AATool.Utilities
                 string patchNotes = ParsePatchNotes(html);
 
                 //compare version numbers to determine if updates are available
-                if (ToNumber(Current) >= ToNumber(latest))
+                if (ToNumber(Current) == ToNumber(latest))
                 {
-                    if (Main.IsBeta && ToNumber(Current) == ToNumber(latest))
-                        ShowDialog(true, latest, patchNotes);
-                    else if (!failSilently)
-                        ShowDialog(false);
+                    if (Main.IsBeta)
+                        RunUpdateAssistant(false);
+                    else
+                        ShowDialog();
+                }
+                else if (ToNumber(Current) < ToNumber(latest))
+                {
+                    RunUpdateAssistant(false);
                 }
                 else if (!failSilently)
                 {
-                    ShowDialog(false);
+                    ShowDialog();
                 }
             }
             catch { }
         }
 
-        private static void ShowDialog(bool updatesAvailable, string latest = null, string patchNotes = null)
+        private static void ShowDialog()
         {
-            if (updatesAvailable)
-            {
-                //ask user if they'd like to download now
-                using var dialog = new FUpdate(latest, patchNotes);
-                if (dialog.ShowDialog() is DialogResult.Yes)
-                    RunUpdateAssistant(false);
-            }
-            else if (Main.IsBeta)
+            if (Main.IsBeta)
             {
                 MessageBox.Show($"You are currently running {Main.FullTitle}. Betas " +
                     $"do not recieve automatic updates until official release.", "Official Release Not Out Yet");

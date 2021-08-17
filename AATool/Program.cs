@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using AATool.Utilities;
 
 namespace AATool
 {
@@ -19,6 +20,8 @@ namespace AATool
             //add crash reporting events
             AppDomain.CurrentDomain.UnhandledException += GlobalUnhandledExceptionHandler;
             Application.ThreadException += GlobalThreadExceptionHandler;
+
+            UpdateHelper.CheckAsync();
 
             //start application
             Application.EnableVisualStyles();

@@ -88,7 +88,6 @@ namespace AATool
             this.AddScreen(new UIOverlayScreen(this));
             this.mainScreen.Form.BringToFront();
 
-            Task.Factory.StartNew(() => UpdateHelper.CheckAsync());
             base.Initialize();
         }
 
