@@ -100,7 +100,7 @@ namespace AATool.Utilities
                 {
                     if (Main.IsBeta)
                         RunUpdateAssistant(false);
-                    else
+                    else if (!failSilently)
                         ShowDialog();
                 }
                 else if (ToNumber(Current) < ToNumber(latest))

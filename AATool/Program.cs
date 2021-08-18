@@ -21,7 +21,7 @@ namespace AATool
             AppDomain.CurrentDomain.UnhandledException += GlobalUnhandledExceptionHandler;
             Application.ThreadException += GlobalThreadExceptionHandler;
 
-            UpdateHelper.CheckAsync();
+            UpdateHelper.CheckAsync(true);
 
             //start application
             Application.EnableVisualStyles();
