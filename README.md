@@ -54,6 +54,10 @@ The minimum recommended resolution for using this program is 1280x720. Having a 
 
 **A:** You probably downloaded the source code by mistake. You want to download the [Latest Release.](https://github.com/DarwinBaker/AATool/releases/latest)
 ##
+**Q:** _Textures are missing or or the program fails to load assets!_
+
+**A:** Delete the "assets" folder, then run "AAUpdate.exe".
+##
 **Q:** _Why isn't AATool reading my save?_
 
 **A:** If you're using a custom save path double check that it has no typos. If you're using the standard `AppData\Roaming\.minecraft\saves` folder, make sure "Use Default" is checked in the program's main settings. AATool will always read the most recently modified world in your saves folder.
