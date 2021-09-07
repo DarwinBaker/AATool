@@ -14,16 +14,19 @@ namespace AATool.UI.Controls
         public string WrappedText        { get; private set; }
         public Rectangle TextBounds      { get; private set; }
 
-        public HorizontalAlign TextAlign { get; set; }
-        public Color TextColor           { get; set; }
+        public Color TextColor                      { get; set; }
+        public HorizontalAlign HorizontalTextAlign  { get; set; }
+        public VerticalAlign   VerticalTextAlign    { get; set; }
+        public bool DrawBackground                  { get; set; }
 
-        public bool DrawBackground;
         private StringBuilder builder;
 
         public bool IsEmpty                         => Font == null || builder.Length == 0;
         public override string ToString()           => builder.ToString();
         public void SetFont(string font, int size) => Font = FontSet.Get(font, size);
         public void SetTextColor(Color color)       => TextColor = color;
+
+        private string rawValue;
 
         public UITextBlock() : this("minecraft", 12) { }
         public UITextBlock(string font, int scale)
@@ -34,18 +37,24 @@ namespace AATool.UI.Controls
 
         public void SetText(string text) 
         {
-            this.builder = new StringBuilder(text);
-            this.UpdateWrappedText();
+            if (text != this.rawValue)
+            {
+                this.rawValue = text;
+                this.builder  = new StringBuilder(text);
+                this.UpdateWrappedText();
+            }
         }
 
         public void Append(string text) 
         {
+            this.rawValue += text;
             this.builder.Append(text);
             this.UpdateWrappedText();
         }
 
-        public void AppendLine(string text) 
+        public void AppendLine(string text)
         {
+            this.rawValue += text + "\n";
             this.builder.Append(text + "\n");
             this.UpdateWrappedText();
         }
@@ -79,23 +88,29 @@ namespace AATool.UI.Controls
             else
             {
                 //draw text wrapped and aligned in bounding box
-                float y = this.Content.Top;
+                int blockHeight = this.Font.MeasureString(this.WrappedText).ToPoint().Y;
+                float y = this.VerticalTextAlign switch
+                {
+                    VerticalAlign.Center => this.Content.Top + this.Margin.Top + (this.Content.Height / 2) - (blockHeight / 2),
+                    VerticalAlign.Top    => this.Content.Top,
+                    _                    => this.Content.Bottom + this.Margin.Bottom - blockHeight
+                };
                 foreach (string line in this.WrappedText.Split('\n'))
                 {
-                    var size = this.Font.MeasureString(line).ToPoint();
+                    var lineSize = this.Font.MeasureString(line).ToPoint();
 
                     //calculate horizontal position of this line
-                    int x = this.TextAlign switch
+                    int x = this.HorizontalTextAlign switch
                     {
-                        HorizontalAlign.Center => this.Content.Left + this.Margin.Left + ((this.Content.Width / 2) - (size.X / 2)),
+                        HorizontalAlign.Center => this.Content.Left + this.Margin.Left + ((this.Content.Width / 2) - (lineSize.X / 2)),
                         HorizontalAlign.Left   => this.Content.Left,
-                        _                      => this.Content.Right + this.Margin.Right - size.X
+                        _                      => this.Content.Right + this.Margin.Right - lineSize.X
                     };
 
                     display.DrawString(this.Font, line, new Vector2(x, y), color);
                     
                     //next line
-                    y += size.Y;
+                    y += lineSize.Y;
                 }
             }
         }
@@ -127,7 +142,10 @@ namespace AATool.UI.Controls
                 Vector2 currentSize = this.Font.MeasureString(words[i]);
                 if (lineWidth + currentSize.X < this.Content.Width)
                 {
-                    wrappedBuilder.Append(words[i]);
+                    if (string.IsNullOrEmpty(words[i]))
+                        wrappedBuilder.Append(' ');
+                    else
+                        wrappedBuilder.Append(words[i]);
                 }
                 else
                 {
@@ -142,8 +160,11 @@ namespace AATool.UI.Controls
                 lineWidth += currentSize.X + spaceWidth;
                 if (i < words.Length - 1)
                 {
+                    if (string.IsNullOrEmpty(words[i]))
+                        continue;
+
                     Vector2 nextSize = this.Font.MeasureString(words[i + 1]);
-                    if (lineWidth + nextSize.X < this.Width)
+                    if (words[i][0] is not '\n' && lineWidth + nextSize.X < this.Width)
                         wrappedBuilder.Append(" ");
                 }
             }
@@ -151,11 +172,11 @@ namespace AATool.UI.Controls
             var size = this.Font.MeasureString(this.WrappedText).ToPoint();
 
             //calculate horizontal offset of text align
-            int x = this.TextAlign switch
+            int x = this.HorizontalTextAlign switch
             {
                 HorizontalAlign.Center => this.Content.Left + ((this.Content.Width / 2) - (size.X / 2)),
                 HorizontalAlign.Left   => this.Content.Left,
-                HorizontalAlign.Right  => this.Content.Right - size.X
+                _                      => this.Content.Right - size.X
             };
             this.TextBounds = new Rectangle(x, this.Content.Top, size.X, size.Y);
         }
@@ -172,7 +193,11 @@ namespace AATool.UI.Controls
             this.SetText(ParseAttribute(node, "text", string.Empty));
             this.SetFont("minecraft", ParseAttribute(node, "font_size", 12));
             this.SetTextColor(ParseAttribute(node, "color", Color.Transparent));
-            this.TextAlign = ParseAttribute(node, "text_align", this.TextAlign);
+            this.HorizontalTextAlign = ParseAttribute(node, "text_align", this.HorizontalTextAlign);
+            this.VerticalTextAlign   = ParseAttribute(node, "text_align", VerticalAlign.Top);
+
+            this.HorizontalTextAlign = ParseAttribute(node, "h_text_align", this.HorizontalTextAlign);
+            this.VerticalTextAlign   = ParseAttribute(node, "v_text_align", this.VerticalTextAlign);
         }
     }
 }

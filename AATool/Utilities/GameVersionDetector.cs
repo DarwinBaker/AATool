@@ -35,11 +35,14 @@ namespace AATool.Utilities
 
         private static void TrySetVersion(string version)
         {
+            if (!int.TryParse(version.Replace(".", ""), out _))
+                return;
+
             //select appropriate tracker version
             if (version is "1.16.0" or "1.16.1")
                 Config.Tracker.TrySetGameVersion("1.16");
             else if (version.StartsWith("1.16"))
-                Config.Tracker.TrySetGameVersion("1.16.2+");
+                Config.Tracker.TrySetGameVersion("1.16.5");
             else
                 Config.Tracker.TrySetGameVersion(version.Substring(0, 4));
         }

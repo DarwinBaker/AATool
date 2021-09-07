@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <control width="32" height="32">
+    <button name="manual_sync">
+        <picture texture="sync"/>
+    </button>
     <picture name="layer1" layer="fore"/>
     <picture name="layer2" layer="fore"/>
     <picture name="glow" layer="glow"/>

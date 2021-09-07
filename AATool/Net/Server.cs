@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using AATool.Net.Requests;
+using AATool.Saves;
 using AATool.Settings;
 
 namespace AATool.Net
@@ -23,11 +24,7 @@ namespace AATool.Net
             this.password = Config.Network.Password;
         }
 
-        public static bool TryGet(out Server server)
-        {
-            server = Instance as Server;
-            return server is not null;
-        }
+        public static bool TryGet(out Server server) => (server = Instance as Server) is not null;
 
         public override bool Connected() => this.listener.IsBound;
 
@@ -53,18 +50,41 @@ namespace AATool.Net
                 this.SendToClient(client, message);
         }
 
-        public void SyncLobby()
+        public void SendLobby(Socket client = null)
         {
-            //send current lobby state too all clients (the one with uuid keys, not ip keys)
             //clients never receive and are completely oblivious to everyone else's ip addresses
+            
             string jsonString = this.Lobby.ToJsonString();
-            this.SendToAllClients(Message.Lobby(jsonString));
+            var message = Message.Lobby(jsonString);
+
+            //send lobby state to client(s)
+            if (client is null)
+                this.SendToAllClients(message);
+            else
+                this.SendToClient(client, message);
         }
 
-        public void SyncProgress()
+        public void SendProgress(Socket client = null)
         {
             string jsonString = Tracker.Progress.ToJsonString();
-            this.SendToAllClients(Message.Progress(jsonString));
+            var message = Message.Progress(jsonString);
+
+            //send lobby state to client(s)
+            if (client is null)
+                this.SendToAllClients(message);
+            else
+                this.SendToClient(client, message);
+        }
+
+        public void SendNextRefresh(Socket client = null)
+        {
+            var message = Message.SftpEstimate(SftpSave.GetRefreshEstimate().ToString());
+
+            //send last to client(s)
+            if (client is null)
+                this.SendToAllClients(message);
+            else
+                this.SendToClient(client, message);
         }
 
         public void DesignatePlayer(string advancement, Uuid player)
@@ -72,7 +92,7 @@ namespace AATool.Net
             if (!this.Lobby.Designations.TryGetValue(advancement, out Uuid current) || player != current)
             {
                 this.Lobby.Designations[advancement] = player;
-                this.SyncLobby();
+                this.SendLobby();
             }
         }
 
@@ -232,39 +252,34 @@ namespace AATool.Net
             return difference is 0;
         }
 
-        private bool TryLogIn(User user, string password, Socket client)
+        private bool TryLogIn(User user, string password, string protocolVersion, Socket client)
         {
             //validate user credentials
             string problem = string.Empty;
             string name = user.Name;
 
-            if (!string.IsNullOrEmpty(this.password) && !PasswordsAreEqual(password, this.password))
-            {
+            if (!Version.TryParse(protocolVersion, out Version version) || version != Protocol.Version)
+                problem = "Client AATool version is not supported.";
+            else if (!string.IsNullOrEmpty(this.password) && !PasswordsAreEqual(password, this.password))
                 problem = "Incorrect password.";
-            }
             else if (this.clients.ContainsKey(client.RemoteEndPoint.ToString()))
-            {
                 problem = "IP conflict.";
-            }
             else if (this.Lobby.Users.ContainsKey(user.Id))
-            {
                 problem = "Minecraft username already taken.";
-            }
             else if (this.Lobby.Users.Values.Any(player => player.Name == name))
-            {
                 problem = "Preferred username already taken.";
-            }
             else if (this.clients.Count is Protocol.SERVER_CAPACITY)
-            {
                 problem = "Server full.";
-            }
 
             if (string.IsNullOrEmpty(problem))
             {
+                //update currently connected clients
+                this.Lobby.Add(user);
+                this.SendLobby();
+
                 //add client socket to list
                 this.users[client] = user;
                 this.clients[client.RemoteEndPoint.ToString()] = client;
-                this.Lobby.Add(user);
 
                 //log to console
                 WriteToConsole($"{user.Name} connected!");
@@ -321,36 +336,37 @@ namespace AATool.Net
             this.users.Remove(client);
             this.Lobby.Remove(user);
             SyncUserList(this.Lobby.Users.Values);
-            this.SyncLobby();
+            this.SendLobby();
         }
 
         private async void ExecuteCommandAsync(Message message, Socket sender)
         {
             if (message.Header is Protocol.LOG_IN)
             {
-                message.TryGetItem(0, out string uuid);
-                message.TryGetItem(1, out string password);
-                message.TryGetItem(2, out string pronouns);
-                message.TryGetItem(3, out string displayName);
+                message.TryGetItem(0, out string versionNumber);
+                message.TryGetItem(1, out string uuid);
+                message.TryGetItem(2, out string password);
+                message.TryGetItem(3, out string pronouns);
+                message.TryGetItem(4, out string displayName);
 
-                if (Uuid.TryParse(uuid, out Uuid id))
-                {
-                    if (await new NameRequest(id).RunAsync())
-                    {
-                        //register new user
-                        var user = new User(id, pronouns, displayName);
-                        if (this.TryLogIn(user, password, sender))
-                            Player.FetchIdentity(id);
-                    }
-                    else
-                    {
-                        WriteToConsole("Connection attempt refused: Couldn't validate name with Mojang.");
-                    }
-                }
-                else
+                if (!Uuid.TryParse(uuid, out Uuid id)) 
                 {
                     WriteToConsole("Connection attempt refused: Malformed UUID.");
+                    this.SendToClient(sender, Message.Refuse("Malformed UUID"));
+                    return;
                 }
+
+                if (!await new NameRequest(id).TryRunAsync())
+                {
+                    WriteToConsole("Connection attempt refused: Couldn't validate name with Mojang.");
+                    this.SendToClient(sender, Message.Refuse("Couldn't validate name with Mojang. Try re-connecting."));
+                    return;
+                }
+
+                //register new user
+                var user = new User(id, pronouns, displayName);
+                if (this.TryLogIn(user, password, versionNumber, sender))
+                    Player.FetchIdentity(id);
             }
             else if (message.Header is Protocol.LOG_OUT)
             {
@@ -364,10 +380,13 @@ namespace AATool.Net
                 switch (type)
                 {
                     case Protocol.LOBBY:
-                        this.SyncLobby();
+                        this.SendLobby(sender);
                         break;
                     case Protocol.PROGRESS:
-                        this.SyncProgress();
+                        this.SendProgress(sender);
+                        break;
+                    case Protocol.REFRESH_ESTIMATE:
+                        this.SendNextRefresh(sender);
                         break;
                 }
             }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AATool.Utilities;
 
 namespace AATool.Net
@@ -18,7 +19,7 @@ namespace AATool.Net
             this.cooldown = new Timer();
         }
 
-        public abstract Task<bool> RunAsync();
+        public abstract Task<bool> TryRunAsync();
 
         private void UpdateCooldown(Time time)
         {
@@ -31,13 +32,13 @@ namespace AATool.Net
             try
             {
                 //try to process request
-                bool success = await this.RunAsync();
+                bool success = await this.TryRunAsync();
                 if (success)
                     this.Complete();
                 else
                     this.Fail();
             }
-            catch
+            catch (Exception exception)
             {
                 //network error
                 this.Fail();

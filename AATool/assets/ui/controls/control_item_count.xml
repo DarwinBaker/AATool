@@ -5,5 +5,5 @@
             <glow_effect texture="frame_glow" layer="glow"/>
         </picture>
     </picture>
-    <text_block name="label" height="24" text_align="center" vertical_align="top"/>
+    <text_block name="label" height="24" vertical_align="top"/>
 </control>

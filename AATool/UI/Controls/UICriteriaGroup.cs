@@ -87,7 +87,7 @@ namespace AATool.UI.Controls
                 this.criteriaPanel.CellWidth = 100;
             }
 
-            this.bar.SkipToValue(this.criteriaGroup.NumberCompletedBy(this.advancement.DesignatedPlayer));
+            this.bar.SkipToValue(this.criteriaGroup.NumberCompletedBy(this.advancement.GetDesignatedPlayer()));
             base.InitializeRecursive(screen);
         }
 
@@ -151,15 +151,15 @@ namespace AATool.UI.Controls
 
         private void UpdateProgress()
         {
-            string text;
-            text = $"{this.criteriaGroup.NumberCompletedBy(this.advancement.DesignatedPlayer)} / {this.criteriaGroup.Count}";
+            Uuid designated = this.advancement.GetDesignatedPlayer();
+            string text = $"{this.criteriaGroup.NumberCompletedBy(designated)} / {this.criteriaGroup.Count}";
             if (this.Width >= 120)
                 text += $" {this.criteriaGroup.Goal}";
 
             if (this.Width > 180)
-                text += $" ({this.criteriaGroup.PercentCompletedBy(this.advancement.DesignatedPlayer)}%)";
+                text += $" ({this.criteriaGroup.PercentCompletedBy(designated)}%)";
             this.label.SetText(text);
-            this.bar?.LerpToValue(this.criteriaGroup.NumberCompletedBy(this.advancement.DesignatedPlayer));
+            this.bar?.LerpToValue(this.criteriaGroup.NumberCompletedBy(designated));
         }
 
         private void SwitchToProgress()
@@ -243,19 +243,6 @@ namespace AATool.UI.Controls
             return 2;
         }
 
-        private HashSet<Uuid> GetAllPlayers()
-        {
-            var ids = new HashSet<Uuid>();
-            foreach (Uuid id in Tracker.Progress.Players.Keys)
-                ids.Add(id);
-            if (Peer.IsConnected && Peer.TryGetLobby(out Lobby lobby))
-            { 
-                foreach (Uuid key in lobby.Users.Keys)
-                    ids.Add(key);
-            }
-            return ids;
-        }
-
         private void UpdateAutoButton(int scale)
         {
             //only show autosync button to clients
@@ -281,7 +268,7 @@ namespace AATool.UI.Controls
             this.autoButton?.First<UIGlowEffect>().LerpToBrightness(1);
 
             //get uuids for all network peers and save files
-            HashSet<Uuid> ids = this.GetAllPlayers();
+            HashSet<Uuid> ids = Tracker.GetAllPlayers();
             int required = ids.Count + (Peer.IsClient ? 1 : 0);
             int scale = this.GetMaxPlayerScale(required);
             this.largePlayers = scale > 3;
@@ -290,6 +277,7 @@ namespace AATool.UI.Controls
             this.playerPanel.CellWidth = this.largePlayers
                 ? 18 * scale
                 : 14 * scale;
+
             this.playerPanel.CellHeight = this.largePlayers
                 ? 16 * scale
                 : 14 * scale;
@@ -300,7 +288,7 @@ namespace AATool.UI.Controls
             else
                 this.noPlayerMessage.Collapse();
 
-            if (Tracker.Progress.Players.Count is 1)
+            if (ids.Count is 1)
                 this.singlePlayerMessage.Expand();
             else
                 this.singlePlayerMessage.Collapse();
@@ -310,9 +298,10 @@ namespace AATool.UI.Controls
                 ? this.playerPanel.Width - this.playerPanel.CellWidth
                 : this.playerPanel.Width % this.playerPanel.CellWidth;
 
-            this.playerPanel.Padding = new Margin(remainder / 2, 0, Math.Min(remainder / 2, 16), 0); 
+            this.playerPanel.Padding = new Margin(remainder / 2, remainder / 2, Math.Min(remainder / 2, 16), 0); 
             this.UpdateAutoButton(scale);
-            this.playerPanel.AddControl(this.autoButton);
+            if (Peer.IsClient)
+                this.playerPanel.AddControl(this.autoButton);
             this.playerPanel.ResizeThis(this.Content);
 
             //create buttons for each player
@@ -330,7 +319,7 @@ namespace AATool.UI.Controls
                     Scale    = scale,
                     ShowName = true 
                 };
-                button.AddControl(face);       
+                button.AddControl(face);
                 button.OnClick += this.OnClicked;
                 this.playerPanel.AddControl(button);
             }

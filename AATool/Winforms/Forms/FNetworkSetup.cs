@@ -27,7 +27,7 @@ namespace AATool.Winforms.Forms
             this.back.Hide();
 
             this.InitializePages();
-            this.OnCheckedChanged(this.autoServerIP, null);
+            this.UpdateAutoIP();
         }
 
         private void InitializePages()
@@ -35,7 +35,8 @@ namespace AATool.Winforms.Forms
             this.pages = new Control[] {
                 this.page0,
                 this.page1,
-                this.page2
+                this.page2,
+                this.page3
             };
 
             foreach (Control page in this.pages)
@@ -99,6 +100,9 @@ namespace AATool.Winforms.Forms
                             "If you're not playing over Hamachi you may have to port-forward the chosen port on your router. This process varies, but Google is your friend here.";
                     }
                     this.next.Enabled = IPAddress.TryParse(this.ip.Text, out _) && int.TryParse(this.port.Text, out _);
+                    break;
+                case 3:
+                    this.next.Enabled = true;
                     break;
             }
         }
@@ -165,7 +169,7 @@ namespace AATool.Winforms.Forms
                 }
                 else
                 {
-                    this.Finish();
+                    this.Apply();
                     this.Close();
                 }
             }
@@ -195,36 +199,61 @@ namespace AATool.Winforms.Forms
                     this.toggleIP.Text = "Show IP Address";
                 }
             }
+            else if (sender == this.togglePassword)
+            {
+                if (this.password.UseSystemPasswordChar)
+                {
+                    string message = "Be careful about showing passwords on stream! ♥\nAre you sure you want to reveal this password?";
+                    DialogResult confirmation = MessageBox.Show(this, message, "IP Reveal Confirmation",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning,
+                        MessageBoxDefaultButton.Button2);
+
+                    if (confirmation == DialogResult.Yes)
+                    {
+                        this.password.UseSystemPasswordChar = false;
+                        this.togglePassword.Text = "Hide Password";
+                    }
+                }
+                else
+                {
+                    this.password.UseSystemPasswordChar = true;
+                    this.togglePassword.Text = "Show Password";
+                }
+            }
         }
 
-        private void Finish()
+        private void Apply()
         {
-            Config.Network.IsServer     = this.server.Checked;
-            Config.Network.IP           = this.ip.Text;
-            Config.Network.Port         = this.port.Text;
-            Config.Network.AutoServerIP = this.autoServerIP.Checked;
-            Config.Network.MinecraftName   = this.mojangName.Text;
-            Config.Network.PreferredName  = this.displayName.Text;
-            Config.Network.Pronouns     = this.pronouns.Text;
+            Config.Network.IsServer      = this.server.Checked;
+            Config.Network.IP            = this.ip.Text;
+            Config.Network.Port          = this.port.Text;
+            Config.Network.Password      = this.password.Text;
+            Config.Network.AutoServerIP  = this.autoServerIP.Checked;
+            Config.Network.MinecraftName = this.mojangName.Text;
+            Config.Network.PreferredName = this.displayName.Text;
+            Config.Network.Pronouns      = this.pronouns.Text;
             Config.Network.Save();
+        }
+
+        private void UpdateAutoIP()
+        {
+            if (this.autoServerIP.Checked)
+            {
+                this.ip.Enabled = false;
+                if (this.server.Checked && NetworkHelper.TryGetLocalIPAddress(out IPAddress address))
+                    this.ip.Text = address.ToString();
+            }
+            else
+            {
+                this.ip.Enabled = true;
+            }
         }
 
         private void OnCheckedChanged(object sender, EventArgs e)
         {
-            if (sender == this.autoServerIP)
-            {
-                if ((sender as CheckBox).Checked)
-                {
-                    this.ip.Enabled = false;
-                    if (NetworkHelper.TryGetLocalIPAddress(out IPAddress address))
-                        this.ip.Text = address.ToString();
-                }
-                else
-                {
-                    this.ip.Enabled = true;
-                    this.ip.Text = string.Empty;
-                }
-            }
+            if (sender == this.autoServerIP || sender == this.server || sender == this.client)
+                this.UpdateAutoIP();
         }
 
         private void OnTimerTick(object sender, EventArgs e)

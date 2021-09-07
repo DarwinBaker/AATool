@@ -149,12 +149,9 @@ namespace AATool.UI.Screens
             }
 
             //update whether or not the co-op column should be shown
-            if (Peer.IsConnected)
+            if (Peer.IsConnected || (Client.TryGet(out Client client) && client.LostConnection))
             {
-                if (this.grid.CollapsedColumns[0])
-                {
-                    this.grid.ExpandCol(0);
-                }   
+                this.grid.ExpandCol(0);
             }
             else
             {

@@ -3,6 +3,7 @@ using AATool.Graphics;
 using AATool.Net;
 using AATool.Settings;
 using AATool.UI.Screens;
+using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -152,6 +153,23 @@ namespace AATool.UI.Controls
             }
         }
 
+        public override void UpdateRecursive(Time time)
+        {
+            if (this.Parent is not UICriteriaGroup)
+            {
+                if (Config.Main.HideCompleted && this.IsCompleted)
+                {
+                    this.glow.SkipToBrightness(0);
+                    this.Collapse();
+                }
+                else
+                {
+                    this.Expand();
+                }
+            }
+            base.UpdateRecursive(time);
+        }
+
         protected override void UpdateThis(Time time)
         {
             this.UpdateGlowBrightness(time);
@@ -178,7 +196,7 @@ namespace AATool.UI.Controls
                     this.label?.SetTextColor(Config.Overlay.TextColor);
 
                 display.Draw(this.incompleteFrame, this.frame.Bounds, Color.White);
-                display.Draw(this.completeFrame, this.frame.Bounds, Color.White * this.glow.Brightness);
+                display.Draw(this.completeFrame, this.frame.Bounds, ColorHelper.Fade(Color.White, this.glow.Brightness));
             }
         }
 
@@ -188,17 +206,18 @@ namespace AATool.UI.Controls
                 return;
 
             base.DrawRecursive(display);
-            //draw player head if in co-op mode
-            if (Peer.IsConnected && this.IsCompleted)
+
+            //draw player head if multiple players have save data
+            if (this.IsCompleted && (Tracker.Progress.Players.Count > 1 || Peer.IsConnected))
             {
-                int x  = this.frame.Left - (4 * this.scale);
+                int x = this.frame.Left - (4 * this.scale);
                 int y = this.frame.Top - (3 * this.scale);
-                int size  = 18 * this.scale;
+                int size = 18 * this.scale;
                 var frameRectangle = new Rectangle(x, y, size, size);
 
                 display.Draw(this.completeFrame + "_head", frameRectangle);
                 var headRectangle = new Rectangle(this.frame.Left, this.frame.Top + this.scale, 8 * this.scale, 8 * this.scale);
-                display.Draw(this.Advancement.FirstCompletionist.ToString(), headRectangle);
+                display.Draw(this.Advancement.FirstCompletionist.ToString(), headRectangle, Color.White, Layer.Fore);
             }
         }
 

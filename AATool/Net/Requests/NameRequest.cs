@@ -15,21 +15,29 @@ namespace AATool.Net.Requests
             this.id = id;
         }
 
-        public override async Task<bool> RunAsync()
+        public override async Task<bool> TryRunAsync()
         {
-            using (var client = new HttpClient() { Timeout = TimeSpan.FromMilliseconds(Protocol.TIMEOUT_MS) })
+            try
             {
-                //try to pull minecraft name from mojang api
-                string response = await client.GetStringAsync(this.Url);
-                if (string.IsNullOrEmpty(response))
-                    return false;
+                using (var client = new HttpClient() { Timeout = TimeSpan.FromMilliseconds(Protocol.CONNECTION_TIMEOUT_MS) })
+                {
+                    //try to pull minecraft name from mojang api
+                    string response = await client.GetStringAsync(this.Url);
+                    if (string.IsNullOrEmpty(response))
+                        return false;
 
-                string name = JArray.Parse(response).Last.First.Values().First().ToString();
-                if (string.IsNullOrEmpty(name))
-                    return false;
+                    string name = JArray.Parse(response).Last.First.Values().First().ToString();
+                    if (string.IsNullOrEmpty(name))
+                        return false;
 
-                Player.Cache(this.id, name);
-                return true;
+                    Player.Cache(this.id, name);
+                    return true;
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                //request canceled
+                return false;
             }
         }
     }

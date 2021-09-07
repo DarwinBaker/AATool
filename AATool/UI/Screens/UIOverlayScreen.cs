@@ -1,4 +1,6 @@
 ﻿using AATool.Graphics;
+using AATool.Net;
+using AATool.Saves;
 using AATool.Settings;
 using AATool.UI.Controls;
 using AATool.Utilities;
@@ -20,6 +22,7 @@ namespace AATool.UI.Screens
         
         private UITextBlock progress;
         private UITextBlock text;
+        private UITextBlock status;
         private UICarousel advancements;
         private UICarousel criteria;
         private UIFlowPanel counts;
@@ -64,6 +67,8 @@ namespace AATool.UI.Screens
         {
             int width  = Config.Overlay.Width;
             int height = this.Height;
+
+            //enforce minimum size
             if (this.Form.MinimumSize.Width > 0)
                 width  = Math.Max(width, this.Form.MinimumSize.Width - (this.Form.Width - this.Form.ClientSize.Width));
             if (this.Form.MinimumSize.Height > 0)
@@ -91,16 +96,16 @@ namespace AATool.UI.Screens
             int textScale = 12 * ((Config.Overlay.Scale + 1) / 2);
 
             this.progress = new UITextBlock("minecraft", textScale) {
-                Margin        = new Margin(16, 0, 8, 0),
-                TextAlign     = HorizontalAlign.Left,
-                VerticalAlign = VerticalAlign.Top
+                Margin              = new Margin(16, 0, 8, 0),
+                HorizontalTextAlign = HorizontalAlign.Left,
+                VerticalAlign       = VerticalAlign.Top
             };
             this.AddControl(this.progress);
 
             this.text = new UITextBlock("minecraft", textScale) {
-                Padding       = new Margin(16, 16, 8, 0),
-                TextAlign     = HorizontalAlign.Left,
-                VerticalAlign = VerticalAlign.Top
+                Padding             = new Margin(16, 16, 8, 0),
+                HorizontalTextAlign = HorizontalAlign.Left,
+                VerticalTextAlign   = VerticalAlign.Top
             };
             this.AddControl(this.text);
 
@@ -125,6 +130,17 @@ namespace AATool.UI.Screens
                 };
                 this.counts.AddControl(count);
             }
+
+            this.status = new UITextBlock("minecraft", 24) {
+                FlexWidth = new Size(180),
+                FlexHeight = new Size(72),
+                VerticalTextAlign = VerticalAlign.Center
+            };
+            this.status.HorizontalTextAlign = Config.Overlay.RightToLeft
+                ? HorizontalAlign.Right
+                : HorizontalAlign.Left;
+
+            this.counts.AddControl(this.status);
             base.InitializeRecursive(screen);
         }
 
@@ -173,6 +189,9 @@ namespace AATool.UI.Screens
             {
                 this.advancements?.SetScrollDirection(Config.Overlay.RightToLeft);
                 this.criteria?.SetScrollDirection(Config.Overlay.RightToLeft);
+                this.status.HorizontalTextAlign = Config.Overlay.RightToLeft 
+                    ? HorizontalAlign.Right
+                    : HorizontalAlign.Left;
             }
 
             if (Config.Overlay.SpeedChanged())
@@ -189,9 +208,50 @@ namespace AATool.UI.Screens
                     ? FlowDirection.RightToLeft
                     : FlowDirection.LeftToRight;
 
-                this.progress.TextAlign = Config.Overlay.RightToLeft
-                    ? HorizontalAlign.Left
-                    : HorizontalAlign.Right;
+                //this.progress.HorizontalTextAlign = Config.Overlay.RightToLeft
+                //    ? HorizontalAlign.Left
+                //    : HorizontalAlign.Right;
+            }
+
+            if (Client.TryGet(out Client client))
+            {
+                int seconds = (int)Math.Ceiling((client.EstimatedRefresh - DateTime.UtcNow).TotalSeconds);
+                if (seconds <= 0)
+                {
+                    string hostName = "host";
+                    if (Peer.TryGetLobby(out Lobby lobby) && lobby.TryGetHost(out User host))
+                    {
+                        Player.TryGetName(host.Id, out string name);
+                            hostName = name;
+                    }
+                    this.status.SetText($"Syncing with {hostName}");
+                }
+                else
+                {
+                    this.status.SetText($"Refreshing in {SftpSave.GetEstimateString(seconds).Replace(" ", "\0")}");
+                }
+            }
+            else if (SftpSave.IsEnabled)
+            {
+                if (SftpSave.State is SyncState.Ready)
+                {
+                    if (SftpSave.CredentialsValidated)
+                        this.status.SetText($"Refreshing in {SftpSave.GetEstimateString(SftpSave.GetNextRefresh()).Replace(" ", "\0")}");
+                    else
+                        this.status.SetText($"SFTP Offline");
+                }                
+                else if (SftpSave.State is SyncState.Connecting)
+                {
+                    this.status.SetText($"Connecting...");
+                }
+                else
+                {
+                    this.status.SetText($"Syncing...");
+                }
+            }
+            else
+            {
+                this.status.SetText(string.Empty);
             }
 
             this.titleTimer.Update(time);
@@ -218,7 +278,7 @@ namespace AATool.UI.Screens
                 this.text.SetText($"Minecraft JE: All Advancements ({Config.Tracker.GameVersion})");
             }
 
-            this.text.TextAlign = Config.Overlay.RightToLeft
+            this.text.HorizontalTextAlign = Config.Overlay.RightToLeft
                 ? HorizontalAlign.Left
                 : HorizontalAlign.Right;
 

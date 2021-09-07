@@ -17,6 +17,7 @@ namespace AATool.Utilities
         public static Color FromRGB(int r, int g, int b)          => new (r, g, b);
         public static Color FromRGBA(int r, int g, int b, int a)  => new (r, g, b, a);
 
+        public static Color Fade(Color color, float opacity) => new (color.R, color.G, color.B, opacity);
         public static Color ColorFromHSV(double hue, double sat, double val)
         {
             int primary = Convert.ToInt32(Math.Floor(hue / 60)) % 6;

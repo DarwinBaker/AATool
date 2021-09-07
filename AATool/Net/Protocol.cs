@@ -1,14 +1,18 @@
-﻿
+﻿using System;
+
 namespace AATool.Net
 {
     public static class Protocol
     {
+        public static readonly Version Version = new ("2.0");
+
         //integer constants
-        public const int BUFFER_SIZE        = 8192;
-        public const int SERVER_BACKLOG     = 3;
-        public const int SERVER_CAPACITY    = 30;
-        public const int TIMEOUT_MS         = 5 * 1000;
+        public const int CONNECTION_TIMEOUT_MS = 5 * 1000;
+        public const int RECONNECT_COOLDOWN_MS = 3 * 1000;
         public const int UUID_REQUEST_LIMIT = 5;
+        public const int SERVER_CAPACITY = 30;
+        public const int SERVER_BACKLOG = 3;
+        public const int BUFFER_SIZE = 8192;
         
         public const int MC_NAME_MIN = 3;
         public const int MC_NAME_MAX = 16;
@@ -36,7 +40,8 @@ namespace AATool.Net
         public const string KICK            = "kick";
 
         //server to client data headers
-        public const string PROGRESS        = "progress";
-        public const string LOBBY           = "lobby";
+        public const string PROGRESS         = "progress";
+        public const string LOBBY            = "lobby";
+        public const string REFRESH_ESTIMATE = "refresh estimate";
     }
 }

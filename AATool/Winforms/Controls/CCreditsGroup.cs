@@ -4,12 +4,12 @@ namespace AATool.Winforms.Controls
 {
     public partial class CCreditsGroup : UserControl
     {
-        public void SetTitle(string title) => label.Text = title;
-        public void AddUser(Label user)    => flow.Controls.Add(user);
+        public void SetTitle(string title) => this.label.Text = title;
+        public void AddUser(Label user) => this.flow.Controls.Add(user);
 
         public CCreditsGroup()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

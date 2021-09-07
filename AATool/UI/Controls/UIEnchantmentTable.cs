@@ -1,6 +1,8 @@
 ﻿using System;
 using AATool.Graphics;
 using AATool.Net;
+using AATool.Saves;
+using AATool.Settings;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
@@ -37,10 +39,7 @@ namespace AATool.UI.Controls
         {
             this.portal = new UIPicture() {
                 FlexWidth = new Size(32),
-                FlexHeight = new Size(32),
-                HorizontalAlign = HorizontalAlign.Left,
-                VerticalAlign = VerticalAlign.Top,
-                Margin = new Margin(3, 0, 3, 0)
+                FlexHeight = new Size(32)
             };
             this.portal.SetTexture(TEXTURE_PORTAL);
             this.AddControl(this.portal);
@@ -92,7 +91,7 @@ namespace AATool.UI.Controls
 
         protected override void UpdateThis(Time time)
         {
-            if (Peer.IsConnected)
+            if (Peer.IsConnected || Config.Tracker.UseRemoteWorld || (Client.TryGet(out Client client) && client.LostConnection))
                 this.portal.Expand();
             else
                 this.portal.Collapse();
@@ -110,10 +109,8 @@ namespace AATool.UI.Controls
 
         public override void DrawThis(Display display)
         {
-            if (!Peer.IsConnected)
-            {
+            if (this.portal.IsCollapsed)
                 base.DrawThis(display);
-            }
             
             Vector2 center = this.portal.IsCollapsed ? new (this.Center.X, this.Center.Y - 4) : new (this.Center.X + 1, this.Center.Y + 1);
             Color tint     = this.portal.IsCollapsed ? Color.White : Color.Violet;

@@ -9,7 +9,7 @@ namespace AATool.Saves
 {
     public abstract class JSONFolder
     {
-        private const string JSON_PATTERN = "*.json";
+        private const string JsonPattern = "*.json";
 
         public readonly Dictionary<Uuid, JSONStream> Files;
 
@@ -42,10 +42,7 @@ namespace AATool.Saves
                 //get all uuid json files in folder
                 Dictionary<Uuid, FileInfo> files = this.GetValidFiles();
 
-                //remove any closed/deleted json files
                 modified |= this.TryRemoveDeadFiles(files);
-
-                //add missing jsons to dictionary
                 modified |= this.TryAddNewFiles(files);
             }
             catch { }
@@ -53,11 +50,12 @@ namespace AATool.Saves
             //update jsons
             foreach (JSONStream json in this.Files.Values)
             {
-                bool forceUpdate = Config.Tracker.GameVersionChanged();
-                forceUpdate |= Config.Tracker.UseDefaultPathChanged();
-                forceUpdate |= Config.Tracker.CustomPathChanged();
+                bool invalidated = Config.Tracker.GameVersionChanged();
+                invalidated |= Config.Tracker.UseDefaultPathChanged();
+                invalidated |= Config.Tracker.CustomPathChanged();
+                invalidated |= Config.Tracker.UseRemoteWorldChanged();
 
-                modified |= json.TryUpdate(forceUpdate);
+                modified |= json.TryUpdate(invalidated);
             }
             return modified;
         }
@@ -71,7 +69,7 @@ namespace AATool.Saves
             try
             {
                 //get all uuid json files in folder
-                FileInfo[] files = this.folder.GetFiles(JSON_PATTERN, SearchOption.TopDirectoryOnly);
+                FileInfo[] files = this.folder.GetFiles(JsonPattern, SearchOption.TopDirectoryOnly);
                 foreach (FileInfo file in files)
                 {
                     string fileName = System.IO.Path.GetFileNameWithoutExtension(file.Name);

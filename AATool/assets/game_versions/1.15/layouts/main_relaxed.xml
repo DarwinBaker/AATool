@@ -39,7 +39,7 @@
         </grid>
 
         <!-- advancements with subcriteria -->
-        <flow_panel row="1" col="1" drawmode="all">
+        <flow_panel row="1" col="1" colspan="2">
             <criteria_group width="5 * 68" advancement="minecraft:adventure/adventuring_time"/>
             <criteria_group width="234"    advancement="minecraft:adventure/kill_all_mobs"/>
             <criteria_group width="320"    advancement="minecraft:husbandry/balanced_diet"/>

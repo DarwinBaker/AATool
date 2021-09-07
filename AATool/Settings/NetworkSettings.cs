@@ -16,8 +16,8 @@ namespace AATool.Settings
         public const string AUTO_SERVER_IP  = "auto_server_ip";
         public const string PASSWORD        = "saved_password";
 
-        public string MinecraftName        { get => this.Get<string>(MOJANG_NAME);  set => this.Set(MOJANG_NAME, value); }
-        public string PreferredName       { get => this.Get<string>(DISPLAY_NAME); set => this.Set(DISPLAY_NAME, value); }
+        public string MinecraftName     { get => this.Get<string>(MOJANG_NAME);  set => this.Set(MOJANG_NAME, value); }
+        public string PreferredName     { get => this.Get<string>(DISPLAY_NAME); set => this.Set(DISPLAY_NAME, value); }
         public string Pronouns          { get => this.Get<string>(PRONOUNS);     set => this.Set(PRONOUNS, value); }
         public bool IsServer            { get => this.Get<bool>(IS_SERVER);      set => this.Set(IS_SERVER, value); }
         public string IP                { get => this.Get<string>(IP_ADDRESS);   set => this.Set(IP_ADDRESS, value); }

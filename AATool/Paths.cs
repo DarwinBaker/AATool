@@ -12,6 +12,10 @@ namespace AATool
         public const string DIR_FAVORITES           = DIR_SETTINGS + "favorites";
         public const string DIR_NOTES               = "notes/";
 
+        //remote world temp folder
+        public const string DIR_TEMP_WORLD          = "assets/temp_world/";
+        public const string DIR_REMOTE_WORLDS       = "assets/remote_worlds";
+
         //constant asset paths
         public const string DIR_ASSETS              = "assets/";
         public const string DIR_GAME_VERSIONS       = DIR_ASSETS   + "game_versions/";

@@ -7,12 +7,12 @@
     <!-- status -->
     <panel name="status" width="310" horizontal_align="left" margin_left="82">
         <enchantment_table width="36" height="36" horizontal_align="left" vertical_align="bottom" margin_left="3" margin_bottom="4"/>
-        <text_block height="12" text_align="left" horizontal_align="left" margin_left="45"/>
-        <refresh_icon horizontal_align="right" margin_right="8"/>
+        <text_block width="270" horizontal_align="left" text_align="center" padding_left="45"/>
+        <refresh_icon horizontal_align="right" margin_right="5"/>
     </panel>
     <!-- progress bar -->
     <panel name="progress" margin_left="392" horizontal_align="left">
-        <text_block height="12" vertical_align="bottom" margin_bottom="22"/>
+        <text_block width="0.85*" height="12" vertical_align="bottom" margin_bottom="22"/>
         <progress_bar width="0.9*" vertical_align="bottom" margin_bottom="8"/>
     </panel>
     <!-- patreon -->

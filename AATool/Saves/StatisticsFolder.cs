@@ -174,5 +174,17 @@ namespace AATool.Saves
             }
             return total;
         }
+
+        public int GetItemsEnchanted()
+        {
+            int total = 0;
+            foreach (JSONStream json in this.Files.Values)
+            {
+                total += (int)(json?["stats"]?["minecraft:custom"]
+                    ?["minecraft:enchant_item"]
+                    ?.Value ?? 0);
+            }
+            return total;
+        }
     }
 }

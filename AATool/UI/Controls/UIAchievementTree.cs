@@ -28,8 +28,11 @@ namespace AATool.UI.Controls
             this.occupied = new bool[this.Rows.Count, this.Columns.Count];
             foreach (UIControl control in this.Children)
             {
-                if (control is UIAdvancement)
-                    this.achievements.Add(control as UIAdvancement);
+                if (control is UIAdvancement achievement)
+                {
+                    achievement.First<UITextBlock>().DrawBackground = true;
+                    this.achievements.Add(achievement);
+                }
                 this.occupied[control.Row, control.Column] = true;
             }
         }

@@ -3,6 +3,7 @@ using AATool.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security;
 
 namespace AATool.Saves
 {
@@ -125,6 +126,7 @@ namespace AATool.Saves
 
             needsRefresh |= Config.Tracker.CustomPathChanged();
             needsRefresh |= Config.Tracker.UseDefaultPathChanged();
+            needsRefresh |= Config.Tracker.UseRemoteWorldChanged();
             if (!needsRefresh)
                 return this.CurrentState;
 
@@ -155,7 +157,8 @@ namespace AATool.Saves
             catch (ArgumentException)     { return SaveFolderState.InvalidPath; }
             catch (NotSupportedException) { return SaveFolderState.InvalidPath; }
             catch (PathTooLongException)  { return SaveFolderState.PathTooLong; }
-            catch (Exception)             { return SaveFolderState.PermissionError; }
+            catch (SecurityException)     { return SaveFolderState.PermissionError; }
+            catch (UnauthorizedAccessException) { return SaveFolderState.PermissionError; }
         }
     }
 }

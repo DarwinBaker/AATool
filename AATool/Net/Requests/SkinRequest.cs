@@ -20,12 +20,12 @@ namespace AATool.Net.Requests
             this.id = id;
         }
 
-        public override async Task<bool> RunAsync()
+        public override async Task<bool> TryRunAsync()
         {
             string fileName = Path.Combine(Paths.DIR_SKIN_CACHE, this.id + ".png");
             if (!SpriteSheet.TryGetTextureFromFile(fileName, out Texture2D texture))
             {
-                using (HttpClient client = new() { Timeout = TimeSpan.FromMilliseconds(Protocol.TIMEOUT_MS) })
+                using (HttpClient client = new() { Timeout = TimeSpan.FromMilliseconds(Protocol.CONNECTION_TIMEOUT_MS) })
                 using (Stream stream = await client.GetStreamAsync(this.Url))
                 {
                     //load texture and add to atlas

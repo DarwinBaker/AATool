@@ -67,8 +67,7 @@ namespace AATool.UI.Controls
 
             //credits
             this.supporters = new() {
-                { "Patreon Supporters", this.First<UIFlowPanel>("patrons")},
-                { "Paypal Donors",      this.First<UIFlowPanel>("donors")},
+                { "Supporters",         this.First<UIFlowPanel>("supporters")},
                 { "Beta Testers",       this.First<UIFlowPanel>("testers")},
                 { "Special Dedication", this.First<UIFlowPanel>("special")}
             };
@@ -184,6 +183,8 @@ namespace AATool.UI.Controls
             {
                 if (control is UITextBlock text)
                     text.SetTextColor(tint);
+                else if (control is UIGlowEffect glow)
+                    glow.SkipToBrightness(tint.A / 255f);
                 else if (control is UIPicture picture)
                     picture.SetTint(tint);
             }
@@ -200,7 +201,7 @@ namespace AATool.UI.Controls
             this.currentX    = this.X;
 
             string title = $"All {Tracker.AdvancementCount} Advancements Complete!";
-            string body  = $"Minecraft: Java Edition ({Config.Tracker.GameVersion})\n" +
+            string body  = $" \nMinecraft: Java Edition ({Config.Tracker.GameVersion})\n" +
                            $"All\0Advancements\n\n" +
                            $"{Tracker.InGameTime}\nApproximate IGT\n";
 
@@ -223,15 +224,15 @@ namespace AATool.UI.Controls
             */
 
             this.First<UITextBlock>("flown").SetText(space      + prog.TotalKilometersFlown);
-            this.First<UITextBlock>("temples").SetText(space    + prog.TemplesRaided);
             this.First<UITextBlock>("bread").SetText(space      + prog.BreadEaten.ToString());
-            this.First<UITextBlock>("fish").SetText(space       + prog.FishCollected.ToString());
+            this.First<UITextBlock>("enchants").SetText(space   + prog.ItemsEnchanted.ToString());
             this.First<UITextBlock>("pearls").SetText(space     + prog.EnderPearlsThrown.ToString());
+            this.First<UITextBlock>("temples").SetText(space    + prog.TemplesRaided);
 
             this.First<UITextBlock>("creepers").SetText(space   + prog.CreepersKilled.ToString());
             this.First<UITextBlock>("drowned").SetText(space    + prog.DrownedKilled.ToString());
             this.First<UITextBlock>("withers").SetText(space    + prog.WitherSkeletonsKilled.ToString());
-            this.First<UITextBlock>("endermen").SetText(space   + prog.EndermenKilled.ToString());
+            this.First<UITextBlock>("fish").SetText(space       + prog.FishCollected.ToString());
             this.First<UITextBlock>("phantoms").SetText(space   + prog.PhantomsKilled.ToString());
 
             this.First<UITextBlock>("lecterns").SetText(space   + prog.LecternsMined.ToString());
@@ -258,9 +259,9 @@ namespace AATool.UI.Controls
                 panel.ClearControls();
                 var header = new UITextBlock() {
                     FlexWidth  = new Size(400),
-                    FlexHeight = new Size(50),
-                    HorizontalAlign = panel.HorizontalAlign,
-                    TextAlign       = panel.HorizontalAlign
+                    FlexHeight = new Size(48),
+                    HorizontalTextAlign = panel.HorizontalAlign,
+                    VerticalTextAlign = VerticalAlign.Top
                 };
                 header.SetFont("minecraft", 24);
                 header.SetText(groupName + "\n" + new string('-', 18));
@@ -270,8 +271,9 @@ namespace AATool.UI.Controls
                 {
                     var supporter = new UITextBlock() {
                         FlexWidth  = new Size(220),
-                        FlexHeight = new Size(36),
-                        TextAlign  = panel.HorizontalAlign
+                        FlexHeight = new Size(32),
+                        HorizontalTextAlign = panel.HorizontalAlign,
+                        VerticalTextAlign = VerticalAlign.Top
                     };
                     supporter.SetFont("minecraft", 24);
 
@@ -283,7 +285,7 @@ namespace AATool.UI.Controls
                         VerticalAlign   = VerticalAlign.Top
                     };
 
-                    if (supporter.TextAlign is HorizontalAlign.Left)
+                    if (supporter.HorizontalTextAlign is HorizontalAlign.Left)
                         supporter.SetText("     " + ParseAttribute(supporterNode, "name", string.Empty));
                     else
                         supporter.SetText(ParseAttribute(supporterNode, "name", string.Empty) + "     ");
@@ -291,12 +293,11 @@ namespace AATool.UI.Controls
 
                     string icon = groupName switch {
                         "Beta Testers"       => "enchanted_golden_apple",
-                        "Paypal Donors"      => "enchanted_emerald",
                         "Special Dedication" => "poppy",
-                        _                    => "patreon",
+                        _                    => "supporter",
                     };
-                    if (icon is "patreon")
-                        tier.SetTexture("patreon_" + ParseAttribute(supporterNode, "tier", "gold"));
+                    if (icon is "supporter")
+                        tier.SetTexture("supporter_" + ParseAttribute(supporterNode, "tier", "gold"));
                     else
                         tier.SetTexture(icon);
                     panel.AddControl(supporter);

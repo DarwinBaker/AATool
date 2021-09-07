@@ -113,9 +113,9 @@ namespace AATool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap supporter_patreon_diamond {
+        internal static System.Drawing.Bitmap supporter_diamond {
             get {
-                object obj = ResourceManager.GetObject("supporter_patreon_diamond", resourceCulture);
+                object obj = ResourceManager.GetObject("supporter_diamond", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace AATool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap supporter_patreon_gold {
+        internal static System.Drawing.Bitmap supporter_emerald {
             get {
-                object obj = ResourceManager.GetObject("supporter_patreon_gold", resourceCulture);
+                object obj = ResourceManager.GetObject("supporter_emerald", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,9 @@ namespace AATool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap supporter_patreon_netherite {
+        internal static System.Drawing.Bitmap supporter_gold {
             get {
-                object obj = ResourceManager.GetObject("supporter_patreon_netherite", resourceCulture);
+                object obj = ResourceManager.GetObject("supporter_gold", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +143,9 @@ namespace AATool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap supporter_paypal {
+        internal static System.Drawing.Bitmap supporter_netherite {
             get {
-                object obj = ResourceManager.GetObject("supporter_paypal", resourceCulture);
+                object obj = ResourceManager.GetObject("supporter_netherite", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

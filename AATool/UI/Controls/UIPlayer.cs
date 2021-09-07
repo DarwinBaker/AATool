@@ -66,6 +66,12 @@ namespace AATool.UI.Controls
                     }
                 }
             }
+            else
+            {
+                foreach (UITextBlock label in this.itemCounts.Values)
+                    label.Collapse();
+                this.flow.ReflowChildren();
+            }
         }
 
         public override void DrawThis(Display display)

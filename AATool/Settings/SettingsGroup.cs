@@ -54,8 +54,8 @@ namespace AATool.Settings
             //attempt to read settings from xml file
             if (!this.TryLoadXml(this.FilePath))
             {
-                //error parsing xml; restore defaults and overwrite bad settings file
-                this.ResetToDefaults();
+                //error parsing xml; overwrite bad settings file
+                //this.ResetToDefaults();
                 this.Save();
             }
         }
@@ -80,10 +80,12 @@ namespace AATool.Settings
                         this.Set(key, value);
                         break;
                     case "bool":
-                        this.Set(key, bool.Parse(value));
+                        if (bool.TryParse(value, out bool boolean))
+                            this.Set(key, boolean);
                         break;
                     case "int":
-                        this.Set(key, int.Parse(value));
+                        if (int.TryParse(value, out int number))
+                            this.Set(key, number);
                         break;
                     case "color":
                         string[] split = value.Split(',');

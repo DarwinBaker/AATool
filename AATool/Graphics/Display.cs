@@ -91,7 +91,7 @@ namespace AATool.Graphics
         }
 
         public void Draw(string texture, Vector2 center, float rotation, float scale = 1, Color? tint = null, Layer layer = Layer.Main) =>
-            this.Draw(texture, center, rotation, Vector2.One, tint, layer);
+            this.Draw(texture, center, rotation, new Vector2(scale), tint, layer);
 
         public void Draw(string texture, Vector2 center, float rotation, Vector2? scale = null, Color? tint = null, Layer layer = Layer.Main)
         {

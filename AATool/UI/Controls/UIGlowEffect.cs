@@ -8,6 +8,7 @@ namespace AATool.UI.Controls
     class UIGlowEffect : UIPicture
     {
         public float Brightness { get; private set; }
+        public float Scale { get; set; }
 
         private float displayBrightness;
 
@@ -16,9 +17,9 @@ namespace AATool.UI.Controls
         public void LerpToBrightness(float brightness) => this.Brightness = brightness;
 
         public void SkipToBrightness(float brightness)
-        { 
-             this.Brightness = brightness;
-             this.displayBrightness = this.Brightness;
+        {
+            this.Brightness = brightness;
+            this.displayBrightness = this.Brightness;
         }
 
         public override void InitializeRecursive(UIScreen screen)
@@ -32,20 +33,21 @@ namespace AATool.UI.Controls
             float offset = this.isMainWindow
                 ? (this.X * 100) + (this.Y * 100)
                 : 0;
-            this.SetRotation((float)(offset + (time.TotalSeconds % (MathHelper.TwoPi * 8f) / 8f)));
+            this.SetRotation((float)(offset + (time.TotalFrames / 400f)));
 
             this.displayBrightness = MathHelper.Lerp(this.displayBrightness, this.Brightness, (float)(10 * time.Delta));
         }
 
         public override void DrawThis(Display display)
         {
-            display.Draw(this.Texture, this.Content.Center.ToVector2(), this.Rotation, 1, this.Tint * this.displayBrightness, Layer.Glow);
+            display.Draw(this.Texture, this.Content.Center.ToVector2(), this.Rotation, this.Scale, this.Tint * this.displayBrightness, Layer.Glow);
         }
 
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
             this.LerpToBrightness(ParseAttribute(node, "brightness", 1));
+            this.Scale = ParseAttribute(node, "scale", 1f);
         }
     }
 }

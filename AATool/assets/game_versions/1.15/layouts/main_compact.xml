@@ -29,7 +29,7 @@
         </panel>
 
         <!-- advancements with subcriteria -->
-        <flow_panel row="1" col="1" drawmode="all">
+        <flow_panel row="1" col="1" colspan="2" drawmode="all">
             <criteria_group width="276" advancement="minecraft:adventure/adventuring_time"/>
             <criteria_group width="180" advancement="minecraft:adventure/kill_all_mobs"/>
             <criteria_group width="288" advancement="minecraft:husbandry/balanced_diet"/>
@@ -38,7 +38,7 @@
         </flow_panel>
 
         <!-- item count display (trident, shells, skulls etc.) -->
-        <flow_panel name="counts" col="2" cell_width="68">
+        <flow_panel name="counts" col="2" cell_width="68" cell_height="68" direction="toptobottom">
             <item_count name="count_gapples"  id="minecraft:enchanted_golden_apple"/>
             <item_count name="count_tridents" id="minecraft:trident"/>
             <item_count name="count_shells"   id="minecraft:nautilus_shell"/>

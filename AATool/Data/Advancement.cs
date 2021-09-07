@@ -92,7 +92,7 @@ namespace AATool.Data
 
         public Uuid GetDesignatedPlayer()
         {
-            if (this.DesignationLinked && Peer.IsClient && Peer.IsConnected)
+            if (this.DesignationLinked && Client.TryGet(out Client client) && !client.IsConnecting)
             {
                 if (Peer.TryGetLobby(out Lobby lobby))
                 {

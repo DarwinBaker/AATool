@@ -30,6 +30,7 @@ namespace AATool.Winforms.Controls
         private void InitializeComponent()
         {
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.kick = new System.Windows.Forms.Button();
             this.runSetup = new System.Windows.Forms.Button();
             this.peers = new System.Windows.Forms.ListView();
             this.label13 = new System.Windows.Forms.Label();
@@ -55,7 +56,6 @@ namespace AATool.Winforms.Controls
             this.mainGroupNetwork = new System.Windows.Forms.GroupBox();
             this.console = new System.Windows.Forms.RichTextBox();
             this.help = new System.Windows.Forms.LinkLabel();
-            this.kick = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.mainGroupNetwork.SuspendLayout();
@@ -76,6 +76,16 @@ namespace AATool.Winforms.Controls
             this.groupBox4.TabIndex = 15;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Control Panel";
+            // 
+            // kick
+            // 
+            this.kick.Location = new System.Drawing.Point(138, 124);
+            this.kick.Name = "kick";
+            this.kick.Size = new System.Drawing.Size(47, 23);
+            this.kick.TabIndex = 46;
+            this.kick.Text = "Kick";
+            this.kick.UseVisualStyleBackColor = true;
+            this.kick.Click += new System.EventHandler(this.OnClick);
             // 
             // runSetup
             // 
@@ -342,24 +352,15 @@ namespace AATool.Winforms.Controls
             // 
             // help
             // 
+            this.help.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.help.AutoSize = true;
             this.help.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.help.Location = new System.Drawing.Point(327, 292);
+            this.help.Location = new System.Drawing.Point(400, 292);
             this.help.Name = "help";
-            this.help.Size = new System.Drawing.Size(206, 13);
+            this.help.Size = new System.Drawing.Size(130, 13);
             this.help.TabIndex = 33;
             this.help.TabStop = true;
-            this.help.Text = "For help setting up a co-op run, click here!";
-            // 
-            // kick
-            // 
-            this.kick.Location = new System.Drawing.Point(138, 124);
-            this.kick.Name = "kick";
-            this.kick.Size = new System.Drawing.Size(47, 23);
-            this.kick.TabIndex = 46;
-            this.kick.Text = "Kick";
-            this.kick.UseVisualStyleBackColor = true;
-            this.kick.Click += new System.EventHandler(this.OnClick);
+            this.help.Text = "Setup guide coming soon!";
             // 
             // CNetworkSettings
             // 

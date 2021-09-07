@@ -11,8 +11,8 @@ using System.IO;
 using AATool.Winforms.Forms;
 using System.Windows.Forms;
 using AATool.Net;
-using System.Threading.Tasks;
 using System.Linq;
+using AATool.Saves;
 
 namespace AATool
 {
@@ -21,16 +21,16 @@ namespace AATool
         /*==========================================================
         ||                                                        ||
         ||      --------------------------------------------      ||
-        ||          { Welcome to the AATool source code! }        ||
+        ||         { Welcome to the AATool source code! }         ||
         ||      --------------------------------------------      ||
         ||             Developed by Darwin 'CTM' Baker            ||
         ||                                                        ||
         ||                                                        ||
         ||       //To anyone building modified versions of        ||
         ||       //this program, please put your name here        ||
-        ||       //to help differentiate unofficial builds.       ||
+        ||       //to help differentiate unofficial builds        ||
         ||                                                        ||
-        ||       */const string MODDER_NAME = "";/*               ||
+        ||       */const string ModderName = "";/*                ||
         ||                                                        ||
         ||       //Thanks!                                        ||
         ||                                                        ||
@@ -39,11 +39,11 @@ namespace AATool
 
         public static readonly bool IsBeta = false;
 
-        public static bool IsClosing          { get; set; }
-        public static string FullTitle        { get; private set; }
-        public static string ShortTitle       { get; private set; }
-        public static string Version          { get; private set; }
-        public static Random RNG              { get; private set; }
+        public static bool IsClosing        { get; set; }
+        public static string FullTitle      { get; private set; }
+        public static string ShortTitle     { get; private set; }
+        public static Version Version       { get; private set; }
+        public static Random RNG            { get; private set; }
         public static GraphicsDeviceManager Graphics { get; private set; }
 
         public readonly Time Time;
@@ -71,16 +71,12 @@ namespace AATool
 
         protected override void Initialize()
         {
-            UpdateHelper.TryFirstSetupRoutine();
-
-            //instantiate important objects
             this.display = new Display(Graphics);
 
             //load assets
             Tracker.Initialize();
             SpriteSheet.Initialize(this.GraphicsDevice);
             FontSet.Initialize(this.GraphicsDevice);
-            //SpriteSheet.Atlas.SaveAsPng(File.Create("C:/files/pictures/atlas_test.png"), 2048, 2048);
 
             //instantiate screens
             this.altScreens = new ();
@@ -98,7 +94,8 @@ namespace AATool
 
             //check minecraft version
             GameVersionDetector.Update();
-            Tracker.TryUpdate(this.Time);
+            Tracker.Update(this.Time);
+            SftpSave.Update(this.Time);
 
             //update each screen
             this.mainScreen.UpdateRecursive(this.Time);
@@ -133,7 +130,7 @@ namespace AATool
 
         protected override void Draw(GameTime gameTime)
         {
-            lock (SpriteSheet.AtlasLock)
+            lock (SpriteSheet.Atlas)
             {
                 //render each secondary screen to its respective viewport
                 foreach (UIScreen screen in this.altScreens.Values)
@@ -157,22 +154,20 @@ namespace AATool
 
         private void InitializeMetaData()
         {
-            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            Version = Assembly.GetExecutingAssembly().GetName().Version;
             string name     = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title;
             string extra    = Assembly.GetExecutingAssembly()
                 .GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false)
                 .OfType<AssemblyDescriptionAttribute>()
                 .FirstOrDefault()?.Description ?? string.Empty;
 
-            ShortTitle = $"{name} {version.Major}.{version.Minor}.{version.Build}";
-            FullTitle = string.IsNullOrWhiteSpace(extra)
-                ? ShortTitle
-                : $"{ShortTitle} {extra}";
+            ShortTitle = $"{name} {Version.Major}.{Version.Minor}.{Version.Build}";
+            FullTitle  = $"{name} {Version}";
+            if (!string.IsNullOrWhiteSpace(extra))
+                FullTitle += $" {extra}";
 
-            if (!string.IsNullOrWhiteSpace(MODDER_NAME))
-                FullTitle += " - UNOFFICIALLY MODIFIED BY: " + MODDER_NAME;
-
-            Version = $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+            if (!string.IsNullOrWhiteSpace(ModderName))
+                FullTitle += " - UNOFFICIALLY MODIFIED BY: " + ModderName;
         }
 
         public static void QuitBecause(string reason, Exception exception = null)

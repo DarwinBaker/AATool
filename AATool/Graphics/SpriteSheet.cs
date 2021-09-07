@@ -14,11 +14,13 @@ namespace AATool.Graphics
 {
     public static class SpriteSheet
     {
-        public const int RESOLUTION  = 2048;
+        public const int WIDTH  = 2048;
+        public const int HEIGHT = 2048;
         public const int MAX_COLUMNS = 32;
 
         public const string ANIMATION_PREFIX  = "$";
         public const string RESOLUTION_PREFIX = "^";
+        public const string PADDING_PREFIX    = "~";
 
         public static RenderTarget2D Atlas;
         public static Dictionary<string, Sprite> Sprites = new ();
@@ -29,12 +31,30 @@ namespace AATool.Graphics
         private static int RowHeight         = 0;
         private static decimal AnimationTime = 0;
 
-        public static readonly object AtlasLock = new object();
-
         public static Sprite Pixel => Sprites["pixel"];
 
         public static bool ContainsSprite(string id) => Sprites.ContainsKey(id ?? string.Empty);
-        public static bool IsAnimated(string id)     => id.Contains(ANIMATION_PREFIX);
+        public static string ProcessFrameCount(string id, out int frames)
+        {
+            frames = 0;
+            int index = id.IndexOf(ANIMATION_PREFIX);
+            if (index is -1)
+                return id;
+
+            int.TryParse(id.Substring(index + 1), out frames);
+            return id.Substring(0, index);
+        }
+
+        public static string ProcessPadding(string id, out int padding)
+        {
+            padding = 0;
+            int index = id.IndexOf(PADDING_PREFIX);
+            if (index is -1)
+                return id;
+
+            int.TryParse(id.Substring(index + 1), out padding);
+            return id.Substring(0, index);
+        }
 
         public static bool TryGetRectangle(string id, out Rectangle rectangle)
         {
@@ -44,7 +64,7 @@ namespace AATool.Graphics
                 rectangle = Rectangle.Empty;
                 return false;
             }
-            
+
             if (sprite.Frames < 2)
             {
                 //static texture
@@ -59,7 +79,7 @@ namespace AATool.Graphics
                 int wrapped = GetFrameIndex(sprite.Frames);
                 int x       = wrapped % columns * width;
                 int y       = wrapped / columns * height;
-                rectangle   = new (sprite.Source.Location + new Point(x, y), new Point(width, width));
+                rectangle   = new(sprite.Source.Location + new Point(x, y), new Point(width, width));
             }
             return true;
         }
@@ -89,8 +109,8 @@ namespace AATool.Graphics
 
         public static void Initialize(GraphicsDevice graphicsDevice)
         {
-            Device  = graphicsDevice;
-            Atlas   = new RenderTarget2D(Device, RESOLUTION, RESOLUTION, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+            Device = graphicsDevice;
+            Atlas  = new RenderTarget2D(Device, WIDTH, HEIGHT, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 
             if (!Directory.Exists(Paths.DIR_SPRITES))
                 return;
@@ -127,7 +147,7 @@ namespace AATool.Graphics
                     using (FileStream stream = File.OpenRead(file))
                         texture = Texture2D.FromStream(Device, stream);
                     return true;
-                } 
+                }
                 catch { }
             }
             return false;
@@ -157,20 +177,14 @@ namespace AATool.Graphics
                 foreach (Texture2D texture in textures)
                 {
                     string id = texture.Tag.ToString();
-                    int frameCount = 1;
-                    if (IsAnimated(id))
-                    {
-                        //texture is animated; extract and strip suffix from id
-                        int prefixIndex = id.IndexOf('$');
-                        if (int.TryParse(id.Substring(prefixIndex + 1), out frameCount))
-                            id = id.Substring(0, prefixIndex);
-                    }
+                    id = ProcessFrameCount(id, out int frames);
+                    id = ProcessPadding(id, out int padding);
 
                     if (!ContainsSprite(id))
                     {
                         //draw texture in its given rectangle
-                        Rectangle rectangle = NextRectangle(texture);
-                        Sprites.Add(id, new Sprite(rectangle, frameCount));
+                        Rectangle rectangle = NextRectangle(texture, padding);
+                        Sprites.Add(id, new Sprite(rectangle, frames));
                         batch.Draw(texture, rectangle, Color.White);
                     }
                 }
@@ -187,66 +201,34 @@ namespace AATool.Graphics
             pixel.Tag = "pixel";
             return pixel;
         }
-        /*
-        private static Rectangle Fit(Texture2D sprite)
-        {
-            if (TryFindNode(Root, sprite.Width, sprite.Height, out Rectangle node))
-                sprite.fit = SplitNode(node, sprite.Width, sprite.Height);
-        }
 
-        private static bool TryFindNode(Rectangle root, Texture2D sprite, out Rectangle rectangle)
-        {
-            if (root.used)
-            {
-                if (TryFindNode(root.right, w, h) || TryFindNode(root.down, w, h))
-                {
-
-                }
-                return ;
-            }
-            else if ((sprite.Width <= root.Width) && (sprite.Height <= root.Height))
-            {
-                rectangle = root;
-                return true;
-            } 
-            else
-            {
-                rectangle = Rectangle.Empty;
-                return false;
-            }
-        }
-
-        private static Rectangle SplitNode(node, int width, int height)
-        {
-            node.used = true;
-            node.down  = { x: node.x,     y: node.y + h, w: node.w,     h: node.h - h };
-            node.right = { x: node.x + w, y: node.y,     w: node.w - w, h: h          };
-            return node;
-        }
-        */
-        private static Rectangle NextRectangle(Texture2D texture)
+        private static Rectangle NextRectangle(Texture2D texture, int padding)
         {
             //find next rectangle that will fit the given texture on the atlas
             if (texture is null)
                 return Rectangle.Empty;
 
-            if (CursorX + texture.Width > RESOLUTION)
+            if (CursorX + texture.Width > WIDTH)
             {
                 //row is full, set cursor to start of next row
-                CursorX = 0;
-                CursorY += RowHeight;
+                CursorX = padding;
+                CursorY += RowHeight + padding;
                 RowHeight = 0;
             }
 
             //give up if no room in atlas
-            if (CursorY + texture.Height > RESOLUTION)
+            if (CursorY + texture.Height > HEIGHT)
                 return Rectangle.Empty;
 
-            var rectangle = new Rectangle(CursorX, CursorY, texture.Width, texture.Height);
+            var rectangle = new Rectangle(
+                CursorX + padding,
+                CursorY + padding,
+                texture.Width,
+                texture.Height);
 
             //offset cursor
-            CursorX += texture.Width;
-            RowHeight = Math.Max(RowHeight, texture.Height);
+            CursorX += texture.Width + (padding * 2);
+            RowHeight = Math.Max(RowHeight, texture.Height + (padding * 2));
             return rectangle;
         }
     }

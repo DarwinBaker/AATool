@@ -16,7 +16,7 @@
         <lobby row="0" col="0" rowspan="3"/>
 
         <!-- basic advancements -->
-        <grid row="0" col="1" drawmode="all">
+        <grid row="0" col="1" colspan="2">
             <rows>
                 <row height="248"/>
                 <row height="168"/>
@@ -38,7 +38,7 @@
         </grid>
 
         <!-- advancements with subcriteria -->
-        <flow_panel row="1" col="1" drawmode="all">
+        <flow_panel row="1" col="1" colspan="2" drawmode="all">
             <criteria_group width="5 * 68" advancement="minecraft:adventure/adventuring_time"/>
             <criteria_group width="234"    advancement="minecraft:adventure/kill_all_mobs"/>
             <criteria_group width="320"    advancement="minecraft:husbandry/balanced_diet"/>

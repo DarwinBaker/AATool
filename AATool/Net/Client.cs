@@ -3,37 +3,60 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using AATool.Settings;
 
 namespace AATool.Net
 {
     public sealed class Client : Peer
     {
-        public bool IsConnecting { get; private set; }
-
-        private bool wasKickedByServer;
+        public bool Accepted             { get; private set; }
+        public bool IsConnecting         { get; private set; }
+        public bool WasKickedByServer    { get; private set; }
+        public bool LostConnection       { get; private set; }
+        public DateTime EstimatedRefresh { get; private set; }
 
         private readonly Dictionary<string, string> recieved;
         private readonly Queue<Message> sendQueue;
-        private readonly Socket socket;
+
+        private IPEndPoint endPoint;
+        private Socket socket;
 
         public Client() : base()
         {
-            this.socket       = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            this.sendQueue    = new();
-            this.recieved     = new();
+            this.sendQueue    = new ();
+            this.recieved     = new ();
             this.IsConnecting = true;
         }
 
-        public static bool TryGet(out Client client)
-        {
-            client = Instance as Client;
-            return client is not null;
-        }
+        public static bool TryGet(out Client client) => (client = Instance as Client) is not null;
 
-        public override bool Connected() => !this.IsConnecting && this.socket.Connected;
+        public override bool Connected() => !this.IsConnecting && this.socket.Connected && this.Accepted;
 
         public bool TryGetData(string key, out string data) => this.recieved.TryGetValue(key, out data);
+
+        public string GetStatusText()
+        {
+            string hostname = "remote server";
+            if (this.Lobby.TryGetHost(out User host))
+                hostname = host.Name;
+
+            if (this.LostConnection)
+                return $"Lost connection to {hostname}. Retrying...";
+            if (!this.Connected())
+                return "Attempting connection...";
+
+            int remaining = (int)(this.EstimatedRefresh - DateTime.UtcNow).TotalSeconds;
+            if (remaining > 0)
+            {
+                string time = remaining >= 60
+                            ? $"{remaining / 60} min & {remaining % 60} sec"
+                            : $"{remaining} seconds";
+                return $"Synced! Refreshing in {time}";
+            }
+            return $"Synced with {hostname}!";
+        }
+
 
         protected override void Start(IPAddress address, int port, Uuid id)
         {
@@ -46,33 +69,63 @@ namespace AATool.Net
                 this.Stop("Error starting client: " + reason);
                 return;
             }
+            this.endPoint = new IPEndPoint(address, port);
+            this.TryConnect();
+        }
 
-            WriteToConsole("Attempting connection...");
-            UpdateControls("Connecting...", false, false);
+        private void TryConnect(bool retry = false)
+        {
+            this.Accepted = false;
+            if (retry)
+            {
+                WriteToConsole("Reconnecting...");
+                UpdateControls("Reconnecting...", false, false);
+            }
+            else
+            {
+                WriteToConsole("Attempting connection...");
+                UpdateControls("Connecting...", false, false);
+            }
 
             try
             {
                 //attempt connection
-                IPEndPoint endPoint = new (address, port);
-                IAsyncResult ar = this.socket.BeginConnect(endPoint, this.ConnectCallback, this.socket);
+                this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                IAsyncResult ar = this.socket.BeginConnect(this.endPoint, this.ConnectCallback, this.socket);
 
                 //set a timeout for attempt connection
-                if (ar.AsyncWaitHandle.WaitOne(Protocol.TIMEOUT_MS, true) && this.socket.Connected)
+                if (ar.AsyncWaitHandle.WaitOne(Protocol.CONNECTION_TIMEOUT_MS, true) && this.socket.Connected)
                 {
                     //start recieving messages from server 
                     this.socket.BeginReceive(Buffer, 0, Protocol.BUFFER_SIZE, SocketFlags.None, this.ReceiveCallback, null);
+                    this.IsConnecting = false;
                 }
                 else
                 {
                     //couldn't establish connection with server
-                    this.IsConnecting = false;
-                    this.socket.Close();
-                    this.Stop("Connection Timeout: Couldn't reach server.");
+                    if (retry)
+                        throw new TimeoutException();
+                    else
+                        this.Stop("Connection Timeout: Couldn't reach server.");
                 }
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                this.Stop($"Error starting client: {e.Message}.");
+                this.socket?.Close();
+                if (exception is SocketException or TimeoutException)
+                {
+                    if (retry)
+                    {
+                        UpdateControls("Stop", true, false);
+                        Thread.Sleep(Protocol.RECONNECT_COOLDOWN_MS);
+                        if (!this.IsDisposing)
+                            this.TryConnect(true);
+                        else
+                            this.Stop("Stopped retrying.");
+                        return;
+                    }
+                }
+                this.Stop("A non-network error has occurred.");
             }
         }
 
@@ -83,7 +136,7 @@ namespace AATool.Net
             {
                 if (this.socket.Connected)
                 {
-                    if (!this.wasKickedByServer)
+                    if (!this.WasKickedByServer)
                     {
                         //tell server
                         this.SendToServer(Message.LogOut());
@@ -114,7 +167,10 @@ namespace AATool.Net
                 byte[] compressed = NetworkHelper.CompressString(message.ToString());
                 this.socket.BeginSend(compressed, 0, compressed.Length, SocketFlags.None, this.SendCallback, null);
             }
-            catch { }
+            catch (SocketException)
+            {
+
+            }
         }
 
         public void SendQueueToServer()
@@ -132,6 +188,7 @@ namespace AATool.Net
             //request sync
             this.sendQueue.Enqueue(Message.Sync(Protocol.LOBBY));
             this.sendQueue.Enqueue(Message.Sync(Protocol.PROGRESS));
+            this.sendQueue.Enqueue(Message.Sync(Protocol.REFRESH_ESTIMATE));
             this.SendQueueToServer();
         }
 
@@ -149,7 +206,10 @@ namespace AATool.Net
                 string pronouns  = this.LocalUser.Pronouns;
                 this.SendToServer(Message.LogIn(uuid, password, pronouns, preferred));
             }
-            catch { }
+            catch (SocketException)
+            { 
+            
+            }
         }
 
         private void SendCallback(IAsyncResult ar)
@@ -160,7 +220,10 @@ namespace AATool.Net
                 if (this.socket.Connected)
                     this.socket.EndSend(ar);
             }
-            catch { }
+            catch (SocketException)
+            {
+
+            }
         }
 
         private void ReceiveCallback(IAsyncResult ar)
@@ -193,12 +256,12 @@ namespace AATool.Net
                         this.SendToServer(this.sendQueue.Dequeue());
                 }
             }
-            catch
+            catch (SocketException)
             {
-                this.Stop("Lost connection to host.");
+                this.LostConnection = true;
+                this.TryConnect(true);
             }
         }
-
 
         private void ExecuteCommand(Message message)
         {
@@ -221,19 +284,21 @@ namespace AATool.Net
                 //enable disconnect button
                 UpdateControls("Disconnect", true, false);
                 StateChangedFlag = true;
+                this.Accepted = true;
+                this.LostConnection = false;
             }
             else if (message.Header is Protocol.REFUSE)
             {
                 //connection refused by server 
                 message.TryGetItem(0, out string reason);
-                this.wasKickedByServer = true;
+                this.WasKickedByServer = true;
                 this.Stop(reason);
             }
             else if (message.Header is Protocol.KICK)
             {
                 //kicked from server 
                 message.TryGetItem(0, out string reason);
-                this.wasKickedByServer = true;
+                this.WasKickedByServer = true;
                 this.Stop(reason);
             }
         }
@@ -250,7 +315,13 @@ namespace AATool.Net
                 this.Lobby = Lobby.FromJsonString(jsonString);
                 StateChangedFlag = true;
                 SyncUserList(this.Lobby.Users.Values);
-
+            }
+            else if (message.Header is Protocol.REFRESH_ESTIMATE)
+            {
+                //deserialize datetime
+                message.TryGetItem(0, out string dateString);
+                if (DateTime.TryParse(dateString, out DateTime refreshEstimate))
+                    this.EstimatedRefresh = refreshEstimate;
             }
             else if (message.TryGetItem(0, out string jsonString))
             {

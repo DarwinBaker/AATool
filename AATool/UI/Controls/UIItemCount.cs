@@ -90,7 +90,7 @@ namespace AATool.UI.Controls
 
         protected override void UpdateThis(Time time)
         {
-            Tracker.TryGetItem(this.ItemName, out itemCount);
+            Tracker.TryGetItem(this.ItemName, out this.itemCount);
 
             //update count display
             if (this.itemCount is not null)
@@ -102,9 +102,9 @@ namespace AATool.UI.Controls
 
                 int percent = (int)Math.Round((float)this.itemCount.PickedUp / this.itemCount.TargetCount * 100);
 
-                if (Config.Main.CompactMode && scale is 2)
+                if (Config.Main.CompactMode && this.scale is 2)
                 { 
-                    if (this.itemCount.TargetCount == 1)
+                    if (this.itemCount.TargetCount is 1)
                         this.label?.SetText(this.itemCount.PickedUp.ToString());
                     else if (!this.itemCount.IsEstimate)
                         this.label?.SetText(this.itemCount.PickedUp + " / " + this.itemCount.TargetCount);
@@ -113,10 +113,10 @@ namespace AATool.UI.Controls
                     else
                         this.label?.SetText("~" + Math.Min(percent, 100) + "%");
                 }                   
-                else if (this.itemCount.TargetCount == 1)
+                else if (this.itemCount.TargetCount is 1)
                     this.label?.SetText(this.itemCount.Name);
                 else if (!this.itemCount.IsEstimate)
-                    this.label?.SetText(this.itemCount.Name + "\n" + this.itemCount.PickedUp + " / " + this.itemCount.TargetCount);
+                    this.label?.SetText(this.itemCount.Name + "\n" + this.itemCount.PickedUp + "\0/\0" + this.itemCount.TargetCount);
                 else if (percent == 0)
                     this.label?.SetText(this.itemCount.Name + "\n" + Math.Min(percent, 100) + "%");
                 else
@@ -150,13 +150,8 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            ItemName = ParseAttribute(node, "id", string.Empty);
-            scale    = ParseAttribute(node, "scale", scale);
-        }
-
-        public override void DrawRecursive(Display display)
-        {
-            base.DrawRecursive(display);
+            this.ItemName = ParseAttribute(node, "id", string.Empty);
+            this.scale = ParseAttribute(node, "scale", this.scale);
         }
 
         public override void DrawThis(Display display)

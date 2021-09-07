@@ -25,8 +25,7 @@ namespace AATool.Winforms.Controls
 
         public void LoadSettings()
         {
-            this.loaded = false;
-            this.UpdateEnabledStates();
+            this.loaded = false; 
             if (Peer.IsRunning)
             {
                 //network is running. pull credentials from current peer instance
@@ -51,6 +50,7 @@ namespace AATool.Winforms.Controls
             }
             this.password.Text          = Config.Network.Password;
             this.autoServerIP.Checked   = Config.Network.AutoServerIP;
+            this.UpdateEnabledStates();
             this.loaded = true;
         }
 
@@ -277,7 +277,7 @@ namespace AATool.Winforms.Controls
             }
             else
             {
-                this.ip.Enabled = this.networkType.Text.ToLower() is "client" || !this.autoServerIP.Checked;
+                this.ip.Enabled           = this.networkType.Text.ToLower() is "client" || !this.autoServerIP.Checked;
                 this.port.Enabled         = true;
                 this.password.Enabled     = true;
                 this.mojangName.Enabled   = true;

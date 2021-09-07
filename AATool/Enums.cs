@@ -3,15 +3,25 @@
     //data structures
     public enum FrameType       { Normal, Goal, Challenge }
 
-    public enum SaveFolderState 
-    { 
-        Valid, 
-        NoWorlds, 
+    public enum SaveFolderState
+    {
+        Valid,
+        NoWorlds,
         NonExistentPath,
         EmptyPath,
         InvalidPath,
         PathTooLong,
         PermissionError
+    }
+
+    public enum SyncState
+    {
+        Ready,
+        Connecting,
+        ServerProperties,
+        LastAutoSave,
+        Advancements,
+        Statistics,
     }
 
     //ui
@@ -20,7 +30,7 @@
     public enum FlowDirection   { LeftToRight, RightToLeft, TopToBottom, BottomToTop }
     public enum SizeMode        { Absolute, Relative }
     public enum DrawMode        { All, ThisOnly, ChildrenOnly, None }
-    public enum UIButtonState   { Released, Hovered, Pressed }
+    public enum UIButtonState   { Released, Hovered, Pressed, Disabled }
     public enum UIRefreshStyle  { Compass, Xp }
 
     //graphics

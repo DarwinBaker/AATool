@@ -32,14 +32,14 @@ namespace AATool.Data.Progress
 
         [JsonProperty] public double TotalKilometersFlown   { get; private set; }
         [JsonProperty] public int BreadEaten                { get; private set; }
-        [JsonProperty] public int FishCollected             { get; private set; }
+        [JsonProperty] public int ItemsEnchanted            { get; private set; } 
         [JsonProperty] public int EnderPearlsThrown         { get; private set; }
         [JsonProperty] public double TemplesRaided          { get; private set; }
 
         [JsonProperty] public int CreepersKilled            { get; private set; }
         [JsonProperty] public int DrownedKilled             { get; private set; }
         [JsonProperty] public int WitherSkeletonsKilled     { get; private set; }
-        [JsonProperty] public int EndermenKilled            { get; private set; }
+        [JsonProperty] public int FishCollected             { get; private set; }
         [JsonProperty] public int PhantomsKilled            { get; private set; }
 
         [JsonProperty] public int SugarcaneCollected        { get; private set; }
@@ -178,14 +178,14 @@ namespace AATool.Data.Progress
 
             this.TotalKilometersFlown   = world.Statistics.GetTotalKilometersFlown();
             this.BreadEaten             = world.Statistics.GetUsedCount("bread");
-            this.FishCollected          = world.Statistics.GetKillCount("cod") + world.Statistics.GetKillCount("salmon");
+            this.ItemsEnchanted         = world.Statistics.GetItemsEnchanted();
             this.EnderPearlsThrown      = world.Statistics.GetUsedCount("ender_pearl");
             this.TemplesRaided          = world.Statistics.GetMinedCount("tnt") / 9;
 
             this.CreepersKilled         = world.Statistics.GetKillCount("creeper");
             this.DrownedKilled          = world.Statistics.GetKillCount("drowned");
             this.WitherSkeletonsKilled  = world.Statistics.GetKillCount("wither_skeleton");
-            this.EndermenKilled         = world.Statistics.GetKillCount("enderman");
+            this.FishCollected          = world.Statistics.GetKillCount("cod") + world.Statistics.GetKillCount("salmon");
             this.PhantomsKilled         = world.Statistics.GetKillCount("phantom");
 
             this.LecternsMined          = world.Statistics.GetMinedCount("lectern");

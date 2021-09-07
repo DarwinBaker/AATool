@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Linq;
 using System.Xml;
 
 namespace AATool.UI.Controls
@@ -19,78 +20,81 @@ namespace AATool.UI.Controls
 
         public void ReflowChildren()
         {
-            int currentX = this.FlowDirection is FlowDirection.RightToLeft ? this.Content.Right - this.CellWidth : this.Content.Left;
-            int currentY = this.FlowDirection is FlowDirection.BottomToTop ? this.Content.Bottom - this.CellHeight : this.Content.Top;
-            int temp = 0;
+            if (!this.Children.Any())
+                return;
 
+            switch (this.FlowDirection)
+            {
+                case FlowDirection.LeftToRight:
+                    this.ReflowHorizontal(true);
+                    break;
+                case FlowDirection.RightToLeft:
+                    this.ReflowHorizontal(false);
+                    break;
+                case FlowDirection.TopToBottom:
+                    this.ReflowVertical(true);
+                    break;
+                case FlowDirection.BottomToTop:
+                    this.ReflowVertical(false);
+                    break;
+            }
+        }
+
+        private void ReflowHorizontal(bool leftToRight)
+        {
+            int consumed = 0;
+            int remaining = this.Content.Width;
+            int y = this.Content.Top;
             foreach (UIControl child in this.Children)
             {
-                if (child.IsCollapsed)
-                    continue;
+                int width  = Math.Max(this.CellWidth, child.Width + child.Margin.Horizontal);
+                int height = Math.Max(this.CellHeight, child.Height + child.Margin.Vertical);
 
-                switch (this.FlowDirection)
+                if (remaining < width)
                 {
-                    case FlowDirection.LeftToRight:
-                        if (currentX + this.CellWidth > this.Content.Right)
-                        {
-                            //control won't fit horizontally; go to beginning of next row
-                            currentX = this.Content.Left;
-                            currentY += temp;
-                            temp = 0;
-                        }
-                        break;
-                    case FlowDirection.RightToLeft:
-                        if (currentX < this.Content.Left)
-                        {
-                            currentX = this.Content.Right - this.CellWidth;
-                            currentY += temp;
-                            temp = 0;
-                        }
-                        break;
-                    case FlowDirection.TopToBottom:
-                        if (currentY + this.CellHeight > this.Content.Bottom)
-                        {
-                            //control won't fit vertically; go to top of next column
-                            currentY = this.Content.Top;
-                            currentX += temp;
-                            temp = 0;
-                        }
-                        break;
-                    case FlowDirection.BottomToTop:
-                        if (currentY < this.Content.Top)
-                        {
-                            currentY = this.Content.Bottom - this.CellHeight;
-                            currentX += temp;
-                            temp = 0;
-                        }
-                        break;
+                    //start next row
+                    consumed  = 0;
+                    remaining = this.Content.Width;
+                    y += height;
                 }
 
-                //move control into place
-                int finalWidth = Math.Max(this.CellWidth, child.Width + child.Margin.Horizontal);
-                int finalHeight = Math.Max(this.CellHeight, child.Height + child.Margin.Vertical);
-                child.ResizeRecursive(new Rectangle(currentX, currentY, finalWidth, finalHeight));
+                //reposition child control
+                int x = leftToRight
+                    ? this.Content.Left + consumed
+                    : this.Content.Right - consumed - width;
 
-                //move flow "cursor"
-                switch (this.FlowDirection)
+                child.ResizeRecursive(new Rectangle(x, y, width, height));
+                consumed += width;
+                remaining -= width;
+            }
+        }
+
+        private void ReflowVertical(bool topToBottom)
+        {
+            int consumed = 0;
+            int remaining = this.Content.Height;
+            int x = this.Content.Left;
+            foreach (UIControl child in this.Children)
+            {
+                int width  = Math.Max(this.CellWidth, child.Width + child.Margin.Horizontal);
+                int height = Math.Max(this.CellHeight, child.Height + child.Margin.Vertical);
+
+                if (remaining < height)
                 {
-                    case FlowDirection.LeftToRight:
-                        currentX += Math.Max(child.Width, finalWidth);
-                        temp = Math.Max(temp, finalHeight);
-                        break;
-                    case FlowDirection.RightToLeft:
-                        currentX -= Math.Max(child.Width, finalWidth);
-                        temp = Math.Max(temp, finalHeight);
-                        break;
-                    case FlowDirection.TopToBottom:
-                        currentY += Math.Max(child.Height, finalHeight);
-                        temp = Math.Max(temp, finalWidth);
-                        break;
-                    case FlowDirection.BottomToTop:
-                        currentY -= Math.Max(child.Height, finalHeight);
-                        temp = Math.Max(temp, finalWidth);
-                        break;
+                    //start next row
+                    consumed  = 0;
+                    remaining = this.Content.Height;
+                    x += width;
                 }
+
+                //reposition child control
+                int y = topToBottom
+                    ? this.Content.Top + consumed
+                    : this.Content.Bottom - consumed;
+
+                child.ResizeRecursive(new Rectangle(x, y, width, height));
+                consumed += height;
+                remaining -= height;
             }
         }
 

@@ -22,14 +22,15 @@ namespace AATool.Net
         }
 
         public static Message LogIn(string uuid, string password, string pronouns, string displayName) => 
-            NewCommand(Protocol.LOG_IN, uuid, password, pronouns, displayName);
-        public static Message LogOut()                      => NewCommand(Protocol.LOG_OUT);
-        public static Message Sync(string type)             => NewCommand(Protocol.SYNC, type);
-        public static Message Accept(string serverHostName) => NewCommand(Protocol.ACCEPT, serverHostName);
-        public static Message Refuse(string reason)         => NewCommand(Protocol.REFUSE, reason);
-        public static Message Kick(string reason)           => NewCommand(Protocol.KICK, reason);
-        public static Message Progress(string jsonString)   => NewData(Protocol.PROGRESS, jsonString);
-        public static Message Lobby(string jsonString)      => NewData(Protocol.LOBBY, jsonString);
+            NewCommand(Protocol.LOG_IN, Protocol.Version.ToString(), uuid, password, pronouns, displayName);
+        public static Message LogOut()                        => NewCommand(Protocol.LOG_OUT);
+        public static Message Sync(string type)               => NewCommand(Protocol.SYNC, type);
+        public static Message Accept(string serverHostName)   => NewCommand(Protocol.ACCEPT, serverHostName);
+        public static Message Refuse(string reason)           => NewCommand(Protocol.REFUSE, reason);
+        public static Message Kick(string reason)             => NewCommand(Protocol.KICK, reason);
+        public static Message Progress(string jsonString)     => NewData(Protocol.PROGRESS, jsonString);
+        public static Message Lobby(string jsonString)        => NewData(Protocol.LOBBY, jsonString);
+        public static Message SftpEstimate(string nextRefresh) => NewData(Protocol.REFRESH_ESTIMATE, nextRefresh);
 
         private static Message NewCommand(string header, params string[] items) => new(Protocol.PREFIX_COMMAND, header, items);
         private static Message NewData(string header, string data) => new(Protocol.PREFIX_DATA, header, data);

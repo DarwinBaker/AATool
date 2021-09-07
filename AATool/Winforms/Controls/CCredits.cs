@@ -66,19 +66,19 @@ namespace AATool.Winforms.Controls
                 label = new Label();
             }
 
-            if (groupName is "Patreon Supporters")
+            if (groupName is "Supporters")
             {
                 string tier = XmlObject.ParseAttribute(node, "tier", "gold").ToLower();
                 label.Image = tier switch {
-                    "netherite" => Resources.supporter_patreon_netherite,
-                    "diamond"   => Resources.supporter_patreon_diamond,
-                    _           => Resources.supporter_patreon_gold
+                    "netherite" => Resources.supporter_netherite,
+                    "diamond"   => Resources.supporter_diamond,
+                    "emerald"   => Resources.supporter_emerald,
+                    _ => Resources.supporter_gold
                 };
             }
             else
             {
                 label.Image = groupName switch {
-                    "Paypal Donors" => Resources.supporter_paypal,
                     "Beta Testers"  => Resources.supporter_beta,
                     _               => Resources.supporter_developer
                 };

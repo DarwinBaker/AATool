@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Xml;
 using AATool.Graphics;
 using AATool.Net;
+using AATool.Saves;
 using AATool.Settings;
 using AATool.UI.Screens;
 using AATool.Utilities;
@@ -22,6 +23,7 @@ namespace AATool.UI.Controls
         //status panel
         private UIControl status;
         private UIEnchantmentTable readIcon;
+        private UIButton manualSync;
         private UITextBlock statusLabel;
 
         //progress panel
@@ -56,6 +58,7 @@ namespace AATool.UI.Controls
             this.status      = this.First("status");
             this.readIcon    = this.First<UIEnchantmentTable>();
             this.statusLabel = this.status.First<UITextBlock>();
+            this.manualSync  = this.status.First<UIButton>("manual_sync");
 
             //progress panel
             this.progress      = this.First("progress");
@@ -75,6 +78,7 @@ namespace AATool.UI.Controls
                 this.patreonButton.SetTextColor(Color.Black);
                 this.patreonButton.OnClick += this.OnClick;
             }
+            this.statusLabel.HorizontalTextAlign = HorizontalAlign.Left;
             this.statusLabel.SetText(this.GetLabelText());
             base.InitializeRecursive(screen);
         }
@@ -108,7 +112,7 @@ namespace AATool.UI.Controls
                 this.refreshTimer.Reset();
                 this.statusLabel.SetText(this.GetLabelText());
             }
-            else if(Tracker.WorldFolderChanged || Peer.StateChangedFlag)
+            else if (Tracker.WorldFolderChanged || Peer.StateChangedFlag || !string.IsNullOrEmpty(SftpSave.GetStatusText()))
             {
                 this.statusLabel.SetText(this.GetLabelText());
             }
@@ -117,27 +121,25 @@ namespace AATool.UI.Controls
             string version  = Config.Tracker.GameVersion;
             string name     = Config.IsPostExplorationUpdate ? "Advancements" : "Achievements";
             string progress = $"{Tracker.CompletedAdvancements} / {Tracker.AllAdvancements.Count} {name} ({Tracker.Percent}%)";
+            if (this.progressBar.Width > 250)
+                progress += $"    -    {Tracker.InGameTime} IGT";
             this.progressLabel.SetText(progress);
             this.progressBar.LerpToValue(Tracker.CompletedAdvancements);
         }
 
         private string GetLabelText()
         {
-            if (Peer.IsClient && Peer.IsConnected)
-            {
-                if (Peer.TryGetLobby(out Lobby lobby))
-                {
-                    return lobby.TryGetHost(out User host)
-                        ? $"Synced with {host.Name}."
-                        : $"Synced with remote server.";
-                }
-            }
+            if (Client.TryGet(out Client client))
+                return client.GetStatusText();
+
+            if (Config.Tracker.UseRemoteWorld)
+                return SftpSave.GetStatusText();
 
             //determine label text
             return Tracker.SaveState switch {
                 SaveFolderState.Valid => (Peer.IsServer && Peer.IsConnected 
-                    ? $"Hosting"
-                    : $"Tracking") + $" \"{Tracker.WorldName}\"",
+                    ? $"Hosting:"
+                    : $"Tracking:") + $" \"{Tracker.WorldName}\"",
                 SaveFolderState.NoWorlds => 
                     $"No worlds in {(Config.Tracker.UseDefaultPath ? "default" : "custom") } save path",
                 SaveFolderState.NonExistentPath => Config.Tracker.UseDefaultPath 

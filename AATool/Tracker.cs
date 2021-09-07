@@ -22,7 +22,7 @@ namespace AATool
         public static bool Invalidated        => World.FolderChangedFlag || World.FilesChangedFlag|| NetworkContentChangedFlag;
         public static bool WorldFolderChanged => World.FolderChangedFlag || NetworkContentChangedFlag;
         public static bool WorldFilesChanged  => World.FilesChangedFlag  || NetworkContentChangedFlag;
-        public static TimeSpan InGameTime     => Progress.InGameTime;
+        public static TimeSpan InGameTime     => World.CurrentState is SaveFolderState.Valid ? Progress.InGameTime : default;
 
         private static bool NetworkContentChangedFlag;
 
@@ -82,25 +82,45 @@ namespace AATool
             World.ClearFlags();
         }
 
+        private static void Clear()
+        {
+            Progress = new ();
+            UpdateManifestProgress();
+        }
+
         public static void Invalidate() => World.Invalidate();
 
-        public static void TryUpdate(Time time)
+        public static void Update(Time time)
         {
             //determine if it's time to update yet or not
             bool forceRefresh = Config.Tracker.GameVersionChanged();
             forceRefresh |= Config.Tracker.UseDefaultPathChanged();
+            forceRefresh |= Config.Tracker.UseRemoteWorldChanged();
             forceRefresh |= !Config.Tracker.UseDefaultPath && Config.Tracker.CustomPathChanged();
             forceRefresh |= Peer.StateChangedFlag;
-            
+
             RefreshTimer.Update(time);
             if (RefreshTimer.IsExpired || forceRefresh)
             {
-                Update();
+                Sync();
                 RefreshTimer.SetAndStart(REFRESH_INTERVAL);
             }      
         }
 
-        private static void Update()
+        public static HashSet<Uuid> GetAllPlayers()
+        {
+            var ids = new HashSet<Uuid>();
+            foreach (Uuid id in Progress.Players.Keys)
+                ids.Add(id);
+            if (Peer.IsConnected && Peer.TryGetLobby(out Lobby lobby))
+            {
+                foreach (Uuid key in lobby.Users.Keys)
+                    ids.Add(key);
+            }
+            return ids;
+        }
+
+        private static void Sync()
         {
             if (Client.TryGet(out Client client))
             {
@@ -124,8 +144,12 @@ namespace AATool
                 if (Config.Tracker.GameVersionChanged())
                     UpdateManifestReferences();
 
+                //prevent tracker from refreshing every time a file is downloaded
+                if (SftpSave.IsDownloading)
+                    return;
+
                 //update from local files if they've changed since last time
-                if (World.TryUpdate() || Peer.StateChangedFlag)
+                if (World.TryUpdate() || Peer.StateChangedFlag || Config.Tracker.UseRemoteWorldChanged())
                 {
                     LastServerMessage = null;
                     Progress.Sync(World);
@@ -133,7 +157,7 @@ namespace AATool
 
                     //broadcast changes to connected clients if server is running
                     if (Server.TryGet(out Server server) && server.Connected())
-                        server.SyncProgress();
+                        server.SendProgress();
                 }
             }
         }
@@ -157,8 +181,8 @@ namespace AATool
             }
             else
             {
-                Achievements.Update(Progress);
                 Advancements.ClearProgress();
+                Achievements.Update(Progress);
             }
             Statistics.Update(Progress);
         }

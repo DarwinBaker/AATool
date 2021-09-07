@@ -58,10 +58,15 @@ namespace AATool.Winforms.Forms
             this.ip = new System.Windows.Forms.TextBox();
             this.port = new System.Windows.Forms.TextBox();
             this.keyboardTimer = new System.Windows.Forms.Timer(this.components);
+            this.page3 = new System.Windows.Forms.GroupBox();
+            this.togglePassword = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.password = new System.Windows.Forms.TextBox();
             this.page0.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.face)).BeginInit();
             this.page1.SuspendLayout();
             this.page2.SuspendLayout();
+            this.page3.SuspendLayout();
             this.SuspendLayout();
             // 
             // next
@@ -232,6 +237,7 @@ namespace AATool.Winforms.Forms
             this.server.Text = "I\'m Hosting the Server";
             this.server.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.server.UseVisualStyleBackColor = true;
+            this.server.CheckedChanged += new System.EventHandler(this.OnCheckedChanged);
             // 
             // client
             // 
@@ -245,6 +251,7 @@ namespace AATool.Winforms.Forms
             this.client.Text = "I\'m Joining the Server";
             this.client.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.client.UseVisualStyleBackColor = true;
+            this.client.CheckedChanged += new System.EventHandler(this.OnCheckedChanged);
             // 
             // label7
             // 
@@ -371,11 +378,54 @@ namespace AATool.Winforms.Forms
             this.keyboardTimer.Interval = 500;
             this.keyboardTimer.Tick += new System.EventHandler(this.OnTimerTick);
             // 
+            // page3
+            // 
+            this.page3.Controls.Add(this.togglePassword);
+            this.page3.Controls.Add(this.label8);
+            this.page3.Controls.Add(this.password);
+            this.page3.Location = new System.Drawing.Point(1472, 41);
+            this.page3.Name = "page3";
+            this.page3.Size = new System.Drawing.Size(460, 192);
+            this.page3.TabIndex = 11;
+            this.page3.TabStop = false;
+            this.page3.Tag = "What\'s your network configuration?";
+            // 
+            // togglePassword
+            // 
+            this.togglePassword.Location = new System.Drawing.Point(160, 64);
+            this.togglePassword.Name = "togglePassword";
+            this.togglePassword.Size = new System.Drawing.Size(150, 23);
+            this.togglePassword.TabIndex = 50;
+            this.togglePassword.Text = "Show Password";
+            this.togglePassword.UseVisualStyleBackColor = true;
+            this.togglePassword.Click += new System.EventHandler(this.OnClick);
+            // 
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(160, 22);
+            this.label8.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(150, 13);
+            this.label8.TabIndex = 49;
+            this.label8.Text = "Password";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // password
+            // 
+            this.password.Location = new System.Drawing.Point(160, 38);
+            this.password.Margin = new System.Windows.Forms.Padding(30, 3, 3, 3);
+            this.password.Name = "password";
+            this.password.Size = new System.Drawing.Size(150, 20);
+            this.password.TabIndex = 48;
+            this.password.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.password.UseSystemPasswordChar = true;
+            // 
             // FNetworkSetup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1491, 281);
+            this.ClientSize = new System.Drawing.Size(1965, 281);
+            this.Controls.Add(this.page3);
             this.Controls.Add(this.page2);
             this.Controls.Add(this.page1);
             this.Controls.Add(this.back);
@@ -392,6 +442,8 @@ namespace AATool.Winforms.Forms
             this.page1.ResumeLayout(false);
             this.page2.ResumeLayout(false);
             this.page2.PerformLayout();
+            this.page3.ResumeLayout(false);
+            this.page3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -425,5 +477,9 @@ namespace AATool.Winforms.Forms
         private System.Windows.Forms.Button toggleIP;
         private System.Windows.Forms.Timer keyboardTimer;
         private System.Windows.Forms.CheckBox autoServerIP;
+        private System.Windows.Forms.GroupBox page3;
+        private System.Windows.Forms.Button togglePassword;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox password;
     }
 }
