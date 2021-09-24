@@ -14,17 +14,17 @@ namespace AATool.Saves
             int longestPlayTimeInWorld = 0;
             foreach (JSONStream json in this.Files.Values)
             {
-                int ticks = (int)(json?["stats"]
-                    ?["minecraft:custom"]
-                    ?["minecraft:play_time"]
-                    ?.Value ?? 0);
-
-                if (ticks is 0)
+                int ticks = 0;
+                if (Config.IsPostExplorationUpdate)
                 {
                     ticks = (int)(json?["stats"]
                     ?["minecraft:custom"]
                     ?["minecraft:play_one_minute"]
                     ?.Value ?? 0);
+                }
+                else
+                {
+                    ticks = (int)(json?["stat.playOneMinute"]?.Value ?? 0);
                 }
 
                 if (ticks > longestPlayTimeInWorld)

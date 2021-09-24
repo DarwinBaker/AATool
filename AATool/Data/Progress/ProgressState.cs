@@ -140,26 +140,56 @@ namespace AATool.Data.Progress
             foreach (Uuid id in world.GetAllGuids())
                 this.Players[id] = new Contribution(id);
 
-            foreach (KeyValuePair<string, Advancement> advancement in Tracker.AllAdvancements)
+            if (Config.IsPostExplorationUpdate)
             {
-                //add advancement if completed
-                if (world.Advancements.TryGetAdvancementCompletionFor(advancement.Key, out List<Uuid> ids))
+                foreach (KeyValuePair<string, Advancement> advancement in Tracker.AllAdvancements)
                 {
-                    this.AllCompletedAdvancements.Add(advancement.Key);
-                    foreach (Uuid id in ids)
-                        this.Players[id].AddAdvancement(advancement.Key);
-                }
-
-                if (advancement.Value.TryGetCriteria(out CriteriaSet criteria))
-                {
-                    //add completed criteria if this advancement has any
-                    var completions = world.Advancements.GetAllCriteriaCompletions(advancement.Value);
-                    foreach (KeyValuePair<Uuid, HashSet<(string adv, string crit)>> player in completions)
+                    //add advancement if completed
+                    if (world.Advancements.TryGetAdvancementCompletionFor(advancement.Key, out List<Uuid> ids))
                     {
-                        foreach ((string adv, string crit) criterion in player.Value)
+                        this.AllCompletedAdvancements.Add(advancement.Key);
+                        foreach (Uuid id in ids)
+                            this.Players[id].AddAdvancement(advancement.Key);
+                    }
+
+                    if (advancement.Value.TryGetCriteria(out CriteriaSet criteria))
+                    {
+                        //add completed criteria if this advancement has any
+                        var completions = world.Advancements.GetAllCriteriaCompletions(advancement.Value);
+                        foreach (KeyValuePair<Uuid, HashSet<(string adv, string crit)>> player in completions)
                         {
-                            this.Players[player.Key].AddCriterion(criterion.adv, criterion.crit);
-                            this.AllCompletedCriteria.Add(criterion);
+                            foreach ((string adv, string crit) criterion in player.Value)
+                            {
+                                this.Players[player.Key].AddCriterion(criterion.adv, criterion.crit);
+                                this.AllCompletedCriteria.Add(criterion);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (KeyValuePair<string, Advancement> advancement in Tracker.AllAdvancements)
+                {
+                    //add advancement if completed
+                    if (world.Achievements.TryGetAchievementCompletionFor(advancement.Key, out List<Uuid> ids))
+                    {
+                        this.AllCompletedAdvancements.Add(advancement.Key);
+                        foreach (Uuid id in ids)
+                            this.Players[id].AddAdvancement(advancement.Key);
+                    }
+
+                    if (advancement.Value.TryGetCriteria(out CriteriaSet criteria))
+                    {
+                        //add completed criteria if this advancement has any
+                        var completions = world.Achievements.GetAllCriteriaCompletions(advancement.Value);
+                        foreach (KeyValuePair<Uuid, HashSet<(string adv, string crit)>> player in completions)
+                        {
+                            foreach ((string adv, string crit) criterion in player.Value)
+                            {
+                                this.Players[player.Key].AddCriterion(criterion.adv, criterion.crit);
+                                this.AllCompletedCriteria.Add(criterion);
+                            }
                         }
                     }
                 }

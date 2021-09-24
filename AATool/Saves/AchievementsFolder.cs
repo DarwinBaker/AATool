@@ -16,7 +16,7 @@ namespace AATool.Saves
             return false;
         }
 
-        public bool GetAchievementCompletionFor(string achievement, out List<Uuid> players)
+        public bool TryGetAchievementCompletionFor(string achievement, out List<Uuid> players)
         {
             bool completed = false;
             players = new ();
@@ -31,12 +31,13 @@ namespace AATool.Saves
             return completed;
         }
 
-        public Dictionary<Uuid, HashSet<(string, string)>> GetCompletedCriteriaByPlayer(Achievement achievement)
+        public Dictionary<Uuid, HashSet<(string adv, string crit)>> GetAllCriteriaCompletions(Advancement advancement)
         {
-            Dictionary<Uuid, HashSet<(string, string)>> playerCompletions = new ();
+            //return
+            var completions = new Dictionary<Uuid, HashSet<(string, string)>>();
             foreach (KeyValuePair<Uuid, JSONStream> json in this.Files)
-                playerCompletions[json.Key] = this.GetCompletedCriteria(achievement, json.Value);
-            return playerCompletions;
+                completions[json.Key] = this.GetCompletedCriteria(advancement, json.Value);
+            return completions;
         }
 
         private HashSet<(string, string)> GetCompletedCriteria(Advancement advancement, JSONStream json)
