@@ -1,4 +1,5 @@
-﻿using AATool.Data.Progress;
+﻿using AATool.Data;
+using AATool.Data.Progress;
 using AATool.Graphics;
 using AATool.Settings;
 using AATool.UI.Screens;
@@ -6,9 +7,6 @@ using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Xml;
 
 namespace AATool.UI.Controls
 {
@@ -28,7 +26,7 @@ namespace AATool.UI.Controls
         private UITextBlock url;
         private UIPicture ctm;
         private UIPicture bar;
-        private Dictionary<string, UIFlowPanel> supporters;
+        private Dictionary<string, UIControl> supporters;
         private UIControl statsGeneral;
         private UIControl statsKills;
         private UIControl statsMined;
@@ -54,9 +52,10 @@ namespace AATool.UI.Controls
             this.bar     = this.First<UIPicture>("bar");
             this.version = this.First<UITextBlock>("version");
             this.creator = this.First<UITextBlock>("creator");
-            this.creator.SetText("Developed by Darwin 'CTM' Baker");
+            this.creator.SetText("Developed by Darwin Baker");
             this.body    = this.First<UITextBlock>("body");
             this.url     = this.First<UITextBlock>("patreon");
+            this.url.SetText(Paths.URL_PATREON_FRIENDLY);
             this.ctm     = this.First<UIPicture>("ctm");
             this.ctm.SetTexture("ctm");
 
@@ -67,10 +66,11 @@ namespace AATool.UI.Controls
 
             //credits
             this.supporters = new() {
-                { "Supporters",         this.First<UIFlowPanel>("supporters")},
-                { "Beta Testers",       this.First<UIFlowPanel>("testers")},
-                { "Special Dedication", this.First<UIFlowPanel>("special")}
+                { "supporters", this.First("supporters")},
+                { "beta_testers", this.First("beta_testers")},
+                { "special_dedication", this.First("special_dedication") }
             };
+            this.First<UITextBlock>("supporters_label")?.SetText("Supporters ----------------------------------------");
             base.InitializeRecursive(screen);
         }
 
@@ -247,68 +247,68 @@ namespace AATool.UI.Controls
 
         private void PopulateSupporterLists()
         {
-            if (!TryGetDocument(Paths.CreditsFile, out XmlDocument document))
-                return;
-
-            foreach (XmlNode groupNode in document.DocumentElement.ChildNodes)
+            foreach (KeyValuePair<string, UIControl> panel in this.supporters)
             {
-                string groupName = groupNode?.Attributes?["name"]?.Value;
-                if (!this.supporters.TryGetValue(groupName, out UIFlowPanel panel))
+                panel.Value.ClearControls();
+                if (panel.Key is "supporters")
                     continue;
 
-                panel.ClearControls();
                 var header = new UITextBlock() {
                     FlexWidth  = new Size(400),
                     FlexHeight = new Size(48),
-                    HorizontalTextAlign = panel.HorizontalAlign,
+                    HorizontalTextAlign = panel.Value.HorizontalAlign,
                     VerticalTextAlign = VerticalAlign.Top
                 };
                 header.SetFont("minecraft", 24);
-                header.SetText(groupName + "\n" + new string('-', 18));
-                panel.AddControl(header);
-
-                foreach (XmlNode supporterNode in groupNode.ChildNodes)
-                {
-                    var supporter = new UITextBlock() {
-                        FlexWidth  = new Size(220),
-                        FlexHeight = new Size(32),
-                        HorizontalTextAlign = panel.HorizontalAlign,
-                        VerticalTextAlign = VerticalAlign.Top
-                    };
-                    supporter.SetFont("minecraft", 24);
-
-                    var tier = new UIPicture() {
-                        FlexWidth       = new Size(32),
-                        FlexHeight      = new Size(32),
-                        Margin          = new Margin(0, 0, -4, 0),
-                        HorizontalAlign = panel.HorizontalAlign,
-                        VerticalAlign   = VerticalAlign.Top
-                    };
-
-                    if (supporter.HorizontalTextAlign is HorizontalAlign.Left)
-                        supporter.SetText("     " + ParseAttribute(supporterNode, "name", string.Empty));
-                    else
-                        supporter.SetText(ParseAttribute(supporterNode, "name", string.Empty) + "     ");
-                    supporter.AddControl(tier);
-
-                    string icon = groupName switch {
-                        "Beta Testers"       => "enchanted_golden_apple",
-                        "Special Dedication" => "poppy",
-                        _                    => "supporter",
-                    };
-                    if (icon is "supporter")
-                        tier.SetTexture("supporter_" + ParseAttribute(supporterNode, "tier", "gold"));
-                    else
-                        tier.SetTexture(icon);
-                    panel.AddControl(supporter);
-                }
+                header.SetText(System.Threading.Thread.CurrentThread.CurrentCulture
+                    .TextInfo.ToTitleCase(panel.Key.Replace("_", " ")) 
+                    + Environment.NewLine + new string('-', 18));
+                panel.Value.AddControl(header);
             }
-        }
 
-        public override void DrawThis(Display display)
-        {
-            if (this.showCredits)
-                display.Draw("ctm_glow", this.ctm.Center.ToVector2(), this.glowRotation, 1, Color.White * this.fade, Layer.Glow);
+            foreach (Supporter person in Credits.Supporters)
+            {
+                bool donor = person.Role.ToLower() is not ("developer" or "beta_testers" or "special_dedication");
+
+                UIControl panel;
+                if (donor)
+                    panel = this.supporters["supporters"];
+                else if (!this.supporters.TryGetValue(person.Role, out panel))
+                    continue;
+
+                var supporter = new UITextBlock() {
+                    FlexWidth  = new Size(220),
+                    FlexHeight = new Size(32),
+                    HorizontalTextAlign = panel.HorizontalAlign,
+                    VerticalTextAlign = VerticalAlign.Top
+                };
+                supporter.SetFont("minecraft", 24);
+
+                var tier = new UIPicture() {
+                    FlexWidth       = new Size(32),
+                    FlexHeight      = new Size(32),
+                    Margin          = new Margin(0, 0, -4, 0),
+                    HorizontalAlign = panel.HorizontalAlign,
+                    VerticalAlign   = VerticalAlign.Top
+                };
+
+                if (supporter.HorizontalTextAlign is HorizontalAlign.Left)
+                    supporter.SetText($"     {person.Name}");
+                else
+                    supporter.SetText($"{person.Name}     ");
+                supporter.AddControl(tier);
+
+                string icon = person.Role.ToLower() switch {
+                    "beta_testers"       => "enchanted_golden_apple",
+                    "special_dedication" => "poppy",
+                    _                    => "supporter",
+                };
+                if (icon is "supporter")
+                    tier.SetTexture("supporter_" + person.Role);
+                else
+                    tier.SetTexture(icon);
+                panel.AddControl(supporter);
+            }
         }
     }
 }

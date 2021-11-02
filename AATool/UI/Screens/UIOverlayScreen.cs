@@ -104,7 +104,7 @@ namespace AATool.UI.Screens
 
             this.text = new UITextBlock("minecraft", textScale) {
                 Padding             = new Margin(16, 16, 8, 0),
-                HorizontalTextAlign = HorizontalAlign.Left,
+                HorizontalTextAlign = HorizontalAlign.Center,
                 VerticalTextAlign   = VerticalAlign.Top
             };
             this.AddControl(this.text);
@@ -258,7 +258,7 @@ namespace AATool.UI.Screens
             if (this.titleTimer.IsExpired)
             {
                 if (this.titleTimer.Index is 3)
-                    this.text.SetText(Main.FullTitle);
+                    this.text.SetText($"CTM's AATool {Main.Version}");
                 else if (this.titleTimer.Index is 5)
                     this.text.SetText(Paths.URL_PATREON_FRIENDLY);
 
@@ -268,7 +268,7 @@ namespace AATool.UI.Screens
             if (this.titleTimer.Index is 0)
             {
                 this.text.SetText($"{Tracker.CompletedAdvancements} / {Tracker.AdvancementCount} ");
-                if (Config.IsPostExplorationUpdate)
+                if (Config.PostExplorationUpdate)
                     this.text.Append("Advancements Complete");
                 else
                     this.text.Append("Achievements Complete");
@@ -278,9 +278,9 @@ namespace AATool.UI.Screens
                 this.text.SetText($"Minecraft JE: All Advancements ({Config.Tracker.GameVersion})");
             }
 
-            this.text.HorizontalTextAlign = Config.Overlay.RightToLeft
-                ? HorizontalAlign.Left
-                : HorizontalAlign.Right;
+            //this.text.HorizontalTextAlign = Config.Overlay.RightToLeft
+            //    ? HorizontalAlign.Left
+            //    : HorizontalAlign.Right;
 
             if (this.titleTimer.Index % 2 is 0)
             {
