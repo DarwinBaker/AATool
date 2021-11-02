@@ -66,9 +66,9 @@ namespace AAUpdate
             //clone and re-run update executable in temp dir (allows updater to update itself)
             Updater.CloneToTempFolder();
             var info = new ProcessStartInfo() {
-                Arguments        = ArgumentList,
-                FileName         = Updater.TempUpdaterExecutable,
-                WorkingDirectory = Updater.TempUpdaterFolder
+                WorkingDirectory = Updater.TempUpdaterFolder,
+                Arguments = ArgumentList,
+                FileName = Updater.TempUpdaterExecutable
             };
             new Process() { StartInfo = info }.Start();
         }

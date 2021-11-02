@@ -119,7 +119,7 @@ namespace AATool.UI.Controls
 
             //update total completion progress
             string version  = Config.Tracker.GameVersion;
-            string name     = Config.IsPostExplorationUpdate ? "Advancements" : "Achievements";
+            string name     = Config.PostExplorationUpdate ? "Advancements" : "Achievements";
             string progress = $"{Tracker.CompletedAdvancements} / {Tracker.AllAdvancements.Count} {name} ({Tracker.Percent}%)";
             if (this.progressBar.Width > 250)
                 progress += $"    -    {Tracker.InGameTime} IGT";

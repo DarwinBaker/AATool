@@ -60,7 +60,7 @@ namespace AATool.Winforms.Forms
             this.label2.Location = new System.Drawing.Point(168, 64);
             this.label2.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(404, 81);
+            this.label2.Size = new System.Drawing.Size(404, 55);
             this.label2.TabIndex = 2;
             this.label2.Text = resources.GetString("label2.Text");
             // 
@@ -76,7 +76,7 @@ namespace AATool.Winforms.Forms
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(168, 155);
+            this.label4.Location = new System.Drawing.Point(168, 129);
             this.label4.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(404, 70);
@@ -85,7 +85,7 @@ namespace AATool.Winforms.Forms
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(168, 235);
+            this.label5.Location = new System.Drawing.Point(168, 209);
             this.label5.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(404, 55);

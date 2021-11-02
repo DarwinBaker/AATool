@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label2.Text" xml:space="preserve">
-    <value>I created the original advancements tracker for speedrunner Elysaku (my brother, and current world record holder at time of writing) when he decided to take on the All Advancements category. The tracker gained attention and was publicly released in November of 2020. Shortly after, I began recieveing amazing ideas for new features. Unfortunately, due to the limitations of the framework the program was built on, these features simply weren't performant, and were never released.</value>
+    <value>I created the original advancements tracker for speedrunner Elysaku (my brother, and multiple AA world record holder) when he first decided to take on the All Advancements category. The tracker gained attention and was publicly released in November of 2020</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>This iteration of the tracker is a complete from-the-ground-up re-write that is now completely unbounded by performance limitations. If you have any suggestions for new features or improvements, don't be afraid to hit me up! Discord is a great place to reach me, and if you want to be even more involved in the development process, consider backing me on Patreon!</value>
+    <value>This iteration of the tracker is a complete from-the-ground-up re-write that is now completely unbounded by performance limitations. If you have any suggestions for new features or improvements, don't be afraid to hit me up! Discord is a great place to reach me (CTM#0001), and if you want to be even more involved in the development process, consider backing me on Patreon!</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

@@ -80,7 +80,7 @@ namespace AATool.UI.Controls
             //get what color text should be based on root screen
             Color color = this.TextColor;
             if (this.TextColor == Color.Transparent)
-                color = this.GetRootScreen() is UIMainScreen ? MainSettings.Instance.TextColor : OverlaySettings.Instance.TextColor;
+                color = this.GetRootScreen() is not UIOverlayScreen ? MainSettings.Instance.TextColor : OverlaySettings.Instance.TextColor;
             if (this.Bounds.Size == Point.Zero)
             {
                 display.DrawString(this.Font, text, this.Location.ToVector2(), color);

@@ -40,9 +40,6 @@ namespace AATool.UI.Controls
         {
             this.isMainWindow = screen is UIMainScreen;
 
-            if (!Tracker.TryGetItem(this.ItemName, out this.itemCount))
-                return;
-
             this.glow  = this.First<UIGlowEffect>();
 
             int textSize = 12 * ((Config.Overlay.Scale + 1) / 2);
@@ -58,7 +55,8 @@ namespace AATool.UI.Controls
             }
 
             this.icon = this.First<UIPicture>("icon");
-            if (this.icon != null)
+
+            if (Tracker.TryGetItem(this.ItemName, out this.itemCount) && this.icon != null)
             {
                 this.icon.FlexWidth *= this.scale;
                 this.icon.FlexHeight *= this.scale;
@@ -126,6 +124,9 @@ namespace AATool.UI.Controls
 
         private void UpdateGlowBrightness(Time time)
         {
+            if (this.itemCount is null)
+                return;
+
             if (this.isMainWindow && Config.Main.CompletionGlow)
                 this.glow.Expand();
             else

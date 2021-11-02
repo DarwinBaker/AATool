@@ -49,9 +49,19 @@ namespace AATool.UI.Controls
                 return;
             }
 
-            //update button state
+            //update current mouse position
             this.mouseNow = Mouse.GetState();
-            if (this.Bounds.Contains(this.mouseNow.Position))
+            Point cursor = this.mouseNow.Position;
+            UIScreen root = this.GetRootScreen();
+            if (root != Main.PrimaryScreen)
+            {
+                //normalize cursor position on secondary windows
+                cursor += new Point(Main.PrimaryScreen.Form.Location.X - root.Form.Location.X, 
+                    Main.PrimaryScreen.Form.Location.Y - root.Form.Location.Y);
+            }
+
+            //update button state
+            if (this.Bounds.Contains(cursor))
             {
                 if (this.mouseNow.LeftButton is ButtonState.Pressed)
                 {

@@ -78,11 +78,11 @@ namespace AATool.UI.Controls
             {
                 //this.First("advancement_space").Collapse();
                 this.label.Margin = new Margin(8, 0, 0, 6);
-                this.criteriaPanel.CellWidth = Config.IsPostExplorationUpdate ? 68 : 100;
+                this.criteriaPanel.CellWidth = Config.PostExplorationUpdate ? 68 : 100;
                 this.criteriaPanel.RemoveControl(adv);
                 this.bar.Collapse();
             }
-            else if (!Config.IsPostExplorationUpdate)
+            else if (!Config.PostExplorationUpdate)
             {
                 this.criteriaPanel.CellWidth = 100;
             }

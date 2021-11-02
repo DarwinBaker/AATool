@@ -71,7 +71,7 @@ namespace AATool.UI.Controls
             int textScale = this.scale < 3 ? 1 : 2;
             this.FlexWidth *= Math.Min(this.scale + textScale - 1, 4);
 
-            this.Padding = Config.IsPostExplorationUpdate 
+            this.Padding = Config.PostExplorationUpdate 
                 ? new Margin(0, 0, 4 * this.scale, 0) 
                 : new Margin(0, 0, 6, 0);
 
@@ -113,7 +113,7 @@ namespace AATool.UI.Controls
 
                 this.label.SetText(this.Advancement.Name);
 
-                if (!Config.IsPostExplorationUpdate && screen is UIMainScreen)
+                if (!Config.PostExplorationUpdate && screen is UIMainScreen)
                     this.label.DrawBackground = true;
             }
 
