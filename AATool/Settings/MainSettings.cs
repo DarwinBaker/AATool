@@ -10,6 +10,7 @@ namespace AATool.Settings
     {
         public static MainSettings Instance = new ();
 
+        public const string FPS_CAP         = "fps_cap";
         public const string SHOW_BASIC      = "show_basic_advancements";
         public const string COMPLETION_GLOW = "completion_glow";
         public const string LAYOUT_DEBUG    = "layout_debug";
@@ -20,7 +21,8 @@ namespace AATool.Settings
         public const string BACK_COLOR      = "main_back_color";
         public const string TEXT_COLOR      = "main_text_color";
         public const string BORDER_COLOR    = "main_border_color";
-        
+
+        public int FpsCap                   { get => this.Get<int>(FPS_CAP);          set => this.Set(FPS_CAP, value); }
         public bool ShowBasic               { get => this.Get<bool>(SHOW_BASIC);      set => this.Set(SHOW_BASIC, value); }
         public bool CompletionGlow          { get => this.Get<bool>(COMPLETION_GLOW); set => this.Set(COMPLETION_GLOW, value); }
         public bool RainbowMode             { get => this.Get<bool>(RAINBOW_MODE);    set => this.Set(RAINBOW_MODE, value); }
@@ -31,6 +33,8 @@ namespace AATool.Settings
         public Color BackColor              { get => this.Get<Color>(BACK_COLOR);     set => this.Set(BACK_COLOR, value); }
         public Color TextColor              { get => this.Get<Color>(TEXT_COLOR);     set => this.Set(TEXT_COLOR, value); }
         public Color BorderColor            { get => this.Get<Color>(BORDER_COLOR);   set => this.Set(BORDER_COLOR, value); }
+
+        public bool FpsCapChanged() => Instance.ValueChanged(FPS_CAP);
 
         private static Color Hex(string hex) => 
             ColorHelper.TryGetHexColor(hex, out Color color) ? color : Color.White;

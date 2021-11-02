@@ -10,7 +10,8 @@ namespace AATool.Settings
         public static NotesSettings Notes     => NotesSettings.Instance;
         public static NetworkSettings Network => NetworkSettings.Instance;
 
-        public static bool IsPostExplorationUpdate => TrackerSettings.IsPostExplorationUpdate;
+        public static bool PostExplorationUpdate => TrackerSettings.PostExplorationUpdate;
+        public static bool PostWorldOfColorUpdate => TrackerSettings.PostWorldOfColorUpdate;
 
         public static void ResetToDefaults()
         {
