@@ -65,6 +65,13 @@ namespace AATool.Graphics
             };
         }
 
+        public void Draw(Texture2D texture, Rectangle destination, Color? tint = null, Layer layer = Layer.Main)
+        {
+            //draw a texture that isn't part of the main atlas
+            if (texture is not null)
+                this.BatchOf(layer).Draw(texture, destination, tint ?? Color.White);
+        }
+
         public void Draw(string texture, Rectangle destination, Color? tint = null, Layer layer = Layer.Main)
         {
             if (string.IsNullOrWhiteSpace(texture))
