@@ -35,7 +35,7 @@ namespace AATool.Saves
         public HashSet<Uuid> GetAllGuids()
         {
             var ids = new HashSet<Uuid>();
-            if (Config.IsPostExplorationUpdate)
+            if (Config.PostExplorationUpdate)
             {
                 foreach (Uuid id in this.Advancements.Files.Keys)
                     ids.Add(id);
@@ -81,7 +81,7 @@ namespace AATool.Saves
 
                 //update progress if different
                 this.FilesChangedFlag = this.Statistics.TryUpdate();
-                this.FilesChangedFlag |= Config.IsPostExplorationUpdate
+                this.FilesChangedFlag |= Config.PostExplorationUpdate
                     ? this.Advancements.TryUpdate()
                     : this.Achievements.TryUpdate();
             }

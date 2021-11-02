@@ -11,26 +11,27 @@ namespace AATool.Saves
 
         public TimeSpan GetInGameTime()
         {
-            int longestPlayTimeInWorld = 0;
+            int longestIgt = 0;
             foreach (JSONStream json in this.Files.Values)
             {
-                int ticks = (int)(json?["stats"]
-                    ?["minecraft:custom"]
-                    ?["minecraft:play_time"]
-                    ?.Value ?? 0);
+                if (json is null)
+                    continue;
 
+                //1.17+
+                int ticks = (int)(json["stats"]?["minecraft:custom"]?["minecraft:play_time"]?.Value ?? 0);
+
+                //1.12 - 1.16
                 if (ticks is 0)
-                {
-                    ticks = (int)(json?["stats"]
-                    ?["minecraft:custom"]
-                    ?["minecraft:play_one_minute"]
-                    ?.Value ?? 0);
-                }
+                    ticks = (int)(json["stats"]?["minecraft:custom"]?["minecraft:play_one_minute"]?.Value ?? 0);
 
-                if (ticks > longestPlayTimeInWorld)
-                    longestPlayTimeInWorld = ticks;
+                //pre-1.12
+                if (ticks is 0)
+                    ticks = (int)(json["stat.playOneMinute"]?.Value ?? 0);
+
+                if (ticks > longestIgt)
+                    longestIgt = ticks;
             }
-            return TimeSpan.FromSeconds((int)((double)longestPlayTimeInWorld / TICKS_PER_SECOND));
+            return TimeSpan.FromSeconds((int)((double)longestIgt / TICKS_PER_SECOND));
         }
 
         public int GetTotalJumps()
@@ -166,7 +167,7 @@ namespace AATool.Saves
             playerItemCounts = new Dictionary<Uuid, int>();
             foreach (KeyValuePair<Uuid, JSONStream> json in this.Files)
             {
-                int count = Config.IsPostExplorationUpdate
+                int count = Config.PostWorldOfColorUpdate
                     ? (int)(json.Value?["stats"]?["minecraft:picked_up"]?[item]?.Value ?? 0)
                     : (int)(json.Value?["stat.pickup." + item]?.Value ?? 0);
                 playerItemCounts[json.Key] = count;
