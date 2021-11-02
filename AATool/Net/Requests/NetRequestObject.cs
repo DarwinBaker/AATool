@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AATool.Utilities;
 
@@ -6,12 +7,12 @@ namespace AATool.Net
 {
     public abstract partial class NetRequest
     {
-        public string Url  { get; private set; }
+        protected string Url;
 
         private int failures;
         private readonly Timer cooldown;
 
-        private bool IsStillTimedOut => this.cooldown.IsRunning;
+        private bool IsOnCooldown => this.cooldown.IsRunning;
 
         public NetRequest(string url)
         {
@@ -19,7 +20,9 @@ namespace AATool.Net
             this.cooldown = new Timer();
         }
 
-        public abstract Task<bool> TryRunAsync();
+        public abstract Task<bool> DownloadAsync();
+
+        private void Complete() => Completed.Add(this.Url);
 
         private void UpdateCooldown(Time time)
         {
@@ -27,39 +30,38 @@ namespace AATool.Net
                 this.cooldown.Update(time);
         }
 
-        private async void StartAsync()
+        private async void SendAsync()
         {
             try
             {
-                //try to process request
-                bool success = await this.TryRunAsync();
-                if (success)
+                if (await this.DownloadAsync())
                     this.Complete();
                 else
                     this.Fail();
             }
-            catch (Exception exception)
+            catch (Exception e)
             {
-                //network error
-                this.Fail();
+                //safely ignore and move on if network error ocurred
+                if (e is HttpRequestException or OperationCanceledException)
+                    this.Fail();
+                else
+                    throw;
             }
-            Active.Remove(this.Url);
-        }
-
-        private void Complete()
-        {
-            Completed.Add(this.Url);
+            finally 
+            {
+                Active.Remove(this.Url);
+            }
         }
 
         private void Fail()
         {
             //request failed
             this.failures++;
-            if (this.failures < Protocol.REQUEST_MAX_ATTEMPTS)
+            if (this.failures < Protocol.Requests.MaxRetries)
             {
                 //set cooldown to try again later
                 TimedOut.Add(this);
-                this.cooldown.SetAndStart(Protocol.REQUEST_RETY_COOLDOWN);
+                this.cooldown.SetAndStart(Protocol.Requests.RetryCooldown);
             }
             else
             {

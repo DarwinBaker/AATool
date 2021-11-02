@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AATool.Utilities;
 
 namespace AATool.Net
@@ -11,7 +12,7 @@ namespace AATool.Net
         private static readonly HashSet<string> Abandoned = new ();
         private static readonly HashSet<string> Completed = new ();
         private static readonly HashSet<string> Active    = new ();
-        private static readonly Timer RequestDelay = new (Protocol.REQUEST_NEXT_COOLDOWN);
+        private static readonly Timer RequestDelay = new (Protocol.Requests.UpdateRate);
 
         public static void Enqueue(NetRequest request)
         {
@@ -23,7 +24,6 @@ namespace AATool.Net
         public static void Update(Time time)
         {
             UpdateTimeouts(time);
-
             RequestDelay.Update(time);
             if (RequestDelay.IsExpired)
             {
@@ -55,7 +55,7 @@ namespace AATool.Net
             {
                 NetRequest request = TimedOut[i];
                 request.UpdateCooldown(time);
-                if (!request.IsStillTimedOut)
+                if (!request.IsOnCooldown)
                 {
                     //move back into pending queue
                     TimedOut.RemoveAt(i);
@@ -66,14 +66,14 @@ namespace AATool.Net
 
         private static void UpdatePending()
         {
-            for (int i = 0; i < Protocol.REQUEST_MAX_CONCURRENT; i++)
+            for (int i = Active.Count; i < Protocol.Requests.MaxConcurrent; i++)
             {
-                if (!Pending.Any() || Active.Count >= Protocol.REQUEST_MAX_CONCURRENT)
+                if (!Pending.Any())
                     return;
 
                 //start next request
                 NetRequest next = Pending.Dequeue();
-                next.StartAsync();
+                next.SendAsync();
             }
         }
     }
