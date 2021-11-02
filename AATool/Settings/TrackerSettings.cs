@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using AATool.Utilities;
 
 namespace AATool.Settings
 {
@@ -12,7 +9,7 @@ namespace AATool.Settings
     {
         public static readonly TrackerSettings Instance = new ();
 
-        public static HashSet<string> SupportedVersions { get; private set; }
+        public static HashSet<Version> SupportedVersions { get; private set; }
 
         private const string TRACKER_VERSION    = "last_aatool_run";
         private const string GAME_VERSION       = "game_version";
@@ -43,7 +40,8 @@ namespace AATool.Settings
         public bool UseDefaultPathChanged() => Instance.ValueChanged(USE_DEFAULT_PATH);
         public bool CustomPathChanged()     => Instance.ValueChanged(CUSTOM_FOLDER);
 
-        public static bool IsPostExplorationUpdate { get; private set; }
+        public static bool PostExplorationUpdate { get; private set; }
+        public static bool PostWorldOfColorUpdate { get; private set; }
 
         public static string DefaultSavesFolder => 
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ".minecraft", "saves");
@@ -54,15 +52,28 @@ namespace AATool.Settings
                 ? DefaultSavesFolder
                 : this.CustomPath;
 
-        public void TrySetGameVersion(string version)
+        public void TrySetGameVersion(string versionNumber)
         {
-            try
+            if (Version.TryParse(versionNumber, out Version version))
+                this.TrySetGameVersion(version);
+        }
+
+        public void TrySetGameVersion(Version version)
+        {
+            if (version is null)
+                return;
+
+            //handle sub-versioning of 1.16 due to piglin brutes
+            version =version > Version.Parse("1.16.1") && version < Version.Parse("1.17")
+                ? Version.Parse("1.16.5")
+                : new Version(version.Major, version.Minor);
+
+            if (SupportedVersions.Contains(version))
             {
-                if (SupportedVersions.Contains(version))
-                    this.Set(GAME_VERSION, version);
-                IsPostExplorationUpdate = new Version(version) >= new Version("1.12");
+                this.Set(GAME_VERSION, version.ToString());
+                PostExplorationUpdate = version > Version.Parse("1.11");
+                PostWorldOfColorUpdate = version > Version.Parse("1.12");
             }
-            catch { }
         }
 
         private TrackerSettings()
@@ -76,14 +87,14 @@ namespace AATool.Settings
         private void ParseSupportedGameVersions()
         {
             //get list of supported versions from assets folder
-            SupportedVersions = new HashSet<string>();
+            SupportedVersions = new HashSet<Version>();
             try
             {
                 var directory = new DirectoryInfo(Paths.DIR_GAME_VERSIONS);
                 if (directory.Exists)
                 {
                     foreach (DirectoryInfo versionFolder in directory.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
-                        SupportedVersions.Add(versionFolder.Name);
+                        SupportedVersions.Add(Version.Parse(versionFolder.Name));
                 }
             }
             catch (Exception e)
