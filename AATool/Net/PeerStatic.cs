@@ -18,7 +18,7 @@ namespace AATool.Net
         public static bool IsRunning   => Instance is not null;
         public static bool IsConnected => Instance?.Connected() ?? false;
 
-        protected static readonly byte[] Buffer = new byte[Protocol.BUFFER_SIZE];
+        protected static readonly byte[] Buffer = new byte[Protocol.BufferSize];
         private static readonly List<INetworkController> Controllers = new ();
 
         public static void ClearFlags() => StateChangedFlag = false;

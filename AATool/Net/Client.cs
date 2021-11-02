@@ -93,11 +93,11 @@ namespace AATool.Net
                 this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 IAsyncResult ar = this.socket.BeginConnect(this.endPoint, this.ConnectCallback, this.socket);
 
-                //set a timeout for attempt connection
-                if (ar.AsyncWaitHandle.WaitOne(Protocol.CONNECTION_TIMEOUT_MS, true) && this.socket.Connected)
+                //set a timeout for connection attempt
+                if (ar.AsyncWaitHandle.WaitOne(Protocol.Requests.TimeoutMs, true) && this.socket.Connected)
                 {
                     //start recieving messages from server 
-                    this.socket.BeginReceive(Buffer, 0, Protocol.BUFFER_SIZE, SocketFlags.None, this.ReceiveCallback, null);
+                    this.socket.BeginReceive(Buffer, 0, Protocol.BufferSize, SocketFlags.None, this.ReceiveCallback, null);
                     this.IsConnecting = false;
                 }
                 else
@@ -117,7 +117,7 @@ namespace AATool.Net
                     if (retry)
                     {
                         UpdateControls("Stop", true, false);
-                        Thread.Sleep(Protocol.RECONNECT_COOLDOWN_MS);
+                        Thread.Sleep(Protocol.Peers.ClientReconnectMs);
                         if (!this.IsDisposing)
                             this.TryConnect(true);
                         else
@@ -186,9 +186,9 @@ namespace AATool.Net
         public void RequestSyncFromServer()
         {
             //request sync
-            this.sendQueue.Enqueue(Message.Sync(Protocol.LOBBY));
-            this.sendQueue.Enqueue(Message.Sync(Protocol.PROGRESS));
-            this.sendQueue.Enqueue(Message.Sync(Protocol.REFRESH_ESTIMATE));
+            this.sendQueue.Enqueue(Message.Sync(Protocol.Headers.Lobby));
+            this.sendQueue.Enqueue(Message.Sync(Protocol.Headers.Progress));
+            this.sendQueue.Enqueue(Message.Sync(Protocol.Headers.RefreshEstimate));
             this.SendQueueToServer();
         }
 
@@ -249,7 +249,7 @@ namespace AATool.Net
 
                     //begin recieving again
                     if (this.socket.Connected)
-                        this.socket.BeginReceive(Buffer, 0, Protocol.BUFFER_SIZE, SocketFlags.None, this.ReceiveCallback, null);
+                        this.socket.BeginReceive(Buffer, 0, Protocol.BufferSize, SocketFlags.None, this.ReceiveCallback, null);
 
                     //send next queued message if any
                     if (this.sendQueue.Any())
@@ -269,7 +269,7 @@ namespace AATool.Net
                 return;
 
             //return true if command was valid and executed fully
-            if (message.Header is Protocol.ACCEPT)
+            if (message.Header is Protocol.Headers.Accept)
             {
                 //welcome message
                 this.IsConnecting = false;
@@ -287,14 +287,14 @@ namespace AATool.Net
                 this.Accepted = true;
                 this.LostConnection = false;
             }
-            else if (message.Header is Protocol.REFUSE)
+            else if (message.Header is Protocol.Headers.Refuse)
             {
                 //connection refused by server 
                 message.TryGetItem(0, out string reason);
                 this.WasKickedByServer = true;
                 this.Stop(reason);
             }
-            else if (message.Header is Protocol.KICK)
+            else if (message.Header is Protocol.Headers.Kick)
             {
                 //kicked from server 
                 message.TryGetItem(0, out string reason);
@@ -308,7 +308,7 @@ namespace AATool.Net
             if (!message.IsData)
                 return;
 
-            if (message.Header is Protocol.LOBBY)
+            if (message.Header is Protocol.Headers.Lobby)
             {
                 //deserialize lobby
                 message.TryGetItem(0, out string jsonString);
@@ -316,7 +316,7 @@ namespace AATool.Net
                 StateChangedFlag = true;
                 SyncUserList(this.Lobby.Users.Values);
             }
-            else if (message.Header is Protocol.REFRESH_ESTIMATE)
+            else if (message.Header is Protocol.Headers.RefreshEstimate)
             {
                 //deserialize datetime
                 message.TryGetItem(0, out string dateString);

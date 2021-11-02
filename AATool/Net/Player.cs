@@ -42,7 +42,7 @@ namespace AATool.Net
             if (IdCache.TryGetValue(name, out Uuid id))
                 return id;
 
-            using (HttpClient client = new() { Timeout = TimeSpan.FromMilliseconds(Protocol.CONNECTION_TIMEOUT_MS) })
+            using (HttpClient client = new() { Timeout = TimeSpan.FromMilliseconds(Protocol.Requests.TimeoutMs) })
             {
                 try
                 {
@@ -55,7 +55,7 @@ namespace AATool.Net
                     if (Uuid.TryParse(uuid, out id))
                     {
                         Cache(id, name);
-                        NetRequest.Enqueue(new SkinRequest(id));
+                        NetRequest.Enqueue(new AvatarRequest(id));
                     }
                 }
                 catch { }
@@ -65,7 +65,7 @@ namespace AATool.Net
 
         public static void Cache(Uuid id, string name)
         {
-            if (!NameCache.ContainsKey(id))
+            if (!NameCache.ContainsKey(id) && !string.IsNullOrEmpty(name))
                 NameCache[id] = name;
         }
 
@@ -78,7 +78,7 @@ namespace AATool.Net
         public static void FetchIdentity(Uuid id)
         {
             NetRequest.Enqueue(new NameRequest(id));
-            NetRequest.Enqueue(new SkinRequest(id));
+            NetRequest.Enqueue(new AvatarRequest(id));
         }
     }
 }

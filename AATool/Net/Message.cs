@@ -10,7 +10,7 @@ namespace AATool.Net
 
         public static Message FromString(string message)
         {
-            string[] tokens = message.Split(Protocol.TOKEN_DELIM);
+            string[] tokens = message.Split(Protocol.TokenDelimiter);
             if (tokens.Length > 0 && tokens[0].Length > 1)
             {
                 char prefix    = tokens[0][0];
@@ -22,18 +22,18 @@ namespace AATool.Net
         }
 
         public static Message LogIn(string uuid, string password, string pronouns, string displayName) => 
-            NewCommand(Protocol.LOG_IN, Protocol.Version.ToString(), uuid, password, pronouns, displayName);
-        public static Message LogOut()                        => NewCommand(Protocol.LOG_OUT);
-        public static Message Sync(string type)               => NewCommand(Protocol.SYNC, type);
-        public static Message Accept(string serverHostName)   => NewCommand(Protocol.ACCEPT, serverHostName);
-        public static Message Refuse(string reason)           => NewCommand(Protocol.REFUSE, reason);
-        public static Message Kick(string reason)             => NewCommand(Protocol.KICK, reason);
-        public static Message Progress(string jsonString)     => NewData(Protocol.PROGRESS, jsonString);
-        public static Message Lobby(string jsonString)        => NewData(Protocol.LOBBY, jsonString);
-        public static Message SftpEstimate(string nextRefresh) => NewData(Protocol.REFRESH_ESTIMATE, nextRefresh);
+            NewCommand(Protocol.Headers.Login, Protocol.Version.ToString(), uuid, password, pronouns, displayName);
+        public static Message LogOut()                        => NewCommand(Protocol.Headers.Logout);
+        public static Message Sync(string type)               => NewCommand(Protocol.Headers.Sync, type);
+        public static Message Accept(string serverHostName)   => NewCommand(Protocol.Headers.Accept, serverHostName);
+        public static Message Refuse(string reason)           => NewCommand(Protocol.Headers.Refuse, reason);
+        public static Message Kick(string reason)             => NewCommand(Protocol.Headers.Kick, reason);
+        public static Message Progress(string jsonString)     => NewData(Protocol.Headers.Progress, jsonString);
+        public static Message Lobby(string jsonString)        => NewData(Protocol.Headers.Lobby, jsonString);
+        public static Message SftpEstimate(string nextRefresh) => NewData(Protocol.Headers.RefreshEstimate, nextRefresh);
 
-        private static Message NewCommand(string header, params string[] items) => new(Protocol.PREFIX_COMMAND, header, items);
-        private static Message NewData(string header, string data) => new(Protocol.PREFIX_DATA, header, data);
+        private static Message NewCommand(string header, params string[] items) => new(Protocol.CommandPrefix, header, items);
+        private static Message NewData(string header, string data) => new(Protocol.DataPrefix, header, data);
 
         public readonly char Prefix;
         public readonly string Header;
@@ -41,8 +41,8 @@ namespace AATool.Net
 
         private readonly string stringRepresentation;
 
-        public bool IsCommand => this.Prefix is Protocol.PREFIX_COMMAND;
-        public bool IsData    => this.Prefix is Protocol.PREFIX_DATA;
+        public bool IsCommand => this.Prefix is Protocol.CommandPrefix;
+        public bool IsData    => this.Prefix is Protocol.DataPrefix;
         public bool IsEmpty   => this.Equals(Empty);
 
         private Message(char prefix, string header, params string[] items)
@@ -52,8 +52,8 @@ namespace AATool.Net
             this.Items  = items;
             this.stringRepresentation = string.Concat(this.Prefix, 
                 this.Header, 
-                Protocol.TOKEN_DELIM.ToString(), 
-                string.Join(Protocol.TOKEN_DELIM.ToString(), 
+                Protocol.TokenDelimiter.ToString(), 
+                string.Join(Protocol.TokenDelimiter.ToString(), 
                 this.Items));
         }
 

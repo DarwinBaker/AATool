@@ -131,7 +131,7 @@ namespace AATool.Net
             {
                 //create tcp listening socket and attempt binding
                 this.listener.Bind(new IPEndPoint(address, port));
-                this.listener.Listen(Protocol.SERVER_BACKLOG);
+                this.listener.Listen(Protocol.Peers.ServerBacklog);
 
                 //start accepting clients
                 this.listener.BeginAccept(this.AcceptCallback, null);
@@ -156,7 +156,7 @@ namespace AATool.Net
             {
                 //accept incoming attempt
                 Socket client = this.listener.EndAccept(ar);
-                client.BeginReceive(Buffer, 0, Protocol.BUFFER_SIZE, SocketFlags.None, this.ReceiveCallback, client);
+                client.BeginReceive(Buffer, 0, Protocol.BufferSize, SocketFlags.None, this.ReceiveCallback, client);
             }
             finally
             {
@@ -210,7 +210,7 @@ namespace AATool.Net
 
                     //start recieving again
                     if (client.Connected)
-                        client.BeginReceive(Buffer, 0, Protocol.BUFFER_SIZE, SocketFlags.None, this.ReceiveCallback, client);
+                        client.BeginReceive(Buffer, 0, Protocol.BufferSize, SocketFlags.None, this.ReceiveCallback, client);
                 }
                 catch
                 {
@@ -268,7 +268,7 @@ namespace AATool.Net
                 problem = "Minecraft username already taken.";
             else if (this.Lobby.Users.Values.Any(player => player.Name == name))
                 problem = "Preferred username already taken.";
-            else if (this.clients.Count is Protocol.SERVER_CAPACITY)
+            else if (this.clients.Count is Protocol.Peers.ServerCapacity)
                 problem = "Server full.";
 
             if (string.IsNullOrEmpty(problem))
@@ -341,7 +341,7 @@ namespace AATool.Net
 
         private async void ExecuteCommandAsync(Message message, Socket sender)
         {
-            if (message.Header is Protocol.LOG_IN)
+            if (message.Header is Protocol.Headers.Login)
             {
                 message.TryGetItem(0, out string versionNumber);
                 message.TryGetItem(1, out string uuid);
@@ -356,7 +356,7 @@ namespace AATool.Net
                     return;
                 }
 
-                if (!await new NameRequest(id).TryRunAsync())
+                if (!await new NameRequest(id).DownloadAsync())
                 {
                     WriteToConsole("Connection attempt refused: Couldn't validate name with Mojang.");
                     this.SendToClient(sender, Message.Refuse("Couldn't validate name with Mojang. Try re-connecting."));
@@ -368,24 +368,24 @@ namespace AATool.Net
                 if (this.TryLogIn(user, password, versionNumber, sender))
                     Player.FetchIdentity(id);
             }
-            else if (message.Header is Protocol.LOG_OUT)
+            else if (message.Header is Protocol.Headers.Logout)
             {
                 //remove player from lobby
                 this.LogOut(sender, "disconnected.", true);
             }
-            else if (message.Header is Protocol.SYNC)
+            else if (message.Header is Protocol.Headers.Sync)
             {
                 //send expected type of data to all clients
                 message.TryGetItem(0, out string type);
                 switch (type)
                 {
-                    case Protocol.LOBBY:
+                    case Protocol.Headers.Lobby:
                         this.SendLobby(sender);
                         break;
-                    case Protocol.PROGRESS:
+                    case Protocol.Headers.Progress:
                         this.SendProgress(sender);
                         break;
-                    case Protocol.REFRESH_ESTIMATE:
+                    case Protocol.Headers.RefreshEstimate:
                         this.SendNextRefresh(sender);
                         break;
                 }
