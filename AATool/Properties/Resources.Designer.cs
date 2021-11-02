@@ -103,6 +103,16 @@ namespace AATool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap supporter_dedication {
+            get {
+                object obj = ResourceManager.GetObject("supporter_dedication", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap supporter_developer {
             get {
                 object obj = ResourceManager.GetObject("supporter_developer", resourceCulture);
