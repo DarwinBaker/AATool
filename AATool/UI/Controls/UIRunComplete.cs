@@ -201,9 +201,13 @@ namespace AATool.UI.Controls
             this.currentX    = this.X;
 
             string title = $"All {Tracker.AdvancementCount} Advancements Complete!";
-            string body  = $" \nMinecraft: Java Edition ({Config.Tracker.GameVersion})\n" +
-                           $"All\0Advancements\n\n" +
-                           $"{Tracker.InGameTime}\nApproximate IGT\n";
+            string body = Config.IsPostExplorationUpdate
+                ? $" \nMinecraft: Java Edition ({Config.Tracker.GameVersion})\n" +
+                    $"All\0Advancements\n\n" +
+                    $"{Tracker.InGameTime}\nApproximate IGT\n"
+                : $" \nMinecraft: Java Edition\n" +
+                    $"All\0Achievements\n\n" +
+                    $"{Tracker.InGameTime}\nApproximate IGT\n";
 
             this.First<UITextBlock>("head").SetText(title);
             this.First<UITextBlock>("head_shadow").SetText(title);

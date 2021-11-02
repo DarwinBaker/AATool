@@ -57,8 +57,13 @@ namespace AATool.Data
 
         public void Update(ProgressState progress)
         {
+            this.Completed = 0;
             foreach (Achievement advancement in this.AllAdvancements.Values)
+            { 
                 advancement.Update(progress);
+                if (advancement.CompletedByAnyone())
+                    this.Completed++;
+            }      
         }
 
         public void ClearProgress()
