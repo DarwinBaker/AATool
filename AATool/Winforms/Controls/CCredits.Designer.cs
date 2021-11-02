@@ -30,8 +30,8 @@ namespace AATool.Winforms.Controls
         private void InitializeComponent()
         {
             this.mainGroup = new System.Windows.Forms.GroupBox();
-            this.patreon = new System.Windows.Forms.LinkLabel();
             this.flow = new System.Windows.Forms.FlowLayoutPanel();
+            this.patreon = new System.Windows.Forms.LinkLabel();
             this.mainGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,6 +47,18 @@ namespace AATool.Winforms.Controls
             this.mainGroup.TabStop = false;
             this.mainGroup.Text = "Credits";
             // 
+            // flow
+            // 
+            this.flow.AutoScroll = true;
+            this.flow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flow.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flow.Location = new System.Drawing.Point(3, 16);
+            this.flow.Name = "flow";
+            this.flow.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.flow.Size = new System.Drawing.Size(220, 354);
+            this.flow.TabIndex = 28;
+            this.flow.WrapContents = false;
+            // 
             // patreon
             // 
             this.patreon.AutoSize = true;
@@ -61,14 +73,6 @@ namespace AATool.Winforms.Controls
             this.patreon.Tag = "https://www.patreon.com/_ctm";
             this.patreon.Text = "If you\'d like to see your name featured here, \r\nvisit the AATool Patreon!";
             this.patreon.Click += new System.EventHandler(this.OnClick);
-            // 
-            // flow
-            // 
-            this.flow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flow.Location = new System.Drawing.Point(3, 16);
-            this.flow.Name = "flow";
-            this.flow.Size = new System.Drawing.Size(220, 354);
-            this.flow.TabIndex = 28;
             // 
             // CCredits
             // 

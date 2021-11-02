@@ -39,10 +39,8 @@ namespace AATool.Winforms.Controls
             //parse credits groups and add them
             var group = new CCreditsGroup();
             string groupName = XmlObject.ParseAttribute(node, "name", string.Empty);
-            if (groupName is "Special Dedication")
-                return null;
-
             group.SetTitle(groupName);
+
             foreach (XmlNode userNode in node.ChildNodes)
                 group.AddUser(this.ParseUser(userNode, groupName));
             return group;
@@ -79,14 +77,15 @@ namespace AATool.Winforms.Controls
             else
             {
                 label.Image = groupName switch {
-                    "Beta Testers"  => Resources.supporter_beta,
-                    _               => Resources.supporter_developer
+                    "Beta Testers"       => Resources.supporter_beta,
+                    "Special Dedication" => Resources.supporter_dedication,
+                    _                    => Resources.supporter_developer
                 };
             }
-            
+
             label.ImageAlign = ContentAlignment.MiddleLeft;
-            label.Margin = new Padding(3);
-            label.Size = new Size(128, 16);
+            label.Margin = new Padding(3, 3, 0, 0);
+            label.Size = new Size(120, 16);
             label.Text = new string(' ', 6) + XmlObject.ParseAttribute(node, "name", string.Empty);
             label.TextAlign = ContentAlignment.MiddleLeft;
             return label;

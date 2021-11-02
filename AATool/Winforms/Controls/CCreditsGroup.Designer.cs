@@ -36,32 +36,32 @@ namespace AATool.Winforms.Controls
             // 
             // label
             // 
-            this.label.Location = new System.Drawing.Point(3, -2);
+            this.label.Location = new System.Drawing.Point(6, -2);
             this.label.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label.Name = "label";
-            this.label.Size = new System.Drawing.Size(206, 15);
+            this.label.Size = new System.Drawing.Size(180, 15);
             this.label.TabIndex = 38;
             this.label.Text = "Group Title";
             this.label.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // divider
             // 
-            this.divider.Location = new System.Drawing.Point(3, 5);
+            this.divider.Location = new System.Drawing.Point(6, 5);
             this.divider.Name = "divider";
-            this.divider.Size = new System.Drawing.Size(206, 10);
+            this.divider.Size = new System.Drawing.Size(180, 10);
             this.divider.TabIndex = 37;
             this.divider.TabStop = false;
             // 
             // flow
             // 
+            this.flow.AutoScroll = true;
             this.flow.AutoSize = true;
-            this.flow.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flow.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flow.Location = new System.Drawing.Point(3, 16);
-            this.flow.MinimumSize = new System.Drawing.Size(206, 0);
             this.flow.Name = "flow";
-            this.flow.Size = new System.Drawing.Size(206, 0);
+            this.flow.Size = new System.Drawing.Size(180, 0);
             this.flow.TabIndex = 36;
+            this.flow.WrapContents = false;
             // 
             // CCreditsGroup
             // 
@@ -73,7 +73,7 @@ namespace AATool.Winforms.Controls
             this.Controls.Add(this.divider);
             this.Controls.Add(this.flow);
             this.Name = "CCreditsGroup";
-            this.Size = new System.Drawing.Size(212, 19);
+            this.Size = new System.Drawing.Size(200, 19);
             this.ResumeLayout(false);
             this.PerformLayout();
 
