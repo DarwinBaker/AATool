@@ -29,7 +29,7 @@
             </columns>
 
             <advancement_group group="minecraft"   row="0" col="0"/>
-            <advancement_group group="nether"      row="0" col="1" direction="righttoleft"/>
+            <advancement_group group="nether_1"    row="0" col="1" direction="righttoleft"/>
             <advancement_group group="end"         row="1" col="0"/>
             <advancement_group group="adventure_1" row="0" col="2" direction="righttoleft"/>
             <advancement_group group="adventure_2" row="1" col="2" direction="righttoleft"/>

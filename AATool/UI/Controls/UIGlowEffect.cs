@@ -46,7 +46,7 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            this.LerpToBrightness(ParseAttribute(node, "brightness", 1));
+            this.LerpToBrightness(ParseAttribute(node, "brightness", 1f));
             this.Scale = ParseAttribute(node, "scale", 1f);
         }
     }

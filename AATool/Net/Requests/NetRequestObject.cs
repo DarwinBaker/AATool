@@ -30,7 +30,7 @@ namespace AATool.Net
                 this.cooldown.Update(time);
         }
 
-        private async void SendAsync()
+        public async void SendAsync()
         {
             try
             {

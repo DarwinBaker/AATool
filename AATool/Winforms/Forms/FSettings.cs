@@ -1,5 +1,7 @@
 ﻿using AATool.Net;
+using AATool.Net.Requests;
 using AATool.Settings;
+using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using System;
@@ -68,7 +70,7 @@ namespace AATool.Winforms.Forms
             }
             else if (sender == this.update)
             {
-                UpdateHelper.CheckAsync(false);
+                new UpdateRequest(true).SendAsync();
             }
             else if (sender == this.about)
             {
@@ -80,6 +82,7 @@ namespace AATool.Winforms.Forms
         private void OnFormClosing(object sender, FormClosingEventArgs e)
         {
             Peer.UnbindController(this.network);
+            Main.PrimaryScreen.CloseSettingsMenu();
         }
     }
 }

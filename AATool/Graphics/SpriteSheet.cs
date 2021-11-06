@@ -121,6 +121,20 @@ namespace AATool.Graphics
             AppendAtlas(textures.OrderBy(texture => -texture.Height).ToArray());
         }
 
+        public static void DumpAtlas()
+        {
+            try
+            {
+                using (FileStream stream = File.Create("atlas_dump.png"))
+                    Atlas.SaveAsPng(stream, Atlas.Width, Atlas.Height);
+            }
+            catch (Exception e)
+            {
+                if (e is not IOException or UnauthorizedAccessException)
+                    throw;
+            }
+        }
+
         private static Stack<Texture2D> LoadFiles(string directory)
         {
             //recursively read all .png files into Texture2D objects

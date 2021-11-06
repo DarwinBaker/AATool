@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using AATool.Net;
 using System.Linq;
 using AATool.Saves;
+using AATool.Net.Requests;
 
 namespace AATool
 {
@@ -46,27 +47,37 @@ namespace AATool
         public static Random RNG            { get; private set; }
         public static GraphicsDeviceManager Graphics { get; private set; }
 
+        public static UIMainScreen PrimaryScreen { get; private set; }
+        public static Dictionary<Type, UIScreen> SecondaryScreens { get; private set; }
+
         public readonly Time Time;
 
         private Display display;
-        private UIScreen mainScreen;
-        private Dictionary<Type, UIScreen> altScreens;
         private FNotes notesWindow;
 
-        private void AddScreen(UIScreen screen) => this.altScreens[screen.GetType()] = screen;
+        private bool announceUpdate;
+
+        public static bool IsModded => !string.IsNullOrEmpty(ModderName);
+
+        private void AddScreen(UIScreen screen)
+        {
+            if (SecondaryScreens.TryGetValue(screen.GetType(), out UIScreen old))
+                old.Dispose();
+            SecondaryScreens[screen.GetType()] = screen;
+        }
 
         public Main()
         {
-            this.InitializeMetaData();
+            this.UpdateTitle();
 
-            Graphics                = new GraphicsDeviceManager(this);
-            this.TargetElapsedTime  = TimeSpan.FromSeconds(1.0 / 60);
-            this.InactiveSleepTime  = TimeSpan.Zero;
-            this.IsFixedTimeStep    = true;
-            this.IsMouseVisible     = true;
-            this.Time               = new Time();
-
+            Graphics = new GraphicsDeviceManager(this);
             RNG = new Random();
+
+            this.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / Config.Main.FpsCap);
+            this.InactiveSleepTime = TimeSpan.Zero;
+            this.IsFixedTimeStep = true;
+            this.IsMouseVisible = true;
+            this.Time = new Time();
         }
 
         protected override void Initialize()
@@ -77,12 +88,19 @@ namespace AATool
             Tracker.Initialize();
             SpriteSheet.Initialize(this.GraphicsDevice);
             FontSet.Initialize(this.GraphicsDevice);
+            NetRequest.Enqueue(new UpdateRequest());
+
+            Version.TryParse(Config.Tracker.LastAAToolRun, out Version lastVersion);
+            if (lastVersion is null || lastVersion < Version.Parse("1.3.2"))
+                this.announceUpdate = true;
+            Config.Tracker.LastAAToolRun = Version.ToString();
+            Config.Tracker.Save();
 
             //instantiate screens
-            this.altScreens = new ();
-            this.mainScreen = new UIMainScreen(this);
+            SecondaryScreens = new ();
+            PrimaryScreen = new UIMainScreen(this);
             this.AddScreen(new UIOverlayScreen(this));
-            this.mainScreen.Form.BringToFront();
+            PrimaryScreen.Form.BringToFront();
 
             base.Initialize();
         }
@@ -97,9 +115,16 @@ namespace AATool
             Tracker.Update(this.Time);
             SftpSave.Update(this.Time);
 
+            //update visibilty of update popup
+            if (UpdateRequest.IsDone && !UpdateRequest.Suppress)
+            {
+                if (this.announceUpdate || UpdateRequest.UserInitiated || UpdateRequest.UpdatesAreAvailable())
+                    this.ShowUpdateScreen();
+            }
+
             //update each screen
-            this.mainScreen.UpdateRecursive(this.Time);
-            foreach (UIScreen screen in this.altScreens.Values)
+            PrimaryScreen.UpdateRecursive(this.Time);
+            foreach (UIScreen screen in SecondaryScreens.Values)
                 screen.UpdateRecursive(this.Time);
 
             //update notes screen
@@ -120,6 +145,16 @@ namespace AATool
                 this.notesWindow.Close();
             }
 
+            if (Config.Main.FpsCapChanged())
+            {
+                this.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / Config.Main.FpsCap);
+                this.UpdateTitle();
+            }
+            else if (Config.Tracker.GameVersionChanged())
+            {
+                this.UpdateTitle();
+            }
+
             NetRequest.Update(this.Time);
             SpriteSheet.Update(this.Time);
             base.Update(gameTime);
@@ -133,7 +168,7 @@ namespace AATool
             lock (SpriteSheet.Atlas)
             {
                 //render each secondary screen to its respective viewport
-                foreach (UIScreen screen in this.altScreens.Values)
+                foreach (UIScreen screen in SecondaryScreens.Values)
                 {
                     screen.Prepare(this.display);
                     screen.DrawRecursive(this.display);
@@ -143,20 +178,27 @@ namespace AATool
                 }
 
                 //render main screen to default backbuffer
-                this.mainScreen.Prepare(this.display);
-                this.mainScreen.DrawRecursive(this.display);
+                PrimaryScreen.Prepare(this.display);
+                PrimaryScreen.DrawRecursive(this.display);
                 if (Config.Main.LayoutDebug)
-                    this.mainScreen.DrawDebugRecursive(this.display);
-                this.mainScreen.Present(this.display);
+                    PrimaryScreen.DrawDebugRecursive(this.display);
+                PrimaryScreen.Present(this.display);
                 base.Draw(gameTime);
             }
         }
 
-        private void InitializeMetaData()
+        private void ShowUpdateScreen()
+        {
+            this.AddScreen(new UIUpdateScreen(this, this.announceUpdate));
+            UpdateRequest.Suppress = true;
+            UpdateRequest.UserInitiated = false;
+        }
+
+        private void UpdateTitle()
         {
             Version = Assembly.GetExecutingAssembly().GetName().Version;
-            string name     = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title;
-            string extra    = Assembly.GetExecutingAssembly()
+            string name  = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title;
+            string extra = Assembly.GetExecutingAssembly()
                 .GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false)
                 .OfType<AssemblyDescriptionAttribute>()
                 .FirstOrDefault()?.Description ?? string.Empty;
@@ -167,7 +209,13 @@ namespace AATool
                 FullTitle += $" {extra}";
 
             if (!string.IsNullOrWhiteSpace(ModderName))
-                FullTitle += " - UNOFFICIALLY MODIFIED BY: " + ModderName;
+                FullTitle += $" - UNOFFICIALLY MODIFIED BY: {ModderName}";
+
+            FullTitle += $"   ｜   Minecraft {Config.Tracker.GameVersion}";
+            if (Config.Main.FpsCap < 60)
+                FullTitle += $"   ｜   {Config.Main.FpsCap} FPS Cap";
+            if (PrimaryScreen is not null)
+                PrimaryScreen.Form.Text = FullTitle;
         }
 
         public static void QuitBecause(string reason, Exception exception = null)
@@ -181,7 +229,7 @@ namespace AATool
                     message += $"\n\n{exception.GetType()}:{exception.StackTrace}";
                 DialogResult result = MessageBox.Show(message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Error);
                 if (result is DialogResult.Yes)
-                    UpdateHelper.RunUpdateAssistant(true);
+                    UpdateHelper.RunAAUpdate(1);
             }
             else
             {
@@ -192,7 +240,6 @@ namespace AATool
                 if (result is DialogResult.Yes)
                     _ = Process.Start(Paths.URL_GITHUB_LATEST);
             }
-            Environment.Exit(1);
         }
     }
 }

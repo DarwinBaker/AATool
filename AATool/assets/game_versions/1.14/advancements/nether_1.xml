@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Nether">
+    <advancement id="minecraft:nether/return_to_sender"       name="Return to Sender" short_name="Sender"            type="challenge"/>
+    <advancement id="minecraft:nether/brew_potion"            name="Local Brewery" short_name="Brewery"/>
+    <advancement id="minecraft:nether/obtain_blaze_rod"       name="Into Fire"/>
+    <advancement id="minecraft:nether/find_fortress"          name="A Terrible Fortress" short_name="Fortress"/>
+    <advancement id="minecraft:nether/root"                   name="Nether"                       icon="nether"/>
+
+    <advancement id="minecraft:nether/uneasy_alliance"        name="Uneasy Alliance" short_name="Uneasy"              type="challenge"/>
+    <advancement id="minecraft:nether/create_full_beacon"     name="Beaconator"                   icon="beacon"         type="goal"/>
+    <advancement id="minecraft:nether/create_beacon"          name="Bring Home the Beacon" short_name="Beacon"       icon="beacon"/>
+    <advancement id="minecraft:nether/summon_wither"          name="Withering Heights" short_name="Withering"/>
+    <advancement id="minecraft:nether/get_wither_skull"       name="Spooky Scary Skeleton" short_name="Spooky"/>
+
+    <advancement id="minecraft:nether/fast_travel"            name="Subspace Bubble" short_name="Subspace"             type="challenge"/>
+    <advancement id="minecraft:nether/all_effects"            name="How Did We Get Here?" short_name="HDWGH?"        type="challenge"/>
+    <advancement id="minecraft:nether/all_potions"            name="A Furious Cocktail" short_name="Cocktail"          type="challenge"/>
+</group>

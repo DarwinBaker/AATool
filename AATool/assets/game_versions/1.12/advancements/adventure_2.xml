@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <group name="Adventure">
-    <advancement id="minecraft:adventure_2/kill_all_mobs"   name="Monsters Hunted" short_name="Monsters" icon="kill_all_mobs_1.12" type="challenge">
+    <advancement id="minecraft:adventure/kill_all_mobs"   name="Monsters Hunted" short_name="Monsters" icon="kill_all_mobs_1.12" type="challenge">
         <criteria goal="Monsters Killed">
             <criterion id="creeper"/>
             <criterion id="zombie"/>

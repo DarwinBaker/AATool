@@ -1,22 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <credits>
     <group name="Developer">
-        <user name="CTM"                link="https://www.youtube.com/channel/UCdJ1FnTvTpna4VGkEyJ9_NA/videos"/>
+        <user name="CTM" link="https://www.patreon.com/_ctm"/>
     </group>
     <group name="Beta Testers">
-        <user name="Elysaku"            link="https://www.twitch.tv/elysaku"/>
-        <user name="Churro the Cat :3"  link="https://www.instagram.com/theelysaku/"/>
+        <user name="Elysaku" link="https://www.twitch.tv/elysaku"/>
+        <user name="Churro the Cat :3" link="https://www.instagram.com/theelysaku/"/>
     </group>
     <group name="Supporters">
-        <user name="Antoine"            tier="gold"/>
-        <user name="TheSwordElf"        tier="gold"/>
-        <user name="MeisterMaki"        tier="gold"/>
-        <user name="Deadpool"           tier="gold"/>
-        <user name="Feinberg"           tier="gold"/>
-        <user name="NiceTwice"          tier="emerald"/>
-        <user name="Cube1337x"          tier="emerald"/>
+        <user name="Toshio"         tier="netherite"/>
+        <user name="NiceTwice"      tier="emerald"/>
+        <user name="Cube1337x"      tier="emerald"/>
+        <user name="Antoine"        tier="gold"/>
+        <user name="TheSwordElf"    tier="gold"/>
+        <user name="MeisterMaki"    tier="gold"/>
+        <user name="Deadpool"       tier="gold"/>
+        <user name="Feinberg"       tier="gold"/>
+        <user name="Infernalord"    tier="gold"/>
+        <user name="MoleyG"         tier="gold"/>
+        <user name="AutomattPL"     tier="gold"/>
+        <user name="T_Wagz"         tier="gold"/>
     </group>
     <group name="Special Dedication">
-        <user name="Wroxy"/>
+        <user name="Wroxy "/>
     </group>
 </credits>

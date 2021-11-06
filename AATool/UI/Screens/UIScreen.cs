@@ -34,6 +34,12 @@ namespace AATool.UI.Screens
         public void Show() => this.Form.Show();
         public void Hide() => this.Form.Hide();
 
+        public virtual void Dispose()
+        {
+            this.SwapChain?.Dispose();
+            this.Form.Dispose();
+        }
+
         public virtual void Prepare(Display display) =>  
             this.GraphicsDevice.SetRenderTarget(this.SwapChain);
 

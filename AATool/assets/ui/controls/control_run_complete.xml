@@ -15,23 +15,24 @@
             <text_block name="stats_misc" font_size="24" padding="16,0,120,0" width="600" height="200" horizontal_align="left" text_align="left" vertical_align="top"/>
         </panel>
         <panel name="fadegroup_credits" draw_mode="childrenonly">
-            <picture name="ctm" layer="fore" width="100" height="100" margin_top="100" vertical_align="top">
-                <glow_effect texture="ctm_glow" scale="1.5"/>
+            <picture name="ctm" layer="fore" width="90" height="90" margin_left="16" margin_top="86" horizontal_align="left" vertical_align="top">
+                
             </picture>
-            <text_block name="version" font_size="48" padding_top="210" margin_bottom="12" horizontal_align="center" vertical_align="top" v_text_align="top"/>
-            <text_block name="creator" font_size="24" padding_top="266" horizontal_align="center" vertical_align="top" v_text_align="top"/>
-            <text_block name="patreon" font_size="36" text="Patreon.com/_CTM" height="12" padding_top="300" horizontal_align="left" vertical_align="top"/>
-
+            <text_block name="version" font_size="36" padding_top="85" padding_left="125" h_text_align="left" v_text_align="top"/>
+            <text_block name="creator" font_size="24" padding_top="122" padding_left="125" h_text_align="left" v_text_align="top"/>
+            <text_block name="patreon" font_size="24" padding_top="150" padding_left="125" h_text_align="left" v_text_align="top"/>
+ 
             <!-- supporters -->
-            <flow_panel name="supporters" width="220" cell_width="200" cell_height="32" draw_mode="childrenonly" margin_left="20" padding_top="90" direction="toptobottom" horizontal_align="left">
+            <text_block name="supporters_label" text="Supporters" font_size="24" padding_left="20" padding_top="182" h_text_align="left"/>
+            <flow_panel name="supporters" width="220" cell_width="200" cell_height="32" draw_mode="childrenonly" margin_left="20" padding_top="218" padding_bottom="32" direction="toptobottom" horizontal_align="left">
             </flow_panel>
 
             <!-- beta testers -->
-            <flow_panel name="testers" width="220" cell_width="200" cell_height="32" draw_mode="childrenonly" margin_right="20" padding_top="90" direction="toptobottom" horizontal_align="right">
+            <flow_panel name="beta_testers" width="220" cell_width="200" cell_height="32" draw_mode="childrenonly" margin_right="20" padding_top="120" direction="toptobottom" horizontal_align="right">
             </flow_panel>
 
             <!-- special thanks -->
-            <flow_panel name="special" width="220" cell_width="200" cell_height="32" draw_mode="childrenonly" margin_right="20" padding_top="270" direction="toptobottom" horizontal_align="right">
+            <flow_panel name="special_dedication" width="220" cell_width="200" cell_height="32" draw_mode="childrenonly" margin_right="20" padding_top="270" direction="toptobottom" horizontal_align="right">
             </flow_panel>
         </panel>
 

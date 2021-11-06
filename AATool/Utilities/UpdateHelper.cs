@@ -1,120 +1,56 @@
-﻿using AATool.Settings;
-using AATool.Winforms.Forms;
-using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AATool.Net.Requests;
 
 namespace AATool.Utilities
 {
     public static class UpdateHelper
     {
-        private static async Task<string> DownloadLatestReleaseHTML()
+        public static bool UpdatesAreAvailable => Main.IsBeta 
+            ? Main.Version <= UpdateRequest.LatestVersion 
+            : Main.Version < UpdateRequest.LatestVersion;
+
+        public static void RunAAUpdate(int exitCode)
         {
-            //download html of latest release page
-            using WebClient client = new ();
-            try
-            {
-                return await client.DownloadStringTaskAsync("https://github.com/DarwinBaker/AATool/releases/latest/");
-            }
-            catch
-            {
-                return string.Empty;
-            }
+            //start update executable with "return to AATool after" flag
+            Process.Start(Paths.UpdateExecutable, "-r");
+            Environment.Exit(exitCode);
         }
 
-        private static string ParseLatestLink(string html)
+        public static void CheckAsync(bool userTriggered = false)
         {
-            //get download link for latest release zip
-            int start = html.IndexOf("DarwinBaker/AATool/releases/download/");
-            int end   = html.IndexOf(".zip");
-            return html.Substring(start, end - start);
-        }
-
-        private static Version ParseLatestVersion(string html)
-        {
-            //get version number of latest release
-            string latest = ParseLatestLink(html);
-            latest = latest.Substring(latest.LastIndexOf('_') + 1);
-            Version.TryParse(latest, out Version version);
-            return version;
-        }
-
-        private static string ParsePatchNotes(string html)
-        {
-            //get patch notes of latest release
-            string patchNotes = html.Substring(html.IndexOf("<div class=\"markdown-body\">"));
-            return Regex.Replace(patchNotes.Substring(0, patchNotes.IndexOf("<details")), @"<[^>]*>", string.Empty);
-        }
-
-        public static async void CheckAsync(bool failSilently = true)
-        {
-            try
+            Task.Run(async() => 
             {
                 //get latest release info from github
-                string html = await DownloadLatestReleaseHTML();
-                if (string.IsNullOrEmpty(html))
-                    return;
+                await new UpdateRequest().DownloadAsync();
 
-                Version latest = ParseLatestVersion(html);
-                string patchNotes = ParsePatchNotes(html);
-
-                //compare version numbers to determine if updates are available
-                if (Main.Version == latest)
-                {
-                    if (Main.IsBeta)
-                    {
-                        using var dialog = new FUpdate(latest, patchNotes);
-                            if (dialog.ShowDialog() is DialogResult.Yes)
-                                RunUpdateAssistant(false);
-                    }
-                    else if (!failSilently)
-                    {
-                        ShowDialog();
-                    }
-                }
-                else if (Main.Version < latest)
-                {
-                    using var dialog = new FUpdate(latest, patchNotes);
-                    if (dialog.ShowDialog() is DialogResult.Yes)
-                        RunUpdateAssistant(false);
-                }
-                else if (!failSilently)
-                {
-                    ShowDialog();
-                }
-            }
-            catch { }
+                //defer update handling to main screen if this was the startup check
+                if (userTriggered)
+                    HandleUserCheck();
+            });
         }
 
-        private static void ShowDialog()
+        private static void HandleUserCheck()
         {
-            if (Main.IsBeta)
+            if (UpdatesAreAvailable)
             {
-                MessageBox.Show($"You are currently running {Main.FullTitle}. Betas " +
-                    $"do not recieve automatic updates until official release.", "Official Release Not Out Yet");
+                //user manually requested the check, so go ahead and install updates
+                RunAAUpdate(1);
+            }
+            else if (Main.IsBeta)
+            {
+                //inform user that betas don't auto-update until release and release isn't out yet
+                MessageBox.Show($"You are currently running {Main.FullTitle}. Betas do not recieve automatic updates until official release.",
+                    "Official Release Not Out Yet");
             }
             else
             {
-                MessageBox.Show($"You already have the lastest version ({Main.Version}) of CTM's AATool.", "No Updates Available");
+                //inform user they're up-to-date
+                MessageBox.Show($"You already have the lastest version ({Main.Version}) of CTM's AATool.", 
+                    "No Updates Available");
             }
-        }
-
-        public static void RunUpdateAssistant(bool isError = false)
-        {
-            //start update executable with "return to AATool" flag
-            using var process = new Process();
-            process.StartInfo.FileName  = "AAUpdate.exe";
-            process.StartInfo.Arguments = "-r";
-            process.Start();
-            Environment.Exit(isError ? 1 : 0);
         }
     }
 }

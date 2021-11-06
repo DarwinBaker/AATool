@@ -89,6 +89,7 @@
     <Compile Include="Data\AdvancementGroup.cs" />
     <Compile Include="Data\AdvancementManifest.cs" />
     <Compile Include="Data\Cell.cs" />
+    <Compile Include="Data\Credits.cs" />
     <Compile Include="Data\CriteriaSet.cs" />
     <Compile Include="Data\Criterion.cs" />
     <Compile Include="Data\FavoritesList.cs" />
@@ -97,11 +98,12 @@
     <Compile Include="Graphics\Glow.cs" />
     <Compile Include="Net\Lobby.cs" />
     <Compile Include="Net\PeerStatic.cs" />
+    <Compile Include="Net\Requests\UpdateRequest.cs" />
     <Compile Include="Net\Requests\NetRequestStatic.cs" />
     <Compile Include="Net\Requests\NetRequestObject.cs" />
     <Compile Include="Net\Player.cs" />
     <Compile Include="Graphics\Display.cs" />
-    <Compile Include="Net\Requests\SkinRequest.cs" />
+    <Compile Include="Net\Requests\AvatarRequest.cs" />
     <Compile Include="Net\Requests\NameRequest.cs" />
     <Compile Include="Net\User.cs" />
     <Compile Include="Data\Potion.cs" />
@@ -152,6 +154,7 @@
     <Compile Include="UI\Controls\UIPlayer.cs" />
     <Compile Include="UI\Controls\UIPlayerPicker.cs" />
     <Compile Include="UI\Controls\UIRunComplete.cs" />
+    <Compile Include="UI\Screens\UIUpdateScreen.cs" />
     <Compile Include="Utilities\ColorHelper.cs" />
     <Compile Include="Utilities\Easings\Easing.cs" />
     <Compile Include="Utilities\Easings\Functions\Back.cs" />
@@ -299,6 +302,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -417,7 +421,10 @@
     <Content Include="assets\game_versions\1.14\advancements\minecraft.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\game_versions\1.14\advancements\nether.xml">
+    <Content Include="assets\game_versions\1.14\advancements\nether_2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.14\advancements\nether_1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.14\layouts\main_compact.xml">
@@ -552,13 +559,40 @@
     <Content Include="assets\game_versions\1.17\layouts\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\graphics\sprites\glow\upgrade_glow~1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\glow\portal_glow~1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\graphics\sprites\glow\player_glow~1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\frames\frame_fixes.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\frames\frame_upgrades.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\gui\icons\bread_flipped.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\icons\chest.png">
+    <Content Include="assets\graphics\sprites\gui\icons\bullet_upgrade.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\bullet_fix.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\github.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\check_circle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\improvements.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\hourglass.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\gui\icons\ender_pearls.png">
@@ -567,13 +601,28 @@
     <Content Include="assets\graphics\sprites\gui\icons\ender_pearl.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\gui\icons\bread_stat.png">
+    <Content Include="assets\graphics\sprites\gui\icons\bullet_point.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\prev.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\next.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\gui\icons\enchanted_crossbow%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\nether_portal%2432.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\silverfish_wiggle%2414.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\graphics\sprites\gui\icons\syncing%2427.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\gui\icons\dev_notes.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\gui\icons\tnt.png">
@@ -616,6 +665,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\ui\controls\control_player_face.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\ui\screens\screen_update.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\ui\screens\screen_overlay.xml">
@@ -957,7 +1009,7 @@
     <Content Include="assets\graphics\sprites\supporters\supporter_gold.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\supporters\supporter_netherite.png">
+    <Content Include="assets\graphics\sprites\supporters\supporter_netherite%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\ingredients\fermented_spider_eye_1.12.png">
@@ -1037,9 +1089,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\items\enchanted_diamond_axe%24825.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\graphics\sprites\items\xp_bottle%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\potions\enchantment_potion%24825.png">
@@ -2380,21 +2429,6 @@
     <Content Include="assets\graphics\sprites\items\nautilus_shell.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\graphics\sprites\markers\nether_fortress.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\graphics\sprites\markers\bastion.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\graphics\sprites\markers\pillager_outpost.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\graphics\sprites\markers\nether_portal%2432.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\graphics\sprites\markers\stronghold.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="assets\graphics\sprites\potions\potion_swiftness.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -2494,6 +2528,12 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Winforms\Controls\CCredits.resx">
+      <DependentUpon>CCredits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Winforms\Controls\CCreditsGroup.resx">
+      <DependentUpon>CCreditsGroup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Winforms\Controls\CMainSettings.resx">
       <DependentUpon>CMainSettings.cs</DependentUpon>
     </EmbeddedResource>
@@ -2521,9 +2561,7 @@
       <DependentUpon>FUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="assets\graphics\sprites\gui\patreon\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

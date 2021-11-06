@@ -93,6 +93,9 @@ namespace AATool.Utilities
 
         public static Color GetAccent(Texture2D texture)
         {
+            if (texture is null)
+                return Color.White;
+
             float third = 256f / 3;
             float r = 0;
             float g = 0;

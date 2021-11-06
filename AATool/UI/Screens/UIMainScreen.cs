@@ -12,6 +12,9 @@ using Microsoft.Xna.Framework.Graphics;
 using AATool.Utilities.Easings;
 using AATool.Graphics;
 using System.Reflection;
+using AATool.Net.Requests;
+using System.Linq;
+using Microsoft.Xna.Framework.Input;
 
 namespace AATool.UI.Screens
 {
@@ -24,15 +27,26 @@ namespace AATool.UI.Screens
         private UIGrid grid;
         private UILobby lobby;
         private UIStatusBar status;
+        private readonly Utilities.Timer settingsCooldown;
+
+        private KeyboardState kbNow;
+        private KeyboardState kbPrev;
 
         public UIMainScreen(Main main) : base(main, main.Window)
         {
             //set window title
             this.Form.Text = Main.FullTitle;
             this.Form.FormClosing += this.OnFormClosing;
+            this.settingsCooldown = new Utilities.Timer(0.1f);
             //this.Form.Location = new System.Drawing.Point(0, 0);
             this.ReloadLayout();
             this.CenterWindow();
+        }
+
+        public void CloseSettingsMenu()
+        {
+            //prevent settings from re-opening immediately if escape is used to close the window
+            this.settingsCooldown.Reset();
         }
 
         public void OpenSettingsMenu()
@@ -60,7 +74,10 @@ namespace AATool.UI.Screens
                 string caption = "Co-op Shutdown Confirmation";
                 string players = clients is 1 ? "1 player" : $"{clients} players";
                 string text = $"You are currently hosting a Co-op lobby with {players} connected! Are you sure you want to quit?";
-                DialogResult result = MessageBox.Show(this.Form, text, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                DialogResult result = System.Windows.Forms.MessageBox.Show(this.Form, text, caption, 
+                    MessageBoxButtons.YesNo, 
+                    MessageBoxIcon.Exclamation);
+
                 if (result is DialogResult.Yes)
                     Peer.StopInstance();
                 else
@@ -77,7 +94,9 @@ namespace AATool.UI.Screens
                 string title = "Compact Mode Enabled";
                 string message = "Your display resolution is too small for Relaxed View. Compact View has been enabled.";
                 Config.Main.CompactMode = true;
-                MessageBox.Show(this.Form, message, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                System.Windows.Forms.MessageBox.Show(this.Form, message, title, 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Information);
             }
         }
 
@@ -134,6 +153,15 @@ namespace AATool.UI.Screens
             if (Config.Overlay.WidthChanged())
                 this.settingsMenu?.UpdateOverlayWidth();
 
+            this.settingsCooldown.Update(time);
+            this.kbNow = Keyboard.GetState();
+            if (this.kbNow.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape) 
+                && this.kbPrev.IsKeyUp(Microsoft.Xna.Framework.Input.Keys.Escape)
+                && this.settingsCooldown.IsExpired)
+            {
+                this.OpenSettingsMenu();
+            }
+            this.kbPrev = this.kbNow;
             this.ConstrainWindow();
         }
 
@@ -144,7 +172,7 @@ namespace AATool.UI.Screens
             {
                 if (Config.Main.ShowBasic)
                     this.grid.ExpandRow(0);
-                else if (Config.IsPostExplorationUpdate)
+                else if (Config.PostExplorationUpdate)
                     this.grid.CollapseRow(0);
             }
 

@@ -275,7 +275,7 @@ namespace AATool.UI.Screens
             }
             else if (this.titleTimer.Index is 2)
             {
-                if (Config.IsPostExplorationUpdate)
+                if (Config.PostExplorationUpdate)
                     this.text.SetText($"Minecraft JE: All Advancements ({Config.Tracker.GameVersion})");
                 else
                     this.text.SetText("Minecraft JE: All Achievements");

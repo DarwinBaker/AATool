@@ -31,12 +31,12 @@
             <criterion id="mutton"                  name="Raw Mutton"       icon="mutton_1.12"/>
             <criterion id="cooked_rabbit"           name="Rabbit"           icon="cooked_rabbit_1.12"/>
             <criterion id="rabbit"                  name="Raw Rabbit"       icon="raw_rabbit_1.12"/>
-            <criterion id="cooked_cod"              name="Cod"/>
-            <criterion id="raw_cod"                 name="Raw Cod"          icon="cod"/>
-            <criterion id="cooked_salmon"           name="Salmon"/>
-            <criterion id="raw_salmon"              name="Raw Salmon"       icon="salmon"/>
-            <criterion id="clownfish"/>
-            <criterion id="pufferfish"/>
+            <criterion id="cooked_cod"              name="Cooked Fish"      icon="cooked_cod_1.12"/>
+            <criterion id="raw_cod"                 name="Raw Fish"         icon="cod_1.12"/>
+            <criterion id="cooked_salmon"           name="Salmon"           icon="cooked_salmon_1.12"/>
+            <criterion id="raw_salmon"              name="Raw Salmon"       icon="salmon_1.12"/>
+            <criterion id="clownfish"                                       icon="tropical_fish_1.12"/>
+            <criterion id="pufferfish"                                      icon="pufferfish_1.12"/>
             <criterion id="cookie"                                          icon="cookie_1.12"/>
             <criterion id="pumpkin_pie"                                     icon="pumpkin_pie_1.12"/>
             <criterion id="apple"                                           icon="apple_1.12"/>

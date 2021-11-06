@@ -28,15 +28,15 @@ namespace AATool
 
         public static int Percent => (int)(CompletedAdvancements / (double)AllAdvancements.Count * 100);
 
-        public static int CompletedAdvancements => Config.IsPostExplorationUpdate
+        public static int CompletedAdvancements => Config.PostExplorationUpdate
             ? Advancements.Completed
             : Achievements.Completed;
 
         public static Dictionary<string, Advancement> AllAdvancements => 
-            Config.IsPostExplorationUpdate ? Advancements.AllAdvancements : Achievements.AllAdvancements;
+            Config.PostExplorationUpdate ? Advancements.AllAdvancements : Achievements.AllAdvancements;
 
         public static Dictionary<(string adv, string crit), Criterion> AllCriteria =>
-            Config.IsPostExplorationUpdate ? Advancements.AllCriteria : Achievements.AllCriteria;
+            Config.PostExplorationUpdate ? Advancements.AllCriteria : Achievements.AllCriteria;
 
         public static Dictionary<string, Statistic> AllItems => Statistics.Items;
 
@@ -52,11 +52,11 @@ namespace AATool
         public static bool TryGetItem(string id, out Statistic item) =>
             Statistics.TryGetItem(id, out item);
 
-        public static bool IsComplete => Config.IsPostExplorationUpdate
+        public static bool IsComplete => Config.PostExplorationUpdate
             ? Advancements.Completed >= Advancements.AdvancementCount
             : Achievements.Completed >= Achievements.Count;
 
-        public static int AdvancementCount => Config.IsPostExplorationUpdate 
+        public static int AdvancementCount => Config.PostExplorationUpdate 
             ? Advancements.AdvancementCount
             : Achievements.Count;
 
@@ -125,7 +125,7 @@ namespace AATool
             if (Client.TryGet(out Client client))
             {
                 //update world from co-op server
-                if (client.TryGetData(Protocol.PROGRESS, out string jsonString) && LastServerMessage != jsonString)
+                if (client.TryGetData(Protocol.Headers.Progress, out string jsonString) && LastServerMessage != jsonString)
                 {
                     NetworkContentChangedFlag = true;
                     LastServerMessage = jsonString;
@@ -165,7 +165,7 @@ namespace AATool
         private static void UpdateManifestReferences()
         {
             LastServerMessage = string.Empty;
-            if (Config.IsPostExplorationUpdate)
+            if (Config.PostExplorationUpdate)
                 Advancements.UpdateReference();
             else
                 Achievements.UpdateReference();
@@ -174,7 +174,7 @@ namespace AATool
 
         private static void UpdateManifestProgress()
         {
-            if (Config.IsPostExplorationUpdate)
+            if (Config.PostExplorationUpdate)
             {
                 Advancements.Update(Progress);
                 Achievements.ClearProgress();

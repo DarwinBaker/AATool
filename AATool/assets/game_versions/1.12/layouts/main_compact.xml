@@ -37,8 +37,7 @@
 
         <!-- item count display (trident, shells, skulls etc.) -->
         <flow_panel name="counts" col="2" cell_width="68" cell_height="68" direction="toptobottom">
-            <item_count id="minecraft:enchanted_golden_apple"/>
-            <item_count id="minecraft:skull"/>
+            <item_count id="minecraft.skull"/>
         </flow_panel>
 
         <!-- status strip -->

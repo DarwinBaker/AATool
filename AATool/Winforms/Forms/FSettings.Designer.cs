@@ -36,10 +36,10 @@
             this.update = new System.Windows.Forms.Button();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabMain = new System.Windows.Forms.TabPage();
-            this.main = new AATool.Winforms.Controls.CMainSettings();
             this.tabOverlay = new System.Windows.Forms.TabPage();
-            this.overlay = new AATool.Winforms.Controls.COverlaySettings();
             this.tabNetwork = new System.Windows.Forms.TabPage();
+            this.main = new AATool.Winforms.Controls.CMainSettings();
+            this.overlay = new AATool.Winforms.Controls.COverlaySettings();
             this.network = new AATool.Winforms.Controls.CNetworkSettings();
             this.credits = new AATool.Winforms.Controls.CCredits();
             this.tabs.SuspendLayout();
@@ -119,14 +119,6 @@
             this.tabMain.Text = "Main Settings";
             this.tabMain.UseVisualStyleBackColor = true;
             // 
-            // main
-            // 
-            this.main.BackColor = System.Drawing.SystemColors.Window;
-            this.main.Location = new System.Drawing.Point(3, 3);
-            this.main.Name = "main";
-            this.main.Size = new System.Drawing.Size(538, 307);
-            this.main.TabIndex = 0;
-            // 
             // tabOverlay
             // 
             this.tabOverlay.Controls.Add(this.overlay);
@@ -138,14 +130,6 @@
             this.tabOverlay.Text = "Overlay Settings";
             this.tabOverlay.UseVisualStyleBackColor = true;
             // 
-            // overlay
-            // 
-            this.overlay.BackColor = System.Drawing.SystemColors.Window;
-            this.overlay.Location = new System.Drawing.Point(3, 3);
-            this.overlay.Name = "overlay";
-            this.overlay.Size = new System.Drawing.Size(538, 307);
-            this.overlay.TabIndex = 0;
-            // 
             // tabNetwork
             // 
             this.tabNetwork.Controls.Add(this.network);
@@ -156,6 +140,22 @@
             this.tabNetwork.TabIndex = 2;
             this.tabNetwork.Text = "Co-op Settings";
             this.tabNetwork.UseVisualStyleBackColor = true;
+            // 
+            // main
+            // 
+            this.main.BackColor = System.Drawing.SystemColors.Window;
+            this.main.Location = new System.Drawing.Point(3, 3);
+            this.main.Name = "main";
+            this.main.Size = new System.Drawing.Size(538, 307);
+            this.main.TabIndex = 0;
+            // 
+            // overlay
+            // 
+            this.overlay.BackColor = System.Drawing.SystemColors.Window;
+            this.overlay.Location = new System.Drawing.Point(3, 3);
+            this.overlay.Name = "overlay";
+            this.overlay.Size = new System.Drawing.Size(538, 307);
+            this.overlay.TabIndex = 0;
             // 
             // network
             // 

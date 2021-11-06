@@ -24,7 +24,7 @@ namespace AATool
         public const string DIR_GRAPHICS            = DIR_ASSETS   + "graphics/";
         public const string DIR_SPRITES             = DIR_GRAPHICS + "sprites/";
         public const string DIR_FONTS               = DIR_GRAPHICS + "fonts/";
-        public const string DIR_SKIN_CACHE          = DIR_SPRITES  + "skin_cache";
+        public const string DIR_AVATAR_CACHE          = DIR_SPRITES  + "skin_cache";
         public const string DIR_CREDITS             = DIR_ASSETS   + "credits/";
         public const string DIR_LOGS                = "logs/";
 
@@ -36,8 +36,10 @@ namespace AATool
         public const string URL_API_MC_UUID         = "https://api.mojang.com/users/profiles/minecraft/";
         public const string URL_API_MC_NAME         = "https://api.mojang.com/user/profiles/";
 
+        public const string UpdateExecutable = "AAUpdate.exe";
+
         //getters for version-dependant folders
-        public static string CurrentVersionFolder   => Path.Combine(DIR_GAME_VERSIONS, Config.Tracker.GameVersion);
+        public static string CurrentVersionFolder   => Path.Combine(DIR_GAME_VERSIONS, Config.Tracker.GameVersion ?? "1.17");
         public static string AdvancementsFolder     => Path.Combine(CurrentVersionFolder, "advancements/");
         public static string LayoutsFolder          => Path.Combine(CurrentVersionFolder, "layouts/");
 

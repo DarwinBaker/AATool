@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Management;
 using System.Threading;
 using System.Windows.Forms;
 using AATool.Utilities;
@@ -21,13 +24,11 @@ namespace AATool
             AppDomain.CurrentDomain.UnhandledException += GlobalUnhandledExceptionHandler;
             Application.ThreadException += GlobalThreadExceptionHandler;
 
-            UpdateHelper.CheckAsync(true);
-
             //start application
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             using (var main = new Main())
-                main.Run(); 
+                main.Run();
         }
 
         private static void SaveCrashReport(Exception exception)
@@ -35,6 +36,20 @@ namespace AATool
             Directory.CreateDirectory(Paths.DIR_LOGS);
             using (StreamWriter stream = File.CreateText(Paths.CrashLogFile))
             {
+                var mos = new ManagementObjectSearcher("select * from Win32_OperatingSystem");
+                foreach (ManagementObject managementObject in mos.Get())
+                {
+                    if (managementObject["Caption"] != null)
+                        stream.WriteLine("OS: " + managementObject["Caption"].ToString());
+                    if (managementObject["OSArchitecture"] != null)
+                        stream.WriteLine("Architecture: " + managementObject["OSArchitecture"].ToString());
+                    if (managementObject["CSDVersion"] != null)
+                        stream.WriteLine("Service Pack: " + managementObject["CSDVersion"].ToString());
+                }
+
+                if (!Directory.Exists("assets"))
+                    stream.WriteLine("\"assets\" Folder Missing!!!");
+
                 stream.WriteLine("Exception: " + exception.Message);
                 stream.Write(exception.StackTrace
                     .Replace("   at ", "\n    at ")

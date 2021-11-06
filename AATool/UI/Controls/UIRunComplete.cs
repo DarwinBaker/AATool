@@ -200,8 +200,11 @@ namespace AATool.UI.Controls
             this.MoveTo(new Point(Config.Overlay.RightToLeft ? this.GetRootScreen().Right : -this.Parent.Width, this.Y));
             this.currentX    = this.X;
 
-            string title = $"All {Tracker.AdvancementCount} Advancements Complete!";
-            string body = Config.IsPostExplorationUpdate
+            string title = Config.PostExplorationUpdate 
+                ? $"All {Tracker.AdvancementCount} Advancements Complete!" 
+                : $"All {Tracker.AdvancementCount} Achievements Complete!";
+
+            string body = Config.PostExplorationUpdate
                 ? $" \nMinecraft: Java Edition ({Config.Tracker.GameVersion})\n" +
                     $"All\0Advancements\n\n" +
                     $"{Tracker.InGameTime}\nApproximate IGT\n"

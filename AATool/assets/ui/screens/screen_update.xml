@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control width="720" height="456">
+    <grid>
+        <rows>
+            <row height="0"/>
+            <row height="1*"/>
+            <row height="50"/>
+        </rows>
+        <columns>
+            <column width="0.3*"/>
+            <column width="0.4*"/>
+            <column width="0.3*"/>
+        </columns>
+
+        <!-- title -->
+        
+
+        <!-- nav buttons 
+        <button row="0" col="0" width="32" horizontal_align="right" margin_right="8">
+            <picture texture="next"/>
+        </button>
+        <button row="0" col="2" width="32" horizontal_align="left" margin_left="8">
+            <picture texture="prev"/>417
+        </button>
+        -->
+
+        <!-- patch notes -->
+        <panel row="1" col="0">
+            <panel height="48" padding_top="10" vertical_align="top">
+                <picture texture="improvements" layer="fore" width="32" height="32" margin_left="20" horizontal_align="left" vertical_align="top">
+                    <glow_effect texture="upgrade_glow" brightness="0.9" tint="255,255,128"/>
+                </picture>
+                <text_block text="   Upgrades" font_size="24"/>
+            </panel>
+            <flow_panel name="upgrades" height="262" cell_width="64" cell_height="20" margin_top="48" padding_top="8" vertical_align="top">
+            </flow_panel>
+        </panel>
+        <panel row="1" col="1">
+            <panel height="80" vertical_align="top" padding_top="5">
+                <text_block name="version" font_size="36"/>
+                <text_block name="title" font_size="24" padding_top="40"/>
+            </panel>
+            <panel name="thumbnail" width="280" height="230" margin_top="80" vertical_align="top"/>
+        </panel>
+        <panel row="1" col="2">
+            <panel height="48" padding_top="10" vertical_align="top">
+                <picture texture="silverfish_wiggle" layer="fore" width="32" height="32" margin_left="24" horizontal_align="left" vertical_align="top">
+                    <glow_effect texture="upgrade_glow" brightness="0.9" margin_left="-5" horizontal_align="left" tint="0,255,0"/>
+                </picture>
+                <text_block text="   Bug Fixes" font_size="24"/>
+            </panel>
+            <flow_panel name="fixes" height="262" cell_width="64" cell_height="20" margin_top="48" padding_top="8" vertical_align="top">
+            </flow_panel>
+        </panel>
+
+        <!-- button row -->
+        <panel row="2" colspan="3" draw_mode="all" vertical_align="bottom" >
+            <panel width="0.42*" draw_mode="childrenonly">
+                <button name="now" text="    Update Now!" width="0.45*" height="36" horizontal_align="left" margin_left="8">
+                    <picture texture="syncing" width="32" height="32" horizontal_align="left" margin_left="2"/>
+                </button>
+                <button name="later" text="   Ask Later" width="0.45*" height="36" horizontal_align="right" margin_right="8">
+                    <picture texture="hourglass" width="26" height="26" horizontal_align="left" margin_left="2"/>
+                </button>
+            </panel>
+            <button name="github" text="   Visit GitHub" width="150" height="36" horizontal_align="right" margin_right="7">
+                <picture texture="github" width="26" height="26" horizontal_align="left" margin_left="6"/>
+            </button>
+            <button name="close" collapsed="true" text="   Don't Show Again" width="150" height="36">
+                <picture texture="check_circle" width="26" height="26" horizontal_align="left" margin_left="6"/>
+            </button>
+            <text_block name="has_latest" collapsed="true" font_size="24" height="24"/>
+        </panel>
+    </grid>
+</control>

@@ -40,6 +40,8 @@ namespace AATool.Winforms.Controls
             this.autoVersion = new System.Windows.Forms.CheckBox();
             this.gameVersion = new System.Windows.Forms.ComboBox();
             this.mainGroupTheme = new System.Windows.Forms.GroupBox();
+            this.fpsCap = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.refreshIcon = new System.Windows.Forms.ComboBox();
             this.completionGlow = new System.Windows.Forms.CheckBox();
@@ -59,6 +61,7 @@ namespace AATool.Winforms.Controls
             this.worldLocal = new System.Windows.Forms.RadioButton();
             this.worldRemote = new System.Windows.Forms.RadioButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.sftpCompatibility = new System.Windows.Forms.LinkLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.remoteGroup = new System.Windows.Forms.GroupBox();
             this.sftpPort = new System.Windows.Forms.TextBox();
@@ -194,6 +197,8 @@ namespace AATool.Winforms.Controls
             // 
             // mainGroupTheme
             // 
+            this.mainGroupTheme.Controls.Add(this.fpsCap);
+            this.mainGroupTheme.Controls.Add(this.label5);
             this.mainGroupTheme.Controls.Add(this.label2);
             this.mainGroupTheme.Controls.Add(this.refreshIcon);
             this.mainGroupTheme.Controls.Add(this.completionGlow);
@@ -211,6 +216,33 @@ namespace AATool.Winforms.Controls
             this.mainGroupTheme.TabIndex = 24;
             this.mainGroupTheme.TabStop = false;
             this.mainGroupTheme.Text = "Appearance";
+            // 
+            // fpsCap
+            // 
+            this.fpsCap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.fpsCap.FormattingEnabled = true;
+            this.fpsCap.Items.AddRange(new object[] {
+            "60",
+            "45",
+            "30",
+            "24",
+            "16",
+            "10"});
+            this.fpsCap.Location = new System.Drawing.Point(6, 108);
+            this.fpsCap.Name = "fpsCap";
+            this.fpsCap.Size = new System.Drawing.Size(68, 21);
+            this.fpsCap.TabIndex = 32;
+            this.fpsCap.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 92);
+            this.label5.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(213, 13);
+            this.label5.TabIndex = 32;
+            this.label5.Text = "FPS Cap:  (reduces load on slower systems)";
             // 
             // label2
             // 
@@ -238,7 +270,7 @@ namespace AATool.Winforms.Controls
             // completionGlow
             // 
             this.completionGlow.AutoSize = true;
-            this.completionGlow.Location = new System.Drawing.Point(9, 69);
+            this.completionGlow.Location = new System.Drawing.Point(6, 64);
             this.completionGlow.Name = "completionGlow";
             this.completionGlow.Size = new System.Drawing.Size(136, 17);
             this.completionGlow.TabIndex = 26;
@@ -411,6 +443,7 @@ namespace AATool.Winforms.Controls
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.sftpCompatibility);
             this.groupBox3.Controls.Add(this.worldLocal);
             this.groupBox3.Controls.Add(this.worldRemote);
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
@@ -419,6 +452,17 @@ namespace AATool.Winforms.Controls
             this.groupBox3.TabIndex = 29;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "World Type";
+            // 
+            // sftpCompatibility
+            // 
+            this.sftpCompatibility.AutoSize = true;
+            this.sftpCompatibility.Location = new System.Drawing.Point(7, 81);
+            this.sftpCompatibility.Name = "sftpCompatibility";
+            this.sftpCompatibility.Size = new System.Drawing.Size(94, 13);
+            this.sftpCompatibility.TabIndex = 29;
+            this.sftpCompatibility.TabStop = true;
+            this.sftpCompatibility.Text = "SFTP compatibility";
+            this.sftpCompatibility.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnLinkClicked);
             // 
             // groupBox1
             // 
@@ -622,5 +666,8 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.TextBox sftpPort;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox hideCompleted;
+        private System.Windows.Forms.LinkLabel sftpCompatibility;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox fpsCap;
     }
 }

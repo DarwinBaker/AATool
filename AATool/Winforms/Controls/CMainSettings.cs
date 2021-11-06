@@ -26,8 +26,8 @@ namespace AATool.Winforms.Controls
         {
             this.loaded = false;
             this.gameVersion.Items.Clear();
-            foreach (string version in TrackerSettings.SupportedVersions.Reverse())
-                this.gameVersion.Items.Add(version);
+            foreach (Version version in TrackerSettings.SupportedVersions.Reverse())
+                this.gameVersion.Items.Add(version.ToString());
             this.gameVersion.Text       = Config.Tracker.GameVersion;
             this.gameVersion.Enabled    = !Peer.IsClient;
 
@@ -44,7 +44,7 @@ namespace AATool.Winforms.Controls
             this.sftpUser.Text          = Config.Tracker.SftpUser;
             this.sftpPass.Text          = Config.Tracker.SftpPass;
 
-
+            this.fpsCap.Text                = Config.Main.FpsCap.ToString();
             this.viewMode.Text              = Config.Main.CompactMode ? "Compact" : "Relaxed";
             this.showBasic.Checked          = Config.Main.ShowBasic;
             this.completionGlow.Checked     = Config.Main.CompletionGlow;
@@ -95,6 +95,9 @@ namespace AATool.Winforms.Controls
             Config.Tracker.SftpUser = this.sftpUser.Text;
             Config.Tracker.SftpPass = this.sftpPass.Text;
             Config.Tracker.Save();
+
+            if (int.TryParse(this.fpsCap.Text, out int fps))
+                Config.Main.FpsCap = fps;
 
             Config.Main.CompactMode         = this.viewMode.Text.ToLower() is "compact";
             Config.Main.ShowBasic           = this.showBasic.Checked;
@@ -248,6 +251,20 @@ namespace AATool.Winforms.Controls
         private void OnTextChanged(object sender, EventArgs e) 
         {
             this.SaveSettings();
+        }
+
+        private void OnLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (sender == this.sftpCompatibility)
+            {
+                string title = "SFTP Compatibility Information";
+                string body = "Remote tracking over SFTP currently only officially supports DedicatedMC, " +
+                    "although other Windows-based hosts *should* work as long as they keep \"server.properties\" in the root directory." +
+                    "\n\nAdding support for a server host requires a login to test against. " +
+                    "If your host is currently unsupported and you would like to lend your server login for development, you can feel free to " +
+                    "DM me on discord (CTM#0001)";
+                MessageBox.Show(this, body, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

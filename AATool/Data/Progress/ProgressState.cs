@@ -140,7 +140,7 @@ namespace AATool.Data.Progress
             foreach (Uuid id in world.GetAllGuids())
                 this.Players[id] = new Contribution(id);
 
-            if (Config.IsPostExplorationUpdate)
+            if (Config.PostExplorationUpdate)
             {
                 foreach (KeyValuePair<string, Advancement> advancement in Tracker.AllAdvancements)
                 {

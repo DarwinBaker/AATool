@@ -20,7 +20,7 @@
         <!-- basic advancements -->
         <panel row="0" col="1" drawmode="all">
             <advancement_group group="minecraft"   width="5 * 66" height="3 * 68" horizontal_align="left"  vertical_align="top"/>
-            <advancement_group group="nether"      width="4 * 66" height="3 * 68" margin_left="5 * 66" horizontal_align="left"  vertical_align="top" direction="righttoleft"/>
+            <advancement_group group="nether_2"    width="4 * 66" height="3 * 68" margin_left="5 * 66" horizontal_align="left"  vertical_align="top" direction="righttoleft"/>
             <advancement_group group="end"         width="4 * 66" height="2 * 68" margin_top="3 * 68" horizontal_align="left"  vertical_align="top"/>
             <advancement_group group="adventure"   width="4 * 66" height="5 * 68" margin_left="9 * 66" horizontal_align="left" vertical_align="top" direction="righttoleft"/>
             <advancement_group group="husbandry_1" width="4 * 66" height="68" margin_left="5 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>

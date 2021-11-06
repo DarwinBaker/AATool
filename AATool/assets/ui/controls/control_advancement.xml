@@ -2,7 +2,7 @@
 <control width="34" height="40">
     <picture name="frame" width="26" height="26" vertical_align="top">
         <picture name="icon" width="16" height="16">
-            <glow_effect texture="frame_glow" layer="glow"/>
+            <glow_effect texture="frame_glow"/>
         </picture>
     </picture>
     <text_block name="label" margin_top="50" vertical_align="top"/>  

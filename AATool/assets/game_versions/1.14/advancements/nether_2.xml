@@ -14,6 +14,6 @@
     <advancement id="minecraft:nether/all_potions"            name="A Furious Cocktail" short_name="Cocktail"          type="challenge"/>
     <advancement id="minecraft:nether/uneasy_alliance"        name="Uneasy Alliance" short_name="Uneasy"              type="challenge"/>
     <advancement id="minecraft:nether/return_to_sender"       name="Return to Sender" short_name="Sender"            type="challenge"/>
-    
+
     <advancement id="minecraft:nether/fast_travel"            name="Subspace Bubble" short_name="Subspace"             type="challenge"/>
 </group>

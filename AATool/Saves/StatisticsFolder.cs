@@ -14,7 +14,6 @@ namespace AATool.Saves
             int longestIgt = 0;
             foreach (JSONStream json in this.Files.Values)
             {
-<<<<<<< HEAD
                 if (json is null)
                     continue;
 
@@ -28,20 +27,6 @@ namespace AATool.Saves
                 //pre-1.12
                 if (ticks is 0)
                     ticks = (int)(json["stat.playOneMinute"]?.Value ?? 0);
-=======
-                int ticks = 0;
-                if (Config.IsPostExplorationUpdate)
-                {
-                    ticks = (int)(json?["stats"]
-                    ?["minecraft:custom"]
-                    ?["minecraft:play_one_minute"]
-                    ?.Value ?? 0);
-                }
-                else
-                {
-                    ticks = (int)(json?["stat.playOneMinute"]?.Value ?? 0);
-                }
->>>>>>> a9b879d43ca3d68bbd6341e1258a8aed2fe78559
 
                 if (ticks > longestIgt)
                     longestIgt = ticks;

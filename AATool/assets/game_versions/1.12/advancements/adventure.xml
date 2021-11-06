@@ -38,7 +38,7 @@
 
     <advancement id="minecraft:adventure/adventuring_time"      name="Adventuring Time" short_name="Adventuring" icon="adventuring_time_1.12"    type="challenge" >
         <criteria goal="Biomes Visited">
-<criterion id="plains"/>
+            <criterion id="plains"/>
             <criterion id="forest"/>
             <criterion id="forest_hills"/>
             <criterion id="birch_forest"/>
