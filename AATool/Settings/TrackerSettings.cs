@@ -105,7 +105,7 @@ namespace AATool.Settings
 
         public override void ResetToDefaults()
         {
-            this.Set(TRACKER_VERSION, Main.Version.ToString());
+            this.Set(TRACKER_VERSION, Main.Version?.ToString() ?? "0.0");
             this.TrySetGameVersion("1.17");
             this.Set(USE_DEFAULT_PATH, true);
             this.Set(AUTO_GAME_VERSION, true);

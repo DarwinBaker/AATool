@@ -94,8 +94,6 @@ namespace AATool
             FontSet.Initialize(this.GraphicsDevice);
             NetRequest.Enqueue(new UpdateRequest());
 
-            SpriteSheet.DumpAtlas();
-
             Version.TryParse(Config.Tracker.LastAAToolRun, out Version lastVersion);
             if (lastVersion is null || lastVersion < Version.Parse("1.3.2"))
                 this.announceUpdate = true;
@@ -211,6 +209,7 @@ namespace AATool
 
             ShortTitle = $"{name} {Version.Major}.{Version.Minor}.{Version.Build}";
             FullTitle  = $"{name} {Version}";
+
             if (!string.IsNullOrWhiteSpace(extra))
                 FullTitle += $" {extra}";
 
