@@ -63,6 +63,7 @@ namespace AATool.Settings
 
         public override void ResetToDefaults()
         {
+            this.Set(FPS_CAP,           60);
             this.Set(SHOW_BASIC,        true);
             this.Set(COMPLETION_GLOW,   true);
             this.Set(RAINBOW_MODE,      false);

@@ -73,7 +73,11 @@ namespace AATool
             Graphics = new GraphicsDeviceManager(this);
             RNG = new Random();
 
-            this.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / Config.Main.FpsCap);
+            if (Config.Main.FpsCap is 0)
+                this.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 60);
+            else
+                this.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / Config.Main.FpsCap);
+
             this.InactiveSleepTime = TimeSpan.Zero;
             this.IsFixedTimeStep = true;
             this.IsMouseVisible = true;
@@ -89,6 +93,8 @@ namespace AATool
             SpriteSheet.Initialize(this.GraphicsDevice);
             FontSet.Initialize(this.GraphicsDevice);
             NetRequest.Enqueue(new UpdateRequest());
+
+            SpriteSheet.DumpAtlas();
 
             Version.TryParse(Config.Tracker.LastAAToolRun, out Version lastVersion);
             if (lastVersion is null || lastVersion < Version.Parse("1.3.2"))
