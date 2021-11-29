@@ -151,7 +151,6 @@ namespace AATool.Saves
                     if (LastError is IOException)
                         return $"SFTP couldn't write to local files! Retrying in {timeLeft}";
 
-                    
                     if (LastError is SocketException)
                         return $"Couldn't reach dedicated Minecraft server. Retrying in {timeLeft}";
 
@@ -275,7 +274,7 @@ namespace AATool.Saves
             try
             {
                 //download server properties
-                string[] properties = sftp.ReadAllText("/server.properties").Split('\n');
+                string[] properties = sftp.ReadAllText("server.properties").Split('\n');
                 if (TryGetProperty(properties, "level-name", out string word))
                     WorldName = word;
                 if (TryGetProperty(properties, "motd", out string message))
@@ -302,7 +301,7 @@ namespace AATool.Saves
         private static bool TryGetWorldSaveTime(SftpClient sftp, out DateTime lastWorldSave, int failures = 0)
         {
             SetState(SyncState.LastAutoSave);
-            string remote = $"/{WorldName}/level.dat";
+            string remote = $"{WorldName}/level.dat";
             lastWorldSave = default;
 
             try
@@ -344,7 +343,7 @@ namespace AATool.Saves
             SmoothDownloadPercent = 0;
 
             string localPath  = Path.Combine(Paths.DIR_REMOTE_WORLDS, WorldName, name);
-            string remotePath = $"/{WorldName}/{name}";
+            string remotePath = $"{WorldName}/{name}";
             try
             {
                 //make sure directory exists
