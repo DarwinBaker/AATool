@@ -22,9 +22,11 @@ namespace AATool
         public static bool Invalidated        => World.FolderChangedFlag || World.FilesChangedFlag|| NetworkContentChangedFlag;
         public static bool WorldFolderChanged => World.FolderChangedFlag || NetworkContentChangedFlag;
         public static bool WorldFilesChanged  => World.FilesChangedFlag  || NetworkContentChangedFlag;
-        public static TimeSpan InGameTime     => World.CurrentState is SaveFolderState.Valid ? Progress.InGameTime : default;
+        public static bool InGameTimeChanged  => Progress.InGameTime != LastInGameTime;
+        public static TimeSpan InGameTime     => World?.CurrentState is SaveFolderState.Valid ? Progress.InGameTime : default;
 
         private static bool NetworkContentChangedFlag;
+        private static TimeSpan LastInGameTime;
 
         public static int Percent => (int)(CompletedAdvancements / (double)AllAdvancements.Count * 100);
 
@@ -78,6 +80,7 @@ namespace AATool
 
         public static void ClearFlags()
         {
+            LastInGameTime = InGameTime;
             NetworkContentChangedFlag = false;
             World.ClearFlags();
         }
