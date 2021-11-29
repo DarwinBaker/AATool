@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Adventure">
+    <advancement id="minecraft:adventure/throw_trident"         name="A Throwaway Joke"         short_name="ATJ"/>
+    <advancement id="minecraft:adventure/very_very_frightening" name="Very Very Frightening"    short_name="VVF"/>
+    <advancement id="minecraft:adventure/adventuring_time" name="Adventuring Time" short_name="Adventuring" type="challenge">
+        <criteria goal="Biomes Visited">
+            <criterion id="minecraft:plains"/>
+            <criterion id="minecraft:forest"/>
+            <criterion id="minecraft:birch_forest"/>
+            <criterion id="minecraft:old_growth_birch_forest" name="Old Birch"/>
+            <criterion id="minecraft:swamp"/>
+            <criterion id="minecraft:dark_forest"/>
+            <criterion id="minecraft:taiga"/>
+            <criterion id="minecraft:old_growth_pine_taiga" name="Old Pine"/>
+            <criterion id="minecraft:old_growth_spruce_taiga" name="Old Spruce"/>
+            <criterion id="minecraft:snowy_taiga"/>
+            <criterion id="minecraft:grove"/>
+
+            <criterion id="minecraft:ice_spikes"/>
+            <criterion id="minecraft:snowy_plains"/>
+            <criterion id="minecraft:snowy_slopes"/>
+            <criterion id="minecraft:snowy_beach"/>
+            <criterion id="minecraft:frozen_river"/>
+            <criterion id="minecraft:frozen_peaks"/>
+            <criterion id="minecraft:jagged_peaks"/>
+            <criterion id="minecraft:stony_peaks"/>
+            <criterion id="minecraft:stony_shore"/>
+            <criterion id="minecraft:windswept_hills" short_name="Windswept Hill"/>
+            <criterion id="minecraft:flower_forest"/>
+            <criterion id="minecraft:sunflower_plains" name="Sunflowers"/>
+            <criterion id="minecraft:meadow"/>
+            <criterion id="minecraft:river"/>
+            <criterion id="minecraft:lush_caves"/>
+            <criterion id="minecraft:dripstone_caves" name="Dripstone Cave" short_name="Dripstone"/>
+
+            <criterion id="minecraft:desert"/>
+            <criterion id="minecraft:savanna"/>
+            <criterion id="minecraft:savanna_plateau" name="Savanna Plat"/>
+            <criterion id="minecraft:windswept_savanna" name="WS Savanna"/>
+            <criterion id="minecraft:windswept_forest" name="WS Forest"/>
+            <criterion id="minecraft:windswept_gravelly_hills" name="WS Gravel"/>
+            <criterion id="minecraft:ocean"/>
+            <criterion id="minecraft:cold_ocean"/>
+            <criterion id="minecraft:warm_ocean"/>
+            <criterion id="minecraft:lukewarm_ocean"/>
+            <criterion id="minecraft:frozen_ocean"/>
+            <criterion id="minecraft:deep_ocean"/>
+            <criterion id="minecraft:deep_cold_ocean" name="Deep&#160;Cold&#160;Ocean"/>
+            <criterion id="minecraft:deep_frozen_ocean" name="Deep&#160;Frozen&#160;Ocean"/>
+            <criterion id="minecraft:deep_lukewarm_ocean" name="Deep&#160;Lukewarm&#160;Ocean"/>
+
+            <criterion id="minecraft:beach"/>
+            <criterion id="minecraft:jungle"/>
+            <criterion id="minecraft:sparse_jungle"/>
+            <criterion id="minecraft:bamboo_jungle"/>
+            <criterion id="minecraft:badlands"/>
+            <criterion id="minecraft:wooded_badlands" name="Wooded Badland"/>
+            <criterion id="minecraft:eroded_badlands" name="Eroded Badland"/>
+            <criterion id="minecraft:mushroom_fields" name="Mushroom Field"/>
+        </criteria>
+    </advancement>
+    <advancement id="minecraft:adventure/kill_all_mobs" name="Monsters Hunted" short_name="Monsters" type="challenge">
+        <criteria goal="Monsters Killed">
+            <criterion id="minecraft:creeper"/>
+            <criterion id="minecraft:zombie"/>
+            <criterion id="minecraft:skeleton"/>
+            <criterion id="minecraft:husk"/>
+            <criterion id="minecraft:drowned"/>
+            <criterion id="minecraft:stray"/>
+            <criterion id="minecraft:spider"/>
+            <criterion id="minecraft:cave_spider"/>
+            <criterion id="minecraft:enderman"/>
+            <criterion id="minecraft:slime"/>
+            <criterion id="minecraft:magma_cube"/>
+            <criterion id="minecraft:ghast"/>
+            <criterion id="minecraft:blaze"/>
+            <criterion id="minecraft:wither_skeleton" name="Wither Skeleton" short_name="W Skeleton"/>
+            <criterion id="minecraft:piglin"/>
+            <criterion id="minecraft:piglin_brute"/>
+            <criterion id="minecraft:zombified_piglin" name="Zombie Piglin"/>
+            <criterion id="minecraft:hoglin"/>
+            <criterion id="minecraft:zoglin"/>
+            <criterion id="minecraft:silverfish"/>
+            <criterion id="minecraft:ender_dragon"/>
+            <criterion id="minecraft:endermite"/>
+            <criterion id="minecraft:shulker"/>
+            <criterion id="minecraft:wither"/>
+            <criterion id="minecraft:phantom"/>
+            <criterion id="minecraft:guardian"/>
+            <criterion id="minecraft:elder_guardian"/>
+            <criterion id="minecraft:witch"/>
+            <criterion id="minecraft:pillager"/>
+            <criterion id="minecraft:vindicator"/>
+            <criterion id="minecraft:evoker"/>
+            <criterion id="minecraft:vex"/>
+            <criterion id="minecraft:zombie_villager" short_name="Z-Villager"/>
+            <criterion id="minecraft:ravager"/>
+        </criteria>
+    </advancement>
+</group>
