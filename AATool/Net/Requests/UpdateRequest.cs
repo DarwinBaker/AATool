@@ -78,7 +78,7 @@ namespace AATool.Net.Requests
 
         private bool HandleResponse(string latestXml)
         {
-            if (latestXml is null or "")
+            if (string.IsNullOrEmpty(latestXml))
                 return false;
 
             try

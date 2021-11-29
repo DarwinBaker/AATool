@@ -45,7 +45,7 @@ namespace AATool.Net
                 if (e is HttpRequestException or OperationCanceledException)
                     this.Fail();
                 else
-                    throw;
+                    throw e;
             }
             finally 
             {
