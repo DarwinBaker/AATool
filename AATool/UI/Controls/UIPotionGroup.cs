@@ -40,11 +40,15 @@ namespace AATool.UI.Controls
 
         public override void DrawThis(Display display)
         {
+            if (this.SkipDraw)
+                return;
+
             base.DrawThis(display);
             for (int i = 0; i < this.Children.Count - 1; i++)
             {
                 Rectangle bounds = this.Children[i].Bounds;
-                display.DrawRectangle(new Rectangle(bounds.Left, bounds.Bottom - 6, bounds.Width, 2), MainSettings.Instance.BorderColor);
+                var splitter = new Rectangle(bounds.Left, bounds.Bottom - 6, bounds.Width, 2);
+                display.DrawRectangle(splitter, MainSettings.Instance.BorderColor);
             }
         }
     }

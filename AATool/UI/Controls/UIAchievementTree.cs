@@ -138,6 +138,9 @@ namespace AATool.UI.Controls
 
         public override void DrawThis(Display display)
         {
+            if (this.SkipDraw)
+                return;
+
             display.DrawRectangle(this.Bounds, MainSettings.Instance.BackColor, MainSettings.Instance.BorderColor, 1);
 
             int thickness = 8;

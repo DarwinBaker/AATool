@@ -2,6 +2,7 @@
 using AATool.Graphics;
 using AATool.UI.Controls;
 using AATool.UI.Screens;
+using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using System;
 using System.Xml;
@@ -110,6 +111,9 @@ namespace AATool.UI.Controls
 
         public override void DrawThis(Display display)
         {
+            if (this.SkipDraw)
+                return;
+
             this.DrawSegments(display, "inactive", this.Bounds);
             this.DrawSegments(display, "active", new Rectangle(X, Y, (int)Math.Round(Width * (DisplayValue - Min) / (Max - Min)), Height));
         }
@@ -133,19 +137,24 @@ namespace AATool.UI.Controls
 
         public override void DrawDebugRecursive(Display display)
         {
-            if (IsCollapsed)
+            if (this.IsCollapsed)
                 return;
-            //for (int i = 0; i < lastSegment; i++)
-            {
 
-                display.DrawRectangle(new Rectangle(Bounds.Left, Bounds.Top, Bounds.Width, 1), DebugColor * 0.8f);
-                display.DrawRectangle(new Rectangle(Bounds.Right - 1, Bounds.Top + 1, 1, Bounds.Height - 2), DebugColor * 0.8f);
-                display.DrawRectangle(new Rectangle(Bounds.Left + 1, Bounds.Bottom - 1, Bounds.Width - 1, 1), DebugColor * 0.8f);
-                display.DrawRectangle(new Rectangle(Bounds.Left, Bounds.Top + 1, 1, Bounds.Height - 1), DebugColor * 0.8f);
-                display.DrawRectangle(new Rectangle(Bounds.Left, Bounds.Top, Bounds.Width, Bounds.Height), DebugColor * 0.2f);
-            }
-            for (int i = 0; i < Children.Count; i++)
-                Children[i].DrawDebugRecursive(display);
+            //fill
+            display.DrawRectangle(this.Bounds, ColorHelper.Fade(this.DebugColor, 0.2f), null, 0, Layer.Fore);
+
+            //edges
+            display.DrawRectangle(new Rectangle(this.Bounds.Left, this.Bounds.Top, this.Bounds.Width, 1),
+                ColorHelper.Fade(this.DebugColor, 0.8f), null, 0, Layer.Fore);
+            display.DrawRectangle(new Rectangle(this.Bounds.Right - 1, this.Bounds.Top + 1, 1, this.Bounds.Height - 2),
+                ColorHelper.Fade(this.DebugColor, 0.8f), null, 0, Layer.Fore);
+            display.DrawRectangle(new Rectangle(this.Bounds.Left + 1, this.Bounds.Bottom - 1, this.Bounds.Width - 1, 1),
+                ColorHelper.Fade(this.DebugColor, 0.8f), null, 0, Layer.Fore);
+            display.DrawRectangle(new Rectangle(this.Bounds.Left, this.Bounds.Top + 1, 1, this.Bounds.Height - 1),
+                ColorHelper.Fade(this.DebugColor, 0.8f), null, 0, Layer.Fore);
+            
+            for (int i = 0; i < this.Children.Count; i++)
+                this.Children[i].DrawDebugRecursive(display);
         }
 
 

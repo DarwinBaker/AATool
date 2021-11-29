@@ -18,6 +18,6 @@
     <!-- patreon -->
     <panel name="patreon" width="460" horizontal_align="right">
         <text_block name="donate" width="300" height="12" text_align="left" horizontal_align="left" vertical_align="top" margin="8,50,8,0"/>
-        <button text="♥ Support me on Patreon ♥" width="170" height="29" horizontal_align="right" margin_right="6"/>
+        <button text="♥ Support me on Patreon ♥" layer="fore" width="170" height="29" horizontal_align="right" margin_right="6"/>
     </panel>
 </control>

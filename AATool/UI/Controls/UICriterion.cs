@@ -72,8 +72,15 @@ namespace AATool.UI.Controls
 
             if (!this.IsStatic)
             {
-                this.iconBrightness = this.criterion.CompletedBy(this.criterion.DesignatedPlayer) ? 1f : 0.35f;
-                this.textBrightness = this.criterion.CompletedBy(this.criterion.DesignatedPlayer) ? 1f : 0.5f;
+                float newIconBrightness = this.criterion.CompletedBy(this.criterion.DesignatedPlayer) ? 1f : 0.35f;
+                float newTextBrightness = this.criterion.CompletedBy(this.criterion.DesignatedPlayer) ? 1f : 0.5f;
+                if (this.iconBrightness != newIconBrightness && this.Root() is UIMainScreen)
+                    UIMainScreen.Invalidate();
+                if (this.textBrightness != newTextBrightness && this.Root() is UIMainScreen)
+                    UIMainScreen.Invalidate();
+
+                this.iconBrightness = newIconBrightness;
+                this.textBrightness = newTextBrightness;
             }
             base.InitializeRecursive(screen);
         }

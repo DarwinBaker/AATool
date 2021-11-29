@@ -82,7 +82,8 @@ namespace AATool.UI.Controls
 
             float targetNameOpacity = string.IsNullOrEmpty(this.name.WrappedText) ? 0 : 1;
             this.nameOpacity = MathHelper.Lerp(this.nameOpacity, targetNameOpacity, (float)(20 * time.Delta));
-            this.name.TextColor = Config.Main.TextColor * this.nameOpacity;
+            this.nameOpacity = MathHelper.Clamp(this.nameOpacity, 0, 1);
+            this.name.SetTextColor(Config.Main.TextColor * this.nameOpacity);
         }
 
         public override void ResizeThis(Rectangle parent)

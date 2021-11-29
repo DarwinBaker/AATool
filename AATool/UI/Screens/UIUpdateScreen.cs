@@ -36,16 +36,17 @@ namespace AATool.UI.Screens
         {
             this.Form.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.postInstall = postInstall;
-
+            
             this.ReloadLayout();
             this.ConstrainWindow();
             int x = Main.PrimaryScreen.Form.Left + (Main.PrimaryScreen.Form.ClientSize.Width / 2) - (this.Window.ClientBounds.Width / 2);
             int y = Main.PrimaryScreen.Form.Top + (Main.PrimaryScreen.Form.ClientSize.Height / 2) - (this.Window.ClientBounds.Height / 2);
             this.Form.Location = new System.Drawing.Point(x, y);
+            this.Form.Icon = new System.Drawing.Icon("assets/graphics/system/aaupdate.ico");
             this.Form.Show();
         }
-        
-        protected override void ReloadLayout()
+
+        public override void ReloadLayout()
         {
             //clear and load layout if window just opened or game version changed
             this.ClearControls();

@@ -35,6 +35,8 @@ namespace AATool.UI.Controls
             { typeof(UIProgressBar),        Color.Magenta }
         };
 
+        private UIScreen rootScreen;
+
         public Margin Margin    { get; set; } = new(0, SizeMode.Absolute);
         public Margin Padding   { get; set; } = new(0, SizeMode.Absolute);
         public Size FlexWidth   { get; set; } = new(1, SizeMode.Relative);
@@ -62,6 +64,7 @@ namespace AATool.UI.Controls
         public HorizontalAlign HorizontalAlign = HorizontalAlign.Center;
         public VerticalAlign VerticalAlign = VerticalAlign.Center;
         public DrawMode DrawMode = DrawMode.All;
+        public Layer Layer = Layer.Main;
 
         public int X          
         { 
@@ -94,11 +97,28 @@ namespace AATool.UI.Controls
         public int Bottom     => this.Y + this.Height;
         public int Left       => this.X;
         public int Right      => this.X + this.Width;
+        public bool SkipDraw  => this.IsCollapsed || 
+            (this.Root() is UIMainScreen && !UIMainScreen.Invalidated && this.Layer is Layer.Main);
 
-        public UIScreen GetRootScreen()          => this as UIScreen ?? this.Parent?.GetRootScreen();
+        public UIScreen Root()
+        {
+            this.rootScreen ??= this as UIScreen ?? this.Parent?.Root();
+            return this.rootScreen;
+        }
+
         public Color DebugColor                  => DebugColors.TryGetValue(this.GetType(), out Color val) ? val : Color.Transparent;
-        public void Expand()                     => this.IsCollapsed = false;
-        public void Collapse()                   => this.IsCollapsed = true;
+        public virtual void Expand()
+        {
+            if (this.IsCollapsed && this.Layer is Layer.Main && this.Root() is UIMainScreen)
+                UIMainScreen.Invalidate();
+            this.IsCollapsed = false;
+        }
+        public virtual void Collapse()
+        {
+            if (!this.IsCollapsed && this.Layer is Layer.Main && this.Root() is UIMainScreen)
+                UIMainScreen.Invalidate();
+            this.IsCollapsed = true;
+        }
 
         public virtual void MoveTo(Point point)  => this.ResizeRecursive(new Rectangle(point, this.Size));
         public virtual void MoveBy(Point point)  => this.ResizeRecursive(new Rectangle(this.Location + point, this.Size));
@@ -151,6 +171,13 @@ namespace AATool.UI.Controls
         }
 
         public void ParentTo(UIControl parent) => this.Parent = parent;
+
+        public void SetLayer(Layer layer)
+        {
+            if (this.Layer != layer && this.Layer is Layer.Main && this.Root() is UIMainScreen)
+                UIMainScreen.Invalidate();
+            this.Layer = layer;
+        }
 
         public virtual void InitializeRecursive(UIScreen screen)
         {
@@ -285,18 +312,25 @@ namespace AATool.UI.Controls
 
         public virtual void DrawDebugRecursive(Display display)
         {
-            if (IsCollapsed)
+            if (this.IsCollapsed)
                 return;
-            if (DebugColor != Color.Transparent)
+            if (this.DebugColor != Color.Transparent)
             {
-                display.DrawRectangle(new Rectangle(Bounds.Left, Bounds.Top, Bounds.Width, Bounds.Height), DebugColor * 0.1f);
-                display.DrawRectangle(new Rectangle(Bounds.Left, Bounds.Top, Bounds.Width, 1), DebugColor * 0.8f);
-                display.DrawRectangle(new Rectangle(Bounds.Right - 1, Bounds.Top + 1, 1, Bounds.Height - 2), DebugColor * 0.8f);
-                display.DrawRectangle(new Rectangle(Bounds.Left + 1, Bounds.Bottom - 1, Bounds.Width - 1, 1), DebugColor * 0.8f);
-                display.DrawRectangle(new Rectangle(Bounds.Left, Bounds.Top + 1, 1, Bounds.Height - 1), DebugColor * 0.8f);
+                //fill
+                display.DrawRectangle(this.Bounds, ColorHelper.Fade(this.DebugColor, 0.1f), null, 0, Layer.Fore);
+
+                //edges
+                display.DrawRectangle(new Rectangle(this.Bounds.Left, this.Bounds.Top, this.Bounds.Width, 1),
+                    ColorHelper.Fade(this.DebugColor, 0.8f), null, 0, Layer.Fore);
+                display.DrawRectangle(new Rectangle(this.Bounds.Right - 1, this.Bounds.Top + 1, 1, this.Bounds.Height - 2),
+                    ColorHelper.Fade(this.DebugColor, 0.8f), null, 0, Layer.Fore);
+                display.DrawRectangle(new Rectangle(this.Bounds.Left + 1, this.Bounds.Bottom - 1, this.Bounds.Width - 1, 1),
+                    ColorHelper.Fade(this.DebugColor, 0.8f), null, 0, Layer.Fore);
+                display.DrawRectangle(new Rectangle(this.Bounds.Left, this.Bounds.Top + 1, 1, this.Bounds.Height - 1),
+                    ColorHelper.Fade(this.DebugColor, 0.8f), null, 0, Layer.Fore);
             }
-            for (int i = 0; i < Children.Count; i++)
-                Children[i].DrawDebugRecursive(display);
+            for (int i = 0; i < this.Children.Count; i++)
+                this.Children[i].DrawDebugRecursive(display);
         }
 
         public override void ReadNode(XmlNode node)
@@ -321,6 +355,8 @@ namespace AATool.UI.Controls
             this.DrawMode        = ParseAttribute(node, "draw_mode",        this.DrawMode);
             this.VerticalAlign   = ParseAttribute(node, "vertical_align",   this.VerticalAlign);
             this.HorizontalAlign = ParseAttribute(node, "horizontal_align", this.HorizontalAlign);
+
+            this.SetLayer(ParseAttribute(node, "layer", this.Layer));
 
             //margin
             if (node.Attributes["margin"] is not null)

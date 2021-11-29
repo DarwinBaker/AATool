@@ -82,7 +82,7 @@ namespace AATool.UI.Controls
 
             if (!Config.Tracker.UseRemoteWorld || Peer.IsClient)
             {
-                this.layer1.Expand();
+                //this.layer1.Expand();
                 this.layer2.Expand();
                 this.syncButton.Collapse();
 

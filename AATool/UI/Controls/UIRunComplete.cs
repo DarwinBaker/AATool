@@ -76,7 +76,7 @@ namespace AATool.UI.Controls
 
         protected override void UpdateThis(Time time)
         {
-            int targetX = Config.Overlay.RightToLeft ? this.GetRootScreen().Width - this.Width : 5;
+            int targetX = Config.Overlay.RightToLeft ? this.Root().Width - this.Width : 5;
             this.currentX = MathHelper.Lerp(this.currentX, targetX, SLIDE_SPEED * (float)time.Delta);
             this.MoveTo(new Point((int)this.currentX, this.Y));
 
@@ -197,7 +197,7 @@ namespace AATool.UI.Controls
             this.fadeOut     = true;
             this.fade        = 1;
             this.statsPageIndex = 0;
-            this.MoveTo(new Point(Config.Overlay.RightToLeft ? this.GetRootScreen().Right : -this.Parent.Width, this.Y));
+            this.MoveTo(new Point(Config.Overlay.RightToLeft ? this.Root().Right : -this.Parent.Width, this.Y));
             this.currentX    = this.X;
 
             string title = Config.PostExplorationUpdate 

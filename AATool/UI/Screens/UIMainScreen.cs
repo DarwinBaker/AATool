@@ -15,6 +15,7 @@ using System.Reflection;
 using AATool.Net.Requests;
 using System.Linq;
 using Microsoft.Xna.Framework.Input;
+using AATool.Utilities;
 
 namespace AATool.UI.Screens
 {
@@ -22,6 +23,10 @@ namespace AATool.UI.Screens
     {
         private const int MIN_WIDTH  = 1280;
         private const int MIN_HEIGHT = 720;
+
+        public static RenderTarget2D RenderCache { get; private set; }
+        public static bool Invalidated { get; private set; }
+        public static bool Invalidate() => Invalidated = true;
 
         private FSettings settingsMenu;
         private UIGrid grid;
@@ -100,7 +105,7 @@ namespace AATool.UI.Screens
             }
         }
 
-        protected override void ReloadLayout()
+        public override void ReloadLayout()
         {
             Peer.UnbindController(this.status);
             this.Children.Clear();
@@ -133,6 +138,8 @@ namespace AATool.UI.Screens
                     Main.Graphics.PreferredBackBufferHeight = height;
                     Main.Graphics.ApplyChanges();
                     this.ResizeRecursive(new Rectangle(0, 0, width, height));
+                    RenderCache?.Dispose();
+                    RenderCache = new RenderTarget2D(this.GraphicsDevice, width, height);
                 }
             }
         }
@@ -197,6 +204,12 @@ namespace AATool.UI.Screens
             this.GraphicsDevice.Clear(Config.Main.BackColor);
         }
 
+        public override void DrawRecursive(Display display)
+        {
+            base.DrawRecursive(display);
+            Invalidated = false;
+        }
+
         public override void DrawThis(Display display)
         {
             Color color = display.RainbowColor;
@@ -208,6 +221,9 @@ namespace AATool.UI.Screens
                 Config.Main.BorderColor = new Color((int)(color.R / 1.25f), (int)(color.G / 1.25f), (int)(color.B / 1.25f), 255);
                 Config.Main.TextColor   = Color.Black;
             }
+
+            if (Invalidated && Config.Main.CacheDebug)
+                display.DrawRectangle(this.Bounds, ColorHelper.Fade(Color.Magenta, 0.5f), null, 0, Layer.Fore);
         }
     }
 }

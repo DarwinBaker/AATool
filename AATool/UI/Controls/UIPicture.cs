@@ -1,4 +1,5 @@
 ﻿using AATool.Graphics;
+using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 using System.Xml;
 
@@ -8,13 +9,31 @@ namespace AATool.UI.Controls
     {
         public string Texture { get; private set; }
         public Color Tint     { get; private set; }
-        public Layer Layer    { get; private set; }
         public float Rotation { get; private set; }
 
-        public void SetTexture(string texture)  => this.Texture = texture;
-        public void SetTint(Color tint)         => this.Tint = tint;
-        public void SetLayer(Layer layer)       => this.Layer = layer;
-        public void SetRotation(float rotation) => this.Rotation = rotation;
+        public void SetTexture(string texture)
+        {
+            if (this.Texture != texture && this.Layer is Layer.Main && this.Root() is UIMainScreen)
+                UIMainScreen.Invalidate();
+            this.Texture = texture;
+
+            if (SpriteSheet.IsAnimated(this.Texture ?? string.Empty))
+                this.Layer = Layer.Fore;
+        }
+
+        public void SetTint(Color tint)
+        {
+            if (this.Tint != tint && this.Layer is Layer.Main && this.Root() is UIMainScreen)
+                UIMainScreen.Invalidate();
+            this.Tint = tint;
+        }
+
+        public void SetRotation(float rotation)
+        {
+            if (this.Rotation != rotation && this.Layer is Layer.Main && this.Root() is UIMainScreen)
+                UIMainScreen.Invalidate();
+            this.Rotation = rotation;
+        }
 
         public UIPicture()
         {
@@ -23,6 +42,9 @@ namespace AATool.UI.Controls
 
         public override void DrawThis(Display display)
         {
+            if (this.SkipDraw)
+                return;
+
             if (this.Rotation is 0)
                 display.Draw(this.Texture, this.Content, this.Tint, this.Layer);
             else
@@ -34,7 +56,6 @@ namespace AATool.UI.Controls
             base.ReadNode(node);
             this.Texture = ParseAttribute(node, "texture", this.Texture ?? string.Empty);
             this.Tint = ParseAttribute(node, "tint", this.Tint);
-            this.SetLayer(ParseAttribute(node, "layer", this.Layer));
         }
     }
 }

@@ -20,8 +20,8 @@ namespace AATool.UI.Controls
         public bool UseCustomColor;
         public bool ShowBorder;
 
-        private MouseState mouseNow;
-        private MouseState mousePrev;
+        protected MouseState MouseNow;
+        protected MouseState MousePrev;
 
         public void SetText(string text) => this.TextBlock?.SetText(text);
         public void SetTextColor(Color color) => this.TextBlock?.SetTextColor(color);
@@ -43,6 +43,7 @@ namespace AATool.UI.Controls
 
         protected override void UpdateThis(Time time)
         {
+            UIButtonState previousState = this.State;
             if (!this.Enabled)
             {
                 this.SetState(UIButtonState.Disabled);
@@ -50,9 +51,9 @@ namespace AATool.UI.Controls
             }
 
             //update current mouse position
-            this.mouseNow = Mouse.GetState();
-            Point cursor = this.mouseNow.Position;
-            UIScreen root = this.GetRootScreen();
+            this.MouseNow = Mouse.GetState();
+            Point cursor = this.MouseNow.Position;
+            UIScreen root = this.Root();
             if (root != Main.PrimaryScreen)
             {
                 //normalize cursor position on secondary windows
@@ -63,13 +64,13 @@ namespace AATool.UI.Controls
             //update button state
             if (this.Bounds.Contains(cursor))
             {
-                if (this.mouseNow.LeftButton is ButtonState.Pressed)
+                if (this.MouseNow.LeftButton is ButtonState.Pressed)
                 {
                     this.SetState(UIButtonState.Pressed);
                 }
                 else
                 {
-                    if (this.mousePrev.LeftButton is ButtonState.Pressed && this.GetRootScreen().HasFocus)
+                    if (this.MousePrev.LeftButton is ButtonState.Pressed && this.Root().HasFocus)
                         OnClick?.Invoke(this);
                     this.SetState(UIButtonState.Hovered);
                 }
@@ -78,11 +79,17 @@ namespace AATool.UI.Controls
             {
                 this.SetState(UIButtonState.Released);
             }
-            this.mousePrev = this.mouseNow;
+            this.MousePrev = this.MouseNow;
+
+            if (this.State != previousState && this.Root() is UIMainScreen)
+                UIMainScreen.Invalidate();
         }
 
         public override void DrawThis(Display display)
         {
+            if (this.SkipDraw)
+                return;
+
             Color backColor   = this.UseCustomColor ? this.BackColor   : Config.Main.BackColor;
             Color borderColor = this.UseCustomColor ? this.BorderColor : Config.Main.BorderColor;
             if (!this.ShowBorder)
@@ -91,16 +98,16 @@ namespace AATool.UI.Controls
             switch (this.State)
             {
                 case UIButtonState.Released:
-                    display.DrawRectangle(this.Bounds, backColor, borderColor, 2);
+                    display.DrawRectangle(this.Bounds, backColor, borderColor, 2, this.Layer);
                     break;
                 case UIButtonState.Hovered:
-                    display.DrawRectangle(this.Bounds, backColor, borderColor * 1.25f, 2);
+                    display.DrawRectangle(this.Bounds, backColor, borderColor * 1.25f, 2, this.Layer);
                     break;
                 case UIButtonState.Pressed:
-                    display.DrawRectangle(this.Bounds, backColor * 1.25f, borderColor * 1.5f, 3);
+                    display.DrawRectangle(this.Bounds, backColor * 1.25f, borderColor * 1.5f, 3, this.Layer);
                     break;
                 case UIButtonState.Disabled:
-                    display.DrawRectangle(this.Bounds, backColor * 1.1f, backColor * 1.2f, 2);
+                    display.DrawRectangle(this.Bounds, backColor * 1.1f, backColor * 1.2f, 2, this.Layer);
                     break;
             }
         }
@@ -119,6 +126,7 @@ namespace AATool.UI.Controls
             this.Enabled = ParseAttribute(node, "enabled", true);
             this.TextBlock.HorizontalAlign = ParseAttribute(node, "text_align", this.TextBlock.HorizontalAlign);
             this.ShowBorder = ParseAttribute(node, "border", true);
+            this.TextBlock.SetLayer(this.Layer);
         }
     }
 }

@@ -34,6 +34,7 @@ namespace AATool.Graphics
         public static Sprite Pixel => Sprites["pixel"];
 
         public static bool ContainsSprite(string id) => Sprites.ContainsKey(id ?? string.Empty);
+        public static bool IsAnimated(string id) => Sprites.TryGetValue(id, out Sprite sprite) && sprite.Frames > 0;
         public static string ProcessFrameCount(string id, out int frames)
         {
             frames = 0;

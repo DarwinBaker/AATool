@@ -47,7 +47,7 @@ namespace AATool.UI.Controls
                     };
                     this.players[key] = control;
                     this.flowPlayers.AddControl(control);
-                    control.InitializeRecursive(this.GetRootScreen());
+                    control.InitializeRecursive(this.Root());
                     changed = true;
                 }
             }

@@ -173,7 +173,7 @@ namespace AATool.UI.Controls
         {
             if (sender == this.settingsButton)
             {
-                if (this.GetRootScreen() is UIMainScreen mainScreen)
+                if (this.Root() is UIMainScreen mainScreen)
                     mainScreen.OpenSettingsMenu();
             }
             else if (sender == this.patreonButton)

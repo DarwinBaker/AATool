@@ -64,7 +64,7 @@ namespace AATool.UI.Controls
 
                 var control = NextControl();
                 
-                control.InitializeRecursive(GetRootScreen());
+                control.InitializeRecursive(Root());
                 control.ResizeRecursive(Bounds);
 
                 if (RightToLeft)

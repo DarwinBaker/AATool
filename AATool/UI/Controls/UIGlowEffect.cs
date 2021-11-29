@@ -14,7 +14,12 @@ namespace AATool.UI.Controls
 
         private bool isMainWindow;
 
-        public void LerpToBrightness(float brightness) => this.Brightness = brightness;
+        public UIGlowEffect()
+        {
+            this.Layer = Layer.Glow;
+        }
+
+        public void LerpToBrightness(float brightness) => this.Brightness = MathHelper.Clamp(brightness, 0, 1);
 
         public void SkipToBrightness(float brightness)
         {
@@ -24,6 +29,7 @@ namespace AATool.UI.Controls
 
         public override void InitializeRecursive(UIScreen screen)
         {
+            this.Layer = Layer.Glow;
             this.isMainWindow = screen is UIMainScreen;
             this.displayBrightness = this.Brightness;
         }
@@ -34,7 +40,6 @@ namespace AATool.UI.Controls
                 ? (this.X * 100) + (this.Y * 100)
                 : 0;
             this.SetRotation((float)(offset + (time.TotalFrames / 400f)));
-
             this.displayBrightness = MathHelper.Lerp(this.displayBrightness, this.Brightness, (float)(10 * time.Delta));
         }
 

@@ -63,7 +63,7 @@ namespace AATool.UI.Controls
             var control = new UIAdvancement(3) {
                 AdvancementName = nextAdvancement.Id
             };
-            control.InitializeRecursive(this.GetRootScreen());
+            control.InitializeRecursive(this.Root());
             if (!Config.Overlay.ShowLabels) 
                 control.HideText();
             return control;

@@ -154,7 +154,7 @@ namespace AATool
                 this.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / Config.Main.FpsCap);
                 this.UpdateTitle();
             }
-            else if (Config.Tracker.GameVersionChanged())
+            else if (Config.Tracker.GameVersionChanged() || Tracker.InGameTimeChanged)
             {
                 this.UpdateTitle();
             }
@@ -176,16 +176,12 @@ namespace AATool
                 {
                     screen.Prepare(this.display);
                     screen.DrawRecursive(this.display);
-                    if (Config.Main.LayoutDebug)
-                        screen.DrawDebugRecursive(this.display);
                     screen.Present(this.display);
                 }
 
                 //render main screen to default backbuffer
                 PrimaryScreen.Prepare(this.display);
                 PrimaryScreen.DrawRecursive(this.display);
-                if (Config.Main.LayoutDebug)
-                    PrimaryScreen.DrawDebugRecursive(this.display);
                 PrimaryScreen.Present(this.display);
                 base.Draw(gameTime);
             }
@@ -207,8 +203,8 @@ namespace AATool
                 .OfType<AssemblyDescriptionAttribute>()
                 .FirstOrDefault()?.Description ?? string.Empty;
 
-            ShortTitle = $"{name} {Version.Major}.{Version.Minor}.{Version.Build}";
-            FullTitle  = $"{name} {Version}";
+            ShortTitle = $"{name} {Version}";
+            FullTitle = ShortTitle;
 
             if (!string.IsNullOrWhiteSpace(extra))
                 FullTitle += $" {extra}";
@@ -219,8 +215,10 @@ namespace AATool
             FullTitle += $"   ｜   Minecraft {Config.Tracker.GameVersion}";
             if (Config.Main.FpsCap < 60)
                 FullTitle += $"   ｜   {Config.Main.FpsCap} FPS Cap";
+            if (Tracker.InGameTime > TimeSpan.Zero)
+                FullTitle += $"   ｜   { Tracker.InGameTime} IGT";
             if (PrimaryScreen is not null)
-                PrimaryScreen.Form.Text = FullTitle;
+                PrimaryScreen.Form.Text = "  " + FullTitle;
         }
 
         public static void QuitBecause(string reason, Exception exception = null)

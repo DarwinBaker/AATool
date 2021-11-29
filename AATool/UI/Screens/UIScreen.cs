@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Xml;
 using AATool.Graphics;
+using AATool.Settings;
 using AATool.UI.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,7 +28,7 @@ namespace AATool.UI.Screens
             this.GraphicsDevice = main.GraphicsDevice;
             this.DrawMode       = DrawMode.All;
             this.Form           = Control.FromHandle(window.Handle) as Form;
-            this.Form.Icon      = new System.Drawing.Icon("assets/graphics/system/icon.ico");
+            this.Form.Icon      = new System.Drawing.Icon("assets/graphics/system/aatool.ico");
             this.Form.ShowIcon  = true;
         }
 
@@ -65,19 +66,20 @@ namespace AATool.UI.Screens
 
         public override void DrawRecursive(Display display)
         {
-            display.Begin();
+            display.BeginDraw(this);
             base.DrawRecursive(display);
-            display.End();
+            if (Config.Main.LayoutDebug)
+                this.DrawDebugRecursive(display);
+            display.EndDraw(this);
         }
 
         public override void DrawDebugRecursive(Display display)
         {
-            display.Begin(BlendState.AlphaBlend);
-            base.DrawDebugRecursive(display);
-            display.End();
+            for (int i = 0; i < this.Children.Count; i++)
+                this.Children[i].DrawDebugRecursive(display);
         }
 
-        protected abstract void ReloadLayout();
+        public abstract void ReloadLayout();
         protected abstract void ConstrainWindow();
     }
 }

@@ -16,8 +16,17 @@ namespace AATool.UI.Controls
             this.BorderThickness = 1;
         }
 
-        public override void DrawThis(Display display) => 
-            display.DrawRectangle(this.Bounds, Config.Main.BackColor, Config.Main.BorderColor, this.BorderThickness);
+        public override void DrawThis(Display display) 
+        {
+            if (this.SkipDraw)
+                return;
+
+            display.DrawRectangle(this.Bounds,
+                Config.Main.BackColor, 
+                Config.Main.BorderColor, 
+                this.BorderThickness, 
+                this.Layer);
+        }
 
         public override void ReadNode(XmlNode node)
         {

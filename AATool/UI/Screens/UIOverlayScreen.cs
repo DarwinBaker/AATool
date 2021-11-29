@@ -52,7 +52,7 @@ namespace AATool.UI.Screens
             this.MoveTo(Point.Zero);
         }
 
-        protected override void ReloadLayout()
+        public override void ReloadLayout()
         {
             //clear and load layout if window just opened or game version changed
             this.ClearControls();

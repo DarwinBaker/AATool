@@ -10,21 +10,26 @@ namespace AATool.UI.Controls
 {
     public class UITextBlock : UIControl
     {
-        public DynamicSpriteFont Font    { get; private set; }
-        public string WrappedText        { get; private set; }
-        public Rectangle TextBounds      { get; private set; }
+        public DynamicSpriteFont Font { get; private set; }
+        public string WrappedText { get; private set; }
+        public Rectangle TextBounds { get; private set; }
 
-        public Color TextColor                      { get; set; }
-        public HorizontalAlign HorizontalTextAlign  { get; set; }
-        public VerticalAlign   VerticalTextAlign    { get; set; }
-        public bool DrawBackground                  { get; set; }
+        public Color TextColor { get; set; }
+        public HorizontalAlign HorizontalTextAlign { get; set; }
+        public VerticalAlign VerticalTextAlign { get; set; }
+        public bool DrawBackground { get; set; }
 
         private StringBuilder builder;
 
-        public bool IsEmpty                         => Font == null || builder.Length == 0;
-        public override string ToString()           => builder.ToString();
+        public bool IsEmpty => Font == null || builder.Length == 0;
+        public override string ToString() => builder.ToString();
         public void SetFont(string font, int size) => Font = FontSet.Get(font, size);
-        public void SetTextColor(Color color)       => TextColor = color;
+        public void SetTextColor(Color color)
+        {
+            if (this.TextColor != color && this.Root() is UIMainScreen)
+                UIMainScreen.Invalidate();
+            this.TextColor = color;
+        }
 
         private string rawValue;
 
@@ -33,6 +38,32 @@ namespace AATool.UI.Controls
         {
             this.builder = new StringBuilder();
             this.SetFont(font, scale);
+        }
+
+        public override void Expand()
+        {
+            if (this.IsCollapsed)
+            {
+                base.Expand();
+                if (this.Root() is UIMainScreen)
+                    UIMainScreen.Invalidate();
+            }
+            
+        }
+
+        public override void Collapse()
+        {
+            if (!this.IsCollapsed)
+            {
+                base.Collapse();
+                if (this.Root() is UIMainScreen)
+                    UIMainScreen.Invalidate();
+            }
+        }
+
+        public override void InitializeRecursive(UIScreen screen)
+        {
+            base.InitializeRecursive(screen);
         }
 
         public void SetText(string text) 
@@ -67,7 +98,7 @@ namespace AATool.UI.Controls
 
         public override void DrawThis(Display display)
         {
-            if (this.IsEmpty)
+            if (this.IsEmpty || this.SkipDraw)
                 return;
 
             string text = this.ToString();
@@ -76,14 +107,14 @@ namespace AATool.UI.Controls
 
             if (this.DrawBackground)
                 display.DrawRectangle(new Rectangle(this.TextBounds.Left, this.TextBounds.Top, this.TextBounds.Width, this.TextBounds.Height + 4), MainSettings.Instance.BackColor);
-
+            
             //get what color text should be based on root screen
             Color color = this.TextColor;
             if (this.TextColor == Color.Transparent)
-                color = this.GetRootScreen() is not UIOverlayScreen ? MainSettings.Instance.TextColor : OverlaySettings.Instance.TextColor;
+                color = this.Root() is not UIOverlayScreen ? MainSettings.Instance.TextColor : OverlaySettings.Instance.TextColor;
             if (this.Bounds.Size == Point.Zero)
             {
-                display.DrawString(this.Font, text, this.Location.ToVector2(), color);
+                display.DrawString(this.Font, text, this.Location.ToVector2(), color, this.Layer);
             }
             else
             {
@@ -107,7 +138,7 @@ namespace AATool.UI.Controls
                         _                      => this.Content.Right + this.Margin.Right - lineSize.X
                     };
 
-                    display.DrawString(this.Font, line, new Vector2(x, y), color);
+                    display.DrawString(this.Font, line, new Vector2(x, y), color, this.Layer);
                     
                     //next line
                     y += lineSize.Y;
@@ -117,11 +148,21 @@ namespace AATool.UI.Controls
 
         public override void DrawDebugRecursive(Display display)
         {
-            base.DrawDebugRecursive(display);
-            if (this.IsCollapsed)
+            if (this.IsCollapsed || this.IsEmpty)
                 return;
+
+            base.DrawDebugRecursive(display);
             if (this.DebugColor != Color.Transparent)
-                display.DrawRectangle(new Rectangle(this.TextBounds.Left, this.TextBounds.Top, this.TextBounds.Width, this.TextBounds.Height), DebugColor * 0.3f);
+            {
+                var bounds = new Rectangle(
+                    this.TextBounds.Left,
+                    this.TextBounds.Top,
+                    this.TextBounds.Width,
+                    this.TextBounds.Height);
+
+                display.DrawRectangle(bounds, this.DebugColor * 0.3f, null, 0, Layer.Fore);
+            }
+                
             for (int i = 0; i < this.Children.Count; i++)
                 this.Children[i].DrawDebugRecursive(display);
         }
@@ -179,6 +220,8 @@ namespace AATool.UI.Controls
                 _                      => this.Content.Right - size.X
             };
             this.TextBounds = new Rectangle(x, this.Content.Top, size.X, size.Y);
+            if (this.Root() is UIMainScreen)
+                UIMainScreen.Invalidate();
         }
 
         public override void ResizeThis(Rectangle parentRectangle)

@@ -216,6 +216,9 @@ namespace AATool.UI.Controls
 
         public override void DrawThis(Display display)
         {
+            if (this.SkipDraw)
+                return;
+
             base.DrawThis(display);
             foreach (Rectangle cell in this.CellRectangles)
                 display.DrawRectangle(cell, Config.Main.BackColor, Config.Main.BorderColor, 1);
@@ -226,10 +229,15 @@ namespace AATool.UI.Controls
             base.DrawDebugRecursive(display);
             foreach (Rectangle cell in this.CellRectangles)
             {
-                display.DrawRectangle(new Rectangle(cell.Left, cell.Top, cell.Width, 1),                this.DebugColor * 0.5f);
-                display.DrawRectangle(new Rectangle(cell.Right - 1, cell.Top + 1, 1, cell.Height - 2),  this.DebugColor * 0.5f);
-                display.DrawRectangle(new Rectangle(cell.Left + 1, cell.Bottom - 1, cell.Width - 1, 1), this.DebugColor * 0.5f);
-                display.DrawRectangle(new Rectangle(cell.Left, cell.Top + 1, 1, cell.Height - 1),       this.DebugColor * 0.5f);
+                //cell edges
+                display.DrawRectangle(new Rectangle(cell.Left, cell.Top, cell.Width, 1),                
+                    this.DebugColor * 0.5f, null, 0, Layer.Fore);
+                display.DrawRectangle(new Rectangle(cell.Right - 1, cell.Top + 1, 1, cell.Height - 2),  
+                    this.DebugColor * 0.5f, null, 0, Layer.Fore);
+                display.DrawRectangle(new Rectangle(cell.Left + 1, cell.Bottom - 1, cell.Width - 1, 1), 
+                    this.DebugColor * 0.5f, null, 0, Layer.Fore);
+                display.DrawRectangle(new Rectangle(cell.Left, cell.Top + 1, 1, cell.Height - 1),       
+                    this.DebugColor * 0.5f, null, 0, Layer.Fore);
             }
         }
 

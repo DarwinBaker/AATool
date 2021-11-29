@@ -39,7 +39,6 @@ namespace AATool.UI.Controls
         private UIGlowEffect glow;
         private UITextBlock label;
         private int scale;
-        private bool isMainWindow;
 
         public bool IsCompleted => this.Advancement?.CompletedByAnyone() ?? false;
         public Point IconCenter => this.icon?.Center ?? Point.Zero;
@@ -60,8 +59,6 @@ namespace AATool.UI.Controls
 
         public override void InitializeRecursive(UIScreen screen)
         {
-            this.isMainWindow    = screen is UIMainScreen;
-
             Tracker.TryGetAdvancement(this.AdvancementName, out Advancement advancement);
             this.Advancement = advancement;
 
@@ -89,14 +86,14 @@ namespace AATool.UI.Controls
             this.icon.SetTexture(this.Advancement.Icon);
             this.icon.SetLayer(Layer.Fore);
 
-            int textSize = this.isMainWindow
+            int textSize = screen is UIMainScreen
                 ? 12
                 : 12 * ((Config.Overlay.Scale + 1) / 2);
 
             if (this.label is not null)
             {
                 this.label.Margin = new Margin(0, 0, 26 * this.scale, 0);
-                if (this.isMainWindow)
+                if (screen is UIMainScreen)
                 {
                     this.label.FlexHeight = Config.Main.CompactMode
                         ? new Size(textSize)
@@ -106,7 +103,7 @@ namespace AATool.UI.Controls
                 {
                     this.label.FlexHeight = new Size(textSize * 2);
                 }
-                if (this.isMainWindow)
+                if (screen is UIMainScreen)
                     this.label.SetFont("minecraft", 12);
                 else
                     this.label.SetFont("minecraft", textSize);
@@ -117,7 +114,7 @@ namespace AATool.UI.Controls
                     this.label.DrawBackground = true;
             }
 
-            if (this.isMainWindow && Config.Main.CompactMode)
+            if (screen is UIMainScreen && Config.Main.CompactMode)
             {
                 //compact mode
                 this.FlexWidth  = new Size(66);
@@ -136,35 +133,53 @@ namespace AATool.UI.Controls
 
         private void UpdateGlowBrightness(Time time)
         {
-            if (this.isMainWindow && Config.Main.CompletionGlow)
+            if (this.Root() is not UIMainScreen)
+            {
+                this.glow.Collapse();
+                return;
+            }
+                
+            if (Config.Main.CompletionGlow)
                 this.glow.Expand();
             else
                 this.glow.Collapse();
 
+            float current = this.glow.Brightness;
             float target = this.IsCompleted ? 1f : 0f;
+            if (Math.Round(this.glow.Brightness, 2) == Math.Round(target, 2))
+                return;
+
             if (time is not null)
             {
-                float brightness = MathHelper.Lerp(this.glow.Brightness, target, (float)(10 * time.Delta));
-                this.glow.LerpToBrightness(brightness);
+                if (Math.Round(current, 1) != Math.Round(target, 1))
+                    UIMainScreen.Invalidate();
+                float smoothed = MathHelper.Lerp(this.glow.Brightness, target, (float)(10 * time.Delta));
+                this.glow.LerpToBrightness(smoothed);
             }
             else
             {
+                if (Math.Round(current, 1) != Math.Round(target, 1))
+                    UIMainScreen.Invalidate();
                 this.glow.LerpToBrightness(target);
             }
         }
 
         public override void UpdateRecursive(Time time)
         {
+            //don't hide advancement icon for criteria groups
             if (this.Parent is not UICriteriaGroup)
             {
-                if (Config.Main.HideCompleted && this.IsCompleted)
+                bool hidden = Config.Main.HideCompleted && this.IsCompleted;
+                if (hidden && !this.IsCollapsed)
                 {
                     this.glow.SkipToBrightness(0);
                     this.Collapse();
+                    UIMainScreen.Invalidate();
                 }
-                else
+                else if (hidden != this.IsCollapsed)
                 {
                     this.Expand();
+                    UIMainScreen.Invalidate();
                 }
             }
             base.UpdateRecursive(time);
@@ -178,8 +193,11 @@ namespace AATool.UI.Controls
 
         public override void DrawThis(Display display)
         {
+            if (this.SkipDraw)
+                return;
+
             bool grayOut = this.Advancement is Achievement achievement && achievement.IsLocked;
-            if (this.isMainWindow && grayOut)
+            if (this.Root() is UIMainScreen && grayOut)
             {
                 //achievement is locked. gray it out
                 this.icon.SetTint(Color.Gray * ALPHA_LOCKED_ICON);
@@ -190,7 +208,7 @@ namespace AATool.UI.Controls
             {
                 //normal advancement rendering
                 this.icon.SetTint(Color.White);
-                if (this.isMainWindow)
+                if (this.Root() is UIMainScreen)
                     this.label?.SetTextColor(Config.Main.TextColor);
                 else
                     this.label?.SetTextColor(Config.Overlay.TextColor);
@@ -215,7 +233,9 @@ namespace AATool.UI.Controls
                 int size = 18 * this.scale;
                 var frameRectangle = new Rectangle(x, y, size, size);
 
-                display.Draw(this.completeFrame + "_head", frameRectangle);
+                if (!this.SkipDraw)
+                    display.Draw(this.completeFrame + "_head", frameRectangle);
+
                 var headRectangle = new Rectangle(this.frame.Left, this.frame.Top + this.scale, 8 * this.scale, 8 * this.scale);
                 display.Draw(this.Advancement.FirstCompletionist.ToString(), headRectangle, Color.White, Layer.Fore);
             }

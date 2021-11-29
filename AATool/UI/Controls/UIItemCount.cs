@@ -157,6 +157,9 @@ namespace AATool.UI.Controls
 
         public override void DrawThis(Display display)
         {
+            if (this.SkipDraw)
+                return;
+
             display.Draw(FRAME_INCOMPLETE, this.frame.Bounds, Color.White);
             display.Draw(FRAME_COMPLETE, this.frame.Bounds, Color.White * this.glow.Brightness);
         }

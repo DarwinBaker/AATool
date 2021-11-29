@@ -76,6 +76,8 @@ namespace AATool.UI.Controls
 
         public override void DrawThis(Display display)
         {
+            if (this.SkipDraw)
+                return;
             display.DrawRectangle(this.Bounds, this.BackColor, this.BorderColor, 2);
         }
     }
