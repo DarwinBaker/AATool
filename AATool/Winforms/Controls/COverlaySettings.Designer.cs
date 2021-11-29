@@ -83,7 +83,7 @@ namespace AATool.Winforms.Controls
             // copyColorKey
             // 
             this.copyColorKey.AutoSize = true;
-            this.copyColorKey.Location = new System.Drawing.Point(6, 86);
+            this.copyColorKey.Location = new System.Drawing.Point(6, 126);
             this.copyColorKey.Name = "copyColorKey";
             this.copyColorKey.Size = new System.Drawing.Size(168, 13);
             this.copyColorKey.TabIndex = 29;

@@ -14,6 +14,7 @@ namespace AATool.Settings
         public const string SHOW_BASIC      = "show_basic_advancements";
         public const string COMPLETION_GLOW = "completion_glow";
         public const string LAYOUT_DEBUG    = "layout_debug";
+        public const string CACHE_DEBUG     = "cache_debug";
         public const string COMPACT_MODE    = "compact_mode";
         public const string HIDE_COMPLETED  = "hide_completed";
         public const string REFRESH_ICON    = "refresh_icon";
@@ -29,6 +30,7 @@ namespace AATool.Settings
         public bool CompactMode             { get => this.Get<bool>(COMPACT_MODE);    set => this.Set(COMPACT_MODE, value); }
         public bool HideCompleted           { get => this.Get<bool>(HIDE_COMPLETED);  set => this.Set(HIDE_COMPLETED, value); }
         public bool LayoutDebug             { get => this.Get<bool>(LAYOUT_DEBUG);    set => this.Set(LAYOUT_DEBUG, value); }
+        public bool CacheDebug              { get => this.Get<bool>(CACHE_DEBUG);     set => this.Set(CACHE_DEBUG, value); }
         public string RefreshIcon           { get => this.Get<string>(REFRESH_ICON);  set => this.Set(REFRESH_ICON, value); }
         public Color BackColor              { get => this.Get<Color>(BACK_COLOR);     set => this.Set(BACK_COLOR, value); }
         public Color TextColor              { get => this.Get<Color>(TEXT_COLOR);     set => this.Set(TEXT_COLOR, value); }
@@ -71,6 +73,7 @@ namespace AATool.Settings
             this.Set(HIDE_COMPLETED,    false);
             this.Set(REFRESH_ICON,      "xp_orb");
             this.Set(LAYOUT_DEBUG,      false);
+            this.Set(CACHE_DEBUG,       false);
             this.Set(BACK_COLOR,        Hex("36393F"));
             this.Set(TEXT_COLOR,        Hex("DCDDDE"));
             this.Set(BORDER_COLOR,      Hex("4E5156"));

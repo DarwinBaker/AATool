@@ -26,7 +26,7 @@ namespace AATool.Winforms.Forms
             } 
         }
 
-        public void UpdateGameVersion() => this.main.UpdateGameVersion();
+        public void UpdateGameVersion() => this.tracker.UpdateGameVersion();
         public void UpdateOverlayWidth() => this.overlay.UpdateWidth();
         public void UpdateRainbow(Color color) => this.main.UpdateRainbow(color);
 
@@ -42,9 +42,11 @@ namespace AATool.Winforms.Forms
 
         private void LoadSettings()
         {
+            this.tracker.LoadSettings();
             this.main.LoadSettings();
             this.network.LoadSettings();
             this.overlay.LoadSettings();
+            this.debug.LoadSettings();
         }
 
         private void OnButtonClick(object sender, EventArgs e)

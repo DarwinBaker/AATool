@@ -2,6 +2,7 @@
 using AATool.Saves;
 using AATool.Settings;
 using AATool.UI;
+using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using System;
@@ -18,38 +19,17 @@ namespace AATool.Winforms.Controls
         public CMainSettings()
         {
             this.InitializeComponent();
-            this.localGroup.Location  = new System.Drawing.Point(117, 3);
-            this.remoteGroup.Location = new System.Drawing.Point(117, 3);
         }
 
         public void LoadSettings()
         {
             this.loaded = false;
-            this.gameVersion.Items.Clear();
-            foreach (Version version in TrackerSettings.SupportedVersions.Reverse())
-                this.gameVersion.Items.Add(version.ToString());
-            this.gameVersion.Text       = Config.Tracker.GameVersion;
-            this.gameVersion.Enabled    = !Peer.IsClient;
-
-            this.worldRemote.Checked    = Config.Tracker.UseRemoteWorld;
-            this.worldLocal.Checked     = !Config.Tracker.UseRemoteWorld;
-
-            this.savesDefault.Checked   = Config.Tracker.UseDefaultPath;
-            this.savesCustom.Checked    = !Config.Tracker.UseDefaultPath;
-            this.customSavePath.Text    = Config.Tracker.CustomPath;
-            this.gameVersion.Text       = Config.Tracker.GameVersion;
-            this.autoVersion.Checked    = Config.Tracker.AutoDetectVersion;
-            this.sftpHost.Text          = Config.Tracker.SftpHost;
-            this.sftpPort.Text          = Config.Tracker.SftpPort.ToString();
-            this.sftpUser.Text          = Config.Tracker.SftpUser;
-            this.sftpPass.Text          = Config.Tracker.SftpPass;
 
             this.fpsCap.Text                = Config.Main.FpsCap.ToString();
             this.viewMode.Text              = Config.Main.CompactMode ? "Compact" : "Relaxed";
             this.showBasic.Checked          = Config.Main.ShowBasic;
             this.completionGlow.Checked     = Config.Main.CompletionGlow;
             this.hideCompleted.Checked      = Config.Main.HideCompleted;
-            this.layoutDebug.Checked        = Config.Main.LayoutDebug;
             this.refreshIcon.SelectedIndex  = Config.Main.RefreshIcon is "xp_orb" ? 0 : 1;
             this.backColor.BackColor        = ColorHelper.ToDrawing(Config.Main.BackColor);
             this.textColor.BackColor        = ColorHelper.ToDrawing(Config.Main.TextColor);
@@ -72,8 +52,6 @@ namespace AATool.Winforms.Controls
             else if (string.IsNullOrEmpty(this.theme.Text))
                 this.theme.Text = "Custom";
 
-            this.UpdateSaveGroupPanel();
-
             this.loaded = true;
         }
 
@@ -81,20 +59,6 @@ namespace AATool.Winforms.Controls
         {
             if (!this.loaded)
                 return;
-
-            Config.Tracker.UseDefaultPath    = this.savesDefault.Checked;
-            Config.Tracker.UseRemoteWorld    = this.worldRemote.Checked;
-            Config.Tracker.CustomPath        = this.customSavePath.Text;
-            Config.Tracker.AutoDetectVersion = this.autoVersion.Checked;
-            Config.Tracker.TrySetGameVersion(this.gameVersion.Text);
-            
-            if (int.TryParse(this.sftpPort.Text, out int port))
-                Config.Tracker.SftpPort = port;
-
-            Config.Tracker.SftpHost = this.sftpHost.Text;
-            Config.Tracker.SftpUser = this.sftpUser.Text;
-            Config.Tracker.SftpPass = this.sftpPass.Text;
-            Config.Tracker.Save();
 
             if (int.TryParse(this.fpsCap.Text, out int fps))
                 Config.Main.FpsCap = fps;
@@ -104,7 +68,6 @@ namespace AATool.Winforms.Controls
             Config.Main.CompletionGlow      = this.completionGlow.Checked;
             Config.Main.HideCompleted       = this.hideCompleted.Checked;
             Config.Main.RefreshIcon         = this.refreshIcon.Text.ToLower().Replace(" ", "_");
-            Config.Main.LayoutDebug         = this.layoutDebug.Checked;
             Config.Main.RainbowMode         = this.theme.Text == "Pride Mode";
             Config.Main.BackColor           = ColorHelper.ToXNA(this.backColor.BackColor);
             Config.Main.TextColor           = ColorHelper.ToXNA(this.textColor.BackColor);
@@ -113,12 +76,6 @@ namespace AATool.Winforms.Controls
 
             Config.Notes.Enabled = this.notesEnabled.Checked;
             Config.Notes.Save();
-        }
-
-        public void UpdateGameVersion()
-        {
-            this.gameVersion.Text = Config.Tracker.GameVersion;
-            this.gameVersion.Enabled = !Peer.IsClient;
         }
 
         public void UpdateRainbow(Color color)
@@ -131,98 +88,28 @@ namespace AATool.Winforms.Controls
             }
         }
 
-        private void UpdateSaveGroupPanel()
-        {
-            if (this.worldLocal.Checked)
-            {
-                this.localGroup.Show();
-                this.remoteGroup.Hide();
-            }
-            else
-            {
-                this.localGroup.Hide();
-                this.remoteGroup.Show();
-            }
-        }
-
-        private void TogglePassword()
-        {
-            bool hide = true;
-            if (this.sftpPass.UseSystemPasswordChar)
-            {
-                //show confirmation dialog
-                string message = "Be careful about showing SFTP login credentials on stream! ♥\nAre you sure you want to unmask the username and password fields?";
-                string title   = "SFTP Credentials Reaveal Confirmation";
-                DialogResult result = MessageBox.Show(this, message, title,
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning,
-                    MessageBoxDefaultButton.Button2);
-                hide = result is not DialogResult.Yes;
-            }
-            this.sftpPass.UseSystemPasswordChar = hide;
-            this.sftpUser.UseSystemPasswordChar = hide;
-            this.toggleCredentials.Text = hide 
-                ? "Show Login Credentials" 
-                : "Hide Login Credentials";
-        }
-
         private void OnClicked(object sender, EventArgs e)
         {
-            if (sender == this.browse)
+            using ColorDialog dialog = new () { Color = (sender as Control).BackColor};
+            if (dialog.ShowDialog() is DialogResult.OK)
             {
-                using var dialog = new FolderBrowserDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                    this.customSavePath.Text = dialog.SelectedPath;
-            }
-            else if (sender == this.sftpValidate)
-            {
-                SftpSave.Sync();
-            }
-            else if (sender == this.toggleCredentials)
-            {
-                this.TogglePassword();
-            }
-            else
-            {
-                using ColorDialog dialog = new () { Color = (sender as Control).BackColor};
-                if (dialog.ShowDialog() is DialogResult.OK)
+                (sender as Control).BackColor = dialog.Color;
+                if (sender == this.backColor ||
+                    sender == this.textColor ||
+                    sender == this.borderColor)
                 {
-                    (sender as Control).BackColor = dialog.Color;
-                    if (sender == this.backColor ||
-                        sender == this.textColor ||
-                        sender == this.borderColor)
-                    {
-                        this.theme.SelectedItem = "Custom";
-                    }
+                    this.theme.SelectedItem = "Custom";
                 }
+                UIMainScreen.Invalidate();
             }
             this.SaveSettings();
         }
 
-        private void OnCheckChanged(object sender, EventArgs e)
-        {
-            if (sender == this.savesDefault || sender == this.savesCustom)
-            {
-                this.customSavePath.Enabled = !this.savesDefault.Checked;
-            }
-            else if (sender == this.worldLocal || sender == this.worldRemote)
-            {
-                this.UpdateSaveGroupPanel();
-            }
-            else if (sender == this.autoVersion)
-            {
-                this.gameVersion.Enabled = !this.autoVersion.Checked && !Peer.IsClient;
-            }
-            this.SaveSettings();
-        }
+        private void OnCheckChanged(object sender, EventArgs e) => this.SaveSettings();
 
         private void OnIndexChanged(object sender, EventArgs e)
         {
-            if (sender == this.gameVersion)
-            {
-                Config.Tracker.TrySetGameVersion(this.gameVersion.Text);
-            }
-            else if (sender == this.theme)
+            if (sender == this.theme)
             {
                 if (this.theme.Text.ToLower() is not "custom")
                 {
@@ -239,9 +126,9 @@ namespace AATool.Winforms.Controls
                 }
                 else
                 {
-                    this.backColor.BackColor         = ColorHelper.ToDrawing(Config.Main.BackColor);
-                    this.textColor.BackColor         = ColorHelper.ToDrawing(Config.Main.TextColor);
-                    this.borderColor.BackColor       = ColorHelper.ToDrawing(Config.Main.BorderColor);
+                    this.backColor.BackColor   = ColorHelper.ToDrawing(Config.Main.BackColor);
+                    this.textColor.BackColor   = ColorHelper.ToDrawing(Config.Main.TextColor);
+                    this.borderColor.BackColor = ColorHelper.ToDrawing(Config.Main.BorderColor);
                     Config.Main.RainbowMode = false;
                 }
             }
@@ -253,18 +140,19 @@ namespace AATool.Winforms.Controls
             this.SaveSettings();
         }
 
-        private void OnLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void Label7_Click(object sender, EventArgs e)
         {
-            if (sender == this.sftpCompatibility)
-            {
-                string title = "SFTP Compatibility Information";
-                string body = "Remote tracking over SFTP currently only officially supports DedicatedMC, " +
-                    "although other Windows-based hosts *should* work as long as they keep \"server.properties\" in the root directory." +
-                    "\n\nAdding support for a server host requires a login to test against. " +
-                    "If your host is currently unsupported and you would like to lend your server login for development, you can feel free to " +
-                    "DM me on discord (CTM#0001)";
-                MessageBox.Show(this, body, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+
+        }
+
+        private void Label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Label8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

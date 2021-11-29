@@ -87,7 +87,7 @@ namespace AATool.Winforms.Forms
             // menuClearNotesFolder
             // 
             this.menuClearNotesFolder.Name = "menuClearNotesFolder";
-            this.menuClearNotesFolder.Size = new System.Drawing.Size(180, 22);
+            this.menuClearNotesFolder.Size = new System.Drawing.Size(157, 22);
             this.menuClearNotesFolder.Text = "Clear Old Notes";
             this.menuClearNotesFolder.Click += new System.EventHandler(this.OnClick);
             // 
@@ -107,7 +107,7 @@ namespace AATool.Winforms.Forms
             // 
             this.menuCopy.Name = "menuCopy";
             this.menuCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.menuCopy.Size = new System.Drawing.Size(180, 22);
+            this.menuCopy.Size = new System.Drawing.Size(157, 22);
             this.menuCopy.Text = "Copy";
             this.menuCopy.Click += new System.EventHandler(this.OnClick);
             // 
@@ -115,7 +115,7 @@ namespace AATool.Winforms.Forms
             // 
             this.menuPaste.Name = "menuPaste";
             this.menuPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.menuPaste.Size = new System.Drawing.Size(180, 22);
+            this.menuPaste.Size = new System.Drawing.Size(157, 22);
             this.menuPaste.Text = "Paste";
             this.menuPaste.Click += new System.EventHandler(this.OnClick);
             // 
@@ -123,20 +123,20 @@ namespace AATool.Winforms.Forms
             // 
             this.menuCut.Name = "menuCut";
             this.menuCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.menuCut.Size = new System.Drawing.Size(180, 22);
+            this.menuCut.Size = new System.Drawing.Size(157, 22);
             this.menuCut.Text = "Cut";
             this.menuCut.Click += new System.EventHandler(this.OnClick);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(154, 6);
             // 
             // menuClear
             // 
             this.menuClear.Name = "menuClear";
             this.menuClear.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.Delete)));
-            this.menuClear.Size = new System.Drawing.Size(180, 22);
+            this.menuClear.Size = new System.Drawing.Size(157, 22);
             this.menuClear.Text = "Clear";
             this.menuClear.Click += new System.EventHandler(this.OnClick);
             // 
