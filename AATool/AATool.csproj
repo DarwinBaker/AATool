@@ -34,7 +34,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>assets\graphics\system\icon.ico</ApplicationIcon>
+    <ApplicationIcon>assets\graphics\system\aatool.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
@@ -152,7 +152,6 @@
     <Compile Include="UI\Controls\UIButton.cs" />
     <Compile Include="UI\Controls\UILobby.cs" />
     <Compile Include="UI\Controls\UIPlayer.cs" />
-    <Compile Include="UI\Controls\UIPlayerPicker.cs" />
     <Compile Include="UI\Controls\UIRunComplete.cs" />
     <Compile Include="UI\Screens\UIUpdateScreen.cs" />
     <Compile Include="Utilities\ColorHelper.cs" />
@@ -182,6 +181,18 @@
     </Compile>
     <Compile Include="Winforms\Controls\CCredits.Designer.cs">
       <DependentUpon>CCredits.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Winforms\Controls\CDebugSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Winforms\Controls\CDebugSettings.Designer.cs">
+      <DependentUpon>CDebugSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Winforms\Controls\CTrackerSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Winforms\Controls\CTrackerSettings.Designer.cs">
+      <DependentUpon>CTrackerSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Winforms\Controls\COverlaySettings.cs">
       <SubType>UserControl</SubType>
@@ -532,6 +543,39 @@
     <Content Include="assets\game_versions\1.16\potions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\game_versions\1.18\advancements\adventure_1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.18\advancements\adventure_3.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.18\advancements\adventure_2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.18\advancements\end.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.18\advancements\husbandry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.18\advancements\minecraft.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.18\advancements\nether.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.18\layouts\main_compact.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.18\layouts\main_relaxed.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.18\potions.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\game_versions\1.18\statistics.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\game_versions\1.17\advancements\adventure_2.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -557,6 +601,90 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\game_versions\1.17\layouts\main_relaxed.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\adventure\fall_from_world_height.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\adventure\play_jukebox_in_meadows^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\adventure\play_jukebox_in_meadows^16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\advancements\adventure\play_jukebox_in_meadows^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\flower_forest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\frozen_ocean.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\wooded_badlands.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\windswept_gravelly_hills.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\meadow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\old_growth_birch_forest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\frozen_peaks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\snowy_slopes.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\old_growth_pine_taiga.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\sunflower_plains.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\ice_spikes.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\windswept_forest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\windswept_savanna.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\old_growth_spruce_taiga.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\windswept_hills.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\lush_caves.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\jagged_peaks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\grove.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\dripstone_caves.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\snowy_plains.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\stony_peaks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\stony_shore.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\eroded_badlands.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\criteria\biomes\1.18\sparse_jungle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\glow\upgrade_glow~1.png">
@@ -662,6 +790,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\items\salmon_stats.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\system\aatool.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\system\aaupdate.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\ui\controls\control_player_face.xml">
@@ -1092,9 +1226,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\potions\enchantment_potion%24825.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\graphics\system\icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\advancements\adventure\adventure.png">
@@ -2534,11 +2665,17 @@
     <EmbeddedResource Include="Winforms\Controls\CCreditsGroup.resx">
       <DependentUpon>CCreditsGroup.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Winforms\Controls\CTrackerSettings.resx">
+      <DependentUpon>CTrackerSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Winforms\Controls\CMainSettings.resx">
       <DependentUpon>CMainSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Winforms\Controls\CNetworkSettings.resx">
       <DependentUpon>CNetworkSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Winforms\Controls\CDebugSettings.resx">
+      <DependentUpon>CDebugSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Winforms\Controls\COverlaySettings.resx">
       <DependentUpon>COverlaySettings.cs</DependentUpon>
