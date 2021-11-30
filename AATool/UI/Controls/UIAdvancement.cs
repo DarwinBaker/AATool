@@ -136,6 +136,7 @@ namespace AATool.UI.Controls
             if (this.Root() is not UIMainScreen)
             {
                 this.glow.Collapse();
+                this.glow.SkipToBrightness(0);
                 return;
             }
                 
