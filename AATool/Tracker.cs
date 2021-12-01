@@ -91,7 +91,12 @@ namespace AATool
             UpdateManifestProgress();
         }
 
-        public static void Invalidate() => World.Invalidate();
+        public static void Invalidate(bool invalidateWorld = false)
+        {
+            if (invalidateWorld)
+                World.Invalidate();
+            RefreshTimer.Expire();
+        }
 
         public static void Update(Time time)
         {

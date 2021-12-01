@@ -115,7 +115,7 @@ namespace AATool.Saves
                         if (Server.TryGet(out Server server))
                             server.SendNextRefresh();
 
-                        Tracker.Invalidate();
+                        Tracker.Invalidate(true);
                     }
                 }
                 finally

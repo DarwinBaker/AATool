@@ -64,7 +64,12 @@ namespace AATool.Saves
 
             if (newState is SaveFolderState.Valid)
             {
-                if (this.CurrentFolder is null || latest.FullName != this.CurrentFolder.FullName)
+                bool ready = !TrackerSettings.LockWorld;
+                ready |= Config.Tracker.CustomPathChanged() && !Config.Tracker.UseDefaultPath;
+                ready |= Config.Tracker.UseDefaultPathChanged();
+                ready |= Config.Tracker.UseRemoteWorldChanged();
+                ready &= latest.FullName != this.CurrentFolder?.FullName;
+                if (this.CurrentFolder is null || ready)
                 {
                     //world changed
                     this.CurrentFolder = latest;
@@ -89,6 +94,7 @@ namespace AATool.Saves
             {
                 //world not set
                 this.CurrentFolder = null;
+                TrackerSettings.LockWorld = false;
             }
 
             //handle states
@@ -101,8 +107,9 @@ namespace AATool.Saves
 
         private static bool MightBeWorldFolder(DirectoryInfo folder)
         {
-            return Directory.Exists(Path.Combine(folder.FullName, "stats"))
-                || Directory.Exists(Path.Combine(folder.FullName, "advancements"));
+            return Directory.Exists(Path.Combine(folder.FullName, "advancements"))
+                || Directory.Exists(Path.Combine(folder.FullName, "stats"))
+                || File.Exists(Path.Combine(folder.FullName, "level.dat"));
         }
 
         private static DirectoryInfo MostRecentlyAccessed(DirectoryInfo a, DirectoryInfo b)
@@ -111,9 +118,9 @@ namespace AATool.Saves
                 return b;
             if (b is null)
                 return a;
-            return a.LastAccessTime > b.LastAccessTime 
-                ? a 
-                : b;
+            return a.LastAccessTimeUtc > b.LastAccessTimeUtc
+                   ? a
+                   : b;
         }
 
         private SaveFolderState TryGetLatestWorld(out DirectoryInfo directory)

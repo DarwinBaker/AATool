@@ -95,7 +95,7 @@ namespace AATool.Winforms.Controls
             {
                 //show confirmation dialog
                 string message = "Be careful about showing SFTP login credentials on stream! ♥\nAre you sure you want to unmask the username and password fields?";
-                string title   = "SFTP Credentials Reaveal Confirmation";
+                string title   = "SFTP Credentials Reveal Confirmation";
                 DialogResult result = MessageBox.Show(this, message, title,
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning,

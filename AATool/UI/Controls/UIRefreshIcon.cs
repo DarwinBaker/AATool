@@ -14,10 +14,9 @@ namespace AATool.UI.Controls
 {
     class UIRefreshIcon : UIControl
     {
-        private UIButton syncButton;
-        private UIPicture syncIcon;
-        private UIPicture layer1;
-        private UIPicture layer2;
+        private UIButton button;
+        private UIPicture icon;
+        private UIPicture lockIcon;
         private bool repeat;
 
         private readonly Easing fade;
@@ -30,50 +29,29 @@ namespace AATool.UI.Controls
 
         public override void InitializeRecursive(UIScreen screen)
         {
-            this.syncButton = this.First<UIButton>("manual_sync");
-            this.syncButton.OnClick += this.OnClick;
-            this.syncIcon = this.syncButton.First<UIPicture>();
-            this.layer1 = this.First<UIPicture>("layer1");
-            this.layer2 = this.First<UIPicture>("layer2");
-
+            this.button = this.First<UIButton>("manual_sync");
+            this.button.OnClick += this.OnClick;
+            this.icon = this.First<UIPicture>("icon");
+            this.lockIcon = this.First<UIPicture>("lock");
             base.InitializeRecursive(screen);
         }
 
         private void OnClick(UIControl sender)
         {
-            if (sender == this.syncButton)
-                SftpSave.Sync();
-        }
+            if (sender == this.button)
+            {
+                if (Config.Tracker.UseRemoteWorld)
+                {
+                    SftpSave.Sync();
+                }
+                else
+                {
+                    TrackerSettings.LockWorld ^= true;
+                    if (!TrackerSettings.LockWorld)
+                        Tracker.Invalidate();
+                }
+            }
 
-        private void SetStates(bool layer1, bool layer2)
-        {
-            if (layer1)
-                this.layer1.Expand();
-            else
-                this.layer1.Collapse();
-
-            if (layer2)
-                this.layer2.Expand();
-            else
-                this.layer2.Collapse();
-        }
-
-        private void SetLayers(Layer layer1, Layer layer2)
-        {
-            this.layer1.SetLayer(layer1);
-            this.layer2.SetLayer(layer2);
-        }
-
-        private void SetTextures(string layer1, string layer2)
-        {
-            this.layer1.SetTexture(layer1);
-            this.layer2.SetTexture(layer2);
-        }
-
-        private void SetTints(Color layer1, Color layer2)
-        {
-            this.layer1.SetTint(layer1);
-            this.layer2.SetTint(layer2);
         }
 
         protected override void UpdateThis(Time time)
@@ -82,20 +60,21 @@ namespace AATool.UI.Controls
 
             if (!Config.Tracker.UseRemoteWorld || Peer.IsClient)
             {
-                //this.layer1.Expand();
-                this.layer2.Expand();
-                this.syncButton.Collapse();
-
                 //update style
                 switch (Config.Main.RefreshIcon)
                 {
                     case "xp_orb":
-                        this.UpdateAsXpOrb();
+                        this.icon.SetTexture("xp_orb");
                         break;
                     case "compass":
-                        this.UpdateAsCompass();
+                        this.icon.SetTexture("compass");
                         break;
                 }
+                
+                float alpha = this.repeat
+                    ? 20 * this.fade.In()
+                    : 1 - this.fade.Out();
+                this.icon.SetTint(ColorHelper.Fade(Color.White, alpha));
 
                 //update state
                 if (Tracker.Invalidated || Config.Main.ValueChanged(MainSettings.REFRESH_ICON))
@@ -108,59 +87,32 @@ namespace AATool.UI.Controls
                     this.fade.Reset();
                     this.repeat = false;
                 }
+                this.button.Enabled = Tracker.SaveState is SaveFolderState.Valid;
+                this.lockIcon.SetTexture(TrackerSettings.LockWorld ? "locked" : "");
+                this.lockIcon.SetTint(ColorHelper.Fade(Color.White, 1 - (alpha * 4)));
             }  
             else
             {
-                //hide refresh icon and show sync button
-                this.layer1.Collapse();
-                this.layer2.Collapse();
-                this.syncButton.Expand();
-
                 bool ready = SftpSave.State is SyncState.Ready;
-                this.syncButton.Enabled = ready;
-                this.syncIcon.SetTexture(ready ? "sync" : "syncing");
-                this.syncIcon.SetTint(Config.Main.TextColor);
+                this.button.Enabled = ready;
+                this.icon.SetTexture(ready ? "sync" : "syncing");
+                this.icon.SetTint(Config.Main.TextColor);
+                this.lockIcon.SetTexture("");
             }    
-        }
-
-        private void UpdateAsXpOrb()
-        {
-            this.SetStates(false, true);
-            this.SetLayers(Layer.Main, Layer.Fore);
-            this.SetTextures(string.Empty, "xp_orb");
-
-            float alpha = this.repeat
-                ? 20 * this.fade.In()
-                : 1 - this.fade.Out();
-
-            this.SetTints(Color.White, ColorHelper.Fade(Color.White, alpha));
-        }
-
-        private void UpdateAsCompass()
-        {
-            this.SetStates(true, true);
-            this.SetLayers(Layer.Fore, Layer.Fore);
-            this.SetTextures("compass_empty", "compass_needle");
-
-            //always keep compass somewhat visible
-            float alpha = this.repeat
-                ? (2 * this.fade.In()) + 0.5f
-                : (2 * (1 - this.fade.Out())) + 0.5f;
-
-            Color tint = this.repeat
-                ? Color.White * (alpha - 0.5f) * 2
-                : Color.White * (alpha - 0.5f) * 8;
-
-            this.SetTints(ColorHelper.Fade(Color.White, 2.5f * alpha), tint);
         }
 
         public override void DrawThis(Display display)
         {
             //glow effect
-            if (Config.Main.RefreshIcon is "xp_orb" && !this.layer2.IsCollapsed)
+            if (this.icon.Texture is "xp_orb")
             {
-                Rectangle rectangle = new (this.X - 8, this.Y - 8, this.Width + 16, this.Height + 16);
-                display.Draw("xp_orb_glow", rectangle, this.layer2.Tint, Layer.Glow);
+                var rectangle = new Rectangle(
+                    this.X - 8, 
+                    this.Y - 8, 
+                    this.Width + 16, 
+                    this.Height + 16);
+
+                display.Draw("xp_orb_glow", rectangle, this.icon.Tint, Layer.Glow);
             }
             base.DrawThis(display);
         }

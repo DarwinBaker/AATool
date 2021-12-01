@@ -35,6 +35,8 @@ namespace AATool.Settings
         public string SftpUser          { get => this.Get<string>(SFTP_USER);    set => this.Set(SFTP_USER, value); }
         public string SftpPass          { get => this.Get<string>(SFTP_PASS);    set => this.Set(SFTP_PASS, value); }
 
+        public static bool LockWorld { get; set; }
+
         public bool GameVersionChanged()    => Instance.ValueChanged(GAME_VERSION);
         public bool UseRemoteWorldChanged() => Instance.ValueChanged(REMOTE_WORLD);
         public bool UseDefaultPathChanged() => Instance.ValueChanged(USE_DEFAULT_PATH);

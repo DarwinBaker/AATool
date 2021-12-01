@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <control width="32" height="32">
     <button name="manual_sync">
-        <picture texture="sync"/>
+        <picture name="icon" layer="fore"/>
+        <picture name="lock" layer="fore"/>
     </button>
-    <picture name="layer1" layer="fore"/>
-    <picture name="layer2" layer="fore"/>
-    <picture name="glow" layer="glow"/>
 </control>
