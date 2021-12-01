@@ -89,7 +89,7 @@ namespace AATool.UI.Controls
                 }
                 this.button.Enabled = Tracker.SaveState is SaveFolderState.Valid;
                 this.lockIcon.SetTexture(TrackerSettings.LockWorld ? "locked" : "");
-                this.lockIcon.SetTint(ColorHelper.Fade(Color.White, 1 - (alpha * 4)));
+                this.lockIcon.SetTint(ColorHelper.Fade(Config.Main.TextColor, 1 - (alpha * 4)));
             }  
             else
             {
