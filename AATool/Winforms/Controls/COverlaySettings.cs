@@ -24,12 +24,12 @@ namespace AATool.Winforms.Controls
         public void LoadSettings()
         {
             this.loaded = false;
-            this.enabled.Checked            = Config.Overlay.Enabled;
-            this.showText.Checked           = Config.Overlay.ShowLabels;
-            this.showCriteria.Checked       = Config.Overlay.ShowCriteria;
-            this.showCounts.Checked         = Config.Overlay.ShowCounts;
+            this.enabled.Checked        = Config.Overlay.Enabled;
+            this.showText.Checked       = Config.Overlay.ShowLabels;
+            this.showCriteria.Checked   = Config.Overlay.ShowCriteria;
+            this.showCounts.Checked     = Config.Overlay.ShowCounts;
+            this.igt.Checked            = Config.Overlay.ShowIgt;
 
-            //this.scale.Text                 = Config.Overlay.Scale + "x";
             this.direction.SelectedIndex    = Config.Overlay.RightToLeft ? 0 : 1;
             this.speed.Value                = MathHelper.Clamp(Config.Overlay.Speed, this.speed.Minimum, this.speed.Maximum);
             this.overlayWidth.Value         = Config.Overlay.Width;
@@ -46,15 +46,16 @@ namespace AATool.Winforms.Controls
             if (!this.loaded)
                 return;
 
-            Config.Overlay.Enabled             = this.enabled.Checked;
-            Config.Overlay.ShowLabels          = this.showText.Checked;
-            Config.Overlay.ShowCriteria        = this.showCriteria.Checked;
-            Config.Overlay.ShowCounts          = this.showCounts.Checked;
-            Config.Overlay.Speed               = this.speed.Value;
-            Config.Overlay.RightToLeft         = this.direction.SelectedIndex is 0;
-            Config.Overlay.Width               = (int)this.overlayWidth.Value;
-            Config.Overlay.BackColor           = ColorHelper.ToXNA(this.backColor.BackColor);
-            Config.Overlay.TextColor           = ColorHelper.ToXNA(this.textColor.BackColor);
+            Config.Overlay.Enabled      = this.enabled.Checked;
+            Config.Overlay.ShowLabels   = this.showText.Checked;
+            Config.Overlay.ShowCriteria = this.showCriteria.Checked;
+            Config.Overlay.ShowCounts   = this.showCounts.Checked;
+            Config.Overlay.ShowIgt      = this.igt.Checked;
+            Config.Overlay.Speed        = this.speed.Value;
+            Config.Overlay.RightToLeft  = this.direction.SelectedIndex is 0;
+            Config.Overlay.Width        = (int)this.overlayWidth.Value;
+            Config.Overlay.BackColor    = ColorHelper.ToXNA(this.backColor.BackColor);
+            Config.Overlay.TextColor    = ColorHelper.ToXNA(this.textColor.BackColor);
             Config.Overlay.Save();
         }
 

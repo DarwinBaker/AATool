@@ -215,6 +215,7 @@ namespace AATool.UI.Screens
 
             if (Client.TryGet(out Client client))
             {
+                this.status.SetFont("minecraft", 24);
                 int seconds = (int)Math.Ceiling((client.EstimatedRefresh - DateTime.UtcNow).TotalSeconds);
                 if (seconds <= 0)
                 {
@@ -233,6 +234,7 @@ namespace AATool.UI.Screens
             }
             else if (SftpSave.IsEnabled)
             {
+                this.status.SetFont("minecraft", 24);
                 if (SftpSave.State is SyncState.Ready)
                 {
                     if (SftpSave.CredentialsValidated)
@@ -251,7 +253,11 @@ namespace AATool.UI.Screens
             }
             else
             {
-                this.status.SetText(string.Empty);
+                this.status.SetFont("minecraft", 48);
+                if (Config.Overlay.ShowIgt && Tracker.InGameTime != default)
+                    this.status.SetText(Tracker.InGameTime.ToString());
+                else
+                    this.status.SetText(string.Empty);
             }
 
             this.titleTimer.Update(time);

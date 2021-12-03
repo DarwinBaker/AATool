@@ -47,6 +47,7 @@ namespace AATool.Winforms.Controls
             this.direction = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.speed = new System.Windows.Forms.TrackBar();
+            this.igt = new System.Windows.Forms.CheckBox();
             this.overlayGroupTheme.SuspendLayout();
             this.overlayGroupAppearance.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.overlayWidth)).BeginInit();
@@ -73,17 +74,18 @@ namespace AATool.Winforms.Controls
             this.overlayGroupTheme.Controls.Add(this.textColor);
             this.overlayGroupTheme.Controls.Add(this.label4);
             this.overlayGroupTheme.Controls.Add(this.backColor);
-            this.overlayGroupTheme.Location = new System.Drawing.Point(3, 157);
+            this.overlayGroupTheme.Location = new System.Drawing.Point(3, 174);
             this.overlayGroupTheme.Name = "overlayGroupTheme";
-            this.overlayGroupTheme.Size = new System.Drawing.Size(200, 148);
+            this.overlayGroupTheme.Size = new System.Drawing.Size(200, 131);
             this.overlayGroupTheme.TabIndex = 34;
             this.overlayGroupTheme.TabStop = false;
             this.overlayGroupTheme.Text = "Theme";
             // 
             // copyColorKey
             // 
+            this.copyColorKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.copyColorKey.AutoSize = true;
-            this.copyColorKey.Location = new System.Drawing.Point(6, 126);
+            this.copyColorKey.Location = new System.Drawing.Point(6, 109);
             this.copyColorKey.Name = "copyColorKey";
             this.copyColorKey.Size = new System.Drawing.Size(168, 13);
             this.copyColorKey.TabIndex = 29;
@@ -131,6 +133,7 @@ namespace AATool.Winforms.Controls
             // 
             // overlayGroupAppearance
             // 
+            this.overlayGroupAppearance.Controls.Add(this.igt);
             this.overlayGroupAppearance.Controls.Add(this.showCriteria);
             this.overlayGroupAppearance.Controls.Add(this.showText);
             this.overlayGroupAppearance.Controls.Add(this.label3);
@@ -138,7 +141,7 @@ namespace AATool.Winforms.Controls
             this.overlayGroupAppearance.Controls.Add(this.overlayWidth);
             this.overlayGroupAppearance.Location = new System.Drawing.Point(209, 3);
             this.overlayGroupAppearance.Name = "overlayGroupAppearance";
-            this.overlayGroupAppearance.Size = new System.Drawing.Size(324, 148);
+            this.overlayGroupAppearance.Size = new System.Drawing.Size(324, 165);
             this.overlayGroupAppearance.TabIndex = 33;
             this.overlayGroupAppearance.TabStop = false;
             this.overlayGroupAppearance.Text = "Appearance";
@@ -168,7 +171,7 @@ namespace AATool.Winforms.Controls
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 105);
+            this.label3.Location = new System.Drawing.Point(3, 123);
             this.label3.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
@@ -188,7 +191,7 @@ namespace AATool.Winforms.Controls
             // 
             // overlayWidth
             // 
-            this.overlayWidth.Location = new System.Drawing.Point(6, 121);
+            this.overlayWidth.Location = new System.Drawing.Point(6, 139);
             this.overlayWidth.Maximum = new decimal(new int[] {
             3840,
             0,
@@ -217,7 +220,7 @@ namespace AATool.Winforms.Controls
             this.overlayGroupBehavior.Controls.Add(this.speed);
             this.overlayGroupBehavior.Location = new System.Drawing.Point(3, 3);
             this.overlayGroupBehavior.Name = "overlayGroupBehavior";
-            this.overlayGroupBehavior.Size = new System.Drawing.Size(200, 148);
+            this.overlayGroupBehavior.Size = new System.Drawing.Size(200, 165);
             this.overlayGroupBehavior.TabIndex = 32;
             this.overlayGroupBehavior.TabStop = false;
             this.overlayGroupBehavior.Text = "Behavior";
@@ -269,6 +272,17 @@ namespace AATool.Winforms.Controls
             this.speed.Value = 2;
             this.speed.ValueChanged += new System.EventHandler(this.OnValueChanged);
             // 
+            // igt
+            // 
+            this.igt.AutoSize = true;
+            this.igt.Location = new System.Drawing.Point(6, 89);
+            this.igt.Name = "igt";
+            this.igt.Size = new System.Drawing.Size(122, 17);
+            this.igt.TabIndex = 28;
+            this.igt.Text = "Show In-Game Time";
+            this.igt.UseVisualStyleBackColor = true;
+            this.igt.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            // 
             // COverlaySettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -313,5 +327,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.TrackBar speed;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown overlayWidth;
+        private System.Windows.Forms.CheckBox igt;
     }
 }
