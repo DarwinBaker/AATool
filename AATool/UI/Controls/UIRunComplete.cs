@@ -2,6 +2,7 @@
 using AATool.Data.Progress;
 using AATool.Graphics;
 using AATool.Settings;
+using AATool.UI.Badges;
 using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
@@ -303,17 +304,23 @@ namespace AATool.UI.Controls
                     supporter.SetText($"     {person.Name}");
                 else
                     supporter.SetText($"{person.Name}     ");
-                supporter.AddControl(tier);
 
                 string icon = person.Role.ToLower() switch {
                     "beta_testers"       => "enchanted_golden_apple",
                     "special_dedication" => "poppy",
                     _                    => "supporter",
                 };
+
                 if (icon is "supporter")
+                {
                     tier.SetTexture("supporter_" + person.Role);
+                }
                 else
+                {
                     tier.SetTexture(icon);
+                }
+
+                supporter.AddControl(tier);
                 panel.AddControl(supporter);
             }
         }
