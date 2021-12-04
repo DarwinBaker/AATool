@@ -161,7 +161,7 @@ namespace AATool.UI.Controls
         public override void DrawThis(Display display)
         {
             base.DrawThis(display);
-            Color color = display.RainbowColor;
+            Color color = display.RainbowLight;
             if (this.patreonButton is not null)
             {
                 this.patreonButton.BackColor   = color;

@@ -13,6 +13,7 @@ namespace AATool.Settings
         public const string FPS_CAP         = "fps_cap";
         public const string SHOW_BASIC      = "show_basic_advancements";
         public const string COMPLETION_GLOW = "completion_glow";
+        public const string AMBIENT_GLOW    = "ambient_glow";
         public const string LAYOUT_DEBUG    = "layout_debug";
         public const string CACHE_DEBUG     = "cache_debug";
         public const string COMPACT_MODE    = "compact_mode";
@@ -26,6 +27,7 @@ namespace AATool.Settings
         public int FpsCap                   { get => this.Get<int>(FPS_CAP);          set => this.Set(FPS_CAP, value); }
         public bool ShowBasic               { get => this.Get<bool>(SHOW_BASIC);      set => this.Set(SHOW_BASIC, value); }
         public bool CompletionGlow          { get => this.Get<bool>(COMPLETION_GLOW); set => this.Set(COMPLETION_GLOW, value); }
+        public bool AmbientGlow             { get => this.Get<bool>(AMBIENT_GLOW);    set => this.Set(AMBIENT_GLOW, value); }
         public bool RainbowMode             { get => this.Get<bool>(RAINBOW_MODE);    set => this.Set(RAINBOW_MODE, value); }
         public bool CompactMode             { get => this.Get<bool>(COMPACT_MODE);    set => this.Set(COMPACT_MODE, value); }
         public bool HideCompleted           { get => this.Get<bool>(HIDE_COMPLETED);  set => this.Set(HIDE_COMPLETED, value); }
@@ -68,6 +70,7 @@ namespace AATool.Settings
             this.Set(FPS_CAP,           60);
             this.Set(SHOW_BASIC,        true);
             this.Set(COMPLETION_GLOW,   true);
+            this.Set(AMBIENT_GLOW,      false);
             this.Set(RAINBOW_MODE,      false);
             this.Set(COMPACT_MODE,      false);
             this.Set(HIDE_COMPLETED,    false);

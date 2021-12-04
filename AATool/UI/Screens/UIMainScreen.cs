@@ -212,7 +212,7 @@ namespace AATool.UI.Screens
 
         public override void DrawThis(Display display)
         {
-            Color color = display.RainbowColor;
+            Color color = display.RainbowLight;
             this.settingsMenu?.UpdateRainbow(color);
 
             if (Config.Main.RainbowMode)
