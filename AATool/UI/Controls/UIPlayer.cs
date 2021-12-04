@@ -9,11 +9,16 @@ namespace AATool.UI.Controls
 {
     public class UIPlayer : UIPanel
     {
-        public User Player { get; set; }
+        public User Player { get; private set; }
 
         private UIPlayerFace face;
         private UIFlowCarousel flow;
         private Dictionary<string, UITextBlock> itemCounts;
+
+        public UIPlayer(User player) : this()
+        {
+            this.Player = player;
+        }
 
         public UIPlayer()
         {
@@ -23,8 +28,10 @@ namespace AATool.UI.Controls
         public override void InitializeRecursive(UIScreen screen)
         {
             this.face = this.First<UIPlayerFace>();
-            this.face.PlayerId = this.Player.Id;
-            this.face.Scale    = 4;
+            this.face.InitializeRecursive(screen);
+            this.face.SetPlayer(this.Player.Id);
+            this.face.Scale = 4;
+
             this.First<UITextBlock>("label_name").SetText(this.Player.Name);
             this.First<UITextBlock>("label_pronouns").SetText(this.Player.Pronouns);
 

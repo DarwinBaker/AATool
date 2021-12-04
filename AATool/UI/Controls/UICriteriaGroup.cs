@@ -206,7 +206,7 @@ namespace AATool.UI.Controls
                 this.playerButton.Collapse();
                 this.SwitchToProgress();
             }
-            this.playerButton.First<UIPlayerFace>().PlayerId = this.advancement.GetDesignatedPlayer();
+            this.playerButton.First<UIPlayerFace>().SetPlayer(this.advancement.GetDesignatedPlayer());
 
             if (!this.playerPanel.IsCollapsed)
             {
@@ -315,7 +315,7 @@ namespace AATool.UI.Controls
                     FlexHeight = new Size((8 * scale) + 6),
                     Tag = id,
                 };
-                var face = new UIPlayerFace(id) { 
+                var face = new UIPlayerFace(id, this.Root()) { 
                     Scale    = scale,
                     ShowName = true 
                 };

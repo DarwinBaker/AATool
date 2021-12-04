@@ -42,12 +42,10 @@ namespace AATool.UI.Controls
             {
                 if (!this.players.ContainsKey(key))
                 {
-                    var control = new UIPlayer {
-                        Player = lobby.Users[key]
-                    };
+                    var control = new UIPlayer(lobby.Users[key]);
+                    control.InitializeRecursive(this.Root());
                     this.players[key] = control;
                     this.flowPlayers.AddControl(control);
-                    control.InitializeRecursive(this.Root());
                     changed = true;
                 }
             }
