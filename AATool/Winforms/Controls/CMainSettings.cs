@@ -29,6 +29,7 @@ namespace AATool.Winforms.Controls
             this.viewMode.Text              = Config.Main.CompactMode ? "Compact" : "Relaxed";
             this.showBasic.Checked          = Config.Main.ShowBasic;
             this.completionGlow.Checked     = Config.Main.CompletionGlow;
+            this.ambientGlow.Checked        = Config.Main.AmbientGlow;
             this.hideCompleted.Checked      = Config.Main.HideCompleted;
             this.refreshIcon.SelectedIndex  = Config.Main.RefreshIcon is "xp_orb" ? 0 : 1;
             this.backColor.BackColor        = ColorHelper.ToDrawing(Config.Main.BackColor);
@@ -66,6 +67,7 @@ namespace AATool.Winforms.Controls
             Config.Main.CompactMode         = this.viewMode.Text.ToLower() is "compact";
             Config.Main.ShowBasic           = this.showBasic.Checked;
             Config.Main.CompletionGlow      = this.completionGlow.Checked;
+            Config.Main.AmbientGlow         = this.ambientGlow.Checked;
             Config.Main.HideCompleted       = this.hideCompleted.Checked;
             Config.Main.RefreshIcon         = this.refreshIcon.Text.ToLower().Replace(" ", "_");
             Config.Main.RainbowMode         = this.theme.Text == "Pride Mode";

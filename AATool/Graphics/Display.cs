@@ -11,7 +11,8 @@ namespace AATool.Graphics
     public class Display
     {
         public int DrawCalls { get; private set; }
-        public Color RainbowColor { get; private set; }
+        public Color RainbowLight { get; private set; }
+        public Color RainbowStrong { get; private set; }
 
         private readonly GraphicsDeviceManager deviceManager;
         private readonly GraphicsDevice device;
@@ -87,6 +88,17 @@ namespace AATool.Graphics
                 this.BatchOf(Layer.Main).End();
             }
             this.final.End();
+
+            if (Config.Main.AmbientGlow)
+            {
+                this.DrawRectangle(new Rectangle(0, 0, this.device.Viewport.Width * 5, this.device.Viewport.Height * 5), 
+                    this.RainbowStrong * 0.5f, 
+                    null, 
+                    0, 
+                    Layer.Glow);
+            }
+            
+
             this.BatchOf(Layer.Glow).End();
             this.BatchOf(Layer.Fore).End();
         }
@@ -94,7 +106,7 @@ namespace AATool.Graphics
         public void Update(Time time)
         {
             //fade rainbow to next color
-            float hue       = time.TotalFrames % 360;
+            float hue       = time.TotalFrames / 4 % 360;
             int primary     = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
             double f        = (hue / 60) - Math.Floor(hue / 60);
             double sat      = 1.0 / 3;
@@ -105,7 +117,21 @@ namespace AATool.Graphics
             int q = Convert.ToInt32(value * (1 - (f * sat)));
             int t = Convert.ToInt32(value * (1 - ((1 - f) * sat)));
 
-            this.RainbowColor = primary switch {
+            this.RainbowLight = primary switch {
+                0 => new Color(v, t, p, 255),
+                1 => new Color(q, v, p, 255),
+                2 => new Color(p, v, t, 255),
+                3 => new Color(p, q, v, 255),
+                4 => new Color(t, p, v, 255),
+                _ => new Color(v, p, q, 255)
+            };
+
+            sat = 1.0;
+            v = Convert.ToInt32(value);
+            p = Convert.ToInt32(value * (1 - sat));
+            q = Convert.ToInt32(value * (1 - (f * sat)));
+            t = Convert.ToInt32(value * (1 - ((1 - f) * sat)));
+            this.RainbowStrong = primary switch {
                 0 => new Color(v, t, p, 255),
                 1 => new Color(q, v, p, 255),
                 2 => new Color(p, v, t, 255),

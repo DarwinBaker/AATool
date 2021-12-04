@@ -50,14 +50,17 @@ namespace AATool.Winforms.Controls
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.fpsCap = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.ambientGlow = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.mainGroupMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // notesEnabled
@@ -170,7 +173,7 @@ namespace AATool.Winforms.Controls
             // completionGlow
             // 
             this.completionGlow.AutoSize = true;
-            this.completionGlow.Location = new System.Drawing.Point(9, 142);
+            this.completionGlow.Location = new System.Drawing.Point(6, 22);
             this.completionGlow.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.completionGlow.Name = "completionGlow";
             this.completionGlow.Size = new System.Drawing.Size(136, 17);
@@ -202,7 +205,7 @@ namespace AATool.Winforms.Controls
             // label8
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label8.Location = new System.Drawing.Point(9, 224);
+            this.label8.Location = new System.Drawing.Point(9, 135);
             this.label8.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(32, 13);
@@ -214,7 +217,7 @@ namespace AATool.Winforms.Controls
             // label9
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label9.Location = new System.Drawing.Point(47, 224);
+            this.label9.Location = new System.Drawing.Point(47, 135);
             this.label9.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(38, 13);
@@ -226,7 +229,7 @@ namespace AATool.Winforms.Controls
             // textColor
             // 
             this.textColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textColor.Location = new System.Drawing.Point(88, 240);
+            this.textColor.Location = new System.Drawing.Point(88, 151);
             this.textColor.Name = "textColor";
             this.textColor.Size = new System.Drawing.Size(32, 32);
             this.textColor.TabIndex = 17;
@@ -236,7 +239,7 @@ namespace AATool.Winforms.Controls
             // borderColor
             // 
             this.borderColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.borderColor.Location = new System.Drawing.Point(49, 240);
+            this.borderColor.Location = new System.Drawing.Point(49, 151);
             this.borderColor.Name = "borderColor";
             this.borderColor.Size = new System.Drawing.Size(32, 32);
             this.borderColor.TabIndex = 19;
@@ -246,7 +249,7 @@ namespace AATool.Winforms.Controls
             // backColor
             // 
             this.backColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.backColor.Location = new System.Drawing.Point(9, 240);
+            this.backColor.Location = new System.Drawing.Point(9, 151);
             this.backColor.Name = "backColor";
             this.backColor.Size = new System.Drawing.Size(32, 32);
             this.backColor.TabIndex = 15;
@@ -256,7 +259,7 @@ namespace AATool.Winforms.Controls
             // label7
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label7.Location = new System.Drawing.Point(88, 224);
+            this.label7.Location = new System.Drawing.Point(88, 135);
             this.label7.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(32, 13);
@@ -269,11 +272,9 @@ namespace AATool.Winforms.Controls
             // 
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.backColor);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.completionGlow);
             this.groupBox1.Controls.Add(this.borderColor);
             this.groupBox1.Controls.Add(this.refreshIcon);
             this.groupBox1.Controls.Add(this.textColor);
@@ -283,10 +284,10 @@ namespace AATool.Winforms.Controls
             this.groupBox1.Controls.Add(this.theme);
             this.groupBox1.Location = new System.Drawing.Point(272, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(263, 301);
+            this.groupBox1.Size = new System.Drawing.Size(263, 192);
             this.groupBox1.TabIndex = 27;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Appearance";
+            this.groupBox1.Text = "Basic Appearance";
             // 
             // label3
             // 
@@ -309,17 +310,6 @@ namespace AATool.Winforms.Controls
             this.label14.Size = new System.Drawing.Size(162, 13);
             this.label14.TabIndex = 36;
             this.label14.Text = "🛈 Define a custom color scheme";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label6.Location = new System.Drawing.Point(6, 162);
-            this.label6.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(247, 13);
-            this.label6.TabIndex = 35;
-            this.label6.Text = "🛈 No performance impact, purely visual preference";
             // 
             // label5
             // 
@@ -371,11 +361,47 @@ namespace AATool.Winforms.Controls
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Performance";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label11.Location = new System.Drawing.Point(6, 68);
+            this.label11.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(228, 26);
+            this.label11.TabIndex = 39;
+            this.label11.Text = "🛈 These effetcs have no performance impact, \r\nthey are purely visual preference";
+            // 
+            // ambientGlow
+            // 
+            this.ambientGlow.AutoSize = true;
+            this.ambientGlow.Location = new System.Drawing.Point(6, 48);
+            this.ambientGlow.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
+            this.ambientGlow.Name = "ambientGlow";
+            this.ambientGlow.Size = new System.Drawing.Size(91, 17);
+            this.ambientGlow.TabIndex = 38;
+            this.ambientGlow.Text = "Ambient Glow";
+            this.ambientGlow.UseVisualStyleBackColor = true;
+            this.ambientGlow.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label11);
+            this.groupBox3.Controls.Add(this.completionGlow);
+            this.groupBox3.Controls.Add(this.ambientGlow);
+            this.groupBox3.Location = new System.Drawing.Point(272, 201);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(263, 103);
+            this.groupBox3.TabIndex = 36;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Lighting";
+            // 
             // CMainSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.mainGroupMain);
@@ -387,6 +413,8 @@ namespace AATool.Winforms.Controls
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -413,10 +441,12 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox fpsCap;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.CheckBox ambientGlow;
+        private System.Windows.Forms.GroupBox groupBox3;
     }
 }
