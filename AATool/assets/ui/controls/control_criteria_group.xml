@@ -9,7 +9,7 @@
     <flow_panel name="players" cell_width="68" cell_height="68" direction="lefttoright" collapsed="true">
         <button name="auto" width="38" height="38" square="true" padding="3">
             <text_block name="auto_text" height="12" text="Auto-Link" margin_bottom="-18" vertical_align="bottom"/>
-            <picture square="true" texture="nether_portal"/>
+            <picture square="true" texture="nether_portal" layer="fore"/>
             <picture square="true" texture="linked" layer="glow"/>
             <glow_effect texture="respawn_anchor_glow" tint="238,130,238"/>
         </button>
