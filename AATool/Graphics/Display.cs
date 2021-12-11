@@ -57,10 +57,6 @@ namespace AATool.Graphics
             //main layer (supports caching)
             if (screen is not UIMainScreen || UIMainScreen.Invalidated)
             {
-                if (UIMainScreen.Invalidated)
-                {
-
-                }
                 this.BatchOf(Layer.Main).Begin(SpriteSortMode.Deferred, 
                     blend ?? BlendState.NonPremultiplied, 
                     SamplerState.PointClamp);
@@ -89,15 +85,9 @@ namespace AATool.Graphics
             }
             this.final.End();
 
-            if (Config.Main.AmbientGlow)
-            {
-                this.DrawRectangle(new Rectangle(0, 0, this.device.Viewport.Width * 5, this.device.Viewport.Height * 5), 
-                    this.RainbowStrong * 0.5f, 
-                    null, 
-                    0, 
-                    Layer.Glow);
-            }
-            
+            //render ambient glow effect
+            if (Config.Main.AmbientGlow && screen is not UIOverlayScreen)
+                this.Draw("ambient_glow", this.device.Viewport.Bounds, this.RainbowStrong * 0.5f, Layer.Glow);
 
             this.BatchOf(Layer.Glow).End();
             this.BatchOf(Layer.Fore).End();
