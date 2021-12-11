@@ -98,27 +98,10 @@ namespace AATool.UI.Controls
                 this.frame?.SetTexture(this.itemCount.CurrentFrame);
                 this.icon?.SetTexture(this.itemCount.Icon);
 
-                int percent = (int)Math.Round((float)this.itemCount.PickedUp / this.itemCount.TargetCount * 100);
-
                 if (Config.Main.CompactMode && this.scale is 2)
-                { 
-                    if (this.itemCount.TargetCount is 1)
-                        this.label?.SetText(this.itemCount.PickedUp.ToString());
-                    else if (!this.itemCount.IsEstimate)
-                        this.label?.SetText(this.itemCount.PickedUp + " / " + this.itemCount.TargetCount);
-                    else if (percent == 0)
-                        this.label?.SetText(Math.Min(percent, 100) + "%");
-                    else
-                        this.label?.SetText("~" + Math.Min(percent, 100) + "%");
-                }                   
-                else if (this.itemCount.TargetCount is 1)
-                    this.label?.SetText(this.itemCount.Name);
-                else if (!this.itemCount.IsEstimate)
-                    this.label?.SetText(this.itemCount.Name + "\n" + this.itemCount.PickedUp + "\0/\0" + this.itemCount.TargetCount);
-                else if (percent == 0)
-                    this.label?.SetText(this.itemCount.Name + "\n" + Math.Min(percent, 100) + "%");
+                    this.label.SetText(this.itemCount.ShortStatus);
                 else
-                    this.label?.SetText(this.itemCount.Name + "\n~" + Math.Min(percent, 100) + "%");
+                    this.label.SetText(this.itemCount.LongStatus);
             }
         }
 
@@ -133,9 +116,6 @@ namespace AATool.UI.Controls
                 this.glow.Collapse();
 
             float target = this.itemCount.IsCompleted ? 1 : 0;
-            if (this.itemCount.IsEstimate && this.itemCount.PickedUp > 0)
-                target = this.itemCount.PickedUp / this.itemCount.TargetCount;
-
             if (time is null)
             {
                 //skip lerping 

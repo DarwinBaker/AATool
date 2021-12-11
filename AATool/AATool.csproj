@@ -704,6 +704,9 @@
     <Content Include="assets\graphics\sprites\criteria\biomes\1.18\sparse_jungle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\graphics\sprites\glow\ambient_glow~1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\graphics\sprites\glow\upgrade_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
