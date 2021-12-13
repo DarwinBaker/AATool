@@ -63,6 +63,7 @@ namespace AATool.Data
                 if (lobby.Designations.TryGetValue(this.Id, out Uuid player))
                     this.Designate(player);
             }
+            this.DesignationLinked = true;
         }
 
         public bool HasCriteria => this.Criteria is not null;
@@ -124,11 +125,6 @@ namespace AATool.Data
                 {
                     //server just started
                     this.Designate(this.DesignatedPlayer);
-                }
-                else
-                {
-                    //client just started
-                    this.LinkDesignation();
                 }
             }
             else
