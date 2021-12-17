@@ -1,4 +1,4 @@
-# CTM's AATool
+# CTM's AATool ➔ [Download Here!](https://github.com/DarwinBaker/AATool/releases/latest)
 
 ![](info/preview_co_op.png)
 ![](info/preview_overlay.gif)
@@ -28,7 +28,7 @@ This tool was designed from the beginning to strictly adhere to the category rul
 
 
 ## Installation
-If you're thinking about taking on the All Advancements category or simply want an epic tracker for your survival world, simply download and run "Setup.exe" or extract the zip file from the [Releases](https://github.com/DarwinBaker/AATool/releases) page. (running Setup.exe will install the necessary files in the same folder you ran it). By default the program will look in your `AppData\Roaming\.minecraft\saves` folder, but if you're using a custom launcher or have moved your save directory, custom save paths are supported.
+If you're thinking about taking on the All Advancements category or simply want an epic tracker for your survival world, simply download and run "Setup.exe" or extract the zip file from the [Releases](https://github.com/DarwinBaker/AATool/releases) page. (running Setup.exe will install the necessary files in the same folder you ran it). By default the program will look in your `AppData\Roaming\.minecraft\saves` folder, but if you're using a custom launcher or have moved your save directory, custom save paths are supported. If something isn't right after installing or updating, delete the "assets" folder and run "AAUpdate.exe"
 
 You will likely run into a Windows SmartScreen pop up stating "Windows protected your PC" when you first run the program. You can safely ignore this and click "Run Anyway" and it shouldn't ask again. 
 
@@ -81,7 +81,7 @@ The minimum recommended resolution for using this program is 1280x720. Having a 
 
 **Q:** _Can I modify this program myself?_
 
-**A:** Yes, by all means! However, it's extremely important that people can be sure the executable they're downloading is 100% safe, and I work very hard to build a reputation of reliability and high polish for AATool. Therefore, all modified source code **MUST** be open and freely available for audit, and all changes **MUST** be documented. Unofficial derivations **MUST** be marked clearly as such, as I cannot vouch for the quality, stability, and security of other people's code. Do this by modifying the window title with the following format: `"CTM's AATool - UNOFFICIALLY MODIFIED BY: <Name>"`. Finally, any modifications to AATool must be released under the same license used by this repository. [(GNU General Public License v3.0)](https://github.com/DarwinBaker/AATool/blob/master/LICENSE.md)
+**A:** Yes, by all means! However, it's extremely important that people can be sure the executable they're downloading is 100% safe, and I work hard to build a reputation of reliability and high polish for AATool. Therefore, all modified source code **must** be open and freely available for audit, and all changes **must** be documented. Unofficial derivations **must** be marked clearly as such, as I cannot vouch for the quality, stability, and security of other people's code. Do this by modifying the window title with the following format: `"CTM's AATool - UNOFFICIALLY MODIFIED BY: <Name>"`. Finally, any modifications to AATool must be released under the same license used by this repository. [(GNU General Public License v3.0)](https://github.com/DarwinBaker/AATool/blob/master/LICENSE.md)
 ##
 
 #### Find Me On These Platforms:
