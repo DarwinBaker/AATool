@@ -7,7 +7,7 @@ namespace AATool.UI.Controls
 {
     class UIGlowEffect : UIPicture
     {
-        public float Brightness { get; private set; }
+        public float Brightness { get; set; }
         public float Scale { get; set; }
 
         private float displayBrightness;

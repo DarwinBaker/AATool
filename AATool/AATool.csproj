@@ -138,7 +138,8 @@
     <Compile Include="Settings\NotesSettings.cs" />
     <Compile Include="Tracker.cs" />
     <Compile Include="UI\Badges\Badge.cs" />
-    <Compile Include="UI\Badges\HalfHeartHardcoreBadge.cs" />
+    <Compile Include="UI\Badges\ImmortalBadge.cs" />
+    <Compile Include="UI\Badges\UnstoppableBadge.cs" />
     <Compile Include="UI\Controls\UIAchievementTree.cs" />
     <Compile Include="UI\Controls\UIGlowEffect.cs" />
     <Compile Include="UI\Controls\UIPlayerFace.cs" />
@@ -615,6 +616,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\advancements\adventure\play_jukebox_in_meadows^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\badges\badge_1k.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\graphics\sprites\badges\badge_1k_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\graphics\sprites\badges\badge_hhh_down^30.png">

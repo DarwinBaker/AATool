@@ -46,6 +46,7 @@ namespace AATool.UI.Controls
             this.glow = this.First<UIGlowEffect>();
             this.name = this.First<UITextBlock>();
             this.nameOpacity = 0;
+            this.glow.SkipToBrightness(0);
             base.InitializeRecursive(screen);
         } 
 
@@ -113,6 +114,9 @@ namespace AATool.UI.Controls
             this.FlexWidth  = new Size(8 * this.Scale);
             this.FlexHeight = new Size(8 * this.Scale);
             base.ResizeThis(parent);
+
+            if (this.FlexWidth.Absolute < 32)
+                this.badge?.Collapse();
         }
 
         public override void ReadNode(XmlNode node)

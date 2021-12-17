@@ -9,12 +9,12 @@ using Microsoft.Xna.Framework;
 
 namespace AATool.UI.Badges
 {
-    class HalfHeartHardcoreBadge : UIPicture
+    class ImmortalBadge : UIPicture
     {
         public int Scale { get; set; }
         private UIGlowEffect glow;
 
-        public HalfHeartHardcoreBadge(int scale)
+        public ImmortalBadge(int scale)
         {
             this.Scale = scale;
             this.FlexWidth = new(10 * this.Scale);

@@ -80,11 +80,27 @@ namespace AATool.UI.Controls
 
         protected override UIControl NextControl()
         {
-            var criterion = SourceList[NextIndex] as Criterion;
-            var control = new UICriterion(3);
-            control.IsStatic = true;
-            control.AdvancementID = criterion.ParentAdvancement.Id;
-            control.CriterionID = criterion.ID;
+            var criterion = this.SourceList[this.NextIndex] as Criterion;
+            var control = new UICriterion(3) {
+                IsStatic = true,
+                AdvancementID = criterion.ParentAdvancement.Id,
+                CriterionID = criterion.ID
+            };
+
+            //fix ambiguity between some criteria of different advancements
+            if (criterion.Icon is "hoglin" or "cat" or "tuxedo")
+            {
+                var advIcon = new UIPicture() {
+                    FlexWidth = new Size(48),
+                    FlexHeight = new Size(48),
+                    HorizontalAlign = HorizontalAlign.Left,
+                    VerticalAlign = VerticalAlign.Top,
+                    Margin = new Margin(-16, 0, -16, 0),
+                };
+                advIcon.SetTexture(criterion.ParentAdvancement.Icon);
+                advIcon.ResizeThis(control.Content);
+                control.AddControl(advIcon);
+            }
             return control;
         }
     }
