@@ -26,6 +26,7 @@ namespace AATool.Data
             new Supporter("gold", "T_Wagz"),
             new Supporter("gold", "Kyle"),
             new Supporter("gold", "Colin_Henry"),
+            new Supporter("gold", "NotValik"),
         };
     }
 
