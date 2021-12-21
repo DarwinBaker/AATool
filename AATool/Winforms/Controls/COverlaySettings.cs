@@ -29,6 +29,7 @@ namespace AATool.Winforms.Controls
             this.showCriteria.Checked   = Config.Overlay.ShowCriteria;
             this.showCounts.Checked     = Config.Overlay.ShowCounts;
             this.igt.Checked            = Config.Overlay.ShowIgt;
+            this.clarifyAmbiguous.Checked = Config.Overlay.ClarifyAmbiguous;
 
             this.direction.SelectedIndex    = Config.Overlay.RightToLeft ? 0 : 1;
             this.speed.Value                = MathHelper.Clamp(Config.Overlay.Speed, this.speed.Minimum, this.speed.Maximum);
@@ -51,6 +52,7 @@ namespace AATool.Winforms.Controls
             Config.Overlay.ShowCriteria = this.showCriteria.Checked;
             Config.Overlay.ShowCounts   = this.showCounts.Checked;
             Config.Overlay.ShowIgt      = this.igt.Checked;
+            Config.Overlay.ClarifyAmbiguous = this.clarifyAmbiguous.Checked;
             Config.Overlay.Speed        = this.speed.Value;
             Config.Overlay.RightToLeft  = this.direction.SelectedIndex is 0;
             Config.Overlay.Width        = (int)this.overlayWidth.Value;

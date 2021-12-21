@@ -11,23 +11,25 @@ namespace AATool.Settings
     {
         public static OverlaySettings Instance = new ();
 
-        private const string ENABLED        = "enabled";
-        private const string SHOW_LABELS    = "show_labels";
-        private const string SHOW_CRITERIA  = "show_criteria";
-        private const string SHOW_ITEMS     = "show_items";
-        private const string SHOW_IGT       = "show_igt";
-        private const string RIGHT_TO_LEFT  = "right_to_left";
-        private const string SCALE          = "scale";
-        private const string SPEED          = "speed";
-        private const string WIDTH          = "width";
-        private const string BACK_COLOR     = "back_color";
-        private const string TEXT_COLOR     = "text_color";
+        private const string ENABLED           = "enabled";
+        private const string SHOW_LABELS       = "show_labels";
+        private const string SHOW_CRITERIA     = "show_criteria";
+        private const string SHOW_ITEMS        = "show_items";
+        private const string SHOW_IGT          = "show_igt";
+        private const string CLARIFY_AMBIGUOUS = "clarify_ambiguous";
+        private const string RIGHT_TO_LEFT     = "right_to_left";
+        private const string SCALE             = "scale";
+        private const string SPEED             = "speed";
+        private const string WIDTH             = "width";
+        private const string BACK_COLOR        = "back_color";
+        private const string TEXT_COLOR        = "text_color";
 
         public bool Enabled                 { get => this.Get<bool>(ENABLED);       set => this.Set(ENABLED, value); }
         public bool ShowLabels              { get => this.Get<bool>(SHOW_LABELS);   set => this.Set(SHOW_LABELS, value); }
         public bool ShowCriteria            { get => this.Get<bool>(SHOW_CRITERIA); set => this.Set(SHOW_CRITERIA, value); }
         public bool ShowCounts              { get => this.Get<bool>(SHOW_ITEMS);    set => this.Set(SHOW_ITEMS, value); }
         public bool ShowIgt                 { get => this.Get<bool>(SHOW_IGT);      set => this.Set(SHOW_IGT, value); }
+        public bool ClarifyAmbiguous        { get => this.Get<bool>(CLARIFY_AMBIGUOUS); set => this.Set(CLARIFY_AMBIGUOUS, value); }
         public bool RightToLeft             { get => this.Get<bool>(RIGHT_TO_LEFT); set => this.Set(RIGHT_TO_LEFT, value); }
         public int Scale                    { get => this.Get<int>(SCALE);          set => this.Set(SCALE, value); }
         public int Speed                    { get => this.Get<int>(SPEED);          set => this.Set(SPEED, value); }
@@ -55,6 +57,7 @@ namespace AATool.Settings
             this.Set(SHOW_CRITERIA, true);
             this.Set(SHOW_ITEMS, true);
             this.Set(SHOW_IGT, true);
+            this.Set(CLARIFY_AMBIGUOUS, true);
             this.Set(RIGHT_TO_LEFT, true);
             this.Set(SCALE, 3);
             this.Set(SPEED, 2);

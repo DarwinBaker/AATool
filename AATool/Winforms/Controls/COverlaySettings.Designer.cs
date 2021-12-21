@@ -37,6 +37,7 @@ namespace AATool.Winforms.Controls
             this.label4 = new System.Windows.Forms.Label();
             this.backColor = new System.Windows.Forms.Button();
             this.overlayGroupAppearance = new System.Windows.Forms.GroupBox();
+            this.igt = new System.Windows.Forms.CheckBox();
             this.showCriteria = new System.Windows.Forms.CheckBox();
             this.showText = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -47,7 +48,7 @@ namespace AATool.Winforms.Controls
             this.direction = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.speed = new System.Windows.Forms.TrackBar();
-            this.igt = new System.Windows.Forms.CheckBox();
+            this.clarifyAmbiguous = new System.Windows.Forms.CheckBox();
             this.overlayGroupTheme.SuspendLayout();
             this.overlayGroupAppearance.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.overlayWidth)).BeginInit();
@@ -133,6 +134,7 @@ namespace AATool.Winforms.Controls
             // 
             // overlayGroupAppearance
             // 
+            this.overlayGroupAppearance.Controls.Add(this.clarifyAmbiguous);
             this.overlayGroupAppearance.Controls.Add(this.igt);
             this.overlayGroupAppearance.Controls.Add(this.showCriteria);
             this.overlayGroupAppearance.Controls.Add(this.showText);
@@ -145,6 +147,17 @@ namespace AATool.Winforms.Controls
             this.overlayGroupAppearance.TabIndex = 33;
             this.overlayGroupAppearance.TabStop = false;
             this.overlayGroupAppearance.Text = "Appearance";
+            // 
+            // igt
+            // 
+            this.igt.AutoSize = true;
+            this.igt.Location = new System.Drawing.Point(6, 89);
+            this.igt.Name = "igt";
+            this.igt.Size = new System.Drawing.Size(122, 17);
+            this.igt.TabIndex = 28;
+            this.igt.Text = "Show In-Game Time";
+            this.igt.UseVisualStyleBackColor = true;
+            this.igt.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
             // showCriteria
             // 
@@ -272,16 +285,16 @@ namespace AATool.Winforms.Controls
             this.speed.Value = 2;
             this.speed.ValueChanged += new System.EventHandler(this.OnValueChanged);
             // 
-            // igt
+            // clarifyAmbiguous
             // 
-            this.igt.AutoSize = true;
-            this.igt.Location = new System.Drawing.Point(6, 89);
-            this.igt.Name = "igt";
-            this.igt.Size = new System.Drawing.Size(122, 17);
-            this.igt.TabIndex = 28;
-            this.igt.Text = "Show In-Game Time";
-            this.igt.UseVisualStyleBackColor = true;
-            this.igt.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            this.clarifyAmbiguous.AutoSize = true;
+            this.clarifyAmbiguous.Location = new System.Drawing.Point(178, 20);
+            this.clarifyAmbiguous.Name = "clarifyAmbiguous";
+            this.clarifyAmbiguous.Size = new System.Drawing.Size(144, 17);
+            this.clarifyAmbiguous.TabIndex = 29;
+            this.clarifyAmbiguous.Text = "Clarify Ambiguous Criteria";
+            this.clarifyAmbiguous.UseVisualStyleBackColor = true;
+            this.clarifyAmbiguous.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
             // COverlaySettings
             // 
@@ -328,5 +341,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown overlayWidth;
         private System.Windows.Forms.CheckBox igt;
+        private System.Windows.Forms.CheckBox clarifyAmbiguous;
     }
 }

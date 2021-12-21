@@ -88,7 +88,7 @@ namespace AATool.UI.Controls
             };
 
             //fix ambiguity between some criteria of different advancements
-            if (criterion.Icon is "hoglin" or "cat" or "tuxedo")
+            if (Config.Overlay.ClarifyAmbiguous && criterion.Icon is "hoglin" or "cat" or "tuxedo")
             {
                 var advIcon = new UIPicture() {
                     FlexWidth = new Size(48),
