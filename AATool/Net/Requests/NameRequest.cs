@@ -11,7 +11,7 @@ namespace AATool.Net.Requests
     {
         private readonly Uuid id;
 
-        public NameRequest(Uuid id) : base (Paths.GetUrlForName(id.ToString()))
+        public NameRequest(Uuid id) : base (Paths.Web.GetNameUrl(id.ToString()))
         {
             this.id = id;
         }

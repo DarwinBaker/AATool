@@ -27,28 +27,50 @@ namespace AATool.Net
         }
 
         public static byte[] CompressString(string text) =>
-            CompressBytes(Encoding.ASCII.GetBytes(text));
+            CompressBytes(Encoding.ASCII.GetBytes(text ?? string.Empty));
 
-        public static string DecompressString(byte[] bytes) => 
-            Encoding.ASCII.GetString(DecompressBytes(bytes));
+        public static bool TryDecompressString(byte[] compressed, out string text)
+        {
+            text = null;
+            if (TryDecompressBytes(compressed, out byte[] decompressed))
+            {
+                try
+                {
+                    text = Encoding.ASCII.GetString(decompressed);
+                    return true;
+                }
+                catch { }
+            }
+            return false;
+        }
+            
 
-        public static byte[] CompressBytes(byte[] data)
+        public static byte[] CompressBytes(byte[] decompressed)
         {
             //compress byte array using deflate algorithm
-            MemoryStream output = new ();
-            using (DeflateStream deflate = new(output, CompressionLevel.Optimal))
-                deflate.Write(data, 0, data.Length);
+            var output = new MemoryStream();
+            using (var deflate = new DeflateStream(output, CompressionLevel.Optimal))
+                deflate.Write(decompressed, 0, decompressed.Length);
             return output.ToArray();
         }
 
-        public static byte[] DecompressBytes(byte[] data)
+        public static bool TryDecompressBytes(byte[] compressed, out byte[] decompressed)
         {
-            //decompress byte array using deflate algorithm
-            MemoryStream input  = new (data);
-            MemoryStream output = new ();
-            using (DeflateStream deflate = new(input, CompressionMode.Decompress))
-                deflate.CopyTo(output);
-            return output.ToArray();
+            decompressed = null;
+            try
+            {
+                //decompress byte array using deflate algorithm
+                var input = new MemoryStream(compressed);
+                var output = new MemoryStream();
+                using (var deflate = new DeflateStream(input, CompressionMode.Decompress))
+                    deflate.CopyTo(output);
+                decompressed = output.ToArray();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

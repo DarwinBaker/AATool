@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using AATool.Settings;
+using AATool.Configuration;
 
 namespace AATool.Net
 {
@@ -24,8 +24,8 @@ namespace AATool.Net
 
         public Client() : base()
         {
-            this.sendQueue    = new ();
-            this.recieved     = new ();
+            this.sendQueue = new ();
+            this.recieved  = new ();
             this.IsConnecting = true;
         }
 
@@ -50,8 +50,8 @@ namespace AATool.Net
             if (remaining > 0)
             {
                 string time = remaining >= 60
-                            ? $"{remaining / 60} min & {remaining % 60} sec"
-                            : $"{remaining} seconds";
+                    ? $"{remaining / 60} min & {remaining % 60} sec"
+                    : $"{remaining} seconds";
                 return $"Synced! Refreshing in {time}";
             }
             return $"Synced with {hostname}!";
@@ -63,7 +63,7 @@ namespace AATool.Net
             base.Start(address, port, id);
             if (id == Uuid.Empty)
             {
-                string reason = Player.ValidateName(Config.Network.MinecraftName)
+                string reason = Player.ValidateName(Config.Net.MinecraftName)
                     ? "Couldn't get UUID. Either Mojang's servers didn't respond or an account with the requested name doesn't exist."
                     : "Invalid Minecraft name.";
                 this.Stop("Error starting client: " + reason);
@@ -152,7 +152,7 @@ namespace AATool.Net
 
             //re-enable controls
             UpdateControls("Connect", true, true);
-            StateChangedFlag = true;
+            StateChanged = true;
         }
 
         public void SendToServer(Message message)
@@ -200,7 +200,7 @@ namespace AATool.Net
                 this.socket.EndConnect(ar);
 
                 //attempt to login to server with user credentials
-                string password  = Config.Network.Password;
+                string password  = Config.Net.Password;
                 string uuid      = this.LocalUser.Id.String;
                 string preferred = this.LocalUser.Name;
                 string pronouns  = this.LocalUser.Pronouns;
@@ -238,7 +238,8 @@ namespace AATool.Net
                 if (length > 0)
                 {
                     byte[] bytes = Buffer.Take(length).ToArray();
-                    string content = NetworkHelper.DecompressString(bytes);
+                    if (!NetworkHelper.TryDecompressString(bytes, out string content))
+                        return;
                     var message = Message.FromString(content);
 
                     //process message
@@ -283,7 +284,7 @@ namespace AATool.Net
 
                 //enable disconnect button
                 UpdateControls("Disconnect", true, false);
-                StateChangedFlag = true;
+                StateChanged = true;
                 this.Accepted = true;
                 this.LostConnection = false;
             }
@@ -313,7 +314,7 @@ namespace AATool.Net
                 //deserialize lobby
                 message.TryGetItem(0, out string jsonString);
                 this.Lobby = Lobby.FromJsonString(jsonString);
-                StateChangedFlag = true;
+                StateChanged = true;
                 SyncUserList(this.Lobby.Users.Values);
             }
             else if (message.Header is Protocol.Headers.RefreshEstimate)
@@ -327,7 +328,7 @@ namespace AATool.Net
             {
                 //deserialize progress
                 this.recieved[message.Header] = jsonString;
-                StateChangedFlag = true;
+                StateChanged = true;
             }
             WriteToConsole($"Recieved {message.Header} from server.");
         }

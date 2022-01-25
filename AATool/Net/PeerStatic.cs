@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
-using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Forms;
-using AATool.Settings;
+using AATool.Configuration;
 
 namespace AATool.Net
 {
     public abstract partial class Peer
     {
-        public static Peer Instance         { get; private set; }
-        public static bool StateChangedFlag { get; protected set; }
+        public static Peer Instance     { get; private set; }
+        public static bool StateChanged { get; protected set; }
 
         public static bool IsClient    => Instance is Client;
         public static bool IsServer    => Instance is Server;
@@ -21,7 +19,7 @@ namespace AATool.Net
         protected static readonly byte[] Buffer = new byte[Protocol.BufferSize];
         private static readonly List<INetworkController> Controllers = new ();
 
-        public static void ClearFlags() => StateChangedFlag = false;
+        public static void ClearFlags() => StateChanged = false;
 
         public static bool TryGetLobby(out Lobby lobby)
         {
@@ -41,8 +39,8 @@ namespace AATool.Net
                 StopInstance();
 
             //make sure ip is valid
-            bool requiresUser = typeof(T) == typeof(Client) || !string.IsNullOrEmpty(Config.Network.MinecraftName);
-            if (requiresUser && !Player.ValidateName(Config.Network.MinecraftName))
+            bool requiresUser = typeof(T) == typeof(Client) || !string.IsNullOrEmpty(Config.Net.MinecraftName);
+            if (requiresUser && !Player.ValidateName(Config.Net.MinecraftName))
             {
                 string title = "Minecraft Name Formatting Error";
                 string body  = $"The Minecraft name you entered is invalid. Minecraft names must be 3 to 16 characters in length, " +
@@ -73,7 +71,7 @@ namespace AATool.Net
             }
 
             //warn user if they are about to host without a password
-            if (typeof(T) == typeof(Server) && string.IsNullOrEmpty(Config.Network.Password))
+            if (typeof(T) == typeof(Server) && string.IsNullOrEmpty(Config.Net.Password))
             {
                 string title = "Unprotected Host Configuration";
                 string body = "You are about to start hosting without a password!" +
@@ -99,7 +97,7 @@ namespace AATool.Net
                 {
                     WriteToConsole("Getting UUID from Mojang...");
                     UpdateControls("Getting UUID...", false, false);
-                    id = await Player.FetchUuidAsync(Config.Network.MinecraftName);
+                    id = await Player.FetchUuidAsync(Config.Net.MinecraftName);
                 }               
                 Instance = new T();
                 Instance.Start(ipAddress, portNumber, id);

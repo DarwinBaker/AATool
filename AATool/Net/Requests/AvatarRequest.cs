@@ -12,7 +12,7 @@ namespace AATool.Net.Requests
     {
         private readonly Uuid id;
 
-        public AvatarRequest(Uuid id) : base (Paths.GetUrlForPlayerHead(id.ToString()))
+        public AvatarRequest(Uuid id) : base (Paths.Web.GetAvatarUrl(id.ToString()))
         {
             this.id = id;
         }
@@ -22,7 +22,7 @@ namespace AATool.Net.Requests
             try
             {
                 //cache avatar so it loads instantly next launch (overwritten once available to keep skins up to date)
-                Directory.CreateDirectory(Paths.DIR_AVATAR_CACHE);
+                Directory.CreateDirectory(Paths.System.AvatarCacheFolder);
                 using (FileStream fileStream = File.Create(fileName))
                     texture.SaveAsPng(fileStream, texture.Width, texture.Height);
             }
@@ -63,7 +63,7 @@ namespace AATool.Net.Requests
                 texture.Tag = this.id.ToString();
                 SpriteSheet.AppendAtlas(texture);
 
-                string fileName = Path.Combine(Paths.DIR_AVATAR_CACHE, this.id + ".png");
+                string fileName = Path.Combine(Paths.System.AvatarCacheFolder, this.id + ".png");
                 SaveToCache(texture, fileName);
                 return true;
             }

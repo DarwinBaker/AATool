@@ -47,7 +47,7 @@ namespace AATool.Net
                 try
                 {
                     //try to pull uuid from mojang api
-                    string response = await client.GetStringAsync(Paths.GetUrlForUUID(name));
+                    string response = await client.GetStringAsync(Paths.Web.GetUuidUrl(name));
                     if (string.IsNullOrEmpty(response))
                         return Uuid.Empty;
 

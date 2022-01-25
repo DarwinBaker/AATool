@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using AATool.Configuration;
 using AATool.Net.Requests;
 using AATool.Saves;
-using AATool.Settings;
 
 namespace AATool.Net
 {
@@ -21,7 +21,7 @@ namespace AATool.Net
         public Server()
         {
             this.listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            this.password = Config.Network.Password;
+            this.password = Config.Net.Password;
         }
 
         public static bool TryGet(out Server server) => (server = Instance as Server) is not null;
@@ -66,7 +66,7 @@ namespace AATool.Net
 
         public void SendProgress(Socket client = null)
         {
-            string jsonString = Tracker.Progress.ToJsonString();
+            string jsonString = Tracker.State.ToJsonString();
             var message = Message.Progress(jsonString);
 
             //send lobby state to client(s)
@@ -120,7 +120,7 @@ namespace AATool.Net
             }
             else if (this.LocalUser != User.Nobody)
             {
-                string reason = Player.ValidateName(Config.Network.MinecraftName)
+                string reason = Player.ValidateName(Config.Net.MinecraftName)
                     ? "Unknown network error."
                     : "Invalid Minecraft name.";
                 this.Stop("Failed: " + reason);
@@ -140,7 +140,7 @@ namespace AATool.Net
 
                 //disable controls
                 UpdateControls("Stop", true, false);
-                StateChangedFlag = true;
+                StateChanged = true;
             }
             catch (Exception e)
             {
@@ -194,9 +194,10 @@ namespace AATool.Net
                     if (length > 0)
                     {
                         //reconstruct message
-                        byte[] bytes   = Buffer.Take(length).ToArray();
-                        string content = NetworkHelper.DecompressString(bytes);
-                        var message    = Message.FromString(content);
+                        byte[] bytes = Buffer.Take(length).ToArray();
+                        if (!NetworkHelper.TryDecompressString(bytes, out string content))
+                            return;
+                        var message = Message.FromString(content);
 
                         //process message
                         if (message.IsCommand)
@@ -240,7 +241,7 @@ namespace AATool.Net
 
             base.Stop(reason);
             UpdateControls("Host", true, true);
-            StateChangedFlag = true;
+            StateChanged = true;
         }
 
         private static bool PasswordsAreEqual(string a, string b)

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Sockets;
-using System.Threading;
-using System.Windows.Forms;
-using AATool.Settings;
+﻿using System.Net;
+using AATool.Configuration;
 
 namespace AATool.Net
 {
@@ -29,7 +24,7 @@ namespace AATool.Net
         {
             this.Address   = address.ToString();
             this.Port      = port.ToString();
-            this.LocalUser = new User(id, Config.Network.Pronouns, Config.Network.PreferredName);
+            this.LocalUser = new User(id, Config.Net.Pronouns, Config.Net.PreferredName);
         }
 
         protected virtual void Stop(string reason)

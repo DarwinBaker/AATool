@@ -4,7 +4,7 @@ namespace AATool.Net
 {
     public static class Protocol
     {
-        public static readonly Version Version = new ("2.0");
+        public static readonly Version Version = new ("3.0");
 
         public const int BufferSize = 8192;
         public const char CommandPrefix = '/';
@@ -17,6 +17,7 @@ namespace AATool.Net
             public const int ClientReconnectMs = 3 * 1000;
             public const int ServerCapacity = 30;
             public const int ServerBacklog = 3;
+            public const int DefaultPort = 25562;
         }
 
         public static class Requests

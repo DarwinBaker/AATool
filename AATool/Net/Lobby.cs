@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AATool.Settings;
 using Newtonsoft.Json;
 
 namespace AATool.Net

@@ -10,6 +10,9 @@ namespace AATool.Net
 
         public static Message FromString(string message)
         {
+            if (message is null)
+                return Empty;
+
             string[] tokens = message.Split(Protocol.TokenDelimiter);
             if (tokens.Length > 0 && tokens[0].Length > 1)
             {
