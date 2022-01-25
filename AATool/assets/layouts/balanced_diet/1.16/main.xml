@@ -52,7 +52,9 @@
                 <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="carrot"/>
                 <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="golden_carrot"/>
                 <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="beetroot"/>
+            </flow_panel>
 
+            <flow_panel row="1" col="2" cell_width="90" draw_mode="childrenonly">
                 <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="potato"/>
                 <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="baked_potato"/>
                 <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="poisonous_potato"/>

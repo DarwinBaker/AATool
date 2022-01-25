@@ -10,6 +10,7 @@ namespace AATool.Data.Objectives.Pickups
 
         private bool vvfDone;
         private bool surgeDone;
+        private bool surgeAdded;
 
         public Trident(XmlNode node) : base(node) { }
 
@@ -20,8 +21,8 @@ namespace AATool.Data.Objectives.Pickups
                 && vvf.CompletedByAnyone();
 
             //ignore surge prot if it's not in the game yet (pre-1.17)
-            this.surgeDone = !Tracker.TryGetAdvancement(Surge, out Advancement surge)
-                || surge.CompletedByAnyone();
+            this.surgeAdded = Tracker.TryGetAdvancement(Surge, out Advancement surge);
+            this.surgeDone = !this.surgeAdded || surge.CompletedByAnyone();
 
             this.CompletionOverride = this.vvfDone && this.surgeDone;
         }
@@ -33,7 +34,7 @@ namespace AATool.Data.Objectives.Pickups
             {
                 this.FullStatus = "Done With Thunder";
             }
-            else if (this.vvfDone == this.surgeDone)
+            else if (this.vvfDone == this.surgeDone || !this.surgeAdded)
             {
                 //not done with either, see if we still need trident too
                 this.FullStatus = this.PickedUp > 0
