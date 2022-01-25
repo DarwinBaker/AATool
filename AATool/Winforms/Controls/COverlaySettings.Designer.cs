@@ -37,6 +37,8 @@ namespace AATool.Winforms.Controls
             this.label4 = new System.Windows.Forms.Label();
             this.backColor = new System.Windows.Forms.Button();
             this.overlayGroupAppearance = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.frameStyle = new System.Windows.Forms.ComboBox();
             this.igt = new System.Windows.Forms.CheckBox();
             this.showCriteria = new System.Windows.Forms.CheckBox();
             this.showText = new System.Windows.Forms.CheckBox();
@@ -135,6 +137,8 @@ namespace AATool.Winforms.Controls
             // overlayGroupAppearance
             // 
             this.overlayGroupAppearance.Controls.Add(this.clarifyAmbiguous);
+            this.overlayGroupAppearance.Controls.Add(this.label6);
+            this.overlayGroupAppearance.Controls.Add(this.frameStyle);
             this.overlayGroupAppearance.Controls.Add(this.igt);
             this.overlayGroupAppearance.Controls.Add(this.showCriteria);
             this.overlayGroupAppearance.Controls.Add(this.showText);
@@ -147,6 +151,26 @@ namespace AATool.Winforms.Controls
             this.overlayGroupAppearance.TabIndex = 33;
             this.overlayGroupAppearance.TabStop = false;
             this.overlayGroupAppearance.Text = "Appearance";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(195, 22);
+            this.label6.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(65, 13);
+            this.label6.TabIndex = 41;
+            this.label6.Text = "Frame Style:";
+            // 
+            // frameStyle
+            // 
+            this.frameStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.frameStyle.FormattingEnabled = true;
+            this.frameStyle.Location = new System.Drawing.Point(198, 37);
+            this.frameStyle.Name = "frameStyle";
+            this.frameStyle.Size = new System.Drawing.Size(120, 21);
+            this.frameStyle.TabIndex = 40;
+            this.frameStyle.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
             // 
             // igt
             // 
@@ -175,16 +199,16 @@ namespace AATool.Winforms.Controls
             this.showText.AutoSize = true;
             this.showText.Location = new System.Drawing.Point(6, 43);
             this.showText.Name = "showText";
-            this.showText.Size = new System.Drawing.Size(156, 17);
+            this.showText.Size = new System.Drawing.Size(135, 17);
             this.showText.TabIndex = 15;
-            this.showText.Text = "Show Advancement Labels";
+            this.showText.Text = "Show Objective Labels";
             this.showText.UseVisualStyleBackColor = true;
             this.showText.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 123);
+            this.label3.Location = new System.Drawing.Point(195, 70);
             this.label3.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
@@ -196,15 +220,15 @@ namespace AATool.Winforms.Controls
             this.showCounts.AutoSize = true;
             this.showCounts.Location = new System.Drawing.Point(6, 66);
             this.showCounts.Name = "showCounts";
-            this.showCounts.Size = new System.Drawing.Size(132, 17);
+            this.showCounts.Size = new System.Drawing.Size(145, 17);
             this.showCounts.TabIndex = 27;
-            this.showCounts.Text = "Show Item Count Row";
+            this.showCounts.Text = "Show Pickup Count Row";
             this.showCounts.UseVisualStyleBackColor = true;
             this.showCounts.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
             // overlayWidth
             // 
-            this.overlayWidth.Location = new System.Drawing.Point(6, 139);
+            this.overlayWidth.Location = new System.Drawing.Point(198, 86);
             this.overlayWidth.Maximum = new decimal(new int[] {
             3840,
             0,
@@ -288,13 +312,12 @@ namespace AATool.Winforms.Controls
             // clarifyAmbiguous
             // 
             this.clarifyAmbiguous.AutoSize = true;
-            this.clarifyAmbiguous.Location = new System.Drawing.Point(178, 20);
+            this.clarifyAmbiguous.Location = new System.Drawing.Point(6, 112);
             this.clarifyAmbiguous.Name = "clarifyAmbiguous";
             this.clarifyAmbiguous.Size = new System.Drawing.Size(144, 17);
-            this.clarifyAmbiguous.TabIndex = 29;
+            this.clarifyAmbiguous.TabIndex = 42;
             this.clarifyAmbiguous.Text = "Clarify Ambiguous Criteria";
             this.clarifyAmbiguous.UseVisualStyleBackColor = true;
-            this.clarifyAmbiguous.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
             // COverlaySettings
             // 
@@ -341,6 +364,8 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown overlayWidth;
         private System.Windows.Forms.CheckBox igt;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox frameStyle;
         private System.Windows.Forms.CheckBox clarifyAmbiguous;
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Forms;
-using AATool.Settings;
+using AATool.Configuration;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
 
@@ -17,6 +18,16 @@ namespace AATool.Winforms.Controls
         {
             this.InitializeComponent();
             this.textInfo = new CultureInfo("en-US", false).TextInfo;
+            this.PopulateFrameStyles();
+        }
+
+        private void PopulateFrameStyles()
+        {
+            this.frameStyle.Items.Clear();
+            this.frameStyle.Items.Add("Minecraft");
+            foreach (string theme in Config.MainConfig.Themes.Keys)
+                this.frameStyle.Items.Add(theme);
+            this.frameStyle.Items.Add("None");
         }
 
         public void UpdateWidth() => this.overlayWidth.Value = Config.Overlay.Width;
@@ -24,21 +35,22 @@ namespace AATool.Winforms.Controls
         public void LoadSettings()
         {
             this.loaded = false;
-            this.enabled.Checked        = Config.Overlay.Enabled;
-            this.showText.Checked       = Config.Overlay.ShowLabels;
-            this.showCriteria.Checked   = Config.Overlay.ShowCriteria;
-            this.showCounts.Checked     = Config.Overlay.ShowCounts;
-            this.igt.Checked            = Config.Overlay.ShowIgt;
+            this.enabled.Checked      = Config.Overlay.Enabled;
+            this.showText.Checked     = Config.Overlay.ShowLabels;
+            this.showCriteria.Checked = Config.Overlay.ShowCriteria;
+            this.showCounts.Checked   = Config.Overlay.ShowPickups;
+            this.igt.Checked          = Config.Overlay.ShowIgt;
+            this.frameStyle.Text      = Config.Overlay.FrameStyle;
             this.clarifyAmbiguous.Checked = Config.Overlay.ClarifyAmbiguous;
 
-            this.direction.SelectedIndex    = Config.Overlay.RightToLeft ? 0 : 1;
-            this.speed.Value                = MathHelper.Clamp(Config.Overlay.Speed, this.speed.Minimum, this.speed.Maximum);
-            this.overlayWidth.Value         = Config.Overlay.Width;
+            this.direction.SelectedIndex = Config.Overlay.RightToLeft ? 0 : 1;
+            this.overlayWidth.Value = Config.Overlay.Width;
+            this.speed.Value = MathHelper.Clamp(Config.Overlay.Speed, this.speed.Minimum, this.speed.Maximum);
 
-            this.backColor.BackColor        = ColorHelper.ToDrawing(Config.Overlay.BackColor);
-            this.textColor.BackColor        = ColorHelper.ToDrawing(Config.Overlay.TextColor);
-            this.copyColorKey.Text          = $"Copy BG color {ColorHelper.ToHexString(this.backColor.BackColor)} for OBS";
-            this.copyColorKey.LinkColor     = this.backColor.BackColor;
+            this.backColor.BackColor = ColorHelper.ToDrawing(Config.Overlay.BackColor);
+            this.textColor.BackColor = ColorHelper.ToDrawing(Config.Overlay.TextColor);
+            this.copyColorKey.Text   = $"Copy BG color {ColorHelper.ToHexString(this.backColor.BackColor)} for OBS";
+            this.copyColorKey.LinkColor = this.backColor.BackColor;
             this.loaded = true;
         }
 
@@ -47,17 +59,18 @@ namespace AATool.Winforms.Controls
             if (!this.loaded)
                 return;
 
-            Config.Overlay.Enabled      = this.enabled.Checked;
-            Config.Overlay.ShowLabels   = this.showText.Checked;
-            Config.Overlay.ShowCriteria = this.showCriteria.Checked;
-            Config.Overlay.ShowCounts   = this.showCounts.Checked;
-            Config.Overlay.ShowIgt      = this.igt.Checked;
-            Config.Overlay.ClarifyAmbiguous = this.clarifyAmbiguous.Checked;
-            Config.Overlay.Speed        = this.speed.Value;
-            Config.Overlay.RightToLeft  = this.direction.SelectedIndex is 0;
-            Config.Overlay.Width        = (int)this.overlayWidth.Value;
-            Config.Overlay.BackColor    = ColorHelper.ToXNA(this.backColor.BackColor);
-            Config.Overlay.TextColor    = ColorHelper.ToXNA(this.textColor.BackColor);
+            Config.Overlay.Enabled.Set(this.enabled.Checked);
+            Config.Overlay.ShowLabels.Set(this.showText.Checked);
+            Config.Overlay.ShowCriteria.Set(this.showCriteria.Checked);
+            Config.Overlay.ShowPickups.Set(this.showCounts.Checked);
+            Config.Overlay.ShowIgt.Set(this.igt.Checked);
+            Config.Overlay.ClarifyAmbiguous.Set(this.clarifyAmbiguous.Checked);
+            Config.Overlay.Speed.Set(this.speed.Value);
+            Config.Overlay.RightToLeft.Set(this.direction.SelectedIndex is 0);
+            Config.Overlay.FrameStyle.Set(this.frameStyle.Text);
+            Config.Overlay.Width.Set((int)this.overlayWidth.Value);
+            Config.Overlay.BackColor.Set(ColorHelper.ToXNA(this.backColor.BackColor));
+            Config.Overlay.TextColor.Set(ColorHelper.ToXNA(this.textColor.BackColor));
             Config.Overlay.Save();
         }
 
@@ -72,7 +85,7 @@ namespace AATool.Winforms.Controls
             }
             else if (sender == this.obsHelpLink)
             {
-                Process.Start(Paths.URL_HELP_OBS);
+                Process.Start(Paths.Web.ObsHelp);
             }
             else if (sender == this.backColor || sender == this.textColor)
             {

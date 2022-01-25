@@ -1,13 +1,11 @@
-﻿using AATool.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using AATool.Configuration;
+using AATool.Net;
 using AATool.Saves;
-using AATool.Settings;
-using AATool.UI;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 
 namespace AATool.Winforms.Controls
 {
@@ -18,63 +16,76 @@ namespace AATool.Winforms.Controls
         public CTrackerSettings()
         {
             this.InitializeComponent();
-            this.category.Text = "All Advancements";
         }
 
         public void LoadSettings()
         {
             this.loaded = false;
-            this.gameVersion.Items.Clear();
-            foreach (Version version in TrackerSettings.SupportedVersions.Reverse())
-                this.gameVersion.Items.Add(version.ToString());
-            this.gameVersion.Text       = Config.Tracker.GameVersion;
-            this.gameVersion.Enabled    = !Peer.IsClient;
+            this.UpdateCategoryControls();
 
-            this.worldRemote.Checked    = Config.Tracker.UseRemoteWorld;
-            this.worldLocal.Checked     = !Config.Tracker.UseRemoteWorld;
+            this.worldRemote.Checked  = Config.Tracking.UseSftp;
+            this.worldLocal.Checked   = !Config.Tracking.UseSftp;
 
-            this.savesDefault.Checked   = Config.Tracker.UseDefaultPath;
-            this.savesCustom.Checked    = !Config.Tracker.UseDefaultPath;
-            this.customSavePath.Text    = Config.Tracker.CustomPath;
-            this.gameVersion.Text       = Config.Tracker.GameVersion;
-            this.autoVersion.Checked    = Config.Tracker.AutoDetectVersion;
-            this.sftpHost.Text          = Config.Tracker.SftpHost;
-            this.sftpPort.Text          = Config.Tracker.SftpPort.ToString();
-            this.sftpUser.Text          = Config.Tracker.SftpUser;
-            this.sftpPass.Text          = Config.Tracker.SftpPass;
+            this.savesDefault.Checked = Config.Tracking.UseDefaultPath;
+            this.savesCustom.Checked = !Config.Tracking.UseDefaultPath;
+            this.customSavePath.Text = Config.Tracking.CustomSavePath;
+            this.autoVersion.Checked = Config.Tracking.AutoDetectVersion;
+            this.gameVersion.Text = Config.Tracking.GameVersion;
 
-            this.UpdateSavePanels();
+            this.sftpHost.Text = Config.Sftp.Host;
+            this.sftpPort.Text = Config.Sftp.Port.Value.ToString();
+            this.sftpUser.Text = Config.Sftp.Username;
+            this.sftpPass.Text = Config.Sftp.Password;
+
+            this.UpdateSaveGroupPanel();
 
             this.loaded = true;
         }
 
         private void SaveSettings()
         {
-            if (!this.loaded)
-                return;
+            if (this.loaded)
+            {
+                Config.Tracking.UseDefaultPath.Set(this.savesDefault.Checked);
+                Config.Tracking.UseSftp.Set(this.worldRemote.Checked);
+                Config.Tracking.CustomSavePath.Set(this.customSavePath.Text);
+                Config.Tracking.AutoDetectVersion.Set(this.autoVersion.Checked);
+                Config.Tracking.Save();
 
-            Config.Tracker.UseDefaultPath    = this.savesDefault.Checked;
-            Config.Tracker.UseRemoteWorld    = this.worldRemote.Checked;
-            Config.Tracker.CustomPath        = this.customSavePath.Text;
-            Config.Tracker.AutoDetectVersion = this.autoVersion.Checked;
-            Config.Tracker.TrySetGameVersion(this.gameVersion.Text);
-            
-            if (int.TryParse(this.sftpPort.Text, out int port))
-                Config.Tracker.SftpPort = port;
+                if (int.TryParse(this.sftpPort.Text, out int port))
+                    Config.Sftp.Port.Set(port);
 
-            Config.Tracker.SftpHost = this.sftpHost.Text;
-            Config.Tracker.SftpUser = this.sftpUser.Text;
-            Config.Tracker.SftpPass = this.sftpPass.Text;
-            Config.Tracker.Save();
+                Config.Sftp.Host.Set(this.sftpHost.Text);
+                Config.Sftp.Username.Set(this.sftpUser.Text);
+                Config.Sftp.Password.Set(this.sftpPass.Text);
+                Config.Sftp.Save();
+            }
         }
 
-        public void UpdateGameVersion()
+        public void InvalidateSettings()
         {
-            this.gameVersion.Text = Config.Tracker.GameVersion;
-            this.gameVersion.Enabled = !Peer.IsClient;
+            this.LoadSettings();
         }
 
-        private void UpdateSavePanels()
+        private void UpdateCategoryControls()
+        {
+            this.category.Text    = Tracker.Category.Name;
+            this.category.Enabled = !Peer.IsClient;
+            if (Configuration.Config.Tracking.GameCategory.Changed || !this.loaded)
+            {
+                this.gameVersion.Items.Clear();
+                foreach (string version in Tracker.Category.GetSupportedVersions())
+                    this.gameVersion.Items.Add(version);
+            }
+            if (Configuration.Config.Tracking.GameVersion.Changed || !this.loaded)
+            {
+                this.gameVersion.Text = Tracker.Category.CurrentVersion;
+            }
+            this.gameVersion.Enabled = !this.autoVersion.Checked && !Peer.IsClient && this.gameVersion.Items.Count > 1;
+        }
+
+
+        private void UpdateSaveGroupPanel()
         {
             if (this.worldLocal.Checked)
             {
@@ -130,31 +141,44 @@ namespace AATool.Winforms.Controls
 
         private void OnCheckChanged(object sender, EventArgs e)
         {
+            if (!this.loaded)
+                return;
+
             if (sender == this.savesDefault || sender == this.savesCustom)
             {
                 this.customSavePath.Enabled = !this.savesDefault.Checked;
-                this.browse.Enabled = !this.savesDefault.Checked;
             }
             else if (sender == this.worldLocal || sender == this.worldRemote)
             {
-                this.UpdateSavePanels();
+                this.UpdateSaveGroupPanel();
             }
             else if (sender == this.autoVersion)
             {
-                this.gameVersion.Enabled = !this.autoVersion.Checked && !Peer.IsClient;
+                this.UpdateCategoryControls();
             }
             this.SaveSettings();
         }
 
         private void OnIndexChanged(object sender, EventArgs e)
         {
+            if (!this.loaded)
+                return;
+
             if (sender == this.category)
-            if (sender == this.gameVersion)
-                Config.Tracker.TrySetGameVersion(this.gameVersion.Text);
+            {
+                Tracker.TrySetCategory(this.category.Text);
+            }
+            else if (sender == this.gameVersion)
+            {
+                Tracker.TrySetVersion(this.gameVersion.Text);
+            }
             this.SaveSettings();
         }
 
-        private void OnTextChanged(object sender, EventArgs e) => this.SaveSettings();
+        private void OnTextChanged(object sender, EventArgs e) 
+        {
+            this.SaveSettings();
+        }
 
         private void OnLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

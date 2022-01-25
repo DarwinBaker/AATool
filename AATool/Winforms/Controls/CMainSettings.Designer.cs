@@ -48,7 +48,10 @@ namespace AATool.Winforms.Controls
             this.backColor = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.progressBarStyle = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.frameStyle = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.fpsCap = new System.Windows.Forms.ComboBox();
@@ -188,9 +191,9 @@ namespace AATool.Winforms.Controls
             this.label10.Location = new System.Drawing.Point(6, 22);
             this.label10.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(66, 13);
+            this.label10.Size = new System.Drawing.Size(76, 13);
             this.label10.TabIndex = 23;
-            this.label10.Text = "Style Preset:";
+            this.label10.Text = "Theme Preset:";
             // 
             // theme
             // 
@@ -212,7 +215,6 @@ namespace AATool.Winforms.Controls
             this.label8.TabIndex = 16;
             this.label8.Text = "Back";
             this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.label8.Click += new System.EventHandler(this.Label8_Click);
             // 
             // label9
             // 
@@ -224,7 +226,6 @@ namespace AATool.Winforms.Controls
             this.label9.TabIndex = 20;
             this.label9.Text = "Fore";
             this.label9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.label9.Click += new System.EventHandler(this.Label9_Click);
             // 
             // textColor
             // 
@@ -266,11 +267,13 @@ namespace AATool.Winforms.Controls
             this.label7.TabIndex = 18;
             this.label7.Text = "Text";
             this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.label7.Click += new System.EventHandler(this.Label7_Click);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label13);
+            this.groupBox1.Controls.Add(this.progressBarStyle);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.frameStyle);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.backColor);
             this.groupBox1.Controls.Add(this.label7);
@@ -289,16 +292,54 @@ namespace AATool.Winforms.Controls
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Basic Appearance";
             // 
-            // label3
+            // label13
             // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label3.Location = new System.Drawing.Point(6, 112);
-            this.label3.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(239, 13);
-            this.label3.TabIndex = 37;
-            this.label3.Text = "🛈 The indicator shown when the tracker updates";
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(132, 73);
+            this.label13.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(96, 13);
+            this.label13.TabIndex = 41;
+            this.label13.Text = "Progress Bar Style:";
+            // 
+            // progressBarStyle
+            // 
+            this.progressBarStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.progressBarStyle.FormattingEnabled = true;
+            this.progressBarStyle.Items.AddRange(new object[] {
+            "Modern",
+            "Experience",
+            "Ender Dragon",
+            "None"});
+            this.progressBarStyle.Location = new System.Drawing.Point(135, 88);
+            this.progressBarStyle.Name = "progressBarStyle";
+            this.progressBarStyle.Size = new System.Drawing.Size(120, 21);
+            this.progressBarStyle.TabIndex = 40;
+            this.progressBarStyle.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(132, 22);
+            this.label6.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(65, 13);
+            this.label6.TabIndex = 39;
+            this.label6.Text = "Frame Style:";
+            // 
+            // frameStyle
+            // 
+            this.frameStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.frameStyle.FormattingEnabled = true;
+            this.frameStyle.Items.AddRange(new object[] {
+            "Modern",
+            "Minecraft",
+            "None"});
+            this.frameStyle.Location = new System.Drawing.Point(135, 37);
+            this.frameStyle.Name = "frameStyle";
+            this.frameStyle.Size = new System.Drawing.Size(120, 21);
+            this.frameStyle.TabIndex = 38;
+            this.frameStyle.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
             // 
             // label14
             // 
@@ -370,7 +411,7 @@ namespace AATool.Winforms.Controls
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(228, 26);
             this.label11.TabIndex = 39;
-            this.label11.Text = "🛈 These effetcs have no performance impact, \r\nthey are purely visual preference";
+            this.label11.Text = "🛈 These effects have no performance impact, \r\nthey are purely visual preference";
             // 
             // ambientGlow
             // 
@@ -443,10 +484,13 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox ambientGlow;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox frameStyle;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox progressBarStyle;
     }
 }

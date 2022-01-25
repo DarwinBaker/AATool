@@ -32,7 +32,12 @@ namespace AATool.Winforms.Controls
             this.mainGroup = new System.Windows.Forms.GroupBox();
             this.flow = new System.Windows.Forms.FlowLayoutPanel();
             this.patreon = new System.Windows.Forms.LinkLabel();
+            this.developer = new AATool.Winforms.Controls.CCreditsGroup();
+            this.testers = new AATool.Winforms.Controls.CCreditsGroup();
+            this.supporters = new AATool.Winforms.Controls.CCreditsGroup();
+            this.dedication = new AATool.Winforms.Controls.CCreditsGroup();
             this.mainGroup.SuspendLayout();
+            this.flow.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainGroup
@@ -50,6 +55,10 @@ namespace AATool.Winforms.Controls
             // flow
             // 
             this.flow.AutoScroll = true;
+            this.flow.Controls.Add(this.developer);
+            this.flow.Controls.Add(this.testers);
+            this.flow.Controls.Add(this.supporters);
+            this.flow.Controls.Add(this.dedication);
             this.flow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flow.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flow.Location = new System.Drawing.Point(3, 16);
@@ -74,6 +83,42 @@ namespace AATool.Winforms.Controls
             this.patreon.Text = "If you\'d like to see your name featured here, \r\nvisit the AATool Patreon!";
             this.patreon.Click += new System.EventHandler(this.OnClick);
             // 
+            // developer
+            // 
+            this.developer.AutoSize = true;
+            this.developer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.developer.Location = new System.Drawing.Point(3, 3);
+            this.developer.Name = "developer";
+            this.developer.Size = new System.Drawing.Size(189, 19);
+            this.developer.TabIndex = 0;
+            // 
+            // beta_testers
+            // 
+            this.testers.AutoSize = true;
+            this.testers.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.testers.Location = new System.Drawing.Point(3, 28);
+            this.testers.Name = "beta_testers";
+            this.testers.Size = new System.Drawing.Size(189, 19);
+            this.testers.TabIndex = 1;
+            // 
+            // supporters
+            // 
+            this.supporters.AutoSize = true;
+            this.supporters.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.supporters.Location = new System.Drawing.Point(3, 53);
+            this.supporters.Name = "supporters";
+            this.supporters.Size = new System.Drawing.Size(189, 19);
+            this.supporters.TabIndex = 2;
+            // 
+            // dedication
+            // 
+            this.dedication.AutoSize = true;
+            this.dedication.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.dedication.Location = new System.Drawing.Point(3, 78);
+            this.dedication.Name = "dedication";
+            this.dedication.Size = new System.Drawing.Size(189, 19);
+            this.dedication.TabIndex = 3;
+            // 
             // CCredits
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -83,6 +128,8 @@ namespace AATool.Winforms.Controls
             this.Size = new System.Drawing.Size(226, 401);
             this.mainGroup.ResumeLayout(false);
             this.mainGroup.PerformLayout();
+            this.flow.ResumeLayout(false);
+            this.flow.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -91,5 +138,9 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.GroupBox mainGroup;
         private System.Windows.Forms.FlowLayoutPanel flow;
         private System.Windows.Forms.LinkLabel patreon;
+        private CCreditsGroup developer;
+        private CCreditsGroup testers;
+        private CCreditsGroup supporters;
+        private CCreditsGroup dedication;
     }
 }

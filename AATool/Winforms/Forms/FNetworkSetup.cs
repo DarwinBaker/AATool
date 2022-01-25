@@ -1,15 +1,12 @@
-﻿using AATool.Data;
-using AATool.Net;
-using AATool.Settings;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Security.Policy;
 using System.Threading;
 using System.Windows.Forms;
+using AATool.Configuration;
+using AATool.Net;
 
 namespace AATool.Winforms.Forms
 {
@@ -145,7 +142,7 @@ namespace AATool.Winforms.Forms
                 {
                     //asynchronously pull minecraft head from the internet
                     //get player face image async
-                    string url = Paths.GetUrlForPlayerHead(id.ToString(), this.face.Width);
+                    string url = Paths.Web.GetAvatarUrl(id.ToString());
 
                     using HttpClient http = new ();
                     using HttpResponseMessage responce = await http.GetAsync(new Uri(url), cancelToken ?? CancellationToken.None);
@@ -225,15 +222,15 @@ namespace AATool.Winforms.Forms
 
         private void Apply()
         {
-            Config.Network.IsServer      = this.server.Checked;
-            Config.Network.IP            = this.ip.Text;
-            Config.Network.Port          = this.port.Text;
-            Config.Network.Password      = this.password.Text;
-            Config.Network.AutoServerIP  = this.autoServerIP.Checked;
-            Config.Network.MinecraftName = this.mojangName.Text;
-            Config.Network.PreferredName = this.displayName.Text;
-            Config.Network.Pronouns      = this.pronouns.Text;
-            Config.Network.Save();
+            Config.Net.IsServer.Set(this.server.Checked);
+            Config.Net.IP.Set(this.ip.Text);
+            Config.Net.Port.Set(this.port.Text);
+            Config.Net.Password.Set(this.password.Text);
+            Config.Net.AutoServerIP.Set(this.autoServerIP.Checked);
+            Config.Net.MinecraftName.Set(this.mojangName.Text);
+            Config.Net.PreferredName.Set(this.displayName.Text);
+            Config.Net.Pronouns.Set(this.pronouns.Text);
+            Config.Net.Save();
         }
 
         private void UpdateAutoIP()

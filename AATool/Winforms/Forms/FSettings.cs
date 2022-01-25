@@ -1,14 +1,9 @@
-﻿using AATool.Net;
-using AATool.Net.Requests;
-using AATool.Settings;
-using AATool.UI.Screens;
-using AATool.Utilities;
-using Microsoft.Xna.Framework;
-using System;
-using System.IO;
-using System.Linq;
-using System.Net;
+﻿using System;
 using System.Windows.Forms;
+using AATool.Configuration;
+using AATool.Net;
+using AATool.Net.Requests;
+using Microsoft.Xna.Framework;
 
 namespace AATool.Winforms.Forms
 {
@@ -26,7 +21,7 @@ namespace AATool.Winforms.Forms
             } 
         }
 
-        public void UpdateGameVersion() => this.tracker.UpdateGameVersion();
+        public void InvalidateSettings() => this.tracker.InvalidateSettings();
         public void UpdateOverlayWidth() => this.overlay.UpdateWidth();
         public void UpdateRainbow(Color color) => this.main.UpdateRainbow(color);
 
@@ -66,18 +61,13 @@ namespace AATool.Winforms.Forms
 
                 if (confirmation == DialogResult.Yes)
                 {
-                    Config.ResetToDefaults();
+                    Config.ResetAllToDefaults();
                     this.LoadSettings();
                 }
             }
             else if (sender == this.update)
             {
                 new UpdateRequest(true).SendAsync();
-            }
-            else if (sender == this.about)
-            {
-                using var dialog = new FAbout();
-                dialog.ShowDialog();
             }
         }
 

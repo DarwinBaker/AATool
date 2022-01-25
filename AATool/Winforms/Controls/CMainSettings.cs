@@ -1,14 +1,10 @@
-﻿using AATool.Net;
-using AATool.Saves;
-using AATool.Settings;
-using AATool.UI;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using AATool.Configuration;
 using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 
 namespace AATool.Winforms.Controls
 {
@@ -25,22 +21,23 @@ namespace AATool.Winforms.Controls
         {
             this.loaded = false;
 
-            this.fpsCap.Text                = Config.Main.FpsCap.ToString();
-            this.viewMode.Text              = Config.Main.CompactMode ? "Compact" : "Relaxed";
-            this.showBasic.Checked          = Config.Main.ShowBasic;
-            this.completionGlow.Checked     = Config.Main.CompletionGlow;
-            this.ambientGlow.Checked        = Config.Main.AmbientGlow;
-            this.hideCompleted.Checked      = Config.Main.HideCompleted;
-            this.refreshIcon.SelectedIndex  = Config.Main.RefreshIcon is "xp_orb" ? 0 : 1;
-            this.backColor.BackColor        = ColorHelper.ToDrawing(Config.Main.BackColor);
-            this.textColor.BackColor        = ColorHelper.ToDrawing(Config.Main.TextColor);
-            this.borderColor.BackColor      = ColorHelper.ToDrawing(Config.Main.BorderColor);
-
-            this.notesEnabled.Checked = Config.Notes.Enabled;
+            this.fpsCap.Text            = (Config.Main.FpsCap.Value).ToString();
+            this.viewMode.Text          = Config.Main.CompactMode ? "Compact" : "Relaxed";
+            this.showBasic.Checked      = Config.Main.ShowBasicAdvancements;
+            this.hideCompleted.Checked  = Config.Main.HideCompletedAdvancements;
+            this.completionGlow.Checked = Config.Main.ShowCompletionGlow;
+            this.ambientGlow.Checked    = Config.Main.ShowAmbientGlow;
+            this.frameStyle.Text        = Config.Main.FrameStyle;
+            this.progressBarStyle.Text  = Config.Main.ProgressBarStyle;
+            this.refreshIcon.Text       = Config.Main.RefreshIcon;            
+            this.backColor.BackColor    = ColorHelper.ToDrawing(Config.Main.BackColor);
+            this.textColor.BackColor    = ColorHelper.ToDrawing(Config.Main.TextColor);
+            this.borderColor.BackColor  = ColorHelper.ToDrawing(Config.Main.BorderColor);
+            this.notesEnabled.Checked   = Config.Notes.Enabled;
 
             //colors
             this.theme.Items.Clear();
-            foreach (KeyValuePair<string, (Color, Color, Color)> theme in MainSettings.Themes)
+            foreach (KeyValuePair<string, (Color, Color, Color)> theme in Config.MainConfig.Themes)
             {
                 this.theme.Items.Add(theme.Key);
                 if (Config.Main.BackColor == theme.Value.Item1 && Config.Main.TextColor == theme.Value.Item2 && Config.Main.BorderColor == theme.Value.Item3)
@@ -58,65 +55,80 @@ namespace AATool.Winforms.Controls
 
         private void SaveSettings()
         {
-            if (!this.loaded)
-                return;
+            if (this.loaded)
+            {
+                if (int.TryParse(this.fpsCap.Text, out int cap))
+                    Config.Main.FpsCap.Set(cap);
 
-            if (int.TryParse(this.fpsCap.Text, out int fps))
-                Config.Main.FpsCap = fps;
+                Config.Main.ShowBasicAdvancements.Set(this.showBasic.Checked);
+                Config.Main.HideCompletedAdvancements.Set(this.hideCompleted.Checked);
+                Config.Main.ShowCompletionGlow.Set(this.completionGlow.Checked);
+                Config.Main.ShowAmbientGlow.Set(this.ambientGlow.Checked);
+                Config.Main.CompactMode.Set(this.viewMode.Text.ToLower() is "compact");
+                Config.Main.FrameStyle.Set(this.frameStyle.Text);
+                Config.Main.ProgressBarStyle.Set(this.progressBarStyle.Text);
+                Config.Main.RefreshIcon.Set(this.refreshIcon.Text);
+                Config.Main.RainbowMode.Set(this.theme.Text == "Pride Mode");
+                Config.Main.BackColor.Set(ColorHelper.ToXNA(this.backColor.BackColor));
+                Config.Main.TextColor.Set(ColorHelper.ToXNA(this.textColor.BackColor));
+                Config.Main.BorderColor.Set(ColorHelper.ToXNA(this.borderColor.BackColor));
+                Config.Main.Save();
 
-            Config.Main.CompactMode         = this.viewMode.Text.ToLower() is "compact";
-            Config.Main.ShowBasic           = this.showBasic.Checked;
-            Config.Main.CompletionGlow      = this.completionGlow.Checked;
-            Config.Main.AmbientGlow         = this.ambientGlow.Checked;
-            Config.Main.HideCompleted       = this.hideCompleted.Checked;
-            Config.Main.RefreshIcon         = this.refreshIcon.Text.ToLower().Replace(" ", "_");
-            Config.Main.RainbowMode         = this.theme.Text == "Pride Mode";
-            Config.Main.BackColor           = ColorHelper.ToXNA(this.backColor.BackColor);
-            Config.Main.TextColor           = ColorHelper.ToXNA(this.textColor.BackColor);
-            Config.Main.BorderColor         = ColorHelper.ToXNA(this.borderColor.BackColor);
-            Config.Main.Save();
+                Config.Notes.Enabled.Set(this.notesEnabled.Checked);
+                Config.Notes.Save();
+            }
+        }
 
-            Config.Notes.Enabled = this.notesEnabled.Checked;
-            Config.Notes.Save();
+        public void InvalidateSettings()
+        {
+            this.LoadSettings();
         }
 
         public void UpdateRainbow(Color color)
         {
             if (this.theme.Text.ToLower() is "pride mode")
             {
-                this.backColor.BackColor   = System.Drawing.Color.FromArgb(color.R, color.G, color.B);
-                this.textColor.BackColor   = System.Drawing.Color.Black;
+                this.backColor.BackColor = System.Drawing.Color.FromArgb(color.R, color.G, color.B);
+                this.textColor.BackColor = System.Drawing.Color.Black;
                 this.borderColor.BackColor = System.Drawing.Color.FromArgb((int)(color.R / 1.25f), (int)(color.G / 1.25f), (int)(color.B / 1.25f));
             }
         }
 
         private void OnClicked(object sender, EventArgs e)
         {
-            using ColorDialog dialog = new () { Color = (sender as Control).BackColor};
-            if (dialog.ShowDialog() is DialogResult.OK)
+            using (var dialog = new ColorDialog() { Color = (sender as Control).BackColor })
             {
-                (sender as Control).BackColor = dialog.Color;
-                if (sender == this.backColor ||
-                    sender == this.textColor ||
-                    sender == this.borderColor)
+                if (dialog.ShowDialog() is DialogResult.OK)
                 {
-                    this.theme.SelectedItem = "Custom";
+                    (sender as Control).BackColor = dialog.Color;
+                    this.SaveSettings();
+                    if (sender == this.backColor ||
+                        sender == this.textColor ||
+                        sender == this.borderColor)
+                    {
+                        this.theme.SelectedItem = "Custom";
+                    }
                 }
-                UIMainScreen.Invalidate();
             }
-            this.SaveSettings();
         }
 
-        private void OnCheckChanged(object sender, EventArgs e) => this.SaveSettings();
+        private void OnCheckChanged(object sender, EventArgs e)
+        {
+            if (this.loaded)
+                this.SaveSettings();
+        }
 
         private void OnIndexChanged(object sender, EventArgs e)
         {
+            if (!this.loaded)
+                return;
+
             if (sender == this.theme)
             {
                 if (this.theme.Text.ToLower() is not "custom")
                 {
                     string themeName = this.theme.Text;
-                    if (MainSettings.Themes.TryGetValue(themeName, out (Color, Color, Color) theme))
+                    if (Config.MainConfig.Themes.TryGetValue(themeName, out (Color, Color, Color) theme))
                     {
                         this.backColor.BackColor   = ColorHelper.ToDrawing(theme.Item1);
                         this.textColor.BackColor   = ColorHelper.ToDrawing(theme.Item2);
@@ -131,7 +143,7 @@ namespace AATool.Winforms.Controls
                     this.backColor.BackColor   = ColorHelper.ToDrawing(Config.Main.BackColor);
                     this.textColor.BackColor   = ColorHelper.ToDrawing(Config.Main.TextColor);
                     this.borderColor.BackColor = ColorHelper.ToDrawing(Config.Main.BorderColor);
-                    Config.Main.RainbowMode = false;
+                    Config.Main.RainbowMode.Set(false);
                 }
             }
             this.SaveSettings();
@@ -140,21 +152,6 @@ namespace AATool.Winforms.Controls
         private void OnTextChanged(object sender, EventArgs e) 
         {
             this.SaveSettings();
-        }
-
-        private void Label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Label8_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

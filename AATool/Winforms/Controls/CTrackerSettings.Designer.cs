@@ -37,6 +37,7 @@ namespace AATool.Winforms.Controls
             this.browse = new System.Windows.Forms.Button();
             this.customSavePath = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
             this.sftpCompatibility = new System.Windows.Forms.LinkLabel();
             this.worldLocal = new System.Windows.Forms.RadioButton();
@@ -54,8 +55,8 @@ namespace AATool.Winforms.Controls
             this.sftpHost = new System.Windows.Forms.TextBox();
             this.sftpUser = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.category = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.localGroup.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -143,6 +144,7 @@ namespace AATool.Winforms.Controls
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.radioButton1);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.sftpCompatibility);
             this.groupBox3.Controls.Add(this.worldLocal);
@@ -154,15 +156,28 @@ namespace AATool.Winforms.Controls
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "World Type";
             // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Enabled = false;
+            this.radioButton1.Location = new System.Drawing.Point(6, 79);
+            this.radioButton1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(91, 17);
+            this.radioButton1.TabIndex = 58;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Multi-Instance";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
             // label2
             // 
             this.label2.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label2.Location = new System.Drawing.Point(3, 120);
+            this.label2.Location = new System.Drawing.Point(3, 110);
             this.label2.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(98, 71);
             this.label2.TabIndex = 57;
-            this.label2.Text = "🛈 Choose remote if you\'re connecting to a dedicated Minecraft server";
+            this.label2.Text = "🛈 Multi/Wall support is currently in development :D";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // sftpCompatibility
@@ -194,6 +209,7 @@ namespace AATool.Winforms.Controls
             // 
             this.worldRemote.AutoSize = true;
             this.worldRemote.Location = new System.Drawing.Point(6, 53);
+            this.worldRemote.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
             this.worldRemote.Name = "worldRemote";
             this.worldRemote.Size = new System.Drawing.Size(98, 17);
             this.worldRemote.TabIndex = 36;
@@ -330,7 +346,6 @@ namespace AATool.Winforms.Controls
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Controls.Add(this.category);
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
@@ -339,35 +354,41 @@ namespace AATool.Winforms.Controls
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Category";
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label12.Location = new System.Drawing.Point(5, 50);
-            this.label12.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(109, 13);
-            this.label12.TabIndex = 57;
-            this.label12.Text = "🛈 More coming soon!";
-            // 
             // category
             // 
             this.category.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.category.Enabled = false;
             this.category.FormattingEnabled = true;
             this.category.Items.AddRange(new object[] {
-            "All Advancements"});
+            "All Advancements",
+            "Half Percent",
+            "All Achievements",
+            "Monsters Hunted",
+            "Adventuring Time",
+            "Balanced Diet"});
             this.category.Location = new System.Drawing.Point(8, 22);
             this.category.Name = "category";
             this.category.Size = new System.Drawing.Size(137, 21);
             this.category.TabIndex = 18;
             this.category.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
             // 
+            // label1
+            // 
+            this.label1.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label1.Location = new System.Drawing.Point(280, 8);
+            this.label1.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(255, 81);
+            this.label1.TabIndex = 36;
+            this.label1.Text = "🛈 Changes to settings are applied instantly";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // CTrackerSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.remoteGroup);
             this.Controls.Add(this.groupBox1);
@@ -384,7 +405,6 @@ namespace AATool.Winforms.Controls
             this.remoteGroup.ResumeLayout(false);
             this.remoteGroup.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -416,6 +436,7 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.RadioButton worldRemote;
         private System.Windows.Forms.LinkLabel sftpCompatibility;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RadioButton radioButton1;
     }
 }

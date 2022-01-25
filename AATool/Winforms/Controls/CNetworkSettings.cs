@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Windows.Forms;
-using AATool.Data;
+using AATool.Configuration;
 using AATool.Net;
-using AATool.Settings;
 using AATool.Winforms.Forms;
 
 namespace AATool.Winforms.Controls
@@ -29,8 +28,8 @@ namespace AATool.Winforms.Controls
             if (Peer.IsRunning)
             {
                 //network is running. pull credentials from current peer instance
-                this.mojangName.Text    = Config.Network.MinecraftName;
-                this.displayName.Text   = Config.Network.PreferredName;
+                this.mojangName.Text    = Config.Net.MinecraftName;
+                this.displayName.Text   = Config.Net.PreferredName;
                 this.pronouns.Text      = Peer.Instance.LocalUser.Pronouns;
                 this.ip.Text            = Peer.Instance.Address;
                 this.port.Text          = Peer.Instance.Port;
@@ -40,30 +39,31 @@ namespace AATool.Winforms.Controls
             else
             {
                 //network not running. use saved credentials
-                this.mojangName.Text    = Config.Network.MinecraftName;
-                this.displayName.Text   = Config.Network.PreferredName;
-                this.pronouns.Text      = Config.Network.Pronouns;
-                this.ip.Text            = Config.Network.IP;
-                this.port.Text          = Config.Network.Port;
-                this.networkType.Text   = Config.Network.IsServer ? "Server" : "Client";
+                this.mojangName.Text    = Config.Net.MinecraftName;
+                this.displayName.Text   = Config.Net.PreferredName;
+                this.pronouns.Text      = Config.Net.Pronouns;
+                this.ip.Text            = Config.Net.IP;
+                this.port.Text          = ((int)Config.Net.Port).ToString();
+                this.networkType.Text   = Config.Net.IsServer ? "Server" : "Client";
                 this.networkSwitch.Text = this.networkType.Text is "Server" ? "Start" : "Connect";
             }
-            this.password.Text          = Config.Network.Password;
-            this.autoServerIP.Checked   = Config.Network.AutoServerIP;
+            this.password.Text          = Config.Net.Password;
+            this.autoServerIP.Checked   = Config.Net.AutoServerIP;
             this.UpdateEnabledStates();
             this.loaded = true;
         }
 
         private void SaveSettings()
         {
-            Config.Network.MinecraftName  = this.mojangName.Text;
-            Config.Network.PreferredName = this.displayName.Text;
-            Config.Network.Pronouns    = this.pronouns.Text;
-            Config.Network.IP          = this.ip.Text;
-            Config.Network.Port        = this.port.Text;
-            Config.Network.Password    = this.password.Text;
-            Config.Network.IsServer    = this.networkType.Text.ToLower() is "server";
-            Config.Network.Save();
+            Config.Net.MinecraftName.Set(this.mojangName.Text);
+            Config.Net.PreferredName.Set(this.displayName.Text);
+            Config.Net.Pronouns.Set(this.pronouns.Text);
+            Config.Net.IP.Set(this.ip.Text);
+            if (int.TryParse(this.port.Text, out int portNumber))
+                Config.Net.Port.Set(portNumber);
+            Config.Net.Password.Set(this.password.Text);
+            Config.Net.IsServer.Set(this.networkType.Text.ToLower() is "server");
+            Config.Net.Save();
         }
 
         private void ToggleIP()
@@ -183,7 +183,7 @@ namespace AATool.Winforms.Controls
                 else
                 {
                     this.ip.Enabled = true;
-                    this.ip.Text = Config.Network.IP;
+                    this.ip.Text = Config.Net.IP;
                 }
             }
             if (this.loaded)
