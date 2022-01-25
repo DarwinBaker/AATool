@@ -1,23 +1,21 @@
 ﻿using System;
+using AATool.Configuration;
 using AATool.Graphics;
 using AATool.Net;
-using AATool.Saves;
-using AATool.Settings;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace AATool.UI.Controls
 {
     class UIEnchantmentTable : UIPicture
     {
-        private const string TEXTURE_READING = "enchantment_table_reading";
-        private const string TEXTURE_OPENING = "enchantment_table_opening";
-        private const string TEXTURE_CLOSING = "enchantment_table_closing";
-        private const string TEXTURE_CLOSED  = "enchantment_table_closed";
-        private const string TEXTURE_GLOW    = "enchantment_table_glow";
-
-        private const string TEXTURE_PORTAL = "respawn_anchor_top_on";
+        private const string Reading = "enchantment_table_reading";
+        private const string Opening = "enchantment_table_opening";
+        private const string Closing = "enchantment_table_closing";
+        private const string Closed  = "enchantment_table_closed";
+        private const string TableGlow = "enchantment_table_glow";
+        private const string Anchor = "respawn_anchor_top_on";
+        private const string AnchorGlow = "respawn_anchor_glow";
 
         private readonly Sprite open;
         private readonly Sprite close;
@@ -30,19 +28,22 @@ namespace AATool.UI.Controls
         public UIEnchantmentTable()
         {
             this.SetLayer(Layer.Fore);
-            this.SetTexture(TEXTURE_CLOSED);
-            SpriteSheet.Sprites.TryGetValue(TEXTURE_OPENING, out this.open);
-            SpriteSheet.Sprites.TryGetValue(TEXTURE_CLOSING, out this.close);
+            this.SetTexture(Closed);
+            SpriteSheet.Sprites.TryGetValue(Opening, out this.open);
+            SpriteSheet.Sprites.TryGetValue(Closing, out this.close);
+
+            this.portal = new UIPicture() {
+                FlexWidth = new Size(32),
+                FlexHeight = new Size(32),
+                Margin = new Margin(0, 0, 3, 0),
+                VerticalAlign = VerticalAlign.Top,
+            };
+            this.AddControl(this.portal);
         }
 
         public override void InitializeRecursive(UIScreen screen) 
         {
-            this.portal = new UIPicture() {
-                FlexWidth = new Size(32),
-                FlexHeight = new Size(32)
-            };
-            this.portal.SetTexture(TEXTURE_PORTAL);
-            this.AddControl(this.portal);
+            this.portal.SetTexture(Anchor);
             base.InitializeRecursive(screen); 
         }
 
@@ -55,43 +56,43 @@ namespace AATool.UI.Controls
         {
             if (string.IsNullOrEmpty(this.Texture))
             {
-                this.SetTexture(TEXTURE_CLOSED);
+                this.SetTexture(Closed);
             }
             else if (isReadingSave)
             {
                 switch (this.Texture)
                 {
-                    case TEXTURE_CLOSED:
+                    case Closed:
                         if (this.IsFirstFrameOf(this.open))
-                            this.SetTexture(TEXTURE_OPENING);
+                            this.SetTexture(Opening);
                         break;
-                    case TEXTURE_PORTAL:
-                        this.SetTexture(TEXTURE_CLOSED);
+                    case Anchor:
+                        this.SetTexture(Closed);
                         break;
-                    case TEXTURE_CLOSING:
+                    case Closing:
                         if (this.IsLastFrameOf(this.close))
-                            this.SetTexture(TEXTURE_CLOSED);
+                            this.SetTexture(Closed);
                         break;
-                    case TEXTURE_OPENING:
+                    case Opening:
                         if (this.IsLastFrameOf(this.open))
-                            this.SetTexture(TEXTURE_READING);
+                            this.SetTexture(Reading);
                         break;
                 }
             }
             else
             {
-                if (this.Texture is TEXTURE_READING && this.IsFirstFrameOf(this.close))
-                    this.SetTexture(TEXTURE_CLOSING);
-                else if (this.Texture is TEXTURE_CLOSING && this.IsLastFrameOf(this.close))
-                    this.SetTexture(TEXTURE_CLOSED);
-                else if (this.Texture is TEXTURE_OPENING && this.IsLastFrameOf(this.open))
-                    this.SetTexture(TEXTURE_READING);
+                if (this.Texture is Reading && this.IsFirstFrameOf(this.close))
+                    this.SetTexture(Closing);
+                else if (this.Texture is Closing && this.IsLastFrameOf(this.close))
+                    this.SetTexture(Closed);
+                else if (this.Texture is Opening && this.IsLastFrameOf(this.open))
+                    this.SetTexture(Reading);
             }
         }
 
         protected override void UpdateThis(Time time)
         {
-            if (Peer.IsConnected || Config.Tracker.UseRemoteWorld || (Client.TryGet(out Client client) && client.LostConnection))
+            if (Peer.IsConnected || Config.Tracking.UseSftp || (Client.TryGet(out Client client) && client.LostConnection))
                 this.portal.Expand();
             else
                 this.portal.Collapse();
@@ -102,21 +103,21 @@ namespace AATool.UI.Controls
             else
                 this.glowRotation = 0;
 
-            this.glowWidth = this.Texture is TEXTURE_READING or TEXTURE_OPENING
+            this.glowWidth = this.Texture is Reading or Opening
                 ? (float)Math.Min(this.glowWidth + (time.Delta * 2.2), 1)
                 : (float)Math.Max(this.glowWidth - (time.Delta * 2), 0);
         }
 
-        public override void DrawThis(Display display)
+        public override void DrawThis(Canvas canvas)
         {
             if (this.portal.IsCollapsed)
-                base.DrawThis(display);
+                base.DrawThis(canvas);
             
             Vector2 center = this.portal.IsCollapsed ? new (this.Center.X, this.Center.Y - 4) : new (this.Center.X + 1, this.Center.Y + 1);
-            Color tint     = this.portal.IsCollapsed ? Color.White : Color.Violet;
-            Vector2 scale  = this.portal.IsCollapsed ? new Vector2(this.glowWidth, 1) : new Vector2(1, 1);
-            string texture = this.portal.IsCollapsed ? TEXTURE_GLOW : "respawn_anchor_glow";
-            display.Draw(texture, center, this.glowRotation, scale, tint, Layer.Glow);
+            Color tint = this.portal.IsCollapsed ? Color.White : Color.Violet;
+            Vector2 scale = this.portal.IsCollapsed ? new Vector2(this.glowWidth, 1) : new Vector2(1, 1);
+            string texture = this.portal.IsCollapsed ? TableGlow : AnchorGlow;
+            canvas.Draw(texture, center, this.glowRotation, scale, tint, Layer.Glow);
         }
     }
 }

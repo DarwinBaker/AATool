@@ -4,33 +4,17 @@ namespace AATool.UI
 {
     public class Margin
     {
-        private Size left;
-        private Size right;
-        private Size top;
-        private Size bottom;
+        private readonly Size left;
+        private readonly Size right;
+        private readonly Size top;
+        private readonly Size bottom;
 
-        public int Top        => top.Absolute;
-        public int Bottom     => bottom.Absolute;
-        public int Left       => left.Absolute;
-        public int Right      => right.Absolute;
-        public int Horizontal => Left + Right;
-        public int Vertical   => Top + Bottom;
-
-        public void Resize(Point maxSize)
-        {
-            this.top.Resize(maxSize.X);
-            this.bottom.Resize(maxSize.X);
-            this.left.Resize(maxSize.Y);
-            this.right.Resize(maxSize.Y);
-        }
-
-        public Margin(Size left, Size right, Size top, Size bottom)
-        {
-            this.left   = left   ?? new Size();
-            this.right  = right  ?? new Size();
-            this.top    = top    ?? new Size();
-            this.bottom = bottom ?? new Size();
-        }
+        public int Top        => this.top;
+        public int Bottom     => this.bottom;
+        public int Left       => this.left;
+        public int Right      => this.right;
+        public int Horizontal => this.Left + this.Right;
+        public int Vertical   => this.Top + this.Bottom;
 
         public Margin(int left, int right, int top, int bottom)
         {
@@ -41,18 +25,34 @@ namespace AATool.UI
             this.Resize(Point.Zero);
         }
 
+        public Margin(Size left, Size right, Size top, Size bottom)
+        {
+            this.left   = left   ?? Size.Zero;
+            this.right  = right  ?? Size.Zero;
+            this.top    = top    ?? Size.Zero;
+            this.bottom = bottom ?? Size.Zero;
+        }
+
         public Margin(Size size) 
             : this(size, size, size, size) { }
 
         public Margin(float size, SizeMode mode) 
             : this(new Size(size, mode)) { }
 
+        public void Resize(Point maxSize)
+        {
+            this.top.Resize(maxSize.X);
+            this.bottom.Resize(maxSize.X);
+            this.left.Resize(maxSize.Y);
+            this.right.Resize(maxSize.Y);
+        }
+
         public static Margin Parse(string encoded)
         {
-            string[] csv = encoded.Split(',');
-            return csv.Length == 4
-                ? new Margin(Size.Parse(csv[0]), Size.Parse(csv[1]), Size.Parse(csv[2]), Size.Parse(csv[3]))
-                : new Margin(Size.Parse(csv[0]));
+            string[] tokens = encoded.Split(',');
+            return tokens.Length is 4
+                ? new Margin(Size.Parse(tokens[0]), Size.Parse(tokens[1]), Size.Parse(tokens[2]), Size.Parse(tokens[3]))
+                : new Margin(Size.Parse(tokens[0]));
         }
     }
 }

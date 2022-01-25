@@ -9,9 +9,9 @@ namespace AATool.UI.Controls
 {
     public class UIPlayer : UIPanel
     {
-        public User Player { get; private set; }
+        public User Player { get; set; }
 
-        private UIPlayerFace face;
+        private UIAvatar face;
         private UIFlowCarousel flow;
         private Dictionary<string, UITextBlock> itemCounts;
 
@@ -22,12 +22,12 @@ namespace AATool.UI.Controls
 
         public UIPlayer()
         {
-            this.BuildFromSourceDocument();
+            this.BuildFromTemplate();
         }
 
         public override void InitializeRecursive(UIScreen screen)
         {
-            this.face = this.First<UIPlayerFace>();
+            this.face = this.First<UIAvatar>();
             this.face.InitializeRecursive(screen);
             this.face.SetPlayer(this.Player.Id);
             this.face.Scale = 4;
@@ -37,7 +37,7 @@ namespace AATool.UI.Controls
 
             this.flow = this.First<UIFlowCarousel>("items");
             this.itemCounts = new Dictionary<string, UITextBlock>();
-            foreach (string item in Tracker.AllItems.Keys)
+            foreach (string item in Tracker.Pickups.All.Keys)
             {
                 if (this.First(item) is UITextBlock label)
                     this.itemCounts[item] = label;
@@ -52,7 +52,7 @@ namespace AATool.UI.Controls
 
         private void UpdateItemCarousel()
         {
-            if (Tracker.Progress.Players.TryGetValue(this.Player.Id, out Contribution contribution))
+            if (Tracker.State.Players.TryGetValue(this.Player.Id, out Contribution contribution))
             {
                 foreach (KeyValuePair<string, UITextBlock> label in this.itemCounts)
                 {
@@ -81,11 +81,11 @@ namespace AATool.UI.Controls
             }
         }
 
-        public override void DrawThis(Display display)
+        public override void DrawThis(Canvas canvas)
         {
             if (this.SkipDraw)
                 return;
-            display.DrawRectangle(this.Bounds, this.BackColor, this.BorderColor, 2);
+            canvas.DrawRectangle(this.Bounds, this.BackColor, this.BorderColor, 2);
         }
     }
 }

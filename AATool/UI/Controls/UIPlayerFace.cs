@@ -1,17 +1,17 @@
 ﻿using System.Xml;
+using AATool.Configuration;
 using AATool.Net;
-using AATool.Settings;
 using AATool.UI.Badges;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 
 namespace AATool.UI.Controls
 {
-    class UIPlayerFace : UIPicture
+    class UIAvatar : UIPicture
     {
-        public bool ShowName { get; set; }
-        public int Scale     { get; set; }
         public Uuid Player { get; private set; }
+        public bool ShowName { get; set; }
+        public int Scale { get; set; }
 
         private UIPicture face;
         private UIControl badge;
@@ -19,12 +19,12 @@ namespace AATool.UI.Controls
         private UITextBlock name;
         private float nameOpacity;
 
-        public UIPlayerFace()
+        public UIAvatar()
         {
-            this.BuildFromSourceDocument();
+            this.BuildFromTemplate();
         }
 
-        public UIPlayerFace(Uuid player, UIScreen screen) : this ()
+        public UIAvatar(Uuid player, UIScreen screen) : this ()
         {
             this.InitializeRecursive(screen);
             this.SetPlayer(player);
@@ -37,6 +37,7 @@ namespace AATool.UI.Controls
                 this.Player = player;
                 this.face.SetTexture(this.Player.ToString());
                 this.InitializeBadge(player);
+                this.glow.SkipToBrightness(0);
             }
         }
 
@@ -46,7 +47,6 @@ namespace AATool.UI.Controls
             this.glow = this.First<UIGlowEffect>();
             this.name = this.First<UITextBlock>();
             this.nameOpacity = 0;
-            this.glow.SkipToBrightness(0);
             base.InitializeRecursive(screen);
         } 
 
@@ -95,7 +95,7 @@ namespace AATool.UI.Controls
             float targetNameOpacity = string.IsNullOrEmpty(this.name.WrappedText) ? 0 : 1;
             this.nameOpacity = MathHelper.Lerp(this.nameOpacity, targetNameOpacity, (float)(20 * time.Delta));
             this.nameOpacity = MathHelper.Clamp(this.nameOpacity, 0, 1);
-            this.name.SetTextColor(Config.Main.TextColor * this.nameOpacity);
+            this.name.SetTextColor(Config.Main.TextColor.Value * this.nameOpacity);
         }
 
         private void InitializeBadge(Uuid player)
@@ -105,7 +105,7 @@ namespace AATool.UI.Controls
             {
                 this.AddControl(this.badge);
                 this.badge.Margin = new Margin(-13, -0, -10, 0);
-                this.badge.ResizeRecursive(this.Content);
+                this.badge.ResizeRecursive(this.Inner);
             }
         }
 
@@ -114,15 +114,12 @@ namespace AATool.UI.Controls
             this.FlexWidth  = new Size(8 * this.Scale);
             this.FlexHeight = new Size(8 * this.Scale);
             base.ResizeThis(parent);
-
-            if (this.FlexWidth.Absolute < 32)
-                this.badge?.Collapse();
         }
 
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            this.Scale = ParseAttribute(node, "scale", 4);
+            this.Scale = Attribute(node, "scale", 4);
         }
     }
 }

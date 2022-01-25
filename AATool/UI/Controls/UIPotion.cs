@@ -1,5 +1,5 @@
-﻿using AATool.Data;
-using AATool.Settings;
+﻿using AATool.Configuration;
+using AATool.Data;
 using AATool.UI.Screens;
 
 namespace AATool.UI.Controls
@@ -12,7 +12,7 @@ namespace AATool.UI.Controls
 
         public UIPotion()
         {
-            this.BuildFromSourceDocument();
+            this.BuildFromTemplate();
         }
 
         public override void InitializeRecursive(UIScreen screen)
@@ -35,6 +35,6 @@ namespace AATool.UI.Controls
         }
 
         protected override void UpdateThis(Time time) => 
-            this.arrow.SetTint(MainSettings.Instance.BorderColor);
+            this.arrow.SetTint(Config.Main.BorderColor);
     }
 }

@@ -1,17 +1,18 @@
-﻿using AATool.Data;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AATool.Configuration;
+using AATool.Data;
+using AATool.Data.Objectives;
 using AATool.Graphics;
 using AATool.Net;
-using AATool.Settings;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AATool.UI.Controls
 {
     class UIAchievementTree : UIGrid
     {
-        private List<UIAdvancement> achievements;
+        private List<UIObjectiveFrame> achievements;
         private List<List<Cell>> paths;
         private bool[,] occupied;
 
@@ -24,14 +25,14 @@ namespace AATool.UI.Controls
         public override void InitializeRecursive(UIScreen screen)
         {
             base.InitializeRecursive(screen);
-            this.achievements = new List<UIAdvancement>();
+            this.achievements = new List<UIObjectiveFrame>();
             this.occupied = new bool[this.Rows.Count, this.Columns.Count];
             foreach (UIControl control in this.Children)
             {
-                if (control is UIAdvancement achievement)
+                if (control is UIObjectiveFrame objectiveFrame)
                 {
-                    achievement.First<UITextBlock>().DrawBackground = true;
-                    this.achievements.Add(achievement);
+                    objectiveFrame.First<UITextBlock>().DrawBackground = true;
+                    this.achievements.Add(objectiveFrame);
                 }
                 this.occupied[control.Row, control.Column] = true;
             }
@@ -49,10 +50,10 @@ namespace AATool.UI.Controls
             if (Peer.IsRunning)
                 return;
 
-            foreach (UIAdvancement achievement in this.achievements)
+            foreach (UIObjectiveFrame achievement in this.achievements)
             {
                 //iterate each direct descendant and construct an arrow to it
-                foreach (string key in (achievement.Advancement as Achievement)?.Children.Keys)
+                foreach (string key in (achievement.Objective as Achievement)?.Children.Keys)
                 {
                     UIControl control = this.First(key);
                     List<Cell> path = this.FindPathOf(new Cell(achievement.Row, achievement.Column), new Cell(control.Row, control.Column));
@@ -72,12 +73,12 @@ namespace AATool.UI.Controls
 
             while (paths.Count > 0)
             {
-                var path = paths.Dequeue();
-                var node = path.Last();
+                List<Cell> path = paths.Dequeue();
+                Cell node = path.Last();
 
                 //iterate adjacent cells and check if they're what we're looking for
                 //if they're not, check if they're empty and queue a new path
-                foreach (var neighbor in this.GetNeighboringCells(node.Row, node.Column, path.Count > 1 ? path[path.Count - 2] : node))
+                foreach (Cell neighbor in this.GetNeighboringCells(node.Row, node.Column, path.Count > 1 ? path[path.Count - 2] : node))
                 {
                     if (neighbor.Equals(destination))
                     {
@@ -93,8 +94,9 @@ namespace AATool.UI.Controls
 
                         //add neighbor to path and add path to queue
                         visited.Add(neighbor);
-                        var newPath = new List<Cell>(path);
-                        newPath.Add(neighbor);
+                        var newPath = new List<Cell>(path) {
+                            neighbor
+                        };
                         paths.Enqueue(newPath);
                     }
                 }
@@ -136,23 +138,25 @@ namespace AATool.UI.Controls
             return neighbors;
         }
 
-        public override void DrawThis(Display display)
+        public override void DrawThis(Canvas canvas)
         {
             if (this.SkipDraw)
                 return;
 
-            display.DrawRectangle(this.Bounds, MainSettings.Instance.BackColor, MainSettings.Instance.BorderColor, 1);
+            canvas.DrawRectangle(this.Bounds, Config.Main.BackColor, Config.Main.BorderColor, 1);
 
             int thickness = 8;
             int halfThickness = thickness / 2;
             foreach (List<Cell> path in this.paths)
             {
                 //calculate arrow color based on completion of parent achievement
-                var start = this.CellContents[path.First().Row, path.First().Column] as UIAdvancement;
-                double blend = (start.Advancement.CompletedByAnyone()) ? 2 : 0.5;
-                byte r   = (byte)((MainSettings.Instance.BorderColor.R * blend) + MainSettings.Instance.BackColor.R * (1 - blend));
-                byte g   = (byte)((MainSettings.Instance.BorderColor.G * blend) + MainSettings.Instance.BackColor.G * (1 - blend));
-                byte b   = (byte)((MainSettings.Instance.BorderColor.B * blend) + MainSettings.Instance.BackColor.B * (1 - blend));
+                var start = this.CellContents[path.First().Row, path.First().Column] as UIObjectiveFrame;
+                double blend = start.Objective.CompletedByAnyone() ? 2 : 0.5;
+                Color border = Config.Main.BorderColor;
+
+                byte r   = (byte)((border.R * blend) + (border.R * (1 - blend)));
+                byte g   = (byte)((border.G * blend) + (border.G * (1 - blend)));
+                byte b   = (byte)((border.B * blend) + (border.B * (1 - blend)));
                 var tint = Color.FromNonPremultiplied(r, g, b, 255);
 
                 for (int i = 1; i < path.Count - 1; i++)
@@ -170,17 +174,17 @@ namespace AATool.UI.Controls
 
                     //draw each segment of the line depending on adjacent segments
                     if (connectedLeft)
-                        display.DrawRectangle(new Rectangle(new Point(bounds.Center.X - bounds.Width / 2, bounds.Center.Y - halfThickness), new Point(bounds.Width / 2, thickness)), tint);
+                        canvas.DrawRectangle(new Rectangle(new Point(bounds.Center.X - bounds.Width / 2, bounds.Center.Y - halfThickness), new Point(bounds.Width / 2, thickness)), tint);
                     if (connectedRight)
-                        display.DrawRectangle(new Rectangle(new Point(bounds.Center.X, bounds.Center.Y - halfThickness), new Point(bounds.Width / 2, thickness)), tint);
+                        canvas.DrawRectangle(new Rectangle(new Point(bounds.Center.X, bounds.Center.Y - halfThickness), new Point(bounds.Width / 2, thickness)), tint);
                     if (connectedTop)
-                        display.DrawRectangle(new Rectangle(new Point(bounds.Center.X - halfThickness, bounds.Center.Y - bounds.Height / 2), new Point(thickness, bounds.Height / 2)), tint);              
+                        canvas.DrawRectangle(new Rectangle(new Point(bounds.Center.X - halfThickness, bounds.Center.Y - bounds.Height / 2), new Point(thickness, bounds.Height / 2)), tint);              
                     if (connectedBottom)
-                        display.DrawRectangle(new Rectangle(new Point(bounds.Center.X - halfThickness, bounds.Center.Y), new Point(thickness, bounds.Height / 2)), tint);
+                        canvas.DrawRectangle(new Rectangle(new Point(bounds.Center.X - halfThickness, bounds.Center.Y), new Point(thickness, bounds.Height / 2)), tint);
 
                     //fill center of intersection
                     if ((connectedLeft || connectedRight) && (connectedTop || connectedBottom))
-                        display.DrawRectangle(new Rectangle(new Point(bounds.Center.X - halfThickness, bounds.Center.Y - halfThickness), new Point(thickness, thickness)), tint);
+                        canvas.DrawRectangle(new Rectangle(new Point(bounds.Center.X - halfThickness, bounds.Center.Y - halfThickness), new Point(thickness, thickness)), tint);
 
                     //if this is the last segment before the next achievement, draw arrow head
                     if (i == path.Count - 2)
@@ -196,8 +200,8 @@ namespace AATool.UI.Controls
                             direction = "down";
 
                         string mode = (bounds.Width < 64 || bounds.Height < 64) ? "compact" : "relaxed";
-                        display.Draw($"arrow_{mode}_bg_{direction}", bounds, MainSettings.Instance.BackColor);
-                        display.Draw($"arrow_{mode}_head_{direction}", bounds, tint);
+                        canvas.Draw($"arrow_{mode}_bg_{direction}", bounds, Config.Main.BackColor);
+                        canvas.Draw($"arrow_{mode}_head_{direction}", bounds, tint);
                     }                    
                 }
             } 

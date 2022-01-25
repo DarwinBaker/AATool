@@ -1,7 +1,8 @@
-﻿using AATool.Graphics;
+﻿using AATool.Configuration;
+using AATool.Data.Objectives;
+using AATool.Graphics;
 using AATool.Net;
 using AATool.Saves;
-using AATool.Settings;
 using AATool.UI.Controls;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
@@ -32,6 +33,12 @@ namespace AATool.UI.Screens
 
         private float titleY;
 
+        private Color frameBack;
+        private Color frameBorder;
+
+        public override Color FrameBackColor() => this.frameBack;
+        public override Color FrameBorderColor() => this.frameBorder;
+
         public UIOverlayScreen(Main main) : base(main, GameWindow.Create(main, 360, 360))
         {
             this.Form.Text         = "Stream Overlay";
@@ -56,7 +63,7 @@ namespace AATool.UI.Screens
         {
             //clear and load layout if window just opened or game version changed
             this.ClearControls();
-            if (!this.TryLoadXml("assets/ui/screens/screen_overlay.xml"))
+            if (!this.TryLoadXml(Paths.System.GetLayoutFor(this)))
                 Main.QuitBecause("Error loading overlay layout!");
 
             this.InitializeRecursive(this);
@@ -88,12 +95,12 @@ namespace AATool.UI.Screens
             }
         }
 
-        public override void InitializeRecursive(UIScreen screen)
+        public override void InitializeThis(UIScreen screen)
         {
             this.runCompletePanel = this.First("panel_congrats");
             this.carouselPanel = this.First("panel_carousel");
 
-            int textScale = 12 * ((Config.Overlay.Scale + 1) / 2);
+            int textScale = 24;
 
             this.progress = new UITextBlock("minecraft", textScale) {
                 Margin              = new Margin(16, 0, 8, 0),
@@ -109,39 +116,46 @@ namespace AATool.UI.Screens
             };
             this.AddControl(this.text);
 
-            //find named controls
+            //initialize main objective carousel
             this.advancements = this.First<UICarousel>("advancements");
-            this.criteria     = this.First<UICarousel>("criteria");
-            this.counts       = this.First<UIFlowPanel>("counts");
-
-            this.UpdateSpeed();
-
-            this.advancements.SetScrollDirection(Config.Overlay.RightToLeft);
-            this.criteria.SetScrollDirection(Config.Overlay.RightToLeft);
-
-            this.counts.FlowDirection = Config.Overlay.RightToLeft
-                ? FlowDirection.RightToLeft
-                : FlowDirection.LeftToRight;
-
-            foreach (string item in Tracker.AllItems.Keys.Reverse())
+            if (this.advancements is not null)
             {
-                var count = new UIItemCount(3){
-                    ItemName = item,
-                };
-                this.counts.AddControl(count);
+                this.advancements.SetScrollDirection(Config.Overlay.RightToLeft);
             }
 
-            this.status = new UITextBlock("minecraft", 24) {
-                FlexWidth = new Size(180),
-                FlexHeight = new Size(72),
-                VerticalTextAlign = VerticalAlign.Center
-            };
-            this.status.HorizontalTextAlign = Config.Overlay.RightToLeft
-                ? HorizontalAlign.Right
-                : HorizontalAlign.Left;
+            //initialize criteria carousel
+            this.criteria = this.First<UICarousel>("criteria");
+            if (this.criteria is not null)
+            {
+                this.criteria.SetScrollDirection(Config.Overlay.RightToLeft);
+            }
 
-            this.counts.AddControl(this.status);
-            base.InitializeRecursive(screen);
+            //initialize item counters
+            this.counts = this.First<UIFlowPanel>("counts");
+            if (this.counts is not null)
+            {
+                this.counts.FlowDirection = Config.Overlay.RightToLeft
+                    ? FlowDirection.RightToLeft
+                    : FlowDirection.LeftToRight;
+
+                //add pickup counters
+                foreach (Pickup pickup in Tracker.Pickups.All.Values.Reverse())
+                    this.counts.AddControl(new UIObjectiveFrame(pickup, 3));
+
+                //status label
+                this.status = new UITextBlock("minecraft", 24) {
+	                FlexWidth = new Size(180),
+	                FlexHeight = new Size(72),
+	                VerticalTextAlign = VerticalAlign.Center
+	            };
+	            this.status.HorizontalTextAlign = Config.Overlay.RightToLeft
+	                ? HorizontalAlign.Right
+	                : HorizontalAlign.Left;
+	
+	            this.counts.AddControl(this.status);
+            }
+
+            this.UpdateSpeed();
         }
 
         private void OnResizeBegin(object sender, EventArgs e)
@@ -157,7 +171,7 @@ namespace AATool.UI.Screens
                 this.Form.WindowState = FormWindowState.Normal;
 
             if (this.isResizing)
-                Config.Overlay.Width = this.Form.ClientSize.Width;
+                Config.Overlay.Width.Set(this.Form.ClientSize.Width);
         }
 
         private void OnResizeEnd(object sender, EventArgs e)
@@ -165,7 +179,7 @@ namespace AATool.UI.Screens
             this.isResizing = false;
             this.advancements.Continue();
             this.criteria.Continue();
-            Config.Overlay.Width = this.Form.ClientSize.Width;
+            Config.Overlay.Width.Set(this.Form.ClientSize.Width);
             Config.Overlay.Save();
         }
 
@@ -177,27 +191,37 @@ namespace AATool.UI.Screens
             if (!this.Form.Visible)
                 return;
 
-            if (Config.Tracker.GameVersionChanged() || Config.Overlay.EnabledChanged())
+            if (Tracker.ObjectivesChanged || Config.Overlay.Enabled.Changed)
                 this.ReloadLayout();
 
             this.ConstrainWindow();
             this.UpdateVisibility();
             this.UpdateCarouselLocations();
 
+            if (Config.Overlay.FrameStyle.Changed
+                && Config.MainConfig.Themes.TryGetValue(Config.Overlay.FrameStyle, out var theme))
+            {
+                this.frameBack = theme.back;
+                this.frameBorder = theme.border;
+            }
+
             //reset carousels if settings change
-            if (Config.Overlay.DirectionChanged())
+            if (Config.Overlay.RightToLeft.Changed)
             {
                 this.advancements?.SetScrollDirection(Config.Overlay.RightToLeft);
                 this.criteria?.SetScrollDirection(Config.Overlay.RightToLeft);
-                this.status.HorizontalTextAlign = Config.Overlay.RightToLeft 
-                    ? HorizontalAlign.Right
-                    : HorizontalAlign.Left;
+                if (this.status is not null)
+                {
+                    this.status.HorizontalTextAlign = Config.Overlay.RightToLeft
+                        ? HorizontalAlign.Right
+                        : HorizontalAlign.Left;
+                }
             }
 
-            if (Config.Overlay.SpeedChanged())
+            if (Config.Overlay.Speed.Changed)
                 this.UpdateSpeed();
 
-            if (Tracker.IsComplete)
+            if (Tracker.Category.IsComplete())
                 this.text.Collapse();
             else
                 this.text.Expand();
@@ -225,11 +249,11 @@ namespace AATool.UI.Screens
                         Player.TryGetName(host.Id, out string name);
                             hostName = name;
                     }
-                    this.status.SetText($"Syncing with {hostName}");
+                    this.status?.SetText($"Syncing with {hostName}");
                 }
                 else
                 {
-                    this.status.SetText($"Refreshing in {SftpSave.GetEstimateString(seconds).Replace(" ", "\0")}");
+                    this.status?.SetText($"Refreshing in {SftpSave.GetEstimateString(seconds).Replace(" ", "\0")}");
                 }
             }
             else if (SftpSave.IsEnabled)
@@ -238,26 +262,26 @@ namespace AATool.UI.Screens
                 if (SftpSave.State is SyncState.Ready)
                 {
                     if (SftpSave.CredentialsValidated)
-                        this.status.SetText($"Refreshing in {SftpSave.GetEstimateString(SftpSave.GetNextRefresh()).Replace(" ", "\0")}");
+                        this.status?.SetText($"Refreshing in {SftpSave.GetEstimateString(SftpSave.GetNextRefresh()).Replace(" ", "\0")}");
                     else
-                        this.status.SetText($"SFTP Offline");
+                        this.status?.SetText($"SFTP Offline");
                 }                
                 else if (SftpSave.State is SyncState.Connecting)
                 {
-                    this.status.SetText($"Connecting...");
+                    this.status?.SetText($"Connecting...");
                 }
                 else
                 {
-                    this.status.SetText($"Syncing...");
+                    this.status?.SetText($"Syncing...");
                 }
             }
             else
             {
-                this.status.SetFont("minecraft", 48);
+                this.status?.SetFont("minecraft", 48);
                 if (Config.Overlay.ShowIgt && Tracker.InGameTime != default)
-                    this.status.SetText(Tracker.InGameTime.ToString());
+                    this.status?.SetText(Tracker.InGameTime.ToString("hh':'mm':'ss"));
                 else
-                    this.status.SetText(string.Empty);
+                    this.status?.SetText(string.Empty);
             }
 
             this.titleTimer.Update(time);
@@ -266,25 +290,19 @@ namespace AATool.UI.Screens
                 if (this.titleTimer.Index is 3)
                     this.text.SetText($"CTM's AATool {Main.Version}");
                 else if (this.titleTimer.Index is 5)
-                    this.text.SetText(Paths.URL_PATREON_FRIENDLY);
+                    this.text.SetText(Paths.Web.PatreonShort);
 
                 this.titleTimer.Continue();
             }
 
             if (this.titleTimer.Index is 0)
             {
-                this.text.SetText($"{Tracker.CompletedAdvancements} / {Tracker.AdvancementCount} ");
-                if (Config.PostExplorationUpdate)
-                    this.text.Append("Advancements Complete");
-                else
-                    this.text.Append("Achievements Complete");
+                this.text.SetText($"{Tracker.Category.GetCompletedCount()} / {Tracker.Category.GetTargetCount()}");
+                this.text.Append($" {Tracker.Category.Objective} {Tracker.Category.Action}");
             }
             else if (this.titleTimer.Index is 2)
             {
-                if (Config.PostExplorationUpdate)
-                    this.text.SetText($"Minecraft JE: All Advancements ({Config.Tracker.GameVersion})");
-                else
-                    this.text.SetText("Minecraft JE: All Achievements");
+                this.text.SetText($"Minecraft JE: {Tracker.Category.Name} ({Tracker.Category.CurrentVersion})");
             }
 
             //this.text.HorizontalTextAlign = Config.Overlay.RightToLeft
@@ -336,7 +354,7 @@ namespace AATool.UI.Screens
         private void UpdateVisibility()
         {
             //handle completion message
-            if (Tracker.IsComplete)
+            if (Tracker.Category.IsComplete())
             {
                 if (this.runCompletePanel.IsCollapsed)
                 {
@@ -352,7 +370,7 @@ namespace AATool.UI.Screens
             }
 
             //update criteria visibility
-            if (this.criteria.IsCollapsed == Config.Overlay.ShowCriteria)
+            if (this.criteria?.IsCollapsed == Config.Overlay.ShowCriteria)
             {
                 if (Config.Overlay.ShowCriteria)
                     this.criteria.Expand();
@@ -364,9 +382,9 @@ namespace AATool.UI.Screens
                 return;
 
             //update item count visibility
-            if (this.counts.IsCollapsed == Config.Overlay.ShowCounts)
+            if (this.counts.IsCollapsed == Config.Overlay.ShowPickups)
             {
-                if (Config.Overlay.ShowCounts)
+                if (Config.Overlay.ShowPickups)
                     this.counts.Expand();
                 else
                     this.counts.Collapse();
@@ -375,9 +393,9 @@ namespace AATool.UI.Screens
             //update visibility for individual item counters (favorites)
             foreach (UIControl control in this.counts.Children)
             {
-                if (control.IsCollapsed == Config.Overlay.ShowCounts)
+                if (control.IsCollapsed == Config.Overlay.ShowPickups)
                 {
-                    if (Config.Overlay.ShowCounts)
+                    if (Config.Overlay.ShowPickups)
                         control.Expand();
                     else
                         control.Collapse();
@@ -386,9 +404,9 @@ namespace AATool.UI.Screens
             }
         }
 
-        public override void Prepare(Display display)
+        public override void Prepare(Canvas canvas)
         {
-            base.Prepare(display);
+            base.Prepare(canvas);
             this.GraphicsDevice.Clear(Config.Overlay.BackColor);
         }
     }

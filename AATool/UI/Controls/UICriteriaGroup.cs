@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using AATool.Data;
-using AATool.Data.Progress;
-using AATool.Graphics;
+using AATool.Configuration;
+using AATool.Data.Categories;
+using AATool.Data.Objectives;
 using AATool.Net;
-using AATool.Settings;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 
@@ -17,6 +16,7 @@ namespace AATool.UI.Controls
         private Advancement advancement;
         private CriteriaSet criteriaGroup;
 
+        private UIObjectiveFrame objectiveFrame;
         private UITextBlock label;
         private UIProgressBar bar;
         private UIButton playerButton;
@@ -34,12 +34,12 @@ namespace AATool.UI.Controls
 
         public UICriteriaGroup()
         {
-            this.BuildFromSourceDocument();
+            this.BuildFromTemplate();
         }
 
-        public override void InitializeRecursive(UIScreen screen)
+        public override void InitializeThis(UIScreen screen)
         {
-            UIAdvancement adv  = this.First<UIAdvancement>();
+            this.objectiveFrame = this.First<UIObjectiveFrame>();
             this.criteriaPanel = this.First<UIFlowPanel>("criteria");
             this.label         = this.First<UITextBlock>("progress");
             this.autoButton    = this.First<UIButton>("auto");
@@ -49,17 +49,18 @@ namespace AATool.UI.Controls
             this.bar           = this.First<UIProgressBar>("bar");
             this.singlePlayerMessage = this.First<UITextBlock>("single");
             this.noPlayerMessage     = this.First<UITextBlock>("nobody");
-            Tracker.TryGetAdvancement(this.advancementName, out this.advancement);
+
+            if (Tracker.TryGetAdvancement(this.advancementName, out this.advancement))
+                this.objectiveFrame.SetObjective(this.advancement);
 
             if (this.advancement is not null)
             {
                 this.criteriaGroup = this.advancement.Criteria;
-                adv.AdvancementName = this.advancementName;
                 if (Config.Main.CompactMode)
                 {
                     this.criteriaPanel.Padding = new Margin(8, 8, 8, 16);
                     this.First("advancement_space")?.Collapse();
-                    this.RemoveControl(adv);
+                    this.RemoveControl(this.objectiveFrame);
                 }
                 else
                 {
@@ -78,17 +79,17 @@ namespace AATool.UI.Controls
             {
                 //this.First("advancement_space").Collapse();
                 this.label.Margin = new Margin(8, 0, 0, 6);
-                this.criteriaPanel.CellWidth = Config.PostExplorationUpdate ? 68 : 100;
-                this.criteriaPanel.RemoveControl(adv);
+                this.criteriaPanel.CellWidth = Tracker.Category is AllAchievements ? 100 : 68;
+                this.criteriaPanel.RemoveControl(this.objectiveFrame);
                 this.bar.Collapse();
             }
-            else if (!Config.PostExplorationUpdate)
+            else if (Tracker.Category is AllAchievements)
             {
                 this.criteriaPanel.CellWidth = 100;
             }
 
-            this.bar.SkipToValue(this.criteriaGroup.NumberCompletedBy(this.advancement.GetDesignatedPlayer()));
-            base.InitializeRecursive(screen);
+            if (this.advancement is not null)
+                this.bar.SkipToValue(this.criteriaGroup.NumberCompletedBy(this.advancement.GetDesignatedPlayer()));
         }
 
         private void PopulateCriteria()
@@ -114,7 +115,7 @@ namespace AATool.UI.Controls
             base.ResizeThis(parent);
 
             if (this.bar is not null)
-                this.bar.FlexWidth = new Size(this.Content.Width - 48);
+                this.bar.FlexWidth = new Size(this.Inner.Width - 48);
 
             int top = (this.Height - this.singlePlayerMessage.TextBounds.Height) / 2;
             this.singlePlayerMessage.Padding = new Margin(10, 10, top, 0);
@@ -145,8 +146,12 @@ namespace AATool.UI.Controls
 
         protected override void UpdateThis(Time time)
         {
-            this.UpdateVisibility();
-            this.UpdateProgress();
+            if (this.advancement is not null)
+            {
+                this.UpdateVisibility();
+                if (Tracker.Invalidated || Config.Main.CompactMode.Changed || Config.Main.ProgressBarStyle.Changed)
+                    this.UpdateProgress();
+            }
         }
 
         private void UpdateProgress()
@@ -155,10 +160,14 @@ namespace AATool.UI.Controls
             string text = $"{this.criteriaGroup.NumberCompletedBy(designated)} / {this.criteriaGroup.Count}";
             if (this.Width >= 120)
                 text += $" {this.criteriaGroup.Goal}";
-
             if (this.Width > 180)
                 text += $" ({this.criteriaGroup.PercentCompletedBy(designated)}%)";
-            this.label.SetText(text);
+
+            if (Config.Main.ProgressBarStyle != "None" || Config.Main.CompactMode)
+                this.label.SetText(text);
+            else
+                this.label.SetText(" \n" + text);
+
             this.bar?.LerpToValue(this.criteriaGroup.NumberCompletedBy(designated));
         }
 
@@ -169,7 +178,9 @@ namespace AATool.UI.Controls
             this.singlePlayerMessage.Collapse();
             this.noPlayerMessage.Collapse();
             this.First("criteria").Expand();
-            this.First<UIAdvancement>()?.Expand();
+            this.objectiveFrame?.Expand();
+            if (!Config.Main.CompactMode)
+                this.bar.Expand();
         }
 
         private void SwitchToPlayers()
@@ -177,8 +188,9 @@ namespace AATool.UI.Controls
             this.PopulatePlayerList();
             this.playerPanel.Expand();
             this.First("criteria").Collapse();
-            this.First<UIAdvancement>()?.Collapse();
+            this.objectiveFrame?.Collapse();
             this.mode.Collapse();
+            this.bar.Collapse();
         }
 
         private void UpdateVisibility()
@@ -197,7 +209,7 @@ namespace AATool.UI.Controls
                 this.mode.Collapse();
 
             //toggle player select button
-            if (Peer.IsConnected || (Tracker.SaveState is SaveFolderState.Valid && Tracker.Progress.Players.Any()))
+            if (Peer.IsConnected || (Tracker.SaveState is SaveState.Valid && Tracker.State.Players.Any()))
             {
                 this.playerButton.Expand();
             }
@@ -206,7 +218,8 @@ namespace AATool.UI.Controls
                 this.playerButton.Collapse();
                 this.SwitchToProgress();
             }
-            this.playerButton.First<UIPlayerFace>().SetPlayer(this.advancement.GetDesignatedPlayer());
+            if (this.advancement is not null)
+                this.playerButton.First<UIAvatar>().SetPlayer(this.advancement.GetDesignatedPlayer());
 
             if (!this.playerPanel.IsCollapsed)
             {
@@ -216,7 +229,7 @@ namespace AATool.UI.Controls
                     if (Peer.TryGetLobby(out Lobby lobby))
                         loggedIn = lobby.UserCount;
 
-                    if (Tracker.WorldFolderChanged || loggedIn != this.playersLoggedIn)
+                    if (Tracker.ProgressChanged || loggedIn != this.playersLoggedIn)
                         this.PopulatePlayerList();
                     this.playersLoggedIn = loggedIn;
                 }
@@ -258,7 +271,7 @@ namespace AATool.UI.Controls
 
             this.autoButton.FlexWidth  = new Size((8 * scale) + 6);
             this.autoButton.FlexHeight = new Size((8 * scale) + 6);
-            this.autoButton.ResizeRecursive(this.playerPanel.Content);
+            this.autoButton.ResizeRecursive(this.playerPanel.Inner);
         }
 
         private void PopulatePlayerList()
@@ -282,17 +295,21 @@ namespace AATool.UI.Controls
                 ? 16 * scale
                 : 14 * scale;
 
-
-            if (Tracker.Progress.Players.Count is 0)
+            if (Tracker.State.Players.Count is 0)
+            {
                 this.noPlayerMessage.Expand();
-            else
-                this.noPlayerMessage.Collapse();
-
-            if (ids.Count is 1)
-                this.singlePlayerMessage.Expand();
-            else
                 this.singlePlayerMessage.Collapse();
-
+            }
+            else if (ids.Count is 1)
+            {
+                this.singlePlayerMessage.Expand();
+                this.noPlayerMessage.Collapse();
+            }
+            else
+            {
+                this.singlePlayerMessage.Collapse();
+                this.noPlayerMessage.Collapse();
+            }
 
             int remainder = required is 1
                 ? this.playerPanel.Width - this.playerPanel.CellWidth
@@ -302,7 +319,7 @@ namespace AATool.UI.Controls
             this.UpdateAutoButton(scale);
             if (Peer.IsClient)
                 this.playerPanel.AddControl(this.autoButton);
-            this.playerPanel.ResizeThis(this.Content);
+            this.playerPanel.ResizeThis(this.Inner);
 
             //create buttons for each player
             foreach (Uuid id in ids)
@@ -315,7 +332,7 @@ namespace AATool.UI.Controls
                     FlexHeight = new Size((8 * scale) + 6),
                     Tag = id,
                 };
-                var face = new UIPlayerFace(id, this.Root()) { 
+                var face = new UIAvatar(id, this.Root()) { 
                     Scale    = scale,
                     ShowName = true 
                 };
@@ -329,7 +346,7 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            this.advancementName = ParseAttribute(node, "advancement", string.Empty);
+            this.advancementName = Attribute(node, "advancement", string.Empty);
         }
     }
 }

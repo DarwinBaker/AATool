@@ -1,10 +1,10 @@
-﻿using AATool.Data;
+﻿using System;
+using System.Xml;
+using AATool.Configuration;
+using AATool.Data.Objectives;
 using AATool.Graphics;
-using AATool.Settings;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
-using System;
-using System.Xml;
 
 namespace AATool.UI.Controls
 {
@@ -15,7 +15,7 @@ namespace AATool.UI.Controls
 
         public string ItemName;
 
-        private Statistic itemCount;
+        private Pickup itemStat;
         private UIPicture frame;
         private UIPicture icon;
         private UIGlowEffect glow;
@@ -23,11 +23,11 @@ namespace AATool.UI.Controls
         private int scale;
         private bool isMainWindow;
 
-        public bool IsCompleted => itemCount?.IsCompleted ?? false;
+        public bool IsCompleted => this.itemStat?.CompletedByAnyone() ?? false;
 
         public UIItemCount() 
         {
-            this.BuildFromSourceDocument();
+            this.BuildFromTemplate();
             this.scale = 2;
         }
 
@@ -36,13 +36,12 @@ namespace AATool.UI.Controls
             this.scale = scale;
         }
 
-        public override void InitializeRecursive(UIScreen screen)
+        public override void InitializeThis(UIScreen screen)
         {
             this.isMainWindow = screen is UIMainScreen;
 
             this.glow  = this.First<UIGlowEffect>();
 
-            int textSize = 12 * ((Config.Overlay.Scale + 1) / 2);
             int textScale = this.scale < 3 ? 1 : 2;
             //FlexWidth *= Math.Min(scale + textScale - 1, 4);
             this.Padding = new Margin(0, 0, 4 * this.scale, 0);
@@ -55,12 +54,11 @@ namespace AATool.UI.Controls
             }
 
             this.icon = this.First<UIPicture>("icon");
-
-            if (Tracker.TryGetItem(this.ItemName, out this.itemCount) && this.icon != null)
+            if (Tracker.TryGetPickup(this.ItemName, out this.itemStat) && this.icon != null)
             {
                 this.icon.FlexWidth *= this.scale;
                 this.icon.FlexHeight *= this.scale;
-                this.icon.SetTexture(this.itemCount.Icon);
+                this.icon.SetTexture(this.itemStat.Icon);
                 this.icon.SetLayer(Layer.Fore);
             }
 
@@ -81,41 +79,61 @@ namespace AATool.UI.Controls
             {
                 this.FlexHeight *= this.scale;
             }
-
             this.UpdateGlowBrightness(null);
-            base.InitializeRecursive(screen);
         }
 
         protected override void UpdateThis(Time time)
         {
-            Tracker.TryGetItem(this.ItemName, out this.itemCount);
+            Tracker.TryGetPickup(this.ItemName, out this.itemStat);
 
             //update count display
-            if (this.itemCount is not null)
+            if (this.itemStat is not null)
             {
                 this.UpdateGlowBrightness(time);
 
-                this.frame?.SetTexture(this.itemCount.CurrentFrame);
-                this.icon?.SetTexture(this.itemCount.Icon);
-
-                if (Config.Main.CompactMode && this.scale is 2)
-                    this.label.SetText(this.itemCount.ShortStatus);
+                if (this.itemStat.CompletedByAnyone())
+                    this.frame.SetTexture(FRAME_COMPLETE);
                 else
-                    this.label.SetText(this.itemCount.LongStatus);
+                    this.frame.SetTexture(FRAME_INCOMPLETE);
+
+                this.icon?.SetTexture(this.itemStat.Icon);
+                int percent = (int)Math.Round((float)this.itemStat.PickedUp / this.itemStat.TargetCount * 100);
+                if (Config.Main.CompactMode && this.scale is 2)
+                { 
+                    if (this.itemStat.TargetCount is 1)
+                        this.label?.SetText(this.itemStat.PickedUp.ToString());
+                    else if (!this.itemStat.IsEstimate)
+                        this.label?.SetText(this.itemStat.PickedUp + " / " + this.itemStat.TargetCount);
+                    else if (percent == 0)
+                        this.label?.SetText(Math.Min(percent, 100) + "%");
+                    else
+                        this.label?.SetText("~" + Math.Min(percent, 100) + "%");
+                }                   
+                else if (this.itemStat.TargetCount is 1)
+                    this.label?.SetText(this.itemStat.Name);
+                else if (!this.itemStat.IsEstimate)
+                    this.label?.SetText(this.itemStat.Name + "\n" + this.itemStat.PickedUp + "\0/\0" + this.itemStat.TargetCount);
+                else if (percent == 0)
+                    this.label?.SetText(this.itemStat.Name + "\n" + Math.Min(percent, 100) + "%");
+                else
+                    this.label?.SetText(this.itemStat.Name + "\n~" + Math.Min(percent, 100) + "%");
             }
         }
 
         private void UpdateGlowBrightness(Time time)
         {
-            if (this.itemCount is null)
+            if (this.itemStat is null)
                 return;
 
-            if (this.isMainWindow && Config.Main.CompletionGlow)
+            if (this.isMainWindow && Config.Main.ShowCompletionGlow)
                 this.glow.Expand();
             else
                 this.glow.Collapse();
 
-            float target = this.itemCount.IsCompleted ? 1 : 0;
+            float target = this.itemStat.CompletedByAnyone() ? 1 : 0;
+            if (this.itemStat.IsEstimate && this.itemStat.PickedUp > 0)
+                target = this.itemStat.PickedUp / this.itemStat.TargetCount;
+
             if (time is null)
             {
                 //skip lerping 
@@ -131,17 +149,17 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            this.ItemName = ParseAttribute(node, "id", string.Empty);
-            this.scale = ParseAttribute(node, "scale", this.scale);
+            this.ItemName = Attribute(node, "id", string.Empty);
+            this.scale = Attribute(node, "scale", this.scale);
         }
 
-        public override void DrawThis(Display display)
+        public override void DrawThis(Canvas canvas)
         {
             if (this.SkipDraw)
                 return;
 
-            display.Draw(FRAME_INCOMPLETE, this.frame.Bounds, Color.White);
-            display.Draw(FRAME_COMPLETE, this.frame.Bounds, Color.White * this.glow.Brightness);
+            canvas.Draw(FRAME_INCOMPLETE, this.frame.Bounds, Color.White);
+            canvas.Draw(FRAME_COMPLETE, this.frame.Bounds, Color.White * this.glow.Brightness);
         }
     }
 }

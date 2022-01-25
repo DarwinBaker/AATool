@@ -79,9 +79,9 @@ namespace AATool.UI.Controls
                     if (!control.IsCollapsed && !this.Children.Contains(control))
                     {
                         if (this.RightToLeft)
-                            control.MoveTo(new Point(x, this.Content.Top));
+                            control.MoveTo(new Point(x, this.Inner.Top));
                         else
-                            control.MoveTo(new Point(this.Width - x - control.Width, this.Content.Top));
+                            control.MoveTo(new Point(this.Width - x - control.Width, this.Inner.Top));
                         x += this.CellWidth;
                         this.AddControl(control);
                     }
@@ -91,8 +91,8 @@ namespace AATool.UI.Controls
                     var splitter = new UIPanel {
                         DrawMode = DrawMode.None
                     };
-                    splitter.MoveTo(new Point(x, this.Content.Top));
-                    splitter.ScaleTo(new Point(this.SplitterWidth, this.Content.Height));
+                    splitter.MoveTo(new Point(x, this.Inner.Top));
+                    splitter.ScaleTo(new Point(this.SplitterWidth, this.Inner.Height));
                     x += this.SplitterWidth;
                     this.AddControl(splitter);
                 }
@@ -113,13 +113,13 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            this.CellWidth = ParseAttribute(node, "cell_width", 0);
+            this.CellWidth = Attribute(node, "cell_width", 0);
         }
 
         public void ReflowChildren()
         {
-            int currentX = this.Content.Left;
-            int currentY = this.Content.Top;
+            int currentX = this.Inner.Left;
+            int currentY = this.Inner.Top;
             foreach (UIControl child in this.Children)
             {
                 if (child.IsCollapsed)

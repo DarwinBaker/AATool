@@ -1,5 +1,5 @@
-﻿using AATool.Graphics;
-using AATool.Settings;
+﻿using AATool.Configuration;
+using AATool.Graphics;
 using Microsoft.Xna.Framework;
 using System.Xml;
 
@@ -16,12 +16,12 @@ namespace AATool.UI.Controls
             this.BorderThickness = 1;
         }
 
-        public override void DrawThis(Display display) 
+        public override void DrawThis(Canvas canvas) 
         {
             if (this.SkipDraw)
                 return;
 
-            display.DrawRectangle(this.Bounds,
+            canvas.DrawRectangle(this.Bounds,
                 Config.Main.BackColor, 
                 Config.Main.BorderColor, 
                 this.BorderThickness, 
@@ -31,7 +31,7 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            this.BorderThickness = ParseAttribute(node, "border_thickness", 1);
+            this.BorderThickness = Attribute(node, "border_thickness", 1);
         }
     }
 }

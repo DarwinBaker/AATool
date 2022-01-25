@@ -1,29 +1,29 @@
-﻿using AATool.Graphics;
-using AATool.Settings;
+﻿using System.Text;
+using System.Xml;
+using AATool.Configuration;
+using AATool.Graphics;
 using AATool.UI.Screens;
 using FontStashSharp;
 using Microsoft.Xna.Framework;
-using System.Text;
-using System.Xml;
 
 namespace AATool.UI.Controls
 {
     public class UITextBlock : UIControl
     {
-        public DynamicSpriteFont Font { get; private set; }
-        public string WrappedText { get; private set; }
-        public Rectangle TextBounds { get; private set; }
+        public DynamicSpriteFont Font    { get; private set; }
+        public string WrappedText        { get; private set; }
+        public Rectangle TextBounds      { get; private set; }
 
-        public Color TextColor { get; set; }
-        public HorizontalAlign HorizontalTextAlign { get; set; }
-        public VerticalAlign VerticalTextAlign { get; set; }
-        public bool DrawBackground { get; set; }
+        public Color TextColor                      { get; set; }
+        public HorizontalAlign HorizontalTextAlign  { get; set; }
+        public VerticalAlign   VerticalTextAlign    { get; set; }
+        public bool DrawBackground                  { get; set; }
 
         private StringBuilder builder;
 
-        public bool IsEmpty => Font == null || builder.Length == 0;
-        public override string ToString() => builder.ToString();
-        public void SetFont(string font, int size) => Font = FontSet.Get(font, size);
+        public bool IsEmpty                         => this.Font == null || this.builder.Length == 0;
+        public override string ToString()           => this.builder.ToString();
+        public void SetFont(string font, int size)  => this.Font = FontSet.Get(font, size);
         public void SetTextColor(Color color)
         {
             if (this.TextColor != color && this.Root() is UIMainScreen)
@@ -61,11 +61,6 @@ namespace AATool.UI.Controls
             }
         }
 
-        public override void InitializeRecursive(UIScreen screen)
-        {
-            base.InitializeRecursive(screen);
-        }
-
         public void SetText(string text) 
         {
             if (text != this.rawValue)
@@ -96,7 +91,7 @@ namespace AATool.UI.Controls
             this.UpdateWrappedText();
         }
 
-        public override void DrawThis(Display display)
+        public override void DrawThis(Canvas canvas)
         {
             if (this.IsEmpty || this.SkipDraw)
                 return;
@@ -106,15 +101,20 @@ namespace AATool.UI.Controls
                 return;
 
             if (this.DrawBackground)
-                display.DrawRectangle(new Rectangle(this.TextBounds.Left, this.TextBounds.Top, this.TextBounds.Width, this.TextBounds.Height + 4), MainSettings.Instance.BackColor);
+                canvas.DrawRectangle(new Rectangle(this.TextBounds.Left, this.TextBounds.Top, this.TextBounds.Width, this.TextBounds.Height + 4), Config.Main.BackColor);
             
             //get what color text should be based on root screen
             Color color = this.TextColor;
             if (this.TextColor == Color.Transparent)
-                color = this.Root() is not UIOverlayScreen ? MainSettings.Instance.TextColor : OverlaySettings.Instance.TextColor;
+            {
+            	color = this.Root() is not UIOverlayScreen 
+            		? Config.Main.TextColor 
+            		: Config.Overlay.TextColor;
+            }  
+                
             if (this.Bounds.Size == Point.Zero)
             {
-                display.DrawString(this.Font, text, this.Location.ToVector2(), color, this.Layer);
+                canvas.DrawString(this.Font, text, this.Location.ToVector2(), color, this.Layer);
             }
             else
             {
@@ -122,9 +122,9 @@ namespace AATool.UI.Controls
                 int blockHeight = this.Font.MeasureString(this.WrappedText).ToPoint().Y;
                 float y = this.VerticalTextAlign switch
                 {
-                    VerticalAlign.Center => this.Content.Top + this.Margin.Top + (this.Content.Height / 2) - (blockHeight / 2),
-                    VerticalAlign.Top    => this.Content.Top,
-                    _                    => this.Content.Bottom + this.Margin.Bottom - blockHeight
+                    VerticalAlign.Center => this.Inner.Top + this.Margin.Top + (this.Inner.Height / 2) - (blockHeight / 2),
+                    VerticalAlign.Top    => this.Inner.Top,
+                    _                    => this.Inner.Bottom + this.Margin.Bottom - blockHeight
                 };
                 foreach (string line in this.WrappedText.Split('\n'))
                 {
@@ -133,12 +133,12 @@ namespace AATool.UI.Controls
                     //calculate horizontal position of this line
                     int x = this.HorizontalTextAlign switch
                     {
-                        HorizontalAlign.Center => this.Content.Left + this.Margin.Left + ((this.Content.Width / 2) - (lineSize.X / 2)),
-                        HorizontalAlign.Left   => this.Content.Left,
-                        _                      => this.Content.Right + this.Margin.Right - lineSize.X
+                        HorizontalAlign.Center => this.Inner.Left + this.Margin.Left + ((this.Inner.Width / 2) - (lineSize.X / 2)),
+                        HorizontalAlign.Left   => this.Inner.Left,
+                        _                      => this.Inner.Right + this.Margin.Right - lineSize.X
                     };
 
-                    display.DrawString(this.Font, line, new Vector2(x, y), color, this.Layer);
+                    canvas.DrawString(this.Font, line, new Vector2(x, y), color, this.Layer);
                     
                     //next line
                     y += lineSize.Y;
@@ -146,12 +146,12 @@ namespace AATool.UI.Controls
             }
         }
 
-        public override void DrawDebugRecursive(Display display)
+        public override void DrawDebugRecursive(Canvas canvas)
         {
             if (this.IsCollapsed || this.IsEmpty)
                 return;
 
-            base.DrawDebugRecursive(display);
+            base.DrawDebugRecursive(canvas);
             if (this.DebugColor != Color.Transparent)
             {
                 var bounds = new Rectangle(
@@ -160,11 +160,11 @@ namespace AATool.UI.Controls
                     this.TextBounds.Width,
                     this.TextBounds.Height);
 
-                display.DrawRectangle(bounds, this.DebugColor * 0.3f, null, 0, Layer.Fore);
+                canvas.DrawRectangle(bounds, this.DebugColor * 0.3f, null, 0, Layer.Fore);
             }
                 
             for (int i = 0; i < this.Children.Count; i++)
-                this.Children[i].DrawDebugRecursive(display);
+                this.Children[i].DrawDebugRecursive(canvas);
         }
 
         public void UpdateWrappedText()
@@ -181,7 +181,7 @@ namespace AATool.UI.Controls
             for (int i = 0; i < words.Length; i++)
             {
                 Vector2 currentSize = this.Font.MeasureString(words[i]);
-                if (lineWidth + currentSize.X < this.Content.Width)
+                if (lineWidth + currentSize.X < this.Inner.Width)
                 {
                     if (string.IsNullOrEmpty(words[i]))
                         wrappedBuilder.Append(' ');
@@ -215,11 +215,11 @@ namespace AATool.UI.Controls
             //calculate horizontal offset of text align
             int x = this.HorizontalTextAlign switch
             {
-                HorizontalAlign.Center => this.Content.Left + ((this.Content.Width / 2) - (size.X / 2)),
-                HorizontalAlign.Left   => this.Content.Left,
-                _                      => this.Content.Right - size.X
+                HorizontalAlign.Center => this.Inner.Left + ((this.Inner.Width / 2) - (size.X / 2)),
+                HorizontalAlign.Left   => this.Inner.Left,
+                _                      => this.Inner.Right - size.X
             };
-            this.TextBounds = new Rectangle(x, this.Content.Top, size.X, size.Y);
+            this.TextBounds = new Rectangle(x, this.Inner.Top, size.X, size.Y);
             if (this.Root() is UIMainScreen)
                 UIMainScreen.Invalidate();
         }
@@ -233,14 +233,14 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            this.SetText(ParseAttribute(node, "text", string.Empty));
-            this.SetFont("minecraft", ParseAttribute(node, "font_size", 12));
-            this.SetTextColor(ParseAttribute(node, "color", Color.Transparent));
-            this.HorizontalTextAlign = ParseAttribute(node, "text_align", this.HorizontalTextAlign);
-            this.VerticalTextAlign   = ParseAttribute(node, "text_align", VerticalAlign.Top);
+            this.SetText(Attribute(node, "text", string.Empty));
+            this.SetFont("minecraft", Attribute(node, "font_size", 12));
+            this.SetTextColor(Attribute(node, "color", Color.Transparent));
+            this.HorizontalTextAlign = Attribute(node, "text_align", this.HorizontalTextAlign);
+            this.VerticalTextAlign   = Attribute(node, "text_align", VerticalAlign.Top);
 
-            this.HorizontalTextAlign = ParseAttribute(node, "h_text_align", this.HorizontalTextAlign);
-            this.VerticalTextAlign   = ParseAttribute(node, "v_text_align", this.VerticalTextAlign);
+            this.HorizontalTextAlign = Attribute(node, "h_text_align", this.HorizontalTextAlign);
+            this.VerticalTextAlign   = Attribute(node, "v_text_align", this.VerticalTextAlign);
         }
     }
 }

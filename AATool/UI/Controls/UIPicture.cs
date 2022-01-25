@@ -40,22 +40,22 @@ namespace AATool.UI.Controls
             this.Tint = Color.White;
         }
 
-        public override void DrawThis(Display display)
+        public override void DrawThis(Canvas canvas)
         {
             if (this.SkipDraw)
                 return;
 
             if (this.Rotation is 0)
-                display.Draw(this.Texture, this.Content, this.Tint, this.Layer);
+                canvas.Draw(this.Texture, this.Inner, this.Tint, this.Layer);
             else
-                display.Draw(this.Texture, this.Content.Center.ToVector2(), this.Rotation, 1, this.Tint, this.Layer);
+                canvas.Draw(this.Texture, this.Inner.Center.ToVector2(), this.Rotation, 1, this.Tint, this.Layer);
         }
 
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            this.Texture = ParseAttribute(node, "texture", this.Texture ?? string.Empty);
-            this.Tint = ParseAttribute(node, "tint", this.Tint);
+            this.Texture = Attribute(node, "texture", this.Texture ?? string.Empty);
+            this.Tint = Attribute(node, "tint", this.Tint);
         }
     }
 }

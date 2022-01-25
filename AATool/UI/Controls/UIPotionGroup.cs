@@ -1,12 +1,11 @@
-﻿using AATool.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Xml;
+using AATool.Configuration;
+using AATool.Data;
 using AATool.Graphics;
-using AATool.Settings;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Xml;
 
 namespace AATool.UI.Controls
 {
@@ -14,7 +13,7 @@ namespace AATool.UI.Controls
     {
         public override void InitializeRecursive(UIScreen screen)
         {
-            this.BuildFromSourceDocument();
+            this.BuildFromTemplate();
             foreach (Potion potion in this.ReadPotions())
                 this.AddControl(new UIPotion() { Potion = potion });
             base.InitializeRecursive(screen);
@@ -25,7 +24,7 @@ namespace AATool.UI.Controls
             var potions = new List<Potion>();
             try
             {
-                if (TryGetDocument(Paths.PotionsFile, out XmlDocument document))
+                if (TryGetDocument(Paths.System.PotionsFile, out XmlDocument document))
                 {
                     foreach (XmlNode potionNode in document.DocumentElement.ChildNodes)
                         potions.Add(new Potion(potionNode));
@@ -38,17 +37,17 @@ namespace AATool.UI.Controls
             return potions;
         }
 
-        public override void DrawThis(Display display)
+        public override void DrawThis(Canvas canvas)
         {
             if (this.SkipDraw)
                 return;
 
-            base.DrawThis(display);
+            base.DrawThis(canvas);
             for (int i = 0; i < this.Children.Count - 1; i++)
             {
                 Rectangle bounds = this.Children[i].Bounds;
                 var splitter = new Rectangle(bounds.Left, bounds.Bottom - 6, bounds.Width, 2);
-                display.DrawRectangle(splitter, MainSettings.Instance.BorderColor);
+                canvas.DrawRectangle(splitter, Config.Main.BorderColor);
             }
         }
     }

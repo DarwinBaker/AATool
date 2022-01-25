@@ -1,25 +1,23 @@
-﻿using AATool.Data;
+﻿using System;
+using System.Collections.Generic;
+using AATool.Configuration;
+using AATool.Data;
 using AATool.Data.Progress;
-using AATool.Graphics;
-using AATool.Settings;
-using AATool.UI.Badges;
 using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
 
 namespace AATool.UI.Controls
 {
     public class UIRunComplete : UIControl
     {
-        private const int PAGE_HOLD_DURATION = 15;
-        private const int PAGE_FADE_DURATION = 1;
-        private const int PAGE_FULL_DURATION = PAGE_HOLD_DURATION + PAGE_FADE_DURATION * 2;
+        private const int PageHoldDuration = 15;
+        private const int PageFadeDuration = 1;
+        private const int PageFullDuration = PageHoldDuration + PageFadeDuration * 2;
 
-        private const int STATS_PAGES        = 3;
-        private const float FADE_SPEED       = 0.75f;
-        private const float SLIDE_SPEED      = 4f;
+        private const float SlideSpeed = 4f;
+        private const float FadeSpeed = 0.75f;
+        private const int StatsPages = 3;
 
         private UITextBlock body;
         private UITextBlock version;
@@ -28,10 +26,6 @@ namespace AATool.UI.Controls
         private UIPicture ctm;
         private UIPicture bar;
         private Dictionary<string, UIControl> supporters;
-        private UIControl statsGeneral;
-        private UIControl statsKills;
-        private UIControl statsMined;
-        private UITextBlock statsMisc;
 
         private Timer pageTimer;
         private bool showCredits;
@@ -44,41 +38,43 @@ namespace AATool.UI.Controls
 
         public UIRunComplete()
         {
-            this.BuildFromSourceDocument();
+            this.BuildFromTemplate();
             this.pageTimer = new Timer();
         }
 
-        public override void InitializeRecursive(UIScreen screen)
+        public override void InitializeThis(UIScreen screen)
         {
-            this.bar     = this.First<UIPicture>("bar");
+            //aatool version
             this.version = this.First<UITextBlock>("version");
+
+            //developer
             this.creator = this.First<UITextBlock>("creator");
             this.creator.SetText("Developed by Darwin Baker");
-            this.body    = this.First<UITextBlock>("body");
-            this.url     = this.First<UITextBlock>("patreon");
-            this.url.SetText(Paths.URL_PATREON_FRIENDLY);
-            this.ctm     = this.First<UIPicture>("ctm");
+            this.url = this.First<UITextBlock>("patreon");
+            this.url.SetText(Paths.Web.PatreonShort);
+            this.ctm = this.First<UIPicture>("ctm");
             this.ctm.SetTexture("ctm");
 
-            this.statsMisc    = this.First<UITextBlock>("stats_misc");
-            this.statsGeneral = this.First("stats_general");
-            this.statsKills   = this.First("stats_kills");
-            this.statsMined   = this.First("stats_mined");
+            //main message
+            this.body = this.First<UITextBlock>("body");
+
+            //page flip indicator
+            this.bar = this.First<UIPicture>("bar");
 
             //credits
-            this.supporters = new() {
+            this.supporters = new () 
+            {
                 { "supporters", this.First("supporters")},
-                { "beta_testers", this.First("beta_testers")},
-                { "special_dedication", this.First("special_dedication") }
+                { "beta_tester", this.First("beta_testers")},
+                { "dedication", this.First("special_dedication") }
             };
-            this.First<UITextBlock>("supporters_label")?.SetText("Supporters ----------------------------------------");
-            base.InitializeRecursive(screen);
+            this.First<UITextBlock>("supporters_label")?.SetText("Supporters " + new string('-', 40));
         }
 
         protected override void UpdateThis(Time time)
         {
             int targetX = Config.Overlay.RightToLeft ? this.Root().Width - this.Width : 5;
-            this.currentX = MathHelper.Lerp(this.currentX, targetX, SLIDE_SPEED * (float)time.Delta);
+            this.currentX = MathHelper.Lerp(this.currentX, targetX, SlideSpeed * (float)time.Delta);
             this.MoveTo(new Point((int)this.currentX, this.Y));
 
             this.glowRotation += (float)time.Delta * 0.25f;
@@ -88,7 +84,7 @@ namespace AATool.UI.Controls
                 if (!this.fadeOut)
                 {
                     this.fadeOut = true;
-                    this.pageTimer.SetAndStart(PAGE_HOLD_DURATION);
+                    this.pageTimer.SetAndStart(PageHoldDuration);
                     this.fade = 0;
 
                     //swap main window content
@@ -96,21 +92,21 @@ namespace AATool.UI.Controls
 
                     //swap stats page content
                     this.statsPageIndex++;
-                    if (this.statsPageIndex >= STATS_PAGES)
+                    if (this.statsPageIndex >= StatsPages)
                         this.statsPageIndex = 0;
                 }
                 else
                 {
                     this.fadeOut = false;
-                    this.pageTimer.SetAndStart(PAGE_FADE_DURATION);
+                    this.pageTimer.SetAndStart(PageFadeDuration);
                 }
             }
 
             this.UpdatePageSwapBar();
 
             this.fade = this.fadeOut
-                ? Math.Min(this.fade + (FADE_SPEED * (float)time.Delta), 1)
-                : Math.Max(this.fade - (FADE_SPEED * (float)time.Delta), 0);
+                ? Math.Min(this.fade + (FadeSpeed * (float)time.Delta), 1)
+                : Math.Max(this.fade - (FadeSpeed * (float)time.Delta), 0);
 
             Color fadeA = this.showCredits
                 ? new (this.fade + 0.1f, this.fade + 0.1f, this.fade + 0.1f, this.fade)
@@ -168,12 +164,12 @@ namespace AATool.UI.Controls
         private void UpdatePageSwapBar()
         {
             double remaining = this.pageTimer.TimeLeft;
-            if (this.pageTimer.Duration is PAGE_HOLD_DURATION)
-                remaining += PAGE_FADE_DURATION;
+            if (this.pageTimer.Duration is PageHoldDuration)
+                remaining += PageFadeDuration;
 
-            double scale = remaining / PAGE_FULL_DURATION;
+            double scale = remaining / PageFullDuration;
             this.bar.FlexWidth = new Size((int)(this.bar.MaxWidth.Absolute * scale));
-            this.bar.ResizeThis(this.bar.Parent.Content);
+            this.bar.ResizeThis(this.bar.Parent.Inner);
         }
 
         private void FadeControlsRecursive(UIControl panel, Color tint)
@@ -193,7 +189,7 @@ namespace AATool.UI.Controls
 
         public void Show()
         {
-            this.pageTimer.SetAndStart(PAGE_HOLD_DURATION);
+            this.pageTimer.SetAndStart(PageHoldDuration);
             this.showCredits = false;
             this.fadeOut     = true;
             this.fade        = 1;
@@ -201,24 +197,18 @@ namespace AATool.UI.Controls
             this.MoveTo(new Point(Config.Overlay.RightToLeft ? this.Root().Right : -this.Parent.Width, this.Y));
             this.currentX    = this.X;
 
-            string title = Config.PostExplorationUpdate 
-                ? $"All {Tracker.AdvancementCount} Advancements Complete!" 
-                : $"All {Tracker.AdvancementCount} Achievements Complete!";
+            this.version.SetText(Main.ShortTitle);
 
-            string body = Config.PostExplorationUpdate
-                ? $" \nMinecraft: Java Edition ({Config.Tracker.GameVersion})\n" +
-                    $"All\0Advancements\n\n" +
-                    $"{Tracker.InGameTime}\nApproximate IGT\n"
-                : $" \nMinecraft: Java Edition\n" +
-                    $"All\0Achievements\n\n" +
-                    $"{Tracker.InGameTime}\nApproximate IGT\n";
+            string title = Tracker.Category.GetCompletionMessage();
+            string body = $" \nMinecraft: Java Edition ({Tracker.Category.CurrentVersion})\n" +
+                $"{Tracker.Category.Name.Replace(" ", "\0")}\n\n" +
+                $"{Tracker.InGameTime:hh':'mm':'ss}\nApproximate IGT\n";
 
             this.First<UITextBlock>("head").SetText(title);
             this.First<UITextBlock>("head_shadow").SetText(title);
             this.body.SetText(body);
-            this.version.SetText(Main.ShortTitle);
 
-            ProgressState prog = Tracker.Progress;
+            WorldState state = Tracker.State;
             string space = new (' ', 6);
 
             /*
@@ -231,23 +221,23 @@ namespace AATool.UI.Controls
             this.statsMisc.Append($"Save & Quits: {prog.SaveAndQuits}\n");
             */
 
-            this.First<UITextBlock>("flown").SetText(space      + prog.TotalKilometersFlown);
-            this.First<UITextBlock>("bread").SetText(space      + prog.BreadEaten.ToString());
-            this.First<UITextBlock>("enchants").SetText(space   + prog.ItemsEnchanted.ToString());
-            this.First<UITextBlock>("pearls").SetText(space     + prog.EnderPearlsThrown.ToString());
-            this.First<UITextBlock>("temples").SetText(space    + prog.TemplesRaided);
+            this.First<UITextBlock>("flown").SetText(space      + state.KilometersFlown);
+            this.First<UITextBlock>("bread").SetText(space      + state.BreadEaten.ToString());
+            this.First<UITextBlock>("enchants").SetText(space   + state.ItemsEnchanted.ToString());
+            this.First<UITextBlock>("pearls").SetText(space     + state.EnderPearlsThrown.ToString());
+            this.First<UITextBlock>("temples").SetText(space    + state.TemplesRaided);
 
-            this.First<UITextBlock>("creepers").SetText(space   + prog.CreepersKilled.ToString());
-            this.First<UITextBlock>("drowned").SetText(space    + prog.DrownedKilled.ToString());
-            this.First<UITextBlock>("withers").SetText(space    + prog.WitherSkeletonsKilled.ToString());
-            this.First<UITextBlock>("fish").SetText(space       + prog.FishCollected.ToString());
-            this.First<UITextBlock>("phantoms").SetText(space   + prog.PhantomsKilled.ToString());
+            this.First<UITextBlock>("creepers").SetText(space   + state.CreepersKilled.ToString());
+            this.First<UITextBlock>("drowned").SetText(space    + state.DrownedKilled.ToString());
+            this.First<UITextBlock>("withers").SetText(space    + state.WitherSkeletonsKilled.ToString());
+            this.First<UITextBlock>("fish").SetText(space       + state.FishCollected.ToString());
+            this.First<UITextBlock>("phantoms").SetText(space   + state.PhantomsKilled.ToString());
 
-            this.First<UITextBlock>("lecterns").SetText(space   + prog.LecternsMined.ToString());
-            this.First<UITextBlock>("sugarcane").SetText(space  + prog.SugarcaneCollected.ToString());
-            this.First<UITextBlock>("netherrack").SetText(space + prog.NetherrackMined.ToString());
-            this.First<UITextBlock>("gold_blocks").SetText(space    + prog.GoldMined.ToString());
-            this.First<UITextBlock>("ender_chests").SetText(space   + prog.EnderChestsMined.ToString());
+            this.First<UITextBlock>("lecterns").SetText(space   + state.LecternsMined.ToString());
+            this.First<UITextBlock>("sugarcane").SetText(space  + state.SugarcaneCollected.ToString());
+            this.First<UITextBlock>("netherrack").SetText(space + state.NetherrackMined.ToString());
+            this.First<UITextBlock>("gold_blocks").SetText(space    + state.GoldMined.ToString());
+            this.First<UITextBlock>("ender_chests").SetText(space   + state.EnderChestsMined.ToString());
 
             this.PopulateSupporterLists();
             this.Expand();
@@ -274,9 +264,9 @@ namespace AATool.UI.Controls
                 panel.Value.AddControl(header);
             }
 
-            foreach (Supporter person in Credits.Supporters)
+            foreach (Credit person in Credits.All)
             {
-                bool donor = person.Role.ToLower() is not ("developer" or "beta_testers" or "special_dedication");
+                bool donor = person.Role.ToLower() is not ("developer" or "beta_tester" or "dedication");
 
                 UIControl panel;
                 if (donor)
@@ -305,21 +295,20 @@ namespace AATool.UI.Controls
                 else
                     supporter.SetText($"{person.Name}     ");
 
-                string icon = person.Role.ToLower() switch {
-                    "beta_testers"       => "enchanted_golden_apple",
-                    "special_dedication" => "poppy",
-                    _                    => "supporter",
-                };
-
-                if (icon is "supporter")
+                if (person.Role.ToLower().StartsWith("supporter_"))
                 {
-                    tier.SetTexture("supporter_" + person.Role);
+                    tier.SetTexture(person.Role);
                 }
                 else
                 {
+                    string icon = person.Role switch {
+                        "beta_tester" => "enchanted_golden_apple",
+                        "dedication" => "poppy",
+                        _ => "supporter_gold",
+                    };
                     tier.SetTexture(icon);
                 }
-
+                
                 supporter.AddControl(tier);
                 panel.AddControl(supporter);
             }

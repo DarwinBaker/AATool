@@ -1,5 +1,7 @@
-﻿using AATool.Data;
-using AATool.Settings;
+﻿using AATool.Configuration;
+using AATool.Data;
+using AATool.Data.Categories;
+using AATool.Data.Objectives;
 using System.Collections.Generic;
 
 namespace AATool.UI.Controls
@@ -10,30 +12,30 @@ namespace AATool.UI.Controls
         {
             this.UpdateSourceList();
 
-            if (Config.Tracker.GameVersionChanged())
+            if (Tracker.ObjectivesChanged)
                 this.Clear();
 
             //update text visibility
-            if (Config.Overlay.ShowLabelsChanged())
+            if (Config.Overlay.ShowLabels.Changed)
             {
                 if (Config.Overlay.ShowLabels)
                 {
-                    foreach (var control in Children)
-                        (control as UIAdvancement).ShowText();
+                    foreach (UIControl control in this.Children)
+                        (control as UIObjectiveFrame).ShowText();
                 }
                 else
                 {
-                    foreach (var control in Children)
-                        (control as UIAdvancement).HideText();
+                    foreach (UIControl control in this.Children)
+                        (control as UIObjectiveFrame).HideText();
                 }
             }
 
-            Fill();
+            this.Fill();
 
             //remove completed advancements from carousel
             for (int i = this.Children.Count - 1; i >= 0; i--)
             {
-                if ((this.Children[i] as UIAdvancement).IsCompleted)
+                if ((this.Children[i] as UIObjectiveFrame).ObjectiveCompleted)
                     this.Children.RemoveAt(i);
             }
 
@@ -42,27 +44,57 @@ namespace AATool.UI.Controls
 
         protected override void UpdateSourceList()
         {
-            var advancements = new List<Advancement>();
-            foreach (Advancement advancement in Tracker.AllAdvancements.Values)
-                advancements.Add(advancement);
-
-            this.SourceList = new List<object>(advancements);
+            var objectives = new List<Objective>();
+            if (Tracker.Category is MonstersHunted monstersHunted)
+            {
+                foreach (Objective monster in monstersHunted.AllCriteria)
+                    objectives.Add(monster);
+            }
+            else if (Tracker.Category is BalancedDiet balancedDiet)
+            {
+                foreach (Objective monster in balancedDiet.AllCriteria)
+                    objectives.Add(monster);
+            }
+            else if (Tracker.Category is AdventuringTime adventuringTime)
+            {
+                foreach (Objective monster in adventuringTime.AllCriteria)
+                    objectives.Add(monster);
+            }
+            else if (Tracker.Category is AllAchievements)
+            {
+                foreach (Objective advancement in Tracker.Achievements.All.Values)
+                    objectives.Add(advancement);
+            }
+            else
+            {
+                foreach (Objective advancement in Tracker.Advancements.All.Values)
+                    objectives.Add(advancement);
+            }
+            this.SourceList = new List<object>(objectives);
 
             //remove all completed advancements from pool
             for (int i = this.SourceList.Count - 1; i >= 0; i--)
             {
-                if (advancements[i].CompletedByAnyone())
+                if (objectives[i].CompletedByAnyone())
                     this.SourceList.RemoveAt(i);
+            }
+
+            //remove unimportant advancements if half percent
+            if (Tracker.Category is HalfPercent)
+            {
+                for (int i = this.SourceList.Count - 1; i >= 0; i--)
+                {
+                    if (!(this.SourceList[i] as Advancement).UsedInHalfPercent)
+                        this.SourceList.RemoveAt(i);
+                }
             }
         }
 
         protected override UIControl NextControl()
         {
             //instantiate next control
-            var nextAdvancement = this.SourceList[this.NextIndex] as Advancement;
-            var control = new UIAdvancement(3) {
-                AdvancementName = nextAdvancement.Id
-            };
+            var next = this.SourceList[this.NextIndex] as Objective;
+            var control = new UIObjectiveFrame(next, 3);
             control.InitializeRecursive(this.Root());
             if (!Config.Overlay.ShowLabels) 
                 control.HideText();

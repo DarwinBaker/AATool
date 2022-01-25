@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AATool.Graphics;
-using AATool.UI.Controls;
+﻿using AATool.UI.Controls;
 using Microsoft.Xna.Framework;
 
 namespace AATool.UI.Badges
@@ -12,7 +6,7 @@ namespace AATool.UI.Badges
     class ImmortalBadge : UIPicture
     {
         public int Scale { get; set; }
-        private UIGlowEffect glow;
+        private readonly UIGlowEffect glow;
 
         public ImmortalBadge(int scale)
         {
@@ -22,16 +16,20 @@ namespace AATool.UI.Badges
             this.HorizontalAlign = HorizontalAlign.Left;
             this.VerticalAlign = VerticalAlign.Top;
             this.Layer = Layer.Fore;
-            this.glow = new UIGlowEffect() { Scale = this.Scale / 2 };
+
+            this.glow = new UIGlowEffect() { 
+                Scale = this.Scale / 2 ,
+                Brightness = 0,
+            };
             this.AddControl(this.glow);
 
             this.SetTexture("badge_hhh_up");
-
             if (this.Scale < 3)
             {
                 this.glow.SetTexture("badge_hhh_glow");
                 this.glow.SkipToBrightness(0.6f);
             }
+
         }
 
         protected override void UpdateThis(Time time)

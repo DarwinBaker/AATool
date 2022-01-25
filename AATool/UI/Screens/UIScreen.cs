@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Xml;
+using AATool.Configuration;
 using AATool.Graphics;
-using AATool.Settings;
 using AATool.UI.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,9 +17,12 @@ namespace AATool.UI.Screens
         public GameWindow Window               { get; private set; }
         public GraphicsDevice GraphicsDevice   { get; private set; }
 
-        public int FormWidth     => this.Form.ClientRectangle.Width;
-        public int FormHeight    => this.Form.ClientRectangle.Height;
-        public bool HasFocus     => this.Form.Focused;
+        public int FormWidth  => this.Form.ClientRectangle.Width;
+        public int FormHeight => this.Form.ClientRectangle.Height;
+        public bool HasFocus  => this.Form.Focused;
+
+        public abstract Color FrameBackColor();
+        public abstract Color FrameBorderColor();
 
         public UIScreen(Main main, GameWindow window)
         {
@@ -28,7 +31,7 @@ namespace AATool.UI.Screens
             this.GraphicsDevice = main.GraphicsDevice;
             this.DrawMode       = DrawMode.All;
             this.Form           = Control.FromHandle(window.Handle) as Form;
-            this.Form.Icon      = new System.Drawing.Icon("assets/graphics/system/aatool.ico");
+            this.Form.Icon      = new System.Drawing.Icon(Paths.System.MainIcon);
             this.Form.ShowIcon  = true;
         }
 
@@ -41,10 +44,10 @@ namespace AATool.UI.Screens
             this.Form.Dispose();
         }
 
-        public virtual void Prepare(Display display) =>  
+        public virtual void Prepare(Canvas canvas) =>  
             this.GraphicsDevice.SetRenderTarget(this.SwapChain);
 
-        public virtual void Present(Display display) => 
+        public virtual void Present(Canvas canvas) => 
             this.SwapChain?.Present();
 
         public override void MoveTo(Point point) =>
@@ -61,22 +64,22 @@ namespace AATool.UI.Screens
         public override void ResizeThis(Rectangle parent)
         {
             this.Bounds  = new Rectangle(this.Bounds.Location, parent.Size);
-            this.Content = new Rectangle(Point.Zero, parent.Size);
+            this.Inner = new Rectangle(Point.Zero, parent.Size);
         }
 
-        public override void DrawRecursive(Display display)
+        public override void DrawRecursive(Canvas canvas)
         {
-            display.BeginDraw(this);
-            base.DrawRecursive(display);
-            if (Config.Main.LayoutDebug)
-                this.DrawDebugRecursive(display);
-            display.EndDraw(this);
+            canvas.BeginDraw(this);
+            base.DrawRecursive(canvas);
+            if (Config.Main.LayoutDebugMode)
+                this.DrawDebugRecursive(canvas);
+            canvas.EndDraw(this);
         }
 
-        public override void DrawDebugRecursive(Display display)
+        public override void DrawDebugRecursive(Canvas canvas)
         {
             for (int i = 0; i < this.Children.Count; i++)
-                this.Children[i].DrawDebugRecursive(display);
+                this.Children[i].DrawDebugRecursive(canvas);
         }
 
         public abstract void ReloadLayout();

@@ -1,6 +1,5 @@
-﻿using AATool.Data;
-using AATool.Net;
-using AATool.Settings;
+﻿using AATool.Configuration;
+using AATool.Data.Objectives;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 
@@ -21,11 +20,11 @@ namespace AATool.UI.Controls
         private float iconBrightness;
         private float textBrightness;
 
-        public bool IsCompleted => this.criterion?.CompletedBy(this.criterion.ParentAdvancement.GetDesignatedPlayer()) ?? false;
+        public bool IsCompleted => this.criterion?.CompletedBy(this.criterion.Owner.GetDesignatedPlayer()) ?? false;
 
         public UICriterion() 
         {
-            this.BuildFromSourceDocument(); 
+            this.BuildFromTemplate(); 
             this.imageSize = 16;
             this.scale = 1;
         }
@@ -95,7 +94,7 @@ namespace AATool.UI.Controls
 
                 float textTarget = this.IsCompleted ? 1f : 0.5f;
                 this.textBrightness = MathHelper.Lerp(this.textBrightness, textTarget, (float)(10 * time.Delta));        
-                this.label?.SetTextColor(Config.Main.TextColor * textTarget);
+                this.label?.SetTextColor(Config.Main.TextColor.Value * textTarget);
             }
         }
     }

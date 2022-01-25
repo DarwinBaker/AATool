@@ -39,20 +39,21 @@ namespace AATool.UI.Controls
             float offset = this.isMainWindow
                 ? (this.X * 100) + (this.Y * 100)
                 : 0;
+
             this.SetRotation((float)(offset + (time.TotalFrames / 400f)));
             this.displayBrightness = MathHelper.Lerp(this.displayBrightness, this.Brightness, (float)(10 * time.Delta));
         }
 
-        public override void DrawThis(Display display)
+        public override void DrawThis(Canvas canvas)
         {
-            display.Draw(this.Texture, this.Content.Center.ToVector2(), this.Rotation, this.Scale, this.Tint * this.displayBrightness, Layer.Glow);
+            canvas.Draw(this.Texture, this.Inner.Center.ToVector2(), this.Rotation, this.Scale, this.Tint * this.displayBrightness, Layer.Glow);
         }
 
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            this.LerpToBrightness(ParseAttribute(node, "brightness", 1f));
-            this.Scale = ParseAttribute(node, "scale", 1f);
+            this.LerpToBrightness(Attribute(node, "brightness", 1f));
+            this.Scale = Attribute(node, "scale", 1f);
         }
     }
 }

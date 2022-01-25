@@ -15,7 +15,11 @@ namespace AATool.UI.Controls
     public abstract class UIControl : XmlObject
     {
         //static dictionary to hold all control types for dynamic instantiation
-        private static Dictionary<string, Type> Types;
+        private static readonly Dictionary<string, Type> Types = (
+            from t in Assembly.GetExecutingAssembly().GetTypes()
+            where t.IsClass && t.Namespace == "AATool.UI.Controls"
+            select t).ToDictionary(t => t.Name.ToString().ToLower(),
+            t => t, StringComparer.OrdinalIgnoreCase);
 
         //static dictionary to hold source documents for initializing controls
         private static Dictionary<Type, XmlDocument> SourceDocs;
@@ -37,14 +41,14 @@ namespace AATool.UI.Controls
 
         private UIScreen rootScreen;
 
-        public Margin Margin    { get; set; } = new(0, SizeMode.Absolute);
-        public Margin Padding   { get; set; } = new(0, SizeMode.Absolute);
-        public Size FlexWidth   { get; set; } = new(1, SizeMode.Relative);
-        public Size FlexHeight  { get; set; } = new(1, SizeMode.Relative);
-        public Size MinWidth    { get; set; } = new(0, SizeMode.Relative);
-        public Size MinHeight   { get; set; } = new(0, SizeMode.Relative);
-        public Size MaxWidth    { get; set; } = new(1, SizeMode.Relative);
-        public Size MaxHeight   { get; set; } = new(1, SizeMode.Relative);
+        public Margin Margin    { get; set; } = new (0, SizeMode.Absolute);
+        public Margin Padding   { get; set; } = new (0, SizeMode.Absolute);
+        public Size FlexWidth   { get; set; } = new (1, SizeMode.Relative);
+        public Size FlexHeight  { get; set; } = new (1, SizeMode.Relative);
+        public Size MinWidth    { get; set; } = new (0, SizeMode.Relative);
+        public Size MinHeight   { get; set; } = new (0, SizeMode.Relative);
+        public Size MaxWidth    { get; set; } = new (1, SizeMode.Relative);
+        public Size MaxHeight   { get; set; } = new (1, SizeMode.Relative);
 
         public string Name      { get; set; } = string.Empty;
         public object Tag       { get; set; } = null;
@@ -52,67 +56,69 @@ namespace AATool.UI.Controls
         public int Column       { get; set; } = 0;
         public int RowSpan      { get; set; } = 1;
         public int ColumnSpan   { get; set; } = 1;
-        public bool IsClickable { get; set; } = true;
-        public bool IsCollapsed { get; set; } = false;
         public bool IsSquare    { get; set; } = false;
+        public bool IsCollapsed { get; private set; } = false;
 
         public List<UIControl> Children { get; protected set; }
-        public UIControl Parent         { get; protected set; }
-        public Rectangle Bounds         { get; protected set; }
-        public Rectangle Content        { get; protected set; }
+        public UIControl Parent { get; protected set; }
+        public Rectangle Bounds { get; protected set; }
+        public Rectangle Inner  { get; protected set; }
 
         public HorizontalAlign HorizontalAlign = HorizontalAlign.Center;
         public VerticalAlign VerticalAlign = VerticalAlign.Center;
         public DrawMode DrawMode = DrawMode.All;
         public Layer Layer = Layer.Main;
 
-        public int X          
-        { 
-            get => this.Location.X; 
-            set => this.Bounds = new (value, this.Y, this.Width, this.Height); 
-        }
-
-        public int Y          
-        { 
-            get => this.Location.Y; 
-            set => this.Bounds = new(this.X, value, this.Width, this.Height);
-        }
-
-        public int Width      
-        { 
-            get => this.Size.X; 
-            set => this.Bounds = new(this.X, this.Y, value, this.Height);
-        }
-
-        public int Height 
-        { 
-            get => this.Size.Y; 
-            set => this.Bounds = new(this.X, this.Y, this.Width, value);
-        }
-
         public Point Location => this.Bounds.Location;
-        public Point Center   => this.Bounds.Center;
-        public Point Size     => this.Bounds.Size;
-        public int Top        => this.Y;
-        public int Bottom     => this.Y + this.Height;
-        public int Left       => this.X;
-        public int Right      => this.X + this.Width;
-        public bool SkipDraw  => this.IsCollapsed || 
-            (this.Root() is UIMainScreen && !UIMainScreen.Invalidated && this.Layer is Layer.Main);
+        public Point Center => this.Bounds.Center;
+        public Point Size => this.Bounds.Size;
+        public int Top    => this.Y;
+        public int Bottom => this.Y + this.Height;
+        public int Left   => this.X;
+        public int Right  => this.X + this.Width;
 
-        public UIScreen Root()
-        {
-            this.rootScreen ??= this as UIScreen ?? this.Parent?.Root();
-            return this.rootScreen;
+        public int X {
+            get => this.Bounds.X;
+            set => this.Bounds = new Rectangle(value, this.Y, this.Width, this.Height);
         }
 
-        public Color DebugColor                  => DebugColors.TryGetValue(this.GetType(), out Color val) ? val : Color.Transparent;
+        public int Y {
+            get => this.Bounds.Y;
+            set => this.Bounds = new Rectangle(this.X, value, this.Width, this.Height);
+        }
+
+        public int Width {
+            get => this.Bounds.Width;
+            set => this.Bounds = new Rectangle(this.X, this.Y, value, this.Height);
+        }
+
+        public int Height {
+            get => this.Bounds.Height;
+            set => this.Bounds = new Rectangle(this.X, this.Y, this.Width, value);
+        }
+
+        public bool SkipDraw => this.IsCollapsed || 
+            (this.Root() is UIMainScreen && this.Layer is Layer.Main && !UIMainScreen.RefreshingCache);
+
+        public Color DebugColor => DebugColors.TryGetValue(this.GetType(),
+            out Color val) ? val : Color.Transparent;
+
+        public virtual void MoveTo(Point point)  => 
+            this.ResizeRecursive(new Rectangle(point, this.Size));
+
+        public virtual void MoveBy(Point point)  => 
+            this.ResizeRecursive(new Rectangle(this.Location + point, this.Size));
+
+        public virtual void ScaleTo(Point point) => 
+            this.ResizeRecursive(new Rectangle(this.Location, point));
+
         public virtual void Expand()
         {
             if (this.IsCollapsed && this.Layer is Layer.Main && this.Root() is UIMainScreen)
                 UIMainScreen.Invalidate();
             this.IsCollapsed = false;
         }
+
         public virtual void Collapse()
         {
             if (!this.IsCollapsed && this.Layer is Layer.Main && this.Root() is UIMainScreen)
@@ -120,50 +126,48 @@ namespace AATool.UI.Controls
             this.IsCollapsed = true;
         }
 
-        public virtual void MoveTo(Point point)  => this.ResizeRecursive(new Rectangle(point, this.Size));
-        public virtual void MoveBy(Point point)  => this.ResizeRecursive(new Rectangle(this.Location + point, this.Size));
-        public virtual void ScaleTo(Point point) => this.ResizeRecursive(new Rectangle(this.Location, point));
+        public UIScreen Root()
+        {
+            //if not yet cached, recursively search tree for root screen and cache
+            this.rootScreen ??= this as UIScreen ?? this.Parent?.Root();
+            return this.rootScreen;
+        }
 
         public UIControl()
         {
-            this.Children = new ();
+            this.Children = new List<UIControl>();
         }
 
-        public void BuildFromSourceDocument()
+        public void BuildFromTemplate()
         {
-            //attempt to construct control from blueprint xml file
+            //attempt to construct control from template xml file
             SourceDocs ??= new Dictionary<Type, XmlDocument>();
             Type type = this.GetType();
             if (!SourceDocs.ContainsKey(type))
             {
-                //this control type doesn't have a cached blueprint; try and load one
+                //this control type doesn't have a cached template; try and load one
                 try
                 {
-                    var newDocument = new XmlDocument();
-                    foreach (string file in Directory.GetFiles(Paths.DIR_UI_CONTROLS, "*.xml"))
+                    var newTemplate = new XmlDocument();
+                    foreach (string file in Directory.GetFiles(Paths.System.TemplatesFolder, "*.xml"))
                     {
-                        if (Path.GetFileNameWithoutExtension(file).Replace("_", string.Empty) == "control" + type.Name.ToLower().Substring(2))
+                        string name = Path.GetFileNameWithoutExtension(file).Replace("_", string.Empty);
+                        if (name == "control" + type.Name.ToLower().Substring("ui".Length))
                         {
-                            newDocument.Load(file);
-                            SourceDocs[type] = newDocument;
+                            newTemplate.Load(file);
+                            SourceDocs[type] = newTemplate;
                             break;
                         }
                     }
                 }
                 catch { }
             }          
-            if (SourceDocs.TryGetValue(type, out XmlDocument document))
-                this.ReadNode(document.SelectSingleNode("control"));
+            if (SourceDocs.TryGetValue(type, out XmlDocument template))
+                this.ReadNode(template.SelectSingleNode("control"));
         }
 
         public static UIControl CreateInstance(string type)
         {
-            //if static type list is null, create and populate with all control types
-            Types ??= (from t in Assembly.GetExecutingAssembly().GetTypes()
-                       where t.IsClass && t.Namespace == "AATool.UI.Controls"
-                       select t).ToDictionary(t => t.Name.ToString().ToLower(), 
-                                              t => t, StringComparer.OrdinalIgnoreCase);
-
             //if type name is valid, create instance of type
             return Types.TryGetValue(type, out Type realType) 
                 ? Activator.CreateInstance(realType) as UIControl 
@@ -181,9 +185,12 @@ namespace AATool.UI.Controls
 
         public virtual void InitializeRecursive(UIScreen screen)
         {
+            this.InitializeThis(screen);
             foreach (UIControl control in this.Children)
                 control.InitializeRecursive(screen);
         }
+
+        public virtual void InitializeThis(UIScreen screen) { }
 
         public void ClearControls()
         {
@@ -224,8 +231,8 @@ namespace AATool.UI.Controls
             this.MinHeight.Resize(parent.Height);
 
             //clamp size to min and max
-            this.Width  = MathHelper.Clamp(this.FlexWidth.Absolute, this.MinWidth.Absolute, this.MaxWidth.Absolute);
-            this.Height = MathHelper.Clamp(this.FlexHeight.Absolute, this.MinHeight.Absolute, this.MaxHeight.Absolute);
+            this.Width = MathHelper.Clamp(this.FlexWidth, this.MinWidth, this.MaxWidth);
+            this.Height = MathHelper.Clamp(this.FlexHeight, this.MinHeight, this.MaxHeight);
 
             //if control is square, conform both width and height to the larger of the two
             if (this.IsSquare)
@@ -246,7 +253,7 @@ namespace AATool.UI.Controls
             this.Padding.Resize(this.Size);
 
             //calculate internal rectangle
-            this.Content = new Rectangle(
+            this.Inner = new Rectangle(
                 this.X + this.Padding.Left, 
                 this.Y + this.Padding.Top, 
                 this.Width - this.Padding.Horizontal, 
@@ -256,7 +263,7 @@ namespace AATool.UI.Controls
         public virtual void ResizeChildren()
         {
             foreach (UIControl child in this.Children) 
-                child.ResizeRecursive(this.Content);
+                child.ResizeRecursive(this.Inner);
         }
 
         public UIControl First(string name) => this.First<UIControl>(name);
@@ -294,43 +301,47 @@ namespace AATool.UI.Controls
                 return;
 
             this.UpdateThis(time);
-            foreach (UIControl control in this.Children.ToArray()) 
+            foreach (UIControl control in this.Children) 
                 control.UpdateRecursive(time);
         }
 
-        public virtual void DrawThis(Display display)  { }
-        public virtual void DrawRecursive(Display display)
+        public virtual void DrawThis(Canvas canvas)  { }
+        public virtual void DrawRecursive(Canvas canvas)
         {
             if (this.IsCollapsed) 
                 return;
+
             if (this.DrawMode is DrawMode.All || this.DrawMode is DrawMode.ThisOnly)
-                this.DrawThis(display);
+                this.DrawThis(canvas);
+
             if (this.DrawMode is DrawMode.All || this.DrawMode is DrawMode.ChildrenOnly)
-                for (int i = 0; i < this.Children.Count; i++)
-                    this.Children[i].DrawRecursive(display);
+            {
+                foreach (UIControl control in this.Children)
+                    control.DrawRecursive(canvas);
+            }
         }
 
-        public virtual void DrawDebugRecursive(Display display)
+        public virtual void DrawDebugRecursive(Canvas canvas)
         {
             if (this.IsCollapsed)
                 return;
             if (this.DebugColor != Color.Transparent)
             {
                 //fill
-                display.DrawRectangle(this.Bounds, ColorHelper.Fade(this.DebugColor, 0.1f), null, 0, Layer.Fore);
+                canvas.DrawRectangle(this.Bounds, ColorHelper.Fade(this.DebugColor, 0.1f), null, 0, Layer.Fore);
 
                 //edges
-                display.DrawRectangle(new Rectangle(this.Bounds.Left, this.Bounds.Top, this.Bounds.Width, 1),
+                canvas.DrawRectangle(new Rectangle(this.Bounds.Left, this.Bounds.Top, this.Bounds.Width, 1),
                     ColorHelper.Fade(this.DebugColor, 0.8f), null, 0, Layer.Fore);
-                display.DrawRectangle(new Rectangle(this.Bounds.Right - 1, this.Bounds.Top + 1, 1, this.Bounds.Height - 2),
+                canvas.DrawRectangle(new Rectangle(this.Bounds.Right - 1, this.Bounds.Top + 1, 1, this.Bounds.Height - 2),
                     ColorHelper.Fade(this.DebugColor, 0.8f), null, 0, Layer.Fore);
-                display.DrawRectangle(new Rectangle(this.Bounds.Left + 1, this.Bounds.Bottom - 1, this.Bounds.Width - 1, 1),
+                canvas.DrawRectangle(new Rectangle(this.Bounds.Left + 1, this.Bounds.Bottom - 1, this.Bounds.Width - 1, 1),
                     ColorHelper.Fade(this.DebugColor, 0.8f), null, 0, Layer.Fore);
-                display.DrawRectangle(new Rectangle(this.Bounds.Left, this.Bounds.Top + 1, 1, this.Bounds.Height - 1),
+                canvas.DrawRectangle(new Rectangle(this.Bounds.Left, this.Bounds.Top + 1, 1, this.Bounds.Height - 1),
                     ColorHelper.Fade(this.DebugColor, 0.8f), null, 0, Layer.Fore);
             }
             for (int i = 0; i < this.Children.Count; i++)
-                this.Children[i].DrawDebugRecursive(display);
+                this.Children[i].DrawDebugRecursive(canvas);
         }
 
         public override void ReadNode(XmlNode node)
@@ -339,50 +350,50 @@ namespace AATool.UI.Controls
                 return;
 
             //properties
-            this.Name            = ParseAttribute(node, "name",             this.Name);
-            this.FlexWidth       = ParseAttribute(node, "width",            this.FlexWidth);
-            this.FlexHeight      = ParseAttribute(node, "height",           this.FlexHeight);
-            this.MaxWidth        = ParseAttribute(node, "max_width",        this.MaxWidth);
-            this.MaxHeight       = ParseAttribute(node, "max_height",       this.MaxHeight);
-            this.MinWidth        = ParseAttribute(node, "min_width",        this.MinWidth);
-            this.MinHeight       = ParseAttribute(node, "min_height",       this.MinHeight);
-            this.Row             = ParseAttribute(node, "row",              this.Row);
-            this.Column          = ParseAttribute(node, "col",              this.Column);
-            this.RowSpan         = ParseAttribute(node, "rowspan",          this.RowSpan);
-            this.ColumnSpan      = ParseAttribute(node, "colspan",          this.ColumnSpan);
-            this.IsCollapsed     = ParseAttribute(node, "collapsed",        this.IsCollapsed);
-            this.IsSquare        = ParseAttribute(node, "square",           this.IsSquare);
-            this.DrawMode        = ParseAttribute(node, "draw_mode",        this.DrawMode);
-            this.VerticalAlign   = ParseAttribute(node, "vertical_align",   this.VerticalAlign);
-            this.HorizontalAlign = ParseAttribute(node, "horizontal_align", this.HorizontalAlign);
-
-            this.SetLayer(ParseAttribute(node, "layer", this.Layer));
+            this.Name            = Attribute(node, "name",             this.Name);
+            this.FlexWidth       = Attribute(node, "width",            this.FlexWidth);
+            this.FlexHeight      = Attribute(node, "height",           this.FlexHeight);
+            this.MaxWidth        = Attribute(node, "max_width",        this.MaxWidth);
+            this.MaxHeight       = Attribute(node, "max_height",       this.MaxHeight);
+            this.MinWidth        = Attribute(node, "min_width",        this.MinWidth);
+            this.MinHeight       = Attribute(node, "min_height",       this.MinHeight);
+            this.Row             = Attribute(node, "row",              this.Row);
+            this.Column          = Attribute(node, "col",              this.Column);
+            this.RowSpan         = Attribute(node, "rowspan",          this.RowSpan);
+            this.ColumnSpan      = Attribute(node, "colspan",          this.ColumnSpan);
+            this.IsCollapsed     = Attribute(node, "collapsed",        this.IsCollapsed);
+            this.IsSquare        = Attribute(node, "square",           this.IsSquare);
+            this.DrawMode        = Attribute(node, "draw_mode",        this.DrawMode);
+            this.VerticalAlign   = Attribute(node, "vertical_align",   this.VerticalAlign);
+            this.HorizontalAlign = Attribute(node, "horizontal_align", this.HorizontalAlign);
+			
+			this.SetLayer(Attribute(node, "layer", this.Layer));
 
             //margin
             if (node.Attributes["margin"] is not null)
             {
-                this.Margin = ParseAttribute(node, "margin", this.Margin);
+                this.Margin = Attribute(node, "margin", this.Margin);
             }
             else
             {
-                Size left   = ParseAttribute(node, "margin_left",   new Size());
-                Size right  = ParseAttribute(node, "margin_right",  new Size());
-                Size top    = ParseAttribute(node, "margin_top",    new Size());
-                Size bottom = ParseAttribute(node, "margin_bottom", new Size());
+                Size left   = Attribute(node, "margin_left",   new Size());
+                Size right  = Attribute(node, "margin_right",  new Size());
+                Size top    = Attribute(node, "margin_top",    new Size());
+                Size bottom = Attribute(node, "margin_bottom", new Size());
                 this.Margin = new Margin(left, right, top, bottom);
             }
 
             //padding
             if (node.Attributes["padding"] is not null)
             {
-                this.Padding = ParseAttribute(node, "padding", this.Padding);
+                this.Padding = Attribute(node, "padding", this.Padding);
             }
             else
             {
-                Size left    = ParseAttribute(node, "padding_left",   new Size());
-                Size right   = ParseAttribute(node, "padding_right",  new Size());
-                Size top     = ParseAttribute(node, "padding_top",    new Size());
-                Size bottom  = ParseAttribute(node, "padding_bottom", new Size());
+                Size left    = Attribute(node, "padding_left",   new Size());
+                Size right   = Attribute(node, "padding_right",  new Size());
+                Size top     = Attribute(node, "padding_top",    new Size());
+                Size bottom  = Attribute(node, "padding_bottom", new Size());
                 this.Padding = new Margin(left, right, top, bottom);
             }
 
@@ -404,21 +415,21 @@ namespace AATool.UI.Controls
                 return;
 
             this.ReadNode(document.DocumentElement);
-            this.Width      = ParseAttribute(document.DocumentElement, "width", 640);
-            this.Height     = ParseAttribute(document.DocumentElement, "height", 360);
+            this.Width      = Attribute(document.DocumentElement, "width", 640);
+            this.Height     = Attribute(document.DocumentElement, "height", 360);
             this.FlexWidth  = new Size(this.Width, SizeMode.Absolute);
             this.FlexHeight = new Size(this.Height, SizeMode.Absolute);
 
             if (document.DocumentElement.Attributes["padding"] is not null)
             {
-                this.Padding = ParseAttribute(document.DocumentElement, "padding", this.Padding);
+                this.Padding = Attribute(document.DocumentElement, "padding", this.Padding);
             }
             else
             {
-                Size left    = ParseAttribute(document.DocumentElement, "padding_left",   new Size());
-                Size right   = ParseAttribute(document.DocumentElement, "padding_right",  new Size());
-                Size top     = ParseAttribute(document.DocumentElement, "padding_top",    new Size());
-                Size bottom  = ParseAttribute(document.DocumentElement, "padding_bottom", new Size());
+                Size left    = Attribute(document.DocumentElement, "padding_left",   new Size());
+                Size right   = Attribute(document.DocumentElement, "padding_right",  new Size());
+                Size top     = Attribute(document.DocumentElement, "padding_top",    new Size());
+                Size bottom  = Attribute(document.DocumentElement, "padding_bottom", new Size());
                 this.Padding = new Margin(left, right, top, bottom);
             }
         }

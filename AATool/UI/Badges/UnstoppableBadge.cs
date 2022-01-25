@@ -29,5 +29,10 @@ namespace AATool.UI.Badges
                 this.glow.SkipToBrightness(0.75f);
             }
         }
+
+        protected override void UpdateThis(Time time)
+        {
+
+        }
     }
 }

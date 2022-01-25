@@ -43,8 +43,8 @@ namespace AATool.UI.Controls
         private void ReflowHorizontal(bool leftToRight)
         {
             int consumed = 0;
-            int remaining = this.Content.Width;
-            int y = this.Content.Top;
+            int remaining = this.Inner.Width;
+            int y = this.Inner.Top;
             foreach (UIControl child in this.Children)
             {
                 int width  = Math.Max(this.CellWidth, child.Width + child.Margin.Horizontal);
@@ -54,14 +54,14 @@ namespace AATool.UI.Controls
                 {
                     //start next row
                     consumed  = 0;
-                    remaining = this.Content.Width;
+                    remaining = this.Inner.Width;
                     y += height;
                 }
 
                 //reposition child control
                 int x = leftToRight
-                    ? this.Content.Left + consumed
-                    : this.Content.Right - consumed - width;
+                    ? this.Inner.Left + consumed
+                    : this.Inner.Right - consumed - width;
 
                 child.ResizeRecursive(new Rectangle(x, y, width, height));
                 consumed += width;
@@ -72,8 +72,8 @@ namespace AATool.UI.Controls
         private void ReflowVertical(bool topToBottom)
         {
             int consumed = 0;
-            int remaining = this.Content.Height;
-            int x = this.Content.Left;
+            int remaining = this.Inner.Height;
+            int x = this.Inner.Left;
             foreach (UIControl child in this.Children)
             {
                 int width  = Math.Max(this.CellWidth, child.Width + child.Margin.Horizontal);
@@ -83,14 +83,14 @@ namespace AATool.UI.Controls
                 {
                     //start next row
                     consumed  = 0;
-                    remaining = this.Content.Height;
+                    remaining = this.Inner.Height;
                     x += width;
                 }
 
                 //reposition child control
                 int y = topToBottom
-                    ? this.Content.Top + consumed
-                    : this.Content.Bottom - consumed;
+                    ? this.Inner.Top + consumed
+                    : this.Inner.Bottom - consumed;
 
                 child.ResizeRecursive(new Rectangle(x, y, width, height));
                 consumed += height;
@@ -101,9 +101,9 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            this.FlowDirection = ParseAttribute(node, "direction", FlowDirection.LeftToRight);
-            this.CellWidth     = ParseAttribute(node, "cell_width", this.CellWidth);
-            this.CellHeight    = ParseAttribute(node, "cell_height", this.CellHeight);
+            this.FlowDirection = Attribute(node, "direction", FlowDirection.LeftToRight);
+            this.CellWidth     = Attribute(node, "cell_width", this.CellWidth);
+            this.CellHeight    = Attribute(node, "cell_height", this.CellHeight);
         }
     }
 }

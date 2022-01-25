@@ -20,46 +20,46 @@ namespace AATool.UI.Controls
             this.Style = "light";
         }
 
-        public override void DrawThis(Display display)
+        public override void DrawThis(Canvas canvas)
         {
             string tex = "minecraft_panel_" + this.Style;
 
             //middle
-            display.Draw(tex, new Rectangle(this.Left + this.CornerSize, this.Top + this.CornerSize, this.MiddleWidth, this.MiddleHeight),
+            canvas.Draw(tex, new Rectangle(this.Left + this.CornerSize, this.Top + this.CornerSize, this.MiddleWidth, this.MiddleHeight),
                 new Rectangle(2, 2, 1, 1));
 
             //top left
-            display.Draw(tex, new (this.Left, this.Top, this.CornerSize, this.CornerSize),
+            canvas.Draw(tex, new (this.Left, this.Top, this.CornerSize, this.CornerSize),
                 new Rectangle(0, 0, 2, 2));
             //top right
-            display.Draw(tex, new (this.Right - this.CornerSize, this.Top, this.CornerSize, this.CornerSize),
+            canvas.Draw(tex, new (this.Right - this.CornerSize, this.Top, this.CornerSize, this.CornerSize),
                 new Rectangle(3, 0, 2, 2));
             //bottom left
-            display.Draw(tex, new (this.Left, this.Bottom - this.CornerSize, this.CornerSize, this.CornerSize),
+            canvas.Draw(tex, new (this.Left, this.Bottom - this.CornerSize, this.CornerSize, this.CornerSize),
                 new Rectangle(0, 3, 2, 2));
             //bottom right
-            display.Draw(tex, new (this.Right - this.CornerSize, this.Bottom - this.CornerSize, this.CornerSize, this.CornerSize),
+            canvas.Draw(tex, new (this.Right - this.CornerSize, this.Bottom - this.CornerSize, this.CornerSize, this.CornerSize),
                 new Rectangle(3, 3, 2, 2));
 
             //top edge
-            display.Draw(tex, new (this.Left + this.CornerSize, this.Top, this.MiddleWidth, this.CornerSize),
+            canvas.Draw(tex, new (this.Left + this.CornerSize, this.Top, this.MiddleWidth, this.CornerSize),
                 new Rectangle(2, 0, 1, 2));
             //bottom edge
-            display.Draw(tex, new (this.Left + this.CornerSize, this.Bottom - this.CornerSize, this.MiddleWidth, this.CornerSize),
+            canvas.Draw(tex, new (this.Left + this.CornerSize, this.Bottom - this.CornerSize, this.MiddleWidth, this.CornerSize),
                 new Rectangle(2, 3, 1, 2));
             //left edge
-            display.Draw(tex, new (this.Left, this.Top + this.CornerSize, this.CornerSize, this.MiddleHeight),
+            canvas.Draw(tex, new (this.Left, this.Top + this.CornerSize, this.CornerSize, this.MiddleHeight),
                 new Rectangle(0, 2, 2, 1));
             //right edge
-            display.Draw(tex, new (this.Right - this.CornerSize, this.Top + this.CornerSize, this.CornerSize, this.MiddleHeight),
+            canvas.Draw(tex, new (this.Right - this.CornerSize, this.Top + this.CornerSize, this.CornerSize, this.MiddleHeight),
                 new Rectangle(3, 2, 2, 1));
         }
 
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            this.Style = ParseAttribute(node, "style", "light");
-            this.Scale = ParseAttribute(node, "scale", 2);
+            this.Style = Attribute(node, "style", "light");
+            this.Scale = Attribute(node, "scale", 2);
         }
     }
 }

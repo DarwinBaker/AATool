@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
+using AATool.Configuration;
 using AATool.Graphics;
 using AATool.Net.Requests;
-using AATool.Settings;
 using AATool.UI.Controls;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
@@ -24,7 +23,6 @@ namespace AATool.UI.Screens
 
         private UIFlowPanel upgrades;
         private UIFlowPanel fixes;
-        private UIFlowPanel notes;
 
         private UIControl thumbnailBounds;
 
@@ -32,17 +30,20 @@ namespace AATool.UI.Screens
 
         private bool postInstall;
 
+        public override Color FrameBackColor() => Config.Main.BackColor;
+        public override Color FrameBorderColor() => Config.Main.BorderColor;
+
         public UIUpdateScreen(Main main, bool postInstall) : base(main, GameWindow.Create(main, 700, 360))
         {
             this.Form.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.postInstall = postInstall;
-            
+
             this.ReloadLayout();
             this.ConstrainWindow();
             int x = Main.PrimaryScreen.Form.Left + (Main.PrimaryScreen.Form.ClientSize.Width / 2) - (this.Window.ClientBounds.Width / 2);
             int y = Main.PrimaryScreen.Form.Top + (Main.PrimaryScreen.Form.ClientSize.Height / 2) - (this.Window.ClientBounds.Height / 2);
             this.Form.Location = new System.Drawing.Point(x, y);
-            this.Form.Icon = new System.Drawing.Icon("assets/graphics/system/aaupdate.ico");
+            this.Form.Icon = new System.Drawing.Icon(Paths.System.UpdateIcon);
             this.Form.Show();
         }
 
@@ -50,7 +51,7 @@ namespace AATool.UI.Screens
         {
             //clear and load layout if window just opened or game version changed
             this.ClearControls();
-            if (this.TryLoadXml("assets/ui/screens/screen_update.xml"))
+            if (this.TryLoadXml(Paths.System.GetLayoutFor(this)))
             {
                 this.InitializeRecursive(this);
                 this.ResizeRecursive(new Rectangle(0, 0, this.Width, this.Height));
@@ -74,12 +75,9 @@ namespace AATool.UI.Screens
             }
         }
 
-        public override void InitializeRecursive(UIScreen screen)
+        public override void InitializeThis(UIScreen screen)
         {
-            base.InitializeRecursive(screen);
-
             this.textTinted = new List<UIPicture>();
-
             this.versionLabel = this.First<UITextBlock>("version");
             this.versionLabel.SetText("AATool " + UpdateRequest.LatestVersion.ToString());
             this.titleLabel = this.First<UITextBlock>("title");
@@ -189,21 +187,21 @@ namespace AATool.UI.Screens
             return panel;
         }
 
-        public override void Prepare(Display display)
+        public override void Prepare(Canvas canvas)
         {
-            base.Prepare(display);
+            base.Prepare(canvas);
             this.GraphicsDevice.Clear(Config.Main.BackColor);
         }
 
-        public override void DrawThis(Display display)
+        public override void DrawThis(Canvas canvas)
         {
             var centered = new Rectangle(
                 this.thumbnailBounds.Left,
                 this.thumbnailBounds.Top, 
                 UpdateRequest.LatestThumb.Width, 
                 UpdateRequest.LatestThumb.Height);
-            display.Draw(UpdateRequest.LatestThumb, centered, Color.White, Layer.Fore);
-            base.DrawThis(display);
+            canvas.Draw(UpdateRequest.LatestThumb, centered, Color.White, Layer.Fore);
+            base.DrawThis(canvas);
         }
 
         protected override void UpdateThis(Time time)
@@ -225,7 +223,7 @@ namespace AATool.UI.Screens
             else if (sender == this.laterButton || sender == this.closeButton)
                 this.Form.Close();
             else if (sender == this.githubButton)
-                _ = Process.Start(Paths.URL_GITHUB_LATEST);
+                _ = Process.Start(Paths.Web.LatestRelease);
         }
     }
 }

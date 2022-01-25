@@ -1,4 +1,5 @@
-﻿using AATool.Net;
+﻿using AATool.Graphics;
+using AATool.Net;
 using AATool.UI.Controls;
 
 namespace AATool.UI.Badges

@@ -19,7 +19,7 @@ namespace AATool.UI.Controls
 
         public override void InitializeRecursive(UIScreen screen)
         {
-            this.BuildFromSourceDocument();
+            this.BuildFromTemplate();
 
             this.flowPlayers = this.First<UIFlowPanel>("player_list");
 

@@ -1,9 +1,9 @@
-﻿using AATool.Graphics;
-using AATool.Settings;
-using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Xml;
+using AATool.Configuration;
+using AATool.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace AATool.UI.Controls
 {
@@ -35,7 +35,7 @@ namespace AATool.UI.Controls
             for (int col = 0; col < Math.Min(this.Columns.Count, this.CollapsedColumns.Count); col++)
             {
                 if (!this.CollapsedColumns[col])
-                    total += this.Columns[col].GetAbsoluteInt(this.Content.Width);
+                    total += this.Columns[col].GetAbsoluteInt(this.Inner.Width);
             }
             return total;
         }
@@ -46,7 +46,7 @@ namespace AATool.UI.Controls
             for (int row = 0; row < Math.Min(this.Rows.Count, this.CollapsedRows.Count); row++)
             {
                 if (!this.CollapsedRows[row])
-                    total += this.Rows[row].GetAbsoluteInt(this.Content.Height);
+                    total += this.Rows[row].GetAbsoluteInt(this.Inner.Height);
             }
             return total;
         }
@@ -134,7 +134,7 @@ namespace AATool.UI.Controls
 
             //keep track of remainder from rounding errors so we don't end up with gaps
             double remainderY = 0;
-            int y = this.Content.Y;
+            int y = this.Inner.Y;
             for (int r = 0; r < this.Rows.Count; r++)
             {
                 //skip row if collapsed
@@ -143,9 +143,9 @@ namespace AATool.UI.Controls
 
                 //keep track of remainder from rounding errors so we don't end up with gaps
                 double remainderX = 0;
-                int x = this.Content.X;
-                int height  = this.Rows[r].GetAbsoluteInt(this.Content.Height - totalAbsoluteHeight);
-                remainderY += this.Rows[r].GetAbsoluteDouble(this.Content.Height - totalAbsoluteHeight) - height;
+                int x = this.Inner.X;
+                int height  = this.Rows[r].GetAbsoluteInt(this.Inner.Height - totalAbsoluteHeight);
+                remainderY += this.Rows[r].GetAbsoluteDouble(this.Inner.Height - totalAbsoluteHeight) - height;
                 height     += (int)remainderY;
                 remainderY -= (int)remainderY;
 
@@ -155,8 +155,8 @@ namespace AATool.UI.Controls
                     if (this.CollapsedColumns[c])
                         continue;
 
-                    int width   = this.Columns[c].GetAbsoluteInt(this.Content.Width - totalAbsoluteWidth);
-                    remainderX += this.Columns[c].GetAbsoluteDouble(this.Content.Width - totalAbsoluteWidth) - width;
+                    int width   = this.Columns[c].GetAbsoluteInt(this.Inner.Width - totalAbsoluteWidth);
+                    remainderX += this.Columns[c].GetAbsoluteDouble(this.Inner.Width - totalAbsoluteWidth) - width;
                     width      += (int)remainderX;
                     remainderX -= (int)remainderX;
 
@@ -214,29 +214,29 @@ namespace AATool.UI.Controls
             }
         }
 
-        public override void DrawThis(Display display)
+        public override void DrawThis(Canvas canvas)
         {
             if (this.SkipDraw)
                 return;
 
-            base.DrawThis(display);
+            base.DrawThis(canvas);
             foreach (Rectangle cell in this.CellRectangles)
-                display.DrawRectangle(cell, Config.Main.BackColor, Config.Main.BorderColor, 1);
+                canvas.DrawRectangle(cell, Config.Main.BackColor, Config.Main.BorderColor, 1);
         }
 
-        public override void DrawDebugRecursive(Display display)
+        public override void DrawDebugRecursive(Canvas canvas)
         {
-            base.DrawDebugRecursive(display);
+            base.DrawDebugRecursive(canvas);
             foreach (Rectangle cell in this.CellRectangles)
             {
                 //cell edges
-                display.DrawRectangle(new Rectangle(cell.Left, cell.Top, cell.Width, 1),                
+                canvas.DrawRectangle(new Rectangle(cell.Left, cell.Top, cell.Width, 1),                
                     this.DebugColor * 0.5f, null, 0, Layer.Fore);
-                display.DrawRectangle(new Rectangle(cell.Right - 1, cell.Top + 1, 1, cell.Height - 2),  
+                canvas.DrawRectangle(new Rectangle(cell.Right - 1, cell.Top + 1, 1, cell.Height - 2),  
                     this.DebugColor * 0.5f, null, 0, Layer.Fore);
-                display.DrawRectangle(new Rectangle(cell.Left + 1, cell.Bottom - 1, cell.Width - 1, 1), 
+                canvas.DrawRectangle(new Rectangle(cell.Left + 1, cell.Bottom - 1, cell.Width - 1, 1), 
                     this.DebugColor * 0.5f, null, 0, Layer.Fore);
-                display.DrawRectangle(new Rectangle(cell.Left, cell.Top + 1, 1, cell.Height - 1),       
+                canvas.DrawRectangle(new Rectangle(cell.Left, cell.Top + 1, 1, cell.Height - 1),       
                     this.DebugColor * 0.5f, null, 0, Layer.Fore);
             }
         }
@@ -251,8 +251,8 @@ namespace AATool.UI.Controls
             {
                 foreach (XmlNode row in rowNode.ChildNodes)
                 {
-                    this.Rows.Add(ParseAttribute(row, "height", new Size(1, SizeMode.Relative)));
-                    this.CollapsedRows.Add(ParseAttribute(row, "collapsed", false));
+                    this.Rows.Add(Attribute(row, "height", new Size(1, SizeMode.Relative)));
+                    this.CollapsedRows.Add(Attribute(row, "collapsed", false));
                 }   
             }
             else
@@ -267,8 +267,8 @@ namespace AATool.UI.Controls
             {
                 foreach (XmlNode col in colNode.ChildNodes)
                 {
-                    this.Columns.Add(ParseAttribute(col, "width", new Size(1, SizeMode.Relative)));
-                    this.CollapsedColumns.Add(ParseAttribute(col, "collapsed", false));
+                    this.Columns.Add(Attribute(col, "width", new Size(1, SizeMode.Relative)));
+                    this.CollapsedColumns.Add(Attribute(col, "collapsed", false));
                 }
             }
             else

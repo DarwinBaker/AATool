@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using AATool.Settings;
-using AATool.Utilities;
 using Microsoft.Xna.Framework;
 
 namespace AATool.UI.Controls
@@ -97,13 +94,13 @@ namespace AATool.UI.Controls
                 if (this.NextIndex >= this.SourceList.Count)
                     this.NextIndex = 0;
 
-                var control = this.NextControl();
+                UIControl control = this.NextControl();
                 control.ResizeRecursive(this.Bounds);
                 control.VerticalAlign = VerticalAlign.Top;
                 if (this.RightToLeft)
-                    control.MoveTo(new Point(x, this.Content.Top));
+                    control.MoveTo(new Point(x, this.Inner.Top));
                 else
-                    control.MoveTo(new Point(this.Width - x - control.Width, this.Content.Top));
+                    control.MoveTo(new Point(this.Width - x - control.Width, this.Inner.Top));
 
                 this.AddControl(control);
 
@@ -116,8 +113,8 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            RightToLeft = ParseAttribute(node, "right_to_left", true);
-            Speed = ParseAttribute(node, "speed", 1);
+            this.RightToLeft = Attribute(node, "right_to_left", true);
+            this.Speed = Attribute(node, "speed", 1);
         }
     }
 }

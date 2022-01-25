@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Xml;
-using AATool.Winforms.Forms;
-using AATool.Settings;
-using AATool.UI.Controls;
-using Microsoft.Xna.Framework;
-using AATool.Net;
 using System.Windows.Forms;
-using System.Security.Cryptography;
-using Microsoft.Xna.Framework.Graphics;
-using AATool.Utilities.Easings;
+using AATool.Configuration;
+using AATool.Data.Categories;
 using AATool.Graphics;
-using System.Reflection;
-using AATool.Net.Requests;
-using System.Linq;
-using Microsoft.Xna.Framework.Input;
+using AATool.Net;
+using AATool.UI.Controls;
 using AATool.Utilities;
+using AATool.Winforms.Forms;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace AATool.UI.Screens
 {
@@ -26,6 +20,7 @@ namespace AATool.UI.Screens
 
         public static RenderTarget2D RenderCache { get; private set; }
         public static bool Invalidated { get; private set; }
+        public static bool RefreshingCache { get; set; }
         public static bool Invalidate() => Invalidated = true;
 
         private FSettings settingsMenu;
@@ -36,6 +31,9 @@ namespace AATool.UI.Screens
 
         private KeyboardState kbNow;
         private KeyboardState kbPrev;
+
+        public override Color FrameBackColor() => Config.Main.BackColor;
+        public override Color FrameBorderColor() => Config.Main.BorderColor;
 
         public UIMainScreen(Main main) : base(main, main.Window)
         {
@@ -66,8 +64,8 @@ namespace AATool.UI.Screens
         private void CenterWindow()
         {
             System.Drawing.Rectangle desktop = Screen.FromControl(this.Form).WorkingArea;
-            int x = Math.Max(desktop.X, desktop.X + ((desktop.Width  - this.grid.GetExpandedWidth())  / 2));
-            int y = Math.Max(desktop.Y, desktop.Y + ((desktop.Height - this.grid.GetExpandedHeight()) / 2));
+            int x = Math.Max(desktop.X, desktop.X + ((desktop.Width  - this.grid?.GetExpandedWidth() ?? 0)  / 2));
+            int y = Math.Max(desktop.Y, desktop.Y + ((desktop.Height - this.grid?.GetExpandedHeight() ?? 0) / 2));
             this.Form.Location = new System.Drawing.Point(x, y);
         }
 
@@ -98,7 +96,8 @@ namespace AATool.UI.Screens
             {
                 string title = "Compact Mode Enabled";
                 string message = "Your display resolution is too small for Relaxed View. Compact View has been enabled.";
-                Config.Main.CompactMode = true;
+                Config.Main.CompactMode.Set(true);
+                this.ReloadLayout();
                 System.Windows.Forms.MessageBox.Show(this.Form, message, title, 
                     MessageBoxButtons.OK, 
                     MessageBoxIcon.Information);
@@ -109,77 +108,119 @@ namespace AATool.UI.Screens
         {
             Peer.UnbindController(this.status);
             this.Children.Clear();
-            string variant = Config.Main.CompactMode ? "compact" : "relaxed";
-             if (!this.TryLoadXml(Paths.GetLayoutFor("main", variant)))
-                Main.QuitBecause("Error loading main layout!");
-            this.InitializeRecursive(this);
-            this.ResizeRecursive(this.Bounds);
+            if (this.TryLoadXml(Paths.System.GetLayoutFor(this)))
+            { 
+                this.InitializeRecursive(this);
+                this.ResizeRecursive(this.Bounds);
+            }
+            else
+            {
+                this.ShowErrorScreen();
+            }
         }
 
-        public override void InitializeRecursive(UIScreen screen)
+        public override void InitializeThis(UIScreen screen)
         {
             this.grid   = this.First<UIGrid>();
             this.lobby  = this.First<UILobby>();
             this.status = this.First<UIStatusBar>();
             Peer.BindController(this.status);
-            base.InitializeRecursive(screen);
         }
 
         protected override void ConstrainWindow()
         {
-            if (this.grid is not null)
+            int width = this.grid?.GetExpandedWidth() ?? 640;
+            int height = this.grid?.GetExpandedHeight() ?? 320;
+            if (this.FormWidth != width || this.FormHeight != height || Tracker.ObjectivesChanged)
             {
-                int width  = this.grid.GetExpandedWidth();
-                int height = this.grid.GetExpandedHeight();
-                if (this.FormWidth != width || this.FormHeight != height || Config.Tracker.GameVersionChanged())
-                {
-                    this.Form.ClientSize = new System.Drawing.Size(width, height);
-                    Main.Graphics.PreferredBackBufferWidth  = width;
-                    Main.Graphics.PreferredBackBufferHeight = height;
-                    Main.Graphics.ApplyChanges();
-                    this.ResizeRecursive(new Rectangle(0, 0, width, height));
-                    RenderCache?.Dispose();
-                    RenderCache = new RenderTarget2D(this.GraphicsDevice, width, height);
-                }
+                this.Form.ClientSize = new System.Drawing.Size(width, height);
+                Main.Graphics.PreferredBackBufferWidth  = width;
+                Main.Graphics.PreferredBackBufferHeight = height;
+                Main.Graphics.ApplyChanges();
+                this.ResizeRecursive(new Rectangle(0, 0, width, height));
+                RenderCache?.Dispose();
+                RenderCache = new RenderTarget2D(this.GraphicsDevice, width, height);
             }
         }
 
         protected override void UpdateThis(Time time)
         {
             //update game version
-            if (Config.Tracker.GameVersionChanged() || Config.Main.ValueChanged(MainSettings.COMPACT_MODE))
+            if (Tracker.ObjectivesChanged || Config.Main.CompactMode.Changed)
                 this.ReloadLayout();
             
             this.UpdateForcedCompactMode();
             this.UpdateCollapsedStates();
 
             //keep settings menu version up to date
-            if (Config.Tracker.GameVersionChanged() || Peer.StateChangedFlag)
-                this.settingsMenu?.UpdateGameVersion();
+            if (Tracker.ObjectivesChanged || Peer.StateChanged)
+                this.settingsMenu?.InvalidateSettings();
 
-            if (Config.Overlay.WidthChanged())
+            if (Config.Overlay.Width.Changed)
                 this.settingsMenu?.UpdateOverlayWidth();
 
+            if (Config.Main.BackColor.Changed
+                || Config.Main.BorderColor.Changed
+                || Config.Main.TextColor.Changed
+                || Config.Main.FrameStyle.Changed
+                || Config.Main.ProgressBarStyle.Changed)
+            {
+                Invalidate();
+            }
+
+            //escape to open settings
             this.settingsCooldown.Update(time);
             this.kbNow = Keyboard.GetState();
-            if (this.kbNow.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape) 
-                && this.kbPrev.IsKeyUp(Microsoft.Xna.Framework.Input.Keys.Escape)
-                && this.settingsCooldown.IsExpired)
-            {
+            var escape = Microsoft.Xna.Framework.Input.Keys.Escape;
+            if (this.kbNow.IsKeyDown(escape) && this.kbPrev.IsKeyUp(escape) && this.settingsCooldown.IsExpired)
                 this.OpenSettingsMenu();
-            }
             this.kbPrev = this.kbNow;
+
+            //enforce window size
             this.ConstrainWindow();
+        }
+
+        private void ShowErrorScreen() 
+        {
+            Peer.UnbindController(this.status);
+            this.Children.Clear();
+
+            var label = new UITextBlock();
+            label.SetFont("minecraft", 24);
+            label.SetText($"There was an error attempting to load layout file:\n{Paths.System.GetLayoutFor(this)}");
+            this.AddControl(label);
+
+            var settings = new UIButton() {
+                FlexWidth = new Size(140),
+                FlexHeight = new Size(50),
+                VerticalAlign = VerticalAlign.Top,
+                Margin = new Margin(0, 0, 200, 0),
+            };
+            settings.OnClick += this.OnClick;
+            settings.TextBlock.SetFont("minecraft", 24);
+            settings.SetText("Settings");
+            this.AddControl(settings);
+
+            this.InitializeRecursive(this);
+            this.ResizeRecursive(this.Bounds);
+        }
+
+        private void OnClick(UIControl sender)
+        {
+            this.OpenSettingsMenu();
         }
 
         private void UpdateCollapsedStates()
         {
+            if (this.grid is null)
+                return;
+
             //update whether or not top row should be shown
-            if (Config.Main.ShowBasic == this.grid.CollapsedRows[0])
+            if (Config.Main.ShowBasicAdvancements == this.grid.CollapsedRows[0])
             {
-                if (Config.Main.ShowBasic)
+                if (Config.Main.ShowBasicAdvancements)
                     this.grid.ExpandRow(0);
-                else if (Config.PostExplorationUpdate)
+                else if (Tracker.Category is not AllAchievements)
                     this.grid.CollapseRow(0);
             }
 
@@ -193,37 +234,43 @@ namespace AATool.UI.Screens
                 if (!this.grid.CollapsedColumns[0])
                 {
                     this.grid.CollapseCol(0);
-                    this.lobby.Clear();
+                    this.lobby?.Clear();
                 }
             }
         }
 
-        public override void Prepare(Display display)
+        public override void Prepare(Canvas canvas)
         {
-            base.Prepare(display);
+            base.Prepare(canvas);
             this.GraphicsDevice.Clear(Config.Main.BackColor);
         }
 
-        public override void DrawRecursive(Display display)
-        {
-            base.DrawRecursive(display);
+        public override void Present(Canvas canvas) 
+        { 
+            base.Present(canvas);
             Invalidated = false;
+            RefreshingCache = false;
         }
 
-        public override void DrawThis(Display display)
+        public override void DrawRecursive(Canvas canvas)
         {
-            Color color = display.RainbowLight;
-            this.settingsMenu?.UpdateRainbow(color);
+            base.DrawRecursive(canvas);
+        }
 
+        public override void DrawThis(Canvas canvas)
+        {
+            Color back = canvas.RainbowLight;
+            var border = new Color((int)(back.R / 1.25f), (int)(back.G / 1.25f), (int)(back.B / 1.25f), 255);
             if (Config.Main.RainbowMode)
             {
-                Config.Main.BackColor   = color;
-                Config.Main.BorderColor = new Color((int)(color.R / 1.25f), (int)(color.G / 1.25f), (int)(color.B / 1.25f), 255);
-                Config.Main.TextColor   = Color.Black;
+                this.settingsMenu?.UpdateRainbow(back);
+                Config.Main.BackColor.Set(back);
+                Config.Main.BorderColor.Set(border);
+                Config.Main.TextColor.Set(Color.Black);
             }
 
-            if (Invalidated && Config.Main.CacheDebug)
-                display.DrawRectangle(this.Bounds, ColorHelper.Fade(Color.Magenta, 0.5f), null, 0, Layer.Fore);
+            if (Invalidated && Config.Main.CacheDebugMode)
+                canvas.DrawRectangle(this.Bounds, ColorHelper.Fade(Color.Magenta, 0.5f), null, 0, Layer.Fore);
         }
     }
 }

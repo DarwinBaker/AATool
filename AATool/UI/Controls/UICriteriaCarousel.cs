@@ -1,15 +1,14 @@
-﻿using AATool.Data;
-using AATool.Settings;
+﻿using System.Linq;
+using AATool.Configuration;
+using AATool.Data.Objectives;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AATool.UI.Controls
 {
     class UICriteriaCarousel : UICarousel
     {
-        public override void InitializeRecursive(UIScreen screen)
+        public override void InitializeThis(UIScreen screen)
         {
             this.UpdateSourceList();
         }
@@ -33,16 +32,18 @@ namespace AATool.UI.Controls
         {
             //populate source list with all criteria
             this.SourceList.Clear();
-            foreach (Criterion criterion in Tracker.AllCriteria.Values)
+            foreach (Criterion criterion in Tracker.Criteria.Values)
             {
                 if (!criterion.CompletedByAnyone())
                     this.SourceList.Add(criterion);
             }
 
             //remove all completed criteria from pool if configured to do so
-            for (int i = SourceList.Count - 1; i >= 0; i--)
-                if ((SourceList[i] as Criterion).CompletedByAnyone())
-                    SourceList.RemoveAt(i);
+            for (int i = this.SourceList.Count - 1; i >= 0; i--)
+            {
+                if ((this.SourceList[i] as Criterion).CompletedByAnyone())
+                    this.SourceList.RemoveAt(i);
+            }
         }
 
         protected override void Fill()
@@ -53,28 +54,27 @@ namespace AATool.UI.Controls
                 x = this.RightToLeft ? this.Children.Last().Right : this.Width - this.Children.Last().Left;
 
             //while more controls will fit, add them
-            int attempts = 0;
             while (x < this.Width)
             {
-                if (SourceList.Count == 0)
+                if (this.SourceList.Count == 0)
                     return;
 
-                if (NextIndex >= SourceList.Count)
-                    NextIndex = 0;
+                if (this.NextIndex >= this.SourceList.Count)
+                    this.NextIndex = 0;
 
-                var control = NextControl();
+                UIControl control = this.NextControl();
                 
-                control.InitializeRecursive(Root());
-                control.ResizeRecursive(Bounds);
+                control.InitializeRecursive(this.Root());
+                control.ResizeRecursive(this.Bounds);
 
-                if (RightToLeft)
-                    control.MoveTo(new Point(x, Content.Top));
+                if (this.RightToLeft)
+                    control.MoveTo(new Point(x, this.Inner.Top));
                 else
-                    control.MoveTo(new Point(Width - x - control.Width, Content.Top));
-                AddControl(control);
+                    control.MoveTo(new Point(this.Width - x - control.Width, this.Inner.Top));
+                this.AddControl(control);
 
-                NextIndex++;
-                x += Children[0].Width;
+                this.NextIndex++;
+                x += this.Children[0].Width;
             }
         }
 
@@ -83,8 +83,8 @@ namespace AATool.UI.Controls
             var criterion = this.SourceList[this.NextIndex] as Criterion;
             var control = new UICriterion(3) {
                 IsStatic = true,
-                AdvancementID = criterion.ParentAdvancement.Id,
-                CriterionID = criterion.ID
+                AdvancementID = criterion.Owner.Id,
+                CriterionID = criterion.Id
             };
 
             //fix ambiguity between some criteria of different advancements
@@ -97,8 +97,8 @@ namespace AATool.UI.Controls
                     VerticalAlign = VerticalAlign.Top,
                     Margin = new Margin(-16, 0, -16, 0),
                 };
-                advIcon.SetTexture(criterion.ParentAdvancement.Icon);
-                advIcon.ResizeThis(control.Content);
+                advIcon.SetTexture(criterion.Owner.Icon);
+                advIcon.ResizeThis(control.Inner);
                 control.AddControl(advIcon);
             }
             return control;
