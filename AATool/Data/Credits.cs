@@ -4,39 +4,39 @@ namespace AATool.Data
 {
     public static class Credits
     {
-        public static readonly HashSet<Supporter> Supporters = new ()
+        public static readonly HashSet<Credit> All = new ()
         {
-            new Supporter("developer", "CTM", "https://www.patreon.com/_ctm"),
-            new Supporter("special_dedication", "Wroxy"),
+            new ("developer", "CTM", "https://www.patreon.com/_ctm"),
+            new ("dedication", "Wroxy"),
 
-            new Supporter("beta_testers", "Elysaku", "https://www.twitch.tv/elysaku"),
-            new Supporter("beta_testers", "Churro the Cat :3", "https://www.instagram.com/theelysaku/"),
+            new ("beta_tester", "Elysaku", "https://www.twitch.tv/elysaku"),
+            new ("beta_tester", "Churro the Cat :3", "https://www.instagram.com/theelysaku/"),
 
-            new Supporter("netherite", "Toshio"),
-            new Supporter("emerald", "NiceTwice"),
-            new Supporter("emerald", "Cube1337x"),
-            new Supporter("gold", "Antoine"),
-            new Supporter("gold", "TheSwordElf"),
-            new Supporter("gold", "MeisterMaki"),
-            new Supporter("gold", "Deadpool"),
-            new Supporter("gold", "Feinberg"),
-            new Supporter("gold", "Infernalord"),
-            new Supporter("gold", "MoleyG"),
-            new Supporter("gold", "AutomattPL"),
-            new Supporter("gold", "T_Wagz"),
-            new Supporter("gold", "Nex"),
-            new Supporter("gold", "Colin_Henry"),
-            new Supporter("gold", "NotValik"),
+            new ("supporter_netherite", "Toshio"),
+            new ("supporter_emerald", "NiceTwice"),
+            new ("supporter_emerald", "Cube1337x"),
+            new ("supporter_gold", "Antoine"),
+            new ("supporter_gold", "TheSwordElf"),
+            new ("supporter_gold", "MeisterMaki"),
+            new ("supporter_gold", "Deadpool"),
+            new ("supporter_gold", "Feinberg"),
+            new ("supporter_gold", "Infernalord"),
+            new ("supporter_gold", "MoleyG"),
+            new ("supporter_gold", "AutomattPL"),
+            new ("supporter_gold", "T_Wagz"),
+            new ("supporter_gold", "Nex"),
+            new ("supporter_gold", "Colin_Henry"),
+            new ("supporter_gold", "NotValik"),
         };
     }
 
-    public struct Supporter
+    public struct Credit
     {
         public string Name;
         public string Role;
         public string Link;
 
-        public Supporter(string role, string name, string link = "")
+        public Credit(string role, string name, string link = "")
         {
             this.Name = name;
             this.Role = role;

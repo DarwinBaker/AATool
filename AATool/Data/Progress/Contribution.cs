@@ -11,7 +11,7 @@ namespace AATool.Data.Progress
     [JsonObject]
     public class Contribution
     {
-        [JsonProperty] public readonly Uuid Id;
+        [JsonProperty] public readonly Uuid PlayerId;
         [JsonProperty] public readonly HashSet<string> Advancements;
         [JsonProperty] public readonly HashSet<(string adv, string crit)> Criteria;
         [JsonProperty] public readonly Dictionary<string, int> ItemCounts;
@@ -19,11 +19,11 @@ namespace AATool.Data.Progress
         public int CompletedCount => this.Advancements.Count;
         
         [JsonConstructor]
-        public Contribution(Uuid Id, 
+        public Contribution(Uuid playerId, 
             HashSet<string> Advancements, 
             HashSet<(string, string)> Criteria, Dictionary<string, int> ItemCounts)
         {
-            this.Id            = Id;
+            this.PlayerId      = playerId;
             this.Advancements  = Advancements;
             this.Criteria      = Criteria;
             this.ItemCounts    = ItemCounts;
@@ -31,7 +31,7 @@ namespace AATool.Data.Progress
 
         public Contribution(Uuid playerId)
         {
-            this.Id            = playerId;
+            this.PlayerId      = playerId;
             this.Advancements  = new();
             this.Criteria      = new();
             this.ItemCounts    = new();
@@ -40,7 +40,8 @@ namespace AATool.Data.Progress
         public static Contribution FromJsonString(string jsonString) =>
             JsonConvert.DeserializeObject<Contribution>(jsonString);
 
-        public string ToJsonString() => JsonConvert.SerializeObject(this);
+        public string ToJsonString() => 
+            JsonConvert.SerializeObject(this);
 
         public bool IncludesAdvancement(string id) => 
             this.Advancements.Contains(id);
@@ -51,20 +52,13 @@ namespace AATool.Data.Progress
         public int ItemCount(string item) => 
             this.ItemCounts.TryGetValue(item, out int val) ? val : 0;
 
-        public void AddItemCount(string item, int count) => 
-            this.ItemCounts[item] = count;
+        public void AddAdvancement(string advancement) =>
+            this.Advancements.Add(advancement);
 
-        public void AddAdvancement(string advancement)
-        {
-            //add advancement to list of advancements completed by this user
-            if (!this.Advancements.Contains(advancement))
-                this.Advancements.Add(advancement);
-        }
-
-        public void AddCriterion(string advancement, string criterion)
-        {
-            //add criterion to list of criteria completed by this user
+        public void AddCriterion(string advancement, string criterion) => 
             this.Criteria.Add((advancement, criterion));
-        }
+
+        public void AddItemCount(string item, int count) =>
+            this.ItemCounts[item] = count;
     }
 }
