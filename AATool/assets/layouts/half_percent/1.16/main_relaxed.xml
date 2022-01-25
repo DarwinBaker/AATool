@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <rows>
+            <row height="416"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="16 * 68"/>
+            <column width="68"/>
+        </columns>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="2"/>
+
+        <!-- basic advancements -->
+        <grid row="0" col="1" drawmode="all">
+            <rows>
+                <row height="248"/>
+                <row height="168"/>
+            </rows>
+            <columns>
+                <column width="5 * 68"/>
+                <column width="8 * 68"/>
+                <column width="4 * 68"/>
+                <column width="3 * 68"/>
+            </columns>
+
+            <advancement_group group="minecraft" row="0" col="0" exclude="minecraft:story/cure_zombie_villager"/>
+            <advancement_group group="nether"    row="0" col="1" direction="righttoleft"/>
+            <advancement_group group="end"       row="1" col="0"/>
+            <advancement_group group="adventure" row="0" col="2" end="minecraft:adventure/sniper_duel"/>
+            <advancement_group group="adventure" row="1" col="2" start="minecraft:adventure/voluntary_exile"/>
+            <advancement_group group="husbandry" row="1" col="1"/>
+            <objective_frame advancement="minecraft:story/cure_zombie_villager" width="66" height="68" margin="308,0,160,0" horizontal_align="left" vertical_align="top"/>
+        </grid>
+
+        <!-- status strip -->
+        <status_bar row="1" col="1" colspan="3" right="330"/>
+    </grid>
+</control>

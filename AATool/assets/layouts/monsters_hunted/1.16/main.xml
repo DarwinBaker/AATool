@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control width="476" height="490">
+    <grid>
+        <rows>
+            <row height="424"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="0" collapsed="true"/>
+            <column width="7 * 90"/>
+        </columns>
+
+        <grid row="0" col="1" drawmode="all">
+            <rows>
+                <row height="168"/>
+                <row height="88"/>
+                <row height="168"/>
+            </rows>
+            <columns>
+                <column width="5 * 90"/>
+                <column width="2 * 90"/>
+            </columns>
+
+            <flow_panel row="0" col="0" cell_width="90">
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:creeper"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:zombie"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:husk"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:skeleton"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:stray"/>
+
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:enderman"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:spider"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:cave_spider"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:drowned"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:slime"/>
+            </flow_panel>
+
+            <flow_panel row="0" col="1" cell_width="90">
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:wither_skeleton"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:blaze"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:magma_cube"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:ghast"/>
+            </flow_panel>
+
+            <flow_panel row="1" col="0" cell_width="90">
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:piglin"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:piglin_brute"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:zombified_piglin"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:hoglin"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:zoglin"/>
+            </flow_panel>
+
+            <flow_panel row="2" col="0" cell_width="90">
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:pillager"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:vindicator"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:evoker"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:witch"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:zombie_villager"/>
+
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:silverfish"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:shulker"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:phantom"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:vex"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:ravager"/>
+            </flow_panel>
+
+            <flow_panel row="1" col="1" cell_width="90">
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:guardian"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:elder_guardian"/>
+            </flow_panel>
+
+            <flow_panel row="2" col="1" cell_width="90">
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:ender_dragon"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:wither"/>
+                <objective_frame owner="minecraft:adventure/kill_all_mobs" criterion="minecraft:endermite"/>
+            </flow_panel>
+        </grid>
+
+        <!-- status strip -->
+        <status_bar row="1" col="1" colspan="3" right="0"/>
+    </grid>
+</control>

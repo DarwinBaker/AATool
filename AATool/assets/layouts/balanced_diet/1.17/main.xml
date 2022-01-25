@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <rows>
+            <row height="424"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="0" collapsed="true"/>
+            <column width="720"/>
+        </columns>
+
+        <grid row="0" col="1" drawmode="all">
+            <rows>
+                <row height="168"/>
+                <row height="88"/>
+                <row height="168"/>
+            </rows>
+            <columns>
+                <column width="3 * 90"/>
+                <column width="2 * 90"/>
+                <column width="3 * 90"/>
+            </columns>
+
+            <flow_panel row="0" col="0" colspan="2" cell_width="90">
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="cooked_porkchop"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="cooked_beef"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="cooked_mutton"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="cooked_chicken"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="cooked_rabbit"/>
+
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="porkchop"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="beef"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="mutton"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="chicken"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="rabbit"/>
+            </flow_panel>
+
+            <flow_panel row="1" col="0" colspan="2" cell_width="90">
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="bread"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="mushroom_stew"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="suspicious_stew"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="rabbit_stew"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="beetroot_soup"/>
+            </flow_panel>
+
+            <flow_panel row="0" col="2" rowspan="2" cell_width="90">
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="apple"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="golden_apple"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="enchanted_golden_apple"/>
+
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="carrot"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="golden_carrot"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="beetroot"/>
+
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="potato"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="baked_potato"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="poisonous_potato"/>
+            </flow_panel>
+
+            <flow_panel row="2" col="0" cell_width="90">
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="cooked_cod"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="cooked_salmon"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="tropical_fish"/>
+
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="cod"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="salmon"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="pufferfish"/>
+            </flow_panel>
+
+            <flow_panel row="2" col="1" colspan="2" cell_width="90">
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="rotten_flesh"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="dried_kelp"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="chorus_fruit"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="sweet_berries"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="glow_berries"/>
+
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="cookie"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="pumpkin_pie"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="melon_slice"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="honey_bottle"/>
+                <objective_frame owner="minecraft:husbandry/balanced_diet" criterion="spider_eye"/>
+            </flow_panel>
+        </grid>
+
+        <!-- status strip -->
+        <status_bar row="1" col="1" colspan="3" right="0"/>
+    </grid>
+</control>

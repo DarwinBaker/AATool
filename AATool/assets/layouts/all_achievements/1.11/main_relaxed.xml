@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control width="1150" height="828">
+    <grid>
+        <rows>
+            <row height="786"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="224"/>
+            <column width="926"/>
+        </columns>
+
+        <!-- achievements -->
+        <achievement_tree col="2">
+            <rows>
+                <row height="88"/>
+                <row height="64"/>
+                <row height="64"/>
+                <row height="64"/>
+                <row height="64"/>
+                <row height="64"/>
+                <row height="64"/>
+                <row height="64"/>
+                <row height="16"/>
+                <row height="64"/>
+                <row height="64"/>
+                <row height="16"/>
+            </rows>
+            <columns>
+                <column width="46"/>
+                <column width="64"/>
+                <column width="64"/>
+                <column width="64"/>
+                <column width="64"/>
+                <column width="64"/>
+                <column width="64"/>
+                <column width="64"/>
+                <column width="64"/>
+                <column width="64"/>
+                <column width="64"/>
+                <column width="64"/>
+                <column width="64"/>
+                <column width="64"/>
+                <column width="64"/>
+                <column width="64"/>
+            </columns>
+
+            <!-- achievements -->
+            <objective_frame achievement="achievement.openInventory"         row="1"     col="1"/>
+            <objective_frame achievement="achievement.mineWood"              row="1"     col="3"/>
+            <objective_frame achievement="achievement.buildWorkBench"        row="1"     col="6"/>
+
+            <objective_frame achievement="achievement.buildHoe"              row="3"     col="3"/>
+            <objective_frame achievement="achievement.makeBread"             row="3"     col="5"/>
+            <objective_frame achievement="achievement.bakeCake"              row="3"     col="1"/>
+
+            <objective_frame achievement="achievement.buildSword"            row="5"     col="5"/>
+            <objective_frame achievement="achievement.killEnemy"             row="5"     col="3"/>
+            <objective_frame achievement="achievement.snipeSkeleton"         row="5"     col="1"/>
+            <objective_frame achievement="achievement.killCow"               row="7"     col="3"/>
+            <objective_frame achievement="achievement.flyPig"                row="7"     col="5"/>
+            <objective_frame achievement="achievement.breedCow"              row="7"     col="1"/>
+
+            <objective_frame achievement="achievement.buildPickaxe"          row="1"     col="9"/>
+            <objective_frame achievement="achievement.buildBetterPickaxe"    row="1"     col="11"/>
+            <objective_frame achievement="achievement.overpowered"           row="1"     col="13"/>
+
+            <objective_frame achievement="achievement.buildFurnace"          row="3"     col="9"/>
+            <objective_frame achievement="achievement.cookFish"              row="3"     col="7"/>
+            <objective_frame achievement="achievement.acquireIron"           row="3"     col="11"/>
+            <objective_frame achievement="achievement.onARail"               row="3"     col="13"/>
+
+            <objective_frame achievement="achievement.diamonds"              row="5"     col="11"/>
+            <objective_frame achievement="achievement.diamondsToYou"         row="5"     col="13"/>
+            <objective_frame achievement="achievement.enchantments"          row="7"     col="11"/>
+            <objective_frame achievement="achievement.overkill"              row="7"     col="13"/>
+            <objective_frame achievement="achievement.bookcase"              row="10"    col="13"/>
+
+            <objective_frame achievement="achievement.portal"                row="5"     col="9"/>
+            <objective_frame achievement="achievement.ghast"                 row="5"     col="7"/>
+            <objective_frame achievement="achievement.blazeRod"              row="7"     col="9"/>
+            <objective_frame achievement="achievement.potion"                row="7"     col="7"/>
+
+            <objective_frame achievement="achievement.theEnd"                row="10"    col="9"/>
+            <objective_frame achievement="achievement.exploreAllBiomes"      row="10"    col="11"/>
+
+            <objective_frame achievement="achievement.theEnd2"               row="10"    col="7"/>
+            <objective_frame achievement="achievement.spawnWither"           row="10"    col="5"/>
+            <objective_frame achievement="achievement.killWither"            row="10"    col="3"/>
+            <objective_frame achievement="achievement.fullBeacon"            row="10"    col="1"/>
+        </achievement_tree>
+
+        <!-- complex advancements -->
+        <criteria_group advancement="achievement.exploreAllBiomes" col="1" height="640" horizontal_align="right" vertical_align="top"/>
+
+        <!-- item count display (trident, shells, skulls etc.) -->
+        <panel name="counts" col="1" width="224" height="146" horizontal_align="left" vertical_align="bottom" padding_bottom="12">
+            <objective_frame pickup="minecraft.skull"/>
+        </panel>
+
+        <!-- status strip -->
+        <status_bar row="1" col="1" colspan="3" right="330"/>
+    </grid>
+</control>

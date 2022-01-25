@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <rows>
+            <row height="416"/>
+            <row height="370"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="22 * 68"/>
+            <column width="68"/>
+        </columns>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <!-- basic advancements -->
+        <grid row="0" col="1" drawmode="all">
+            <rows>
+                <row height="248"/>
+                <row height="168"/>
+            </rows>
+            <columns>
+                <column width="4 * 68"/>
+                <column width="68"/>
+                <column width="8 * 68"/>
+                <column width="6 * 68"/>
+                <column width="3 * 68"/>
+            </columns>
+            <advancement_group group="minecraft" row="0" col="0" colspan="2" exclude="minecraft:story/root"/>
+            <advancement_group group="nether"    row="0" col="2" direction="righttoleft"/>
+            <advancement_group group="end"       row="1" col="0" exclude="minecraft:end/root"/>
+            <advancement_group group="adventure" row="0" col="3" end="minecraft:adventure/spyglass_at_dragon"/>
+            <panel row="1" col="3">
+                <grid>
+                    <rows>
+                        <row height="80"/>
+                        <row height="84"/>
+                    </rows>
+                    <columns>
+                        <column width="68"/>
+                        <column width="5 * 68"/>
+                    </columns>
+                    <advancement_group group="adventure" start="minecraft:adventure/honey_block_slide" end="minecraft:adventure/hero_of_the_village" row="0" col="0" colspan="2" draw_mode="childrenonly"/>
+                    <advancement_group group="adventure" start="minecraft:adventure/throw_trident" row="1" col="1" draw_mode="childrenonly"/>
+                </grid>
+            </panel>
+            <advancement_group group="husbandry"   row="1" col="1" colspan="2"/>
+            <potion_group                          row="0" col="4" rowspan="2"/>
+        </grid>
+        
+        <!-- advancements with subcriteria -->
+        <flow_panel row="1" col="1" colspan="2">
+            <criteria_group width="428" advancement="minecraft:adventure/adventuring_time"/>
+            <criteria_group width="320" advancement="minecraft:adventure/kill_all_mobs"/>
+            <criteria_group width="5 * 68" advancement="minecraft:husbandry/balanced_diet"/>
+            <criteria_group width="3 * 68" advancement="minecraft:husbandry/bred_all_animals"/>
+            <criteria_group width="2 * 68" advancement="minecraft:husbandry/complete_catalogue"/>
+            <criteria_group width="2 * 68" advancement="minecraft:nether/explore_nether"/>
+        </flow_panel>
+
+        <!-- item count display (trident, shells, skulls etc.) -->
+        <flow_panel name="counts" row="0" col="2" cell_width="68" cell_height="81">
+            <objective_frame pickup="minecraft:enchanted_golden_apple"/>
+            <objective_frame pickup="minecraft:trident"/>
+            <objective_frame pickup="minecraft:nautilus_shell"/>
+            <objective_frame pickup="minecraft:wither_skeleton_skull"/>
+            <objective_frame pickup="minecraft:ancient_debris"/>
+        </flow_panel>
+
+        <objective_frame advancement="minecraft:enchanted_golden_apple"/>
+
+        <objective_frame criterion="minecraft:enchanted_golden_apple" owner="minecraft:wither_skeleton_skull"/>
+        <!-- status strip -->
+        <status_bar row="2" col="1" colspan="3" right="528"/>
+    </grid>
+</control>

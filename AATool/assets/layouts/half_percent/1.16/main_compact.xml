@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid drawmode="all">
+        <rows>
+            <row height="348"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="17 * 66"/>
+        </columns>
+
+        <panel col="1"></panel>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <!-- basic advancements -->
+        <panel row="0" col="1" drawmode="all" padding_bottom="4">
+            <advancement_group group="minecraft" exclude="minecraft:story/cure_zombie_villager" width="5 * 66" height="3 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="nether"    width="8 * 66" height="3 * 68" margin_left="5 * 66" horizontal_align="left" vertical_align="top" direction="righttoleft"/>
+            <advancement_group group="end"       exclude="minecraft:end/root" width="4 * 66" height="2 * 68" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="adventure" width="4 * 66" height="5 * 68" margin_left="13 * 66" vertical_align="top"/>
+            <advancement_group group="husbandry" end="minecraft:husbandry/obtain_netherite_hoe" width="9 * 66" height="68" margin_left="4 * 66" margin_top="3 * 68" vertical_align="top"/>
+            <advancement_group group="husbandry" start="minecraft:husbandry/bred_all_animals" width="3 * 66" height="68" margin_left="7 * 66" margin_top="4 * 68" vertical_align="top"/>
+            <objective_frame advancement="minecraft:story/cure_zombie_villager" width="66" height="68" margin="330,0,136,0" horizontal_align="left" vertical_align="top"/>
+            <objective_frame advancement="minecraft:end/root" width="66" height="68" margin="264,0,272,0" horizontal_align="left" vertical_align="top"/>
+        </panel>
+
+        <!-- status strip -->
+        <status_bar row="1" col="1" colspan="3" right="330"/>
+    </grid>
+</control>

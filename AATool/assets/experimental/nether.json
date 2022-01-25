@@ -1,0 +1,24 @@
+﻿{
+    "minecraft:nether/explore_nether": {
+        "title": "advancements.nether.explore_nether.title",
+        "description": "advancements.nether.explore_nether.description",
+        "frame": "challenge",
+        "criteria": { "goal": "Visited", "items": [
+            "minecraft:nether_wastes": {
+                "title": "biome.minecraft.nether_wastes"
+            },
+            "minecraft:crimson_forest": {
+                "title": "biome.minecraft.crimson_forest"
+            },
+            "minecraft:warped_forest": {
+                "title": "biome.minecraft.warped_forest"
+            },
+            "minecraft:basalt_deltas": {
+                "title": "biome.minecraft.basalt_deltas"
+            },
+            "minecraft:soul_sand_valley": {
+                "title": "biome.minecraft.soul_sand_valley"
+            }]
+        }
+    }
+}

@@ -1,0 +1,121 @@
+﻿{
+    "minecraft:story/mine_stone": {
+        "relaxed_name": "Stone Age",
+        "compact_name": "Stone Age",
+         "icon": "mine_stone",
+        "type": "normal",
+        "hide": "false"
+    },
+    "minecraft:story/upgrade_tools": {
+        "relaxed_name": "Getting an Upgrade",
+        "compact_name": "Upgrade",
+        "icon": "upgrade_tools",
+        "type": "normal",
+        "hide": "false"
+    },
+    "minecraft:story/iron_tools": {
+        "relaxed_name": "Isn't It Iron&#160;Pick",
+        "compact_name": "Iron Pick",
+        "icon": "iron_tools",
+        "type": "normal",
+        "hide": "false"
+    },
+    "minecraft:story/smelt_iron": {
+        "relaxed_name": "Acquire Hardware",
+        "compact_name": "Hardware",
+        "icon": "smelt_iron",
+        "type": "normal",
+        "hide": "false"
+    },
+    "minecraft:story/mine_diamond": {
+        "relaxed_name": "Diamonds!",
+        "compact_name": "Diamonds!",
+        "icon": "mine_diamond",
+        "type": "normal",
+        "hide": "false"
+    },
+    "minecraft:story/lava_bucket": {
+        "relaxed_name": "Hot Stuff",
+        "compact_name": "Hot Stuff",
+        "icon": "lava_bucket",
+        "type": "normal",
+        "hide": "false"
+    },
+    "minecraft:story/form_obsidian": {
+        "relaxed_name": "Ice Bucket Challenge",
+        "compact_name": "Ice Bucket",
+        "icon": "form_obsidian",
+        "type": "normal",
+        "hide": "false"
+    },
+    "minecraft:story/enter_the_nether": {
+        "relaxed_name": "We Need to Go Deeper",
+        "compact_name": "Go Deeper",
+        "icon": "enter_the_nether",
+        "type": "normal",
+        "hide": "false"
+    },
+    "minecraft:story/form_obsidian": {
+        "relaxed_name": "Ice Bucket Challenge",
+        "compact_name": "Ice Bucket Challenge",
+        "icon": "form_obsidian",
+        "type": "normal",
+        "hide": "false"
+    },
+    "minecraft:story/obtain_armor": {
+        "relaxed_name": "Suit Up",
+        "compact_name": "Suit Up",
+        "icon": "obtain_armor",
+        "type": "normal",
+        "hide": "false"
+    },
+    "minecraft:story/shiny_gear": {
+        "relaxed_name": "Cover Me With Diamonds",
+        "compact_name": "W/Diamonds",
+        "icon": "shiny_gear",
+        "type": "normal",
+        "hide": "false"
+    },
+    "minecraft:story/cure_zombie_villager": {
+        "relaxed_name": "Zombie Doctor",
+        "compact_name": "Z Doctor",
+        "icon": "cure_zombie_villager",
+        "type": "goal",
+        "hide": "compact"
+    },
+    "minecraft:story/root": {
+        "relaxed_name": "Minecraft",
+        "compact_name": "Minecraft",
+        "icon": "grass",
+        "type": "normal",
+        "hide": "relaxed"
+    },
+    "minecraft:story/deflect_arrow": {
+        "relaxed_name": "Not Today, Thank You",
+        "compact_name": "Not Today",
+        "icon": "deflect_arrow",
+        "type": "normal",
+        "hide": "false"
+    },
+        "minecraft:story/minecraft:story/follow_ender_eye": {
+        "relaxed_name": "Eye Spy",
+        "compact_name": "Eye Spy",
+        "icon": "follow_ender_eye",
+        "type": "normal",
+        "hide": "false"
+    },
+        "minecraft:story/enter_the_end": {
+        "relaxed_name": "The End?",
+        "compact_name": "The End?",
+        "icon": "end",
+        "type": "normal",
+        "hide": "false"
+    },
+        "minecraft:story/enchant_item": {
+        "relaxed_name": "Enchanter",
+        "compact_name": "Enchanter",
+        "icon": "enchant_item",
+        "type": "normal",
+        "hide": "false"
+    },
+}

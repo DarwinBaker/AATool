@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <!-- settings button -->
+    <panel name="settings" width="82" horizontal_align="left">
+        <button text="Settings" width="70" height="30" horizontal_align="left" margin_left="6"/>
+    </panel>
+    <!-- status -->
+    <panel name="status" width="310" horizontal_align="left" margin_left="82">
+        <enchantment_table width="36" height="36" horizontal_align="left" vertical_align="bottom" margin_left="3" margin_bottom="4"/>
+        <text_block width="270" horizontal_align="left" text_align="center" padding_left="45"/>
+        <refresh_icon horizontal_align="right" margin_right="5"/>
+    </panel>
+    <!-- progress bar -->
+    <panel name="progress" margin_left="392" horizontal_align="left">
+        <text_block width="0.85*" height="12" vertical_align="bottom" margin_bottom="24"/>
+        <progress_bar vertical_align="bottom" horizontal_align="left" margin="10,10,0,8"/>
+    </panel>
+    <!-- patreon -->
+    <panel name="patreon" width="460" horizontal_align="right">
+        <text_block name="donate" width="300" text_align="left" horizontal_align="left" v_text_align="center" margin="8,200,0,0"/>
+        <button text="♥ Support me on Patreon ♥" layer="fore" width="170" height="29" horizontal_align="right" margin_right="6"/>
+    </panel>
+</control>

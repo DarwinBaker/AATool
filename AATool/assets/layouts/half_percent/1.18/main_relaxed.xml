@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <rows>
+            <row height="416"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="18 * 68"/>
+            <column width="68"/>
+        </columns>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="2"/>
+
+        <!-- basic advancements -->
+        <grid row="0" col="1" drawmode="all">
+            <rows>
+                <row height="248"/>
+                <row height="168"/>
+            </rows>
+            <columns>
+                <column width="4 * 68"/>
+                <column width="68"/>
+                <column width="8 * 68"/>
+                <column width="6 * 68"/>
+                <column width="3 * 68"/>
+            </columns>
+            <advancement_group group="minecraft"   row="0" col="0" colspan="2"/>
+            <advancement_group group="nether"      row="0" col="2" direction="righttoleft"/>
+            <advancement_group group="end"         row="1" col="0"/>
+            <advancement_group group="adventure_1" row="0" col="3"/>
+            <panel row="1" col="3">
+                <grid>
+                    <rows>
+                        <row height="80"/>
+                        <row height="84"/>
+                    </rows>
+                    <columns>
+                        <column width="68"/>
+                        <column width="5 * 68"/>
+                    </columns>
+                    <advancement_group group="adventure_2" row="0" col="0" colspan="2" draw_mode="childrenonly"/>
+                    <advancement_group group="adventure_3" row="1" col="1" draw_mode="childrenonly"/>
+                </grid>
+            </panel>
+            <advancement_group group="husbandry"   row="1" col="1" colspan="2"/>
+        </grid>
+
+        <!-- status strip -->
+        <status_bar row="1" col="1" colspan="3" right="528"/>
+    </grid>
+</control>
