@@ -1,5 +1,5 @@
 ﻿using System;
-using AATool.Settings;
+using AATool.Configuration;
 using AATool.UI.Screens;
 using AATool.Utilities;
 using FontStashSharp;
@@ -8,9 +8,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace AATool.Graphics
 {
-    public class Display
+    public class Canvas
     {
         public int DrawCalls { get; private set; }
+        public Color RainbowFast { get; private set; }
         public Color RainbowLight { get; private set; }
         public Color RainbowStrong { get; private set; }
 
@@ -21,7 +22,7 @@ namespace AATool.Graphics
         
         private SpriteBatch BatchOf(Layer layer) => this.batches[(int)layer];
 
-        public Display(GraphicsDeviceManager deviceManager)
+        public Canvas(GraphicsDeviceManager deviceManager)
         {
             this.deviceManager = deviceManager;
             this.device = this.deviceManager.GraphicsDevice;
@@ -31,9 +32,9 @@ namespace AATool.Graphics
             this.final = new SpriteBatch(this.device);
 
             //configure graphics parameters
-            this.deviceManager.GraphicsProfile                 = GraphicsProfile.Reach;
-            this.deviceManager.HardwareModeSwitch              = false;
-            this.deviceManager.SynchronizeWithVerticalRetrace  = true;
+            this.deviceManager.GraphicsProfile = GraphicsProfile.Reach;
+            this.deviceManager.SynchronizeWithVerticalRetrace = true;
+            this.deviceManager.HardwareModeSwitch = false;
             this.deviceManager.ApplyChanges();
         }
 
@@ -60,6 +61,7 @@ namespace AATool.Graphics
                 this.BatchOf(Layer.Main).Begin(SpriteSortMode.Deferred, 
                     blend ?? BlendState.NonPremultiplied, 
                     SamplerState.PointClamp);
+                UIMainScreen.RefreshingCache = screen is UIMainScreen;
             } 
             this.DrawCalls = 0;
         }
@@ -68,14 +70,13 @@ namespace AATool.Graphics
         {
             if (screen is UIMainScreen)
             {
-                if (UIMainScreen.Invalidated)
+                if (UIMainScreen.RefreshingCache)
                 {
                     //clear and re-render the cache texture
                     this.device.SetRenderTarget(UIMainScreen.RenderCache);
                     this.device.Clear(Config.Main.BackColor);
                     this.BatchOf(Layer.Main).End();
                     this.device.SetRenderTarget(null);
-                    
                 }
                 this.final.Draw(UIMainScreen.RenderCache, this.device.Viewport.Bounds, Color.White);
             }
@@ -86,9 +87,9 @@ namespace AATool.Graphics
             this.final.End();
 
             //render ambient glow effect
-            if (Config.Main.AmbientGlow && screen is not UIOverlayScreen)
-                this.Draw("ambient_glow", this.device.Viewport.Bounds, this.RainbowStrong * 0.5f, Layer.Glow);
-
+            if (Config.Main.ShowAmbientGlow && screen is not UIOverlayScreen)
+                this.Draw("glow_ambient", this.device.Viewport.Bounds, this.RainbowStrong * 0.5f, Layer.Glow);
+                
             this.BatchOf(Layer.Glow).End();
             this.BatchOf(Layer.Fore).End();
         }
@@ -96,39 +97,9 @@ namespace AATool.Graphics
         public void Update(Time time)
         {
             //fade rainbow to next color
-            float hue       = time.TotalFrames / 4 % 360;
-            int primary     = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
-            double f        = (hue / 60) - Math.Floor(hue / 60);
-            double sat      = 1.0 / 3;
-            double value    = 255;
-
-            int v = Convert.ToInt32(value);
-            int p = Convert.ToInt32(value * (1 - sat));
-            int q = Convert.ToInt32(value * (1 - (f * sat)));
-            int t = Convert.ToInt32(value * (1 - ((1 - f) * sat)));
-
-            this.RainbowLight = primary switch {
-                0 => new Color(v, t, p, 255),
-                1 => new Color(q, v, p, 255),
-                2 => new Color(p, v, t, 255),
-                3 => new Color(p, q, v, 255),
-                4 => new Color(t, p, v, 255),
-                _ => new Color(v, p, q, 255)
-            };
-
-            sat = 1.0;
-            v = Convert.ToInt32(value);
-            p = Convert.ToInt32(value * (1 - sat));
-            q = Convert.ToInt32(value * (1 - (f * sat)));
-            t = Convert.ToInt32(value * (1 - ((1 - f) * sat)));
-            this.RainbowStrong = primary switch {
-                0 => new Color(v, t, p, 255),
-                1 => new Color(q, v, p, 255),
-                2 => new Color(p, v, t, 255),
-                3 => new Color(p, q, v, 255),
-                4 => new Color(t, p, v, 255),
-                _ => new Color(v, p, q, 255)
-            };
+            this.RainbowFast = ColorHelper.FromHSV(time.TotalFrames % 360, 0.5, 1.0);
+            this.RainbowLight = ColorHelper.FromHSV(time.TotalFrames / 4 % 360, 0.33, 1.0);
+            this.RainbowStrong = ColorHelper.FromHSV(time.TotalFrames / 8 % 360, 1.0, 1.0);
         }
 
         public void Draw(Texture2D texture, Rectangle destination, Color? tint = null, Layer layer = Layer.Main)
@@ -147,7 +118,7 @@ namespace AATool.Graphics
             //if texture id not found, check for resolution specific variant of it
             SpriteSheet.TryGetRectangle(texture, out Rectangle source);
             if (source.IsEmpty)
-                SpriteSheet.TryGetRectangle(texture + SpriteSheet.RESOLUTION_PREFIX + destination.Width, out source);
+                SpriteSheet.TryGetRectangle(texture + SpriteSheet.ResolutionPrefix + destination.Width, out source);
             this.BatchOf(layer).Draw(SpriteSheet.Atlas, destination, source, tint ?? Color.White);
             this.DrawCalls++;
         }
@@ -160,7 +131,7 @@ namespace AATool.Graphics
             //if texture id not found, check for resolution specific variant of it
             SpriteSheet.TryGetRectangle(texture, out Rectangle source);
             if (source.IsEmpty)
-                SpriteSheet.TryGetRectangle(texture + SpriteSheet.RESOLUTION_PREFIX + destination.Width, out source);
+                SpriteSheet.TryGetRectangle(texture + SpriteSheet.ResolutionPrefix + destination.Width, out source);
             Rectangle finalSource = new (source.Location + subSource.Location, subSource.Size);
             this.BatchOf(layer).Draw(SpriteSheet.Atlas, destination, finalSource, tint ?? Color.White);
             this.DrawCalls++;

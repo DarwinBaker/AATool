@@ -19,7 +19,7 @@ namespace AATool.Graphics
         public const int MAX_COLUMNS = 32;
 
         public const string ANIMATION_PREFIX  = "$";
-        public const string RESOLUTION_PREFIX = "^";
+        public const string ResolutionPrefix = "^";
         public const string PADDING_PREFIX    = "~";
 
         public static RenderTarget2D Atlas;
@@ -113,11 +113,11 @@ namespace AATool.Graphics
             Device = graphicsDevice;
             Atlas  = new RenderTarget2D(Device, WIDTH, HEIGHT, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 
-            if (!Directory.Exists(Paths.DIR_SPRITES))
+            if (!Directory.Exists(Paths.System.SpritesFolder))
                 return;
 
             //get all textures in assets folder and stitch them together in order of descending height
-            Stack<Texture2D> textures = LoadFiles(Paths.DIR_SPRITES);
+            Stack<Texture2D> textures = LoadFiles(Paths.System.SpritesFolder);
             textures.Push(CreatePixelTexture(Device));
             AppendAtlas(textures.OrderBy(texture => -texture.Height).ToArray());
         }

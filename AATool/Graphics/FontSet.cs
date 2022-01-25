@@ -16,11 +16,11 @@ namespace AATool.Graphics
             Systems = new ();
             Fonts   = new ();
 
-            if (Directory.Exists(Paths.DIR_FONTS))
+            if (Directory.Exists(Paths.System.FontsFolder))
             {
                 //support both .ttf and .otf font types
-                LoadFiles(device, Paths.DIR_FONTS, "ttf");
-                LoadFiles(device, Paths.DIR_FONTS, "otf");
+                LoadFiles(device, Paths.System.FontsFolder, "ttf");
+                LoadFiles(device, Paths.System.FontsFolder, "otf");
             }
         }
 
