@@ -4,19 +4,22 @@ using System.IO;
 
 namespace AATool.Saves
 {
-    public class JSONStream
+    public class JsonStream
     {
-        protected DateTime LastReadTime  { get; private set; }
-        protected dynamic JsonData       { get; private set; }
+        private DateTime lastReadTime;
+        private dynamic jsonData;
+        private bool isAlive;
 
         protected readonly string FullName;
 
-        public dynamic this[string key] => this.JsonData?[key];
+        public dynamic this[string key] => this.jsonData?[key];
 
-        public JSONStream(string fullName)
+        public JsonStream(string fullName)
         {
             this.FullName = fullName;
         }
+
+        private void Close(StreamReader reader) => reader?.Close();
 
         public bool TryUpdate(bool force)
         {
@@ -25,7 +28,15 @@ namespace AATool.Saves
             if (this.NeedsRefresh() || force)
             {
                 if (this.TryOpen(this.FullName, out StreamReader stream) && this.TryRead(stream))
+                {
+                    this.isAlive = true;
                     modified = true;
+                }
+                else if (this.isAlive)
+                {
+                    this.isAlive = false;
+                    modified = true;
+                }
             }
             return modified;
         }
@@ -36,16 +47,12 @@ namespace AATool.Saves
             {
                 //read all json file contents and deserialize into dynamic json
                 string fileContents = stream.ReadToEnd();
-                this.JsonData = JsonConvert.DeserializeObject(fileContents);
+                this.jsonData = JsonConvert.DeserializeObject(fileContents);
                 return true;
             }
-            catch (Exception exception)
+            catch
             {
-                this.JsonData = null;
-                if (exception is not (IOException or JsonReaderException))
-                    throw exception;
-
-                //malformed json. ignore and try to open again later
+                this.jsonData = null;
                 return false;
             }
             finally
@@ -58,11 +65,15 @@ namespace AATool.Saves
         {
             if (this.TryGetLastWriteTime(out DateTime lastWriteTime))
             {
-                if (this.LastReadTime != lastWriteTime)
+                if (this.lastReadTime != lastWriteTime)
                 {
-                    this.LastReadTime = lastWriteTime;
+                    this.lastReadTime = lastWriteTime;
                     return true;
                 }
+            }
+            else
+            {
+                this.isAlive = false;
             }
             return false;
         }
@@ -85,24 +96,24 @@ namespace AATool.Saves
         private bool TryOpen(string path, out StreamReader reader)
         {
             reader = null;
-            if (!File.Exists(path))
-                return false;
-
-            try
+            if (File.Exists(path))
             {
-                var stream = new FileStream(path,
+                try
+                {
+                    var stream = new FileStream(path,
                         FileMode.Open,
                         FileAccess.Read,
                         FileShare.ReadWrite | FileShare.Delete);
                 reader = new StreamReader(stream);
                 return true;
+                }
+                catch
+                {
+                    this.isAlive = false;
+                    this.Close(reader);
+                }
             }
-            catch (IOException)
-            {
-                //file unavailable, ignore and try to open again later
-                reader?.Close();
-                return false;
-            }
+            return false;
         }
     }
 }

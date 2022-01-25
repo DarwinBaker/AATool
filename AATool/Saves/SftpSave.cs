@@ -5,9 +5,8 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using AATool.Configuration;
 using AATool.Net;
-using AATool.Settings;
 using Microsoft.Xna.Framework;
 using Renci.SshNet;
 using Renci.SshNet.Common;
@@ -23,11 +22,11 @@ namespace AATool.Saves
         private const int MaximumRetries    = 3;
         private const int AttemptIntervalMs = 5000;
 
-        public static string WorldName          { get; private set; }
-        public static string MessageOfTheDay    { get; private set; }
         public static Exception LastError       { get; private set; }
         public static DateTime LastWorldSave    { get; private set; }
         public static SyncState State           { get; private set; }
+        public static string MessageOfTheDay    { get; private set; }
+        public static string WorldName          { get; private set; }
 
         private static readonly Utilities.Timer RefreshTimer = new ();
 
@@ -38,7 +37,7 @@ namespace AATool.Saves
         public static bool CredentialsValidated => Credentials is not null;
         public static bool LastSyncFailed => LastError is not null;
         public static bool IsDownloading => State is SyncState.Advancements or SyncState.Statistics;
-        public static bool IsEnabled => Config.Tracker.UseRemoteWorld;
+        public static bool IsEnabled => Config.Tracking.UseSftp;
 
         public static int GetNextRefresh() => (int)Math.Max(Math.Ceiling(RefreshTimer.TimeLeft), 0);
         public static void InvalidateWorld() => WorldName = string.Empty;
@@ -51,13 +50,13 @@ namespace AATool.Saves
         public static string GetEstimateString(int seconds)
         {
             return seconds >= 60
-                    ? $"{seconds / 60} min & {seconds % 60} sec"
-                    : $"{seconds} seconds";
+                ? $"{seconds / 60} min & {seconds % 60} sec"
+                : $"{seconds} seconds";
         }
 
         public static void Update(Time time)
         {
-            if (Config.Tracker.UseRemoteWorldChanged())
+            if (Config.Tracking.UseSftp)
             {
                 //update client refresh estimates if hosting
                 if (Server.TryGet(out Server server))
@@ -115,7 +114,8 @@ namespace AATool.Saves
                         if (Server.TryGet(out Server server))
                             server.SendNextRefresh();
 
-                        Tracker.Invalidate(true);
+                        //DODO: implement
+                        //Tracker.Invalidate();
                     }
                 }
                 finally
@@ -155,7 +155,7 @@ namespace AATool.Saves
                         return $"Couldn't reach dedicated Minecraft server. Retrying in {timeLeft}";
 
                     if (LastError is SftpPathNotFoundException)
-                        return $"Invalid or missing path on server. Retrying in {timeLeft}";
+                        return $"{LastError.Message} Retrying in {timeLeft}";
 
                     return LastSyncFailed
                         ? $"SFTP Error: {LastError.Message} Retrying in {timeLeft}" 
@@ -191,12 +191,12 @@ namespace AATool.Saves
             try
             {
                 //fix host formatting if needed
-                string host = Config.Tracker.SftpHost.StartsWith(SftpPrefix)
-                ? Config.Tracker.SftpHost.Substring(SftpPrefix.Length)
-                : Config.Tracker.SftpHost;
+                string host = ((string)Config.Sftp.Host).StartsWith(SftpPrefix)
+                    ? ((string)Config.Sftp.Host).Substring(SftpPrefix.Length)
+                    : Config.Sftp.Host;
 
-                Credentials = new ConnectionInfo(host, Config.Tracker.SftpPort, Config.Tracker.SftpUser, new[] {
-                    new PasswordAuthenticationMethod(Config.Tracker.SftpUser, Config.Tracker.SftpPass)
+                Credentials = new ConnectionInfo(host, Config.Sftp.Port, Config.Sftp.Username, new[] {
+                    new PasswordAuthenticationMethod(Config.Sftp.Username, Config.Sftp.Password)
                 }) { Timeout = TimeSpan.FromSeconds(5) };
             }
             catch (ArgumentException exception) 
@@ -316,7 +316,7 @@ namespace AATool.Saves
                     if (exception is SftpPathNotFoundException)
                     {
                         //folder not found, so world name might be wrong. refresh it next time
-                        LastError = exception;
+                        LastError = new SftpPathNotFoundException($"File not found: \"{remote}\".");
                         InvalidateWorld();
                         return false;
                     }
@@ -342,7 +342,7 @@ namespace AATool.Saves
             CurrentDownloadPercent = 0;
             SmoothDownloadPercent = 0;
 
-            string localPath  = Path.Combine(Paths.DIR_REMOTE_WORLDS, WorldName, name);
+            string localPath = Path.Combine(Paths.System.RemoteWorldsFolder, WorldName, name);
             string remotePath = $"{WorldName}/{name}";
             try
             {
@@ -350,7 +350,7 @@ namespace AATool.Saves
                 Directory.CreateDirectory(localPath);
 
                 //get new and old file lists
-                IList<FileInfo> localFiles  = GetFiles(localPath);
+                IList<FileInfo> localFiles = GetFiles(localPath);
                 IList<SftpFile> remoteFiles = sftp.ListDirectory(remotePath).ToList();
 
                 //sync folder
@@ -365,7 +365,7 @@ namespace AATool.Saves
                     if (exception is SftpPathNotFoundException)
                     {
                         //folder not found, so world name might be wrong. refresh it next time 
-                        LastError = exception;
+                        LastError = new SftpPathNotFoundException($"Path not found: \"{remotePath}\".");
                         InvalidateWorld();
                         return false;
                     }

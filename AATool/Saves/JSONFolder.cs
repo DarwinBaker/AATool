@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security;
+using AATool.Configuration;
 using AATool.Net;
-using AATool.Settings;
 
 namespace AATool.Saves
 {
-    public abstract class JSONFolder
+    public abstract class JsonFolder
     {
         private const string JsonPattern = "*.json";
 
-        public readonly Dictionary<Uuid, JSONStream> Files;
+        public readonly Dictionary<Uuid, JsonStream> Files;
 
         private DirectoryInfo folder;
 
         private string Path => this.folder?.FullName ?? string.Empty;
 
-        public JSONFolder()
+        public JsonFolder()
         {
             this.Files = new ();
         }
@@ -48,12 +49,12 @@ namespace AATool.Saves
             catch { }
 
             //update jsons
-            foreach (JSONStream json in this.Files.Values)
+            foreach (JsonStream json in this.Files.Values)
             {
-                bool invalidated = Config.Tracker.GameVersionChanged();
-                invalidated |= Config.Tracker.UseDefaultPathChanged();
-                invalidated |= Config.Tracker.CustomPathChanged();
-                invalidated |= Config.Tracker.UseRemoteWorldChanged();
+                bool invalidated = Tracker.ObjectivesChanged;
+                invalidated |= Config.Tracking.UseDefaultPath.Changed;
+                invalidated |= Config.Tracking.CustomSavePath.Changed;
+                invalidated |= Config.Tracking.UseSftp.Changed;
 
                 modified |= json.TryUpdate(invalidated);
             }
@@ -68,19 +69,23 @@ namespace AATool.Saves
 
             try
             {
-                //get all uuid json files in folder
+                //get all json files in folder
                 FileInfo[] files = this.folder.GetFiles(JsonPattern, SearchOption.TopDirectoryOnly);
                 foreach (FileInfo file in files)
                 {
                     string fileName = System.IO.Path.GetFileNameWithoutExtension(file.Name);
                     if (Uuid.TryParse(fileName, out Uuid id))
                     {
+                        //filename is uuid
                         validFiles[id] = file;
                         Player.FetchIdentity(id);
                     }
                 }
             }
-            catch { }
+            catch (IOException) { }
+            catch (ArgumentException) { }
+            catch (SecurityException) { }
+
             return validFiles;
         }
 
@@ -89,7 +94,7 @@ namespace AATool.Saves
             bool modified = false;
             foreach (Uuid id in this.Files.Keys.ToArray())
             {
-                if (!this.Files.TryGetValue(id, out JSONStream json))
+                if (!this.Files.TryGetValue(id, out JsonStream json))
                     continue;
 
                 if (newFiles is null || !newFiles.ContainsKey(id))
@@ -112,11 +117,11 @@ namespace AATool.Saves
                     if (this.Files.ContainsKey(file.Key))
                         continue;
 
-                    var stream = new JSONStream(file.Value.FullName);
+                    var stream = new JsonStream(file.Value.FullName);
                     this.Files[file.Key] = stream;
                     modified = true;
                 }
-                catch { }
+                catch (ArgumentException) { }
             }
             return modified;
         }

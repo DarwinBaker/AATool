@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using AATool.Data;
+using AATool.Data.Objectives;
 using AATool.Net;
 
 namespace AATool.Saves
 {
-    public class AchievementsFolder : JSONFolder
+    public class AchievementsFolder : JsonFolder
     {
-        private static bool IsCompleted(string achievement, JSONStream json)
+        private static bool IsCompleted(string achievement, JsonStream json)
         {
             if (int.TryParse(json?[achievement]?.ToString(), out int value))
                 return value > 0;
@@ -20,7 +21,7 @@ namespace AATool.Saves
         {
             bool completed = false;
             players = new ();
-            foreach (KeyValuePair<Uuid, JSONStream> json in this.Files)
+            foreach (KeyValuePair<Uuid, JsonStream> json in this.Files)
             {
                 if (IsCompleted(achievement, json.Value))
                 {
@@ -35,12 +36,12 @@ namespace AATool.Saves
         {
             //return
             var completions = new Dictionary<Uuid, HashSet<(string, string)>>();
-            foreach (KeyValuePair<Uuid, JSONStream> json in this.Files)
+            foreach (KeyValuePair<Uuid, JsonStream> json in this.Files)
                 completions[json.Key] = this.GetCompletedCriteria(advancement, json.Value);
             return completions;
         }
 
-        private HashSet<(string, string)> GetCompletedCriteria(Advancement advancement, JSONStream json)
+        private HashSet<(string, string)> GetCompletedCriteria(Advancement advancement, JsonStream json)
         {
             HashSet<(string, string)> completed = new ();
             dynamic criteriaList = json?[advancement.Id]?["progress"];

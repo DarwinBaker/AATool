@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using AATool.Data;
+using AATool.Data.Objectives;
 using AATool.Net;
 
 namespace AATool.Saves
 {
-    public class AdvancementsFolder : JSONFolder
+    public class AdvancementsFolder : JsonFolder
     {
-        private static bool IsCompletedInFile(string advancement, JSONStream json) => 
-            json[advancement]?["done"] == true;
-
         public bool TryGetAdvancementCompletionFor(string advancement, out List<Uuid> players)
         {
             bool completed = false;
             players = new List<Uuid>();
-            foreach (KeyValuePair<Uuid, JSONStream> json in this.Files)
+            foreach (KeyValuePair<Uuid, JsonStream> json in this.Files)
             {
                 if (IsCompletedInFile(advancement, json.Value))
                 {
@@ -25,16 +23,20 @@ namespace AATool.Saves
             return completed;
         }
 
+        private static bool IsCompletedInFile(string advancement, JsonStream json) =>
+            json[advancement]?["done"] == true;
+
+
         public Dictionary<Uuid, HashSet<(string adv, string crit)>> GetAllCriteriaCompletions(Advancement advancement)
         {
             //return
             var completions = new Dictionary<Uuid, HashSet<(string, string)>>();
-            foreach (KeyValuePair<Uuid, JSONStream> json in this.Files)
+            foreach (KeyValuePair<Uuid, JsonStream> json in this.Files)
                 completions[json.Key] = this.GetCompletedCriteriaInFile(advancement, json.Value);
             return completions;
         }
 
-        private HashSet<(string adv, string crit)> GetCompletedCriteriaInFile(Advancement advancement, JSONStream json)
+        private HashSet<(string adv, string crit)> GetCompletedCriteriaInFile(Advancement advancement, JsonStream json)
         {
             var completed = new HashSet<(string, string)>();
             dynamic criteriaList = json?[advancement.Id]?["criteria"];
