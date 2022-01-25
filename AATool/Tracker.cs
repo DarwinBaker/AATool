@@ -1,95 +1,135 @@
 ﻿using System;
 using System.Collections.Generic;
-using AATool.Data;
+using System.Linq;
+using AATool.Configuration;
+using AATool.Data.Categories;
+using AATool.Data.Objectives;
 using AATool.Data.Progress;
 using AATool.Net;
 using AATool.Saves;
-using AATool.Settings;
 using AATool.Utilities;
 
 namespace AATool
 {
     public static class Tracker
     {
-        private const double REFRESH_INTERVAL = 1.0;
+        private const double RefreshInterval = 1.0;
 
-        public static ProgressState Progress { get; private set; }
+        public static readonly AdvancementManifest Advancements = new ();
+        public static readonly AchievementManifest Achievements = new ();
+        public static readonly PickupManifest Pickups = new ();
+        public static readonly BlockManifest Blocks = new ();
+        
+        public static Category Category { get; private set; }
+        public static WorldState State  { get; private set; }
+        public static bool CoOpStateChanged { get; private set; }
 
-        private static readonly AdvancementManifest Advancements = new ();
-        private static readonly AchievementManifest Achievements = new ();
-        private static readonly StatisticsManifest Statistics    = new ();
+        public static bool ObjectivesChanged => Config.Tracking.GameCategory.Changed || Config.Tracking.GameVersion.Changed;
+        public static bool ProgressChanged => World.ProgressChanged || World.WorldChanged || World.Invalidated || CoOpStateChanged;
+        public static bool Invalidated => ProgressChanged || ObjectivesChanged;
 
-        public static bool Invalidated        => World.FolderChangedFlag || World.FilesChangedFlag|| NetworkContentChangedFlag;
-        public static bool WorldFolderChanged => World.FolderChangedFlag || NetworkContentChangedFlag;
-        public static bool WorldFilesChanged  => World.FilesChangedFlag  || NetworkContentChangedFlag;
-        public static bool InGameTimeChanged  => Progress.InGameTime != LastInGameTime;
-        public static TimeSpan InGameTime     => World?.CurrentState is SaveFolderState.Valid ? Progress.InGameTime : default;
+        public static string CurrentCategory => Category.Name;
+        public static string CurrentVersion => Category.CurrentVersion;
 
-        private static bool NetworkContentChangedFlag;
-        private static TimeSpan LastInGameTime;
+        public static bool WorldLocked { get; private set; }
+        public static void ToggleWorldLock() => WorldLocked ^= true;
 
-        public static int Percent => (int)(CompletedAdvancements / (double)AllAdvancements.Count * 100);
+        public static AdvancementManifest CurrentAdvancementManifest => Category is AllAchievements
+            ? Achievements
+            : Advancements;
 
-        public static int CompletedAdvancements => Config.PostExplorationUpdate
-            ? Advancements.Completed
-            : Achievements.Completed;
+        public static Dictionary<(string adv, string crit), Criterion> Criteria => Category is AllAchievements
+            ? Achievements.Criteria
+            : Advancements.Criteria;
 
-        public static Dictionary<string, Advancement> AllAdvancements => 
-            Config.PostExplorationUpdate ? Advancements.AllAdvancements : Achievements.AllAdvancements;
+        public static SaveState SaveState => World.CurrentState;
+        public static string WorldName => World.Name;
+        public static TimeSpan InGameTime => State.InGameTime;
+        public static bool InGameTimeChanged => State.InGameTime != LastInGameTime;
 
-        public static Dictionary<(string adv, string crit), Criterion> AllCriteria =>
-            Config.PostExplorationUpdate ? Advancements.AllCriteria : Achievements.AllCriteria;
-
-        public static Dictionary<string, Statistic> AllItems => Statistics.Items;
-
-        public static bool TryGetAdvancement(string id, out Advancement advancement) =>
-            AllAdvancements.TryGetValue(id, out advancement);
-
-        public static bool TryGetCriterion(string adv, string crit, out Criterion criterion) =>
-            AllCriteria.TryGetValue((adv, crit), out criterion);
-
-        public static bool TryGetAdvancementGroup(string id, out AdvancementGroup group) =>
-            Advancements.TryGetGroup(id, out group);
-
-        public static bool TryGetItem(string id, out Statistic item) =>
-            Statistics.TryGetItem(id, out item);
-
-        public static bool IsComplete => Config.PostExplorationUpdate
-            ? Advancements.Completed >= Advancements.AdvancementCount
-            : Achievements.Completed >= Achievements.Count;
-
-        public static int AdvancementCount => Config.PostExplorationUpdate 
-            ? Advancements.AdvancementCount
-            : Achievements.Count;
-
-        private static World World;
+        private static LocalSave World;
         private static Timer RefreshTimer;
         private static string LastServerMessage;
+        private static TimeSpan LastInGameTime;
 
-        public static string WorldName          => World.Name;
-        public static SaveFolderState SaveState => World.CurrentState;
+        public static bool TryGetAdvancement(string id, out Advancement advancement) =>
+            CurrentAdvancementManifest.TryGet(id, out advancement);
+
+        public static bool TryGetCriterion(string adv, string crit, out Criterion criterion) =>
+            Criteria.TryGetValue((adv, crit), out criterion);
+
+        public static bool TryGetAdvancementGroup(string id, out HashSet<Advancement> group) =>
+            Advancements.TryGet(id, out group);
+
+        public static bool TryGetPickup(string id, out Pickup item) =>
+            Pickups.TryGet(id, out item);
+
+        public static HashSet<Uuid> GetAllPlayers()
+        {
+            var ids = new HashSet<Uuid>();
+            foreach (Uuid id in State.Players.Keys)
+                ids.Add(id);
+            if (Peer.IsConnected && Peer.TryGetLobby(out Lobby lobby))
+            {
+                foreach (Uuid key in lobby.Users.Keys)
+                    ids.Add(key);
+            }
+            ids.Remove(Uuid.Empty);
+            return ids;
+        }
 
         public static void Initialize()
         {
-            Progress     = new ();
-            World        = new ();
-            RefreshTimer = new ();
-            NetworkContentChangedFlag = true;
-            UpdateManifestReferences();
+            World = new LocalSave();
+            State = new WorldState();
+            RefreshTimer = new Timer();
+            string lastVersion = Config.Tracking.GameVersion;
+            TrySetCategory(Config.Tracking.GameCategory);
+            TrySetVersion(lastVersion);
         }
 
-        public static void ClearFlags()
+        public static bool TrySetCategory(string category)
         {
-            LastInGameTime = InGameTime;
-            NetworkContentChangedFlag = false;
-            World.ClearFlags();
+            //check if category is the same 
+            if (Category is not null && category == Category.Name)
+                return false;
+
+            try
+            {
+                Category = category.ToLower().Replace(" ", "").Replace("_", "") switch {
+                    "alladvancements" => new AllAdvancements(),
+                    "allachievements" => new AllAchievements(),
+                    "halfpercent"     => new HalfPercent(),
+                    "balanceddiet"    => new BalancedDiet(),
+                    "adventuringtime" => new AdventuringTime(),
+                    "monstershunted"  => new MonstersHunted(),
+                    _ => throw new ArgumentException($"Category not supported: \"{category}\"."),
+                };
+
+                //save change to config
+                Config.Tracking.GameCategory.Set(Category.Name);
+                Config.Tracking.GameVersion.Set(Category.CurrentVersion);
+                Config.Tracking.Save();
+
+                RefreshObjectives();
+                return true;
+            }
+            catch (ArgumentException)
+            {
+                if (Category is null)
+                {
+                    //fallback to all advancements
+                    Category = new AllAdvancements();
+                    Config.Tracking.GameCategory.Set(Category.Name);
+                    Config.Tracking.Save();
+                    RefreshObjectives();
+                }
+                return false;
+            }
         }
 
-        private static void Clear()
-        {
-            Progress = new ();
-            UpdateManifestProgress();
-        }
+        public static void TrySetVersion(string versionNumber) => 
+            Category.TrySetVersion(versionNumber);
 
         public static void Invalidate(bool invalidateWorld = false)
         {
@@ -98,69 +138,73 @@ namespace AATool
             RefreshTimer.Expire();
         }
 
-        public static void Update(Time time)
+        public static void ClearFlags()
         {
-            //determine if it's time to update yet or not
-            bool forceRefresh = Config.Tracker.GameVersionChanged();
-            forceRefresh |= Config.Tracker.UseDefaultPathChanged();
-            forceRefresh |= Config.Tracker.UseRemoteWorldChanged();
-            forceRefresh |= !Config.Tracker.UseDefaultPath && Config.Tracker.CustomPathChanged();
-            forceRefresh |= Peer.StateChangedFlag;
-
-            RefreshTimer.Update(time);
-            if (RefreshTimer.IsExpired || forceRefresh)
-            {
-                Sync();
-                RefreshTimer.SetAndStart(REFRESH_INTERVAL);
-            }      
+            LastInGameTime = InGameTime;
+            CoOpStateChanged = false;
+            World.ClearFlags();
         }
 
-        public static HashSet<Uuid> GetAllPlayers()
+        public static void TryUpdate(Time time)
         {
-            var ids = new HashSet<Uuid>();
-            foreach (Uuid id in Progress.Players.Keys)
-                ids.Add(id);
-            if (Peer.IsConnected && Peer.TryGetLobby(out Lobby lobby))
+            //check if we need to force an update right now
+            bool invalidated = ObjectivesChanged;
+            invalidated |= Config.Tracking.UseSftp.Changed;
+            invalidated |= Config.Tracking.UseDefaultPath.Changed;
+            invalidated |= !Config.Tracking.UseDefaultPath && Config.Tracking.CustomSavePath.Changed;
+            invalidated |= Peer.StateChanged;
+
+            if (RefreshTimer.IsExpired || invalidated)
             {
-                foreach (Uuid key in lobby.Users.Keys)
-                    ids.Add(key);
+                Update();
+                RefreshTimer.SetAndStart(RefreshInterval);
             }
-            return ids;
+            else
+            {
+                RefreshTimer.Update(time);
+            }
         }
 
-        private static void Sync()
+        private static void Update()
         {
             if (Client.TryGet(out Client client))
             {
                 //update world from co-op server
-                if (client.TryGetData(Protocol.Headers.Progress, out string jsonString) && LastServerMessage != jsonString)
+                if (!client.TryGetData(Protocol.Headers.Progress, out string jsonString))
+                    return;
+
+                if (LastServerMessage != jsonString)
                 {
-                    NetworkContentChangedFlag = true;
+                    CoOpStateChanged = true;
                     LastServerMessage = jsonString;
-                    Progress = ProgressState.FromJsonString(jsonString);
+                    State = WorldState.FromJsonString(jsonString);
+
+                    //sync category and version with host
+                    TrySetCategory(State.GameCategory);
+                    TrySetVersion(State.GameVersion);
 
                     //re-load tracking manifests if game version has changed
-                    Config.Tracker.TrySetGameVersion(Progress.GameVersion);
-                    if (Config.Tracker.GameVersionChanged())
-                        UpdateManifestReferences();
+                    if (ObjectivesChanged)
+                        RefreshObjectives();
+
                     UpdateManifestProgress();
                 }
             }
             else
             {
-                //re-load tracking manifests if game version has changed
-                if (Config.Tracker.GameVersionChanged())
-                    UpdateManifestReferences();
+                //reload objective manifests if game version has changed
+                if (ObjectivesChanged)
+                    RefreshObjectives();
 
-                //prevent tracker from refreshing every time a file is downloaded
-                if (SftpSave.IsDownloading)
+                //wait to refresh until sftp transer is complete
+                if (Config.Tracking.UseSftp && SftpSave.IsDownloading)
                     return;
 
-                //update from local files if they've changed since last time
-                if (World.TryUpdate() || Peer.StateChangedFlag || Config.Tracker.UseRemoteWorldChanged())
+                //update progress if source has been invalidated
+                if (World.TryReadFiles() || Peer.StateChanged)
                 {
                     LastServerMessage = null;
-                    Progress.Sync(World);
+                    State = World.GetState();
                     UpdateManifestProgress();
 
                     //broadcast changes to connected clients if server is running
@@ -170,29 +214,20 @@ namespace AATool
             }
         }
 
-        private static void UpdateManifestReferences()
+        private static void RefreshObjectives()
         {
-            LastServerMessage = string.Empty;
-            if (Config.PostExplorationUpdate)
-                Advancements.UpdateReference();
-            else
-                Achievements.UpdateReference();
-            Statistics.UpdateReference();
+            Advancements.RefreshObjectives();
+            Achievements.RefreshObjectives();
+            Pickups.RefreshObjectives();
+            Blocks.RefreshObjectives();
         }
 
         private static void UpdateManifestProgress()
         {
-            if (Config.PostExplorationUpdate)
-            {
-                Advancements.Update(Progress);
-                Achievements.ClearProgress();
-            }
-            else
-            {
-                Advancements.ClearProgress();
-                Achievements.Update(Progress);
-            }
-            Statistics.Update(Progress);
+            Advancements.UpdateStates(State);
+            Achievements.UpdateStates(State);
+            Pickups.UpdateStates(State);
+            Blocks.UpdateStates(State);
         }
     }
 }
