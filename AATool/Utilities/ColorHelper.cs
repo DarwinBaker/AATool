@@ -18,7 +18,7 @@ namespace AATool.Utilities
         public static Color FromRGBA(int r, int g, int b, int a)  => new (r, g, b, a);
 
         public static Color Fade(Color color, float opacity) => new (color.R, color.G, color.B, opacity);
-        public static Color ColorFromHSV(double hue, double sat, double val)
+        public static Color FromHSV(double hue, double sat, double val)
         {
             int primary = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
             double f = (hue / 60) - Math.Floor(hue / 60);
@@ -88,7 +88,7 @@ namespace AATool.Utilities
             float h = drawing.GetHue();
             float s = drawing.GetSaturation();
             float l = drawing.GetBrightness();
-            return ColorFromHSV(h, s * amount, l);
+            return FromHSV(h, s * amount, l);
         }
 
         public static Color GetAccent(Texture2D texture)

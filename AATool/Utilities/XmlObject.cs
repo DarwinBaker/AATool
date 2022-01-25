@@ -67,7 +67,7 @@ namespace AATool.Utilities
             writer.IndentChar  = '\t';
         }
 
-        public static T ParseAttribute<T>(XmlNode node, string key, T defaultValue) => 
+        public static T Attribute<T>(XmlNode node, string key, T defaultValue) => 
             ParseValue(node?.Attributes[key]?.Value, defaultValue);
 
         public static T ParseValue<T>(string value, T defaultValue)

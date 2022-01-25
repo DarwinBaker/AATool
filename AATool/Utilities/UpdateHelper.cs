@@ -15,7 +15,7 @@ namespace AATool.Utilities
         public static void RunAAUpdate(int exitCode)
         {
             //start update executable with "return to AATool after" flag
-            Process.Start(Paths.UpdateExecutable, "-r");
+            Process.Start(Paths.System.UpdateExecutable, "-r");
             Environment.Exit(exitCode);
         }
 

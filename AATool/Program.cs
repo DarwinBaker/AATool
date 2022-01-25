@@ -33,8 +33,8 @@ namespace AATool
 
         private static void SaveCrashReport(Exception exception)
         {
-            Directory.CreateDirectory(Paths.DIR_LOGS);
-            using (StreamWriter stream = File.CreateText(Paths.CrashLogFile))
+            Directory.CreateDirectory(Paths.System.LogsFolder);
+            using (StreamWriter stream = File.CreateText(Paths.System.CrashLogFile))
             {
                 var mos = new ManagementObjectSearcher("select * from Win32_OperatingSystem");
                 foreach (ManagementObject managementObject in mos.Get())

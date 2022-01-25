@@ -1,78 +1,134 @@
-﻿using AATool.Settings;
+﻿using AATool.Configuration;
+using AATool.Data.Categories;
+using AATool.UI.Screens;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security;
 
 namespace AATool
 {
     public static class Paths
     {
-        //constant settings paths
-        public const string DIR_SETTINGS            = "settings/";
-        public const string DIR_FAVORITES           = DIR_SETTINGS + "favorites";
-        public const string DIR_NOTES               = "notes/";
-
-        //remote world temp folder
-        public const string DIR_TEMP_WORLD          = "assets/temp_world/";
-        public const string DIR_REMOTE_WORLDS       = "assets/remote_worlds";
-
-        //constant asset paths
-        public const string DIR_ASSETS              = "assets/";
-        public const string DIR_GAME_VERSIONS       = DIR_ASSETS   + "game_versions/";
-        public const string DIR_UI_CONTROLS         = DIR_ASSETS   + "ui/controls";
-        public const string DIR_THEMES              = DIR_ASSETS + "ui/themes/";
-        public const string DIR_GRAPHICS            = DIR_ASSETS   + "graphics/";
-        public const string DIR_SPRITES             = DIR_GRAPHICS + "sprites/";
-        public const string DIR_FONTS               = DIR_GRAPHICS + "fonts/";
-        public const string DIR_AVATAR_CACHE          = DIR_SPRITES  + "skin_cache";
-        public const string DIR_CREDITS             = DIR_ASSETS   + "credits/";
-        public const string DIR_LOGS                = "logs/";
-
-        //constant urls
-        public const string URL_GITHUB_LATEST       = "https://github.com/DarwinBaker/AATool/releases/latest";
-        public const string URL_HELP_OBS            = "https://github.com/DarwinBaker/AATool/blob/master/info/obs.md";
-        public const string URL_PATREON             = "https://www.patreon.com/_ctm";
-        public const string URL_PATREON_FRIENDLY    = "Patreon.com/_CTM";
-        public const string URL_API_MC_UUID         = "https://api.mojang.com/users/profiles/minecraft/";
-        public const string URL_API_MC_NAME         = "https://api.mojang.com/user/profiles/";
-
-        public const string UpdateExecutable = "AAUpdate.exe";
-
-        //getters for version-dependant folders
-        public static string CurrentVersionFolder   => Path.Combine(DIR_GAME_VERSIONS, Config.Tracker.GameVersion ?? "1.17");
-        public static string AdvancementsFolder     => Path.Combine(CurrentVersionFolder, "advancements/");
-        public static string LayoutsFolder          => Path.Combine(CurrentVersionFolder, "layouts/");
-
-        //getters for version-dependant files
-        public static string AchievementsFile => Path.Combine(CurrentVersionFolder, "achievements.xml");
-        public static string StatisticsFile   => Path.Combine(CurrentVersionFolder, "statistics.xml");
-        public static string PotionsFile      => Path.Combine(CurrentVersionFolder, "potions.xml");
-        public static string CreditsFile      => Path.Combine(DIR_CREDITS, "credits.xml");
-
-        public static string CrashLogFile     => 
-            Path.Combine(DIR_LOGS, $"crash_report_{DateTime.Now:yyyy_M_dd_h_mm_ss}.txt");
-
-        public static IEnumerable<string> AdvancementFiles 
-            => Directory.EnumerateFiles(AdvancementsFolder, "*.xml", SearchOption.TopDirectoryOnly);
-
-        //getters for ui stuff
-        public static string GetLayoutFor(string name, string variant = null)
+        public static bool TryGetAllFiles(string path, string pattern, SearchOption search, out IEnumerable<string> files)
         {
-            return string.IsNullOrEmpty(variant)
-                ? Path.Combine(LayoutsFolder, $"{name}.xml")
-                : Path.Combine(LayoutsFolder, $"{name}_{variant}.xml");
+            files = default;
+            if (Directory.Exists(path))
+            {
+                try
+                {
+                    files = Directory.EnumerateFiles(path, pattern, search);
+                    return true;
+                }
+                catch (ArgumentException) { }
+                catch (IOException) { }
+                catch (UnauthorizedAccessException) { }
+                catch (SecurityException) { }
+            }
+            return false;
+        }
+        public static class System
+        {
+            //constant settings paths
+            public const string ConfigFolder = "config/";
+            public const string LegacySettingsFolder = "settings/";
+            public const string ArchivedConfigFolder = "config/legacy_settings_(unused)/";
+            public const string NotesFolder  = "notes/";
+
+            //remote world temp folder
+            public const string RemoteWorldsFolder = "assets/remote_worlds";
+
+            //constant asset paths
+            public const string AssetsFolder      = "assets/";
+            public const string ObjectivesFolder  = AssetsFolder  + "objectives/";
+            public const string LayoutsFolder     = AssetsFolder  + "layouts/";
+            public const string TemplatesFolder   = AssetsFolder  + "templates";
+            public const string SpritesFolder     = AssetsFolder  + "sprites/";
+            public const string FontsFolder       = AssetsFolder  + "fonts/";
+            public const string AvatarCacheFolder = SpritesFolder + "avatar_cache";
+            public const string CreditsFolder     = AssetsFolder  + "credits/";
+            public const string LogsFolder        = "logs/";
+
+            public const string MainIcon = "assets/icons/aatool.ico";
+            public const string UpdateIcon = "assets/icons/aaupdate.ico";
+
+            //constant urls
+            public const string UpdateExecutable = "AAUpdate.exe";
+
+            //dependant paths
+            public static string ObjectiveFolder => Path.Combine(ObjectivesFolder, Tracker.Category.CurrentVersion);
+            public static string AdvancementsFolder => Path.Combine(ObjectiveFolder, "advancements/");
+            public static string BlocksFolder => Path.Combine(ObjectiveFolder, "blocks/");
+            public static string AchievementsFile => Path.Combine(ObjectiveFolder, "achievements.xml");
+            public static string StatisticsFile => Path.Combine(ObjectiveFolder, "statistics.xml");
+            public static string PotionsFile => Path.Combine(ObjectiveFolder, "potions.xml");
+
+            //file getters
+            public static string CrashLogFile => Path.Combine(LogsFolder, $"crash_report_{DateTime.Now:yyyy_M_dd_h_mm_ss}.txt");
+            public static string CreditsFile => Path.Combine(CreditsFolder, "credits.xml");
+
+            public static string GetLayoutFor<T>(T screen) where T : UIScreen
+            {
+                if (screen is UIMainScreen)
+                {
+                    string fileName = "main.xml";
+                    if (Tracker.Category is not (AdventuringTime or BalancedDiet or MonstersHunted))
+                    {
+                        string variant = Config.Main.RelaxedMode ? "relaxed" : "compact";
+                        fileName = $"main_{variant}.xml";
+                    }
+
+                    return Path.Combine(LayoutsFolder,
+                        Tracker.Category.LayoutName,
+                        Tracker.Category.CurrentVersion,
+                        fileName);
+                }
+                else if (screen is UIOverlayScreen)
+                {
+                    return Path.Combine(LayoutsFolder,
+                        Tracker.Category.LayoutName,
+                        $"overlay.xml");
+                }
+                else if (screen is UIUpdateScreen)
+                {
+                    return Path.Combine(TemplatesFolder, "screen_update.xml");
+                }
+                return string.Empty;
+            }
         }
 
+        public static class Saves
+        {
+            public static string CurrentFolder()
+            {
+                if (Config.Tracking.UseSftp)
+                {
+                    return System.RemoteWorldsFolder;
+                }
+                else
+                {
+                    return Config.Tracking.UseDefaultPath
+                        ? DefaultPath
+                        : Config.Tracking.CustomSavePath;
+                }
+            }
 
-        public static string GetStyleFor(string name) => 
-            Path.Combine(DIR_THEMES, name + ".xml");
+            public static string DefaultPath => Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                ".minecraft",
+                "saves");
+        }
 
-        //getters for urls
-        public static string GetUrlForPlayerHead(string uuid, int resolution = 16) => 
-            $"https://crafatar.com/avatars/{uuid}?size={resolution}&overlay=true";
-        public static string GetUrlForUUID(string mojangName) =>
-            URL_API_MC_UUID + mojangName;
-        public static string GetUrlForName(string uuid) =>
-            URL_API_MC_NAME + uuid + "/names";
+        public static class Web
+        {
+            public const string LatestRelease = "https://github.com/DarwinBaker/AATool/releases/latest";
+            public const string ObsHelp       = "https://github.com/DarwinBaker/AATool/blob/master/info/obs.md";
+            public const string PatreonFull   = "https://www.patreon.com/_ctm";
+            public const string PatreonShort  = "Patreon.com/_CTM";
+
+            public static string GetUuidUrl(string mojangName) => $"https://api.mojang.com/users/profiles/minecraft/{mojangName}";
+            public static string GetNameUrl(string uuid) => $"https://api.mojang.com/user/profiles/{uuid}/names";
+            public static string GetAvatarUrl(string uuid) => $"https://crafatar.com/avatars/{uuid}?size=16&overlay=true";
+        }
     }
 }

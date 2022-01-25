@@ -4,7 +4,7 @@ using System;
 using System.Reflection;
 using AATool.Graphics;
 using AATool.UI.Screens;
-using AATool.Settings;
+using AATool.Configuration;
 using System.Diagnostics;
 using AATool.Utilities;
 using System.IO;
@@ -37,9 +37,6 @@ namespace AATool
         ||                                                        ||
         ====================================================HDWGH?*/
 
-
-        public static readonly bool IsBeta = false;
-
         public static bool IsClosing        { get; set; }
         public static string FullTitle      { get; private set; }
         public static string ShortTitle     { get; private set; }
@@ -52,32 +49,25 @@ namespace AATool
 
         public readonly Time Time;
 
-        private Display display;
+        private Canvas canvas;
         private FNotes notesWindow;
 
         private bool announceUpdate;
 
+        public static bool IsBeta => FullTitle.ToLower().Contains("beta");
         public static bool IsModded => !string.IsNullOrEmpty(ModderName);
-
-        private void AddScreen(UIScreen screen)
-        {
-            if (SecondaryScreens.TryGetValue(screen.GetType(), out UIScreen old))
-                old.Dispose();
-            SecondaryScreens[screen.GetType()] = screen;
-        }
 
         public Main()
         {
-            this.UpdateTitle();
-
+            Version = Assembly.GetExecutingAssembly().GetName().Version;
             Graphics = new GraphicsDeviceManager(this);
             RNG = new Random();
 
-            if (Config.Main.FpsCap is 0)
-                this.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 60);
-            else
-                this.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / Config.Main.FpsCap);
+            Config.Initialize();
 
+            this.TargetElapsedTime = Config.Main.FpsCap == 0 
+                ? TimeSpan.FromSeconds(1.0 / 60) 
+                : TimeSpan.FromSeconds(1.0 / Config.Main.FpsCap);
             this.InactiveSleepTime = TimeSpan.Zero;
             this.IsFixedTimeStep = true;
             this.IsMouseVisible = true;
@@ -86,7 +76,7 @@ namespace AATool
 
         protected override void Initialize()
         {
-            this.display = new Display(Graphics);
+            this.canvas = new Canvas(Graphics);
 
             //load assets
             Tracker.Initialize();
@@ -94,11 +84,14 @@ namespace AATool
             FontSet.Initialize(this.GraphicsDevice);
             NetRequest.Enqueue(new UpdateRequest());
 
-            Version.TryParse(Config.Tracker.LastAAToolRun, out Version lastVersion);
-            if (lastVersion is null || lastVersion < Version.Parse("1.3.2"))
+            //check build number of last aatool session
+            Version.TryParse(Config.Tracking.LastSession, out Version lastSession);
+            if (lastSession is null || lastSession < Version.Parse("1.3.2"))
                 this.announceUpdate = true;
-            Config.Tracker.LastAAToolRun = Version.ToString();
-            Config.Tracker.Save();
+            Config.Tracking.LastSession.Set(Version.ToString());
+            Config.Tracking.Save();
+
+            this.UpdateTitle();
 
             //instantiate screens
             SecondaryScreens = new ();
@@ -112,11 +105,11 @@ namespace AATool
         protected override void Update(GameTime gameTime)
         {
             this.Time.Update(gameTime);
-            this.display.Update(this.Time);
+            this.canvas.Update(this.Time);
 
             //check minecraft version
             GameVersionDetector.Update();
-            Tracker.Update(this.Time);
+            Tracker.TryUpdate(this.Time);
             SftpSave.Update(this.Time);
 
             //update visibilty of update popup
@@ -132,7 +125,7 @@ namespace AATool
                 screen.UpdateRecursive(this.Time);
 
             //update notes screen
-            if (NotesSettings.Instance.Enabled)
+            if (Config.Notes.Enabled)
             {
                 if (this.notesWindow is null || this.notesWindow.IsDisposed)
                 {
@@ -149,20 +142,20 @@ namespace AATool
                 this.notesWindow.Close();
             }
 
-            if (Config.Main.FpsCapChanged())
+            if (Config.Main.FpsCap.Changed)
             {
                 this.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / Config.Main.FpsCap);
                 this.UpdateTitle();
             }
-            else if (Config.Tracker.GameVersionChanged() || Tracker.InGameTimeChanged)
+            else if (Tracker.ObjectivesChanged || Tracker.InGameTimeChanged)
             {
                 this.UpdateTitle();
             }
-
+            
             NetRequest.Update(this.Time);
             SpriteSheet.Update(this.Time);
             base.Update(gameTime);
-            Config.ClearFlags();
+            Config.ClearAllFlags();
             Tracker.ClearFlags();
             Peer.ClearFlags();
         }
@@ -174,17 +167,24 @@ namespace AATool
                 //render each secondary screen to its respective viewport
                 foreach (UIScreen screen in SecondaryScreens.Values)
                 {
-                    screen.Prepare(this.display);
-                    screen.DrawRecursive(this.display);
-                    screen.Present(this.display);
+                    screen.Prepare(this.canvas);
+                    screen.DrawRecursive(this.canvas);
+                    screen.Present(this.canvas);
                 }
 
                 //render main screen to default backbuffer
-                PrimaryScreen.Prepare(this.display);
-                PrimaryScreen.DrawRecursive(this.display);
-                PrimaryScreen.Present(this.display);
+                PrimaryScreen.Prepare(this.canvas);
+                PrimaryScreen.DrawRecursive(this.canvas);
+                PrimaryScreen.Present(this.canvas);
                 base.Draw(gameTime);
             }
+        }
+
+        private void AddScreen(UIScreen screen)
+        {
+            if (SecondaryScreens.TryGetValue(screen.GetType(), out UIScreen old))
+                old.Dispose();
+            SecondaryScreens[screen.GetType()] = screen;
         }
 
         private void ShowUpdateScreen()
@@ -196,7 +196,6 @@ namespace AATool
 
         private void UpdateTitle()
         {
-            Version = Assembly.GetExecutingAssembly().GetName().Version;
             string name  = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title;
             string extra = Assembly.GetExecutingAssembly()
                 .GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false)
@@ -204,21 +203,21 @@ namespace AATool
                 .FirstOrDefault()?.Description ?? string.Empty;
 
             ShortTitle = $"{name} {Version}";
-            FullTitle = ShortTitle;
-
             if (!string.IsNullOrWhiteSpace(extra))
-                FullTitle += $" {extra}";
+                ShortTitle += $" {extra}";
 
+            FullTitle = ShortTitle;
             if (!string.IsNullOrWhiteSpace(ModderName))
                 FullTitle += $" - UNOFFICIALLY MODIFIED BY: {ModderName}";
 
-            FullTitle += $"   ｜   Minecraft {Config.Tracker.GameVersion}";
-            if (Config.Main.FpsCap < 60)
-                FullTitle += $"   ｜   {Config.Main.FpsCap} FPS Cap";
+            FullTitle += $"   ｜   {Tracker.Category.CurrentVersion} {Tracker.Category.Name}";
             if (Tracker.InGameTime > TimeSpan.Zero)
-                FullTitle += $"   ｜   { Tracker.InGameTime} IGT";
+                FullTitle += $"   ｜   { Tracker.InGameTime:hh':'mm':'ss} IGT";
+            if (Config.Main.FpsCap < 60)
+                FullTitle += $"   ｜   {Config.Main.FpsCap.Value} FPS Cap";
             if (PrimaryScreen is not null)
                 PrimaryScreen.Form.Text = "  " + FullTitle;
+
         }
 
         public static void QuitBecause(string reason, Exception exception = null)
@@ -241,7 +240,7 @@ namespace AATool
                     message += $"\n\n{exception.GetType()}:{exception.StackTrace}";
                 DialogResult result = MessageBox.Show(message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Error);
                 if (result is DialogResult.Yes)
-                    _ = Process.Start(Paths.URL_GITHUB_LATEST);
+                    _ = Process.Start(Paths.Web.LatestRelease);
             }
         }
     }

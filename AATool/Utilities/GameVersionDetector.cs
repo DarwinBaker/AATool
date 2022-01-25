@@ -1,7 +1,7 @@
-﻿using AATool.Settings;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using AATool.Configuration;
 
 namespace AATool.Utilities
 {
@@ -16,7 +16,7 @@ namespace AATool.Utilities
         public static void Update()
         {
             //skip if disabled
-            if (!Config.Tracker.AutoDetectVersion)
+            if (!Config.Tracking.AutoDetectVersion)
                 return;
 
             //attempt to read active window title
@@ -28,7 +28,7 @@ namespace AATool.Utilities
             //attempt to parse second word in title as version
             string[] title = builder.ToString().Split(' ');
             if (title.Length > 1 && title[0].StartsWith("Minecraft"))
-                Config.Tracker.TrySetGameVersion(title[1]);
+                Tracker.TrySetVersion(title[1]);
         }
     }
 }

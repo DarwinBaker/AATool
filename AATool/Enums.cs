@@ -1,19 +1,18 @@
 ﻿namespace AATool
 {
-    //data structures
-    public enum FrameType       { Normal, Goal, Challenge }
-
-    public enum SaveFolderState
+    //used for save reading
+    public enum SaveState
     {
         Valid,
         NoWorlds,
-        NonExistentPath,
-        EmptyPath,
-        InvalidPath,
+        PathNonExistent,
+        PathEmpty,
+        PathInvalid,
         PathTooLong,
-        PermissionError
+        PermissionError,
     }
 
+    //used for sftp
     public enum SyncState
     {
         Ready,
@@ -24,19 +23,14 @@
         Statistics,
     }
 
-    //ui
+    //ui and rendering
     public enum HorizontalAlign { Center, Left, Right }
-    public enum VerticalAlign   { Center, Top, Bottom }
-    public enum FlowDirection   { LeftToRight, RightToLeft, TopToBottom, BottomToTop }
-    public enum SizeMode        { Absolute, Relative }
-    public enum DrawMode        { All, ThisOnly, ChildrenOnly, None }
-    public enum UIButtonState   { Released, Hovered, Pressed, Disabled }
-    public enum UIRefreshStyle  { Compass, Xp }
-
-    //graphics
-    public enum Layer           { Main, Glow, Fore }
-
-    //misc
-    public enum Ease            { Back, Bounce, Circular, Cubic, Elastic, Exponential, Quadratic, Quartic, Quintic, Sinusoidal }
-    public enum SupportTier     { Developer, BetaTester, PatreonGold, PatreonDiamond, PatreonNetherite }
+    public enum VerticalAlign { Center, Top, Bottom }
+    public enum FlowDirection { LeftToRight, RightToLeft, TopToBottom, BottomToTop }
+    public enum SizeMode { Absolute, Relative }
+    public enum DrawMode { All, ThisOnly, ChildrenOnly, None }
+    public enum ButtonState { Released, Hovered, Pressed, Disabled }
+    public enum FrameType { Normal, Goal, Challenge, Statistic }
+    public enum Layer { Main, Glow, Fore }
+    public enum Ease { Back, Bounce, Circular, Cubic, Elastic, Exponential, Quadratic, Quartic, Quintic, Sinusoidal }
 }
