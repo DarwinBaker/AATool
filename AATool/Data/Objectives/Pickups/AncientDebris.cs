@@ -39,10 +39,5 @@ namespace AATool.Data.Objectives.Pickups
             else
                 base.UpdateLongStatus();
         }
-
-        protected override void UpdateShortStatus()
-        {
-
-        }
     }
 }
