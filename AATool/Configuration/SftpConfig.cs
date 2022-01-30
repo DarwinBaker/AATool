@@ -14,6 +14,8 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<string> Password = new (string.Empty);
             [JsonProperty] public readonly Setting<int> Port = new (22);
 
+            [JsonProperty] public readonly Setting<string> ServerRoot = new (string.Empty);
+
             protected override string GetId() => "sftp";
             protected override string GetLegacyId() => "tracker";
 
@@ -23,6 +25,7 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.Username);
                 this.RegisterSetting(this.Password);
                 this.RegisterSetting(this.Port);
+                this.RegisterSetting(this.ServerRoot);
             }
 
             protected override void ApplyLegacySetting(string key, object value)

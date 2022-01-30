@@ -57,6 +57,8 @@ namespace AATool.Winforms.Controls
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.category = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.sftpRoot = new System.Windows.Forms.TextBox();
             this.localGroup.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -231,6 +233,8 @@ namespace AATool.Winforms.Controls
             // 
             // remoteGroup
             // 
+            this.remoteGroup.Controls.Add(this.label5);
+            this.remoteGroup.Controls.Add(this.sftpRoot);
             this.remoteGroup.Controls.Add(this.sftpPort);
             this.remoteGroup.Controls.Add(this.label11);
             this.remoteGroup.Controls.Add(this.toggleCredentials);
@@ -250,7 +254,7 @@ namespace AATool.Winforms.Controls
             // 
             // sftpPort
             // 
-            this.sftpPort.Location = new System.Drawing.Point(281, 34);
+            this.sftpPort.Location = new System.Drawing.Point(207, 34);
             this.sftpPort.Name = "sftpPort";
             this.sftpPort.Size = new System.Drawing.Size(42, 20);
             this.sftpPort.TabIndex = 38;
@@ -259,7 +263,7 @@ namespace AATool.Winforms.Controls
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(278, 17);
+            this.label11.Location = new System.Drawing.Point(204, 18);
             this.label11.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(29, 13);
@@ -269,18 +273,18 @@ namespace AATool.Winforms.Controls
             // toggleCredentials
             // 
             this.toggleCredentials.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.toggleCredentials.Location = new System.Drawing.Point(281, 73);
+            this.toggleCredentials.Location = new System.Drawing.Point(331, 73);
             this.toggleCredentials.Name = "toggleCredentials";
-            this.toggleCredentials.Size = new System.Drawing.Size(130, 22);
+            this.toggleCredentials.Size = new System.Drawing.Size(80, 22);
             this.toggleCredentials.TabIndex = 55;
-            this.toggleCredentials.Text = "Show Login Credentials";
+            this.toggleCredentials.Text = "Show Login";
             this.toggleCredentials.UseVisualStyleBackColor = true;
             this.toggleCredentials.Click += new System.EventHandler(this.OnClicked);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(157, 58);
+            this.label4.Location = new System.Drawing.Point(172, 58);
             this.label4.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(56, 13);
@@ -290,9 +294,9 @@ namespace AATool.Winforms.Controls
             // sftpValidate
             // 
             this.sftpValidate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.sftpValidate.Location = new System.Drawing.Point(329, 33);
+            this.sftpValidate.Location = new System.Drawing.Point(331, 33);
             this.sftpValidate.Name = "sftpValidate";
-            this.sftpValidate.Size = new System.Drawing.Size(82, 22);
+            this.sftpValidate.Size = new System.Drawing.Size(80, 22);
             this.sftpValidate.TabIndex = 1;
             this.sftpValidate.Text = "Sync";
             this.sftpValidate.UseVisualStyleBackColor = true;
@@ -300,9 +304,9 @@ namespace AATool.Winforms.Controls
             // 
             // sftpPass
             // 
-            this.sftpPass.Location = new System.Drawing.Point(160, 74);
+            this.sftpPass.Location = new System.Drawing.Point(175, 74);
             this.sftpPass.Name = "sftpPass";
-            this.sftpPass.Size = new System.Drawing.Size(115, 20);
+            this.sftpPass.Size = new System.Drawing.Size(150, 20);
             this.sftpPass.TabIndex = 29;
             this.sftpPass.UseSystemPasswordChar = true;
             this.sftpPass.TextChanged += new System.EventHandler(this.OnTextChanged);
@@ -331,7 +335,7 @@ namespace AATool.Winforms.Controls
             // 
             this.sftpHost.Location = new System.Drawing.Point(9, 34);
             this.sftpHost.Name = "sftpHost";
-            this.sftpHost.Size = new System.Drawing.Size(266, 20);
+            this.sftpHost.Size = new System.Drawing.Size(192, 20);
             this.sftpHost.TabIndex = 50;
             this.sftpHost.TextChanged += new System.EventHandler(this.OnTextChanged);
             // 
@@ -339,7 +343,7 @@ namespace AATool.Winforms.Controls
             // 
             this.sftpUser.Location = new System.Drawing.Point(9, 74);
             this.sftpUser.Name = "sftpUser";
-            this.sftpUser.Size = new System.Drawing.Size(145, 20);
+            this.sftpUser.Size = new System.Drawing.Size(160, 20);
             this.sftpUser.TabIndex = 0;
             this.sftpUser.UseSystemPasswordChar = true;
             this.sftpUser.TextChanged += new System.EventHandler(this.OnTextChanged);
@@ -382,6 +386,24 @@ namespace AATool.Winforms.Controls
             this.label1.TabIndex = 36;
             this.label1.Text = "🛈 Changes to settings are applied instantly";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(253, 18);
+            this.label5.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(58, 13);
+            this.label5.TabIndex = 57;
+            this.label5.Text = "Root Path:";
+            // 
+            // sftpRoot
+            // 
+            this.sftpRoot.Location = new System.Drawing.Point(255, 34);
+            this.sftpRoot.Name = "sftpRoot";
+            this.sftpRoot.Size = new System.Drawing.Size(70, 20);
+            this.sftpRoot.TabIndex = 56;
+            this.sftpRoot.TextChanged += new System.EventHandler(this.OnTextChanged);
             // 
             // CTrackerSettings
             // 
@@ -438,5 +460,7 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox sftpRoot;
     }
 }

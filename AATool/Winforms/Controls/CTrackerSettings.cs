@@ -36,6 +36,7 @@ namespace AATool.Winforms.Controls
             this.sftpPort.Text = Config.Sftp.Port.Value.ToString();
             this.sftpUser.Text = Config.Sftp.Username;
             this.sftpPass.Text = Config.Sftp.Password;
+            this.sftpRoot.Text = Config.Sftp.ServerRoot;
 
             this.UpdateSaveGroupPanel();
 
@@ -58,6 +59,7 @@ namespace AATool.Winforms.Controls
                 Config.Sftp.Host.Set(this.sftpHost.Text);
                 Config.Sftp.Username.Set(this.sftpUser.Text);
                 Config.Sftp.Password.Set(this.sftpPass.Text);
+                Config.Sftp.ServerRoot.Set(this.sftpRoot.Text);
                 Config.Sftp.Save();
             }
         }
