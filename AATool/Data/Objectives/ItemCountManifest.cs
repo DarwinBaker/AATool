@@ -30,11 +30,12 @@ namespace AATool.Data.Objectives
                 {
                     string id = XmlObject.Attribute(node, "id", string.Empty);
                     Pickup itemCount = id switch {
-                        NautilusShell.ItemId => new NautilusShell(node),
-                        AncientDebris.ItemId => new AncientDebris(node),
-                        WitherSkull.ItemId => new WitherSkull(node),
-                        Trident.ItemId => new Trident(node),
-                        EGap.ItemId => new EGap(node),
+                        NautilusShell.ItemId     => new NautilusShell(node),
+                        AncientDebris.ItemId     => new AncientDebris(node),
+                        WitherSkull.ItemId       => new WitherSkull(node),
+                        WitherSkull.LegacyItemId => new WitherSkull(node),
+                        Trident.ItemId           => new Trident(node),
+                        EGap.ItemId              => new EGap(node),
                         _ => null
                     };
                     if (itemCount is not null)

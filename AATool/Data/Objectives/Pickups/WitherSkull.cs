@@ -10,6 +10,7 @@ namespace AATool.Data.Objectives.Pickups
     class WitherSkull : Pickup
     {
         public const string ItemId = "minecraft:wither_skeleton_skull";
+        public const string LegacyItemId = "minecraft.skull";
         private const string MonsterHunter = "minecraft:adventure/kill_all_mobs";
         private const string Wither = "minecraft:wither";
 
