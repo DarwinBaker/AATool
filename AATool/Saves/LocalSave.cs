@@ -63,7 +63,11 @@ namespace AATool.Saves
 
             if (newState is SaveState.Valid)
             {
-                bool ready = !Tracker.WorldLocked && latest.FullName != this.CurrentFolder?.FullName;
+                bool ready = !Tracker.WorldLocked;
+                ready |= Config.Tracking.CustomSavePath.Changed && !Config.Tracking.UseDefaultPath;
+                ready |= Config.Tracking.UseDefaultPath.Changed;
+                ready |= Config.Tracking.UseSftp.Changed;
+                ready &= latest.FullName != this.CurrentFolder?.FullName;
                 if (this.CurrentFolder is null || ready)
                 {
                     //world changed
@@ -72,6 +76,10 @@ namespace AATool.Saves
                     this.Achievements.SetFolder(new DirectoryInfo(Path.Combine(this.CurrentFolder.FullName, "stats")));
                     this.Statistics.SetFolder(new DirectoryInfo(Path.Combine(this.CurrentFolder.FullName, "stats")));
                     this.WorldChanged = true;
+
+                    //unlock world
+                    if (Tracker.WorldLocked)
+                        Tracker.ToggleWorldLock();
                 }
 
                 //update progress if different

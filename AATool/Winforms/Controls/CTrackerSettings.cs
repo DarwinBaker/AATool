@@ -188,7 +188,15 @@ namespace AATool.Winforms.Controls
             {
                 string title = "SFTP Compatibility Information";
                 string body = "Remote tracking over SFTP has only been officially tested on DedicatedMC, " +
-                    "although other hosts should work as long as they keep \"server.properties\" in the root directory.";
+                    "although other hosts should work as well.";
+                MessageBox.Show(this, body, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (sender == this.serverPathHelp)
+            {
+                string title = "SFTP Server Path Information";
+                string body = "Allows you to specify a custom path to your Minecraft server if it's not kept in the root directory. (for example, on a custom linux server).\n\n" +
+                    "This should almost always be left blank, as most dedicated hosts do indeed keep the Minecraft server in the root directory.\n\n" +
+                    "If AATool gives an error about paths not found, double check your server's directory structure and adjust this if necessary.";
                 MessageBox.Show(this, body, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
