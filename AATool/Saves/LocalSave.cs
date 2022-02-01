@@ -63,7 +63,8 @@ namespace AATool.Saves
 
             if (newState is SaveState.Valid)
             {
-                if (this.CurrentFolder is null || latest.FullName != this.CurrentFolder.FullName)
+                bool ready = !Tracker.WorldLocked && latest.FullName != this.CurrentFolder?.FullName;
+                if (this.CurrentFolder is null || ready)
                 {
                     //world changed
                     this.CurrentFolder = latest;
@@ -100,11 +101,11 @@ namespace AATool.Saves
                 || Directory.Exists(Path.Combine(folder.FullName, "stats"));
         }
 
-        private static DirectoryInfo MostRecentlyAccessed(DirectoryInfo a, DirectoryInfo b)
+        private static DirectoryInfo MostRecentlyWritten(DirectoryInfo a, DirectoryInfo b)
         {
             if (a is null) return b;
             if (b is null) return a;
-            return a.LastAccessTime > b.LastAccessTime ? a : b;
+            return a.LastWriteTimeUtc > b.LastWriteTimeUtc ? a : b;
         }
 
         private SaveState TryGetLatestWorld(out DirectoryInfo directory)
@@ -139,7 +140,7 @@ namespace AATool.Saves
                 foreach (DirectoryInfo subFolder in subFolders)
                 {
                     //sort by access time, skipping folders that aren't worlds
-                    if (MightBeWorldFolder(subFolder) && subFolder == MostRecentlyAccessed(subFolder, latest))
+                    if (MightBeWorldFolder(subFolder) && subFolder == MostRecentlyWritten(subFolder, latest))
                         latest = subFolder;
                 }
 
