@@ -1,6 +1,6 @@
 # CTM's AATool ➔ [Download Here!](https://github.com/DarwinBaker/AATool/releases/latest)
 
-![](info/preview_co_op.png)
+![](info/preview_main.png)
 ![](info/preview_overlay.gif)
 
 ## What is AATool?
@@ -10,7 +10,7 @@ It also includes the totally customizable stream overlay that you have likely se
 
 AATool even supports automatic synchronization of multiplayer worlds, and allows you to view the progress of individual players!
 
-_As of August 2021, the AATool project now contains over 13,000 lines of code!_ 🎉
+_As of February 2022, the AATool project now contains over 14,000 lines of code!_ 🎉
 
 ## Want to Contribute?
 If you find this tool helpful or enjoy watching someone else who does, consider supporting me on [Patreon](https://www.patreon.com/_ctm) or making a [PayPal](https://www.paypal.com/donate?hosted_button_id=EN29468P8CY24) donation! This is of course completely optional and this program is and always will be completely free for everyone's use! Also, anyone who donates will have their name added to the tool's credits!
