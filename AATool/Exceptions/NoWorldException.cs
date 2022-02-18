@@ -34,10 +34,7 @@ namespace AATool.Exceptions
                     return $"Specified world invalid";
                 }
             }
-
-            return Config.Tracking.Source == TrackerSource.DefaultAppData
-                ? "No worlds in default .minecraft path"
-                : "No worlds in custom save path";
+            return "No worlds in custom save path";
         }
     }
 }

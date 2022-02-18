@@ -3,7 +3,6 @@
     public enum TrackerSource
     {
         ActiveInstance,
-        DefaultAppData,
         CustomSavesPath,
         SpecificWorld,
     }

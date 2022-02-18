@@ -24,9 +24,7 @@ namespace AATool.Exceptions
                     : "Active instance missing saves folder";
             }
 
-            return Config.Tracking.Source == TrackerSource.DefaultAppData
-                ? "Default .minecraft saves folder doesn't exist"
-                : "Custom saves path doesn't exist";
+            return "Custom saves path doesn't exist";
         }
     }
 }

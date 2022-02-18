@@ -36,11 +36,9 @@ namespace AATool.Winforms.Controls
             this.TrackSpecificWorld = new System.Windows.Forms.RadioButton();
             this.button2 = new System.Windows.Forms.Button();
             this.customWorldPath = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.trackActiveInstance = new System.Windows.Forms.RadioButton();
             this.trackCustomSavesFolder = new System.Windows.Forms.RadioButton();
-            this.trackDefaultSaves = new System.Windows.Forms.RadioButton();
             this.browseSaves = new System.Windows.Forms.Button();
             this.customSavesPath = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -68,6 +66,9 @@ namespace AATool.Winforms.Controls
             this.configureOpenTracker = new System.Windows.Forms.Button();
             this.enableOpenTracker = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.localGroup.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -99,15 +100,15 @@ namespace AATool.Winforms.Controls
             // 
             // localGroup
             // 
+            this.localGroup.Controls.Add(this.label9);
+            this.localGroup.Controls.Add(this.label2);
             this.localGroup.Controls.Add(this.browseWorld);
             this.localGroup.Controls.Add(this.TrackSpecificWorld);
             this.localGroup.Controls.Add(this.button2);
             this.localGroup.Controls.Add(this.customWorldPath);
-            this.localGroup.Controls.Add(this.label9);
             this.localGroup.Controls.Add(this.label8);
             this.localGroup.Controls.Add(this.trackActiveInstance);
             this.localGroup.Controls.Add(this.trackCustomSavesFolder);
-            this.localGroup.Controls.Add(this.trackDefaultSaves);
             this.localGroup.Controls.Add(this.browseSaves);
             this.localGroup.Controls.Add(this.customSavesPath);
             this.localGroup.Location = new System.Drawing.Point(116, 90);
@@ -120,7 +121,7 @@ namespace AATool.Winforms.Controls
             // browseWorld
             // 
             this.browseWorld.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.browseWorld.Location = new System.Drawing.Point(358, 182);
+            this.browseWorld.Location = new System.Drawing.Point(358, 161);
             this.browseWorld.Name = "browseWorld";
             this.browseWorld.Size = new System.Drawing.Size(53, 22);
             this.browseWorld.TabIndex = 42;
@@ -131,7 +132,7 @@ namespace AATool.Winforms.Controls
             // TrackSpecificWorld
             // 
             this.TrackSpecificWorld.AutoSize = true;
-            this.TrackSpecificWorld.Location = new System.Drawing.Point(6, 160);
+            this.TrackSpecificWorld.Location = new System.Drawing.Point(6, 139);
             this.TrackSpecificWorld.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.TrackSpecificWorld.Name = "TrackSpecificWorld";
             this.TrackSpecificWorld.Size = new System.Drawing.Size(128, 17);
@@ -153,30 +154,18 @@ namespace AATool.Winforms.Controls
             // 
             // customWorldPath
             // 
-            this.customWorldPath.Location = new System.Drawing.Point(6, 183);
+            this.customWorldPath.Location = new System.Drawing.Point(6, 162);
             this.customWorldPath.Name = "customWorldPath";
             this.customWorldPath.Size = new System.Drawing.Size(346, 20);
             this.customWorldPath.TabIndex = 39;
             this.customWorldPath.TextChanged += new System.EventHandler(this.OnTextChanged);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label9.Location = new System.Drawing.Point(3, 83);
-            this.label9.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
-            this.label9.Name = "label9";
-            this.label9.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.label9.Size = new System.Drawing.Size(210, 15);
-            this.label9.TabIndex = 38;
-            this.label9.Text = "🛈  (...AppData/Roaming/.minecraft/saves)";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.label8.Location = new System.Drawing.Point(3, 39);
-            this.label8.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label8.Margin = new System.Windows.Forms.Padding(0, 0, 3, 6);
             this.label8.Name = "label8";
             this.label8.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
             this.label8.Size = new System.Drawing.Size(401, 15);
@@ -200,7 +189,7 @@ namespace AATool.Winforms.Controls
             // trackCustomSavesFolder
             // 
             this.trackCustomSavesFolder.AutoSize = true;
-            this.trackCustomSavesFolder.Location = new System.Drawing.Point(6, 108);
+            this.trackCustomSavesFolder.Location = new System.Drawing.Point(6, 66);
             this.trackCustomSavesFolder.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.trackCustomSavesFolder.Name = "trackCustomSavesFolder";
             this.trackCustomSavesFolder.Size = new System.Drawing.Size(159, 17);
@@ -210,23 +199,10 @@ namespace AATool.Winforms.Controls
             this.trackCustomSavesFolder.UseVisualStyleBackColor = true;
             this.trackCustomSavesFolder.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
-            // trackDefaultSaves
-            // 
-            this.trackDefaultSaves.AutoSize = true;
-            this.trackDefaultSaves.Location = new System.Drawing.Point(6, 63);
-            this.trackDefaultSaves.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
-            this.trackDefaultSaves.Name = "trackDefaultSaves";
-            this.trackDefaultSaves.Size = new System.Drawing.Size(155, 17);
-            this.trackDefaultSaves.TabIndex = 7;
-            this.trackDefaultSaves.TabStop = true;
-            this.trackDefaultSaves.Text = "Track Default Saves Folder";
-            this.trackDefaultSaves.UseVisualStyleBackColor = true;
-            this.trackDefaultSaves.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
-            // 
             // browseSaves
             // 
             this.browseSaves.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.browseSaves.Location = new System.Drawing.Point(358, 130);
+            this.browseSaves.Location = new System.Drawing.Point(358, 88);
             this.browseSaves.Name = "browseSaves";
             this.browseSaves.Size = new System.Drawing.Size(53, 22);
             this.browseSaves.TabIndex = 1;
@@ -236,7 +212,7 @@ namespace AATool.Winforms.Controls
             // 
             // customSavesPath
             // 
-            this.customSavesPath.Location = new System.Drawing.Point(6, 131);
+            this.customSavesPath.Location = new System.Drawing.Point(6, 89);
             this.customSavesPath.Name = "customSavesPath";
             this.customSavesPath.Size = new System.Drawing.Size(346, 20);
             this.customSavesPath.TabIndex = 0;
@@ -528,11 +504,47 @@ namespace AATool.Winforms.Controls
             this.label1.TabIndex = 35;
             this.label1.Text = "🛈 Share your progress to the web in realtime";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label2.Location = new System.Drawing.Point(3, 112);
+            this.label2.Margin = new System.Windows.Forms.Padding(0, 0, 3, 6);
+            this.label2.Name = "label2";
+            this.label2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.label2.Size = new System.Drawing.Size(212, 15);
+            this.label2.TabIndex = 43;
+            this.label2.Text = "🛈 AATool will only track worlds in this folder";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label9.Location = new System.Drawing.Point(3, 185);
+            this.label9.Margin = new System.Windows.Forms.Padding(0, 0, 3, 6);
+            this.label9.Name = "label9";
+            this.label9.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.label9.Size = new System.Drawing.Size(167, 15);
+            this.label9.TabIndex = 44;
+            this.label9.Text = "🛈 AATool will only track this world";
+            // 
+            // label10
+            // 
+            this.label10.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label10.Location = new System.Drawing.Point(281, 6);
+            this.label10.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(255, 81);
+            this.label10.TabIndex = 39;
+            this.label10.Text = "🛈 Changes to settings are applied immediately";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // CTrackerSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -540,7 +552,7 @@ namespace AATool.Winforms.Controls
             this.Controls.Add(this.localGroup);
             this.Controls.Add(this.remoteGroup);
             this.Name = "CTrackerSettings";
-            this.Size = new System.Drawing.Size(974, 307);
+            this.Size = new System.Drawing.Size(538, 307);
             this.localGroup.ResumeLayout(false);
             this.localGroup.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -563,7 +575,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Button browseSaves;
         private System.Windows.Forms.TextBox customSavesPath;
         private System.Windows.Forms.RadioButton trackCustomSavesFolder;
-        private System.Windows.Forms.RadioButton trackDefaultSaves;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox remoteGroup;
@@ -591,10 +602,12 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.LinkLabel sftpCompatibility;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.RadioButton TrackSpecificWorld;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox customWorldPath;
         private System.Windows.Forms.Button browseWorld;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
     }
 }

@@ -29,7 +29,6 @@ namespace AATool.Winforms.Controls
             this.worldLocal.Checked   = !Config.Tracking.UseSftp;
 
             this.trackActiveInstance.Checked = Tracker.Source is TrackerSource.ActiveInstance;
-            this.trackDefaultSaves.Checked = Tracker.Source is TrackerSource.DefaultAppData;
             this.trackCustomSavesFolder.Checked = Tracker.Source is TrackerSource.CustomSavesPath;
             this.TrackSpecificWorld.Checked = Tracker.Source is TrackerSource.SpecificWorld;
 
@@ -58,8 +57,6 @@ namespace AATool.Winforms.Controls
             {
                 if (this.trackActiveInstance.Checked)
                     Config.Tracking.Source.Set(TrackerSource.ActiveInstance);
-                else if (this.trackDefaultSaves.Checked)
-                    Config.Tracking.Source.Set(TrackerSource.DefaultAppData);
                 else if (this.trackCustomSavesFolder.Checked)
                     Config.Tracking.Source.Set(TrackerSource.CustomSavesPath);
                 else if (this.TrackSpecificWorld.Checked)
@@ -68,7 +65,13 @@ namespace AATool.Winforms.Controls
                 Config.Tracking.CustomSavesPath.Set(this.customSavesPath.Text);
                 Config.Tracking.CustomWorldPath.Set(this.customWorldPath.Text);
 
-                Config.Tracking.Source.Set(this.trackDefaultSaves.Checked);
+                TrackerSource source = this.trackActiveInstance.Checked
+                    ? TrackerSource.ActiveInstance
+                    : this.trackCustomSavesFolder.Checked
+                        ? TrackerSource.CustomSavesPath
+                        : TrackerSource.SpecificWorld;
+                Config.Tracking.Source.Set(source);
+
                 Config.Tracking.UseSftp.Set(this.worldRemote.Checked);
                 Config.Tracking.AutoDetectVersion.Set(this.autoVersion.Checked);
                 Config.Tracking.BroadcastProgress.Set(this.enableOpenTracker.Checked);

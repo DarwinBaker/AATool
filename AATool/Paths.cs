@@ -110,12 +110,9 @@ namespace AATool
                 }
                 else
                 {
-                    return Config.Tracking.Source.Value switch {
-                        TrackerSource.ActiveInstance => ActiveInstance.SavesPath,
-                        TrackerSource.DefaultAppData => DefaultAppDataSavesPath,
-                        TrackerSource.CustomSavesPath => Config.Tracking.CustomSavesPath,
-                        _ => string.Empty,
-                    };
+                    return Tracker.Source is TrackerSource.CustomSavesPath
+                        ? Config.Tracking.CustomSavesPath
+                        : ActiveInstance.SavesPath;
                 }
             }
 
