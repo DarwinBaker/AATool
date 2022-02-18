@@ -45,12 +45,12 @@ namespace AATool.Utilities
 
                 //update saves folder
                 string args = instance.CommandLine();
-                SavesPath = TryParseDotMinecraft(args, out string dotMinecraft)
-                    ? Path.Combine(dotMinecraft, "saves")
+                SavesPath = TryParseDotMinecraft(args, out DirectoryInfo dotMinecraft)
+                    ? Path.Combine(dotMinecraft.FullName, "saves")
                     : string.Empty;
 
                 //update instance properties
-                UpdateInstanceNumber(dotMinecraft);
+                UpdateInstanceNumber(dotMinecraft.FullName);
                 UpdateGameVersion(instance);
 
                 //prepare for next check
@@ -89,12 +89,13 @@ namespace AATool.Utilities
             return instance is not null;
         }
 
-        private static bool TryParseDotMinecraft(string args, out string path)
+        private static bool TryParseDotMinecraft(string args, out DirectoryInfo folder)
         {
-            path = string.Empty;
+            folder = null;
             if (string.IsNullOrEmpty(args))
                 return false;
 
+            string path = string.Empty;
             try
             {
                 //try parsing path
@@ -118,12 +119,13 @@ namespace AATool.Utilities
                         path = Path.Combine(path, ".minecraft");
                     }
                 }
+                folder = new DirectoryInfo(path);
             }
             catch
             {
                 //unable to parse .minecraft path
             }
-            return !string.IsNullOrEmpty(path);
+            return folder is not null;
         }
 
         private static void UpdateInstanceNumber(string dotMinecraft)
