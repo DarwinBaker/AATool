@@ -50,7 +50,7 @@ namespace AATool.Utilities
                     : string.Empty;
 
                 //update instance properties
-                UpdateInstanceNumber(dotMinecraft.FullName);
+                UpdateInstanceNumber(dotMinecraft?.FullName);
                 UpdateGameVersion(instance);
 
                 //prepare for next check
@@ -95,29 +95,30 @@ namespace AATool.Utilities
             if (string.IsNullOrEmpty(args))
                 return false;
 
-            string path = string.Empty;
+            string path;
             try
             {
-                //try parsing path
-                //flag specifies ".minecraft" directory
-                Match match = Regex.Match(args, @$"{GameDirFlag}(?:""(.+?)""|([^\s]+))");
-                if (match.Success)
+                if (args.Contains(GameDirFlag))
                 {
-                    path = match.Value.Substring(GameDirFlag.Length, match.Value.Length - GameDirFlag.Length);
+                    //try parsing path
+                    //flag specifies ".minecraft" directory
+                    Match match = Regex.Match(args, @$"{GameDirFlag}(?:""(.+?)""|([^\s]+))");
+                    path = args.Substring(match.Index + GameDirFlag.Length, match.Length - GameDirFlag.Length) + "\\";
                 }
                 else
                 {
                     //try alternate method   
                     //flag specifies "natives" directory which is adjacent to ".minecraft"
-                    match = Regex.Match(args, @$"{NativesFlag}(?:""(.+?)""|([^\s]+))");
-                    if (match.Success)
+                    Match match = Regex.Match(args, @$"(?:{NativesFlag}(.+?) )|(?:\""{NativesFlag}(.+?)\"")");
+                    int length = match.Length;
+                    int index = match.Index;
+                    if (args[match.Index + NativesFlag.Length] is '=')
                     {
-                        path = match.Value.Substring(NativesFlag.Length, match.Value.Length - NativesFlag.Length);
-                        //up a level
-                        path = path.Substring(0, path.Length - NativesSlug.Length);
-                        //back down
-                        path = Path.Combine(path, ".minecraft");
+                        length -= 1;
+                        index += 1;
                     }
+                    path = args.Substring(index + NativesFlag.Length, length - NativesFlag.Length - 8) + ".minecraft\\";
+                    path = path.Replace("/", "\\");
                 }
                 folder = new DirectoryInfo(path);
             }
