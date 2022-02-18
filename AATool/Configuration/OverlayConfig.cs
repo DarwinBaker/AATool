@@ -40,6 +40,8 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.Width);
                 this.RegisterSetting(this.BackColor);
                 this.RegisterSetting(this.TextColor);
+                this.RegisterSetting(this.ShowIgt);
+                this.RegisterSetting(this.ClarifyAmbiguous);
             }
 
             protected override void ApplyLegacySetting(string key, object value)
