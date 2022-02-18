@@ -38,6 +38,7 @@ namespace AATool.Configuration
 
             [JsonProperty] public readonly Setting<bool> LayoutDebugMode = new (false);
             [JsonProperty] public readonly Setting<bool> CacheDebugMode = new (false);
+            [JsonProperty] public readonly Setting<bool> HideRenderCache = new (false);
 
             [JsonProperty] public readonly Setting<string> FrameStyle = new ("Modern");
             [JsonProperty] public readonly Setting<string> ProgressBarStyle = new ("Modern");

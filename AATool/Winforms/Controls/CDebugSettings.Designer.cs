@@ -35,6 +35,8 @@ namespace AATool.Winforms.Controls
             this.label6 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.hideRenderCache = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // cacheDebug
@@ -50,7 +52,7 @@ namespace AATool.Winforms.Controls
             // 
             // dumpAtlas
             // 
-            this.dumpAtlas.Location = new System.Drawing.Point(12, 104);
+            this.dumpAtlas.Location = new System.Drawing.Point(12, 258);
             this.dumpAtlas.Name = "dumpAtlas";
             this.dumpAtlas.Size = new System.Drawing.Size(122, 23);
             this.dumpAtlas.TabIndex = 10;
@@ -95,7 +97,7 @@ namespace AATool.Winforms.Controls
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label2.Location = new System.Drawing.Point(9, 130);
+            this.label2.Location = new System.Drawing.Point(9, 284);
             this.label2.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(435, 13);
@@ -103,11 +105,35 @@ namespace AATool.Winforms.Controls
             this.label2.Text = "🛈 Save the texture atlas to an image file \"atlas_dump.png\" in the current workin" +
     "g directory ";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label3.Location = new System.Drawing.Point(9, 124);
+            this.label3.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(250, 13);
+            this.label3.TabIndex = 40;
+            this.label3.Text = "🛈 Show only the parts of the screen being re-drawn";
+            // 
+            // hideRenderCache
+            // 
+            this.hideRenderCache.AutoSize = true;
+            this.hideRenderCache.Location = new System.Drawing.Point(12, 104);
+            this.hideRenderCache.Name = "hideRenderCache";
+            this.hideRenderCache.Size = new System.Drawing.Size(120, 17);
+            this.hideRenderCache.TabIndex = 39;
+            this.hideRenderCache.Text = "Hide Render Cache";
+            this.hideRenderCache.UseVisualStyleBackColor = true;
+            this.hideRenderCache.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            // 
             // CDebugSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.hideRenderCache);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label6);
@@ -128,5 +154,7 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox hideRenderCache;
     }
 }
