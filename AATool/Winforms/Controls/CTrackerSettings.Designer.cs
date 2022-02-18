@@ -32,18 +32,24 @@ namespace AATool.Winforms.Controls
             this.autoVersion = new System.Windows.Forms.CheckBox();
             this.gameVersion = new System.Windows.Forms.ComboBox();
             this.localGroup = new System.Windows.Forms.GroupBox();
-            this.savesCustom = new System.Windows.Forms.RadioButton();
-            this.savesDefault = new System.Windows.Forms.RadioButton();
-            this.browse = new System.Windows.Forms.Button();
-            this.customSavePath = new System.Windows.Forms.TextBox();
+            this.browseWorld = new System.Windows.Forms.Button();
+            this.TrackSpecificWorld = new System.Windows.Forms.RadioButton();
+            this.button2 = new System.Windows.Forms.Button();
+            this.customWorldPath = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.trackActiveInstance = new System.Windows.Forms.RadioButton();
+            this.trackCustomSavesFolder = new System.Windows.Forms.RadioButton();
+            this.trackDefaultSaves = new System.Windows.Forms.RadioButton();
+            this.browseSaves = new System.Windows.Forms.Button();
+            this.customSavesPath = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.label2 = new System.Windows.Forms.Label();
-            this.sftpCompatibility = new System.Windows.Forms.LinkLabel();
             this.worldLocal = new System.Windows.Forms.RadioButton();
             this.worldRemote = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.remoteGroup = new System.Windows.Forms.GroupBox();
+            this.sftpCompatibility = new System.Windows.Forms.LinkLabel();
+            this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.sftpRoot = new System.Windows.Forms.TextBox();
             this.sftpPort = new System.Windows.Forms.TextBox();
@@ -58,13 +64,16 @@ namespace AATool.Winforms.Controls
             this.sftpUser = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.category = new System.Windows.Forms.ComboBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.configureOpenTracker = new System.Windows.Forms.Button();
+            this.enableOpenTracker = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.serverPathHelp = new System.Windows.Forms.LinkLabel();
             this.localGroup.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.remoteGroup.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // autoVersion
@@ -90,66 +99,151 @@ namespace AATool.Winforms.Controls
             // 
             // localGroup
             // 
-            this.localGroup.Controls.Add(this.savesCustom);
-            this.localGroup.Controls.Add(this.savesDefault);
-            this.localGroup.Controls.Add(this.browse);
-            this.localGroup.Controls.Add(this.customSavePath);
+            this.localGroup.Controls.Add(this.browseWorld);
+            this.localGroup.Controls.Add(this.TrackSpecificWorld);
+            this.localGroup.Controls.Add(this.button2);
+            this.localGroup.Controls.Add(this.customWorldPath);
+            this.localGroup.Controls.Add(this.label9);
+            this.localGroup.Controls.Add(this.label8);
+            this.localGroup.Controls.Add(this.trackActiveInstance);
+            this.localGroup.Controls.Add(this.trackCustomSavesFolder);
+            this.localGroup.Controls.Add(this.trackDefaultSaves);
+            this.localGroup.Controls.Add(this.browseSaves);
+            this.localGroup.Controls.Add(this.customSavesPath);
             this.localGroup.Location = new System.Drawing.Point(116, 90);
             this.localGroup.Name = "localGroup";
-            this.localGroup.Size = new System.Drawing.Size(417, 104);
+            this.localGroup.Size = new System.Drawing.Size(417, 214);
             this.localGroup.TabIndex = 23;
             this.localGroup.TabStop = false;
-            this.localGroup.Text = "Local Save Folder";
+            this.localGroup.Text = "Local Save Tracking";
             // 
-            // savesCustom
+            // browseWorld
             // 
-            this.savesCustom.AutoSize = true;
-            this.savesCustom.Location = new System.Drawing.Point(6, 53);
-            this.savesCustom.Name = "savesCustom";
-            this.savesCustom.Size = new System.Drawing.Size(145, 17);
-            this.savesCustom.TabIndex = 8;
-            this.savesCustom.TabStop = true;
-            this.savesCustom.Text = "Use Custom Save Folder:";
-            this.savesCustom.UseVisualStyleBackColor = true;
-            this.savesCustom.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            this.browseWorld.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.browseWorld.Location = new System.Drawing.Point(358, 182);
+            this.browseWorld.Name = "browseWorld";
+            this.browseWorld.Size = new System.Drawing.Size(53, 22);
+            this.browseWorld.TabIndex = 42;
+            this.browseWorld.Text = "Browse";
+            this.browseWorld.UseVisualStyleBackColor = true;
+            this.browseWorld.Click += new System.EventHandler(this.OnClicked);
             // 
-            // savesDefault
+            // TrackSpecificWorld
             // 
-            this.savesDefault.AutoSize = true;
-            this.savesDefault.Location = new System.Drawing.Point(6, 27);
-            this.savesDefault.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
-            this.savesDefault.Name = "savesDefault";
-            this.savesDefault.Size = new System.Drawing.Size(347, 17);
-            this.savesDefault.TabIndex = 7;
-            this.savesDefault.TabStop = true;
-            this.savesDefault.Text = "Use Default Save Folder:     (...AppData\\Roaming\\.minecraft\\saves)";
-            this.savesDefault.UseVisualStyleBackColor = true;
-            this.savesDefault.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            this.TrackSpecificWorld.AutoSize = true;
+            this.TrackSpecificWorld.Location = new System.Drawing.Point(6, 160);
+            this.TrackSpecificWorld.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
+            this.TrackSpecificWorld.Name = "TrackSpecificWorld";
+            this.TrackSpecificWorld.Size = new System.Drawing.Size(128, 17);
+            this.TrackSpecificWorld.TabIndex = 41;
+            this.TrackSpecificWorld.TabStop = true;
+            this.TrackSpecificWorld.Text = "Track Specific World:";
+            this.TrackSpecificWorld.UseVisualStyleBackColor = true;
+            this.TrackSpecificWorld.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
-            // browse
+            // button2
             // 
-            this.browse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.browse.Location = new System.Drawing.Point(358, 74);
-            this.browse.Name = "browse";
-            this.browse.Size = new System.Drawing.Size(53, 22);
-            this.browse.TabIndex = 1;
-            this.browse.Text = "Browse";
-            this.browse.UseVisualStyleBackColor = true;
-            this.browse.Click += new System.EventHandler(this.OnClicked);
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Location = new System.Drawing.Point(425, 174);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(53, 22);
+            this.button2.TabIndex = 40;
+            this.button2.Text = "Browse";
+            this.button2.UseVisualStyleBackColor = true;
             // 
-            // customSavePath
+            // customWorldPath
             // 
-            this.customSavePath.Location = new System.Drawing.Point(6, 75);
-            this.customSavePath.Name = "customSavePath";
-            this.customSavePath.Size = new System.Drawing.Size(346, 20);
-            this.customSavePath.TabIndex = 0;
-            this.customSavePath.TextChanged += new System.EventHandler(this.OnTextChanged);
+            this.customWorldPath.Location = new System.Drawing.Point(6, 183);
+            this.customWorldPath.Name = "customWorldPath";
+            this.customWorldPath.Size = new System.Drawing.Size(346, 20);
+            this.customWorldPath.TabIndex = 39;
+            this.customWorldPath.TextChanged += new System.EventHandler(this.OnTextChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label9.Location = new System.Drawing.Point(3, 83);
+            this.label9.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label9.Name = "label9";
+            this.label9.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.label9.Size = new System.Drawing.Size(210, 15);
+            this.label9.TabIndex = 38;
+            this.label9.Text = "🛈  (...AppData/Roaming/.minecraft/saves)";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label8.Location = new System.Drawing.Point(3, 39);
+            this.label8.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label8.Name = "label8";
+            this.label8.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.label8.Size = new System.Drawing.Size(401, 15);
+            this.label8.TabIndex = 37;
+            this.label8.Text = "🛈 AATool will instantly detect and track the correct path when you switch instan" +
+    "ces";
+            // 
+            // trackActiveInstance
+            // 
+            this.trackActiveInstance.AutoSize = true;
+            this.trackActiveInstance.Location = new System.Drawing.Point(6, 19);
+            this.trackActiveInstance.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
+            this.trackActiveInstance.Name = "trackActiveInstance";
+            this.trackActiveInstance.Size = new System.Drawing.Size(185, 17);
+            this.trackActiveInstance.TabIndex = 9;
+            this.trackActiveInstance.TabStop = true;
+            this.trackActiveInstance.Text = "Seamlessly Track Active Instance";
+            this.trackActiveInstance.UseVisualStyleBackColor = true;
+            this.trackActiveInstance.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            // 
+            // trackCustomSavesFolder
+            // 
+            this.trackCustomSavesFolder.AutoSize = true;
+            this.trackCustomSavesFolder.Location = new System.Drawing.Point(6, 108);
+            this.trackCustomSavesFolder.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
+            this.trackCustomSavesFolder.Name = "trackCustomSavesFolder";
+            this.trackCustomSavesFolder.Size = new System.Drawing.Size(159, 17);
+            this.trackCustomSavesFolder.TabIndex = 8;
+            this.trackCustomSavesFolder.TabStop = true;
+            this.trackCustomSavesFolder.Text = "Track Custom Saves Folder:";
+            this.trackCustomSavesFolder.UseVisualStyleBackColor = true;
+            this.trackCustomSavesFolder.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            // 
+            // trackDefaultSaves
+            // 
+            this.trackDefaultSaves.AutoSize = true;
+            this.trackDefaultSaves.Location = new System.Drawing.Point(6, 63);
+            this.trackDefaultSaves.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
+            this.trackDefaultSaves.Name = "trackDefaultSaves";
+            this.trackDefaultSaves.Size = new System.Drawing.Size(155, 17);
+            this.trackDefaultSaves.TabIndex = 7;
+            this.trackDefaultSaves.TabStop = true;
+            this.trackDefaultSaves.Text = "Track Default Saves Folder";
+            this.trackDefaultSaves.UseVisualStyleBackColor = true;
+            this.trackDefaultSaves.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            // 
+            // browseSaves
+            // 
+            this.browseSaves.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.browseSaves.Location = new System.Drawing.Point(358, 130);
+            this.browseSaves.Name = "browseSaves";
+            this.browseSaves.Size = new System.Drawing.Size(53, 22);
+            this.browseSaves.TabIndex = 1;
+            this.browseSaves.Text = "Browse";
+            this.browseSaves.UseVisualStyleBackColor = true;
+            this.browseSaves.Click += new System.EventHandler(this.OnClicked);
+            // 
+            // customSavesPath
+            // 
+            this.customSavesPath.Location = new System.Drawing.Point(6, 131);
+            this.customSavesPath.Name = "customSavesPath";
+            this.customSavesPath.Size = new System.Drawing.Size(346, 20);
+            this.customSavesPath.TabIndex = 0;
+            this.customSavesPath.TextChanged += new System.EventHandler(this.OnTextChanged);
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.radioButton1);
-            this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.sftpCompatibility);
             this.groupBox3.Controls.Add(this.worldLocal);
             this.groupBox3.Controls.Add(this.worldRemote);
             this.groupBox3.Location = new System.Drawing.Point(3, 90);
@@ -159,59 +253,23 @@ namespace AATool.Winforms.Controls
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "World Type";
             // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Enabled = false;
-            this.radioButton1.Location = new System.Drawing.Point(6, 79);
-            this.radioButton1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(91, 17);
-            this.radioButton1.TabIndex = 58;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Multi-Instance";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label2.Location = new System.Drawing.Point(3, 110);
-            this.label2.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(98, 71);
-            this.label2.TabIndex = 57;
-            this.label2.Text = "🛈 Multi/Wall support is currently in development :D";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // sftpCompatibility
-            // 
-            this.sftpCompatibility.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.sftpCompatibility.Location = new System.Drawing.Point(3, 193);
-            this.sftpCompatibility.Name = "sftpCompatibility";
-            this.sftpCompatibility.Size = new System.Drawing.Size(101, 18);
-            this.sftpCompatibility.TabIndex = 56;
-            this.sftpCompatibility.TabStop = true;
-            this.sftpCompatibility.Text = "SFTP compatibility";
-            this.sftpCompatibility.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.sftpCompatibility.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnLinkClicked);
-            // 
             // worldLocal
             // 
             this.worldLocal.AutoSize = true;
-            this.worldLocal.Location = new System.Drawing.Point(6, 27);
+            this.worldLocal.Location = new System.Drawing.Point(6, 19);
             this.worldLocal.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
             this.worldLocal.Name = "worldLocal";
-            this.worldLocal.Size = new System.Drawing.Size(51, 17);
+            this.worldLocal.Size = new System.Drawing.Size(70, 17);
             this.worldLocal.TabIndex = 35;
             this.worldLocal.TabStop = true;
-            this.worldLocal.Text = "Local";
+            this.worldLocal.Text = "Set Local";
             this.worldLocal.UseVisualStyleBackColor = true;
             this.worldLocal.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
             // worldRemote
             // 
             this.worldRemote.AutoSize = true;
-            this.worldRemote.Location = new System.Drawing.Point(6, 53);
+            this.worldRemote.Location = new System.Drawing.Point(6, 45);
             this.worldRemote.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
             this.worldRemote.Name = "worldRemote";
             this.worldRemote.Size = new System.Drawing.Size(98, 17);
@@ -230,11 +288,12 @@ namespace AATool.Winforms.Controls
             this.groupBox1.Size = new System.Drawing.Size(113, 81);
             this.groupBox1.TabIndex = 30;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Version";
+            this.groupBox1.Text = "Game Version";
             // 
             // remoteGroup
             // 
-            this.remoteGroup.Controls.Add(this.serverPathHelp);
+            this.remoteGroup.Controls.Add(this.sftpCompatibility);
+            this.remoteGroup.Controls.Add(this.label7);
             this.remoteGroup.Controls.Add(this.label5);
             this.remoteGroup.Controls.Add(this.sftpRoot);
             this.remoteGroup.Controls.Add(this.sftpPort);
@@ -247,34 +306,57 @@ namespace AATool.Winforms.Controls
             this.remoteGroup.Controls.Add(this.label6);
             this.remoteGroup.Controls.Add(this.sftpHost);
             this.remoteGroup.Controls.Add(this.sftpUser);
-            this.remoteGroup.Location = new System.Drawing.Point(116, 200);
+            this.remoteGroup.Location = new System.Drawing.Point(116, 90);
             this.remoteGroup.Name = "remoteGroup";
-            this.remoteGroup.Size = new System.Drawing.Size(417, 104);
+            this.remoteGroup.Size = new System.Drawing.Size(417, 214);
             this.remoteGroup.TabIndex = 31;
             this.remoteGroup.TabStop = false;
-            this.remoteGroup.Text = "Remote Server Login";
+            this.remoteGroup.Text = "Remote Minecraft Server Login";
+            // 
+            // sftpCompatibility
+            // 
+            this.sftpCompatibility.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.sftpCompatibility.Location = new System.Drawing.Point(3, 193);
+            this.sftpCompatibility.Name = "sftpCompatibility";
+            this.sftpCompatibility.Size = new System.Drawing.Size(411, 18);
+            this.sftpCompatibility.TabIndex = 62;
+            this.sftpCompatibility.TabStop = true;
+            this.sftpCompatibility.Text = "SFTP compatibility";
+            this.sftpCompatibility.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label7.Location = new System.Drawing.Point(6, 147);
+            this.label7.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label7.Name = "label7";
+            this.label7.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.label7.Size = new System.Drawing.Size(114, 15);
+            this.label7.TabIndex = 61;
+            this.label7.Text = "🛈 Leave blank for root";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(87, 3);
+            this.label5.Location = new System.Drawing.Point(6, 108);
             this.label5.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(66, 13);
-            this.label5.TabIndex = 57;
-            this.label5.Text = "Server Path:";
+            this.label5.Size = new System.Drawing.Size(104, 13);
+            this.label5.TabIndex = 59;
+            this.label5.Text = "Custom Server Path:";
             // 
             // sftpRoot
             // 
-            this.sftpRoot.Location = new System.Drawing.Point(262, 34);
+            this.sftpRoot.Location = new System.Drawing.Point(9, 124);
             this.sftpRoot.Name = "sftpRoot";
-            this.sftpRoot.Size = new System.Drawing.Size(63, 20);
+            this.sftpRoot.Size = new System.Drawing.Size(160, 20);
             this.sftpRoot.TabIndex = 56;
             this.sftpRoot.TextChanged += new System.EventHandler(this.OnTextChanged);
             // 
             // sftpPort
             // 
-            this.sftpPort.Location = new System.Drawing.Point(225, 34);
+            this.sftpPort.Location = new System.Drawing.Point(331, 34);
             this.sftpPort.Name = "sftpPort";
             this.sftpPort.Size = new System.Drawing.Size(31, 20);
             this.sftpPort.TabIndex = 38;
@@ -284,7 +366,7 @@ namespace AATool.Winforms.Controls
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(222, 18);
+            this.label11.Location = new System.Drawing.Point(328, 18);
             this.label11.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(29, 13);
@@ -294,7 +376,7 @@ namespace AATool.Winforms.Controls
             // toggleCredentials
             // 
             this.toggleCredentials.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.toggleCredentials.Location = new System.Drawing.Point(331, 73);
+            this.toggleCredentials.Location = new System.Drawing.Point(331, 78);
             this.toggleCredentials.Name = "toggleCredentials";
             this.toggleCredentials.Size = new System.Drawing.Size(80, 22);
             this.toggleCredentials.TabIndex = 55;
@@ -305,7 +387,7 @@ namespace AATool.Winforms.Controls
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(172, 58);
+            this.label4.Location = new System.Drawing.Point(172, 63);
             this.label4.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(56, 13);
@@ -314,10 +396,10 @@ namespace AATool.Winforms.Controls
             // 
             // sftpValidate
             // 
-            this.sftpValidate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.sftpValidate.Location = new System.Drawing.Point(331, 33);
+            this.sftpValidate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.sftpValidate.Location = new System.Drawing.Point(288, 147);
             this.sftpValidate.Name = "sftpValidate";
-            this.sftpValidate.Size = new System.Drawing.Size(80, 22);
+            this.sftpValidate.Size = new System.Drawing.Size(105, 42);
             this.sftpValidate.TabIndex = 1;
             this.sftpValidate.Text = "Sync";
             this.sftpValidate.UseVisualStyleBackColor = true;
@@ -325,7 +407,7 @@ namespace AATool.Winforms.Controls
             // 
             // sftpPass
             // 
-            this.sftpPass.Location = new System.Drawing.Point(175, 74);
+            this.sftpPass.Location = new System.Drawing.Point(175, 79);
             this.sftpPass.Name = "sftpPass";
             this.sftpPass.Size = new System.Drawing.Size(150, 20);
             this.sftpPass.TabIndex = 29;
@@ -335,7 +417,7 @@ namespace AATool.Winforms.Controls
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 58);
+            this.label3.Location = new System.Drawing.Point(6, 63);
             this.label3.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(58, 13);
@@ -356,13 +438,13 @@ namespace AATool.Winforms.Controls
             // 
             this.sftpHost.Location = new System.Drawing.Point(9, 34);
             this.sftpHost.Name = "sftpHost";
-            this.sftpHost.Size = new System.Drawing.Size(210, 20);
+            this.sftpHost.Size = new System.Drawing.Size(316, 20);
             this.sftpHost.TabIndex = 50;
             this.sftpHost.TextChanged += new System.EventHandler(this.OnTextChanged);
             // 
             // sftpUser
             // 
-            this.sftpUser.Location = new System.Drawing.Point(9, 74);
+            this.sftpUser.Location = new System.Drawing.Point(9, 79);
             this.sftpUser.Name = "sftpUser";
             this.sftpUser.Size = new System.Drawing.Size(160, 20);
             this.sftpUser.TabIndex = 0;
@@ -377,7 +459,7 @@ namespace AATool.Winforms.Controls
             this.groupBox2.Size = new System.Drawing.Size(154, 81);
             this.groupBox2.TabIndex = 32;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Category";
+            this.groupBox2.Text = "Speedrun Category";
             // 
             // category
             // 
@@ -397,42 +479,68 @@ namespace AATool.Winforms.Controls
             this.category.TabIndex = 18;
             this.category.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.configureOpenTracker);
+            this.groupBox4.Controls.Add(this.enableOpenTracker);
+            this.groupBox4.Controls.Add(this.label1);
+            this.groupBox4.Location = new System.Drawing.Point(283, 3);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(252, 81);
+            this.groupBox4.TabIndex = 37;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "OpenTracker";
+            this.groupBox4.Visible = false;
+            // 
+            // configureOpenTracker
+            // 
+            this.configureOpenTracker.Location = new System.Drawing.Point(73, 20);
+            this.configureOpenTracker.Name = "configureOpenTracker";
+            this.configureOpenTracker.Size = new System.Drawing.Size(75, 23);
+            this.configureOpenTracker.TabIndex = 59;
+            this.configureOpenTracker.Text = "Configure";
+            this.configureOpenTracker.UseVisualStyleBackColor = true;
+            this.configureOpenTracker.Click += new System.EventHandler(this.OnClicked);
+            // 
+            // enableOpenTracker
+            // 
+            this.enableOpenTracker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.enableOpenTracker.AutoSize = true;
+            this.enableOpenTracker.Location = new System.Drawing.Point(8, 24);
+            this.enableOpenTracker.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.enableOpenTracker.Name = "enableOpenTracker";
+            this.enableOpenTracker.Size = new System.Drawing.Size(59, 17);
+            this.enableOpenTracker.TabIndex = 58;
+            this.enableOpenTracker.Text = "Enable";
+            this.enableOpenTracker.UseVisualStyleBackColor = true;
+            this.enableOpenTracker.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            // 
             // label1
             // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label1.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label1.Location = new System.Drawing.Point(280, 8);
+            this.label1.Location = new System.Drawing.Point(3, 63);
             this.label1.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(255, 81);
-            this.label1.TabIndex = 36;
-            this.label1.Text = "🛈 Changes to settings are applied instantly";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // serverPathHelp
-            // 
-            this.serverPathHelp.AutoSize = true;
-            this.serverPathHelp.Location = new System.Drawing.Point(261, 18);
-            this.serverPathHelp.Name = "serverPathHelp";
-            this.serverPathHelp.Size = new System.Drawing.Size(66, 13);
-            this.serverPathHelp.TabIndex = 58;
-            this.serverPathHelp.TabStop = true;
-            this.serverPathHelp.Text = "Server Path:";
-            this.serverPathHelp.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.serverPathHelp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnLinkClicked);
+            this.label1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.label1.Size = new System.Drawing.Size(216, 15);
+            this.label1.TabIndex = 35;
+            this.label1.Text = "🛈 Share your progress to the web in realtime";
             // 
             // CTrackerSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.remoteGroup);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.localGroup);
+            this.Controls.Add(this.remoteGroup);
             this.Name = "CTrackerSettings";
-            this.Size = new System.Drawing.Size(538, 307);
+            this.Size = new System.Drawing.Size(974, 307);
             this.localGroup.ResumeLayout(false);
             this.localGroup.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -442,6 +550,8 @@ namespace AATool.Winforms.Controls
             this.remoteGroup.ResumeLayout(false);
             this.remoteGroup.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -450,10 +560,10 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.CheckBox autoVersion;
         private System.Windows.Forms.ComboBox gameVersion;
         private System.Windows.Forms.GroupBox localGroup;
-        private System.Windows.Forms.Button browse;
-        private System.Windows.Forms.TextBox customSavePath;
-        private System.Windows.Forms.RadioButton savesCustom;
-        private System.Windows.Forms.RadioButton savesDefault;
+        private System.Windows.Forms.Button browseSaves;
+        private System.Windows.Forms.TextBox customSavesPath;
+        private System.Windows.Forms.RadioButton trackCustomSavesFolder;
+        private System.Windows.Forms.RadioButton trackDefaultSaves;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox remoteGroup;
@@ -471,12 +581,20 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.ComboBox category;
         private System.Windows.Forms.RadioButton worldLocal;
         private System.Windows.Forms.RadioButton worldRemote;
-        private System.Windows.Forms.LinkLabel sftpCompatibility;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox sftpRoot;
-        private System.Windows.Forms.LinkLabel serverPathHelp;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox enableOpenTracker;
+        private System.Windows.Forms.Button configureOpenTracker;
+        private System.Windows.Forms.RadioButton trackActiveInstance;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.LinkLabel sftpCompatibility;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.RadioButton TrackSpecificWorld;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox customWorldPath;
+        private System.Windows.Forms.Button browseWorld;
     }
 }

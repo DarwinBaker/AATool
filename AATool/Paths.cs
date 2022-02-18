@@ -1,10 +1,12 @@
 ﻿using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.UI.Screens;
+using AATool.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security;
+using static System.Environment;
 
 namespace AATool
 {
@@ -27,6 +29,7 @@ namespace AATool
             }
             return false;
         }
+
         public static class System
         {
             //constant settings paths
@@ -107,16 +110,35 @@ namespace AATool
                 }
                 else
                 {
-                    return Config.Tracking.UseDefaultPath
-                        ? DefaultPath
-                        : Config.Tracking.CustomSavePath;
+                    return Config.Tracking.Source.Value switch {
+                        TrackerSource.ActiveInstance => ActiveInstance.SavesPath,
+                        TrackerSource.DefaultAppData => DefaultAppDataSavesPath,
+                        TrackerSource.CustomSavesPath => Config.Tracking.CustomSavesPath,
+                        _ => string.Empty,
+                    };
                 }
             }
 
-            public static string DefaultPath => Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            public static string DefaultAppDataSavesPath => Path.Combine(
+                GetFolderPath(SpecialFolder.ApplicationData),
                 ".minecraft",
                 "saves");
+
+            public static bool MightBeWorldFolder(DirectoryInfo folder)
+            {
+                return File.Exists(Path.Combine(folder.FullName, "level.dat"))
+                    || Directory.Exists(Path.Combine(folder.FullName, "advancements"))
+                    || Directory.Exists(Path.Combine(folder.FullName, "stats"));
+            }
+
+            public static DirectoryInfo MostRecentlyWritten(DirectoryInfo a, DirectoryInfo b)
+            {
+                if (a is null)
+                    return b;
+                if (b is null)
+                    return a;
+                return a.LastWriteTimeUtc > b.LastWriteTimeUtc ? a : b;
+            }
         }
 
         public static class Web

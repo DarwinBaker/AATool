@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
 using AATool.Data.Progress;
+using AATool.Exceptions;
 using AATool.Net;
 using AATool.Saves;
 using AATool.Utilities;
@@ -22,16 +24,20 @@ namespace AATool
         
         public static Category Category { get; private set; }
         public static WorldState State  { get; private set; }
+        public static Exception LastError { get; private set; }
         public static bool CoOpStateChanged { get; private set; }
+        public static bool WorldLocked { get; private set; }
+        public static string Status { get; private set; }
 
         public static bool ObjectivesChanged => Config.Tracking.GameCategory.Changed || Config.Tracking.GameVersion.Changed;
-        public static bool ProgressChanged => World.ProgressChanged || World.WorldChanged || World.Invalidated || CoOpStateChanged;
-        public static bool Invalidated => ProgressChanged || ObjectivesChanged;
+        public static bool SavesFolderChanged => PreviousSavesPath != Paths.Saves.CurrentFolder();
+        public static bool ProgressChanged => World.ProgressChanged || World.ChangedPath || World.Invalidated || CoOpStateChanged;
+        public static bool Invalidated => SavesFolderChanged || ProgressChanged || ObjectivesChanged;
+        public static bool IsWorking => LastError is null;
 
         public static string CurrentCategory => Category.Name;
         public static string CurrentVersion => Category.CurrentVersion;
 
-        public static bool WorldLocked { get; private set; }
         public static void ToggleWorldLock() => WorldLocked ^= true;
 
         public static AdvancementManifest CurrentAdvancementManifest => Category is AllAchievements
@@ -42,15 +48,17 @@ namespace AATool
             ? Achievements.Criteria
             : Advancements.Criteria;
 
-        public static SaveState SaveState => World.CurrentState;
         public static string WorldName => World.Name;
         public static TimeSpan InGameTime => State.InGameTime;
         public static bool InGameTimeChanged => State.InGameTime != LastInGameTime;
+        public static TrackerSource Source => Config.Tracking.Source;
 
-        private static LocalSave World;
+        private static WorldFolder World;
         private static Timer RefreshTimer;
-        private static string LastServerMessage;
         private static TimeSpan LastInGameTime;
+        private static string PreviousSavesPath;
+        private static string PreviousWorldPath;
+        private static string LastServerMessage;
 
         public static bool TryGetAdvancement(string id, out Advancement advancement) =>
             CurrentAdvancementManifest.TryGet(id, out advancement);
@@ -63,6 +71,9 @@ namespace AATool
 
         public static bool TryGetPickup(string id, out Pickup item) =>
             Pickups.TryGet(id, out item);
+
+        public static bool TryGetBlock(string id, out Block block) =>
+            Blocks.TryGet(id, out block);
 
         public static HashSet<Uuid> GetAllPlayers()
         {
@@ -80,7 +91,7 @@ namespace AATool
 
         public static void Initialize()
         {
-            World = new LocalSave();
+            World = new WorldFolder();
             State = new WorldState();
             RefreshTimer = new Timer();
             string lastVersion = Config.Tracking.GameVersion;
@@ -88,9 +99,24 @@ namespace AATool
             TrySetVersion(lastVersion);
         }
 
+        public static string GetStatusText()
+        {
+            if (Peer.IsServer && Peer.IsConnected)
+            {
+                return $"Hosting: \"{WorldName}\"";
+            }
+            else if (IsWorking)
+            {
+                return Source is TrackerSource.ActiveInstance && ActiveInstance.HasNumber
+                    ? $"Instance {ActiveInstance.Number}: \"{WorldName}\""
+                    : $"Tracking: \"{WorldName}\"";
+            }
+            return LastError.Message;
+        }
+        
         public static bool TrySetCategory(string category)
         {
-            //check if category is the same 
+            //check if category is the same
             if (Category is not null && category == Category.Name)
                 return false;
 
@@ -103,6 +129,7 @@ namespace AATool
                     "balanceddiet"    => new BalancedDiet(),
                     "adventuringtime" => new AdventuringTime(),
                     "monstershunted"  => new MonstersHunted(),
+                    "allblocks"  => new AllBlocks(),
                     _ => throw new ArgumentException($"Category not supported: \"{category}\"."),
                 };
 
@@ -128,7 +155,7 @@ namespace AATool
             }
         }
 
-        public static void TrySetVersion(string versionNumber) => 
+        public static bool TrySetVersion(string versionNumber) => 
             Category.TrySetVersion(versionNumber);
 
         public static void Invalidate(bool invalidateWorld = false)
@@ -145,72 +172,200 @@ namespace AATool
             World.ClearFlags();
         }
 
-        public static void TryUpdate(Time time)
+        public static void Update(Time time)
         {
-            //check if we need to force an update right now
-            bool invalidated = ObjectivesChanged;
-            invalidated |= Config.Tracking.UseSftp.Changed;
-            invalidated |= Config.Tracking.UseDefaultPath.Changed;
-            invalidated |= !Config.Tracking.UseDefaultPath && Config.Tracking.CustomSavePath.Changed;
-            invalidated |= Peer.StateChanged;
+            RefreshTimer.Update(time);
+            if (RefreshTimer.IsExpired || ObjectivesChanged || Config.Tracking.SourceChanged)
+            {
+                UpdateCurrentWorld();
 
-            if (RefreshTimer.IsExpired || invalidated)
-            {
-                Update();
+                if (Client.TryGet(out Client client))
+                    ParseCoOpProgress(client);
+                else
+                    ReadLocalFiles();
+
                 RefreshTimer.SetAndStart(RefreshInterval);
-            }
-            else
-            {
-                RefreshTimer.Update(time);
             }
         }
 
-        private static void Update()
+        private static void UpdateCurrentWorld()
         {
-            if (Client.TryGet(out Client client))
-            {
-                //update world from co-op server
-                if (!client.TryGetData(Protocol.Headers.Progress, out string jsonString))
-                    return;
+            if (Config.Tracking.Source.Changed)
+                WorldLocked = false;
 
-                if (LastServerMessage != jsonString)
+            string savesPath = string.Empty;
+            string worldPath = string.Empty;
+            DirectoryInfo latestWorld = null;
+            try
+            {
+                if (Source is TrackerSource.SpecificWorld)
                 {
-                    CoOpStateChanged = true;
-                    LastServerMessage = jsonString;
-                    State = WorldState.FromJsonString(jsonString);
+                    //set world to user-defined path
+                    WorldLocked = true;
+                    worldPath = Config.Tracking.CustomWorldPath;
 
-                    //sync category and version with host
-                    TrySetCategory(State.GameCategory);
-                    TrySetVersion(State.GameVersion);
+                    //check if path is empty
+                    if (string.IsNullOrEmpty(worldPath))
+                    {
+                        if (LastError is not ArgumentException || Config.Tracking.SourceChanged)
+                            throw new ArgumentException("User-specified world path empty");
+                        return;
+                    }
 
-                    //re-load tracking manifests if game version has changed
-                    if (ObjectivesChanged)
-                        RefreshObjectives();
-
-                    UpdateManifestProgress();
+                    //exit early if path invalid and unchanged
+                    if (LastError is not InvalidPathException || Config.Tracking.SourceChanged)
+                    {
+                        //validate path (throws if invalid characters present)]
+                        try
+                        {
+                            latestWorld = new DirectoryInfo(worldPath);
+                        }
+                        catch
+                        {
+                            throw new InvalidPathException();
+                        }
+                    }
                 }
+                else
+                {
+                    //get current saves folder
+                    savesPath = Paths.Saves.CurrentFolder();
+
+                    //exit early if path invalid
+                    if (LastError is InvalidPathException && savesPath == PreviousSavesPath)
+                        return;
+
+                    //unlock world if saves folder changed
+                    if (PreviousSavesPath != savesPath)
+                        WorldLocked = false;
+
+                    //make sure path isn't empty
+                    if (string.IsNullOrEmpty(savesPath))
+                    {
+                        if (LastError is not ArgumentException || Config.Tracking.SourceChanged)
+                        {
+                            throw Source is TrackerSource.ActiveInstance
+                                ? new ArgumentException("Tab into Minecraft to start tracking")
+                                : new ArgumentException("Custom saves path is empty");
+                        }
+                        return;
+                    }
+
+                    //validate path (throws if invalid characters present)
+                    var savesFolder = new DirectoryInfo(savesPath);
+
+                    //make sure folder actually exists
+                    if (!savesFolder.Exists)
+                    {
+                        //avoid re-throwing duplicate exception
+                        if (LastError is not NoSavesFolderException)
+                            throw new NoSavesFolderException(savesFolder.FullName);
+                        return;
+                    }
+
+                    if (WorldLocked)
+                    {
+                        //keep same world
+                        worldPath = PreviousWorldPath;
+                        latestWorld = new DirectoryInfo(worldPath);
+                    }
+                    else
+                    {
+                        //find most recently modified world in folder
+                        DirectoryInfo[] potentialWorlds = savesFolder.GetDirectories();
+                        foreach (DirectoryInfo worldFolder in potentialWorlds)
+                        {
+                            //skip any folders that definitely aren't worlds
+                            if (!Paths.Saves.MightBeWorldFolder(worldFolder))
+                                continue;
+
+                            //sort by write time
+                            if (worldFolder == Paths.Saves.MostRecentlyWritten(worldFolder, latestWorld))
+                                latestWorld = worldFolder;
+                        }
+                        worldPath = latestWorld?.FullName;
+                    }
+                }
+
+                //make sure folder actually exists
+                if (latestWorld is null || !latestWorld.Exists)
+                {
+                    if (LastError is not NoWorldException || latestWorld?.FullName != World?.FullName)
+                        throw new NoWorldException();
+                    return;
+                }
+
+                if (latestWorld.FullName != World.FullName)
+                    World.SetPath(latestWorld);
+
+                LastError = null;
             }
-            else
+            catch (Exception e)
             {
-                //reload objective manifests if game version has changed
+                if (!World.IsEmpty)
+                {
+                    World.Unset();
+                    WorldLocked = false;
+                }
+                LastError = e;
+            }
+            finally
+            {
+                PreviousSavesPath = savesPath;
+                PreviousWorldPath = worldPath;
+            }
+        }
+
+        private static void ParseCoOpProgress(Client client)
+        {
+            //update world from co-op server
+            if (client is null || !client.TryGetData(Protocol.Headers.Progress, out string jsonString))
+                return;
+
+            if (LastServerMessage != jsonString)
+            {
+                CoOpStateChanged = true;
+                LastServerMessage = jsonString;
+                State = WorldState.FromJsonString(jsonString);
+
+                //sync category and version with host
+                TrySetCategory(State.GameCategory);
+                TrySetVersion(State.GameVersion);
+
+                //reload objectives if game version has changed
                 if (ObjectivesChanged)
                     RefreshObjectives();
 
-                //wait to refresh until sftp transer is complete
-                if (Config.Tracking.UseSftp && SftpSave.IsDownloading)
-                    return;
+                UpdateProgressManifests();
+                if (Config.Tracking.BroadcastProgress)
+                    OpenTracker.BroadcastProgress();
+            }
+        }
 
-                //update progress if source has been invalidated
-                if (World.TryReadFiles() || Peer.StateChanged)
-                {
-                    LastServerMessage = null;
-                    State = World.GetState();
-                    UpdateManifestProgress();
+        private static void ReadLocalFiles()
+        {
+            //reload objective manifests if game version has changed
+            if (ObjectivesChanged)
+                RefreshObjectives();
 
-                    //broadcast changes to connected clients if server is running
-                    if (Server.TryGet(out Server server) && server.Connected())
-                        server.SendProgress();
-                }
+            //wait to refresh until sftp transer is complete
+            if (Config.Tracking.UseSftp && SftpSave.IsDownloading)
+                return;
+
+            //update progress if source has been invalidated
+            if (World.TryRefresh() || Peer.StateChanged)
+            {
+                LastServerMessage = null;
+                State = World.GetState();
+                UpdateProgressManifests();
+
+                //broadcast changes to connected clients if server is running
+                if (Server.TryGet(out Server server) && server.Connected())
+                    server.SendProgress();
+
+                //broadcast progress to opentracker
+                if (Config.Tracking.BroadcastProgress)
+                    OpenTracker.BroadcastProgress();
             }
         }
 
@@ -222,12 +377,12 @@ namespace AATool
             Blocks.RefreshObjectives();
         }
 
-        private static void UpdateManifestProgress()
+        private static void UpdateProgressManifests()
         {
             Advancements.UpdateStates(State);
             Achievements.UpdateStates(State);
-            Pickups.UpdateStates(State);
             Blocks.UpdateStates(State);
+            Pickups.UpdateStates(State);
         }
     }
 }

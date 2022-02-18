@@ -6,7 +6,7 @@ namespace AATool.Saves
 {
     public class JsonStream
     {
-        private DateTime lastReadTime;
+        private DateTime lastWriteTime;
         private dynamic jsonData;
         private bool isAlive;
 
@@ -21,11 +21,11 @@ namespace AATool.Saves
 
         private void Close(StreamReader reader) => reader?.Close();
 
-        public bool TryUpdate(bool force)
+        public bool TryRefresh(bool ignoreTimestamps)
         {
             //handle file timestamps and attempt to read
             bool modified = false;
-            if (this.NeedsRefresh() || force)
+            if (this.NeedsRefresh() || ignoreTimestamps)
             {
                 if (this.TryOpen(this.FullName, out StreamReader stream) && this.TryRead(stream))
                 {
@@ -63,11 +63,11 @@ namespace AATool.Saves
 
         private bool NeedsRefresh()
         {
-            if (this.TryGetLastWriteTime(out DateTime lastWriteTime))
+            if (this.TryGetLastWriteTime(out DateTime latestWriteTime))
             {
-                if (this.lastReadTime != lastWriteTime)
+                if (this.lastWriteTime != latestWriteTime)
                 {
-                    this.lastReadTime = lastWriteTime;
+                    this.lastWriteTime = latestWriteTime;
                     return true;
                 }
             }
@@ -104,8 +104,9 @@ namespace AATool.Saves
                         FileMode.Open,
                         FileAccess.Read,
                         FileShare.ReadWrite | FileShare.Delete);
-                reader = new StreamReader(stream);
-                return true;
+
+                    reader = new StreamReader(stream);
+                    return true;
                 }
                 catch
                 {

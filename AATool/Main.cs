@@ -104,13 +104,17 @@ namespace AATool
 
         protected override void Update(GameTime gameTime)
         {
+            if (this.IsActive)
+                Input.BeginUpdate();
+
             this.Time.Update(gameTime);
             this.canvas.Update(this.Time);
 
             //check minecraft version
-            GameVersionDetector.Update();
-            Tracker.TryUpdate(this.Time);
+            ActiveInstance.Update(this.Time);
+            Tracker.Update(this.Time);
             SftpSave.Update(this.Time);
+            OpenTracker.Update(this.Time);
 
             //update visibilty of update popup
             if (UpdateRequest.IsDone && !UpdateRequest.Suppress)
@@ -158,6 +162,7 @@ namespace AATool
             Config.ClearAllFlags();
             Tracker.ClearFlags();
             Peer.ClearFlags();
+            Input.EndUpdate();
         }
 
         protected override void Draw(GameTime gameTime)

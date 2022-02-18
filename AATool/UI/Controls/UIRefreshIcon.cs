@@ -1,4 +1,5 @@
-﻿using AATool.Configuration;
+﻿using System;
+using AATool.Configuration;
 using AATool.Graphics;
 using AATool.Net;
 using AATool.Saves;
@@ -57,7 +58,7 @@ namespace AATool.UI.Controls
                 {
                     SftpSave.Sync();
                 }
-                else
+                else if (Config.Tracking.Source != TrackerSource.SpecificWorld)
                 {
                     Tracker.ToggleWorldLock();
                     if (!Tracker.WorldLocked)
@@ -92,9 +93,9 @@ namespace AATool.UI.Controls
                 }
 
                 //configure appearance as refresh indicator
-                this.button.Enabled = Tracker.SaveState is SaveState.Valid && !Peer.IsClient;
+                this.button.Enabled = Tracker.IsWorking && !Peer.IsClient;
                 this.lockIcon.SetTexture(Tracker.WorldLocked ? LockedTexture : string.Empty);
-                this.lockIcon.SetTint(ColorHelper.Fade(Config.Main.TextColor, 1 - (alpha * 4)));
+                this.lockIcon.SetTint(ColorHelper.Fade(Config.Main.TextColor, Math.Max(0.25f, 1 - (alpha * 4))));
             }  
             else
             {

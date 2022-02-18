@@ -5,6 +5,7 @@ using AATool.Configuration;
 using AATool.Net;
 using AATool.Saves;
 using AATool.Utilities;
+using AATool.Winforms.Forms;
 using Microsoft.Xna.Framework;
 
 namespace AATool.Winforms.Controls
@@ -16,6 +17,7 @@ namespace AATool.Winforms.Controls
         public CTrackerSettings()
         {
             this.InitializeComponent();
+            this.autoVersion.Checked = Config.Tracking.AutoDetectVersion;
         }
 
         public void LoadSettings()
@@ -26,11 +28,18 @@ namespace AATool.Winforms.Controls
             this.worldRemote.Checked  = Config.Tracking.UseSftp;
             this.worldLocal.Checked   = !Config.Tracking.UseSftp;
 
-            this.savesDefault.Checked = Config.Tracking.UseDefaultPath;
-            this.savesCustom.Checked = !Config.Tracking.UseDefaultPath;
-            this.customSavePath.Text = Config.Tracking.CustomSavePath;
+            this.trackActiveInstance.Checked = Tracker.Source is TrackerSource.ActiveInstance;
+            this.trackDefaultSaves.Checked = Tracker.Source is TrackerSource.DefaultAppData;
+            this.trackCustomSavesFolder.Checked = Tracker.Source is TrackerSource.CustomSavesPath;
+            this.TrackSpecificWorld.Checked = Tracker.Source is TrackerSource.SpecificWorld;
+
+            this.customSavesPath.Text = Config.Tracking.CustomSavesPath;
+            this.customWorldPath.Text = Config.Tracking.CustomWorldPath;
+
             this.autoVersion.Checked = Config.Tracking.AutoDetectVersion;
             this.gameVersion.Text = Config.Tracking.GameVersion;
+
+            this.enableOpenTracker.Checked = Config.Tracking.BroadcastProgress;
 
             this.sftpHost.Text = Config.Sftp.Host;
             this.sftpPort.Text = Config.Sftp.Port.Value.ToString();
@@ -47,10 +56,22 @@ namespace AATool.Winforms.Controls
         {
             if (this.loaded)
             {
-                Config.Tracking.UseDefaultPath.Set(this.savesDefault.Checked);
+                if (this.trackActiveInstance.Checked)
+                    Config.Tracking.Source.Set(TrackerSource.ActiveInstance);
+                else if (this.trackDefaultSaves.Checked)
+                    Config.Tracking.Source.Set(TrackerSource.DefaultAppData);
+                else if (this.trackCustomSavesFolder.Checked)
+                    Config.Tracking.Source.Set(TrackerSource.CustomSavesPath);
+                else if (this.TrackSpecificWorld.Checked)
+                    Config.Tracking.Source.Set(TrackerSource.SpecificWorld);
+
+                Config.Tracking.CustomSavesPath.Set(this.customSavesPath.Text);
+                Config.Tracking.CustomWorldPath.Set(this.customWorldPath.Text);
+
+                Config.Tracking.Source.Set(this.trackDefaultSaves.Checked);
                 Config.Tracking.UseSftp.Set(this.worldRemote.Checked);
-                Config.Tracking.CustomSavePath.Set(this.customSavePath.Text);
                 Config.Tracking.AutoDetectVersion.Set(this.autoVersion.Checked);
+                Config.Tracking.BroadcastProgress.Set(this.enableOpenTracker.Checked);
                 Config.Tracking.Save();
 
                 if (int.TryParse(this.sftpPort.Text, out int port))
@@ -73,13 +94,13 @@ namespace AATool.Winforms.Controls
         {
             this.category.Text    = Tracker.Category.Name;
             this.category.Enabled = !Peer.IsClient;
-            if (Configuration.Config.Tracking.GameCategory.Changed || !this.loaded)
+            if (Config.Tracking.GameCategory.Changed || !this.loaded)
             {
                 this.gameVersion.Items.Clear();
                 foreach (string version in Tracker.Category.GetSupportedVersions())
                     this.gameVersion.Items.Add(version);
             }
-            if (Configuration.Config.Tracking.GameVersion.Changed || !this.loaded)
+            if (Config.Tracking.GameVersion.Changed || !this.loaded)
             {
                 this.gameVersion.Text = Tracker.Category.CurrentVersion;
             }
@@ -91,13 +112,13 @@ namespace AATool.Winforms.Controls
         {
             if (this.worldLocal.Checked)
             {
-                this.localGroup.Enabled = true;
-                this.remoteGroup.Enabled = false;
+                this.localGroup.Visible = true;
+                this.remoteGroup.Visible = false;
             }
             else
             {
-                this.localGroup.Enabled = false;
-                this.remoteGroup.Enabled = true;
+                this.localGroup.Visible = false;
+                this.remoteGroup.Visible = true;
             }
         }
 
@@ -117,18 +138,24 @@ namespace AATool.Winforms.Controls
             }
             this.sftpPass.UseSystemPasswordChar = hide;
             this.sftpUser.UseSystemPasswordChar = hide;
-            this.toggleCredentials.Text = hide 
-                ? "Show Login Credentials" 
-                : "Hide Login Credentials";
+            this.toggleCredentials.Text = hide
+                ? "Show Login"
+                : "Hide Login";
         }
 
         private void OnClicked(object sender, EventArgs e)
         {
-            if (sender == this.browse)
+            if (sender == this.browseSaves)
             {
                 using var dialog = new FolderBrowserDialog();
                 if (dialog.ShowDialog() == DialogResult.OK)
-                    this.customSavePath.Text = dialog.SelectedPath;
+                    this.customSavesPath.Text = dialog.SelectedPath;
+            }
+            else if (sender == this.browseWorld)
+            {
+                using var dialog = new FolderBrowserDialog();
+                if (dialog.ShowDialog() == DialogResult.OK)
+                    this.customWorldPath.Text = dialog.SelectedPath;
             }
             else if (sender == this.sftpValidate)
             {
@@ -138,6 +165,11 @@ namespace AATool.Winforms.Controls
             {
                 this.TogglePassword();
             }
+            else if (sender == this.configureOpenTracker)
+            {
+                using (var dialog = new FOpenTrackerSetup())
+                    dialog.ShowDialog();
+            }
             this.SaveSettings();
         }
 
@@ -146,11 +178,7 @@ namespace AATool.Winforms.Controls
             if (!this.loaded)
                 return;
 
-            if (sender == this.savesDefault || sender == this.savesCustom)
-            {
-                this.customSavePath.Enabled = !this.savesDefault.Checked;
-            }
-            else if (sender == this.worldLocal || sender == this.worldRemote)
+            if (sender == this.worldLocal || sender == this.worldRemote)
             {
                 this.UpdateSaveGroupPanel();
             }
@@ -189,14 +217,6 @@ namespace AATool.Winforms.Controls
                 string title = "SFTP Compatibility Information";
                 string body = "Remote tracking over SFTP has only been officially tested on DedicatedMC, " +
                     "although other hosts should work as well.";
-                MessageBox.Show(this, body, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else if (sender == this.serverPathHelp)
-            {
-                string title = "SFTP Server Path Information";
-                string body = "Allows you to specify a custom path to your Minecraft server if it's not kept in the root directory. (for example, on a custom linux server).\n\n" +
-                    "This should almost always be left blank, as most dedicated hosts do indeed keep the Minecraft server in the root directory.\n\n" +
-                    "If AATool gives an error about paths not found, double check your server's directory structure and adjust this if necessary.";
                 MessageBox.Show(this, body, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
