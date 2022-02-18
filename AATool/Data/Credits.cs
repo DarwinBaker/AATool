@@ -15,6 +15,7 @@ namespace AATool.Data
             new ("supporter_netherite", "Toshio"),
             new ("supporter_emerald", "NiceTwice"),
             new ("supporter_emerald", "Cube1337x"),
+            new ("supporter_diamond", "Nex"),
             new ("supporter_gold", "Antoine"),
             new ("supporter_gold", "TheSwordElf"),
             new ("supporter_gold", "MeisterMaki"),
@@ -24,9 +25,9 @@ namespace AATool.Data
             new ("supporter_gold", "MoleyG"),
             new ("supporter_gold", "AutomattPL"),
             new ("supporter_gold", "T_Wagz"),
-            new ("supporter_gold", "Nex"),
             new ("supporter_gold", "Colin_Henry"),
             new ("supporter_gold", "NotValik"),
+            new ("supporter_gold", "Switch"),
         };
     }
 

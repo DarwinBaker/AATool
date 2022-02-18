@@ -201,7 +201,7 @@ namespace AATool.UI.Controls
 
             string title = Tracker.Category.GetCompletionMessage();
             string body = $" \nMinecraft: Java Edition ({Tracker.Category.CurrentVersion})\n" +
-                $"{Tracker.Category.Name.Replace(" ", "\0")}\n\n" +
+                $"{Tracker.Category.Name.Replace(" ", "\0")}\n \n" +
                 $"{Tracker.InGameTime:hh':'mm':'ss}\nApproximate IGT\n";
 
             this.First<UITextBlock>("head").SetText(title);
@@ -275,7 +275,7 @@ namespace AATool.UI.Controls
                     continue;
 
                 var supporter = new UITextBlock() {
-                    FlexWidth  = new Size(220),
+                    FlexWidth  = new Size(donor ? 180 : 220),
                     FlexHeight = new Size(32),
                     HorizontalTextAlign = panel.HorizontalAlign,
                     VerticalTextAlign = VerticalAlign.Top

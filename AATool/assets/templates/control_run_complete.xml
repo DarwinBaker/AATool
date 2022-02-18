@@ -24,7 +24,7 @@
  
             <!-- supporters -->
             <text_block name="supporters_label" text="Supporters ----------------------------------------" font_size="24" padding_left="20" padding_top="182" h_text_align="left"/>
-            <flow_panel name="supporters" width="220" cell_width="200" cell_height="32" draw_mode="childrenonly" margin_left="20" padding_top="218" padding_bottom="32" direction="toptobottom" horizontal_align="left">
+            <flow_panel name="supporters" width="220" cell_width="180" cell_height="32" draw_mode="childrenonly" margin_left="20" padding_top="218" padding_bottom="32" direction="toptobottom" horizontal_align="left">
             </flow_panel>
 
             <!-- beta testers -->
@@ -101,7 +101,7 @@
                 <picture texture="enchanted_diamond_sword" margin_left="-24" width="48" height="48" horizontal_align="left"/>
             </text_block>
 
-            <text_block name="fish" height="62" font_size="48" text_align="center" padding="20,20,0,0">
+            <text_block name="fish" height="62" font_size="48" v_text_align="top" padding="20,20,0,0">
                 <picture texture="cod" margin_left="21" width="48" height="48" horizontal_align="left"/>
                 <picture texture="salmon_stats" width="48" height="48" horizontal_align="left"/>
                 <picture texture="enchanted_diamond_axe" margin_left="-24" width="48" height="48" horizontal_align="left"/>
