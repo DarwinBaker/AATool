@@ -10,9 +10,8 @@ namespace AATool.Data.Objectives
     {
         public int PickedUp { get; private set; }
         public int Dropped { get; private set; }
-
-        public readonly int TargetCount;
-        public readonly bool IsEstimate;
+        public int TargetCount { get; protected set; }
+        public bool IsEstimate { get; protected set; }
 
         protected string FullStatus;
         protected string ShortStatus;

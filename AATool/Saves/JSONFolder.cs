@@ -12,60 +12,56 @@ namespace AATool.Saves
     {
         private const string JsonPattern = "*.json";
 
-        public readonly Dictionary<Uuid, JsonStream> Files;
+        public readonly Dictionary<Uuid, JsonStream> Players;
 
         private DirectoryInfo folder;
 
-        private string Path => this.folder?.FullName ?? string.Empty;
-
         public JsonFolder()
         {
-            this.Files = new ();
+            this.Players = new ();
         }
 
-        public void SetFolder(DirectoryInfo newFolder)
+        public void SetPath(string path)
         {
-            if (this.folder?.FullName != newFolder.FullName)
+            if (this.folder?.FullName != path)
             {
-                this.Files.Clear();
-                this.folder = newFolder;
+                if (string.IsNullOrEmpty(path))
+                {
+                    this.folder = null;
+                    return;
+                }
+
+                this.Players.Clear();
+                try
+                {
+                    this.folder = new DirectoryInfo(path);
+                }
+                catch
+                {
+                    this.folder = null;
+                }
             }
         }
 
-        public bool TryUpdate()
+        public bool TryRefresh()
         {
-            bool modified = false;
-            try
-            {
-                if (!Directory.Exists(this.Path))
-                    return false;
-
-                //get all uuid json files in folder
-                Dictionary<Uuid, FileInfo> files = this.GetValidFiles();
-
-                modified |= this.TryRemoveDeadFiles(files);
-                modified |= this.TryAddNewFiles(files);
-            }
-            catch { }
+            //get all uuid json files in folder
+            Dictionary<Uuid, FileInfo> players = this.GetPlayerJsons();
+            bool modified = this.TryRemoveDeadFiles(players) | this.TryAddNewFiles(players);
 
             //update jsons
-            foreach (JsonStream json in this.Files.Values)
-            {
-                bool invalidated = Tracker.ObjectivesChanged;
-                invalidated |= Config.Tracking.UseDefaultPath.Changed;
-                invalidated |= Config.Tracking.CustomSavePath.Changed;
-                invalidated |= Config.Tracking.UseSftp.Changed;
+            foreach (JsonStream json in this.Players.Values)
+                modified |= json.TryRefresh(Tracker.ObjectivesChanged);
 
-                modified |= json.TryUpdate(invalidated);
-            }
             return modified;
         }
 
-        private Dictionary<Uuid, FileInfo> GetValidFiles()
+        private Dictionary<Uuid, FileInfo> GetPlayerJsons()
         {
-            var validFiles = new Dictionary<Uuid, FileInfo>();
-            if (!Directory.Exists(this.Path))
-                return validFiles;
+            var players = new Dictionary<Uuid, FileInfo>();
+            this.folder?.Refresh();
+            if (this.folder?.Exists is not true)
+                return players;
 
             try
             {
@@ -73,11 +69,11 @@ namespace AATool.Saves
                 FileInfo[] files = this.folder.GetFiles(JsonPattern, SearchOption.TopDirectoryOnly);
                 foreach (FileInfo file in files)
                 {
-                    string fileName = System.IO.Path.GetFileNameWithoutExtension(file.Name);
+                    string fileName = Path.GetFileNameWithoutExtension(file.Name);
                     if (Uuid.TryParse(fileName, out Uuid id))
                     {
                         //filename is uuid
-                        validFiles[id] = file;
+                        players[id] = file;
                         Player.FetchIdentity(id);
                     }
                 }
@@ -86,20 +82,20 @@ namespace AATool.Saves
             catch (ArgumentException) { }
             catch (SecurityException) { }
 
-            return validFiles;
+            return players;
         }
 
         private bool TryRemoveDeadFiles(Dictionary<Uuid, FileInfo> newFiles = null)
         {
             bool modified = false;
-            foreach (Uuid id in this.Files.Keys.ToArray())
+            foreach (Uuid id in this.Players.Keys.ToArray())
             {
-                if (!this.Files.TryGetValue(id, out JsonStream json))
+                if (!this.Players.TryGetValue(id, out JsonStream json))
                     continue;
 
                 if (newFiles is null || !newFiles.ContainsKey(id))
                 {
-                    this.Files.Remove(id);
+                    this.Players.Remove(id);
                     modified = true;
                 }
             }
@@ -113,12 +109,12 @@ namespace AATool.Saves
             {
                 try
                 {
-                    string fileName = System.IO.Path.GetFileNameWithoutExtension(file.Value.Name);
-                    if (this.Files.ContainsKey(file.Key))
+                    string fileName = Path.GetFileNameWithoutExtension(file.Value.Name);
+                    if (this.Players.ContainsKey(file.Key))
                         continue;
 
                     var stream = new JsonStream(file.Value.FullName);
-                    this.Files[file.Key] = stream;
+                    this.Players[file.Key] = stream;
                     modified = true;
                 }
                 catch (ArgumentException) { }

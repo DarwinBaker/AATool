@@ -13,6 +13,8 @@ namespace AATool.Data.Progress
     [JsonObject]
     public class WorldState
     {
+        public static readonly WorldState Empty = new ();
+
         public static WorldState FromJsonString(string jsonString)
         {
             try
@@ -43,6 +45,7 @@ namespace AATool.Data.Progress
         [JsonProperty] public Dictionary<Uuid, Contribution> Players { get; private set; }
         [JsonProperty] public HashSet<string> CompletedAdvancements { get; private set; }
         [JsonProperty] public HashSet<(string adv, string crit)> CompletedCriteria { get; private set; }
+        [JsonProperty] public HashSet<string> BlocksPlaced { get; private set; }
         [JsonProperty] public Dictionary<string, int> PickupTotals { get; private set; }
         [JsonProperty] public Dictionary<string, int> KillTotals { get; private set; }
 
@@ -80,6 +83,7 @@ namespace AATool.Data.Progress
         {
             this.CompletedAdvancements = new ();
             this.CompletedCriteria = new ();
+            this.BlocksPlaced = new ();
             this.PickupTotals = new ();
             this.KillTotals = new ();
             this.Players = new ();
@@ -113,11 +117,22 @@ namespace AATool.Data.Progress
                         completionists.Add(player.Key);
                 }
             }
+            else if (objective is Block block)
+            {
+                foreach (KeyValuePair<Uuid, Contribution> player in this.Players)
+                {
+                    if (player.Value.IncludesBlock(block.Id))
+                        completionists.Add(player.Key);
+                }
+            }
             return completionists;
         }
 
         public bool IsAdvancementCompleted(string id) =>
             this.CompletedAdvancements.Contains(id);
+
+        public bool IsBlockPlaced(string id) =>
+            this.BlocksPlaced.Contains(id);
 
         public bool IsCriterionCompleted((string, string) criterion) =>
             this.CompletedCriteria.Contains(criterion);
@@ -128,7 +143,7 @@ namespace AATool.Data.Progress
         public int KillCount(string mob) =>
             this.PickupTotals.TryGetValue(mob, out int count) ? count : 0;
 
-        public void Sync(LocalSave world)
+        public void Sync(WorldFolder world)
         {
             this.Clear();
             if (!world.IsEmpty)
@@ -153,7 +168,7 @@ namespace AATool.Data.Progress
             this.KillTotals.Clear();
         }
 
-        private void SyncAdvancements(LocalSave world)
+        private void SyncAdvancements(WorldFolder world)
         {
             //add each player uuid in current world
             foreach (Uuid id in world.GetAllUuids())
@@ -186,7 +201,7 @@ namespace AATool.Data.Progress
             }
         }
 
-        private void SyncAchievements(LocalSave world)
+        private void SyncAchievements(WorldFolder world)
         {
             //add each player uuid in current world
             foreach (Uuid id in world.GetAllUuids())
@@ -219,7 +234,7 @@ namespace AATool.Data.Progress
             }
         }
 
-        private void SyncStatistics(LocalSave world)
+        private void SyncStatistics(WorldFolder world)
         {
             //igt
             this.InGameTime = world.Statistics.GetInGameTime();
@@ -269,6 +284,20 @@ namespace AATool.Data.Progress
                         if (this.Players.TryGetValue(count.Key, out Contribution player))
                             player.AddItemCount(item, count.Value);
                     }
+                }
+            }
+
+            //block placements
+            foreach (Block block in Tracker.Blocks.All.Values)
+            {
+                if (!world.Statistics.TryGetUseCount(block.Id, out List<Uuid> ids))
+                    continue;
+
+                this.BlocksPlaced.Add(block.Id);
+                foreach (Uuid id in ids)
+                {
+                    if (this.Players.TryGetValue(id, out Contribution player))
+                        player.AddBlock(block.Id);
                 }
             }
         }

@@ -11,7 +11,7 @@ namespace AATool.Saves
         public TimeSpan GetInGameTime()
         {
             long mostTicks = 0;
-            foreach (JsonStream json in this.Files.Values)
+            foreach (JsonStream json in this.Players.Values)
             {
                 if (json is null)
                     continue;
@@ -33,10 +33,27 @@ namespace AATool.Saves
             return TimeSpan.FromSeconds(mostTicks / TicksPerSecond);
         }
 
+        public bool TryGetUseCount(string id, out List<Uuid> players)
+        {
+            players = new ();
+            foreach (KeyValuePair<Uuid, JsonStream> json in this.Players)
+            {
+                int count = (int)(json.Value
+                    ?["stats"]
+                    ?["minecraft:used"]
+                    ?[id]
+                    ?.Value ?? 0);
+
+                if (count > 0)
+                    players.Add(json.Key);
+            }
+            return players.Count > 0;
+        }
+
         public int GetTotalJumps()
         {
             int total = 0;
-            foreach (JsonStream json in this.Files.Values)
+            foreach (JsonStream json in this.Players.Values)
             {
                 total += (int)(json
                     ?["stats"]
@@ -50,7 +67,7 @@ namespace AATool.Saves
         public int GetTotalSleeps()
         {
             int total = 0;
-            foreach (JsonStream json in this.Files.Values)
+            foreach (JsonStream json in this.Players.Values)
             {
                 total += (int)(json
                     ?["stats"]
@@ -64,7 +81,7 @@ namespace AATool.Saves
         public int GetTotalDamageTaken()
         {
             int total = 0;
-            foreach (JsonStream json in this.Files.Values)
+            foreach (JsonStream json in this.Players.Values)
             {
                 total += (int)(json
                     ?["stats"]
@@ -78,7 +95,7 @@ namespace AATool.Saves
         public int GetTotalDamageDealt()
         {
             int total = 0;
-            foreach (JsonStream json in this.Files.Values)
+            foreach (JsonStream json in this.Players.Values)
             {
                 total += (int)(json
                     ?["stats"]
@@ -92,7 +109,7 @@ namespace AATool.Saves
         public int GetTotalKilometersFlown()
         {
             double cm = 0;
-            foreach (JsonStream json in this.Files.Values)
+            foreach (JsonStream json in this.Players.Values)
             {
                 cm += (int)(json
                     ?["stats"]
@@ -106,7 +123,7 @@ namespace AATool.Saves
         public int GetTotalDeaths()
         {
             int total = 0;
-            foreach (JsonStream json in this.Files.Values)
+            foreach (JsonStream json in this.Players.Values)
             {
                 total += (int)(json?["stats"]
                     ?["minecraft:custom"]
@@ -119,7 +136,7 @@ namespace AATool.Saves
         public int GetTotalSaveAndQuits()
         {
             int total = 0;
-            foreach (JsonStream json in this.Files.Values)
+            foreach (JsonStream json in this.Players.Values)
             {
                 total += (int)(json?["stats"]
                     ?["minecraft:custom"]
@@ -132,7 +149,7 @@ namespace AATool.Saves
         public int KillsOf(string mob)
         {
             int total = 0;
-            foreach (JsonStream json in this.Files.Values)
+            foreach (JsonStream json in this.Players.Values)
             {
                 total += (int)(json?["stats"]
                     ?["minecraft:killed"]
@@ -145,7 +162,7 @@ namespace AATool.Saves
         public int TimesUsed(string mob)
         {
             int total = 0;
-            foreach (JsonStream json in this.Files.Values)
+            foreach (JsonStream json in this.Players.Values)
             {
                 total += (int)(json?["stats"]
                     ?["minecraft:used"]
@@ -158,7 +175,7 @@ namespace AATool.Saves
         public int TimesMined(string block)
         {
             int total = 0;
-            foreach (JsonStream json in this.Files.Values)
+            foreach (JsonStream json in this.Players.Values)
             {
                 total += (int)(json?["stats"]
                     ?["minecraft:mined"]
@@ -173,7 +190,7 @@ namespace AATool.Saves
             //count how many of this item everybody has picked up
             int total = 0;
             playerItemCounts = new Dictionary<Uuid, int>();
-            foreach (KeyValuePair<Uuid, JsonStream> json in this.Files)
+            foreach (KeyValuePair<Uuid, JsonStream> json in this.Players)
             {
                 int count = 0;
                 count = (int)(json.Value?["stats"]?["minecraft:picked_up"]?[item]?.Value ?? 0);
@@ -191,7 +208,7 @@ namespace AATool.Saves
         public int GetItemsEnchanted()
         {
             int total = 0;
-            foreach (JsonStream json in this.Files.Values)
+            foreach (JsonStream json in this.Players.Values)
             {
                 total += (int)(json?["stats"]?["minecraft:custom"]
                     ?["minecraft:enchant_item"]

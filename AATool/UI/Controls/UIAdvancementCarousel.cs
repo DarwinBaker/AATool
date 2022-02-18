@@ -65,6 +65,11 @@ namespace AATool.UI.Controls
                 foreach (Objective advancement in Tracker.Achievements.All.Values)
                     objectives.Add(advancement);
             }
+            else if (Tracker.Category is AllBlocks)
+            {
+                foreach (Objective block in Tracker.Blocks.All.Values)
+                    objectives.Add(block);
+            }
             else
             {
                 foreach (Objective advancement in Tracker.Advancements.All.Values)

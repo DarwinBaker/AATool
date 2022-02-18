@@ -1,5 +1,6 @@
 ﻿using System;
 using AATool.Configuration;
+using AATool.Data.Categories;
 using AATool.UI.Screens;
 using AATool.Utilities;
 using FontStashSharp;
@@ -74,11 +75,13 @@ namespace AATool.Graphics
                 {
                     //clear and re-render the cache texture
                     this.device.SetRenderTarget(UIMainScreen.RenderCache);
-                    this.device.Clear(Config.Main.BackColor);
+                    this.device.Clear(Tracker.Category is AllBlocks ? Config.Main.BorderColor : Config.Main.BackColor);
                     this.BatchOf(Layer.Main).End();
                     this.device.SetRenderTarget(null);
                 }
-                this.final.Draw(UIMainScreen.RenderCache, this.device.Viewport.Bounds, Color.White);
+
+                if (!Config.Main.HideRenderCache)
+                    this.final.Draw(UIMainScreen.RenderCache, this.device.Viewport.Bounds, Color.White);
             }
             else
             {

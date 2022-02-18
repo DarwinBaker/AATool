@@ -73,8 +73,19 @@ namespace AATool.Data.Objectives
             this.PlacedCount = 0;
             foreach (Block block in this.All.Values)
             {
-                //update advancement and completion count
+                //update block and completion count
                 block.UpdateState(progress);
+                if (block.CompletedByAnyone())
+                    this.PlacedCount++;
+            }
+        }
+
+        public void UpdateCount()
+        {
+            this.PlacedCount = 0;
+            foreach (Block block in this.All.Values)
+            {
+                //update completion count
                 if (block.CompletedByAnyone())
                     this.PlacedCount++;
             }

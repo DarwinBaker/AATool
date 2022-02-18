@@ -12,19 +12,16 @@ namespace AATool.UI.Controls
         public delegate void ClickEventHandler(UIControl sender);
         public event ClickEventHandler OnClick;
 
-        public bool Enabled          { get; set; }
-        public ButtonState State   { get; private set; }
+        public bool Enabled { get; set; }
+        public ControlState State { get; private set; }
         public UITextBlock TextBlock { get; private set; }
 
         public bool UseCustomColor;
         public bool ShowBorder;
 
-        protected MouseState MouseNow;
-        protected MouseState MousePrev;
-
         public void SetText(string text) => this.TextBlock?.SetText(text);
         public void SetTextColor(Color color) => this.TextBlock?.SetTextColor(color);
-        private void SetState(ButtonState newState) => this.State = newState;
+        private void SetState(ControlState newState) => this.State = newState;
 
         public UIButton()
         {
@@ -41,43 +38,33 @@ namespace AATool.UI.Controls
 
         protected override void UpdateThis(Time time)
         {
-            ButtonState previousState = this.State;
+            ControlState previousState = this.State;
             if (!this.Enabled)
             {
-                this.SetState(ButtonState.Disabled);
+                this.SetState(ControlState.Disabled);
                 return;
             }
 
-            //update current mouse position
-            this.MouseNow = Mouse.GetState();
-            Point cursor = this.MouseNow.Position;
-            UIScreen root = this.Root();
-            if (root != Main.PrimaryScreen)
-            {
-                //normalize cursor position on secondary windows
-                cursor += new Point(Main.PrimaryScreen.Form.Location.X - root.Form.Location.X, 
-                    Main.PrimaryScreen.Form.Location.Y - root.Form.Location.Y);
-            }
+            Point cursor = Input.Cursor(this.Root());
 
             //update button state
             if (this.Bounds.Contains(cursor))
             {
-                if (this.MouseNow.LeftButton is Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                if (Input.LeftClicking)
                 {
-                    this.SetState(ButtonState.Pressed);
+                    this.SetState(ControlState.Pressed);
                 }
                 else
                 {
-                    if (this.MousePrev.LeftButton is Microsoft.Xna.Framework.Input.ButtonState.Pressed && this.Root().HasFocus)
+                    if (Input.MousePrev.LeftButton is ButtonState.Pressed && this.Root().HasFocus)
                         OnClick?.Invoke(this);
-                    this.SetState(ButtonState.Hovered);
+                    this.SetState(ControlState.Hovered);
                 }
             }
             else
             {
-                this.SetState(ButtonState.Released);
+                this.SetState(ControlState.Released);
             }
-            this.MousePrev = this.MouseNow;
 
             if (this.State != previousState && this.Root() is UIMainScreen)
                 UIMainScreen.Invalidate();
@@ -95,16 +82,16 @@ namespace AATool.UI.Controls
 
             switch (this.State)
             {
-                case ButtonState.Released:
+                case ControlState.Released:
                     canvas.DrawRectangle(this.Bounds, backColor, borderColor, 2, this.Layer);
                     break;
-                case ButtonState.Hovered:
+                case ControlState.Hovered:
                     canvas.DrawRectangle(this.Bounds, backColor, borderColor * 1.25f, 2, this.Layer);
                     break;
-                case ButtonState.Pressed:
+                case ControlState.Pressed:
                     canvas.DrawRectangle(this.Bounds, backColor * 1.25f, borderColor * 1.5f, 3, this.Layer);
                     break;
-                case ButtonState.Disabled:
+                case ControlState.Disabled:
                     canvas.DrawRectangle(this.Bounds, backColor * 1.1f, backColor * 1.2f, 2, this.Layer);
                     break;
             }

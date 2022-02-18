@@ -1,15 +1,11 @@
 ﻿namespace AATool
 {
-    //used for save reading
-    public enum SaveState
+    public enum TrackerSource
     {
-        Valid,
-        NoWorlds,
-        PathNonExistent,
-        PathEmpty,
-        PathInvalid,
-        PathTooLong,
-        PermissionError,
+        ActiveInstance,
+        DefaultAppData,
+        CustomSavesPath,
+        SpecificWorld,
     }
 
     //used for sftp
@@ -29,7 +25,7 @@
     public enum FlowDirection { LeftToRight, RightToLeft, TopToBottom, BottomToTop }
     public enum SizeMode { Absolute, Relative }
     public enum DrawMode { All, ThisOnly, ChildrenOnly, None }
-    public enum ButtonState { Released, Hovered, Pressed, Disabled }
+    public enum ControlState { Released, Hovered, Pressed, Disabled }
     public enum FrameType { Normal, Goal, Challenge, Statistic }
     public enum Layer { Main, Glow, Fore }
     public enum Ease { Back, Bounce, Circular, Cubic, Elastic, Exponential, Quadratic, Quartic, Quintic, Sinusoidal }

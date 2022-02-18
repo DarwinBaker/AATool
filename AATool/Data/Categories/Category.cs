@@ -30,6 +30,14 @@ namespace AATool.Data.Categories
 
         public bool TrySetVersion(string version)
         {
+            if (!Version.TryParse(version, out Version number))
+                return false;
+
+            //handle sub-versioning of 1.16 due to piglin brutes
+            version = number > Version.Parse("1.16.1") && number < Version.Parse("1.17")
+                ? "1.16.5"
+                : $"{number.Major}.{number.Minor}";
+
             if (this.GetSupportedVersions().Contains(version))
             {
                 this.CurrentVersion = version;
@@ -39,15 +47,16 @@ namespace AATool.Data.Categories
             return false;
         }
 
-        public int GetCompletionPercent()
+        public int GetCompletionPercent() => (int)(this.GetCompletionRatio() * 100);
+
+        public float GetCompletionRatio()
         {
             int target = this.GetTargetCount();
             if (target < 1)
                 return 0;
-
             int clamped = Math.Min(this.GetCompletedCount(), target);
-            double normalized = (double)clamped / this.GetTargetCount();
-            return (int)(normalized * 100);
-        }   
+            return (float)clamped / this.GetTargetCount();
+        }
+
     }
 }

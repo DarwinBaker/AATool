@@ -1,4 +1,5 @@
 ﻿using AATool.Configuration;
+using AATool.Data.Categories;
 using AATool.Data.Objectives;
 using AATool.Graphics;
 using AATool.Net;
@@ -16,8 +17,8 @@ namespace AATool.UI.Screens
     sealed class UIOverlayScreen : UIScreen
     {
         private const int SCROLL_SPEED_MULTIPLIER = 15;
-        private const int BASE_SCROLL_SPEED       = 30;
-        private const int TITLE_MOVE_SPEED        = 4;
+        private const int BASE_SCROLL_SPEED = 30;
+        private const int TITLE_MOVE_SPEED = 4;
 
         private readonly SequenceTimer titleTimer;
         
@@ -138,9 +139,12 @@ namespace AATool.UI.Screens
                     ? FlowDirection.RightToLeft
                     : FlowDirection.LeftToRight;
 
-                //add pickup counters
-                foreach (Pickup pickup in Tracker.Pickups.All.Values.Reverse())
-                    this.counts.AddControl(new UIObjectiveFrame(pickup, 3));
+                if (Tracker.Category is not AllBlocks)
+                {
+                    //add pickup counters
+                    foreach (Pickup pickup in Tracker.Pickups.All.Values.Reverse())
+                        this.counts.AddControl(new UIObjectiveFrame(pickup, 3));
+                }
 
                 //status label
                 this.status = new UITextBlock("minecraft", 24) {
@@ -161,8 +165,8 @@ namespace AATool.UI.Screens
         private void OnResizeBegin(object sender, EventArgs e)
         {
             this.isResizing = true;
-            this.advancements.Break();
-            this.criteria.Break();
+            this.advancements?.Break();
+            this.criteria?.Break();
         }
 
         private void OnResize(object sender, EventArgs e)
@@ -177,8 +181,8 @@ namespace AATool.UI.Screens
         private void OnResizeEnd(object sender, EventArgs e)
         {
             this.isResizing = false;
-            this.advancements.Continue();
-            this.criteria.Continue();
+            this.advancements?.Continue();
+            this.criteria?.Continue();
             Config.Overlay.Width.Set(this.Form.ClientSize.Width);
             Config.Overlay.Save();
         }
@@ -288,7 +292,7 @@ namespace AATool.UI.Screens
             if (this.titleTimer.IsExpired)
             {
                 if (this.titleTimer.Index is 3)
-                    this.text.SetText($"CTM's AATool {Main.Version}");
+                    this.text.SetText(Main.ShortTitle);
                 else if (this.titleTimer.Index is 5)
                     this.text.SetText(Paths.Web.PatreonShort);
 

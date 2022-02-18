@@ -168,7 +168,7 @@ namespace AATool.UI.Controls
             else
                 this.label.SetText(" \n" + text);
 
-            this.bar?.LerpToValue(this.criteriaGroup.NumberCompletedBy(designated));
+            this.bar?.StartLerpToValue(this.criteriaGroup.NumberCompletedBy(designated));
         }
 
         private void SwitchToProgress()
@@ -209,7 +209,7 @@ namespace AATool.UI.Controls
                 this.mode.Collapse();
 
             //toggle player select button
-            if (Peer.IsConnected || (Tracker.SaveState is SaveState.Valid && Tracker.State.Players.Any()))
+            if (Peer.IsConnected || (Tracker.IsWorking && Tracker.State.Players.Any()))
             {
                 this.playerButton.Expand();
             }

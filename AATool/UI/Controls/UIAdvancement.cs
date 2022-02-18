@@ -42,7 +42,6 @@ namespace AATool.UI.Controls
         private int scale;
 
         public bool IsCompleted => this.Advancement?.CompletedByAnyone() ?? false;
-        public Point IconCenter => this.icon?.Center ?? Point.Zero;
 
         public UIAdvancement() 
         {

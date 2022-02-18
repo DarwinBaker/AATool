@@ -22,9 +22,9 @@ namespace AATool.UI.Controls
                 return;
 
             canvas.DrawRectangle(this.Bounds,
-                Config.Main.BackColor, 
-                Config.Main.BorderColor, 
-                this.BorderThickness, 
+                Config.Main.BackColor,
+                Config.Main.BorderColor,
+                this.BorderThickness,
                 this.Layer);
         }
 

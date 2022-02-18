@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml;
 using AATool.Configuration;
+using AATool.Data.Categories;
 using AATool.Graphics;
 using AATool.Net;
 using AATool.Saves;
@@ -19,7 +20,8 @@ namespace AATool.UI.Controls
         //settings panel
         private UIControl settings;
         private UIButton settingsButton;
-        
+        private UIButton manualClearButton;
+
         //status panel
         private UIControl status;
         private UIEnchantmentTable readIcon;
@@ -59,11 +61,12 @@ namespace AATool.UI.Controls
             this.statusLabel = this.status.First<UITextBlock>();
 
             //progress panel
-            this.progress      = this.First("progress");
+            this.progress      = this.First(Tracker.Category is AllBlocks ? "progress_blocks" : "progress_advancements");
+            this.progress.Expand();
             this.progressLabel = this.progress.First<UITextBlock>();
             this.progressBar   = this.progress.First<UIProgressBar>();
             this.progressBar.SetMin(0);
-            this.progressBar.SetMax(100);
+            this.progressBar.SetMax(1);
 
             //patreon panel
             this.patreon = this.First("patreon");
@@ -85,6 +88,14 @@ namespace AATool.UI.Controls
             }
             this.statusLabel.HorizontalTextAlign = HorizontalAlign.Left;
             this.statusLabel.SetText(this.GetLabelText());
+
+            if (Tracker.Category is AllBlocks)
+            {
+                //all blocks controls
+                this.manualClearButton = this.progress.First<UIButton>("manual_clear");
+                if (this.manualClearButton is not null)
+                    this.manualClearButton.OnClick += this.OnClick;
+            }
         }
 
         public override void ResizeRecursive(Rectangle parent)
@@ -107,7 +118,7 @@ namespace AATool.UI.Controls
                 + this.status.FlexWidth 
                 + this.rightPanelWidth));
             
-            this.progressBar.SkipToValue(Tracker.Category.GetCompletionPercent());
+            this.progressBar.SkipToValue(Tracker.Category.GetCompletionRatio());
             base.ResizeRecursive(parent);
         }
 
@@ -117,7 +128,7 @@ namespace AATool.UI.Controls
             if (Peer.IsConnected)
                 this.readIcon.UpdateState(true);
             else
-                this.readIcon.UpdateState(Tracker.SaveState is SaveState.Valid);
+                this.readIcon.UpdateState(Tracker.IsWorking);
             
             this.refreshTimer.Update(time);
             if (this.refreshTimer.IsExpired)
@@ -142,11 +153,11 @@ namespace AATool.UI.Controls
             }
             else
             {
-                progress += $"\n{Tracker.InGameTime} IGT\n{new string('-', this.progressBar.Width / 7)}";
+                progress += $"\n{Tracker.InGameTime:hh':'mm':'ss} IGT\n{new string('-', this.progressBar.Width / 7)}";
             }
                 
             this.progressLabel.SetText(progress);
-            this.progressBar.LerpToValue(Tracker.Category.GetCompletionPercent());
+            this.progressBar.StartLerpToValue(Tracker.Category.GetCompletionRatio());
         }
 
         private string GetLabelText()
@@ -157,27 +168,7 @@ namespace AATool.UI.Controls
             if (Config.Tracking.UseSftp)
                 return SftpSave.GetStatusText();
 
-            //determine label text
-            return Tracker.SaveState switch {
-                SaveState.Valid => (Peer.IsServer && Peer.IsConnected 
-                    ? $"Hosting:"
-                    : $"Tracking:") + $" \"{Tracker.WorldName}\"",
-                SaveState.NoWorlds => 
-                    $"No worlds in {(Config.Tracking.UseDefaultPath ? "default" : "custom") } save path",
-                SaveState.PathNonExistent => Config.Tracking.UseDefaultPath 
-                    ? $"Default save folder is missing" 
-                    : $"Custom save path doesn't exist",
-                SaveState.PathInvalid     => 
-                    $"Illegal character(s) in custom save path",
-                SaveState.PathTooLong     => 
-                    $"Custom save path is too long",
-                SaveState.PathEmpty       => 
-                    $"Custom save path is empty",
-                SaveState.PermissionError => 
-                    $"A read permission error has occurred",
-                _ => 
-                    "An unknown error has occurred",
-            };
+            return Tracker.GetStatusText();
         }
 
         public override void DrawThis(Canvas canvas)
@@ -199,6 +190,16 @@ namespace AATool.UI.Controls
             else if (sender == this.patreonButton)
             {
                 Process.Start(Paths.Web.PatreonFull);
+            }
+            else if (sender == this.manualClearButton)
+            {
+                var controls = new List<UIControl>();
+                this.Root().GetTreeRecursive(controls);
+                foreach (UIControl control in controls)
+                {
+                    if (control is UIBlockTile block)
+                        block.Block.ManuallyCompleted = false;
+                }
             }
         }
 

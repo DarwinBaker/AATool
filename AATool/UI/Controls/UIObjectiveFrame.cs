@@ -4,6 +4,7 @@ using System.Xml;
 using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
+using AATool.Data.Objectives.Pickups;
 using AATool.Graphics;
 using AATool.Net;
 using AATool.UI.Screens;
@@ -93,6 +94,11 @@ namespace AATool.UI.Controls
                 if (Tracker.TryGetPickup(this.ObjectiveId, out Pickup pickup))
                     this.SetObjective(pickup);
             }
+            else if (this.objectiveType == typeof(Block))
+            {
+                if (Tracker.TryGetBlock(this.ObjectiveId, out Block block))
+                    this.SetObjective(block);
+            }
         }
 
         public override void InitializeThis(UIScreen screen)
@@ -179,6 +185,9 @@ namespace AATool.UI.Controls
                 this.label?.SetTextColor(this.IsActive ? Config.Main.TextColor : Config.Main.TextColor.Value * 0.4f);
             this.icon?.SetTint(this.IsActive ? Color.White : ColorHelper.Fade(Color.DarkGray, 0.1f));
 
+            if (this.Objective is Trident trident)
+                this.icon?.SetTexture(trident.Icon);
+
             this.style = this.Root() is UIOverlayScreen
                 ? Config.Overlay.FrameStyle.Value
                 : Config.Main.FrameStyle.Value;
@@ -211,19 +220,16 @@ namespace AATool.UI.Controls
             if (Config.Main.FrameStyle == "None")
                 target /= 1.25f;
 
-            if (Math.Round(current, 2) == Math.Round(target, 2))
-                return;
-
             if (time is not null)
             {
-                if (Math.Round(current, 1) != Math.Round(target, 1))
+                if (Math.Abs(current - target) > 0.1f)
                     UIMainScreen.Invalidate();
                 float smoothed = MathHelper.Lerp(this.glow.Brightness, target, (float)(10 * time.Delta));
                 this.glow.LerpToBrightness(smoothed);
             }
             else
             {
-                if (Math.Round(current, 1) != Math.Round(target, 1))
+                if (Math.Abs(current - target) > 0.1f)
                     UIMainScreen.Invalidate();
                 this.glow.LerpToBrightness(target);
             }
@@ -365,6 +371,14 @@ namespace AATool.UI.Controls
             if (!string.IsNullOrEmpty(this.ObjectiveId))
             {
                 this.objectiveType = typeof(Pickup);
+                return;
+            }
+
+            //check if this frame contains a block
+            this.ObjectiveId = Attribute(node, "block", string.Empty);
+            if (!string.IsNullOrEmpty(this.ObjectiveId))
+            {
+                this.objectiveType = typeof(Block);
                 return;
             }
         }

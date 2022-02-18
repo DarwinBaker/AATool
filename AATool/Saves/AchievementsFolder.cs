@@ -21,7 +21,7 @@ namespace AATool.Saves
         {
             bool completed = false;
             players = new ();
-            foreach (KeyValuePair<Uuid, JsonStream> json in this.Files)
+            foreach (KeyValuePair<Uuid, JsonStream> json in this.Players)
             {
                 if (IsCompleted(achievement, json.Value))
                 {
@@ -36,7 +36,7 @@ namespace AATool.Saves
         {
             //return
             var completions = new Dictionary<Uuid, HashSet<(string, string)>>();
-            foreach (KeyValuePair<Uuid, JsonStream> json in this.Files)
+            foreach (KeyValuePair<Uuid, JsonStream> json in this.Players)
                 completions[json.Key] = this.GetCompletedCriteria(advancement, json.Value);
             return completions;
         }

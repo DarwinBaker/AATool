@@ -20,7 +20,7 @@ namespace AATool.UI.Controls
         public float Percent { get; private set; }
         public float Lerped  { get; private set; }
 
-        private void ClampValue()    => this.LerpToValue(this.Value);
+        private void ClampValue()    => this.StartLerpToValue(this.Value);
         private void UpdateRange()   => this.Range = Math.Abs(this.Min - this.Max);
         private void UpdatePercent() => this.Percent = (this.Value - this.Min) / (this.Max - this.Min);
 
@@ -47,7 +47,7 @@ namespace AATool.UI.Controls
             this.UpdateStyle();
         }
 
-        public void LerpToValue(float value)
+        public void StartLerpToValue(float value)
         {
             value = Math.Min(Math.Max(value, this.Min), this.Max);
             if (this.Value == value)
@@ -87,7 +87,7 @@ namespace AATool.UI.Controls
                 this.UpdateStyle();
 
             bool refresh = Config.Main.ProgressBarStyle.Changed 
-                || Math.Round(this.Lerped, 2) != Math.Round(this.Value, 2);
+                || Math.Round(this.Lerped, 4) != Math.Round(this.Value, 4);
 
             if (refresh)
             {

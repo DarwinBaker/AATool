@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Data.Categories;
@@ -27,6 +28,7 @@ namespace AATool.UI.Screens
         private UIGrid grid;
         private UILobby lobby;
         private UIStatusBar status;
+        private UIBlockPopup popup;
         private readonly Utilities.Timer settingsCooldown;
 
         private KeyboardState kbNow;
@@ -77,8 +79,8 @@ namespace AATool.UI.Screens
                 string caption = "Co-op Shutdown Confirmation";
                 string players = clients is 1 ? "1 player" : $"{clients} players";
                 string text = $"You are currently hosting a Co-op lobby with {players} connected! Are you sure you want to quit?";
-                DialogResult result = System.Windows.Forms.MessageBox.Show(this.Form, text, caption, 
-                    MessageBoxButtons.YesNo, 
+                DialogResult result = System.Windows.Forms.MessageBox.Show(this.Form, text, caption,
+                    MessageBoxButtons.YesNo,
                     MessageBoxIcon.Exclamation);
 
                 if (result is DialogResult.Yes)
@@ -98,8 +100,8 @@ namespace AATool.UI.Screens
                 string message = "Your display resolution is too small for Relaxed View. Compact View has been enabled.";
                 Config.Main.CompactMode.Set(true);
                 this.ReloadLayout();
-                System.Windows.Forms.MessageBox.Show(this.Form, message, title, 
-                    MessageBoxButtons.OK, 
+                System.Windows.Forms.MessageBox.Show(this.Form, message, title,
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
         }
@@ -109,9 +111,13 @@ namespace AATool.UI.Screens
             Peer.UnbindController(this.status);
             this.Children.Clear();
             if (this.TryLoadXml(Paths.System.GetLayoutFor(this)))
-            { 
+            {
                 this.InitializeRecursive(this);
                 this.ResizeRecursive(this.Bounds);
+                if (Tracker.Category is AllBlocks)
+                    this.Form.Icon = new System.Drawing.Icon(Path.Combine(Paths.System.AssetsFolder, "icons", "all_blocks.ico"));
+                else
+                    this.Form.Icon = new System.Drawing.Icon(Paths.System.MainIcon);
             }
             else
             {
@@ -124,6 +130,7 @@ namespace AATool.UI.Screens
             this.grid   = this.First<UIGrid>();
             this.lobby  = this.First<UILobby>();
             this.status = this.First<UIStatusBar>();
+            this.popup = this.First<UIBlockPopup>();
             Peer.BindController(this.status);
         }
 
@@ -141,6 +148,12 @@ namespace AATool.UI.Screens
                 RenderCache?.Dispose();
                 RenderCache = new RenderTarget2D(this.GraphicsDevice, width, height);
             }
+        }
+
+        public override void UpdateRecursive(Time time)
+        {
+            base.UpdateRecursive(time);
+            this.popup?.Finalize(time);
         }
 
         protected override void UpdateThis(Time time)
@@ -242,7 +255,7 @@ namespace AATool.UI.Screens
         public override void Prepare(Canvas canvas)
         {
             base.Prepare(canvas);
-            this.GraphicsDevice.Clear(Config.Main.BackColor);
+            this.GraphicsDevice.Clear(Tracker.Category is AllBlocks ? Config.Main.BorderColor : Config.Main.BackColor);
         }
 
         public override void Present(Canvas canvas) 

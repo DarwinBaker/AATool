@@ -9,32 +9,43 @@ namespace AATool.Data.Objectives
 {
     public class Block : Objective
     {
-        public float LightLevel     { get; private set; }
+        public bool ManuallyCompleted { get; set; }
+
+        public bool DoubleHeight { get; private set; }
+        public float LightLevel  { get; private set; }
 
         public bool Glows => this.LightLevel > 0;
 
         public override string GetFullCaption() => this.Name;
         public override string GetShortCaption() => this.ShortName;
 
+        public override bool CompletedByAnyone() => 
+            this.FirstCompletionist != Uuid.Empty || this.ManuallyCompleted;
+
         public Block(XmlNode node) : base (node)
         {
+            this.DoubleHeight = XmlObject.Attribute(node, "double_height", false);
             this.LightLevel = XmlObject.Attribute(node, "light_level", 0f);
+        }
+
+        public void ToggleManualOverride()
+        {
+            this.ManuallyCompleted ^= true;
+            Tracker.Blocks.UpdateCount();
         }
 
         public override void UpdateState(WorldState progress)
         {
-            /*
-            List<Uuid> placers = progress.PlacersOf(this);
+            List<Uuid> placers = progress.CompletionistsOf(this);
             if (placers.Any())
             {
-                if (this.FirstToPlace == Uuid.Empty)
-                    this.FirstToPlace = placers.First();
+                if (this.FirstCompletionist == Uuid.Empty)
+                    this.FirstCompletionist = placers.First();
             }
             else
             {
-                this.FirstToPlace = Uuid.Empty;
+                this.FirstCompletionist = Uuid.Empty;
             }
-            */
         }
     }
 }

@@ -18,9 +18,9 @@ namespace AATool.Graphics
         public const int HEIGHT = 2048;
         public const int MAX_COLUMNS = 32;
 
-        public const string ANIMATION_PREFIX  = "$";
+        public const string ANIMATION_PREFIX = "$";
         public const string ResolutionPrefix = "^";
-        public const string PADDING_PREFIX    = "~";
+        public const string PADDING_PREFIX   = "~";
 
         public static RenderTarget2D Atlas;
         public static Dictionary<string, Sprite> Sprites = new ();
@@ -35,6 +35,7 @@ namespace AATool.Graphics
 
         public static bool ContainsSprite(string id) => Sprites.ContainsKey(id ?? string.Empty);
         public static bool IsAnimated(string id) => Sprites.TryGetValue(id, out Sprite sprite) && sprite.Frames > 0;
+        
         public static string ProcessFrameCount(string id, out int frames)
         {
             frames = 0;
