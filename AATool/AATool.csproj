@@ -92,6 +92,7 @@
     <Compile Include="Configuration\OverlayConfig.cs" />
     <Compile Include="Configuration\Setting.cs" />
     <Compile Include="Configuration\TrackingConfig.cs" />
+    <Compile Include="Data\Categories\AllBlocks.cs" />
     <Compile Include="Data\Categories\MonstersHunted.cs" />
     <Compile Include="Data\Categories\AllAchievements.cs" />
     <Compile Include="Data\Categories\AllAdvancements.cs" />
@@ -121,8 +122,14 @@
     <Compile Include="Data\Objectives\Pickups\Egap.cs" />
     <Compile Include="Data\Objectives\Pickups\Trident.cs" />
     <Compile Include="Data\Objectives\Pickups\WitherSkull.cs" />
+    <Compile Include="Exceptions\InvalidPathException.cs" />
+    <Compile Include="Exceptions\NoSavesFolderException.cs" />
+    <Compile Include="Exceptions\NoWorldException.cs" />
     <Compile Include="Graphics\Glow.cs" />
+    <Compile Include="Input.cs" />
+    <Compile Include="Net\AAKey.cs" />
     <Compile Include="Net\Lobby.cs" />
+    <Compile Include="Net\OpenTracker.cs" />
     <Compile Include="Net\PeerStatic.cs" />
     <Compile Include="Net\Requests\UpdateRequest.cs" />
     <Compile Include="Net\Requests\NetRequestStatic.cs" />
@@ -142,7 +149,7 @@
     <Compile Include="Saves\JSONStream.cs" />
     <Compile Include="Saves\SftpSave.cs" />
     <Compile Include="Saves\StatisticsFolder.cs" />
-    <Compile Include="Saves\LocalSave.cs" />
+    <Compile Include="Saves\WorldFolder.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Net\Client.cs" />
@@ -162,6 +169,9 @@
     <Compile Include="UI\Badges\UnstoppableBadge.cs" />
     <Compile Include="UI\Badges\ImmortalBadge.cs" />
     <Compile Include="UI\Controls\UIAchievementTree.cs" />
+    <Compile Include="UI\Controls\UIBlockGroup.cs" />
+    <Compile Include="UI\Controls\UIBlockPopup.cs" />
+    <Compile Include="UI\Controls\UIBlockTile.cs" />
     <Compile Include="UI\Controls\UIObjectiveFrame.cs" />
     <Compile Include="UI\Controls\UIGlowEffect.cs" />
     <Compile Include="UI\Controls\UIPlayerFace.cs" />
@@ -179,6 +189,7 @@
     <Compile Include="UI\Controls\UIPlayer.cs" />
     <Compile Include="UI\Controls\UIRunComplete.cs" />
     <Compile Include="UI\Screens\UIUpdateScreen.cs" />
+    <Compile Include="Utilities\ActiveInstance.cs" />
     <Compile Include="Utilities\ColorHelper.cs" />
     <Compile Include="Utilities\Easings\Easing.cs" />
     <Compile Include="Utilities\Easings\Functions\Back.cs" />
@@ -192,7 +203,6 @@
     <Compile Include="Utilities\Easings\Functions\Quartic.cs" />
     <Compile Include="Utilities\Easings\Functions\Quintic.cs" />
     <Compile Include="Utilities\Easings\Functions\Sinusoidal.cs" />
-    <Compile Include="Utilities\GameVersionDetector.cs" />
     <Compile Include="Utilities\SequenceTimer.cs" />
     <Compile Include="Utilities\UpdateHelper.cs" />
     <Compile Include="Winforms\Controls\CCreditsGroup.cs">
@@ -248,6 +258,12 @@
     </Compile>
     <Compile Include="Winforms\Forms\FNotes.Designer.cs">
       <DependentUpon>FNotes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Winforms\Forms\FOpenTrackerSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Winforms\Forms\FOpenTrackerSetup.Designer.cs">
+      <DependentUpon>FOpenTrackerSetup.cs</DependentUpon>
     </Compile>
     <Compile Include="Winforms\Forms\FSettings.cs">
       <SubType>Form</SubType>
@@ -2792,6 +2808,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Winforms\Forms\FNotes.resx">
       <DependentUpon>FNotes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Winforms\Forms\FOpenTrackerSetup.resx">
+      <DependentUpon>FOpenTrackerSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Winforms\Forms\FSettings.resx">
       <DependentUpon>FSettings.cs</DependentUpon>
