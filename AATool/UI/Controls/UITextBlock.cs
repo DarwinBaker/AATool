@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using System.Xml;
 using AATool.Configuration;
 using AATool.Graphics;
@@ -205,7 +206,7 @@ namespace AATool.UI.Controls
                         continue;
 
                     Vector2 nextSize = this.Font.MeasureString(words[i + 1]);
-                    if (words[i][0] is not '\n' && lineWidth + nextSize.X < this.Width)
+                    if (words[i].LastOrDefault() is not '\n' && lineWidth + nextSize.X < this.Width)
                         wrappedBuilder.Append(" ");
                 }
             }
