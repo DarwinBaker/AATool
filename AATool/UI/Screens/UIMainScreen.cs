@@ -16,9 +16,6 @@ namespace AATool.UI.Screens
 {
     public class UIMainScreen : UIScreen
     {
-        private const int MIN_WIDTH  = 1280;
-        private const int MIN_HEIGHT = 720;
-
         public static RenderTarget2D RenderCache { get; private set; }
         public static bool Invalidated { get; private set; }
         public static bool RefreshingCache { get; set; }
@@ -31,9 +28,6 @@ namespace AATool.UI.Screens
         private UIBlockPopup popup;
         private readonly Utilities.Timer settingsCooldown;
 
-        private KeyboardState kbNow;
-        private KeyboardState kbPrev;
-
         public override Color FrameBackColor() => Config.Main.BackColor;
         public override Color FrameBorderColor() => Config.Main.BorderColor;
 
@@ -44,7 +38,7 @@ namespace AATool.UI.Screens
             this.Form.FormClosing += this.OnFormClosing;
             this.settingsCooldown = new Utilities.Timer(0.1f);
             //this.Form.Location = new System.Drawing.Point(0, 0);
-            this.ReloadLayout();
+            this.ReloadView();
             this.CenterWindow();
         }
 
@@ -94,30 +88,48 @@ namespace AATool.UI.Screens
         private void UpdateForcedCompactMode()
         {
             System.Drawing.Rectangle desktop = Screen.FromControl(this.Form).WorkingArea;
-            if (desktop.Width < MIN_WIDTH || desktop.Height < MIN_HEIGHT)
+            if (this.Width > desktop.Width || this.Height > desktop.Height)
             {
                 string title = "Compact Mode Enabled";
                 string message = "Your display resolution is too small for Relaxed View. Compact View has been enabled.";
                 Config.Main.CompactMode.Set(true);
-                this.ReloadLayout();
+                this.ReloadView();
                 System.Windows.Forms.MessageBox.Show(this.Form, message, title,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
         }
 
-        public override void ReloadLayout()
+        public override string GetCurrentView()
+        {
+            //get proper view for current category and version
+            string path = Path.Combine(Paths.System.ViewsFolder,
+                Tracker.Category.LayoutName,
+                Tracker.Category.CurrentVersion,
+                "main.xml");
+
+            //check for conditional variant if needed
+            if (!File.Exists(path))
+            {
+                path = Path.Combine(Paths.System.ViewsFolder,
+                    Tracker.Category.LayoutName,
+                    Tracker.Category.CurrentVersion,
+                    $"main_{Config.Main.ViewMode}.xml");
+            }
+            return path;
+        }
+
+        public override void ReloadView()
         {
             Peer.UnbindController(this.status);
             this.Children.Clear();
-            if (this.TryLoadXml(Paths.System.GetLayoutFor(this)))
+            if (this.TryLoadXml(this.GetCurrentView()))
             {
                 this.InitializeRecursive(this);
                 this.ResizeRecursive(this.Bounds);
-                if (Tracker.Category is AllBlocks)
-                    this.Form.Icon = new System.Drawing.Icon(Path.Combine(Paths.System.AssetsFolder, "icons", "all_blocks.ico"));
-                else
-                    this.Form.Icon = new System.Drawing.Icon(Paths.System.MainIcon);
+                this.Form.Icon = Tracker.Category is AllBlocks
+                    ? new System.Drawing.Icon(Path.Combine(Paths.System.AssetsFolder, "icons", "all_blocks.ico"))
+                    : new System.Drawing.Icon(Paths.System.MainIcon);
             }
             else
             {
@@ -160,7 +172,7 @@ namespace AATool.UI.Screens
         {
             //update game version
             if (Tracker.ObjectivesChanged || Config.Main.CompactMode.Changed)
-                this.ReloadLayout();
+                this.ReloadView();
             
             this.UpdateForcedCompactMode();
             this.UpdateCollapsedStates();
@@ -172,22 +184,13 @@ namespace AATool.UI.Screens
             if (Config.Overlay.Width.Changed)
                 this.settingsMenu?.UpdateOverlayWidth();
 
-            if (Config.Main.BackColor.Changed
-                || Config.Main.BorderColor.Changed
-                || Config.Main.TextColor.Changed
-                || Config.Main.FrameStyle.Changed
-                || Config.Main.ProgressBarStyle.Changed)
-            {
+            if (Config.Main.StyleChanged)
                 Invalidate();
-            }
 
             //escape to open settings
             this.settingsCooldown.Update(time);
-            this.kbNow = Keyboard.GetState();
-            var escape = Microsoft.Xna.Framework.Input.Keys.Escape;
-            if (this.kbNow.IsKeyDown(escape) && this.kbPrev.IsKeyUp(escape) && this.settingsCooldown.IsExpired)
+            if (Input.Started(Microsoft.Xna.Framework.Input.Keys.Escape) && this.settingsCooldown.IsExpired)
                 this.OpenSettingsMenu();
-            this.kbPrev = this.kbNow;
 
             //enforce window size
             this.ConstrainWindow();
@@ -200,7 +203,7 @@ namespace AATool.UI.Screens
 
             var label = new UITextBlock();
             label.SetFont("minecraft", 24);
-            label.SetText($"There was an error attempting to load layout file:\n{Paths.System.GetLayoutFor(this)}");
+            label.SetText($"There was an error attempting to load layout file:\n{this.GetCurrentView()}");
             this.AddControl(label);
 
             var settings = new UIButton() {

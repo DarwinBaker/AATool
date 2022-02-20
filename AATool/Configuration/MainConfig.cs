@@ -49,6 +49,13 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<Color> BorderColor = new (Hex("4E5156"));
 
             public bool RelaxedMode => !this.CompactMode;
+            public string ViewMode => this.CompactMode ? "compact" : "relaxed";
+
+            public bool StyleChanged => this.FrameStyle.Changed
+                || this.BorderColor.Changed
+                || this.BackColor.Changed
+                || this.TextColor.Changed
+                || this.ProgressBarStyle.Changed;
 
             protected override string GetId() => "main";
             protected override string GetLegacyId() => "main";

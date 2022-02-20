@@ -21,7 +21,7 @@ namespace AATool.Data.Categories
             this.CurrentVersion = this.LatestSupportedVersion;
         }
 
-        public bool IsComplete() => this.GetCompletedCount() >= this.GetTargetCount();
+        public virtual bool IsComplete() => this.GetCompletedCount() >= this.GetTargetCount();
         public virtual string GetCompletionMessage() => $"All {this.GetTargetCount()} {this.Objective} {this.Action}!";
 
         public abstract IEnumerable<string> GetSupportedVersions();

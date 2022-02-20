@@ -40,6 +40,8 @@ namespace AATool.UI.Screens
         public void Show() => this.Form.Show();
         public void Hide() => this.Form.Hide();
 
+        public abstract string GetCurrentView();
+
         public virtual void Dispose()
         {
             this.Target?.Dispose();
@@ -86,7 +88,7 @@ namespace AATool.UI.Screens
                 this.Children[i].DrawDebugRecursive(canvas);
         }
 
-        public abstract void ReloadLayout();
+        public abstract void ReloadView();
         protected abstract void ConstrainWindow();
     }
 }

@@ -361,31 +361,31 @@
     <Content Include="assets\icons\aaupdate.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\adventuring_time\1.18\main.xml">
+    <Content Include="assets\views\adventuring_time\1.18\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\adventuring_time\overlay.xml">
+    <Content Include="assets\views\adventuring_time\overlay.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\half_percent\1.16\main_compact.xml">
+    <Content Include="assets\views\half_percent\1.16\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\half_percent\1.16\main_relaxed.xml">
+    <Content Include="assets\views\half_percent\1.16\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\monsters_hunted\1.16.5\main.xml">
+    <Content Include="assets\views\monsters_hunted\1.16.5\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\monsters_hunted\1.16\main.xml">
+    <Content Include="assets\views\monsters_hunted\1.16\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\monsters_hunted\overlay.xml">
+    <Content Include="assets\views\monsters_hunted\overlay.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\half_percent\1.18\main_compact.xml">
+    <Content Include="assets\views\half_percent\1.18\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\half_percent\1.18\main_relaxed.xml">
+    <Content Include="assets\views\half_percent\1.18\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\objectives\1.14\advancements\nether.xml">
@@ -496,40 +496,40 @@
     <Content Include="assets\icons\aatool.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.18\main_compact.xml">
+    <Content Include="assets\views\all_advancements\1.18\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.18\main_relaxed.xml">
+    <Content Include="assets\views\all_advancements\1.18\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\balanced_diet\1.16\main.xml">
+    <Content Include="assets\views\balanced_diet\1.16\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\balanced_diet\1.17\main.xml">
+    <Content Include="assets\views\balanced_diet\1.17\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\balanced_diet\overlay.xml">
+    <Content Include="assets\views\balanced_diet\overlay.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_achievements\overlay.xml">
+    <Content Include="assets\views\all_achievements\overlay.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\half_percent\1.17\main_compact.xml">
+    <Content Include="assets\views\half_percent\1.17\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\half_percent\1.17\main_relaxed.xml">
+    <Content Include="assets\views\half_percent\1.17\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\half_percent\overlay.xml">
+    <Content Include="assets\views\half_percent\overlay.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\objectives\1.11\achievements.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_achievements\1.11\main_relaxed.xml">
+    <Content Include="assets\views\all_achievements\1.11\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_achievements\1.11\main_compact.xml">
+    <Content Include="assets\views\all_achievements\1.11\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\objectives\1.11\potions.xml">
@@ -553,10 +553,10 @@
     <Content Include="assets\objectives\1.12\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.12\main_compact.xml">
+    <Content Include="assets\views\all_advancements\1.12\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.12\main_relaxed.xml">
+    <Content Include="assets\views\all_advancements\1.12\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\objectives\1.13\advancements\adventure.xml">
@@ -574,10 +574,10 @@
     <Content Include="assets\objectives\1.13\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.13\main_compact.xml">
+    <Content Include="assets\views\all_advancements\1.13\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.13\main_relaxed.xml">
+    <Content Include="assets\views\all_advancements\1.13\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\objectives\1.13\potions.xml">
@@ -595,7 +595,7 @@
     <Content Include="assets\objectives\1.14\advancements\minecraft.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.14\main_compact.xml">
+    <Content Include="assets\views\all_advancements\1.14\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\objectives\1.14\potions.xml">
@@ -616,7 +616,7 @@
     <Content Include="assets\objectives\1.15\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.15\main_compact.xml">
+    <Content Include="assets\views\all_advancements\1.15\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\objectives\1.15\potions.xml">
@@ -637,10 +637,10 @@
     <Content Include="assets\objectives\1.16.5\advancements\husbandry.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.16.5\main_compact.xml">
+    <Content Include="assets\views\all_advancements\1.16.5\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.16.5\main_relaxed.xml">
+    <Content Include="assets\views\all_advancements\1.16.5\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\objectives\1.16.5\potions.xml">
@@ -661,10 +661,10 @@
     <Content Include="assets\objectives\1.16\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.16\main_compact.xml">
+    <Content Include="assets\views\all_advancements\1.16\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.16\main_relaxed.xml">
+    <Content Include="assets\views\all_advancements\1.16\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\objectives\1.16\potions.xml">
@@ -685,10 +685,10 @@
     <Content Include="assets\objectives\1.17\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.17\main_compact.xml">
+    <Content Include="assets\views\all_advancements\1.17\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.17\main_relaxed.xml">
+    <Content Include="assets\views\all_advancements\1.17\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\advancements\adventure\fall_from_world_height.png">
@@ -934,7 +934,7 @@
     <Content Include="assets\templates\screen_update.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\overlay.xml">
+    <Content Include="assets\views\all_advancements\overlay.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\objectives\1.17\potions.xml">
@@ -2744,10 +2744,10 @@
     <Content Include="assets\templates\control_criteria_group.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.14\main_relaxed.xml">
+    <Content Include="assets\views\all_advancements\1.14\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\layouts\all_advancements\1.15\main_relaxed.xml">
+    <Content Include="assets\views\all_advancements\1.15\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\supporters\supporter_emerald.png" />

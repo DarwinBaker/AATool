@@ -14,11 +14,8 @@ namespace AATool.Winforms.Forms
         public FSettings()
         {
             this.InitializeComponent();
-
             if (!this.DesignMode)
-            {
                 this.LoadSettings();
-            } 
         }
 
         public void InvalidateSettings() => this.tracker.InvalidateSettings();

@@ -44,7 +44,7 @@ namespace AATool
             //constant asset paths
             public const string AssetsFolder      = "assets/";
             public const string ObjectivesFolder  = AssetsFolder  + "objectives/";
-            public const string LayoutsFolder     = AssetsFolder  + "layouts/";
+            public const string ViewsFolder       = AssetsFolder  + "views/";
             public const string TemplatesFolder   = AssetsFolder  + "templates";
             public const string SpritesFolder     = AssetsFolder  + "sprites/";
             public const string FontsFolder       = AssetsFolder  + "fonts/";
@@ -69,35 +69,6 @@ namespace AATool
             //file getters
             public static string CrashLogFile => Path.Combine(LogsFolder, $"crash_report_{DateTime.Now:yyyy_M_dd_h_mm_ss}.txt");
             public static string CreditsFile => Path.Combine(CreditsFolder, "credits.xml");
-
-            public static string GetLayoutFor<T>(T screen) where T : UIScreen
-            {
-                if (screen is UIMainScreen)
-                {
-                    string fileName = "main.xml";
-                    if (Tracker.Category is not (AdventuringTime or BalancedDiet or MonstersHunted))
-                    {
-                        string variant = Config.Main.RelaxedMode ? "relaxed" : "compact";
-                        fileName = $"main_{variant}.xml";
-                    }
-
-                    return Path.Combine(LayoutsFolder,
-                        Tracker.Category.LayoutName,
-                        Tracker.Category.CurrentVersion,
-                        fileName);
-                }
-                else if (screen is UIOverlayScreen)
-                {
-                    return Path.Combine(LayoutsFolder,
-                        Tracker.Category.LayoutName,
-                        $"overlay.xml");
-                }
-                else if (screen is UIUpdateScreen)
-                {
-                    return Path.Combine(TemplatesFolder, "screen_update.xml");
-                }
-                return string.Empty;
-            }
         }
 
         public static class Saves

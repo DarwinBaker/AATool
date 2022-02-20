@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using AATool.Configuration;
 using AATool.Graphics;
 using AATool.Net.Requests;
@@ -38,7 +39,7 @@ namespace AATool.UI.Screens
             this.Form.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.postInstall = postInstall;
 
-            this.ReloadLayout();
+            this.ReloadView();
             this.ConstrainWindow();
             int x = Main.PrimaryScreen.Form.Left + (Main.PrimaryScreen.Form.ClientSize.Width / 2) - (this.Window.ClientBounds.Width / 2);
             int y = Main.PrimaryScreen.Form.Top + (Main.PrimaryScreen.Form.ClientSize.Height / 2) - (this.Window.ClientBounds.Height / 2);
@@ -47,11 +48,16 @@ namespace AATool.UI.Screens
             this.Form.Show();
         }
 
-        public override void ReloadLayout()
+        public override string GetCurrentView()
+        {
+            return Path.Combine(Paths.System.TemplatesFolder, "screen_update.xml");
+        }
+
+        public override void ReloadView()
         {
             //clear and load layout if window just opened or game version changed
             this.ClearControls();
-            if (this.TryLoadXml(Paths.System.GetLayoutFor(this)))
+            if (this.TryLoadXml(this.GetCurrentView()))
             {
                 this.InitializeRecursive(this);
                 this.ResizeRecursive(new Rectangle(0, 0, this.Width, this.Height));

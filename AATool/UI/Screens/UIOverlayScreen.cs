@@ -9,6 +9,7 @@ using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -50,7 +51,7 @@ namespace AATool.UI.Screens
             this.Window.AllowUserResizing = true;
             this.titleTimer = new SequenceTimer(60, 1, 10, 1, 10, 1, 10, 1);
             
-            this.ReloadLayout();
+            this.ReloadView();
             this.Form.MinimumSize = new System.Drawing.Size(1260 + this.Form.Width - this.Form.ClientSize.Width, 
                 this.Height + this.Form.Height - this.Form.ClientSize.Height);
 
@@ -60,11 +61,17 @@ namespace AATool.UI.Screens
             this.MoveTo(Point.Zero);
         }
 
-        public override void ReloadLayout()
+        public override string GetCurrentView()
         {
-            //clear and load layout if window just opened or game version changed
+            return Path.Combine(Paths.System.ViewsFolder,
+                Tracker.Category.LayoutName,
+                "overlay.xml");
+        }
+
+        public override void ReloadView()
+        {
             this.ClearControls();
-            if (!this.TryLoadXml(Paths.System.GetLayoutFor(this)))
+            if (!this.TryLoadXml(this.GetCurrentView()))
                 Main.QuitBecause("Error loading overlay layout!");
 
             this.InitializeRecursive(this);
@@ -196,7 +203,7 @@ namespace AATool.UI.Screens
                 return;
 
             if (Tracker.ObjectivesChanged || Config.Overlay.Enabled.Changed)
-                this.ReloadLayout();
+                this.ReloadView();
 
             this.ConstrainWindow();
             this.UpdateVisibility();
