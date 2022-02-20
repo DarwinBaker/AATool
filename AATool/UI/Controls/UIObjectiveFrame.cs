@@ -222,14 +222,14 @@ namespace AATool.UI.Controls
 
             if (time is not null)
             {
-                if (Math.Abs(current - target) > 0.1f)
+                if (Math.Abs(current - target) > 0.1f && this.Root() is UIMainScreen)
                     UIMainScreen.Invalidate();
                 float smoothed = MathHelper.Lerp(this.glow.Brightness, target, (float)(10 * time.Delta));
                 this.glow.LerpToBrightness(smoothed);
             }
             else
             {
-                if (Math.Abs(current - target) > 0.1f)
+                if (Math.Abs(current - target) > 0.1f && this.Root() is UIMainScreen)
                     UIMainScreen.Invalidate();
                 this.glow.LerpToBrightness(target);
             }
