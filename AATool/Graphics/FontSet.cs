@@ -11,31 +11,31 @@ namespace AATool.Graphics
         private static Dictionary<string, FontSystem> Systems;
         private static Dictionary<string, Dictionary<int, DynamicSpriteFont>> Fonts;
 
-        public static void Initialize(GraphicsDevice device)
+        public static void Initialize()
         {
             Systems = new ();
-            Fonts   = new ();
+            Fonts = new ();
 
             if (Directory.Exists(Paths.System.FontsFolder))
             {
                 //support both .ttf and .otf font types
-                LoadFiles(device, Paths.System.FontsFolder, "ttf");
-                LoadFiles(device, Paths.System.FontsFolder, "otf");
+                LoadFiles(Paths.System.FontsFolder, "ttf");
+                LoadFiles(Paths.System.FontsFolder, "otf");
             }
         }
 
-        private static void LoadFiles(GraphicsDevice device, string directory, string extension)
+        private static void LoadFiles(string directory, string extension)
         {
             //recursively read all font files
             foreach (string file in Directory.EnumerateFiles(directory, "*." + extension, SearchOption.AllDirectories))
             {
-                FontSystem font = FromFile(file, device);
+                FontSystem font = FromFile(file);
                 Systems[Path.GetFileNameWithoutExtension(file)] = font;
                 Fonts[Path.GetFileNameWithoutExtension(file)] = new Dictionary<int, DynamicSpriteFont>();
             }
         }
 
-        private static FontSystem FromFile(string file, GraphicsDevice device)
+        private static FontSystem FromFile(string file)
         {
             var fontSystem = new FontSystem();
             try

@@ -54,7 +54,7 @@ namespace AATool.Net.Requests
                 string latestXml = await client.GetStringAsync(PatchNotesUrl);
 
                 using (Stream imageStream = await client.GetStreamAsync(ThumbnailUrl))
-                    LatestThumb = Texture2D.FromStream(Main.Graphics.GraphicsDevice, imageStream);
+                    LatestThumb = Texture2D.FromStream(Main.GraphicsManager.GraphicsDevice, imageStream);
 
                 return this.HandleResponse(latestXml);  
             }

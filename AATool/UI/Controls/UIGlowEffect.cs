@@ -46,7 +46,13 @@ namespace AATool.UI.Controls
 
         public override void DrawThis(Canvas canvas)
         {
-            canvas.Draw(this.Texture, this.Inner.Center.ToVector2(), this.Rotation, this.Scale, this.Tint * this.displayBrightness, Layer.Glow);
+            canvas.Draw(
+                this.Texture, 
+                this.Inner.Center.ToVector2(), 
+                this.Rotation, 
+                new Vector2(this.Scale), 
+                this.Tint * this.displayBrightness, 
+                Layer.Glow);
         }
 
         public override void ReadNode(XmlNode node)

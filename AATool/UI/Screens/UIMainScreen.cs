@@ -141,9 +141,9 @@ namespace AATool.UI.Screens
             if (this.FormWidth != width || this.FormHeight != height || Tracker.ObjectivesChanged)
             {
                 this.Form.ClientSize = new System.Drawing.Size(width, height);
-                Main.Graphics.PreferredBackBufferWidth  = width;
-                Main.Graphics.PreferredBackBufferHeight = height;
-                Main.Graphics.ApplyChanges();
+                Main.GraphicsManager.PreferredBackBufferWidth  = width;
+                Main.GraphicsManager.PreferredBackBufferHeight = height;
+                Main.GraphicsManager.ApplyChanges();
                 this.ResizeRecursive(new Rectangle(0, 0, width, height));
                 RenderCache?.Dispose();
                 RenderCache = new RenderTarget2D(this.GraphicsDevice, width, height);
@@ -252,27 +252,22 @@ namespace AATool.UI.Screens
             }
         }
 
-        public override void Prepare(Canvas canvas)
+        public override void Prepare()
         {
-            base.Prepare(canvas);
+            base.Prepare();
             this.GraphicsDevice.Clear(Tracker.Category is AllBlocks ? Config.Main.BorderColor : Config.Main.BackColor);
         }
 
-        public override void Present(Canvas canvas) 
+        public override void Present() 
         { 
-            base.Present(canvas);
+            base.Present();
             Invalidated = false;
             RefreshingCache = false;
         }
 
-        public override void DrawRecursive(Canvas canvas)
-        {
-            base.DrawRecursive(canvas);
-        }
-
         public override void DrawThis(Canvas canvas)
         {
-            Color back = canvas.RainbowLight;
+            Color back = Canvas.RainbowLight;
             var border = new Color((int)(back.R / 1.25f), (int)(back.G / 1.25f), (int)(back.B / 1.25f), 255);
             if (Config.Main.RainbowMode)
             {

@@ -175,8 +175,8 @@ namespace AATool.UI.Controls
         {
             if (this.patreonButton is not null)
             {
-                this.patreonButton.BackColor = canvas.RainbowFast;
-                this.patreonButton.BorderColor = ColorHelper.Blend(canvas.RainbowFast, Color.Black, 0.6f);
+                this.patreonButton.BackColor = Canvas.RainbowFast;
+                this.patreonButton.BorderColor = ColorHelper.Blend(Canvas.RainbowFast, Color.Black, 0.6f);
             }
         }
 

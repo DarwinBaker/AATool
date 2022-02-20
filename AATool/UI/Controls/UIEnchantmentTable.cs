@@ -17,8 +17,8 @@ namespace AATool.UI.Controls
         private const string Anchor = "respawn_anchor_top_on";
         private const string AnchorGlow = "respawn_anchor_glow";
 
-        private readonly Sprite open;
-        private readonly Sprite close;
+        private readonly AnimatedSprite open;
+        private readonly AnimatedSprite close;
 
         private UIPicture portal;
 
@@ -29,8 +29,11 @@ namespace AATool.UI.Controls
         {
             this.SetLayer(Layer.Fore);
             this.SetTexture(Closed);
-            SpriteSheet.Sprites.TryGetValue(Opening, out this.open);
-            SpriteSheet.Sprites.TryGetValue(Closing, out this.close);
+
+            if (SpriteSheet.TryGet(Opening, out Sprite sprite) && sprite is AnimatedSprite openAnimation)
+                this.open = openAnimation;
+            if (SpriteSheet.TryGet(Closing, out sprite) && sprite is AnimatedSprite closeAnimation)
+                this.close = closeAnimation;
 
             this.portal = new UIPicture() {
                 FlexWidth = new Size(32),
@@ -47,10 +50,11 @@ namespace AATool.UI.Controls
             base.InitializeRecursive(screen); 
         }
 
-        private bool IsFirstFrameOf(Sprite sprite) => 
-            SpriteSheet.GetFrameIndex(sprite.Frames) is 0;
-        private bool IsLastFrameOf(Sprite sprite) => 
-            SpriteSheet.GetFrameIndex(sprite.Frames) == sprite.Frames - 1;
+        private bool IsFirstFrameOf(AnimatedSprite sprite) =>
+            sprite.CurrentFrame is 0;
+
+        private bool IsLastFrameOf(AnimatedSprite sprite) =>
+            sprite.CurrentFrame == sprite.Frames - 1;
         
         public void UpdateState(bool isReadingSave)
         {

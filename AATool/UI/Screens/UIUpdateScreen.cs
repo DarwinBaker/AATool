@@ -66,11 +66,11 @@ namespace AATool.UI.Screens
                 return;
 
             //resize window and create new render target of proper size
-            if (this.SwapChain is null || this.SwapChain.Width != width || this.SwapChain.Height != height)
+            if (this.Target is null || this.Target.Width != width || this.Target.Height != height)
             {
                 this.Form.ClientSize = new System.Drawing.Size(width, height);
-                this.SwapChain?.Dispose();
-                this.SwapChain = new SwapChainRenderTarget(this.GraphicsDevice, this.Window.Handle, width, height);
+                this.Target?.Dispose();
+                this.Target = new SwapChainRenderTarget(this.GraphicsDevice, this.Window.Handle, width, height);
                 this.ResizeRecursive(new Rectangle(0, 0, width, height));
             }
         }
@@ -187,9 +187,9 @@ namespace AATool.UI.Screens
             return panel;
         }
 
-        public override void Prepare(Canvas canvas)
+        public override void Prepare()
         {
-            base.Prepare(canvas);
+            base.Prepare();
             this.GraphicsDevice.Clear(Config.Main.BackColor);
         }
 

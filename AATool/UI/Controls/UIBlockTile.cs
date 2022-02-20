@@ -71,7 +71,7 @@ namespace AATool.UI.Controls
             //this.popup = this.First<UIPopup>();
             this.icon = this.First<UIPicture>();
             int size = 16 * this.scale;
-            if (SpriteSheet.IsAnimated(this.Block.Icon + SpriteSheet.ResolutionPrefix + size))
+            if (SpriteSheet.IsAnimated(this.Block.Icon + Sprite.ResolutionFlag + size))
                 this.icon.SetLayer(Layer.Fore);
             this.icon?.SetTexture(this.Block.Icon);
             this.brightness = this.Block.CompletedByAnyone() ? 1 : 0;

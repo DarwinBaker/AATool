@@ -59,7 +59,7 @@ namespace AATool.Net.Requests
             Texture2D texture = null;
             try
             {
-                texture = Texture2D.FromStream(Main.Graphics.GraphicsDevice, avatarStream);
+                texture = Texture2D.FromStream(Main.GraphicsManager.GraphicsDevice, avatarStream);
                 texture.Tag = this.id.ToString();
                 SpriteSheet.AppendAtlas(texture);
 

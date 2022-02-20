@@ -11,7 +11,7 @@ namespace AATool.UI.Screens
 {
     public abstract class UIScreen : UIControl
     {
-        public SwapChainRenderTarget SwapChain { get; protected set; }
+        public SwapChainRenderTarget Target { get; protected set; }
         public Form Form                       { get; private set; }
         public Main Main                       { get; private set; }
         public GameWindow Window               { get; private set; }
@@ -23,6 +23,8 @@ namespace AATool.UI.Screens
 
         public abstract Color FrameBackColor();
         public abstract Color FrameBorderColor();
+
+        public readonly Canvas Canvas = new ();
 
         public UIScreen(Main main, GameWindow window)
         {
@@ -40,15 +42,17 @@ namespace AATool.UI.Screens
 
         public virtual void Dispose()
         {
-            this.SwapChain?.Dispose();
+            this.Target?.Dispose();
             this.Form.Dispose();
         }
 
-        public virtual void Prepare(Canvas canvas) =>  
-            this.GraphicsDevice.SetRenderTarget(this.SwapChain);
+        public virtual void Prepare() =>  
+            this.GraphicsDevice.SetRenderTarget(this.Target);
 
-        public virtual void Present(Canvas canvas) => 
-            this.SwapChain?.Present();
+        public void Render() => this.DrawRecursive(this.Canvas);
+
+        public virtual void Present() => 
+            this.Target?.Present();
 
         public override void MoveTo(Point point) =>
             this.Form.Location = new System.Drawing.Point(point.X, point.Y);
@@ -69,11 +73,11 @@ namespace AATool.UI.Screens
 
         public override void DrawRecursive(Canvas canvas)
         {
-            canvas.BeginDraw(this);
-            base.DrawRecursive(canvas);
+            this.Canvas.BeginDraw(this);
+            base.DrawRecursive(this.Canvas);
             if (Config.Main.LayoutDebugMode)
-                this.DrawDebugRecursive(canvas);
-            canvas.EndDraw(this);
+                this.DrawDebugRecursive(this.Canvas);
+            this.Canvas.EndDraw(this);
         }
 
         public override void DrawDebugRecursive(Canvas canvas)

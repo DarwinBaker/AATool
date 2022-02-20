@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AATool.Graphics;
 
 namespace AATool.Data.Categories
 {
@@ -14,6 +15,8 @@ namespace AATool.Data.Categories
             this.Acronym   = "AB";
             this.Objective = "Blocks";
             this.Action    = "Placed";
+
+            SpriteSheet.Require("blocks", 4096);
         }
 
         public override int GetTargetCount() => Tracker.Blocks.Count;

@@ -14,6 +14,7 @@ using AATool.Net;
 using System.Linq;
 using AATool.Saves;
 using AATool.Net.Requests;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace AATool
 {
@@ -42,27 +43,27 @@ namespace AATool
         public static string ShortTitle     { get; private set; }
         public static Version Version       { get; private set; }
         public static Random RNG            { get; private set; }
-        public static GraphicsDeviceManager Graphics { get; private set; }
+
+        public static GraphicsDeviceManager GraphicsManager { get; private set; }
+        public static GraphicsDevice Device => GraphicsManager?.GraphicsDevice;
 
         public static UIMainScreen PrimaryScreen { get; private set; }
         public static Dictionary<Type, UIScreen> SecondaryScreens { get; private set; }
 
-        public readonly Time Time;
-
-        private Canvas canvas;
-        private FNotes notesWindow;
-
-        private bool announceUpdate;
-
         public static bool IsBeta => FullTitle.ToLower().Contains("beta");
         public static bool IsModded => !string.IsNullOrEmpty(ModderName);
+
+        public readonly Time Time;
+
+        private FNotes notesWindow;
+        private bool announceUpdate;
 
         public Main()
         {
             Version = Assembly.GetExecutingAssembly().GetName().Version;
-            Graphics = new GraphicsDeviceManager(this);
+            GraphicsManager = new GraphicsDeviceManager(this);
             RNG = new Random();
-
+            
             Config.Initialize();
 
             this.TargetElapsedTime = Config.Main.FpsCap == 0 
@@ -76,12 +77,13 @@ namespace AATool
 
         protected override void Initialize()
         {
-            this.canvas = new Canvas(Graphics);
-
             //load assets
             Tracker.Initialize();
-            SpriteSheet.Initialize(this.GraphicsDevice);
-            FontSet.Initialize(this.GraphicsDevice);
+            SpriteSheet.Initialize();
+            Canvas.Initialize();
+            FontSet.Initialize();
+
+            //check for updates in the background
             NetRequest.Enqueue(new UpdateRequest());
 
             //check build number of last aatool session
@@ -108,13 +110,14 @@ namespace AATool
                 Input.BeginUpdate();
 
             this.Time.Update(gameTime);
-            this.canvas.Update(this.Time);
 
             //check minecraft version
             ActiveInstance.Update(this.Time);
-            Tracker.Update(this.Time);
             SftpSave.Update(this.Time);
+            Tracker.Update(this.Time);
             OpenTracker.Update(this.Time);
+            SpriteSheet.Update(this.Time);
+            Canvas.Update(this.Time);
 
             //update visibilty of update popup
             if (UpdateRequest.IsDone && !UpdateRequest.Suppress)
@@ -146,6 +149,7 @@ namespace AATool
                 this.notesWindow.Close();
             }
 
+            //update window title
             if (Config.Main.FpsCap.Changed)
             {
                 this.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / Config.Main.FpsCap);
@@ -157,12 +161,11 @@ namespace AATool
             }
             
             NetRequest.Update(this.Time);
-            SpriteSheet.Update(this.Time);
-            base.Update(gameTime);
             Config.ClearAllFlags();
             Tracker.ClearFlags();
             Peer.ClearFlags();
             Input.EndUpdate();
+            base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -172,15 +175,15 @@ namespace AATool
                 //render each secondary screen to its respective viewport
                 foreach (UIScreen screen in SecondaryScreens.Values)
                 {
-                    screen.Prepare(this.canvas);
-                    screen.DrawRecursive(this.canvas);
-                    screen.Present(this.canvas);
+                    screen.Prepare();
+                    screen.Render();
+                    screen.Present();
                 }
 
                 //render main screen to default backbuffer
-                PrimaryScreen.Prepare(this.canvas);
-                PrimaryScreen.DrawRecursive(this.canvas);
-                PrimaryScreen.Present(this.canvas);
+                PrimaryScreen.Prepare();
+                PrimaryScreen.Render();
+                PrimaryScreen.Present();
                 base.Draw(gameTime);
             }
         }

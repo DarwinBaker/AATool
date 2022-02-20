@@ -2,20 +2,28 @@
 
 namespace AATool.Graphics
 {
-    public readonly struct Sprite
+    public class Sprite
     {
-        public readonly Rectangle Source;
-        public readonly int Frames;
+        public const string ResolutionFlag = "^";
+        public const string FramesFlag = "$";
+        public const char ColumnsDelimiter = 'x';
+        public const string PaddingFlag = "~";
+        public const int MaxAnimationColumns = 32;
 
-        public int X      => this.Source.X;
-        public int Y      => this.Source.Y;
+        public Rectangle Source { get; protected set; }
+
+        public readonly Vector2 Origin;
+
+        public Point Offset => this.Source.Location;
+        public int X => this.Source.X;
+        public int Y => this.Source.Y;
         public int Width  => this.Source.Width;
         public int Height => this.Source.Height;
 
-        public Sprite(Rectangle source, int frames)
+        public Sprite(Rectangle source)
         {
             this.Source = source;
-            this.Frames = frames;
+            this.Origin = new Vector2(source.Width / 2, source.Height / 2);
         }
     }
 }

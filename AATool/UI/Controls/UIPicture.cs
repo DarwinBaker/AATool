@@ -48,7 +48,7 @@ namespace AATool.UI.Controls
             if (this.Rotation is 0)
                 canvas.Draw(this.Texture, this.Inner, this.Tint, this.Layer);
             else
-                canvas.Draw(this.Texture, this.Inner.Center.ToVector2(), this.Rotation, 1, this.Tint, this.Layer);
+                canvas.Draw(this.Texture, this.Inner.Center.ToVector2(), this.Rotation, Vector2.One, this.Tint, this.Layer);
         }
 
         public override void ReadNode(XmlNode node)

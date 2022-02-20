@@ -166,7 +166,8 @@ namespace AATool.Winforms.Controls
             this.refreshIcon.FormattingEnabled = true;
             this.refreshIcon.Items.AddRange(new object[] {
             "Xp Orb",
-            "Compass"});
+            "Compass",
+            "Clock"});
             this.refreshIcon.Location = new System.Drawing.Point(9, 88);
             this.refreshIcon.Name = "refreshIcon";
             this.refreshIcon.Size = new System.Drawing.Size(120, 21);
