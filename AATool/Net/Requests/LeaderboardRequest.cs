@@ -65,7 +65,7 @@ namespace AATool.Net.Requests
                 if (PersonalBest.TryParse(rows[i], header, out PersonalBest pb))
                     Runs.Add(pb);
 
-                if (Runs.Count < MaxShown)
+                if (Runs.Count <= MaxShown)
                     Player.FetchIdentity(pb.Runner);
             }
             SaveToCache(sheet);

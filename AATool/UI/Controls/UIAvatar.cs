@@ -44,13 +44,12 @@ namespace AATool.UI.Controls
             if (this.Player.String != player.String)
             {
                 this.Player = player;
-                string uuidSprite = $"avatar-{this.Player}";
-                if (SpriteSheet.ContainsSprite(uuidSprite))
-                    this.face.SetTexture(uuidSprite);
-
                 this.InitializeBadge(player);
                 this.UpdateTrophy(true);
             }
+            string uuidSprite = $"avatar-{this.Player}";
+            if (SpriteSheet.ContainsSprite(uuidSprite))
+                this.face.SetTexture(uuidSprite);
         }
 
         public void SetPlayer(string name)
