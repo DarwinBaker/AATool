@@ -72,7 +72,9 @@ namespace AATool.Data.Objectives
                     return serverDesignation;
                 }
             }
-            return this.DesignatedPlayer;
+            return this.DesignatedPlayer != Uuid.Empty 
+                ? this.DesignatedPlayer 
+                : Tracker.GetMainPlayer();
         }
 
         public override void UpdateState(WorldState progress)

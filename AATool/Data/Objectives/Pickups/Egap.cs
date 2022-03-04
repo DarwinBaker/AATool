@@ -26,8 +26,10 @@ namespace AATool.Data.Objectives.Pickups
         {
             if (this.CompletionOverride)
                 this.FullStatus = "God Apple Eaten";
+            else if (this.PickedUp > 0)
+                this.FullStatus = "Picked\0Up\nGod Apple";
             else
-                base.UpdateLongStatus();
+                this.FullStatus = "Pick\0Up\nGod Apple";
         }
 
         protected override void UpdateShortStatus()

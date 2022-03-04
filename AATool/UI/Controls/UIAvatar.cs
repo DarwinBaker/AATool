@@ -47,9 +47,7 @@ namespace AATool.UI.Controls
                 this.InitializeBadge(player);
                 this.UpdateTrophy(true);
             }
-            string uuidSprite = $"avatar-{this.Player}";
-            if (SpriteSheet.ContainsSprite(uuidSprite))
-                this.face.SetTexture(uuidSprite);
+            this.face.SetTexture($"avatar-{this.Player.String}");
         }
 
         public void SetPlayer(string name)
