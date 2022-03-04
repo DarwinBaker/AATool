@@ -38,7 +38,6 @@ namespace AATool
         ||                                                        ||
         ====================================================HDWGH?*/
 
-        public static bool IsClosing        { get; set; }
         public static string FullTitle      { get; private set; }
         public static string ShortTitle     { get; private set; }
         public static Version Version       { get; private set; }
@@ -78,13 +77,14 @@ namespace AATool
         protected override void Initialize()
         {
             //load assets
-            Tracker.Initialize();
             SpriteSheet.Initialize();
+            Tracker.Initialize();
             Canvas.Initialize();
             FontSet.Initialize();
 
             //check for updates in the background
             NetRequest.Enqueue(new UpdateRequest());
+            NetRequest.Enqueue(new LeaderboardRequest());
 
             //check build number of last aatool session
             Version.TryParse(Config.Tracking.LastSession, out Version lastSession);
@@ -202,30 +202,40 @@ namespace AATool
             UpdateRequest.UserInitiated = false;
         }
 
+        private void AppendTitle(string text) => FullTitle += $"   ｜   {text}";
+
         private void UpdateTitle()
         {
-            string name  = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title;
-            string extra = Assembly.GetExecutingAssembly()
+            string name = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>().Title;
+            string description = Assembly.GetExecutingAssembly()
                 .GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false)
                 .OfType<AssemblyDescriptionAttribute>()
                 .FirstOrDefault()?.Description ?? string.Empty;
 
-            ShortTitle = $"{name} {Version}";
-            if (!string.IsNullOrWhiteSpace(extra))
-                ShortTitle += $" {extra}";
+            ShortTitle = string.IsNullOrWhiteSpace(description) 
+                ? $"{name} {Version}"
+                : $"{name} {Version} {description}";
 
-            FullTitle = ShortTitle;
-            if (!string.IsNullOrWhiteSpace(ModderName))
-                FullTitle += $" - UNOFFICIALLY MODIFIED BY: {ModderName}";
+            FullTitle = string.IsNullOrWhiteSpace(ModderName) 
+                ? ShortTitle 
+                : $"{ShortTitle} - UNOFFICIALLY MODIFIED BY: {ModderName}";
 
-            FullTitle += $"   ｜   {Tracker.Category.CurrentVersion} {Tracker.Category.Name}";
+            //add category, version, and progress to title
+            int completed = Tracker.Category.GetCompletedCount();
+            int total = Tracker.Category.GetTargetCount();
+            this.AppendTitle($"{Tracker.Category.CurrentVersion} {Tracker.Category.Name} ({completed} / {total})");
+
+            //add igt to title
             if (Tracker.InGameTime > TimeSpan.Zero)
-                FullTitle += $"   ｜   { Tracker.InGameTime:hh':'mm':'ss} IGT";
+                this.AppendTitle($"{Tracker.GetPrettyIGT()} IGT");
+
+            //add fps cap to title
             if (Config.Main.FpsCap < 60)
-                FullTitle += $"   ｜   {Config.Main.FpsCap.Value} FPS Cap";
+                this.AppendTitle($"{Config.Main.FpsCap.Value} FPS Cap");
+
+            //assign title to window
             if (PrimaryScreen is not null)
                 PrimaryScreen.Form.Text = "  " + FullTitle;
-
         }
 
         public static void QuitBecause(string reason, Exception exception = null)

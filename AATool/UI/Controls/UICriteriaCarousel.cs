@@ -32,7 +32,7 @@ namespace AATool.UI.Controls
         {
             //populate source list with all criteria
             this.SourceList.Clear();
-            foreach (Criterion criterion in Tracker.Criteria.Values)
+            foreach (Criterion criterion in Tracker.CurrentCriteriaSet.Values)
             {
                 if (!criterion.CompletedByAnyone())
                     this.SourceList.Add(criterion);

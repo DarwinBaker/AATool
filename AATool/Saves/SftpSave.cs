@@ -343,7 +343,7 @@ namespace AATool.Saves
             CurrentDownloadPercent = 0;
             SmoothDownloadPercent = 0;
 
-            string localPath = Path.Combine(Paths.System.RemoteWorldsFolder, WorldName, name);
+            string localPath = Path.Combine(Paths.System.SftpWorldsFolder, WorldName, name);
             string remotePath = Path.Combine(Config.Sftp.ServerRoot, $"{WorldName}/{name}");
             try
             {

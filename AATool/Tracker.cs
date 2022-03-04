@@ -16,11 +16,6 @@ namespace AATool
     public static class Tracker
     {
         private const double RefreshInterval = 1.0;
-
-        public static readonly AdvancementManifest Advancements = new ();
-        public static readonly AchievementManifest Achievements = new ();
-        public static readonly PickupManifest Pickups = new ();
-        public static readonly BlockManifest Blocks = new ();
         
         public static Category Category { get; private set; }
         public static WorldState State  { get; private set; }
@@ -40,18 +35,24 @@ namespace AATool
 
         public static void ToggleWorldLock() => WorldLocked ^= true;
 
-        public static AdvancementManifest CurrentAdvancementManifest => Category is AllAchievements
-            ? Achievements
-            : Advancements;
+        public static AdvancementManifest CurrentAdvancementSet => Category is not AllAchievements
+            ? Category.Advancements
+            : Category.Achievements;
 
-        public static Dictionary<(string adv, string crit), Criterion> Criteria => Category is AllAchievements
-            ? Achievements.Criteria
-            : Advancements.Criteria;
+        public static Dictionary<(string adv, string crit), Criterion> CurrentCriteriaSet =>
+            CurrentAdvancementSet.Criteria;
 
         public static string WorldName => World.Name;
         public static TimeSpan InGameTime => State.InGameTime;
         public static bool InGameTimeChanged => State.InGameTime != LastInGameTime;
         public static TrackerSource Source => Config.Tracking.Source;
+
+        public static string GetPrettyIGT()
+        {
+            return InGameTime.TotalDays > 1 
+                ? $"{(int)InGameTime.TotalHours}:{InGameTime:mm':'ss}" 
+                : InGameTime.ToString("hh':'mm':'ss");
+        }
 
         private static WorldFolder World;
         private static Timer RefreshTimer;
@@ -61,19 +62,24 @@ namespace AATool
         private static string LastServerMessage;
 
         public static bool TryGetAdvancement(string id, out Advancement advancement) =>
-            CurrentAdvancementManifest.TryGet(id, out advancement);
+            CurrentAdvancementSet.TryGet(id, out advancement);
 
         public static bool TryGetCriterion(string adv, string crit, out Criterion criterion) =>
-            Criteria.TryGetValue((adv, crit), out criterion);
+            CurrentCriteriaSet.TryGetValue((adv, crit), out criterion);
 
         public static bool TryGetAdvancementGroup(string id, out HashSet<Advancement> group) =>
-            Advancements.TryGet(id, out group);
+            Category.Advancements.TryGet(id, out group);
 
         public static bool TryGetPickup(string id, out Pickup item) =>
-            Pickups.TryGet(id, out item);
+            Category.Pickups.TryGet(id, out item);
 
         public static bool TryGetBlock(string id, out Block block) =>
-            Blocks.TryGet(id, out block);
+            Category.Blocks.TryGet(id, out block);
+
+        public static bool TryGetDeath(string id, out Death death) =>
+            Category.Deaths.TryGet(id, out death);
+
+        public static Uuid GetMainPlayer() => State.Players.Keys.FirstOrDefault();
 
         public static HashSet<Uuid> GetAllPlayers()
         {
@@ -122,26 +128,33 @@ namespace AATool
 
             try
             {
-                Category = category.ToLower().Replace(" ", "").Replace("_", "") switch {
+                Category = category.ToLower().Replace(" ", "").Replace("_", "") switch {       
+                    //main categories
                     "alladvancements" => new AllAdvancements(),
                     "allachievements" => new AllAchievements(),
                     "halfpercent"     => new HalfPercent(),
+
+                    //single advancement categories
                     "balanceddiet"    => new BalancedDiet(),
                     "adventuringtime" => new AdventuringTime(),
                     "monstershunted"  => new MonstersHunted(),
-                    "allblocks"  => new AllBlocks(),
+
+                    //random extensions
+                    "allblocks" => new AllBlocks(),
+                    "alldeaths" => new AllDeaths(),
+                    "halfdeaths" => new HalfDeaths(),
+
                     _ => throw new ArgumentException($"Category not supported: \"{category}\"."),
                 };
-
                 //save change to config
                 Config.Tracking.GameCategory.Set(Category.Name);
                 Config.Tracking.GameVersion.Set(Category.CurrentVersion);
                 Config.Tracking.Save();
 
-                RefreshObjectives();
+                Category.LoadObjectives();
                 return true;
             }
-            catch (ArgumentException)
+            catch (ArgumentException e)
             {
                 if (Category is null)
                 {
@@ -149,7 +162,7 @@ namespace AATool
                     Category = new AllAdvancements();
                     Config.Tracking.GameCategory.Set(Category.Name);
                     Config.Tracking.Save();
-                    RefreshObjectives();
+                    Category.LoadObjectives();
                 }
                 return false;
             }
@@ -332,11 +345,8 @@ namespace AATool
                 TrySetCategory(State.GameCategory);
                 TrySetVersion(State.GameVersion);
 
-                //reload objectives if game version has changed
-                if (ObjectivesChanged)
-                    RefreshObjectives();
+                Category.SetState(State);
 
-                UpdateProgressManifests();
                 if (Config.Tracking.BroadcastProgress)
                     OpenTracker.BroadcastProgress();
             }
@@ -345,8 +355,8 @@ namespace AATool
         private static void ReadLocalFiles()
         {
             //reload objective manifests if game version has changed
-            if (ObjectivesChanged)
-                RefreshObjectives();
+            //if (ObjectivesChanged)
+            //    RefreshObjectives();
 
             //wait to refresh until sftp transer is complete
             if (Config.Tracking.UseSftp && SftpSave.IsDownloading)
@@ -357,7 +367,7 @@ namespace AATool
             {
                 LastServerMessage = null;
                 State = World.GetState();
-                UpdateProgressManifests();
+                Category.SetState(State);
 
                 //broadcast changes to connected clients if server is running
                 if (Server.TryGet(out Server server) && server.Connected())
@@ -367,22 +377,17 @@ namespace AATool
                 if (Config.Tracking.BroadcastProgress)
                     OpenTracker.BroadcastProgress();
             }
-        }
 
-        private static void RefreshObjectives()
-        {
-            Advancements.RefreshObjectives();
-            Achievements.RefreshObjectives();
-            Pickups.RefreshObjectives();
-            Blocks.RefreshObjectives();
-        }
-
-        private static void UpdateProgressManifests()
-        {
-            Advancements.UpdateStates(State);
-            Achievements.UpdateStates(State);
-            Blocks.UpdateStates(State);
-            Pickups.UpdateStates(State);
+            //attempt to sync death messages
+            if (Category is AllDeaths)
+            { 
+                int before = State.DeathMessages.Count;
+                State.SyncDeathMessages();
+                if (State.DeathMessages.Count != before)
+                {
+                    Category.Deaths.SetState(State);
+                }
+            }
         }
     }
 }

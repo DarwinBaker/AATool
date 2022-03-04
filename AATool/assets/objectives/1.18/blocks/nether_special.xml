@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Nether (Special)">
+    <block id="minecraft:netherite_block"       name="Block of Netherite"   icon="netherite_block"/>
+    <block id="minecraft:ancient_debris"        name="Ancient Debris"       icon="ancient_debris"/>
+    <block id="minecraft:lodestone"             name="Lodestone"            icon="lodestone"            light_level="0.5"/>
+
+    <block id="minecraft:nether_gold_ore"       name="Nether Gold Ore"      icon="nether_gold_ore"/>
+    <block id="minecraft:nether_quartz_ore"     name="Nether Quartz Ore"    icon="nether_quartz_ore"/>
+    <block id="minecraft:glowstone"             name="Glowstone"            icon="glowstone"            light_level="0.5"/>
+
+    <block id="minecraft:obsidian"              name="Obsidian"             icon="obsidian"/>
+    <block id="minecraft:crying_obsidian"       name="Crying Obsidian"      icon="crying_obsidian"      light_level="0.6"/>
+    <block id="minecraft:respawn_anchor"        name="Respawn Anchor"       icon="respawn_anchor"       light_level="0.25"/>
+    
+    <block id="minecraft:lava_bucket"           name="Lava"                 icon="lava"                 light_level="1"/>
+    <block id="minecraft:magma_block"           name="Magma Block"          icon="magma_block"          light_level="0.7"/>
+    <block id="minecraft:shroomlight"           name="Shroom Light"         icon="shroomlight"          light_level="0.9"/>
+</group>

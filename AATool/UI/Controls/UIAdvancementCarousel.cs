@@ -44,37 +44,7 @@ namespace AATool.UI.Controls
 
         protected override void UpdateSourceList()
         {
-            var objectives = new List<Objective>();
-            if (Tracker.Category is MonstersHunted monstersHunted)
-            {
-                foreach (Objective monster in monstersHunted.AllCriteria)
-                    objectives.Add(monster);
-            }
-            else if (Tracker.Category is BalancedDiet balancedDiet)
-            {
-                foreach (Objective monster in balancedDiet.AllCriteria)
-                    objectives.Add(monster);
-            }
-            else if (Tracker.Category is AdventuringTime adventuringTime)
-            {
-                foreach (Objective monster in adventuringTime.AllCriteria)
-                    objectives.Add(monster);
-            }
-            else if (Tracker.Category is AllAchievements)
-            {
-                foreach (Objective advancement in Tracker.Achievements.All.Values)
-                    objectives.Add(advancement);
-            }
-            else if (Tracker.Category is AllBlocks)
-            {
-                foreach (Objective block in Tracker.Blocks.All.Values)
-                    objectives.Add(block);
-            }
-            else
-            {
-                foreach (Objective advancement in Tracker.Advancements.All.Values)
-                    objectives.Add(advancement);
-            }
+            var objectives = new List<Objective>(Tracker.Category.GetOverlayObjectives());
             this.SourceList = new List<object>(objectives);
 
             //remove all completed advancements from pool
@@ -100,10 +70,32 @@ namespace AATool.UI.Controls
             //instantiate next control
             var next = this.SourceList[this.NextIndex] as Objective;
             var control = new UIObjectiveFrame(next, 3);
-            control.InitializeRecursive(this.Root());
-            if (!Config.Overlay.ShowLabels) 
-                control.HideText();
+            this.Style(control);
             return control;
+        }
+
+        private void Style(UIObjectiveFrame frame)
+        {
+            if (frame.Objective is Death)
+            {
+                frame.FlexWidth = new Size(42);
+                if (frame.Objective?.Id is "death.fall.accident.water")
+                {
+                    var slab = new UIPicture("inverted_stone_slab") {
+                        FlexWidth = new (48),
+                        FlexHeight = new (48),
+                        VerticalAlign = VerticalAlign.Top,
+                        Margin = new Margin(0, 0, 15, 0),
+                        Layer = Layer.Fore,
+                    };
+                    frame.AddControl(slab);
+                }
+            }
+                
+
+            frame.InitializeRecursive(this.Root());
+            if (!Config.Overlay.ShowLabels)
+                frame.HideText();
         }
     }
 }

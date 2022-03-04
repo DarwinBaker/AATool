@@ -40,6 +40,11 @@ namespace AATool.UI.Controls
             this.Tint = Color.White;
         }
 
+        public UIPicture(string texture) : this()
+        {
+            this.SetTexture(texture);
+        }
+
         public override void DrawThis(Canvas canvas)
         {
             if (this.SkipDraw)

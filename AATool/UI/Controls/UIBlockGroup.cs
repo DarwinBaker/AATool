@@ -35,7 +35,7 @@ namespace AATool.UI.Controls
         private void Populate()
         {
             //start adding from beginning if no start id specified 
-            if (!Tracker.Blocks.TryGetGroup(this.GroupId, out this.blocks))
+            if (!Tracker.Category.Blocks.TryGetGroup(this.GroupId, out this.blocks))
                 return;
 
             foreach (Block block in this.blocks)
@@ -59,8 +59,8 @@ namespace AATool.UI.Controls
                 {
                     //add empty spacer
                     this.AddControl(new UIPanel() {
-                        FlexWidth = new Size(Config.Main.CompactMode ? 38 : 56),
-                        FlexHeight = new Size(Config.Main.CompactMode ? 38 : 56),
+                        FlexWidth = new Size(38),
+                        FlexHeight = new Size(38),
                         DrawMode = DrawMode.None,
                     });
                 }

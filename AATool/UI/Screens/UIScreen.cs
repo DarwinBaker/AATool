@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using AATool.Configuration;
@@ -39,6 +40,19 @@ namespace AATool.UI.Screens
 
         public void Show() => this.Form.Show();
         public void Hide() => this.Form.Hide();
+
+        public void SetIcon(string name)
+        {
+            try
+            {
+                this.Form.Icon = new System.Drawing.Icon(
+                Path.Combine(Paths.System.AssetsFolder, "icons", $"{name}.ico"));
+            }
+            catch
+            { 
+                //couldn't change icon, probably file missing. move on
+            }
+        }
 
         public abstract string GetCurrentView();
 

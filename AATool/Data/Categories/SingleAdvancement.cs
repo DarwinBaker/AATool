@@ -5,7 +5,13 @@ namespace AATool.Data.Categories
 {
     public abstract class SingleAdvancement : Category
     {
-        protected Advancement Advancement;
-        public IEnumerable<Criterion> AllCriteria => this.Advancement.Criteria.All.Values;
+        public Advancement Requirement { get; protected set; }
+
+        public IEnumerable<Criterion> AllCriteria => this.Requirement.Criteria.All.Values;
+        public override IEnumerable<Objective> GetOverlayObjectives() => this.AllCriteria;
+
+        public override int GetTargetCount() => this.Requirement?.Criteria.Count ?? 0;
+        public override int GetCompletedCount() => this.Requirement?.Criteria.MostCompleted ?? 0;
+
     }
 }

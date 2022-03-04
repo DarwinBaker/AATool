@@ -68,19 +68,14 @@ namespace AATool.Data.Objectives
             }
         }
 
-        public void UpdateStates(WorldState progress)
+        public void SetState(WorldState progress)
         {
-            this.PlacedCount = 0;
             foreach (Block block in this.All.Values)
-            {
-                //update block and completion count
                 block.UpdateState(progress);
-                if (block.CompletedByAnyone())
-                    this.PlacedCount++;
-            }
+            this.UpdateTotal();
         }
 
-        public void UpdateCount()
+        public void UpdateTotal()
         {
             this.PlacedCount = 0;
             foreach (Block block in this.All.Values)

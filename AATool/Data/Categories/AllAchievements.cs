@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using AATool.Data.Objectives;
 
 namespace AATool.Data.Categories
 {
@@ -9,6 +10,12 @@ namespace AATool.Data.Categories
             "1.11",
         };
 
+        public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
+        public override IEnumerable<Objective> GetOverlayObjectives() => this.Achievements.All.Values;
+
+        public override int GetTargetCount() => this.Achievements.Count;
+        public override int GetCompletedCount() => this.Achievements.CompletedCount;
+
         public AllAchievements() : base ()
         {
             this.Name      = "All Achievements";
@@ -17,8 +24,10 @@ namespace AATool.Data.Categories
             this.Action    = "Complete";
         }
 
-        public override int GetTargetCount() => Tracker.Achievements.Count;
-        public override int GetCompletedCount() => Tracker.Achievements.CompletedCount;
-        public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
+        public override void LoadObjectives()
+        {
+            this.Achievements.RefreshObjectives();
+            this.Pickups.RefreshObjectives();
+        }
     }
 }

@@ -3,6 +3,7 @@ using AATool.Data.Categories;
 using AATool.Data.Objectives;
 using AATool.Net;
 using AATool.Saves;
+using AATool.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -46,6 +47,7 @@ namespace AATool.Data.Progress
         [JsonProperty] public HashSet<string> CompletedAdvancements { get; private set; }
         [JsonProperty] public HashSet<(string adv, string crit)> CompletedCriteria { get; private set; }
         [JsonProperty] public HashSet<string> BlocksPlaced { get; private set; }
+        [JsonProperty] public HashSet<string> DeathMessages { get; private set; }
         [JsonProperty] public Dictionary<string, int> PickupTotals { get; private set; }
         [JsonProperty] public Dictionary<string, int> KillTotals { get; private set; }
 
@@ -84,6 +86,7 @@ namespace AATool.Data.Progress
             this.CompletedAdvancements = new ();
             this.CompletedCriteria = new ();
             this.BlocksPlaced = new ();
+            this.DeathMessages = new ();
             this.PickupTotals = new ();
             this.KillTotals = new ();
             this.Players = new ();
@@ -125,6 +128,11 @@ namespace AATool.Data.Progress
                         completionists.Add(player.Key);
                 }
             }
+            else if (objective is Death death)
+            {
+                if (this.DeathMessages.Contains(death.Id))
+                    completionists.Add(Tracker.GetMainPlayer());
+            }
             return completionists;
         }
 
@@ -148,13 +156,13 @@ namespace AATool.Data.Progress
             this.Clear();
             if (!world.IsEmpty)
             {
-                //sync progress to local world
-                if (Tracker.Category is not AllAchievements)
-                    this.SyncAdvancements(world);
-                else
+                //sync progress from local world
+                if (Tracker.Category is AllAchievements)
                     this.SyncAchievements(world);
+                else
+                    this.SyncAdvancements(world);
 
-                //sync statistics to local world
+                //sync statistics from local world
                 this.SyncStatistics(world);
             }
         }
@@ -164,6 +172,8 @@ namespace AATool.Data.Progress
             this.Players.Clear();
             this.CompletedAdvancements.Clear();
             this.CompletedCriteria.Clear();
+            this.BlocksPlaced.Clear();
+            this.DeathMessages.Clear();
             this.PickupTotals.Clear();
             this.KillTotals.Clear();
         }
@@ -174,7 +184,7 @@ namespace AATool.Data.Progress
             foreach (Uuid id in world.GetAllUuids())
                 this.Players[id] = new Contribution(id);
 
-            foreach (Advancement advancement in Tracker.Advancements.All.Values)
+            foreach (Advancement advancement in Tracker.Category.Advancements.All.Values)
             {
                 //add advancement if completed
                 if (world.Advancements.TryGetAdvancementCompletionFor(advancement.Id, out List<Uuid> ids))
@@ -207,7 +217,7 @@ namespace AATool.Data.Progress
             foreach (Uuid id in world.GetAllUuids())
                 this.Players[id] = new Contribution(id);
 
-            foreach (Achievement achievement in Tracker.Achievements.All.Values)
+            foreach (Achievement achievement in Tracker.Category.Achievements.All.Values)
             {
                 //add advancement if completed
                 if (world.Achievements.TryGetAchievementCompletionFor(achievement.Id, out List<Uuid> ids))
@@ -269,7 +279,7 @@ namespace AATool.Data.Progress
             this.EnderChestsMined   = world.Statistics.TimesMined("ender_chest");
 
             //pickup counts
-            foreach (string item in Tracker.Pickups.All.Keys)
+            foreach (string item in Tracker.Category.Pickups.All.Keys)
             {
                 int total = world.Statistics.TimesPickedUp(item, out Dictionary<Uuid, int> countsByPlayer);
                 if (total > 0)
@@ -288,7 +298,7 @@ namespace AATool.Data.Progress
             }
 
             //block placements
-            foreach (Block block in Tracker.Blocks.All.Values)
+            foreach (Block block in Tracker.Category.Blocks.All.Values)
             {
                 if (!world.Statistics.TryGetUseCount(block.Id, out List<Uuid> ids))
                     continue;
@@ -298,6 +308,25 @@ namespace AATool.Data.Progress
                 {
                     if (this.Players.TryGetValue(id, out Contribution player))
                         player.AddBlock(block.Id);
+                }
+            }
+        }
+
+        public void SyncDeathMessages()
+        {
+            if (ActiveInstance.TryGetLog(out string log) && Player.TryGetName(Tracker.GetMainPlayer(), out string name))
+            {
+                log = log.ToLower();
+                foreach (Death death in Tracker.Category.Deaths.All.Values)
+                {
+                    foreach (string message in death.Messages)
+                    {
+                        if (log.Contains($"[server thread/info]: {name.ToLower()} {message}"))
+                        {
+                            this.DeathMessages.Add(death.Id);
+                            break;
+                        }
+                    }
                 }
             }
         }

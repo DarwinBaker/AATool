@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -6,6 +8,7 @@ using System.Management;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using AATool.Configuration;
+using AATool.Data.Categories;
 
 namespace AATool.Utilities
 {
@@ -20,9 +23,9 @@ namespace AATool.Utilities
         const string InstanceNumberFileName = "instanceNumber.txt";
         const string GameDirFlag = "--gameDir ";
         const string NativesFlag = "-Djava.library.path=";
-        const string NativesSlug = "natives";
 
         public static string SavesPath { get; private set; } = string.Empty;
+        public static string LogFile { get; private set; } = string.Empty;
         public static int Number { get; private set; } = -1;
 
         public static bool HasNumber => Number > 0;
@@ -30,7 +33,12 @@ namespace AATool.Utilities
 
         private static readonly Timer RefreshCooldown = new (1);
 
+        private static string LatestLogContents;
         private static int LastActiveInstance;
+        private static DateTime LastLogWriteTimeUtc;
+        private static int LogStart;
+
+        public static void SetLogStart() => LogStart = LatestLogContents?.Length ?? 0;
 
         public static void Update(Time time)
         {
@@ -47,6 +55,10 @@ namespace AATool.Utilities
                 string args = instance.CommandLine();
                 SavesPath = TryParseDotMinecraft(args, out DirectoryInfo dotMinecraft)
                     ? Path.Combine(dotMinecraft.FullName, "saves")
+                    : string.Empty;
+
+                LogFile = dotMinecraft is not null
+                    ? Path.Combine(dotMinecraft.FullName, "logs/latest.log")
                     : string.Empty;
 
                 //update instance properties
@@ -127,6 +139,47 @@ namespace AATool.Utilities
                 //unable to parse .minecraft path
             }
             return folder is not null;
+        }
+
+        public static bool TryGetLog(out string latestLog)
+        {
+            latestLog = null;
+
+            //aatool does not read the log file unless running all deaths
+            if (Tracker.Category is not AllDeaths)
+                return false;
+
+            latestLog = latestLog?.Length > LogStart 
+                ? LatestLogContents?.Substring(LogStart)
+                : LatestLogContents;
+
+            if (string.IsNullOrEmpty(LogFile))
+                return false;
+
+            try
+            {
+                //make sure file actually changed before bothering to read it
+                DateTime latestLogWriteTimeUtc = File.GetLastWriteTimeUtc(LogFile);
+                if (LastLogWriteTimeUtc != latestLogWriteTimeUtc || Config.Tracking.SourceChanged)
+                {
+                    LastLogWriteTimeUtc = latestLogWriteTimeUtc;
+
+                    //read log contents and cache for later
+                    using var stream = new FileStream(LogFile,
+                        FileMode.Open,
+                        FileAccess.Read,
+                        FileShare.ReadWrite | FileShare.Delete);
+                    using (var reader = new StreamReader(stream))
+                        LatestLogContents = latestLog = reader.ReadToEnd();
+
+                    if (latestLog.Length > LogStart)
+                        latestLog = latestLog.Substring(LogStart);
+
+                    return true;
+                }  
+            }
+            catch { }
+            return false;
         }
 
         private static void UpdateInstanceNumber(string dotMinecraft)

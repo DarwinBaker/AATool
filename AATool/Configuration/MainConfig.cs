@@ -28,6 +28,7 @@ namespace AATool.Configuration
             private static Color Hex(string hex) => ColorHelper.TryGetHexColor(hex, out Color color) ? color : Color.White;
 
             [JsonProperty] public readonly Setting<int> FpsCap = new (60);
+            [JsonProperty] public readonly Setting<int> DisplayScale = new (1);
 
             [JsonProperty] public readonly Setting<bool> HideCompletedAdvancements = new (false);
             [JsonProperty] public readonly Setting<bool> ShowBasicAdvancements = new (true);
@@ -43,6 +44,7 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<string> FrameStyle = new ("Modern");
             [JsonProperty] public readonly Setting<string> ProgressBarStyle = new ("Modern");
             [JsonProperty] public readonly Setting<string> RefreshIcon = new ("Xp Orb");
+            [JsonProperty] public readonly Setting<string> InfoPanel = new ("Leaderboard");
 
             [JsonProperty] public readonly Setting<Color> BackColor = new (Hex("36393F"));
             [JsonProperty] public readonly Setting<Color> TextColor = new (Hex("DCDDDE"));
@@ -63,6 +65,7 @@ namespace AATool.Configuration
             public MainConfig()
             {
                 this.RegisterSetting(this.FpsCap);
+                this.RegisterSetting(this.DisplayScale);
                 this.RegisterSetting(this.ShowBasicAdvancements);
                 this.RegisterSetting(this.ShowCompletionGlow);
                 this.RegisterSetting(this.CompactMode);
@@ -71,6 +74,7 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.FrameStyle);
                 this.RegisterSetting(this.ProgressBarStyle);
                 this.RegisterSetting(this.RefreshIcon);
+                this.RegisterSetting(this.InfoPanel);
                 this.RegisterSetting(this.BackColor);
                 this.RegisterSetting(this.TextColor);
                 this.RegisterSetting(this.BorderColor);

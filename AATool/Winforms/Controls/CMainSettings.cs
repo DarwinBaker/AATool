@@ -27,9 +27,11 @@ namespace AATool.Winforms.Controls
             this.hideCompleted.Checked  = Config.Main.HideCompletedAdvancements;
             this.completionGlow.Checked = Config.Main.ShowCompletionGlow;
             this.ambientGlow.Checked    = Config.Main.ShowAmbientGlow;
+            this.highRes.Checked        = Config.Main.DisplayScale > 1;
             this.frameStyle.Text        = Config.Main.FrameStyle;
             this.progressBarStyle.Text  = Config.Main.ProgressBarStyle;
-            this.refreshIcon.Text       = Config.Main.RefreshIcon;            
+            this.refreshIcon.Text       = Config.Main.RefreshIcon;
+            this.infoPanel.Text         = Config.Main.InfoPanel;
             this.backColor.BackColor    = ColorHelper.ToDrawing(Config.Main.BackColor);
             this.textColor.BackColor    = ColorHelper.ToDrawing(Config.Main.TextColor);
             this.borderColor.BackColor  = ColorHelper.ToDrawing(Config.Main.BorderColor);
@@ -64,10 +66,12 @@ namespace AATool.Winforms.Controls
                 Config.Main.HideCompletedAdvancements.Set(this.hideCompleted.Checked);
                 Config.Main.ShowCompletionGlow.Set(this.completionGlow.Checked);
                 Config.Main.ShowAmbientGlow.Set(this.ambientGlow.Checked);
+                Config.Main.DisplayScale.Set(this.highRes.Checked ? 2 : 1);
                 Config.Main.CompactMode.Set(this.viewMode.Text.ToLower() is "compact");
                 Config.Main.FrameStyle.Set(this.frameStyle.Text);
                 Config.Main.ProgressBarStyle.Set(this.progressBarStyle.Text);
                 Config.Main.RefreshIcon.Set(this.refreshIcon.Text);
+                Config.Main.InfoPanel.Set(this.infoPanel.Text);
                 Config.Main.RainbowMode.Set(this.theme.Text == "Pride Mode");
                 Config.Main.BackColor.Set(ColorHelper.ToXNA(this.backColor.BackColor));
                 Config.Main.TextColor.Set(ColorHelper.ToXNA(this.textColor.BackColor));

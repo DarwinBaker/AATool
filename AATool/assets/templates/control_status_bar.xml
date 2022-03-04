@@ -7,7 +7,7 @@
     <!-- status -->
     <panel name="status" width="310" horizontal_align="left" margin_left="82">
         <enchantment_table width="36" height="36" horizontal_align="left" vertical_align="bottom" margin_left="3" margin_bottom="4"/>
-        <text_block width="270" horizontal_align="left" text_align="center" padding_left="45"/>
+        <text_block width="270" horizontal_align="left" text_align="center" padding_left="45" layer="fore"/>
         <refresh_icon horizontal_align="right" margin_right="5"/>
     </panel>
 
@@ -28,7 +28,12 @@
 
     <!-- patreon -->
     <panel name="patreon" width="460" horizontal_align="right">
-        <text_block name="donate" width="300" text_align="left" horizontal_align="left" v_text_align="center" margin="8,200,0,0"/>
-        <button text="♥ Support me on Patreon ♥" layer="fore" width="170" height="29" horizontal_align="right" margin_right="6"/>
-    </panel>
+        <text_block name="donate" width="300" text_align="left" horizontal_align="left" v_text_align="center" margin="8,200,-1,0"/>
+        <picture name="strider" texture="strider_walking" width="32" height="32" horizontal_align="right" margin_right="178" layer="fore">
+            <glow_effect name="strider_glow" texture="player_glow" brightness="0.5"/>
+        </picture>
+        <button text="♥ Support me on Patreon ♥" layer="fore" width="170" height="29" horizontal_align="right" margin_right="6">
+            <picture name="rainbow_glow" texture="patreon_glow" layer="glow" brightness="0.5" padding="-20"/>
+        </button>
+</panel>
 </control>

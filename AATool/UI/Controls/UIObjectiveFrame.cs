@@ -99,6 +99,11 @@ namespace AATool.UI.Controls
                 if (Tracker.TryGetBlock(this.ObjectiveId, out Block block))
                     this.SetObjective(block);
             }
+            else if (this.objectiveType == typeof(Death))
+            {
+                if (Tracker.TryGetDeath(this.ObjectiveId, out Death death))
+                    this.SetObjective(death);
+            }
         }
 
         public override void InitializeThis(UIScreen screen)
@@ -269,6 +274,7 @@ namespace AATool.UI.Controls
             this.UpdateGlowBrightness(time);
             this.UpdateAppearance();
 
+            //pickups have labels that change over time and need to be refreshed
             if (this.Objective is Pickup)
             {
                 if (Config.Main.RelaxedMode || this.Root() is UIOverlayScreen)
@@ -276,6 +282,9 @@ namespace AATool.UI.Controls
                 else
                     this.label?.SetText(this.Objective?.GetShortCaption());
             }
+
+            //uncomment for making preview images easily
+            //this.label?.SetText(Config.Overlay.FrameStyle);
         }
 
         public override void DrawThis(Canvas canvas)
@@ -332,7 +341,7 @@ namespace AATool.UI.Controls
                             break;
                     }
                 }       
-                canvas.Draw(this.Objective.FirstCompletionist.ToString(), this.avatarRectangle, fade, Layer.Fore);
+                canvas.Draw($"avatar-{this.Objective.FirstCompletionist}", this.avatarRectangle, fade, Layer.Fore);
             }
         }
 
@@ -379,6 +388,14 @@ namespace AATool.UI.Controls
             if (!string.IsNullOrEmpty(this.ObjectiveId))
             {
                 this.objectiveType = typeof(Block);
+                return;
+            }
+
+            //check if this frame contains a death message
+            this.ObjectiveId = Attribute(node, "death", string.Empty);
+            if (!string.IsNullOrEmpty(this.ObjectiveId))
+            {
+                this.objectiveType = typeof(Death);
                 return;
             }
         }

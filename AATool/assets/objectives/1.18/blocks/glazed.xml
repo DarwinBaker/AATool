@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Glazed Terracotta">
+    <block id="minecraft:white_glazed_terracotta"        name="White&#xA;Terracotta"           icon="white_glazed_terracotta"/>
+    <block id="minecraft:red_glazed_terracotta"          name="Red&#xA;Terracotta"             icon="red_glazed_terracotta"/>
+    <block id="minecraft:orange_glazed_terracotta"       name="Orange&#xA;Terracotta"          icon="orange_glazed_terracotta"/>
+    <block id="minecraft:yellow_glazed_terracotta"       name="Yellow&#xA;Terracotta"          icon="yellow_glazed_terracotta"/>
+    <block id="minecraft:lime_glazed_terracotta"         name="Lime&#xA;Terracotta"            icon="lime_glazed_terracotta"/>
+    <block id="minecraft:green_glazed_terracotta"        name="Green&#xA;Terracotta"           icon="green_glazed_terracotta"/>
+    <block id="minecraft:cyan_glazed_terracotta"         name="Cyan&#xA;Terracotta"            icon="cyan_glazed_terracotta"/>
+    <block id="minecraft:light_blue_glazed_terracotta"   name="Light Blue&#xA;Terracotta"      icon="light_blue_glazed_terracotta"/>
+    <block id="minecraft:blue_glazed_terracotta"         name="Blue&#xA;Terracotta"            icon="blue_glazed_terracotta"/>
+    <block id="minecraft:purple_glazed_terracotta"       name="Purple&#xA;Terracotta"          icon="purple_glazed_terracotta"/>
+    <block id="minecraft:magenta_glazed_terracotta"      name="Magenta&#xA;Terracotta"         icon="magenta_glazed_terracotta"/>
+    <block id="minecraft:pink_glazed_terracotta"         name="Pink&#xA;Terracotta"            icon="pink_glazed_terracotta"/>
+    <block id="minecraft:brown_glazed_terracotta"        name="Brown&#xA;Terracotta"           icon="brown_glazed_terracotta"/>
+    <block id="minecraft:light_gray_glazed_terracotta"   name="Light Gray&#xA;Terracotta"      icon="light_gray_glazed_terracotta"/>
+    <block id="minecraft:gray_glazed_terracotta"         name="Gray&#xA;Terracotta"            icon="gray_glazed_terracotta"/>
+    <block id="minecraft:black_glazed_terracotta"        name="Black&#xA;Terracotta"           icon="black_glazed_terracotta"/>
+</group>

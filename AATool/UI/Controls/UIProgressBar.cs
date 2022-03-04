@@ -227,6 +227,11 @@ namespace AATool.UI.Controls
             canvas.Draw($"bar_{this.style}_inactive_middle", this.emptyMiddle, tint);
             canvas.Draw($"bar_{this.style}_inactive_right", this.emptyRight, tint);
 
+            Color faded = ColorHelper.Fade(Color.White, 0.1f);
+            canvas.Draw($"bar_{this.style}_active_left", this.emptyLeft, faded);
+            canvas.Draw($"bar_{this.style}_active_middle", this.emptyMiddle, faded);
+            canvas.Draw($"bar_{this.style}_active_right", this.emptyRight, faded);
+
             //filled foreground
             canvas.Draw($"bar_{this.style}_active_left", this.filledLeft, this.leftSrc, Color.White);
             canvas.Draw($"bar_{this.style}_active_middle", this.filledMiddle, Color.White);

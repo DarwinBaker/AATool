@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Dirt">
+    <block id="minecraft:grass_block"   name="Grass Block"      icon="grass_block"/>
+    <block id="minecraft:dirt_path"     name="Dirt Path"        icon="dirt_path"/>
+    <block id="minecraft:podzol"        name="Podzol"           icon="podzol"/>
+    <block id="minecraft:mycelium"      name="Mycelium"         icon="mycelium"/>
+</group>

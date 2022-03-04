@@ -13,8 +13,8 @@ namespace AATool.Configuration
         {
             [JsonProperty] public readonly Setting<string> LastSession = new (string.Empty);
 
-            [JsonProperty] public readonly Setting<string> GameCategory = new (new AllAdvancements().Name);
-            [JsonProperty] public readonly Setting<string> GameVersion = new (new AllAdvancements().LatestSupportedVersion);
+            [JsonProperty] public readonly Setting<string> GameCategory = new ("All Advancements");
+            [JsonProperty] public readonly Setting<string> GameVersion = new ("1.16");
 
             [JsonProperty] public readonly Setting<bool> AutoDetectVersion = new (true);
             [JsonProperty] public readonly Setting<bool> UseSftp = new (false);
@@ -31,7 +31,7 @@ namespace AATool.Configuration
             protected override string GetLegacyId() => "tracker";
 
             public bool WatchActiveInstance => !this.UseSftp 
-                && (this.Source == TrackerSource.ActiveInstance || this.AutoDetectVersion);
+                && (this.Source == TrackerSource.ActiveInstance || this.AutoDetectVersion || Tracker.Category is AllDeaths);
 
             public bool SourceChanged => this.UseSftp.Changed || this.Source.Changed
                 || (this.Source == TrackerSource.CustomSavesPath && this.CustomSavesPath.Changed)

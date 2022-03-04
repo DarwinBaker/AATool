@@ -181,32 +181,34 @@ namespace AATool.UI.Controls
             string[] words = this.ToString().Replace("\n", "\n ").Split(' ');
             for (int i = 0; i < words.Length; i++)
             {
+                string word = words[i];
                 Vector2 currentSize = this.Font.MeasureString(words[i]);
                 if (lineWidth + currentSize.X < this.Inner.Width)
                 {
-                    if (string.IsNullOrEmpty(words[i]))
-                        wrappedBuilder.Append(' ');
-                    else
-                        wrappedBuilder.Append(words[i]);
+                    wrappedBuilder.Append(string.IsNullOrEmpty(word) ? ' ' : word);
                 }
                 else
                 {
                     //text overflowed; start on new line
                     lineWidth = 0;
                     if (words.Length > 1)
-                        wrappedBuilder.Append("\n" + words[i]);
+                        wrappedBuilder.Append("\n" + word);
                     else
-                        wrappedBuilder.Append(words[i]);
+                        wrappedBuilder.Append(word);
                 }
-                    
-                lineWidth += currentSize.X + spaceWidth;
+
+                if (word.LastOrDefault() is '\n')
+                    lineWidth = 0;
+                else
+                    lineWidth += currentSize.X + spaceWidth;
+
                 if (i < words.Length - 1)
                 {
-                    if (string.IsNullOrEmpty(words[i]))
+                    if (string.IsNullOrEmpty(word))
                         continue;
 
                     Vector2 nextSize = this.Font.MeasureString(words[i + 1]);
-                    if (words[i].LastOrDefault() is not '\n' && lineWidth + nextSize.X < this.Width)
+                    if (word.LastOrDefault() is not '\n' && lineWidth + nextSize.X < this.Width)
                         wrappedBuilder.Append(" ");
                 }
             }
@@ -221,7 +223,7 @@ namespace AATool.UI.Controls
                 _                      => this.Inner.Right - size.X
             };
             this.TextBounds = new Rectangle(x, this.Inner.Top, size.X, size.Y);
-            if (this.Root() is UIMainScreen)
+            if (this.Root() is UIMainScreen && this.Layer is Layer.Main)
                 UIMainScreen.Invalidate();
         }
 

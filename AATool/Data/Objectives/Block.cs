@@ -31,7 +31,7 @@ namespace AATool.Data.Objectives
         public void ToggleManualOverride()
         {
             this.ManuallyCompleted ^= true;
-            Tracker.Blocks.UpdateCount();
+            Tracker.Category.Blocks.UpdateTotal();
         }
 
         public override void UpdateState(WorldState progress)

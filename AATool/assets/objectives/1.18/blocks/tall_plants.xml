@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Tall Plants">
+    <block id="minecraft:cactus"        name="Cactus"       icon="cactus_tall"      double_height="true"/>
+    <block id="minecraft:sugar_cane"    name="Sugarcane"    icon="sugarcane_tall"   double_height="true"/>
+    <block id="minecraft:bamboo"        name="Bamboo"       icon="bamboo_tall"      double_height="true"/>
+
+    <block id="minecraft:rose_bush"     name="Rose Bush"    icon="rose_bush"        double_height="true"/>
+    <block id="minecraft:peony"         name="Peony"        icon="peony"            double_height="true"/>
+    <block id="minecraft:lilac"         name="Lilac"        icon="lilac"            double_height="true"/>
+    <block id="minecraft:sunflower"     name="Sunflower"    icon="sunflower"        double_height="true"/>
+
+    <block id="minecraft:small_dripleaf"    name="Small Dripleaf"   icon="small_dripleaf"   double_height="true"/>
+    <block id="minecraft:spore_blossom"     name="Spore Blossom"    icon="spore_blossom"/>
+    <block id="minecraft:big_dripleaf"      name="Big Dripleaf"     icon="big_dripleaf"/>
+</group>

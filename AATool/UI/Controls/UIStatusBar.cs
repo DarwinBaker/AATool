@@ -35,7 +35,10 @@ namespace AATool.UI.Controls
         //patreon panel
         private UIControl patreon;
         private UIButton patreonButton;
+        private UIPicture patreonGlow;
         private UITextBlock donateMessage;
+        private UIPicture strider;
+        private UIPicture striderGlow;
 
         private readonly Timer refreshTimer;
         private int rightPanelWidth;
@@ -71,6 +74,7 @@ namespace AATool.UI.Controls
             //patreon panel
             this.patreon = this.First("patreon");
             this.patreonButton = this.patreon.First<UIButton>();
+            this.patreonGlow = this.patreon.First<UIPicture>("rainbow_glow");
             this.donateMessage = this.patreon.First<UITextBlock>();
             this.donateMessage.FlexWidth = new Size(Math.Min(this.rightPanelWidth - 170, 270));
             if (this.patreonButton is not null)
@@ -84,10 +88,19 @@ namespace AATool.UI.Controls
                 else
                 {
                     this.patreonButton.Collapse();
+                    this.patreonGlow.Collapse();
                 }
             }
             this.statusLabel.HorizontalTextAlign = HorizontalAlign.Left;
             this.statusLabel.SetText(this.GetLabelText());
+            this.strider = this.patreon.First<UIPicture>("strider");
+            this.striderGlow = this.patreon.First<UIPicture>("strider_glow");
+            if (this.rightPanelWidth < 400)
+            {
+                this.strider?.Collapse();
+                this.striderGlow?.Collapse();
+            }
+                
 
             if (Tracker.Category is AllBlocks)
             {
@@ -149,15 +162,18 @@ namespace AATool.UI.Controls
             if (Config.Main.ProgressBarStyle != "None")
             {
                 if (this.progressBar.Width > 250)
-                    progress += $"    -    {Tracker.InGameTime:hh':'mm':'ss} IGT";
+                    progress += $"    -    {Tracker.GetPrettyIGT()} IGT";
             }
             else
             {
-                progress += $"\n{Tracker.InGameTime:hh':'mm':'ss} IGT\n{new string('-', this.progressBar.Width / 7)}";
+                progress += $"\n{Tracker.GetPrettyIGT()} IGT\n{new string('-', this.progressBar.Width / 7)}";
             }
                 
             this.progressLabel.SetText(progress);
             this.progressBar.StartLerpToValue(Tracker.Category.GetCompletionRatio());
+
+            this.patreonGlow.SetTint(Canvas.RainbowFast);
+            this.striderGlow.SetTint(Canvas.RainbowFast);
         }
 
         private string GetLabelText()

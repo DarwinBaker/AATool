@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control texture="popup_block" width="90" height="164" padding="6,6,0,0" layer="fore">
+    <panel name="arrow_top" draw_mode="none" width="50" height="22" vertical_align="top"/>
+    <panel name="arrow_bottom" draw_mode="none" width="50" height="22" vertical_align="bottom"/>
+    <panel name="arrow_left" draw_mode="none" width="22" height="50" horizontal_align="left"/>
+    <panel name="arrow_right" draw_mode="none" width="22" height="50" horizontal_align="right"/>
+    <panel name="window" draw_mode="childrenonly" height="120">
+        <text_block name="label" vertical_align="top" layer="fore" padding="10"/>
+    </panel>
+</control>

@@ -9,18 +9,18 @@ namespace AATool.Data.Categories
             "1.16"
         };
 
-        public HalfPercent() : base()
-        {
-            this.Name = "Half Percent";
-            this.Acronym = "HP";
-        }
+        public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
 
         public override int GetTargetCount() =>
             (int)Math.Ceiling(base.GetTargetCount() / 2.0);
 
         public override string GetCompletionMessage() =>
-            $"Half ({this.GetTargetCount()}) of All Advancements Complete! ";
+            $"Half ({this.GetTargetCount()}) of All {this.Objective} {this.Action}!";
 
-        public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
+        public HalfPercent() : base()
+        {
+            this.Name = "Half Percent";
+            this.Acronym = "HP";
+        }
     }
 }

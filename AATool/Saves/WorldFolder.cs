@@ -2,8 +2,10 @@
 using System.IO;
 using AATool.Configuration;
 using AATool.Data.Categories;
+using AATool.Data.Objectives;
 using AATool.Data.Progress;
 using AATool.Net;
+using AATool.Utilities;
 
 namespace AATool.Saves
 {
@@ -74,6 +76,10 @@ namespace AATool.Saves
             //make sure folder actually changed
             if (worldFolder.FullName != this.CurrentFolder?.FullName)
             {
+                ActiveInstance.SetLogStart();
+                foreach (Death death in Tracker.Category.Deaths.All.Values)
+                    death.Clear();
+
                 this.CurrentFolder = worldFolder;
                 this.ChangedPath = true;
                 string advancementsFolder = Path.Combine(this.CurrentFolder.FullName, "advancements");

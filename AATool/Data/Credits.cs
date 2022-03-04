@@ -10,12 +10,13 @@ namespace AATool.Data
             new ("dedication", "Wroxy"),
 
             new ("beta_tester", "Elysaku", "https://www.twitch.tv/elysaku"),
-            new ("beta_tester", "Churro the Cat :3", "https://www.instagram.com/theelysaku/"),
+            new ("beta_tester", "Churro :3", "https://www.instagram.com/theelysaku/"),
 
             new ("supporter_netherite", "Toshio"),
             new ("supporter_emerald", "NiceTwice"),
             new ("supporter_emerald", "Cube1337x"),
             new ("supporter_diamond", "Nex"),
+            new ("supporter_diamond", "HAPTlCx"),
             new ("supporter_gold", "Antoine"),
             new ("supporter_gold", "TheSwordElf"),
             new ("supporter_gold", "MeisterMaki"),
@@ -28,6 +29,8 @@ namespace AATool.Data
             new ("supporter_gold", "Colin_Henry"),
             new ("supporter_gold", "NotValik"),
             new ("supporter_gold", "Switch"),
+            new ("supporter_gold", "Melissa"),
+            new ("supporter_gold", "Penguida"),
         };
     }
 

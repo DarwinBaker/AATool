@@ -40,11 +40,11 @@ namespace AATool.Net.Requests
 
         private bool HandleResponse(string nameHistory)
         {
+            if (string.IsNullOrEmpty(nameHistory))
+                return false;
+
             try
             {
-                if (string.IsNullOrEmpty(nameHistory))
-                    return false;
-
                 string name = JArray.Parse(nameHistory).Last.First.Values().First().ToString();
                 Player.Cache(this.id, name);
                 return true;

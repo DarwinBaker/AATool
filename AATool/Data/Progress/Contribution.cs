@@ -23,7 +23,7 @@ namespace AATool.Data.Progress
         public Contribution(Uuid playerId, 
             HashSet<string> Advancements, 
             HashSet<(string, string)> Criteria, 
-            Dictionary<string, int> ItemCounts, 
+            Dictionary<string, int> ItemCounts,
             HashSet<string> BlocksPlaced)
         {
             this.PlayerId      = playerId;
@@ -36,10 +36,10 @@ namespace AATool.Data.Progress
         public Contribution(Uuid playerId)
         {
             this.PlayerId      = playerId;
-            this.Advancements  = new();
-            this.Criteria      = new();
-            this.ItemCounts    = new();
-            this.BlocksPlaced  = new();
+            this.Advancements  = new ();
+            this.Criteria      = new ();
+            this.ItemCounts    = new ();
+            this.BlocksPlaced  = new ();
         }
 
         public static Contribution FromJsonString(string jsonString) =>

@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using AATool.Net;
+using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,11 +13,14 @@ namespace AATool.Graphics
 {
     public static class SpriteSheet
     {
+        const string AvatarPrefix = "avatar-";
         const int MaximumWidth = 2048;
         const int InitialHeight = 2048;
+        const int ExpansionIncrement = 256;
+        const int MaximumHeight = 4096;
 
         public static RenderTarget2D Atlas { get; private set; }
-        public static Rectangle Pixel { get; private set; }
+        public static Sprite Pixel { get; private set; }
 
         public static int Width => Atlas?.Width ?? 0;
         public static int Height => Atlas?.Height ?? 0;
@@ -48,104 +53,118 @@ namespace AATool.Graphics
 
         public static void Update(Time time)
         {
-            decimal animationTime = time.TotalFrames / 2.5m;
+            decimal animationTime = time.TotalFrames / 3;
             foreach (AnimatedSprite sprite in AnimatedSprites.Values)
                 sprite.Animate(animationTime);
-        }
-
-        public static string ExtractAnimation(ref string key, out int frames, out int columns)
-        {
-            frames = 0;
-            columns = 0;
-            int index = key.IndexOf(Sprite.FramesFlag);
-            if (index is -1)
-                return key;
-
-            //parse frame count and optional column count
-            string[] tokens = key.Substring(index + 1).Split(Sprite.ColumnsDelimiter);
-            int.TryParse(tokens.FirstOrDefault(), out frames);
-            if (tokens.Length > 1)
-                int.TryParse(tokens[1], out columns);
-            else
-                columns = frames;
-
-            //remove animation tag from key
-            return key = key.Substring(0, index);
-        }
-
-        public static string ExtractPadding(ref string key, out int padding)
-        {
-            padding = 0;
-            int index = key.IndexOf(Sprite.PaddingFlag);
-            if (index is -1)
-                return key;
-
-            int.TryParse(key.Substring(index + 1), out padding);
-
-            //remove padding tag from key
-            return key = key.Substring(0, index);
         }
 
         public static void Initialize()
         {
             InternalBatch = new SpriteBatch(Main.Device);
-            Atlas = new RenderTarget2D(Main.Device, MaximumWidth, InitialHeight, false, 
+            Atlas = new RenderTarget2D(Main.Device, MaximumWidth, InitialHeight, false,
                 SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 
-            //get all textures in assets folder and stitch them together in order of descending height
-            Stack<Texture2D> textures = GetTexturesRecursive(Paths.System.SpritesFolder);
-            textures.Push(NewPixelTexture());
-            AppendAtlas(textures.OrderBy(texture => -texture.Height).ToArray());
+            //load textures required at launch
+            string globalSprites = Path.Combine(Paths.System.SpritesFolder, "global");
+            Stack<Texture2D> textures = GetTexturesRecursive(globalSprites);
+            Pack(textures.ToArray());
+            Dispose(textures);
 
-            //register individual white pixel for faster rendering of solid rectangles
+            //register individual white pixel for fast rendering of solid rectangles
             if (TryGet("pixel", out Sprite pixel))
-                Pixel = pixel.Source;
+                Pixel = pixel;
+
+            //get cached player colors
+            string avatarSprites = Path.Combine(globalSprites, "avatar_cache");
+            textures = GetTexturesRecursive(avatarSprites);
+            foreach (Texture2D texture in textures)
+            {
+                string key = texture.Tag as string;
+                if (string.IsNullOrEmpty(key) || key.Length <= AvatarPrefix.Length)
+                    continue;
+
+                string identifier = key.Substring(AvatarPrefix.Length);
+                if (Uuid.TryParse(identifier, out Uuid id))
+                    Player.Cache(id, ColorHelper.GetAccent(texture));
+                else
+                    Player.Cache(identifier, ColorHelper.GetAccent(texture));
+            }
         }
 
-        public static void Require(string textureSet, int requiredHeight)
+        public static void Require(string textureSet)
         {
             //check if set has already been loaded
             if (LoadedTextureSets.Contains(textureSet))
                 return;
 
-            //make sure atlas has enough room
-            ExpandTo(requiredHeight);
-
             //get all textures in specified folder and add to atlas in order of descending height
             string path = Path.Combine(Paths.System.SpritesFolder, textureSet);
-            Stack<Texture2D> newTextures = GetTexturesRecursive(path);
-            if (newTextures.Any())
+            Stack<Texture2D> textures = GetTexturesRecursive(path);
+            if (textures.Any())
             {
-                AppendAtlas(newTextures.OrderBy(texture => -texture.Height).ToArray());
+                Pack(textures.ToArray());
                 LoadedTextureSets.Add(textureSet);
+                Dispose(textures);
             }
         }
 
-        public static void DumpAtlas()
+        private static bool TryReadTexture(string file, out Texture2D texture)
         {
             try
             {
-                string path = Path.Combine(Environment.CurrentDirectory, "atlas_dump.png");
-                using (FileStream stream = File.Create(path))
-                    Atlas.SaveAsPng(stream, Atlas.Width, Atlas.Height);
-
-                DialogResult result = MessageBox.Show(null,
-                    $"The current state of AATool's texture atlas has been saved to the file \"{path}\"." +
-                    "Would you like to view the file now?", 
-                    "Texture Atlas Dumped",
-                    MessageBoxButtons.YesNo);
-                if (result is DialogResult.Yes)
-                    Process.Start(path);
+                using (FileStream stream = File.OpenRead(file))
+                    texture = Texture2D.FromStream(Main.Device, stream);
             }
-            catch (Exception e)
+            catch
             {
-                if (e is not IOException or UnauthorizedAccessException)
-                    throw;
+                texture = null;
             }
+            return texture is not null;
         }
 
-        public static void AppendAtlas(params Texture2D[] textures)
+        public static void Pack(params Texture2D[] textures)
         {
+            CursorX = 0;
+            CursorY += CurrentRowHeight;
+            CurrentRowHeight = 0;
+
+            //sort textures from largest to smallest, first by height then by width
+            IOrderedEnumerable<Texture2D> sorted = textures
+                .OrderBy(texture => -texture.Height)
+                .ThenBy(texture => -texture.Width);
+
+            foreach (Texture2D texture in sorted)
+            {
+                //strip away and parse metadata from filename
+                string key = Sprite.ParseId(texture.Tag.ToString(), 
+                    out int padding,
+                    out int frames, 
+                    out int columns, 
+                    out decimal speed);
+
+                //find (semi)optimal position in atlas unless already loaded
+                if (!AllSprites.ContainsKey(key) && Fit(texture, padding, out Rectangle bounds))
+                {
+                    //create new sprite to store metadata
+                    Sprite sprite = frames > 1
+                        ? AnimatedSprites[key] = new AnimatedSprite(bounds, frames, columns, speed)
+                        : new Sprite(bounds);
+                    AllSprites[key] = sprite;
+ 
+                    //store new sprite in texture tag
+                    texture.Tag = sprite;
+                }
+            }
+
+            //add new textures to the atlas
+            Render(textures);
+        }
+
+        private static void Render(params Texture2D[] textures)
+        {
+            //make sure atlas texture is big enough to render to
+            ExpandRenderTarget(CursorY + CurrentRowHeight);
+
             lock (Atlas)
             {
                 //create spritebatch and prepare rendertarget
@@ -155,27 +174,11 @@ namespace AATool.Graphics
                 //render each texture to the atlas
                 foreach (Texture2D texture in textures)
                 {
-                    //strip away and parse metadata from filename
-                    string key = texture.Tag.ToString();
-                    ExtractAnimation(ref key, out int frames, out int columns);
-                    ExtractPadding(ref key, out int padding);
-
-                    //find optimal position in atlas for this texture
-                    Rectangle bounds = Fit(texture, padding);
-
-                    //create new sprite to hold metadata
-                    if (frames > 1)
-                    {
-                        AnimatedSprites[key] = new AnimatedSprite(bounds, frames, columns);
-                        AllSprites[key] = AnimatedSprites[key];
-                    }
-                    else
-                    {
-                        AllSprites[key] = new Sprite(bounds);
-                    }
-                    //draw texture to its given rectangle
-                    InternalBatch.Draw(texture, AllSprites[key].Source, Color.White);
+                    //draw texture to its cooresponding sprite bounds
+                    if (texture?.Tag is Sprite sprite)
+                        InternalBatch.Draw(texture, sprite.Source, Color.White);
                 }
+
                 InternalBatch.End();
                 Main.Device.SetRenderTarget(null);
             }
@@ -204,46 +207,11 @@ namespace AATool.Graphics
             return textures;
         }
 
-        public static bool TryReadTexture(string file, out Texture2D texture)
+        private static bool Fit(Texture2D texture, int padding, out Rectangle bounds)
         {
-            try
-            {
-                using (FileStream stream = File.OpenRead(file))
-                    texture = Texture2D.FromStream(Main.Device, stream);
-            }
-            catch
-            {
-                texture = null;
-            }
-            return texture is not null;
-        }
-
-        public static System.Drawing.Image BitmapFromFile(string file, int width, int height)
-        {
-            try
-            {
-                using (var bitmap = new System.Drawing.Bitmap(file))
-                    return new System.Drawing.Bitmap(bitmap, width, height);
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        private static Texture2D NewPixelTexture()
-        {
-            //create solid color 1x1 texture for drawing solid rectangles/lines
-            var pixel = new Texture2D(Main.Device, 1, 1);
-            pixel.SetData(new Color[1] { Color.White });
-            pixel.Tag = "pixel";
-            return pixel;
-        }
-
-        private static Rectangle Fit(Texture2D texture, int padding)
-        {
-            if (texture is null)
-                return Rectangle.Empty;
+            bounds = Rectangle.Empty;
+            if (texture is null || texture.Width > Width)
+                return false;
 
             //find next rectangle that will fit the given texture on the atlas
             if (CursorX + texture.Width > Width && CursorX > 0)
@@ -254,45 +222,72 @@ namespace AATool.Graphics
                 CurrentRowHeight = 0;
             }
 
-            //make sure atlas has room
-            if (CursorY + texture.Height <= Height)
-            {
-                var bounds = new Rectangle(
+            //calculate bounds for this texture
+            bounds = new Rectangle(
                     CursorX + padding,
                     CursorY + padding,
                     texture.Width,
                     texture.Height);
 
-                //move cursor cursor
-                CursorX += texture.Width + (padding * 2);
-                CurrentRowHeight = Math.Max(CurrentRowHeight, texture.Height + (padding * 2));
-                return bounds;
-            }
+            //move to the right
+            CursorX += texture.Width + (padding * 2);
+            CurrentRowHeight = Math.Max(CurrentRowHeight, texture.Height + (padding * 2));
 
-            //texture didn't fit. should never happen in practice
-            return Rectangle.Empty;
+            return bounds != Rectangle.Empty;
         }
 
-        private static void ExpandTo(int requiredHeight)
+        private static void ExpandRenderTarget(int bottom)
         {
-            if (Height >= requiredHeight)
+            //nothing to do if atlas isn't initialized yet or is already big enough
+            if (Atlas is null || Height >= bottom)
                 return;
 
+            int newHeight = (int)(Math.Ceiling((decimal)bottom / ExpansionIncrement) * ExpansionIncrement);
+            if (newHeight > MaximumHeight)
+                return;
+            
             lock (Atlas)
             {
-                //store current render target temporarily
+                //store existing render target temporarily
                 RenderTarget2D oldAtlas = Atlas;
 
                 //create new render target of required size
-                Atlas = new RenderTarget2D(Main.Device, MaximumWidth, requiredHeight, false,
+                Atlas = new RenderTarget2D(Main.Device, MaximumWidth, newHeight, false,
                     SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 
-                //add old render target contents to new one
+                //re-add old render target contents to new one
                 Main.Device.SetRenderTarget(Atlas);
                 InternalBatch.Begin();
                 InternalBatch.Draw(oldAtlas, Vector2.Zero, Color.White);
                 InternalBatch.End();
                 Main.Device.SetRenderTarget(null);
+            }
+        }
+
+        private static void Dispose(IEnumerable<Texture2D> textures)
+        {
+            foreach (Texture2D texture in textures)
+                texture?.Dispose();
+        }
+
+        public static void DumpAtlas()
+        {
+            string path = Path.Combine(Environment.CurrentDirectory, "atlas_dump.png");
+            try
+            {
+                using (FileStream stream = File.Create(path))
+                    Atlas.SaveAsPng(stream, Atlas.Width, Atlas.Height);
+
+                DialogResult result = MessageBox.Show(null,
+                    $"The current state of AATool's texture atlas has been saved to the file \"{path}\"." +
+                    "Would you like to view the file now?", "Texture Atlas Dumped", MessageBoxButtons.YesNo);
+                if (result is DialogResult.Yes)
+                    _ = Process.Start(path);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(null, $"Error saving AATool's texture atlas to file \"{path}\".\n\n" + e.Message,
+                    "Texture Atlas Dumped", MessageBoxButtons.OK);
             }
         }
     }

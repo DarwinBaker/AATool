@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Bricks">
+    <block id="minecraft:bricks"        name="Bricks"           icon="bricks"/>
+    <block id="minecraft:brick_wall"    name="Brick Wall"       icon="brick_wall"/>
+    <block id="minecraft:brick_stairs"  name="Brick Stairs"     icon="brick_stairs"/>
+    <block id="minecraft:brick_slab"    name="Brick Slab"       icon="brick_slab"/>
+</group>

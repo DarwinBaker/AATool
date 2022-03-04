@@ -11,30 +11,15 @@ namespace AATool.UI.Controls
 {
     class UIPotionGroup : UIFlowPanel
     {
-        public override void InitializeRecursive(UIScreen screen)
+        public UIPotionGroup()
         {
             this.BuildFromTemplate();
-            foreach (Potion potion in this.ReadPotions())
-                this.AddControl(new UIPotion() { Potion = potion });
-            base.InitializeRecursive(screen);
         }
 
-        private IList<Potion> ReadPotions()
+        public override void InitializeThis(UIScreen screen)
         {
-            var potions = new List<Potion>();
-            try
-            {
-                if (TryGetDocument(Paths.System.PotionsFile, out XmlDocument document))
-                {
-                    foreach (XmlNode potionNode in document.DocumentElement.ChildNodes)
-                        potions.Add(new Potion(potionNode));
-                }
-            }
-            catch (Exception e)
-            { 
-                Main.QuitBecause("Error loading potion recipes!", e); 
-            }
-            return potions;
+            foreach (Potion potion in ReadPotions())
+                this.AddControl(new UIPotion() { Potion = potion });
         }
 
         public override void DrawThis(Canvas canvas)
@@ -49,6 +34,26 @@ namespace AATool.UI.Controls
                 var splitter = new Rectangle(bounds.Left, bounds.Bottom - 6, bounds.Width, 2);
                 canvas.DrawRectangle(splitter, Config.Main.BorderColor);
             }
+        }
+
+        private static IList<Potion> ReadPotions()
+        {
+            var potions = new List<Potion>();
+            try
+            {
+                if (TryGetDocument(Paths.System.PotionsFile, out XmlDocument document))
+                {
+                    foreach (XmlNode potionNode in document.DocumentElement.ChildNodes)
+                        potions.Add(new Potion(potionNode));
+                }
+            }
+            catch { }
+            return potions;
+        }
+
+        public override void ReadNode(XmlNode node)
+        {
+            base.ReadNode(node);
         }
     }
 }

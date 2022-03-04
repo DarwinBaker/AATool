@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Minerals">
+    <block id="minecraft:redstone"          name="Redstone Dust"        icon="redstone_dust" light_level="0.5"/>
+    <block id="minecraft:raw_gold_block"    name="Raw Gold Block"       icon="raw_gold_block"/>   
+    <block id="minecraft:raw_iron_block"    name="Raw Iron Block"       icon="raw_iron_block"/>
+    <block id="minecraft:raw_copper_block"  name="Raw Copper Block"     icon="raw_copper_block"/>
+    
+    <block id="minecraft:pointed_dripstone" name="Pointed Dripstone"    icon="pointed_dripstone"/>
+    <block id="minecraft:dripstone_block"   name="Dripstone Block"      icon="dripstone_block"/>
+    <block id="minecraft:tuff"              name="Tuff"                 icon="tuff"/>
+    <block id="minecraft:calcite"           name="Calcite"              icon="calcite"/>
+</group>

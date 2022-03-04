@@ -65,7 +65,7 @@ namespace AATool.UI.Controls
         public override void InitializeThis(UIScreen screen)
         {
             //this.isMainWindow = screen is UIMainScreen;
-            Tracker.Blocks.TryGet(this.BlockId, out this.Block);
+            Tracker.TryGetBlock(this.BlockId, out this.Block);
 
             this.Name = this.Block.Id;
             //this.popup = this.First<UIPopup>();
@@ -146,7 +146,7 @@ namespace AATool.UI.Controls
             this.icon.FlexWidth = new(16 * this.scale);
             this.icon.FlexHeight = new(16 * this.scale);
 
-            if (Config.Main.CompactMode && this.Parent?.Parent is not UIBlockPopup) 
+            if (this.Parent?.Parent is not UIBlockPopup) 
             {
                 this.FlexWidth = new (38);
                 this.FlexHeight = new (38);

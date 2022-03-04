@@ -32,6 +32,8 @@ namespace AATool.Winforms.Controls
             this.autoVersion = new System.Windows.Forms.CheckBox();
             this.gameVersion = new System.Windows.Forms.ComboBox();
             this.localGroup = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.browseWorld = new System.Windows.Forms.Button();
             this.TrackSpecificWorld = new System.Windows.Forms.RadioButton();
             this.button2 = new System.Windows.Forms.Button();
@@ -46,6 +48,10 @@ namespace AATool.Winforms.Controls
             this.worldRemote = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.remoteGroup = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.playerFilter = new System.Windows.Forms.RichTextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.sftpValidate = new System.Windows.Forms.Button();
             this.sftpCompatibility = new System.Windows.Forms.LinkLabel();
             this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -54,7 +60,6 @@ namespace AATool.Winforms.Controls
             this.label11 = new System.Windows.Forms.Label();
             this.toggleCredentials = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.sftpValidate = new System.Windows.Forms.Button();
             this.sftpPass = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -66,8 +71,6 @@ namespace AATool.Winforms.Controls
             this.configureOpenTracker = new System.Windows.Forms.Button();
             this.enableOpenTracker = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.localGroup.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -117,6 +120,30 @@ namespace AATool.Winforms.Controls
             this.localGroup.TabIndex = 23;
             this.localGroup.TabStop = false;
             this.localGroup.Text = "Local Save Tracking";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label9.Location = new System.Drawing.Point(3, 185);
+            this.label9.Margin = new System.Windows.Forms.Padding(0, 0, 3, 6);
+            this.label9.Name = "label9";
+            this.label9.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.label9.Size = new System.Drawing.Size(167, 15);
+            this.label9.TabIndex = 44;
+            this.label9.Text = "🛈 AATool will only track this world";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label2.Location = new System.Drawing.Point(3, 112);
+            this.label2.Margin = new System.Windows.Forms.Padding(0, 0, 3, 6);
+            this.label2.Name = "label2";
+            this.label2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.label2.Size = new System.Drawing.Size(212, 15);
+            this.label2.TabIndex = 43;
+            this.label2.Text = "🛈 AATool will only track worlds in this folder";
             // 
             // browseWorld
             // 
@@ -224,7 +251,7 @@ namespace AATool.Winforms.Controls
             this.groupBox3.Controls.Add(this.worldRemote);
             this.groupBox3.Location = new System.Drawing.Point(3, 90);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(107, 214);
+            this.groupBox3.Size = new System.Drawing.Size(107, 83);
             this.groupBox3.TabIndex = 29;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "World Type";
@@ -235,10 +262,10 @@ namespace AATool.Winforms.Controls
             this.worldLocal.Location = new System.Drawing.Point(6, 19);
             this.worldLocal.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
             this.worldLocal.Name = "worldLocal";
-            this.worldLocal.Size = new System.Drawing.Size(70, 17);
+            this.worldLocal.Size = new System.Drawing.Size(79, 17);
             this.worldLocal.TabIndex = 35;
             this.worldLocal.TabStop = true;
-            this.worldLocal.Text = "Set Local";
+            this.worldLocal.Text = "Local Save";
             this.worldLocal.UseVisualStyleBackColor = true;
             this.worldLocal.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
@@ -268,6 +295,10 @@ namespace AATool.Winforms.Controls
             // 
             // remoteGroup
             // 
+            this.remoteGroup.Controls.Add(this.label13);
+            this.remoteGroup.Controls.Add(this.playerFilter);
+            this.remoteGroup.Controls.Add(this.label12);
+            this.remoteGroup.Controls.Add(this.sftpValidate);
             this.remoteGroup.Controls.Add(this.sftpCompatibility);
             this.remoteGroup.Controls.Add(this.label7);
             this.remoteGroup.Controls.Add(this.label5);
@@ -276,7 +307,6 @@ namespace AATool.Winforms.Controls
             this.remoteGroup.Controls.Add(this.label11);
             this.remoteGroup.Controls.Add(this.toggleCredentials);
             this.remoteGroup.Controls.Add(this.label4);
-            this.remoteGroup.Controls.Add(this.sftpValidate);
             this.remoteGroup.Controls.Add(this.sftpPass);
             this.remoteGroup.Controls.Add(this.label3);
             this.remoteGroup.Controls.Add(this.label6);
@@ -289,12 +319,53 @@ namespace AATool.Winforms.Controls
             this.remoteGroup.TabStop = false;
             this.remoteGroup.Text = "Remote Minecraft Server Login";
             // 
+            // label13
+            // 
+            this.label13.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label13.Location = new System.Drawing.Point(125, 136);
+            this.label13.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label13.Name = "label13";
+            this.label13.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.label13.Size = new System.Drawing.Size(152, 70);
+            this.label13.TabIndex = 65;
+            this.label13.Text = "🛈 Only players in this list will be tracked (one per line)\r\n \r\nLeave blank to sh" +
+    "ow everyone on the server";
+            // 
+            // playerFilter
+            // 
+            this.playerFilter.Enabled = false;
+            this.playerFilter.Location = new System.Drawing.Point(9, 136);
+            this.playerFilter.Name = "playerFilter";
+            this.playerFilter.Size = new System.Drawing.Size(113, 70);
+            this.playerFilter.TabIndex = 64;
+            this.playerFilter.Text = "";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 120);
+            this.label12.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(64, 13);
+            this.label12.TabIndex = 63;
+            this.label12.Text = "Player Filter:";
+            // 
+            // sftpValidate
+            // 
+            this.sftpValidate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.sftpValidate.Location = new System.Drawing.Point(306, 136);
+            this.sftpValidate.Name = "sftpValidate";
+            this.sftpValidate.Size = new System.Drawing.Size(105, 42);
+            this.sftpValidate.TabIndex = 1;
+            this.sftpValidate.Text = "Sync";
+            this.sftpValidate.UseVisualStyleBackColor = true;
+            this.sftpValidate.Click += new System.EventHandler(this.OnClicked);
+            // 
             // sftpCompatibility
             // 
-            this.sftpCompatibility.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.sftpCompatibility.Location = new System.Drawing.Point(3, 193);
+            this.sftpCompatibility.Location = new System.Drawing.Point(306, 191);
             this.sftpCompatibility.Name = "sftpCompatibility";
-            this.sftpCompatibility.Size = new System.Drawing.Size(411, 18);
+            this.sftpCompatibility.Size = new System.Drawing.Size(105, 15);
             this.sftpCompatibility.TabIndex = 62;
             this.sftpCompatibility.TabStop = true;
             this.sftpCompatibility.Text = "SFTP compatibility";
@@ -304,7 +375,7 @@ namespace AATool.Winforms.Controls
             // 
             this.label7.AutoSize = true;
             this.label7.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label7.Location = new System.Drawing.Point(6, 147);
+            this.label7.Location = new System.Drawing.Point(279, 60);
             this.label7.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
@@ -315,7 +386,7 @@ namespace AATool.Winforms.Controls
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 108);
+            this.label5.Location = new System.Drawing.Point(280, 18);
             this.label5.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(104, 13);
@@ -324,15 +395,15 @@ namespace AATool.Winforms.Controls
             // 
             // sftpRoot
             // 
-            this.sftpRoot.Location = new System.Drawing.Point(9, 124);
+            this.sftpRoot.Location = new System.Drawing.Point(283, 34);
             this.sftpRoot.Name = "sftpRoot";
-            this.sftpRoot.Size = new System.Drawing.Size(160, 20);
+            this.sftpRoot.Size = new System.Drawing.Size(128, 20);
             this.sftpRoot.TabIndex = 56;
             this.sftpRoot.TextChanged += new System.EventHandler(this.OnTextChanged);
             // 
             // sftpPort
             // 
-            this.sftpPort.Location = new System.Drawing.Point(331, 34);
+            this.sftpPort.Location = new System.Drawing.Point(246, 34);
             this.sftpPort.Name = "sftpPort";
             this.sftpPort.Size = new System.Drawing.Size(31, 20);
             this.sftpPort.TabIndex = 38;
@@ -342,7 +413,7 @@ namespace AATool.Winforms.Controls
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(328, 18);
+            this.label11.Location = new System.Drawing.Point(243, 18);
             this.label11.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(29, 13);
@@ -352,7 +423,7 @@ namespace AATool.Winforms.Controls
             // toggleCredentials
             // 
             this.toggleCredentials.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.toggleCredentials.Location = new System.Drawing.Point(331, 78);
+            this.toggleCredentials.Location = new System.Drawing.Point(331, 83);
             this.toggleCredentials.Name = "toggleCredentials";
             this.toggleCredentials.Size = new System.Drawing.Size(80, 22);
             this.toggleCredentials.TabIndex = 55;
@@ -363,27 +434,16 @@ namespace AATool.Winforms.Controls
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(172, 63);
+            this.label4.Location = new System.Drawing.Point(172, 68);
             this.label4.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(56, 13);
             this.label4.TabIndex = 30;
             this.label4.Text = "Password:";
             // 
-            // sftpValidate
-            // 
-            this.sftpValidate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.sftpValidate.Location = new System.Drawing.Point(288, 147);
-            this.sftpValidate.Name = "sftpValidate";
-            this.sftpValidate.Size = new System.Drawing.Size(105, 42);
-            this.sftpValidate.TabIndex = 1;
-            this.sftpValidate.Text = "Sync";
-            this.sftpValidate.UseVisualStyleBackColor = true;
-            this.sftpValidate.Click += new System.EventHandler(this.OnClicked);
-            // 
             // sftpPass
             // 
-            this.sftpPass.Location = new System.Drawing.Point(175, 79);
+            this.sftpPass.Location = new System.Drawing.Point(175, 84);
             this.sftpPass.Name = "sftpPass";
             this.sftpPass.Size = new System.Drawing.Size(150, 20);
             this.sftpPass.TabIndex = 29;
@@ -393,7 +453,7 @@ namespace AATool.Winforms.Controls
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 63);
+            this.label3.Location = new System.Drawing.Point(6, 68);
             this.label3.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(58, 13);
@@ -414,13 +474,13 @@ namespace AATool.Winforms.Controls
             // 
             this.sftpHost.Location = new System.Drawing.Point(9, 34);
             this.sftpHost.Name = "sftpHost";
-            this.sftpHost.Size = new System.Drawing.Size(316, 20);
+            this.sftpHost.Size = new System.Drawing.Size(231, 20);
             this.sftpHost.TabIndex = 50;
             this.sftpHost.TextChanged += new System.EventHandler(this.OnTextChanged);
             // 
             // sftpUser
             // 
-            this.sftpUser.Location = new System.Drawing.Point(9, 79);
+            this.sftpUser.Location = new System.Drawing.Point(9, 84);
             this.sftpUser.Name = "sftpUser";
             this.sftpUser.Size = new System.Drawing.Size(160, 20);
             this.sftpUser.TabIndex = 0;
@@ -444,11 +504,13 @@ namespace AATool.Winforms.Controls
             this.category.FormattingEnabled = true;
             this.category.Items.AddRange(new object[] {
             "All Advancements",
-            "Half Percent",
             "All Achievements",
-            "Monsters Hunted",
+            "Half Percent",
             "Adventuring Time",
-            "Balanced Diet"});
+            "Monsters Hunted",
+            "Balanced Diet",
+            "All Deaths",
+            "Half Deaths"});
             this.category.Location = new System.Drawing.Point(8, 22);
             this.category.Name = "category";
             this.category.Size = new System.Drawing.Size(137, 21);
@@ -460,9 +522,9 @@ namespace AATool.Winforms.Controls
             this.groupBox4.Controls.Add(this.configureOpenTracker);
             this.groupBox4.Controls.Add(this.enableOpenTracker);
             this.groupBox4.Controls.Add(this.label1);
-            this.groupBox4.Location = new System.Drawing.Point(283, 3);
+            this.groupBox4.Location = new System.Drawing.Point(3, 179);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(252, 81);
+            this.groupBox4.Size = new System.Drawing.Size(107, 125);
             this.groupBox4.TabIndex = 37;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "OpenTracker";
@@ -470,7 +532,7 @@ namespace AATool.Winforms.Controls
             // 
             // configureOpenTracker
             // 
-            this.configureOpenTracker.Location = new System.Drawing.Point(73, 20);
+            this.configureOpenTracker.Location = new System.Drawing.Point(16, 49);
             this.configureOpenTracker.Name = "configureOpenTracker";
             this.configureOpenTracker.Size = new System.Drawing.Size(75, 23);
             this.configureOpenTracker.TabIndex = 59;
@@ -482,7 +544,7 @@ namespace AATool.Winforms.Controls
             // 
             this.enableOpenTracker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.enableOpenTracker.AutoSize = true;
-            this.enableOpenTracker.Location = new System.Drawing.Point(8, 24);
+            this.enableOpenTracker.Location = new System.Drawing.Point(17, 27);
             this.enableOpenTracker.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
             this.enableOpenTracker.Name = "enableOpenTracker";
             this.enableOpenTracker.Size = new System.Drawing.Size(59, 17);
@@ -493,40 +555,16 @@ namespace AATool.Winforms.Controls
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label1.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label1.Location = new System.Drawing.Point(3, 63);
+            this.label1.Location = new System.Drawing.Point(3, 85);
             this.label1.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.label1.Size = new System.Drawing.Size(216, 15);
+            this.label1.Size = new System.Drawing.Size(101, 37);
             this.label1.TabIndex = 35;
             this.label1.Text = "🛈 Share your progress to the web in realtime";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label2.Location = new System.Drawing.Point(3, 112);
-            this.label2.Margin = new System.Windows.Forms.Padding(0, 0, 3, 6);
-            this.label2.Name = "label2";
-            this.label2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.label2.Size = new System.Drawing.Size(212, 15);
-            this.label2.TabIndex = 43;
-            this.label2.Text = "🛈 AATool will only track worlds in this folder";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label9.Location = new System.Drawing.Point(3, 185);
-            this.label9.Margin = new System.Windows.Forms.Padding(0, 0, 3, 6);
-            this.label9.Name = "label9";
-            this.label9.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.label9.Size = new System.Drawing.Size(167, 15);
-            this.label9.TabIndex = 44;
-            this.label9.Text = "🛈 AATool will only track this world";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label10
             // 
@@ -544,13 +582,13 @@ namespace AATool.Winforms.Controls
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.Controls.Add(this.label10);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.localGroup);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.remoteGroup);
+            this.Controls.Add(this.localGroup);
             this.Name = "CTrackerSettings";
             this.Size = new System.Drawing.Size(538, 307);
             this.localGroup.ResumeLayout(false);
@@ -609,5 +647,8 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.RichTextBox playerFilter;
+        private System.Windows.Forms.Label label13;
     }
 }

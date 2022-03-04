@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Redstone Components">
+    <block id="minecraft:comparator"            name="Redstone Comparator"      icon="comparator"/>
+    <block id="minecraft:repeater"              name="Redstone Repeater"        icon="repeater"/>
+    <block id="minecraft:daylight_detector"     name="Daylight Detector"        icon="daylight_detector"/>
+    <block id="minecraft:redstone_lamp"         name="Redstone Lamp"            icon="redstone_lamp"/>
+    <block id="minecraft:tnt"                   name="TNT"                      icon="tnt_block"/>
+</group>

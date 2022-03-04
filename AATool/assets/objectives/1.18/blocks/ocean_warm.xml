@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Warm Ocean">
+    <block id="minecraft:dried_kelp_block"          name="Dried Kelp Block"             icon="dried_kelp_block"/>
+    <block id="minecraft:sponge"                    name="Sponge"                       icon="sponge"/>
+    <block id="minecraft:wet_sponge"                name="Wet Sponge"                   icon="wet_sponge"/>
+    <block id="minecraft:sea_pickle"                name="Sea Pickle"                   icon="sea_pickle"/>
+    <block id="minecraft:turtle_egg"                name="Turtle Egg"                   icon="turtle_egg"/>
+
+    <block id="minecraft:fire_coral_block"          name="Fire&#160;Coral Block"             icon="fire_coral_block"/>
+    <block id="minecraft:horn_coral_block"          name="Horn&#160;Coral Block"             icon="horn_coral_block"/>
+    <block id="minecraft:tube_coral_block"          name="Tube&#160;Coral Block"             icon="tube_coral_block"/>
+    <block id="minecraft:bubble_coral_block"        name="Bubble&#160;Coral Block"           icon="bubble_coral_block"/>
+    <block id="minecraft:brain_coral_block"         name="Brain&#160;Coral Block"            icon="brain_coral_block"/>
+
+    <block id="minecraft:fire_coral"                name="Fire&#160;Coral"                   icon="fire_coral"/>
+    <block id="minecraft:horn_coral"                name="Horn&#160;Coral"                   icon="horn_coral"/>
+    <block id="minecraft:tube_coral"                name="Tube&#160;Coral"                   icon="tube_coral"/>
+    <block id="minecraft:bubble_coral"              name="Bubble&#160;Coral"                 icon="bubble_coral"/>
+    <block id="minecraft:brain_coral"               name="Brain&#160;Coral"                  icon="brain_coral"/>
+
+    <block id="minecraft:fire_coral_fan"            name="Fire&#160;Coral Fan"               icon="fire_coral_fan"/>
+    <block id="minecraft:horn_coral_fan"            name="Horn&#160;Coral Fan"               icon="horn_coral_fan"/>
+    <block id="minecraft:tube_coral_fan"            name="Tube&#160;Coral Fan"               icon="tube_coral_fan"/>
+    <block id="minecraft:bubble_coral_fan"          name="Bubble&#160;Coral Fan"             icon="bubble_coral_fan"/>
+    <block id="minecraft:brain_coral_fan"           name="Brain&#160;Coral Fan"              icon="brain_coral_fan"/>
+
+    <block id="minecraft:dead_fire_coral_block"     name="Dead Fire&#160;Coral Block"        icon="dead_fire_coral_block"/>
+    <block id="minecraft:dead_horn_coral_block"     name="Dead Horn&#160;Coral Block"        icon="dead_horn_coral_block"/>
+    <block id="minecraft:dead_tube_coral_block"     name="Dead Tube&#160;Coral Block"        icon="dead_tube_coral_block"/>
+    <block id="minecraft:dead_bubble_coral_block"   name="Dead Bubble&#160;Coral Block"      icon="dead_bubble_coral_block"/>
+    <block id="minecraft:dead_brain_coral_block"    name="Dead Brain&#160;Coral Block"       icon="dead_brain_coral_block"/>
+
+    <block id="minecraft:dead_fire_coral"           name="Dead Fire&#160;Coral"              icon="dead_fire_coral"/>
+    <block id="minecraft:dead_horn_coral"           name="Dead Horn&#160;Coral"              icon="dead_horn_coral"/>
+    <block id="minecraft:dead_tube_coral"           name="Dead Tube&#160;Coral"              icon="dead_tube_coral"/>
+    <block id="minecraft:dead_bubble_coral"         name="Dead Bubble&#160;Coral"            icon="dead_bubble_coral"/>
+    <block id="minecraft:dead_brain_coral"          name="Dead Brain&#160;Coral"             icon="dead_brain_coral"/>
+
+    <block id="minecraft:dead_fire_coral_fan"       name="Dead Fire&#160;Coral Fan"          icon="dead_fire_coral_fan"/>
+    <block id="minecraft:dead_horn_coral_fan"       name="Dead Horn&#160;Coral Fan"          icon="dead_horn_coral_fan"/>
+    <block id="minecraft:dead_tube_coral_fan"       name="Dead Tube&#160;Coral Fan"          icon="dead_tube_coral_fan"/>
+    <block id="minecraft:dead_bubble_coral_fan"     name="Dead Bubble&#160;Coral Fan"        icon="dead_bubble_coral_fan"/>
+    <block id="minecraft:dead_brain_coral_fan"      name="Dead Brain&#160;Coral Fan"         icon="dead_brain_coral_fan"/>
+</group>

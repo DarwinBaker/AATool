@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Doors">
+    <block id="minecraft:iron_trapdoor"         name="Iron Trapdoor"        icon="iron_trapdoor"/>
+    <block id="minecraft:oak_trapdoor"          name="Oak Trapdoor"         icon="oak_trapdoor"/>
+    <block id="minecraft:spruce_trapdoor"       name="Spruce Trapdoor"      icon="spruce_trapdoor"/>
+    <block id="minecraft:birch_trapdoor"        name="Birch Trapdoor"       icon="birch_trapdoor"/>
+    <block id="minecraft:jungle_trapdoor"       name="Jungle Trapdoor"      icon="jungle_trapdoor"/>
+    <block id="minecraft:acacia_trapdoor"       name="Acacia Trapdoor"      icon="acacia_trapdoor"/>
+    <block id="minecraft:dark_oak_trapdoor"     name="Dark Oak Trapdoor"    icon="dark_oak_trapdoor"/>
+    <block id="minecraft:crimson_trapdoor"      name="Crimson Trapdoor"     icon="crimson_trapdoor"/>
+    <block id="minecraft:warped_trapdoor"       name="Warped Trapdoor"      icon="warped_trapdoor"/>
+</group>

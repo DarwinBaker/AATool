@@ -26,6 +26,7 @@
                 <column width="68"/>
                 <column width="5 * 68"/>
                 <column width="4 * 68"/>
+                <column width="68"/>
                 <column width="3 * 68"/>
             </columns>
 
@@ -35,7 +36,22 @@
             <advancement_group group="adventure" row="0" col="3" direction="righttoleft" end="minecraft:adventure/honey_block_slide"/>
             <advancement_group group="adventure" row="1" col="3" direction="righttoleft" start="minecraft:adventure/very_very_frightening"/>
             <advancement_group group="husbandry" row="1" col="1" colspan="2"/>
-            <potion_group                        row="0" col="4" rowspan="2"/>
+
+            <!-- overworld pickup counts -->
+            <flow_panel row="0" col="4">
+                <objective_frame pickup="minecraft:enchanted_golden_apple"/>
+                <objective_frame pickup="minecraft:trident"/>
+                <objective_frame pickup="minecraft:nautilus_shell"/>
+            </flow_panel>
+
+            <!-- nether pickup counts -->
+            <flow_panel row="1" col="4">
+                <objective_frame pickup="minecraft:wither_skeleton_skull"/>
+            </flow_panel>
+
+            <!-- info panel -->
+            <leaderboard name="Leaderboard" row="0" col="5" rowspan="2"/>
+            <potion_group name="Potion Recipes" row="0" col="5" rowspan="2" padding="8,0,6,0"/>
         </grid>
 
         <!-- advancements with subcriteria -->
@@ -45,14 +61,6 @@
             <criteria_group width="320"    advancement="minecraft:husbandry/balanced_diet"/>
             <criteria_group width="194"    advancement="minecraft:husbandry/bred_all_animals"/>
             <criteria_group width="2 * 68" advancement="minecraft:husbandry/complete_catalogue"/>
-        </flow_panel>
-
-        <!-- item count display (trident, shells, skulls etc.) -->
-        <flow_panel name="counts" row="0" col="2" cell_width="68" cell_height="81">
-            <objective_frame pickup="minecraft:enchanted_golden_apple"/>
-            <objective_frame pickup="minecraft:trident"/>
-            <objective_frame pickup="minecraft:nautilus_shell"/>
-            <objective_frame pickup="minecraft:wither_skeleton_skull"/>
         </flow_panel>
 
         <!-- status strip -->

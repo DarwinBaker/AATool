@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Heads">
+    <block id="minecraft:creeper_head"              name="Creeper Head"             icon="creeper_head"/>
+    <block id="minecraft:zombie_head"               name="Zombie Head"              icon="zombie_head"/>
+    
+    <block id="minecraft:skeleton_skull"            name="Skeleton Skull"           icon="skeleton_skull"/>
+    <block id="minecraft:wither_skeleton_skull"     name="Wither Skeleton Skull"    icon="wither_skeleton_skull"/>
+
+    <block id="minecraft:dragon_head"               name="Dragon Head"              icon="dragon_head"/>
+    <block id="minecraft:dragon_egg"                name="Dragon Egg"               icon="dragon_egg"/>
+</group>

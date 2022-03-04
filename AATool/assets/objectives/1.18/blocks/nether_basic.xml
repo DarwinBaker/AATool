@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Nether (Basic)">
+    <block id="minecraft:netherrack"            name="Netherrack"           icon="netherrack_block"/>
+    <block id="minecraft:crimson_nylium"        name="Crimson Nylium"       icon="crimson_nylium"/>
+    <block id="minecraft:warped_nylium"         name="Warped Nylium"        icon="warped_nylium"/>
+
+    <block id="minecraft:soul_sand"             name="Soul Sand"            icon="soul_sand"/>
+    <block id="minecraft:soul_soil"             name="Soul Soil"            icon="soul_soil"/>
+    <block id="minecraft:bone_block"            name="Bone Block"           icon="bone_block"/>
+
+    <block id="minecraft:basalt"                name="Basalt"               icon="basalt"/>
+    <block id="minecraft:smooth_basalt"         name="Smooth Basalt"        icon="smooth_basalt"/>
+    <block id="minecraft:polished_basalt"       name="Polished Basalt"      icon="polished_basalt"/>
+</group>

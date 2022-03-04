@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Nether Bricks">
+    <block id="minecraft:nether_bricks"             name="Nether&#xA;Bricks"                icon="nether_bricks"/>
+    <block id="minecraft:nether_brick_stairs"       name="Nether&#xA;Brick&#xA;Stairs"      icon="nether_brick_stairs"/>
+    <block id="minecraft:nether_brick_slab"         name="Nether&#xA;Brick&#xA;Slab"        icon="nether_brick_slab"/>
+    <block id="minecraft:nether_brick_fence"        name="Nether&#xA;Brick&#xA;Fence"       icon="nether_brick_fence"/>
+    
+    <block id="minecraft:cracked_nether_bricks"     name="Cracked&#xA;Nether&#xA;Bricks"    icon="cracked_nether_bricks"/>
+    <block id="minecraft:chiseled_nether_bricks"    name="Chiseled&#xA;Nether&#xA;Bricks"   icon="chiseled_nether_bricks"/>
+    <empty/>
+    <block id="minecraft:nether_brick_wall"         name="Nether&#160;Brick&#xA;Wall"        icon="nether_brick_wall"/>
+
+    <block id="minecraft:red_nether_bricks"         name="Red&#xA;Nether&#xA;Bricks"         icon="red_nether_bricks"/>
+    <block id="minecraft:red_nether_brick_stairs"   name="Red&#xA;Nether&#160;Brick Stairs"  icon="red_nether_brick_stairs"/>
+    <block id="minecraft:red_nether_brick_slab"     name="Red&#xA;Nether&#160;Brick Slab"    icon="red_nether_brick_slab"/>
+    <block id="minecraft:red_nether_brick_wall"     name="Red&#xA;Nether&#160;Brick Wall"    icon="red_nether_brick_wall"/>
+</group>

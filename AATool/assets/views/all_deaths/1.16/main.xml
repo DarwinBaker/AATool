@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <rows>
+            <row height="424"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="0" collapsed="true"/>
+            <column width="1024"/>
+        </columns>
+
+        <grid row="0" col="1" drawmode="all">
+            <rows>
+                <row height="1*"/>
+            </rows>
+            <columns>
+                <column width="1*"/>
+            </columns>
+
+            <flow_panel row="0" col="0" cell_width="128" cell_height="100" colspan="2">
+                <objective_frame death="slain"/>
+                <objective_frame death="shot"/>
+                <objective_frame death="bed_explosion"/>
+                <objective_frame death="hit_the_ground"/>
+                <objective_frame death="high_place"/>
+                <objective_frame death="fell_off"/>
+                <objective_frame death="fireballed"/>
+                <objective_frame death="cramming"/>
+
+                <objective_frame death="elytra"/>
+                <objective_frame death="firework"/>
+                <objective_frame death="trident"/>
+                <objective_frame death="void">
+                    <glow_effect texture="end_crystal_glow" scale="0.7" brightness="1" margin_top="-10" vertical_align="top"/>
+                </objective_frame>
+                <objective_frame death="blew_up"/>
+                <objective_frame death="anvil"/>
+                <objective_frame death="magic"/>
+                <objective_frame death="lightning"/>
+
+                <objective_frame death="drowned"/>
+                <objective_frame death="flames">
+                    <glow_effect texture="lava_glow" scale="0.8" brightness="0.8" margin_top="-10" vertical_align="top"/>
+                </objective_frame>                
+                <objective_frame death="burned">
+                    <glow_effect texture="lava_glow" scale="0.8" brightness="0.8" margin_top="-10" vertical_align="top"/>
+                </objective_frame>
+                <objective_frame death="starved"/>
+                <objective_frame death="withered_away"/>
+                <objective_frame death="sweet_berry"/>
+                <objective_frame death="shot_by_wither"/>
+
+                <objective_frame death="lava">
+                    <glow_effect texture="lava_glow" scale="0.8" brightness="1" margin_top="-10" vertical_align="top"/>
+                </objective_frame>
+                <objective_frame death="magma">
+                    <glow_effect texture="lava_glow" scale="0.8" brightness="0.8" margin_top="-10" vertical_align="top"/>
+                </objective_frame>
+                <objective_frame death="suffocated"/>
+                <objective_frame death="cactus"/>
+                <objective_frame death="stung"/>
+                <objective_frame death="thorns"/>
+            </flow_panel>
+        </grid>
+
+        <!-- status strip -->
+        <status_bar row="1" col="1" colspan="3" right="330"/>
+    </grid>
+</control>

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<deaths>
+    <death id="burned" messages="burned to death"           name="Burned to Death"                      icon="fire"/>
+    <death id="flames" messages="went up in flames"         name="Went Up in Flames"                    icon="fire"/>
+    <death id="lava" messages="tried to swim in lava"       name="Tried to Swim&#160;in&#160;Lava"      icon="lava"/>
+    <death id="suffocated" messages="suffocated in a wall"  name="Suffocated in&#160;a&#160;Wall"       icon="gravel"/>
+    <death id="drowned" messages="drowned"                  name="Drowned"                              icon="water"/>
+    <death id="withered_away" messages="withered away"           name="Withered Away"                        icon="wither_skeleton_skull"/>
+    <death id="blew_up" messages="blew up,was blown up"                  name="Blew Up"                              icon="tnt_block"/>
+    <death id="starved" messages="starved to death"         name="Starved to Death"                     icon="rotten_flesh"/>
+    <death id="cactus" messages="was pricked to death"      name="Was Pricked&#xA;to Death"             icon="cactus_short"/>
+    <death id="hit_the_ground" messages="hit the ground too hard"   name="Hit the Ground too Hard"      icon="fall_damage"/>
+    <death id="void" messages="fell out of the world"       name="Fell Out of&#xA;the World"            icon="void"/>
+    <death id="magic" messages="was killed by magic,was killed by potion using magic,was killed by evoker using magic,was killed by guardian using magic"   name="Was Killed&#xA;by Magic"              icon="splash_harming"/>
+    <death id="slain" messages="was slain by"               name="Was Slain&#xA;by Mob"                 icon="kill_a_mob"/>
+    <death id="shot" messages="was shot by"                 name="Was Shot&#xA;by Mob"                  icon="sniper_duel"/>
+    <death id="fireballed" messages="was fireballed by"     name="Was&#160;Fireballed&#xA;by Mob"       icon="ghast"/>
+
+    <death id="lightning" messages="was struck by lightning"        name="Was Struck&#xA;by Lightning"      icon="lightning_rod"/>
+
+    <death id="anvil" messages="was squashed by a falling anvil"    name="Squashed by Falling Anvil"        icon="anvil"/>
+    <death id="thorns" messages="was killed trying to hurt"         name="Was Killed Trying to Hurt Mob"    icon="thorns"/>
+
+    <death id="high_place" messages="fell from a high place"        name="Fell From a&#xA;High Place"       icon="high_fall"/>
+    <death id="fell_off" messages="fell off"        name="Fell Off&#xA;Climbable Block"       icon="ladder"/>
+
+    <death id="elytra" messages="experienced kinetic energy"        name="Experienced Kinetic&#160;Energy"  icon="enchanted_elytra"/>
+
+    <death id="magma" messages="discovered the floor was lava"    name="Discovered the Floor was Lava"    icon="magma_block"/>
+
+    <death id="cramming" messages="was squished too much"           name="Was Squished too Much"            icon="boat_cram"/>
+    <death id="firework" messages="went off with a bang"            name="Went Off with a Bang"             icon="firework_rocket"/>
+
+    <death id="bed_explosion" messages="was killed by [intentional game design]"    name="Was Killed by [Intentional&#160;Game&#160;Design]"            icon="white_bed"/>
+    <death id="trident" messages="was impaled by"                   name="Was Impaled by Mob"               icon="trident"/>
+
+    <death id="sweet_berry" messages="was poked to death by a sweet berry bush" name="Poked to Death by Sweet Berry" icon="sweet_berry_bush"/>
+
+    <death id="stung" messages="was stung to death"     name="Was Stung&#xA;to Death"   icon="bee_nest"/>
+
+    <death id="shot_by_wither" messages="was shot by a wither"     name="Shot by Wither Skull"            icon="wither"/>
+</deaths>

@@ -9,10 +9,11 @@ namespace AATool.Data.Objectives
 {
     public class AdvancementManifest : IManifest
     {
-        public Dictionary<string, Advancement> All                       { get; private set; }
-        public Dictionary<string, HashSet<Advancement>> Groups           { get; private set; }
-        public Dictionary<(string adv, string crit), Criterion> Criteria { get; private set; }
-        public int CompletedCount                                        { get; private set; }
+        public readonly Dictionary<string, Advancement> All = new ();
+        public readonly Dictionary<string, HashSet<Advancement>> Groups = new ();
+        public readonly Dictionary<(string adv, string crit), Criterion> Criteria = new ();
+
+        public int CompletedCount { get; private set; }
 
         public int Count => this.All.Count;
 
@@ -47,34 +48,33 @@ namespace AATool.Data.Objectives
             if (Tracker.Category is AllAchievements)
                 return;
 
-            //try to get list of all advancement reference files
+            //try to get list of all advancement objective files
             bool filesExist = Paths.TryGetAllFiles(Paths.System.AdvancementsFolder, "*.xml",
-                SearchOption.TopDirectoryOnly,
-                out IEnumerable<string> files);
+                SearchOption.TopDirectoryOnly, out IEnumerable<string> files);
 
-            if (!filesExist)
-                return;
-
-            //iterate advancement reference files for current game version
-            foreach (string file in files)
-                this.ParseFile(file);
+            if (filesExist)
+            {
+                //iterate advancement objective files for current game version
+                foreach (string file in files)
+                    this.ParseFile(file);
+            }
         }
 
         private void ParseFile(string file)
         {
-            if (!XmlObject.TryGetDocument(file, out XmlDocument document))
-                return;
+            if (XmlObject.TryGetDocument(file, out XmlDocument document))
+            {
+                //add advancement group
+                var group = new HashSet<Advancement>();
+                foreach (XmlNode node in document.DocumentElement?.ChildNodes)
+                    this.RequireAdvancement(node, group);
 
-            //add advancement group
-            var group = new HashSet<Advancement>();
-            foreach (XmlNode node in document.DocumentElement?.ChildNodes)
-                this.RegisterAdvancement(node, group);
-
-            string id = Path.GetFileNameWithoutExtension(file);
-            this.Groups[id] = group;
+                string id = Path.GetFileNameWithoutExtension(file);
+                this.Groups[id] = group;
+            }
         }
 
-        private void RegisterAdvancement(XmlNode node, HashSet<Advancement> group)
+        private void RequireAdvancement(XmlNode node, HashSet<Advancement> group)
         {
             var advancement = new Advancement(node);
             this.All[advancement.Id] = advancement;
@@ -87,7 +87,7 @@ namespace AATool.Data.Objectives
             }
         }
 
-        public void UpdateStates(WorldState progress)
+        public void SetState(WorldState progress)
         {
             this.CompletedCount = 0;
             foreach (Advancement advancement in this.All.Values)

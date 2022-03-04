@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control height="58">
+    <grid padding="8,0,10,32">
+        <rows>
+            <row height="38"/>
+            <row height="18"/>
+        </rows>
+        <columns>
+            <column width="32"/>
+            <column width="160"/>
+        </columns>
+
+        <panel row="0" col="0" horizontal_align="left" vertical_align="top" square="true" border_thickness="2" margin_left="6">
+            <avatar scale="4"/>
+        </panel>
+        <text_block name="name" row="0" col="1" h_text_align="left" vertical_align="top" padding_left="14" margin_top="2"/>
+        <text_block name="igt" row="0" col="1" h_text_align="left" vertical_align="top" padding_left="14" margin_top="17"/>
+        
+        <text_block name="status" row="0" col="1" h_text_align="right" vertical_align="top" padding_right="6" margin_top="2"/>
+        <text_block name="date" row="0" col="1" h_text_align="right" vertical_align="top" padding_right="6" margin_top="17"/>
+    </grid>
+</control>

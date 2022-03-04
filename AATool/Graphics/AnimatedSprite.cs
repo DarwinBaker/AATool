@@ -8,25 +8,28 @@ namespace AATool.Graphics
         public readonly int Frames;
 
         private readonly Rectangle fullBounds;
+        private readonly decimal speed;
         private readonly int columns;
         private readonly int singleWidth;
         private readonly int singleHeight;
 
         public int CurrentFrame { get; private set; }
 
-        public AnimatedSprite(Rectangle source, int frames, int columns) : base(source)
+        public AnimatedSprite(Rectangle source, int frames, int columns, decimal speed) : base(source)
         {
             this.fullBounds = source;
             this.Frames = frames;
-            this.columns = Math.Min(columns, MaxAnimationColumns);
+            this.columns = Math.Max(columns, 1);
+            this.speed = Math.Max(speed, 0.1m);
             this.singleWidth = this.columns > 0 ? this.Width / this.columns : source.Width;
             this.singleHeight = this.Height / (int)Math.Ceiling(this.Frames / (double)this.columns);
         }
 
         public void Animate(decimal animationTime)
         {
-            decimal loops = Math.Floor(animationTime / this.Frames);
-            int wrapped = (int)(animationTime - (loops * this.Frames));
+            decimal scaled = animationTime / this.speed;
+            decimal loops = Math.Floor(scaled / this.Frames);
+            int wrapped = (int)(scaled - (loops * this.Frames));
             if (wrapped != this.CurrentFrame)
             {
                 //convert wrapped frame index to x,y offset

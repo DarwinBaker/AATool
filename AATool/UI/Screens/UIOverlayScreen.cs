@@ -64,7 +64,7 @@ namespace AATool.UI.Screens
         public override string GetCurrentView()
         {
             return Path.Combine(Paths.System.ViewsFolder,
-                Tracker.Category.LayoutName,
+                Tracker.Category.ViewName,
                 "overlay.xml");
         }
 
@@ -146,10 +146,10 @@ namespace AATool.UI.Screens
                     ? FlowDirection.RightToLeft
                     : FlowDirection.LeftToRight;
 
-                if (Tracker.Category is not AllBlocks)
+                if (Tracker.Category is not (AllBlocks or AllDeaths))
                 {
                     //add pickup counters
-                    foreach (Pickup pickup in Tracker.Pickups.All.Values.Reverse())
+                    foreach (Pickup pickup in Tracker.Category.Pickups.All.Values.Reverse())
                         this.counts.AddControl(new UIObjectiveFrame(pickup, 3));
                 }
 
@@ -290,7 +290,7 @@ namespace AATool.UI.Screens
             {
                 this.status?.SetFont("minecraft", 48);
                 if (Config.Overlay.ShowIgt && Tracker.InGameTime != default)
-                    this.status?.SetText(Tracker.InGameTime.ToString("hh':'mm':'ss"));
+                    this.status?.SetText(Tracker.GetPrettyIGT());
                 else
                     this.status?.SetText(string.Empty);
             }

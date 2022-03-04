@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Shrubs">
+    <block id="minecraft:grass"             name="Grass"                icon="grass"/>
+    <block id="minecraft:fern"              name="Fern"                 icon="fern"/>
+    <block id="minecraft:dead_bush"         name="Dead Bush"            icon="dead_bush"/>
+    <block id="minecraft:sweet_berries"     name="Sweet Berry Bush"     icon="sweet_berry_bush"/>
+    <block id="minecraft:lily_pad"          name="Lily Pad"             icon="lily_pad"/>
+    <block id="minecraft:crimson_roots"     name="Crimson Roots"        icon="crimson_roots"/>
+    <block id="minecraft:warped_roots"      name="Warped Roots"         icon="warped_roots"/>
+    <block id="minecraft:nether_sprouts"    name="Nether Sprouts"       icon="nether_sprouts"/>
+</group>

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Rails">
+    <block id="minecraft:rail"              name="Rail"                     icon="rail"/>
+    <block id="minecraft:detector_rail"     name="Detector&#xA;Rail"        icon="detector_rail"/>
+    <block id="minecraft:activator_rail"    name="Activator&#xA;Rail"       icon="activator_rail"/>
+    <block id="minecraft:powered_rail"      name="Powered&#xA;Rail"         icon="powered_rail"/>
+</group>

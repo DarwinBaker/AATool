@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AATool.Graphics;
 using AATool.Net.Requests;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Linq;
@@ -12,12 +10,16 @@ namespace AATool.Net
 {
     public static class Player
     {
-        private static readonly Dictionary<string, Uuid> IdCache   = new ();
+        private static readonly Dictionary<string, Uuid> IdCache = new ();
         private static readonly Dictionary<Uuid, string> NameCache = new ();
-        private static readonly Dictionary<Uuid, Color> ColorCache = new ();
 
-        public static bool TryGetName(Uuid id, out string name)  => NameCache.TryGetValue(id, out name);
-        public static bool TryGetColor(Uuid id, out Color color) => ColorCache.TryGetValue(id, out color);
+        private static readonly Dictionary<Uuid, Color> IdColorCache = new ();
+        private static readonly Dictionary<string, Color> NameColorCache = new ();
+
+        public static bool TryGetUuid(string name, out Uuid id) => IdCache.TryGetValue(name ?? "", out id);
+        public static bool TryGetName(Uuid id, out string name) => NameCache.TryGetValue(id, out name);
+        public static bool TryGetColor(Uuid id, out Color color) => IdColorCache.TryGetValue(id, out color);
+        public static bool TryGetColor(string name, out Color color) => NameColorCache.TryGetValue(name ?? "", out color);
 
         public static bool ValidateName(string name)
         {
@@ -67,18 +69,32 @@ namespace AATool.Net
         {
             if (!NameCache.ContainsKey(id) && !string.IsNullOrEmpty(name))
                 NameCache[id] = name;
+            if (name is not null && !IdCache.ContainsKey(name) && id != Uuid.Empty)
+                IdCache[name] = id;
         }
 
         public static void Cache(Uuid id, Color color)
         {
-            if (!ColorCache.ContainsKey(id))
-                ColorCache[id] = color;
+            if (!IdColorCache.ContainsKey(id))
+                IdColorCache[id] = color;
+        }
+
+        public static void Cache(string name, Color color)
+        {
+            if (!NameColorCache.ContainsKey(name))
+                NameColorCache[name] = color;
         }
 
         public static void FetchIdentity(Uuid id)
         {
             NetRequest.Enqueue(new NameRequest(id));
             NetRequest.Enqueue(new AvatarRequest(id));
+        }
+
+        public static async void FetchIdentity(string name)
+        {
+            Uuid id = await FetchUuidAsync(name);
+            Cache(id, name);
         }
     }
 }

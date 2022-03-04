@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Specialized">
+    <block id="minecraft:crafting_table"        name="Crafting Table"       icon="crafting_table"/>
+    <block id="minecraft:fletching_table"       name="Fletching Table"      icon="fletching_table"/>
+    <block id="minecraft:cartography_table"     name="Cartography Table"    icon="cartography_table"/>
+    <block id="minecraft:smithing_table"        name="Smithing Table"       icon="smithing_table"/>
+    <block id="minecraft:composter"             name="Composter"            icon="composter"/>
+    <block id="minecraft:barrel"                name="Barrel"               icon="barrel"/>
+    <block id="minecraft:lectern"               name="Lectern"              icon="lectern_block"/>
+    <block id="minecraft:beehive"               name="Beehive"              icon="beehive"/>
+    <block id="minecraft:honeycomb_block"       name="Honeycomb Block"      icon="honeycomb_block"/>
+
+    <block id="minecraft:furnace"               name="Furnace"              icon="furnace"/>
+    <block id="minecraft:blast_furnace"         name="Blast Furnace"        icon="blast_furnace"/>
+    <block id="minecraft:smoker"                name="Smoker"               icon="smoker"/>
+    <block id="minecraft:loom"                  name="Loom"                 icon="loom"/>
+    <block id="minecraft:grindstone"            name="Grindstone"           icon="grindstone"/>
+    <block id="minecraft:stonecutter"           name="Stone Cutter"         icon="stone_cutter"/>
+    <block id="minecraft:bookshelf"             name="Bookshelf"            icon="bookshelf"/>
+    <block id="minecraft:bee_nest"              name="Bee Nest"             icon="bee_nest"/>
+    <block id="minecraft:honey_block"           name="Honey Block"          icon="honey_block"/>
+
+    <block id="minecraft:dispenser"             name="Dispenser"            icon="dispenser"/>
+    <block id="minecraft:dropper"               name="Dropper"              icon="dropper"/>
+    <block id="minecraft:observer"              name="Observer"             icon="observer"/>
+    <block id="minecraft:anvil"                 name="Anvil"                icon="anvil"/>
+    <block id="minecraft:chipped_anvil"         name="Chipped&#xA;Anvil"    icon="chipped_anvil"/>
+    <block id="minecraft:damaged_anvil"         name="Damaged&#xA;Anvil"    icon="damaged_anvil"/>
+    <block id="minecraft:enchanting_table"      name="Enchanting Table"     icon="enchanting_table"   light_level="0.7"/>
+    <block id="minecraft:beacon"                name="Beacon"               icon="beacon"   light_level="0.9"/>
+    <block id="minecraft:slime_block"           name="Slime Block"          icon="slime_block"/>
+
+    <block id="minecraft:piston"                name="Piston"               icon="piston"/>
+    <block id="minecraft:sticky_piston"         name="Sticky Piston"        icon="sticky_piston"/>
+    <block id="minecraft:hopper"                name="Hopper"               icon="hopper"/>
+    <block id="minecraft:chest"                 name="Chest"                icon="chest"/>
+    <block id="minecraft:trapped_chest"         name="Trapped Chest"        icon="trapped_chest"/>
+    <block id="minecraft:ender_chest"           name="Ender Chest"          icon="ender_chest_block"/>
+    <block id="minecraft:brewing_stand"         name="Brewing Stand"        icon="brewing_stand"/>
+    <block id="minecraft:bell"                  name="Bell"                 icon="bell"/>
+    <block id="minecraft:cauldron"              name="Cauldron"             icon="cauldron"/>
+</group>

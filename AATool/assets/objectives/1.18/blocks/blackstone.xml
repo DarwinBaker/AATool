@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Nether">
+    <block id="minecraft:blackstone"                    name="Blackstone"                   icon="blackstone"/>
+    <block id="minecraft:gilded_blackstone"             name="Gilded Blackstone"            icon="gilded_blackstone"/>
+    <block id="minecraft:blackstone_stairs"             name="Blackstone Stairs"            icon="blackstone_stairs"/>
+    <block id="minecraft:blackstone_slab"               name="Blackstone Slab"              icon="blackstone_slab"/>
+    <block id="minecraft:blackstone_wall"               name="Blackstone Wall"              icon="blackstone_wall"/>
+    
+    <block id="minecraft:polished_blackstone_bricks"            name="Polished Blackstone Bricks"           icon="polished_blackstone_bricks"/>
+    <block id="minecraft:cracked_polished_blackstone_bricks"    name="Cracked Blackstone Bricks"            icon="cracked_polished_blackstone_bricks"/>
+    <block id="minecraft:polished_blackstone_brick_stairs"      name="Blackstone Brick Stairs"              icon="polished_blackstone_brick_stairs"/>
+    <block id="minecraft:polished_blackstone_brick_slab"        name="Polished Blackstone Brick Slab"       icon="polished_blackstone_brick_slab"/>
+    <block id="minecraft:polished_blackstone_brick_wall"        name="Polished Blackstone Wall"             icon="polished_blackstone_brick_wall"/>
+    
+    <block id="minecraft:chiseled_polished_blackstone"  name="Chiseled Polished Blackstone"     icon="chiseled_polished_blackstone"/>
+    <block id="minecraft:polished_blackstone"           name="Polished Blackstone"              icon="polished_blackstone"/>
+    <block id="minecraft:polished_blackstone_stairs"    name="Polished Blackstone Stairs"       icon="polished_blackstone_stairs"/>
+    <block id="minecraft:polished_blackstone_slab"      name="Polished Blackstone Slab"         icon="polished_blackstone_slab"/>
+    <block id="minecraft:polished_blackstone_wall"      name="Polished Blackstone Wall"         icon="polished_blackstone_wall"/>
+</group>

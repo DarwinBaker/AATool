@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Vines">
+    <block id="minecraft:glow_lichen"       name="Glow Lichen"      icon="glow_lichen"      light_level="0.7"/>
+    <block id="minecraft:glow_berries"      name="Cave Vines"       icon="cave_vines"       double_height="true"    light_level="0.7"/>
+    <block id="minecraft:twisting_vines"    name="Twisting Vines"   icon="twisting_vines"   double_height="true"/>
+
+    <block id="minecraft:hanging_roots"     name="Hanging Roots"    icon="hanging_roots"/>
+    <block id="minecraft:vine"              name="Vine"             icon="vine"             double_height="true"/>
+    <block id="minecraft:weeping_vines"     name="Weeping Vines"    icon="weeping_vines"    double_height="true"/>
+</group>

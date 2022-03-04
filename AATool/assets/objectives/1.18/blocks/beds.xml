@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Beds">
+    <block id="minecraft:white_bed"        name="White Bed"           icon="white_bed"/>
+    <block id="minecraft:red_bed"          name="Red Bed"             icon="red_bed"/>
+    <block id="minecraft:orange_bed"       name="Orange Bed"          icon="orange_bed"/>
+    <block id="minecraft:yellow_bed"       name="Yellow Bed"          icon="yellow_bed"/>
+    <block id="minecraft:lime_bed"         name="Lime Bed"            icon="lime_bed"/>
+    <block id="minecraft:green_bed"        name="Green Bed"           icon="green_bed"/>
+    <block id="minecraft:cyan_bed"         name="Cyan Bed"            icon="cyan_bed"/>
+    <block id="minecraft:light_blue_bed"   name="Light Blue&#xA;Bed"  icon="light_blue_bed"/>
+    <block id="minecraft:blue_bed"         name="Blue Bed"            icon="blue_bed"/>
+    <block id="minecraft:purple_bed"       name="Purple Bed"          icon="purple_bed"/>
+    <block id="minecraft:magenta_bed"      name="Magenta Bed"         icon="magenta_bed"/>
+    <block id="minecraft:pink_bed"         name="Pink Bed"            icon="pink_bed"/>
+    <block id="minecraft:brown_bed"        name="Brown Bed"           icon="brown_bed"/>
+    <block id="minecraft:light_gray_bed"   name="Light Gray&#xA;Bed"  icon="light_gray_bed"/>
+    <block id="minecraft:gray_bed"         name="Gray Bed"            icon="gray_bed"/>
+    <block id="minecraft:black_bed"        name="Black Bed"           icon="black_bed"/>
+</group>

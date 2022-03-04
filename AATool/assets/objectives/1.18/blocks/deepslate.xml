@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Deepslate">
+    <block id="minecraft:deepslate"                 name="Deepslate"                        icon="deepslate"/>
+    <block id="minecraft:cobbled_deepslate"         name="Cobbled Deepslate"                icon="cobbled_deepslate"/>
+    <block id="minecraft:cobbled_deepslate_stairs"  name="Cobbled Deepslate&#xA;Stairs"     icon="cobbled_deepslate_stairs"/>
+    <block id="minecraft:cobbled_deepslate_slab"    name="Cobbled Deepslate&#xA;Slab"       icon="cobbled_deepslate_slab"/>
+    <block id="minecraft:cobbled_deepslate_wall"    name="Cobbled Deepslate&#xA;Wall"       icon="cobbled_deepslate_wall"/>
+
+    <block id="minecraft:polished_deepslate"        name="Polished Deepslate"               icon="polished_deepslate"/>
+    <block id="minecraft:chiseled_deepslate"        name="Chiseled Deepslate"               icon="chiseled_deepslate"/>
+    <block id="minecraft:polished_deepslate_stairs" name="Polished Deepslate&#xA;Stairs"    icon="polished_deepslate_stairs"/>
+    <block id="minecraft:polished_deepslate_slab"   name="Polished Deepslate&#xA;Slab"      icon="polished_deepslate_slab"/>
+    <block id="minecraft:polished_deepslate_wall"   name="Polished Deepslate&#xA;Wall"      icon="polished_deepslate_wall"/>
+
+    <block id="minecraft:deepslate_tiles"           name="Deepslate Tiles"                  icon="deepslate_tiles"/>
+    <block id="minecraft:cracked_deepslate_tiles"   name="Cracked Deepslate Tiles"          icon="cracked_deepslate_tiles"/>
+    <block id="minecraft:deepslate_tile_stairs"     name="Deepslate Tile Stairs"            icon="deepslate_tile_stairs"/>
+    <block id="minecraft:deepslate_tile_slab"       name="Deepslate Tile Slab"              icon="deepslate_tile_slab"/>
+    <block id="minecraft:deepslate_tile_wall"       name="Deepslate Tile Wall"              icon="deepslate_tile_wall"/>
+
+    <block id="minecraft:deepslate_bricks"          name="Deepslate Bricks"                 icon="deepslate_bricks"/>
+    <block id="minecraft:cracked_deepslate_bricks"  name="Cracked Deepslate Bricks"         icon="cracked_deepslate_bricks"/>
+    <block id="minecraft:deepslate_brick_stairs"    name="Deepslate Brick Stairs"           icon="deepslate_brick_stairs"/>
+    <block id="minecraft:deepslate_brick_slab"      name="Polished Deepslate Brick Slab"    icon="deepslate_brick_slab"/>
+    <block id="minecraft:deepslate_brick_wall"      name="Polished Deepslate Brick Wall"    icon="deepslate_brick_wall"/>
+</group>

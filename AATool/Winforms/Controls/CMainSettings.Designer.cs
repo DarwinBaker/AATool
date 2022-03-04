@@ -31,6 +31,8 @@ namespace AATool.Winforms.Controls
         {
             this.notesEnabled = new System.Windows.Forms.CheckBox();
             this.mainGroupMain = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.infoPanel = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.hideCompleted = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -60,6 +62,7 @@ namespace AATool.Winforms.Controls
             this.label11 = new System.Windows.Forms.Label();
             this.ambientGlow = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.highRes = new System.Windows.Forms.CheckBox();
             this.mainGroupMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -69,7 +72,7 @@ namespace AATool.Winforms.Controls
             // notesEnabled
             // 
             this.notesEnabled.AutoSize = true;
-            this.notesEnabled.Location = new System.Drawing.Point(6, 121);
+            this.notesEnabled.Location = new System.Drawing.Point(6, 147);
             this.notesEnabled.Name = "notesEnabled";
             this.notesEnabled.Size = new System.Drawing.Size(132, 17);
             this.notesEnabled.TabIndex = 27;
@@ -79,6 +82,9 @@ namespace AATool.Winforms.Controls
             // 
             // mainGroupMain
             // 
+            this.mainGroupMain.Controls.Add(this.highRes);
+            this.mainGroupMain.Controls.Add(this.label3);
+            this.mainGroupMain.Controls.Add(this.infoPanel);
             this.mainGroupMain.Controls.Add(this.label12);
             this.mainGroupMain.Controls.Add(this.notesEnabled);
             this.mainGroupMain.Controls.Add(this.hideCompleted);
@@ -92,11 +98,34 @@ namespace AATool.Winforms.Controls
             this.mainGroupMain.TabStop = false;
             this.mainGroupMain.Text = "Layout";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(117, 22);
+            this.label3.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.TabIndex = 37;
+            this.label3.Text = "Info Panel:";
+            // 
+            // infoPanel
+            // 
+            this.infoPanel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.infoPanel.FormattingEnabled = true;
+            this.infoPanel.Items.AddRange(new object[] {
+            "Leaderboard",
+            "Potion Recipes"});
+            this.infoPanel.Location = new System.Drawing.Point(120, 38);
+            this.infoPanel.Name = "infoPanel";
+            this.infoPanel.Size = new System.Drawing.Size(108, 21);
+            this.infoPanel.TabIndex = 36;
+            this.infoPanel.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
+            // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label12.Location = new System.Drawing.Point(3, 141);
+            this.label12.Location = new System.Drawing.Point(3, 167);
             this.label12.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(221, 13);
@@ -438,6 +467,18 @@ namespace AATool.Winforms.Controls
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Lighting";
             // 
+            // highRes
+            // 
+            this.highRes.AutoSize = true;
+            this.highRes.Location = new System.Drawing.Point(6, 121);
+            this.highRes.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.highRes.Name = "highRes";
+            this.highRes.Size = new System.Drawing.Size(133, 17);
+            this.highRes.TabIndex = 38;
+            this.highRes.Text = "Hi-Res Display Scaling";
+            this.highRes.UseVisualStyleBackColor = true;
+            this.highRes.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            // 
             // CMainSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -493,5 +534,8 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.ComboBox frameStyle;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox progressBarStyle;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox infoPanel;
+        private System.Windows.Forms.CheckBox highRes;
     }
 }

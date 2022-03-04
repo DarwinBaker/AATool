@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Snow">
+    <block id="minecraft:ice"           name="Ice"              icon="ice"/>
+    <block id="minecraft:packed_ice"    name="Packed Ice"       icon="packed_ice"/>
+    <block id="minecraft:blue_ice"      name="Blue Ice"         icon="blue_ice"/>
+
+    <block id="minecraft:snow_block"            name="Snow Block"   icon="snow_block"/>
+    <block id="minecraft:powder_snow_bucket"    name="Powder Snow"  icon="powder_snow"/>
+    <block id="minecraft:snow"                  name="Snow"         icon="snow"/>
+</group>

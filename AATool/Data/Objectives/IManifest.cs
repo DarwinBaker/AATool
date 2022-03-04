@@ -6,6 +6,6 @@ namespace AATool.Data.Objectives
     {
         public void ClearObjectives();
         public void RefreshObjectives();
-        public void UpdateStates(WorldState progress);
+        public void SetState(WorldState progress);
     }
 }

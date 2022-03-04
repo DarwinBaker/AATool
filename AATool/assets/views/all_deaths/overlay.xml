@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control width="1214" height="420">
+    <panel name="panel_congrats" draw_mode="children_only" collapsed="true">
+        <!-- run completion overview -->
+        <run_complete/>
+    </panel>
+    <panel name="panel_carousel" draw_mode="children_only">
+        <!-- advancement carousel -->
+        <advancement_carousel name="advancements"/>
+    </panel>
+
+    <!-- item count display (trident, shells, skulls etc.) -->
+    <panel draw_mode="children_only" height="152" vertical_align="bottom">
+        <flow_panel name="counts" cell_width="150" cell_height="102" draw_mode="children_only">
+            <objective_frame width="28" pickup="minecraft:wither_skeleton_skull" scale="3"/>
+        </flow_panel>
+    </panel>
+</control>

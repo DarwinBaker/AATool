@@ -122,7 +122,14 @@ namespace AATool.Utilities
                     total += third;
                 }
             }
-            return new Color(r / total, g / total, b / total);
+            r /= total;
+            g /= total;
+            b /= total;
+            float largest = Math.Max(Math.Max(r, g), b);
+            r *= 1f / largest;
+            g *= 1f / largest;
+            b *= 1f / largest;
+            return new Color(r, g, b);
         }
     }
 }

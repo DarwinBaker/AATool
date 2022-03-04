@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Wood">
+    <block id="minecraft:oak_log"               name="Oak&#xA;Log"                  icon="oak_log"/>
+    <block id="minecraft:oak_wood"              name="Oak&#xA;Wood"                 icon="oak_wood"/>
+    <block id="minecraft:stripped_oak_log"      name="Stripped&#xA;Oak Log"         icon="stripped_oak_log"/>
+    <block id="minecraft:stripped_oak_wood"     name="Stripped&#xA;Oak Wood"        icon="stripped_oak_wood"/>
+    <block id="minecraft:oak_planks"            name="Oak&#xA;Planks"               icon="oak_planks"/>
+    <block id="minecraft:oak_stairs"            name="Oak&#xA;Stairs"               icon="oak_stairs"/>
+    <block id="minecraft:oak_slab"              name="Oak&#xA;Slab"                 icon="oak_slab"/>
+    <block id="minecraft:oak_fence"             name="Oak&#xA;Fence"                icon="oak_fence"/>
+    <block id="minecraft:oak_fence_gate"        name="Oak&#xA;Fence Gate"           icon="oak_fence_gate"/>
+    <block id="minecraft:oak_pressure_plate"    name="Oak&#xA;Pressure Plate"       icon="oak_pressure_plate"/>
+    <block id="minecraft:oak_button"            name="Oak&#xA;Button"               icon="oak_button"/>
+    <block id="minecraft:oak_sign"              name="Oak&#xA;Sign"                 icon="oak_sign"/>
+
+    <block id="minecraft:spruce_log"               name="Spruce&#xA;Log"                  icon="spruce_log"/>
+    <block id="minecraft:spruce_wood"              name="Spruce&#xA;Wood"                 icon="spruce_wood"/>
+    <block id="minecraft:stripped_spruce_log"      name="Stripped&#xA;Spruce Log"         icon="stripped_spruce_log"/>
+    <block id="minecraft:stripped_spruce_wood"     name="Stripped&#xA;Spruce Wood"        icon="stripped_spruce_wood"/>
+    <block id="minecraft:spruce_planks"            name="Spruce&#xA;Planks"               icon="spruce_planks"/>
+    <block id="minecraft:spruce_stairs"            name="Spruce&#xA;Stairs"               icon="spruce_stairs"/>
+    <block id="minecraft:spruce_slab"              name="Spruce&#xA;Slab"                 icon="spruce_slab"/>
+    <block id="minecraft:spruce_fence"             name="Spruce&#xA;Fence"                icon="spruce_fence"/>
+    <block id="minecraft:spruce_fence_gate"        name="Spruce&#xA;Fence Gate"           icon="spruce_fence_gate"/>
+    <block id="minecraft:spruce_pressure_plate"    name="Spruce&#xA;Pressure Plate"       icon="spruce_pressure_plate"/>
+    <block id="minecraft:spruce_button"            name="Spruce&#xA;Button"               icon="spruce_button"/>
+    <block id="minecraft:spruce_sign"              name="Spruce&#xA;Sign"                 icon="spruce_sign"/>
+
+    <block id="minecraft:birch_log"                 name="Birch&#xA;Log"                  icon="birch_log"/>
+    <block id="minecraft:birch_wood"                name="Birch&#xA;Wood"                 icon="birch_wood"/>
+    <block id="minecraft:stripped_birch_log"        name="Stripped&#xA;Birch Log"         icon="stripped_birch_log"/>
+    <block id="minecraft:stripped_birch_wood"       name="Stripped&#xA;Birch Wood"        icon="stripped_birch_wood"/>
+    <block id="minecraft:birch_planks"              name="Birch&#xA;Planks"               icon="birch_planks"/>
+    <block id="minecraft:birch_stairs"              name="Birch&#xA;Stairs"               icon="birch_stairs"/>
+    <block id="minecraft:birch_slab"                name="Birch&#xA;Slab"                 icon="birch_slab"/>
+    <block id="minecraft:birch_fence"               name="Birch&#xA;Fence"                icon="birch_fence"/>
+    <block id="minecraft:birch_fence_gate"          name="Birch&#xA;Fence Gate"           icon="birch_fence_gate"/>
+    <block id="minecraft:birch_pressure_plate"      name="Birch&#xA;Pressure Plate"       icon="birch_pressure_plate"/>
+    <block id="minecraft:birch_button"              name="Birch&#xA;Button"               icon="birch_button"/>
+    <block id="minecraft:birch_sign"                name="Birch&#xA;Sign"                 icon="birch_sign"/>
+
+    <block id="minecraft:jungle_log"                name="Jungle&#xA;Log"                  icon="jungle_log"/>
+    <block id="minecraft:jungle_wood"               name="Jungle&#xA;Wood"                 icon="jungle_wood"/>
+    <block id="minecraft:stripped_jungle_log"       name="Stripped&#xA;Jungle Log"         icon="stripped_jungle_log"/>
+    <block id="minecraft:stripped_jungle_wood"      name="Stripped&#xA;Jungle Wood"        icon="stripped_jungle_wood"/>
+    <block id="minecraft:jungle_planks"             name="Jungle&#xA;Planks"               icon="jungle_planks"/>
+    <block id="minecraft:jungle_stairs"             name="Jungle&#xA;Stairs"               icon="jungle_stairs"/>
+    <block id="minecraft:jungle_slab"               name="Jungle&#xA;Slab"                 icon="jungle_slab"/>
+    <block id="minecraft:jungle_fence"              name="Jungle&#xA;Fence"                icon="jungle_fence"/>
+    <block id="minecraft:jungle_fence_gate"         name="Jungle&#xA;Fence Gate"           icon="jungle_fence_gate"/>
+    <block id="minecraft:jungle_pressure_plate"     name="Jungle&#xA;Pressure Plate"       icon="jungle_pressure_plate"/>
+    <block id="minecraft:jungle_button"             name="Jungle&#xA;Button"               icon="jungle_button"/>
+    <block id="minecraft:jungle_sign"               name="Jungle&#xA;Sign"                 icon="jungle_sign"/>
+
+    <block id="minecraft:acacia_log"                name="Acacia&#xA;Log"                  icon="acacia_log"/>
+    <block id="minecraft:acacia_wood"               name="Acacia&#xA;Wood"                 icon="acacia_wood"/>
+    <block id="minecraft:stripped_acacia_log"       name="Stripped&#xA;Acacia Log"         icon="stripped_acacia_log"/>
+    <block id="minecraft:stripped_acacia_wood"      name="Stripped&#xA;Acacia Wood"        icon="stripped_acacia_wood"/>
+    <block id="minecraft:acacia_planks"             name="Acacia&#xA;Planks"               icon="acacia_planks"/>
+    <block id="minecraft:acacia_stairs"             name="Acacia&#xA;Stairs"               icon="acacia_stairs"/>
+    <block id="minecraft:acacia_slab"               name="Acacia&#xA;Slab"                 icon="acacia_slab"/>
+    <block id="minecraft:acacia_fence"              name="Acacia&#xA;Fence"                icon="acacia_fence"/>
+    <block id="minecraft:acacia_fence_gate"         name="Acacia&#xA;Fence Gate"           icon="acacia_fence_gate"/>
+    <block id="minecraft:acacia_pressure_plate"     name="Acacia&#xA;Pressure Plate"       icon="acacia_pressure_plate"/>
+    <block id="minecraft:acacia_button"             name="Acacia&#xA;Button"               icon="acacia_button"/>
+    <block id="minecraft:acacia_sign"               name="Acacia&#xA;Sign"                 icon="acacia_sign"/>
+
+    <block id="minecraft:dark_oak_log"               name="Dark Oak&#xA;Log"                  icon="dark_oak_log"/>
+    <block id="minecraft:dark_oak_wood"              name="Dark Oak&#xA;Wood"                 icon="dark_oak_wood"/>
+    <block id="minecraft:stripped_dark_oak_log"      name="Stripped&#xA;Dark Oak Log"         icon="stripped_dark_oak_log"/>
+    <block id="minecraft:stripped_dark_oak_wood"     name="Stripped&#xA;Dark Oak Wood"        icon="stripped_dark_oak_wood"/>
+    <block id="minecraft:dark_oak_planks"            name="Dark Oak&#xA;Planks"               icon="dark_oak_planks"/>
+    <block id="minecraft:dark_oak_stairs"            name="Dark Oak&#xA;Stairs"               icon="dark_oak_stairs"/>
+    <block id="minecraft:dark_oak_slab"              name="Dark Oak&#xA;Slab"                 icon="dark_oak_slab"/>
+    <block id="minecraft:dark_oak_fence"             name="Dark Oak&#xA;Fence"                icon="dark_oak_fence"/>
+    <block id="minecraft:dark_oak_fence_gate"        name="Dark Oak&#xA;Fence Gate"           icon="dark_oak_fence_gate"/>
+    <block id="minecraft:dark_oak_pressure_plate"    name="Dark Oak&#xA;Pressure Plate"       icon="dark_oak_pressure_plate"/>
+    <block id="minecraft:dark_oak_button"            name="Dark Oak&#xA;Button"               icon="dark_oak_button"/>
+    <block id="minecraft:dark_oak_sign"              name="Dark Oak&#xA;Sign"                 icon="dark_oak_sign"/>
+
+    <block id="minecraft:crimson_stem"              name="Crimson&#xA;Stem"                 icon="crimson_stem"/>
+    <block id="minecraft:crimson_hyphae"            name="Crimson&#xA;Hyphae"               icon="crimson_hyphae"/>
+    <block id="minecraft:stripped_crimson_stem"     name="Stripped&#xA;Crimson Stem"        icon="stripped_crimson_stem"/>
+    <block id="minecraft:stripped_crimson_hyphae"   name="Stripped&#xA;Crimson Hyphae"      icon="stripped_crimson_hyphae"/>
+    <block id="minecraft:crimson_planks"            name="Crimson&#xA;Planks"               icon="crimson_planks"/>
+    <block id="minecraft:crimson_stairs"            name="Crimson&#xA;Stairs"               icon="crimson_stairs"/>
+    <block id="minecraft:crimson_slab"              name="Crimson&#xA;Slab"                 icon="crimson_slab"/>
+    <block id="minecraft:crimson_fence"             name="Crimson&#xA;Fence"                icon="crimson_fence"/>
+    <block id="minecraft:crimson_fence_gate"        name="Crimson&#xA;Fence Gate"           icon="crimson_fence_gate"/>
+    <block id="minecraft:crimson_pressure_plate"    name="Crimson&#xA;Pressure Plate"       icon="crimson_pressure_plate"/>
+    <block id="minecraft:crimson_button"            name="Crimson&#xA;Button"               icon="crimson_button"/>
+    <block id="minecraft:crimson_sign"              name="Crimson&#xA;Sign"                 icon="crimson_sign"/>
+
+    <block id="minecraft:warped_stem"               name="Warped&#xA;Stem"                 icon="warped_stem"/>
+    <block id="minecraft:warped_hyphae"             name="Warped&#xA;Hyphae"               icon="warped_hyphae"/>
+    <block id="minecraft:stripped_warped_stem"      name="Stripped&#xA;Warped Stem"        icon="stripped_warped_stem"/>
+    <block id="minecraft:stripped_warped_hyphae"    name="Stripped&#xA;Warped Hyphae"      icon="stripped_warped_hyphae"/>
+    <block id="minecraft:warped_planks"             name="Warped&#xA;Planks"               icon="warped_planks"/>
+    <block id="minecraft:warped_stairs"             name="Warped&#xA;Stairs"               icon="warped_stairs"/>
+    <block id="minecraft:warped_slab"               name="Warped&#xA;Slab"                 icon="warped_slab"/>
+    <block id="minecraft:warped_fence"              name="Warped&#xA;Fence"                icon="warped_fence"/>
+    <block id="minecraft:warped_fence_gate"         name="Warped&#xA;Fence Gate"           icon="warped_fence_gate"/>
+    <block id="minecraft:warped_pressure_plate"     name="Warped&#xA;Pressure Plate"       icon="warped_pressure_plate"/>
+    <block id="minecraft:warped_button"             name="Warped&#xA;Button"               icon="warped_button"/>
+    <block id="minecraft:warped_sign"               name="Warped&#xA;Sign"                 icon="warped_sign"/>
+</group>

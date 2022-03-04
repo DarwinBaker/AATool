@@ -39,7 +39,9 @@ namespace AATool
             public const string NotesFolder  = "notes/";
 
             //remote world temp folder
-            public const string RemoteWorldsFolder = "assets/remote_worlds";
+            public const string CacheFolder = "assets/cache/";
+            public const string SftpWorldsFolder = CacheFolder + "sftp_worlds/";
+            public const string LeaderboardsFolder = CacheFolder + "leaderboards/";
 
             //constant asset paths
             public const string AssetsFolder      = "assets/";
@@ -48,7 +50,7 @@ namespace AATool
             public const string TemplatesFolder   = AssetsFolder  + "templates";
             public const string SpritesFolder     = AssetsFolder  + "sprites/";
             public const string FontsFolder       = AssetsFolder  + "fonts/";
-            public const string AvatarCacheFolder = SpritesFolder + "avatar_cache";
+            public const string AvatarCacheFolder = SpritesFolder + "/global/avatar_cache";
             public const string CreditsFolder     = AssetsFolder  + "credits/";
             public const string LogsFolder        = "logs/";
 
@@ -59,16 +61,19 @@ namespace AATool
             public const string UpdateExecutable = "AAUpdate.exe";
 
             //dependant paths
-            public static string ObjectiveFolder => Path.Combine(ObjectivesFolder, Tracker.Category.CurrentVersion);
+            public static string ObjectiveFolder => Path.Combine(ObjectivesFolder, Config.Tracking.GameVersion);
             public static string AdvancementsFolder => Path.Combine(ObjectiveFolder, "advancements/");
             public static string BlocksFolder => Path.Combine(ObjectiveFolder, "blocks/");
             public static string AchievementsFile => Path.Combine(ObjectiveFolder, "achievements.xml");
             public static string StatisticsFile => Path.Combine(ObjectiveFolder, "statistics.xml");
+            public static string DeathMessagesFile => Path.Combine(ObjectiveFolder, "deaths.xml");
             public static string PotionsFile => Path.Combine(ObjectiveFolder, "potions.xml");
 
             //file getters
             public static string CrashLogFile => Path.Combine(LogsFolder, $"crash_report_{DateTime.Now:yyyy_M_dd_h_mm_ss}.txt");
             public static string CreditsFile => Path.Combine(CreditsFolder, "credits.xml");
+
+            public static string LeaderboardFile => Path.Combine(LeaderboardsFolder, Config.Tracking.GameCategory + ".csv");
         }
 
         public static class Saves
@@ -77,7 +82,7 @@ namespace AATool
             {
                 if (Config.Tracking.UseSftp)
                 {
-                    return System.RemoteWorldsFolder;
+                    return System.SftpWorldsFolder;
                 }
                 else
                 {
@@ -115,6 +120,7 @@ namespace AATool
             public const string ObsHelp       = "https://github.com/DarwinBaker/AATool/blob/master/info/obs.md";
             public const string PatreonFull   = "https://www.patreon.com/_ctm";
             public const string PatreonShort  = "Patreon.com/_CTM";
+            public const string UnofficialSpreadsheet = "https://docs.google.com/spreadsheets/d/107ijqjELTQQ29KW4phUmtvYFTX9-pfHsjb18TKoWACk/export?format=csv";
 
             public static string GetUuidUrl(string mojangName) => $"https://api.mojang.com/users/profiles/minecraft/{mojangName}";
             public static string GetNameUrl(string uuid) => $"https://api.mojang.com/user/profiles/{uuid}/names";

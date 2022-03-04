@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AATool.Data.Objectives;
 using AATool.Graphics;
 
 namespace AATool.Data.Categories
@@ -9,6 +10,12 @@ namespace AATool.Data.Categories
             "1.18"
         };
 
+        public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
+        public override IEnumerable<Objective> GetOverlayObjectives() => this.Blocks.All.Values;
+
+        public override int GetTargetCount() => this.Blocks.Count;
+        public override int GetCompletedCount() => this.Blocks.PlacedCount;
+
         public AllBlocks() : base()
         {
             this.Name      = "All Blocks";
@@ -16,11 +23,13 @@ namespace AATool.Data.Categories
             this.Objective = "Blocks";
             this.Action    = "Placed";
 
-            SpriteSheet.Require("blocks", 4096);
+            SpriteSheet.Require("blocks");
         }
 
-        public override int GetTargetCount() => Tracker.Blocks.Count;
-        public override int GetCompletedCount() => Tracker.Blocks.PlacedCount;
-        public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
+        public override void LoadObjectives()
+        {
+            this.Blocks.RefreshObjectives();
+            this.Pickups.RefreshObjectives();
+        }
     }
 }

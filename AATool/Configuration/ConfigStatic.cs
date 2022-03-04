@@ -87,6 +87,9 @@ namespace AATool.Configuration
                     config = (T)new JsonSerializer {
                         Formatting = Newtonsoft.Json.Formatting.Indented
                     }.Deserialize(stream, typeof(T));
+
+                    if (config is null)
+                        throw new InvalidDataException();
                 }
             }
             catch (Exception e)

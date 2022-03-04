@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="End">
+    <block id="minecraft:end_stone"                     name="End Stone"                    icon="end_stone"/>
+    <block id="minecraft:end_stone_brick_wall"          name="End Stone Brick Wall"         icon="end_stone_brick_wall"/>
+    <block id="minecraft:purpur_pillar"                 name="Purpur Pillar"                icon="purpur_pillar"/>
+    
+    <block id="minecraft:end_rod"                       name="End Rod"                      icon="end_rod"/>
+    <block id="minecraft:end_stone_bricks"              name="End Stone Bricks"             icon="end_stone_bricks"/>
+    <block id="minecraft:purpur_block"                  name="Purpur Block"                 icon="purpur_block"/>
+
+    <block id="minecraft:chorus_flower"                 name="Chorus Flower"                icon="chorus_flower"/>
+    <block id="minecraft:end_stone_brick_stairs"        name="End Stone Brick Stairs"       icon="end_stone_brick_stairs"/>
+    <block id="minecraft:purpur_stairs"                 name="Purpur Stairs"                icon="purpur_stairs"/>
+
+    <block id="minecraft:end_crystal"                   name="End Crystal"                  icon="end_crystal" light_level="0.5"/>
+    <block id="minecraft:end_stone_brick_slab"          name="End Stone Brick Slab"         icon="end_stone_brick_slab"/>
+    <block id="minecraft:purpur_slab"                   name="Purpur Slab"                  icon="purpur_slab"/>
+</group>

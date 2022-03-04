@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Data.Categories;
+using AATool.Data.Objectives;
 using AATool.Graphics;
 using AATool.Net;
 using AATool.UI.Controls;
@@ -10,7 +11,6 @@ using AATool.Utilities;
 using AATool.Winforms.Forms;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace AATool.UI.Screens
 {
@@ -26,6 +26,9 @@ namespace AATool.UI.Screens
         private UILobby lobby;
         private UIStatusBar status;
         private UIBlockPopup popup;
+        private UILeaderboard leaderboard;
+        private UIPotionGroup potions;
+        private UIButton resetDeaths;
         private readonly Utilities.Timer settingsCooldown;
 
         public override Color FrameBackColor() => Config.Main.BackColor;
@@ -59,10 +62,10 @@ namespace AATool.UI.Screens
 
         private void CenterWindow()
         {
-            System.Drawing.Rectangle desktop = Screen.FromControl(this.Form).WorkingArea;
+            var desktop = Screen.FromControl(this.Form).WorkingArea;
             int x = Math.Max(desktop.X, desktop.X + ((desktop.Width  - this.grid?.GetExpandedWidth() ?? 0)  / 2));
             int y = Math.Max(desktop.Y, desktop.Y + ((desktop.Height - this.grid?.GetExpandedHeight() ?? 0) / 2));
-            this.Form.Location = new System.Drawing.Point(x, y);
+            this.Form.Location = new (x, y);
         }
 
         private void OnFormClosing(object sender, FormClosingEventArgs e)
@@ -82,7 +85,6 @@ namespace AATool.UI.Screens
                 else
                     e.Cancel = true;
             }
-            Main.IsClosing = !e.Cancel;
         }
 
         private void UpdateForcedCompactMode()
@@ -94,7 +96,7 @@ namespace AATool.UI.Screens
                 string message = "Your display resolution is too small for Relaxed View. Compact View has been enabled.";
                 Config.Main.CompactMode.Set(true);
                 this.ReloadView();
-                System.Windows.Forms.MessageBox.Show(this.Form, message, title,
+                MessageBox.Show(this.Form, message, title,
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
@@ -104,16 +106,16 @@ namespace AATool.UI.Screens
         {
             //get proper view for current category and version
             string path = Path.Combine(Paths.System.ViewsFolder,
-                Tracker.Category.LayoutName,
-                Tracker.Category.CurrentVersion,
+                Tracker.Category.ViewName,
+                Tracker.Category.CurrentMajorVersion,
                 "main.xml");
 
             //check for conditional variant if needed
             if (!File.Exists(path))
             {
                 path = Path.Combine(Paths.System.ViewsFolder,
-                    Tracker.Category.LayoutName,
-                    Tracker.Category.CurrentVersion,
+                    Tracker.Category.ViewName,
+                    Tracker.Category.CurrentMajorVersion,
                     $"main_{Config.Main.ViewMode}.xml");
             }
             return path;
@@ -125,11 +127,9 @@ namespace AATool.UI.Screens
             this.Children.Clear();
             if (this.TryLoadXml(this.GetCurrentView()))
             {
-                this.InitializeRecursive(this);
+                base.InitializeRecursive(this);
                 this.ResizeRecursive(this.Bounds);
-                this.Form.Icon = Tracker.Category is AllBlocks
-                    ? new System.Drawing.Icon(Path.Combine(Paths.System.AssetsFolder, "icons", "all_blocks.ico"))
-                    : new System.Drawing.Icon(Paths.System.MainIcon);
+                this.SetIcon(Tracker.Category.ViewName);
             }
             else
             {
@@ -143,16 +143,42 @@ namespace AATool.UI.Screens
             this.lobby  = this.First<UILobby>();
             this.status = this.First<UIStatusBar>();
             this.popup = this.First<UIBlockPopup>();
+            this.leaderboard = this.First<UILeaderboard>();
+            this.potions = this.First<UIPotionGroup>();
+            this.resetDeaths = this.First<UIButton>("reset");
+            if (this.resetDeaths is not null)
+            {
+                this.resetDeaths.TextBlock.SetFont("minecraft", 24);
+                this.resetDeaths.OnClick += this.Click;
+            }            
             Peer.BindController(this.status);
+        }
+
+        private void Click(UIControl sender)
+        {
+            if (sender == this.resetDeaths)
+            {
+                ActiveInstance.SetLogStart();
+                foreach (Death death in Tracker.Category.Deaths.All.Values)
+                    death.Clear();
+            }
+        }
+
+        public override void ResizeRecursive(Rectangle rectangle)
+        {
+            base.ResizeRecursive(rectangle);
+            this.leaderboard?.Collapse();
+            this.potions?.Collapse();
+            this.First(Config.Main.InfoPanel)?.Expand();
         }
 
         protected override void ConstrainWindow()
         {
             int width = this.grid?.GetExpandedWidth() ?? 640;
             int height = this.grid?.GetExpandedHeight() ?? 320;
-            if (this.FormWidth != width || this.FormHeight != height || Tracker.ObjectivesChanged)
+            if (this.Width != width || this.Height != height || Tracker.ObjectivesChanged)
             {
-                this.Form.ClientSize = new System.Drawing.Size(width, height);
+                //this.Form.ClientSize = new System.Drawing.Size(width * Config.Main.DisplayScale, height * Config.Main.DisplayScale);
                 Main.GraphicsManager.PreferredBackBufferWidth  = width;
                 Main.GraphicsManager.PreferredBackBufferHeight = height;
                 Main.GraphicsManager.ApplyChanges();
@@ -160,6 +186,7 @@ namespace AATool.UI.Screens
                 RenderCache?.Dispose();
                 RenderCache = new RenderTarget2D(this.GraphicsDevice, width, height);
             }
+            this.Form.ClientSize = new System.Drawing.Size(width * Config.Main.DisplayScale, height * Config.Main.DisplayScale);
         }
 
         public override void UpdateRecursive(Time time)
@@ -230,6 +257,14 @@ namespace AATool.UI.Screens
         {
             if (this.grid is null)
                 return;
+
+            //update which info panel to show
+            if (Config.Main.InfoPanel.Changed)
+            {
+                this.leaderboard?.Collapse();
+                this.potions?.Collapse();
+                this.First(Config.Main.InfoPanel)?.Expand();
+            }
 
             //update whether or not top row should be shown
             if (Config.Main.ShowBasicAdvancements == this.grid.CollapsedRows[0])

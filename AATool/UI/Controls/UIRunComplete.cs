@@ -202,7 +202,7 @@ namespace AATool.UI.Controls
             string title = Tracker.Category.GetCompletionMessage();
             string body = $" \nMinecraft: Java Edition ({Tracker.Category.CurrentVersion})\n" +
                 $"{Tracker.Category.Name.Replace(" ", "\0")}\n \n" +
-                $"{Tracker.InGameTime:hh':'mm':'ss}\nApproximate IGT\n";
+                $"{Tracker.GetPrettyIGT()}\nApproximate IGT\n";
 
             this.First<UITextBlock>("head").SetText(title);
             this.First<UITextBlock>("head_shadow").SetText(title);
@@ -260,7 +260,7 @@ namespace AATool.UI.Controls
                 header.SetFont("minecraft", 24);
                 header.SetText(System.Threading.Thread.CurrentThread.CurrentCulture
                     .TextInfo.ToTitleCase(panel.Key.Replace("_", " ")) 
-                    + Environment.NewLine + new string('-', 18));
+                    + Environment.NewLine + new string('-', 12));
                 panel.Value.AddControl(header);
             }
 

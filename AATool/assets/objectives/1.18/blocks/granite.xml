@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Granite">
+    <block id="minecraft:granite"           name="Granite"              icon="granite"/>
+    <block id="minecraft:granite_stairs"    name="Granite&#xA;Stairs"   icon="granite_stairs"/>
+    <block id="minecraft:granite_slab"      name="Granite&#xA;Slab"     icon="granite_slab"/>
+    <block id="minecraft:granite_wall"      name="Granite&#xA;Wall"     icon="granite_wall"/>
+
+    <block id="minecraft:polished_granite"          name="Polished&#xA;Granite"                 icon="polished_granite"/>
+    <block id="minecraft:polished_granite_stairs"   name="Polished&#xA;Granite&#xA;Stairs"      icon="polished_granite_stairs"/>
+    <block id="minecraft:polished_granite_slab"     name="Polished&#xA;Granite&#xA;Slab"        icon="polished_granite_slab"/>
+</group>

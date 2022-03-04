@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Flowers">
+    <block id="minecraft:mushroom_stem"         name="Mushroom Stem"        icon="mushroom_stem"/>
+    <block id="minecraft:red_mushroom_block"    name="Red Mushroom Block"   icon="red_mushroom_block"/>
+    <block id="minecraft:brown_mushroom_block"  name="Brown Mushroom Block" icon="brown_mushroom_block"/>
+
+    <block id="minecraft:poppy"                 name="Poppy"                icon="poppy"/>
+    <block id="minecraft:red_mushroom"          name="Red Mushroom"         icon="red_mushroom"/>
+    <block id="minecraft:brown_mushroom"        name="Brown Mushroom"       icon="brown_mushroom"/>
+
+    <block id="minecraft:dandelion"             name="Dandelion"            icon="dandelion"/>
+    <block id="minecraft:red_tulip"             name="Red Tulip"            icon="red_tulip"/>
+    <block id="minecraft:orange_tulip"          name="Orange Tulip"         icon="orange_tulip"/>
+
+    <block id="minecraft:blue_orchid"           name="Blue Orchid"          icon="blue_orchid"/>
+    <block id="minecraft:white_tulip"           name="White Tulip"          icon="white_tulip"/>
+    <block id="minecraft:pink_tulip"            name="Pink Tulip"           icon="pink_tulip"/>
+
+    <block id="minecraft:cornflower"            name="Cornflower"           icon="cornflower"/>
+    <block id="minecraft:lily_of_the_valley"    name="Lily of the Valley"   icon="lily_of_the_valley"/>
+    <block id="minecraft:azure_bluet"           name="Azure Bluet"          icon="azure_bluet"/>
+
+    <block id="minecraft:allium"                name="Allium"               icon="allium"/>
+    <block id="minecraft:oxeye_daisy"           name="Oxeye Daisy"          icon="oxeye_daisy"/>
+    <block id="minecraft:wither_rose"           name="Wither Rose"          icon="wither_rose"/>
+</group>

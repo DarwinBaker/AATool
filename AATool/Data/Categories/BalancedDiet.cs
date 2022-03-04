@@ -12,6 +12,8 @@ namespace AATool.Data.Categories
             "1.16",
         };
 
+        public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
+
         public BalancedDiet() : base()
         {
             this.Name      = "Balanced Diet";
@@ -20,20 +22,11 @@ namespace AATool.Data.Categories
             this.Action    = "Eaten";
         }
 
-        public override int GetTargetCount()
+        public override void LoadObjectives()
         {
-            return Tracker.TryGetAdvancement(Id, out this.Advancement)
-                ? this.Advancement.Criteria.Count
-                : 0;
+            this.Advancements.RefreshObjectives();
+            this.Advancements.TryGet(Id, out Advancement balancedDiet);
+            this.Requirement = balancedDiet;
         }
-
-        public override int GetCompletedCount()
-        {
-            return Tracker.TryGetAdvancement(Id, out this.Advancement)
-                ? this.Advancement.Criteria.MostCompleted
-                : 0;
-        }
-
-        public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
     }
 }
