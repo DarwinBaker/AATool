@@ -40,7 +40,7 @@ namespace AATool.Data.Objectives
         public void ToggleManualOverride()
         {
             this.ManuallyCompleted ^= true;
-            Tracker.Category.Deaths.UpdateTotal();
+            Tracker.Deaths.UpdateTotal();
         }
 
         public override void UpdateState(WorldState progress)

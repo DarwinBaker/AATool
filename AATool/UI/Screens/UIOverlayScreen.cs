@@ -149,7 +149,7 @@ namespace AATool.UI.Screens
                 if (Tracker.Category is not (AllBlocks or AllDeaths))
                 {
                     //add pickup counters
-                    foreach (Pickup pickup in Tracker.Category.Pickups.All.Values.Reverse())
+                    foreach (Pickup pickup in Tracker.Pickups.All.Values.Reverse())
                         this.counts.AddControl(new UIObjectiveFrame(pickup, 3));
                 }
 

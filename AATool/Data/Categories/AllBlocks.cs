@@ -11,10 +11,10 @@ namespace AATool.Data.Categories
         };
 
         public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
-        public override IEnumerable<Objective> GetOverlayObjectives() => this.Blocks.All.Values;
+        public override IEnumerable<Objective> GetOverlayObjectives() => Tracker.Blocks.All.Values;
 
-        public override int GetTargetCount() => this.Blocks.Count;
-        public override int GetCompletedCount() => this.Blocks.PlacedCount;
+        public override int GetTargetCount() => Tracker.Blocks.Count;
+        public override int GetCompletedCount() => Tracker.Blocks.PlacedCount;
 
         public AllBlocks() : base()
         {
@@ -28,8 +28,8 @@ namespace AATool.Data.Categories
 
         public override void LoadObjectives()
         {
-            this.Blocks.RefreshObjectives();
-            this.Pickups.RefreshObjectives();
+            Tracker.Blocks.RefreshObjectives();
+            Tracker.Pickups.RefreshObjectives();
         }
     }
 }

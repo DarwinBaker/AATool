@@ -12,7 +12,7 @@ namespace AATool.Data.Categories
         };
 
         public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
-        public override IEnumerable<Objective> GetOverlayObjectives() => this.Achievements.All.Values;
+        public override IEnumerable<Objective> GetOverlayObjectives() => Tracker.Achievements.All.Values;
 
         public override int GetTargetCount() => this.Requirement?.Criteria.Count ?? 0;
         public override int GetCompletedCount() => this.Requirement?.Criteria.MostCompleted ?? 0;
@@ -27,8 +27,8 @@ namespace AATool.Data.Categories
 
         public override void LoadObjectives()
         {
-            this.Advancements.RefreshObjectives();
-            this.Advancements.TryGet(Id, out Advancement adventuringTime);
+            Tracker.Advancements.RefreshObjectives();
+            Tracker.Advancements.TryGet(Id, out Advancement adventuringTime);
             this.Requirement = adventuringTime;
         }
     }

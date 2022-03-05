@@ -184,7 +184,7 @@ namespace AATool.Data.Progress
             foreach (Uuid id in world.GetAllUuids())
                 this.Players[id] = new Contribution(id);
 
-            foreach (Advancement advancement in Tracker.Category.Advancements.All.Values)
+            foreach (Advancement advancement in Tracker.Advancements.All.Values)
             {
                 //add advancement if completed
                 if (world.Advancements.TryGetAdvancementCompletionFor(advancement.Id, out List<Uuid> ids))
@@ -217,7 +217,7 @@ namespace AATool.Data.Progress
             foreach (Uuid id in world.GetAllUuids())
                 this.Players[id] = new Contribution(id);
 
-            foreach (Achievement achievement in Tracker.Category.Achievements.All.Values)
+            foreach (Achievement achievement in Tracker.Achievements.All.Values)
             {
                 //add advancement if completed
                 if (world.Achievements.TryGetAchievementCompletionFor(achievement.Id, out List<Uuid> ids))
@@ -279,7 +279,7 @@ namespace AATool.Data.Progress
             this.EnderChestsMined   = world.Statistics.TimesMined("ender_chest");
 
             //pickup counts
-            foreach (string item in Tracker.Category.Pickups.All.Keys)
+            foreach (string item in Tracker.Pickups.All.Keys)
             {
                 int total = world.Statistics.TimesPickedUp(item, out Dictionary<Uuid, int> countsByPlayer);
                 if (total > 0)
@@ -298,7 +298,7 @@ namespace AATool.Data.Progress
             }
 
             //block placements
-            foreach (Block block in Tracker.Category.Blocks.All.Values)
+            foreach (Block block in Tracker.Blocks.All.Values)
             {
                 if (!world.Statistics.TryGetUseCount(block.Id, out List<Uuid> ids))
                     continue;
@@ -317,7 +317,7 @@ namespace AATool.Data.Progress
             if (ActiveInstance.TryGetLog(out string log) && Player.TryGetName(Tracker.GetMainPlayer(), out string name))
             {
                 log = log.ToLower();
-                foreach (Death death in Tracker.Category.Deaths.All.Values)
+                foreach (Death death in Tracker.Deaths.All.Values)
                 {
                     foreach (string message in death.Messages)
                     {

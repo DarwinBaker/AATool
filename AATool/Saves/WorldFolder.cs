@@ -77,7 +77,7 @@ namespace AATool.Saves
             if (worldFolder.FullName != this.CurrentFolder?.FullName)
             {
                 ActiveInstance.SetLogStart();
-                foreach (Death death in Tracker.Category.Deaths.All.Values)
+                foreach (Death death in Tracker.Deaths.All.Values)
                     death.Clear();
 
                 this.CurrentFolder = worldFolder;

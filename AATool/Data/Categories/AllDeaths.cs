@@ -12,10 +12,10 @@ namespace AATool.Data.Categories
         };
 
         public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
-        public override IEnumerable<Objective> GetOverlayObjectives() => this.Deaths.All.Values;
+        public override IEnumerable<Objective> GetOverlayObjectives() => Tracker.Deaths.All.Values;
 
-        public override int GetTargetCount() => this.Deaths.Count;
-        public override int GetCompletedCount() => this.Deaths.TotalExperienced;
+        public override int GetTargetCount() => Tracker.Deaths.Count;
+        public override int GetCompletedCount() => Tracker.Deaths.TotalExperienced;
 
         public AllDeaths() : base()
         {
@@ -30,8 +30,8 @@ namespace AATool.Data.Categories
 
         public override void LoadObjectives()
         {
-            this.Deaths.RefreshObjectives();
-            this.Pickups.RefreshObjectives();
+            Tracker.Deaths.RefreshObjectives();
+            Tracker.Pickups.RefreshObjectives();
         }
     }
 }

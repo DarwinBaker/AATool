@@ -35,7 +35,7 @@ namespace AATool.UI.Controls
         private void Populate()
         {
             //start adding from beginning if no start id specified 
-            if (!Tracker.Category.Blocks.TryGetGroup(this.GroupId, out this.blocks))
+            if (!Tracker.Blocks.TryGetGroup(this.GroupId, out this.blocks))
                 return;
 
             foreach (Block block in this.blocks)

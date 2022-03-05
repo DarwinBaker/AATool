@@ -88,8 +88,8 @@ namespace AATool.Configuration
                         Formatting = Newtonsoft.Json.Formatting.Indented
                     }.Deserialize(stream, typeof(T));
 
-                    if (config is null)
-                        throw new InvalidDataException();
+                    //if (config is null)
+                    //    throw new InvalidDataException();
                 }
             }
             catch (Exception e)

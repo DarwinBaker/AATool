@@ -41,7 +41,6 @@ namespace AATool.UI.Screens
             this.Form.FormClosing += this.OnFormClosing;
             this.settingsCooldown = new Utilities.Timer(0.1f);
             //this.Form.Location = new System.Drawing.Point(0, 0);
-            this.ReloadView();
             this.CenterWindow();
         }
 
@@ -159,7 +158,7 @@ namespace AATool.UI.Screens
             if (sender == this.resetDeaths)
             {
                 ActiveInstance.SetLogStart();
-                foreach (Death death in Tracker.Category.Deaths.All.Values)
+                foreach (Death death in Tracker.Deaths.All.Values)
                     death.Clear();
             }
         }

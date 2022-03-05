@@ -23,8 +23,8 @@ namespace AATool.Data.Categories
 
         public override void LoadObjectives()
         {
-            this.Deaths.RefreshObjectives();
-            this.Pickups.RefreshObjectives();
+            Tracker.Deaths.RefreshObjectives();
+            Tracker.Pickups.RefreshObjectives();
         }
     }
 }

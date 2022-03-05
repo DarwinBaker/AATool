@@ -11,10 +11,10 @@ namespace AATool.Data.Categories
         };
 
         public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
-        public override IEnumerable<Objective> GetOverlayObjectives() => this.Achievements.All.Values;
+        public override IEnumerable<Objective> GetOverlayObjectives() => Tracker.Achievements.All.Values;
 
-        public override int GetTargetCount() => this.Achievements.Count;
-        public override int GetCompletedCount() => this.Achievements.CompletedCount;
+        public override int GetTargetCount() => Tracker.Achievements.Count;
+        public override int GetCompletedCount() => Tracker.Achievements.CompletedCount;
 
         public AllAchievements() : base ()
         {
@@ -26,8 +26,8 @@ namespace AATool.Data.Categories
 
         public override void LoadObjectives()
         {
-            this.Achievements.RefreshObjectives();
-            this.Pickups.RefreshObjectives();
+            Tracker.Achievements.RefreshObjectives();
+            Tracker.Pickups.RefreshObjectives();
         }
     }
 }

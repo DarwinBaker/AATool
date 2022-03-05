@@ -24,8 +24,8 @@ namespace AATool.Data.Categories
 
         public override void LoadObjectives()
         {
-            this.Advancements.RefreshObjectives();
-            this.Advancements.TryGet(Id, out Advancement balancedDiet);
+            Tracker.Advancements.RefreshObjectives();
+            Tracker.Advancements.TryGet(Id, out Advancement balancedDiet);
             this.Requirement = balancedDiet;
         }
     }

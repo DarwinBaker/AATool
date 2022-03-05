@@ -9,12 +9,6 @@ namespace AATool.Data.Categories
 {
     public abstract class Category : ICategory
     {
-        public readonly AdvancementManifest Advancements = new ();
-        public readonly AchievementManifest Achievements = new ();
-        public readonly PickupManifest Pickups = new ();
-        public readonly BlockManifest Blocks = new ();
-        public readonly DeathManifest Deaths = new ();
-
         public string Name      { get; protected set; }
         public string Acronym   { get; protected set; }
         public string Action    { get; protected set; }
@@ -56,7 +50,7 @@ namespace AATool.Data.Categories
                 this.CurrentVersion = version;
                 this.CurrentMajorVersion = $"{number.Major}.{number.Minor}";
                 Config.Tracking.GameVersion.Set(this.CurrentVersion);
-                this.LoadObjectives();
+                Config.Tracking.Save();
                 return true;
             }
             return false;
@@ -73,14 +67,6 @@ namespace AATool.Data.Categories
                 return 0;
             int clamped = Math.Min(this.GetCompletedCount(), target);
             return (float)clamped / this.GetTargetCount();
-        }
-
-        public void SetState(WorldState state)
-        {
-            this.Advancements.SetState(state);
-            this.Achievements.SetState(state);
-            this.Blocks.SetState(state);
-            this.Pickups.SetState(state);
         }
     }
 }

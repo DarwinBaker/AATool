@@ -79,6 +79,11 @@ namespace AATool.UI.Controls
 
         public void AutoSetObjective()
         {
+            if (this.ObjectiveId is "minecraft:nether/root")
+            {
+                //this.AutoSetObjective();
+            }
+
             if (this.objectiveType == typeof(Advancement))
             {
                 if (Tracker.TryGetAdvancement(this.ObjectiveId, out Advancement objective))
@@ -212,6 +217,11 @@ namespace AATool.UI.Controls
             float target = this.Root() is not UIOverlayScreen && Config.Main.FrameStyle == "Modern" 
                 ? 0.15f
                 : 0;
+
+            if (this.Objective?.Id is "minecraft:nether/root")
+            {
+                //this.AutoSetObjective();
+            }
 
             if (this.ObjectiveCompleted)
             {

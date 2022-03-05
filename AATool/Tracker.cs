@@ -16,7 +16,13 @@ namespace AATool
     public static class Tracker
     {
         private const double RefreshInterval = 1.0;
-        
+
+        public static readonly AdvancementManifest Advancements = new ();
+        public static readonly AchievementManifest Achievements = new ();
+        public static readonly PickupManifest Pickups = new ();
+        public static readonly BlockManifest Blocks = new ();
+        public static readonly DeathManifest Deaths = new ();
+
         public static Category Category { get; private set; }
         public static WorldState State  { get; private set; }
         public static Exception LastError { get; private set; }
@@ -36,8 +42,8 @@ namespace AATool
         public static void ToggleWorldLock() => WorldLocked ^= true;
 
         public static AdvancementManifest CurrentAdvancementSet => Category is not AllAchievements
-            ? Category.Advancements
-            : Category.Achievements;
+            ? Advancements
+            : Achievements;
 
         public static Dictionary<(string adv, string crit), Criterion> CurrentCriteriaSet =>
             CurrentAdvancementSet.Criteria;
@@ -68,16 +74,16 @@ namespace AATool
             CurrentCriteriaSet.TryGetValue((adv, crit), out criterion);
 
         public static bool TryGetAdvancementGroup(string id, out HashSet<Advancement> group) =>
-            Category.Advancements.TryGet(id, out group);
+            Advancements.TryGet(id, out group);
 
         public static bool TryGetPickup(string id, out Pickup item) =>
-            Category.Pickups.TryGet(id, out item);
+            Pickups.TryGet(id, out item);
 
         public static bool TryGetBlock(string id, out Block block) =>
-            Category.Blocks.TryGet(id, out block);
+            Blocks.TryGet(id, out block);
 
         public static bool TryGetDeath(string id, out Death death) =>
-            Category.Deaths.TryGet(id, out death);
+            Deaths.TryGet(id, out death);
 
         public static Uuid GetMainPlayer() => State.Players.Keys.FirstOrDefault();
 
@@ -154,7 +160,7 @@ namespace AATool
                 Category.LoadObjectives();
                 return true;
             }
-            catch (ArgumentException e)
+            catch
             {
                 if (Category is null)
                 {
@@ -345,7 +351,11 @@ namespace AATool
                 TrySetCategory(State.GameCategory);
                 TrySetVersion(State.GameVersion);
 
-                Category.SetState(State);
+                //reload objectives if game version has changed
+                if (ObjectivesChanged)
+                    Category.LoadObjectives();
+
+                SetState(State);
 
                 if (Config.Tracking.BroadcastProgress)
                     OpenTracker.BroadcastProgress();
@@ -355,8 +365,8 @@ namespace AATool
         private static void ReadLocalFiles()
         {
             //reload objective manifests if game version has changed
-            //if (ObjectivesChanged)
-            //    RefreshObjectives();
+            if (ObjectivesChanged)
+                Category.LoadObjectives();
 
             //wait to refresh until sftp transer is complete
             if (Config.Tracking.UseSftp && SftpSave.IsDownloading)
@@ -367,7 +377,7 @@ namespace AATool
             {
                 LastServerMessage = null;
                 State = World.GetState();
-                Category.SetState(State);
+                SetState(State);
 
                 //broadcast changes to connected clients if server is running
                 if (Server.TryGet(out Server server) && server.Connected())
@@ -385,9 +395,17 @@ namespace AATool
                 State.SyncDeathMessages();
                 if (State.DeathMessages.Count != before)
                 {
-                    Category.Deaths.SetState(State);
+                    Deaths.SetState(State);
                 }
             }
+        }
+
+        private static void SetState(WorldState state)
+        {
+            Advancements.SetState(state);
+            Achievements.SetState(state);
+            Blocks.SetState(state);
+            Pickups.SetState(state);
         }
     }
 }

@@ -24,8 +24,8 @@ namespace AATool.Data.Categories
 
         public override void LoadObjectives()
         {
-            this.Advancements.RefreshObjectives();
-            this.Advancements.TryGet(Id, out Advancement monstersHunted);
+            Tracker.Advancements.RefreshObjectives();
+            Tracker.Advancements.TryGet(Id, out Advancement monstersHunted);
             this.Requirement = monstersHunted;
         }
     }
