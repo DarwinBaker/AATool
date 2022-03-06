@@ -17,7 +17,7 @@ namespace AATool.Saves
         public DirectoryInfo CurrentFolder { get; private set; }
         public bool ProgressChanged { get; private set; }
         public bool Invalidated { get; private set; }
-        public bool ChangedPath { get; private set; }
+        public bool PathChanged { get; private set; }
 
         public bool IsEmpty => this.CurrentFolder is null;
 
@@ -29,7 +29,7 @@ namespace AATool.Saves
             this.Advancements = new AdvancementsFolder();
             this.Achievements = new AchievementsFolder();
             this.Statistics   = new StatisticsFolder();
-            this.ChangedPath = true;
+            this.PathChanged = true;
             this.ProgressChanged = true;
         }
 
@@ -52,7 +52,7 @@ namespace AATool.Saves
 
         public void ClearFlags()
         {
-            this.ChangedPath = false;
+            this.PathChanged = false;
             this.ProgressChanged = false;
         }
 
@@ -81,7 +81,7 @@ namespace AATool.Saves
                     death.Clear();
 
                 this.CurrentFolder = worldFolder;
-                this.ChangedPath = true;
+                this.PathChanged = true;
                 string advancementsFolder = Path.Combine(this.CurrentFolder.FullName, "advancements");
                 string statisticsFolder = Path.Combine(this.CurrentFolder.FullName, "stats");
 
@@ -107,7 +107,7 @@ namespace AATool.Saves
             this.ProgressChanged |= this.Invalidated;
             this.Invalidated = false;
 
-            return this.ProgressChanged || this.ChangedPath;
+            return this.ProgressChanged || this.PathChanged;
         }
     }
 }

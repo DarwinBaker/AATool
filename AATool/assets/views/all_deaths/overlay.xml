@@ -6,7 +6,7 @@
     </panel>
     <panel name="panel_carousel" draw_mode="children_only">
         <!-- advancement carousel -->
-        <advancement_carousel name="advancements"/>
+        <objective_carousel name="advancements"/>
     </panel>
 
     <!-- item count display (trident, shells, skulls etc.) -->

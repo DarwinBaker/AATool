@@ -78,7 +78,7 @@ namespace AATool.Net
 
         public void SendNextRefresh(Socket client = null)
         {
-            var message = Message.SftpEstimate(SftpSave.GetRefreshEstimate().ToString());
+            var message = Message.SftpEstimate(MinecraftServer.GetRefreshEstimate());
 
             //send last to client(s)
             if (client is null)

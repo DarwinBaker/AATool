@@ -56,7 +56,7 @@ namespace AATool.UI.Controls
             {
                 if (Config.Tracking.UseSftp)
                 {
-                    SftpSave.Sync();
+                    MinecraftServer.Sync();
                 }
                 else if (Config.Tracking.Source != TrackerSource.SpecificWorld)
                 {
@@ -100,7 +100,7 @@ namespace AATool.UI.Controls
             else
             {
                 //configure appearance as sftp button
-                bool ready = SftpSave.State is SyncState.Ready;
+                bool ready = MinecraftServer.State is SyncState.Ready;
                 this.button.Enabled = ready;
                 this.icon.SetTexture(ready ? SyncTexture : SyncingTexture);
                 this.icon.SetTint(Config.Main.TextColor);

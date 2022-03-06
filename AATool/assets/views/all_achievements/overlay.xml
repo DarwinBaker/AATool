@@ -9,7 +9,7 @@
         <criteria_carousel name="criteria"/>
 
         <!-- advancement carousel -->
-        <advancement_carousel name="advancements"/>
+        <objective_carousel name="advancements"/>
 
         <!-- item count display (trident, shells, skulls etc.) -->
         <panel draw_mode="children_only" height="152" vertical_align="bottom">

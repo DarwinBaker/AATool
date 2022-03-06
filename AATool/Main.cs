@@ -113,7 +113,7 @@ namespace AATool
 
             //check minecraft version
             ActiveInstance.Update(this.Time);
-            SftpSave.Update(this.Time);
+            MinecraftServer.Update(this.Time);
             Tracker.Update(this.Time);
             OpenTracker.Update(this.Time);
             SpriteSheet.Update(this.Time);
@@ -227,7 +227,7 @@ namespace AATool
 
             //add igt to title
             if (Tracker.InGameTime > TimeSpan.Zero)
-                this.AppendTitle($"{Tracker.GetPrettyIGT()} IGT");
+                this.AppendTitle($"{Tracker.GetPrettyIgt()} IGT");
 
             //add fps cap to title
             if (Config.Main.FpsCap < 60)

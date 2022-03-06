@@ -31,7 +31,7 @@ namespace AATool.UI.Controls
         public void Continue() => this.isScrolling = true;
 
         protected abstract UIControl NextControl();
-        protected abstract void UpdateSourceList();
+        protected abstract void RefreshSourceList();
 
         public void SetSpeed(double speed)
         {
@@ -91,9 +91,11 @@ namespace AATool.UI.Controls
                 if (this.SourceList.Count == 0)
                     return;
 
+                //loop
                 if (this.NextIndex >= this.SourceList.Count)
                     this.NextIndex = 0;
 
+                //instantate control and add to carousel
                 UIControl control = this.NextControl();
                 control.ResizeRecursive(this.Bounds);
                 control.VerticalAlign = VerticalAlign.Top;

@@ -21,16 +21,16 @@ namespace AATool.Data.Objectives
             {
                 //recursively build achievement tree
                 this.Root = new Achievement(document.DocumentElement);
-                this.Root.GetAllChildrenRecursive(this.All);
+                this.Root.GetAllChildrenRecursive(this.AllAdvancements);
 
                 //add sub-criteria
-                foreach (Advancement advancement in this.All.Values)
+                foreach (Advancement advancement in this.AllAdvancements.Values)
                 {
                     if (!advancement.HasCriteria)
                         continue;
 
                     foreach (KeyValuePair<string, Criterion> criterion in advancement.Criteria.All)
-                        this.Criteria[(advancement.Id, criterion.Key)] = criterion.Value;
+                        this.AllCriteria[(advancement.Id, criterion.Key)] = criterion.Value;
                 }
             }
         }

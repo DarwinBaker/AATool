@@ -14,7 +14,7 @@ using Renci.SshNet.Sftp;
 
 namespace AATool.Saves
 {
-    public static class SftpSave
+    public static class MinecraftServer
     {
         private const string SftpPrefix     = "sftp://";
         private const double SaveInterval   = (5 * 60) + 5;
@@ -56,13 +56,6 @@ namespace AATool.Saves
 
         public static void Update(Time time)
         {
-            if (Config.Tracking.UseSftp)
-            {
-                //update client refresh estimates if hosting
-                if (Server.TryGet(out Server server))
-                    server.SendNextRefresh();
-            }
-
             if (LastError is ArgumentException)
             {
                 //invalid login credentials, don't try reconnecting
@@ -102,7 +95,7 @@ namespace AATool.Saves
                     DateTime next = latest.Add(TimeSpan.FromSeconds(SaveInterval));
                     remaining = (next - DateTime.UtcNow).TotalSeconds;
                     if (remaining > 0)
-                        RefreshTimer.SetAndStart(remaining);
+                        RefreshTimer.SetAndStart(Math.Min(remaining, SaveInterval));
 
                     if (latest != LastWorldSave)
                     {
@@ -110,12 +103,12 @@ namespace AATool.Saves
                             return;
 
                         LastWorldSave = latest;
+
                         //update client refresh estimates if hosting
                         if (Server.TryGet(out Server server))
                             server.SendNextRefresh();
 
-                        //DODO: implement
-                        //Tracker.Invalidate();
+                        Tracker.Invalidate();
                     }
                 }
                 finally
@@ -316,7 +309,7 @@ namespace AATool.Saves
                 {
                     if (exception is SftpPathNotFoundException)
                     {
-                        //folder not found, so world name might be wrong. refresh it next time
+                        //folder not found, world name might be wrong. refresh it next time
                         LastError = new SftpPathNotFoundException($"File not found: \"{remote}\".");
                         InvalidateWorld();
                         return false;

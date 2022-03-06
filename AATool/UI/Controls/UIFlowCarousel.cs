@@ -16,7 +16,7 @@ namespace AATool.UI.Controls
         public override void InitializeRecursive(UIScreen screen)
         {
             base.InitializeRecursive(screen);
-            this.UpdateSourceList();
+            this.RefreshSourceList();
         }
 
         public override void ResizeRecursive(Rectangle rectangle)
@@ -43,7 +43,7 @@ namespace AATool.UI.Controls
             }
         }
 
-        protected override void UpdateSourceList()
+        protected override void RefreshSourceList()
         {
             //keep copy of children so we can remove them without dereferencing
             foreach (UIControl child in this.Children)

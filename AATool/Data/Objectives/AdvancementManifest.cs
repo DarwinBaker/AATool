@@ -9,26 +9,28 @@ namespace AATool.Data.Objectives
 {
     public class AdvancementManifest : IManifest
     {
-        public readonly Dictionary<string, Advancement> All = new ();
+        public readonly Dictionary<string, Advancement> AllAdvancements = new ();
+        public readonly Dictionary<string, Advancement> RemainingAdvancements = new ();
         public readonly Dictionary<string, HashSet<Advancement>> Groups = new ();
-        public readonly Dictionary<(string adv, string crit), Criterion> Criteria = new ();
+        public readonly Dictionary<(string adv, string crit), Criterion> AllCriteria = new ();
+        public readonly Dictionary<(string adv, string crit), Criterion> RemainingCriteria = new ();
 
         public int CompletedCount { get; private set; }
 
-        public int Count => this.All.Count;
+        public int Count => this.AllAdvancements.Count;
 
         public AdvancementManifest()
         {
-            this.All = new Dictionary<string, Advancement>();
+            this.AllAdvancements = new Dictionary<string, Advancement>();
             this.Groups = new Dictionary<string, HashSet<Advancement>>();
-            this.Criteria = new Dictionary<(string adv, string crit), Criterion>();
+            this.AllCriteria = new Dictionary<(string adv, string crit), Criterion>();
         }
 
         public bool TryGet(string advId, out Advancement advancement) =>
-            this.All.TryGetValue(advId, out advancement);
+            this.AllAdvancements.TryGetValue(advId, out advancement);
 
         public bool TryGet(string advId, string critId, out Criterion criterion) =>
-            this.Criteria.TryGetValue((advId, critId), out criterion);
+            this.AllCriteria.TryGetValue((advId, critId), out criterion);
 
         public bool TryGet(string groupId, out HashSet<Advancement> group) =>
             this.Groups.TryGetValue(groupId, out group);
@@ -36,8 +38,10 @@ namespace AATool.Data.Objectives
         public void ClearObjectives()
         {
             this.Groups.Clear();
-            this.All.Clear();
-            this.Criteria.Clear();
+            this.AllAdvancements.Clear();
+            this.RemainingAdvancements.Clear();
+            this.AllCriteria.Clear();
+            this.RemainingCriteria.Clear();
             this.CompletedCount = 0;
         }
 
@@ -77,25 +81,43 @@ namespace AATool.Data.Objectives
         private void RequireAdvancement(XmlNode node, HashSet<Advancement> group)
         {
             var advancement = new Advancement(node);
-            this.All[advancement.Id] = advancement;
+            this.AllAdvancements[advancement.Id] = advancement;
             group.Add(advancement);
 
             if (advancement.HasCriteria)
             {
                 foreach (KeyValuePair<string, Criterion> criterion in advancement.Criteria.All)
-                    this.Criteria[(advancement.Id, criterion.Key)] = criterion.Value;
+                    this.AllCriteria[(advancement.Id, criterion.Key)] = criterion.Value;
             }
         }
 
         public void SetState(WorldState progress)
         {
+            this.RemainingAdvancements.Clear();
             this.CompletedCount = 0;
-            foreach (Advancement advancement in this.All.Values)
+
+            foreach (KeyValuePair<string, Advancement> advancement in this.AllAdvancements)
             {
                 //update advancement and completion count
-                advancement.UpdateState(progress);
-                if (advancement.CompletedByAnyone())
+                advancement.Value.UpdateState(progress);
+                if (advancement.Value.CompletedByAnyone())
                     this.CompletedCount++;
+                else
+                    this.RemainingAdvancements.Add(advancement.Key, advancement.Value);
+            }
+
+            this.RefreshRemainingCriteria();
+        }
+
+        public void RefreshRemainingCriteria()
+        {
+            this.RemainingCriteria.Clear();
+
+            //update global remaining criteria for overlay
+            foreach (var criterion in this.AllCriteria)
+            {
+                if (!criterion.Value.Owner.CompletedByAnyone() && !criterion.Value.CompletedByDesignated())
+                    this.RemainingCriteria.Add(criterion.Key, criterion.Value);
             }
         }
     }

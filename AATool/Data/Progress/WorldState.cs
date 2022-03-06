@@ -184,7 +184,7 @@ namespace AATool.Data.Progress
             foreach (Uuid id in world.GetAllUuids())
                 this.Players[id] = new Contribution(id);
 
-            foreach (Advancement advancement in Tracker.Advancements.All.Values)
+            foreach (Advancement advancement in Tracker.Advancements.AllAdvancements.Values)
             {
                 //add advancement if completed
                 if (world.Advancements.TryGetAdvancementCompletionFor(advancement.Id, out List<Uuid> ids))
@@ -217,7 +217,7 @@ namespace AATool.Data.Progress
             foreach (Uuid id in world.GetAllUuids())
                 this.Players[id] = new Contribution(id);
 
-            foreach (Achievement achievement in Tracker.Achievements.All.Values)
+            foreach (Achievement achievement in Tracker.Achievements.AllAdvancements.Values)
             {
                 //add advancement if completed
                 if (world.Achievements.TryGetAchievementCompletionFor(achievement.Id, out List<Uuid> ids))

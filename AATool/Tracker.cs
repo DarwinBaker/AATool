@@ -26,34 +26,45 @@ namespace AATool
         public static Category Category { get; private set; }
         public static WorldState State  { get; private set; }
         public static Exception LastError { get; private set; }
+        public static bool DesignationsChanged { get; private set; }
         public static bool CoOpStateChanged { get; private set; }
         public static bool WorldLocked { get; private set; }
         public static string Status { get; private set; }
 
-        public static bool ObjectivesChanged => Config.Tracking.GameCategory.Changed || Config.Tracking.GameVersion.Changed;
-        public static bool SavesFolderChanged => PreviousSavesPath != Paths.Saves.CurrentFolder();
-        public static bool ProgressChanged => World.ProgressChanged || World.ChangedPath || World.Invalidated || CoOpStateChanged;
-        public static bool Invalidated => SavesFolderChanged || ProgressChanged || ObjectivesChanged;
-        public static bool IsWorking => LastError is null;
+        public static bool Invalidated =>
+            SavesFolderChanged || ObjectivesChanged || ProgressChanged;
 
+        public static bool SavesFolderChanged => 
+            PreviousSavesPath != Paths.Saves.CurrentFolder();
+
+        public static bool ObjectivesChanged => 
+            Config.Tracking.GameCategory.Changed || Config.Tracking.GameVersion.Changed;
+
+        public static bool ProgressChanged => 
+            World.ProgressChanged || World.PathChanged || World.Invalidated || CoOpStateChanged;
+
+        public static bool IsWorking => LastError is null;
         public static string CurrentCategory => Category.Name;
         public static string CurrentVersion => Category.CurrentVersion;
-
-        public static void ToggleWorldLock() => WorldLocked ^= true;
 
         public static AdvancementManifest CurrentAdvancementSet => Category is not AllAchievements
             ? Advancements
             : Achievements;
 
-        public static Dictionary<(string adv, string crit), Criterion> CurrentCriteriaSet =>
-            CurrentAdvancementSet.Criteria;
+        public static Dictionary<(string adv, string crit), Criterion> AllCriteria =>
+            CurrentAdvancementSet.AllCriteria;
+
+        public static Dictionary<(string adv, string crit), Criterion> RemainingCriteria =>
+            CurrentAdvancementSet.RemainingCriteria;
 
         public static string WorldName => World.Name;
         public static TimeSpan InGameTime => State.InGameTime;
         public static bool InGameTimeChanged => State.InGameTime != LastInGameTime;
         public static TrackerSource Source => Config.Tracking.Source;
 
-        public static string GetPrettyIGT()
+        public static void ToggleWorldLock() => WorldLocked ^= true;
+
+        public static string GetPrettyIgt()
         {
             return InGameTime.TotalDays > 1 
                 ? $"{(int)InGameTime.TotalHours}:{InGameTime:mm':'ss}" 
@@ -67,11 +78,17 @@ namespace AATool
         private static string PreviousWorldPath;
         private static string LastServerMessage;
 
+        public static void InvalidateDesignations()
+        {
+            DesignationsChanged = true;
+            CurrentAdvancementSet.RefreshRemainingCriteria();
+        }
+
         public static bool TryGetAdvancement(string id, out Advancement advancement) =>
             CurrentAdvancementSet.TryGet(id, out advancement);
 
         public static bool TryGetCriterion(string adv, string crit, out Criterion criterion) =>
-            CurrentCriteriaSet.TryGetValue((adv, crit), out criterion);
+            AllCriteria.TryGetValue((adv, crit), out criterion);
 
         public static bool TryGetAdvancementGroup(string id, out HashSet<Advancement> group) =>
             Advancements.TryGet(id, out group);
@@ -187,6 +204,7 @@ namespace AATool
         public static void ClearFlags()
         {
             LastInGameTime = InGameTime;
+            DesignationsChanged = false;
             CoOpStateChanged = false;
             World.ClearFlags();
         }
@@ -217,7 +235,7 @@ namespace AATool
             DirectoryInfo latestWorld = null;
             try
             {
-                if (Source is TrackerSource.SpecificWorld)
+                if (Source is TrackerSource.SpecificWorld && !Config.Tracking.UseSftp)
                 {
                     //set world to user-defined path
                     WorldLocked = true;
@@ -369,7 +387,7 @@ namespace AATool
                 Category.LoadObjectives();
 
             //wait to refresh until sftp transer is complete
-            if (Config.Tracking.UseSftp && SftpSave.IsDownloading)
+            if (Config.Tracking.UseSftp && MinecraftServer.IsDownloading)
                 return;
 
             //update progress if source has been invalidated

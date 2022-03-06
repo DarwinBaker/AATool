@@ -14,7 +14,7 @@ namespace AATool.Net
         public bool IsConnecting         { get; private set; }
         public bool WasKickedByServer    { get; private set; }
         public bool LostConnection       { get; private set; }
-        public DateTime EstimatedRefresh { get; private set; }
+        public DateTime NextRefresh { get; private set; }
 
         private readonly Dictionary<string, string> recieved;
         private readonly Queue<Message> sendQueue;
@@ -46,7 +46,7 @@ namespace AATool.Net
             if (!this.Connected())
                 return "Attempting connection...";
 
-            int remaining = (int)(this.EstimatedRefresh - DateTime.UtcNow).TotalSeconds;
+            int remaining = (int)(this.NextRefresh - DateTime.UtcNow).TotalSeconds;
             if (remaining > 0)
             {
                 string time = remaining >= 60
@@ -321,8 +321,8 @@ namespace AATool.Net
             {
                 //deserialize datetime
                 message.TryGetItem(0, out string dateString);
-                if (DateTime.TryParse(dateString, out DateTime refreshEstimate))
-                    this.EstimatedRefresh = refreshEstimate;
+                if (DateTime.TryParse(dateString, out DateTime nextEstimate))
+                    this.NextRefresh = nextEstimate;
             }
             else if (message.TryGetItem(0, out string jsonString))
             {

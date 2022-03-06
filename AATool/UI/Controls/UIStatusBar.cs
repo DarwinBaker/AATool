@@ -149,7 +149,7 @@ namespace AATool.UI.Controls
                 this.refreshTimer.Reset();
                 this.statusLabel.SetText(this.GetLabelText());
             }
-            else if (Tracker.ProgressChanged || Peer.StateChanged || !string.IsNullOrEmpty(SftpSave.GetStatusText()))
+            else if (Tracker.ProgressChanged || Peer.StateChanged || !string.IsNullOrEmpty(MinecraftServer.GetStatusText()))
             {
                 this.statusLabel.SetText(this.GetLabelText());
             }
@@ -162,11 +162,11 @@ namespace AATool.UI.Controls
             if (Config.Main.ProgressBarStyle != "None")
             {
                 if (this.progressBar.Width > 250)
-                    progress += $"    -    {Tracker.GetPrettyIGT()} IGT";
+                    progress += $"    -    {Tracker.GetPrettyIgt()} IGT";
             }
             else
             {
-                progress += $"\n{Tracker.GetPrettyIGT()} IGT\n{new string('-', this.progressBar.Width / 7)}";
+                progress += $"\n{Tracker.GetPrettyIgt()} IGT\n{new string('-', this.progressBar.Width / 7)}";
             }
                 
             this.progressLabel.SetText(progress);
@@ -182,7 +182,7 @@ namespace AATool.UI.Controls
                 return client.GetStatusText();
 
             if (Config.Tracking.UseSftp)
-                return SftpSave.GetStatusText();
+                return MinecraftServer.GetStatusText();
 
             return Tracker.GetStatusText();
         }

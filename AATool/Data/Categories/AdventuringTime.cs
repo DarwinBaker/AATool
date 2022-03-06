@@ -12,7 +12,7 @@ namespace AATool.Data.Categories
         };
 
         public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
-        public override IEnumerable<Objective> GetOverlayObjectives() => Tracker.Achievements.All.Values;
+        public override IEnumerable<Objective> GetOverlayObjectives() => Tracker.Achievements.AllAdvancements.Values;
 
         public override int GetTargetCount() => this.Requirement?.Criteria.Count ?? 0;
         public override int GetCompletedCount() => this.Requirement?.Criteria.MostCompleted ?? 0;

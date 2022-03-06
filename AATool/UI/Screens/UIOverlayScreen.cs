@@ -251,7 +251,7 @@ namespace AATool.UI.Screens
             if (Client.TryGet(out Client client))
             {
                 this.status.SetFont("minecraft", 24);
-                int seconds = (int)Math.Ceiling((client.EstimatedRefresh - DateTime.UtcNow).TotalSeconds);
+                int seconds = (int)Math.Ceiling((client.NextRefresh - DateTime.UtcNow).TotalSeconds);
                 if (seconds <= 0)
                 {
                     string hostName = "host";
@@ -264,20 +264,20 @@ namespace AATool.UI.Screens
                 }
                 else
                 {
-                    this.status?.SetText($"Refreshing in {SftpSave.GetEstimateString(seconds).Replace(" ", "\0")}");
+                    this.status?.SetText($"Refreshing in {MinecraftServer.GetEstimateString(seconds).Replace(" ", "\0")}");
                 }
             }
-            else if (SftpSave.IsEnabled)
+            else if (MinecraftServer.IsEnabled)
             {
                 this.status.SetFont("minecraft", 24);
-                if (SftpSave.State is SyncState.Ready)
+                if (MinecraftServer.State is SyncState.Ready)
                 {
-                    if (SftpSave.CredentialsValidated)
-                        this.status?.SetText($"Refreshing in {SftpSave.GetEstimateString(SftpSave.GetNextRefresh()).Replace(" ", "\0")}");
+                    if (MinecraftServer.CredentialsValidated)
+                        this.status?.SetText($"Refreshing in {MinecraftServer.GetEstimateString(MinecraftServer.GetNextRefresh()).Replace(" ", "\0")}");
                     else
                         this.status?.SetText($"SFTP Offline");
                 }                
-                else if (SftpSave.State is SyncState.Connecting)
+                else if (MinecraftServer.State is SyncState.Connecting)
                 {
                     this.status?.SetText($"Connecting...");
                 }
@@ -290,7 +290,7 @@ namespace AATool.UI.Screens
             {
                 this.status?.SetFont("minecraft", 48);
                 if (Config.Overlay.ShowIgt && Tracker.InGameTime != default)
-                    this.status?.SetText(Tracker.GetPrettyIGT());
+                    this.status?.SetText(Tracker.GetPrettyIgt());
                 else
                     this.status?.SetText(string.Empty);
             }

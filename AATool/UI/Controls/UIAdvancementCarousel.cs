@@ -6,11 +6,12 @@ using System.Collections.Generic;
 
 namespace AATool.UI.Controls
 {
-    class UIAdvancementCarousel : UICarousel
+    class UIObjectiveCarousel : UICarousel
     {  
         protected override void UpdateThis(Time time)
         {
-            this.UpdateSourceList();
+            if (Tracker.Invalidated)
+                this.RefreshSourceList();
 
             if (Tracker.ObjectivesChanged)
                 this.Clear();
@@ -32,7 +33,7 @@ namespace AATool.UI.Controls
 
             this.Fill();
 
-            //remove completed advancements from carousel
+            //remove existing overlay advancements that have since been completed
             for (int i = this.Children.Count - 1; i >= 0; i--)
             {
                 if ((this.Children[i] as UIObjectiveFrame).ObjectiveCompleted)
@@ -42,15 +43,15 @@ namespace AATool.UI.Controls
             base.UpdateThis(time);
         }
 
-        protected override void UpdateSourceList()
+        protected override void RefreshSourceList()
         {
-            var objectives = new List<Objective>(Tracker.Category.GetOverlayObjectives());
-            this.SourceList = new List<object>(objectives);
+            this.SourceList.Clear();
+            this.SourceList.AddRange(Tracker.Category.GetOverlayObjectives());
 
-            //remove all completed advancements from pool
+            //remove completed advancements from pool
             for (int i = this.SourceList.Count - 1; i >= 0; i--)
             {
-                if (objectives[i].CompletedByAnyone())
+                if ((this.SourceList[i] as Objective).CompletedByAnyone())
                     this.SourceList.RemoveAt(i);
             }
 

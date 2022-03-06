@@ -162,7 +162,7 @@ namespace AATool.Winforms.Controls
             }
             else if (sender == this.sftpValidate)
             {
-                SftpSave.Sync();
+                MinecraftServer.Sync();
             }
             else if (sender == this.toggleCredentials)
             {

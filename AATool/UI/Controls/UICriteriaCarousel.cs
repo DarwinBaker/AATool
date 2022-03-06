@@ -10,48 +10,43 @@ namespace AATool.UI.Controls
     {
         public override void InitializeThis(UIScreen screen)
         {
-            this.UpdateSourceList();
+            this.RefreshSourceList();
         }
 
         protected override void UpdateThis(Time time)
         {
-            this.UpdateSourceList();
             this.Fill();
 
-            //remove ones that have been completed
-            for (int i = this.Children.Count - 1; i >= 0; i--)
+            if (Tracker.ProgressChanged || Tracker.DesignationsChanged)
             {
-                if ((this.Children[i] as UICriterion).IsCompleted)
-                    this.Children.RemoveAt(i);
+                this.RefreshSourceList();
+
+                //remove existing overlay items that have since been completed
+                for (int i = this.Children.Count - 1; i >= 0; i--)
+                {
+                    if ((this.Children[i] as UICriterion).HideFromOverlay)
+                        this.Children.RemoveAt(i);
+                }
             }
 
             base.UpdateThis(time);
         }
 
-        protected override void UpdateSourceList()
+        protected override void RefreshSourceList()
         {
             //populate source list with all criteria
             this.SourceList.Clear();
-            foreach (Criterion criterion in Tracker.CurrentCriteriaSet.Values)
-            {
-                if (!criterion.CompletedByAnyone())
-                    this.SourceList.Add(criterion);
-            }
-
-            //remove all completed criteria from pool if configured to do so
-            for (int i = this.SourceList.Count - 1; i >= 0; i--)
-            {
-                if ((this.SourceList[i] as Criterion).CompletedByAnyone())
-                    this.SourceList.RemoveAt(i);
-            }
+            this.SourceList.AddRange(Tracker.RemainingCriteria.Values);
         }
 
         protected override void Fill()
         {
             //calculate widths
-            int x = this.Children.Count > 0 ? this.Children.Last().Right : 0;
+            int x;
             if (this.Children.Count > 0)
                 x = this.RightToLeft ? this.Children.Last().Right : this.Width - this.Children.Last().Left;
+            else
+                x = this.Children.Count > 0 ? this.Children.Last().Right : 0;
 
             //while more controls will fit, add them
             while (x < this.Width)

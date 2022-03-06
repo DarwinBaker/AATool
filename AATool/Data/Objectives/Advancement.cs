@@ -56,9 +56,14 @@ namespace AATool.Data.Objectives
             if (id == Uuid.Empty)
                 return;
 
-            this.DesignatedPlayer = id;
-            if (Server.TryGet(out Server server))
-                server.DesignatePlayer(this.Id, this.DesignatedPlayer);
+            if (id != this.DesignatedPlayer)
+            {
+                this.DesignatedPlayer = id;
+                Tracker.InvalidateDesignations();
+
+                if (Server.TryGet(out Server server))
+                    server.DesignatePlayer(this.Id, this.DesignatedPlayer);
+            }
         }
 
         public Uuid GetDesignatedPlayer()

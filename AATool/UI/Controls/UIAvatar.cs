@@ -15,7 +15,6 @@ namespace AATool.UI.Controls
     {
         public Uuid Player { get; private set; }
         public bool ShowName { get; set; }
-        public bool HideTrophy { get; set; }
         public int Scale { get; set; }
 
         private UIPicture face;
@@ -74,7 +73,7 @@ namespace AATool.UI.Controls
 
         private void UpdateTrophy(bool forceRecheck = false)
         {
-            if (this.HideTrophy || (this.leaderboardChecked && !forceRecheck))
+            if (this.leaderboardChecked && !forceRecheck)
                 return;
             if (!LeaderboardRequest.Runs.Any())
                 return;

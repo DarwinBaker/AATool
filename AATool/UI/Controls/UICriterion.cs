@@ -20,7 +20,8 @@ namespace AATool.UI.Controls
         private float iconBrightness;
         private float textBrightness;
 
-        public bool IsCompleted => this.criterion?.CompletedBy(this.criterion.Owner.GetDesignatedPlayer()) ?? false;
+        public bool HideFromOverlay => (this.criterion?.Owner?.CompletedByAnyone() ?? false) || this.CriterionCompleted;
+        public bool CriterionCompleted => this.criterion?.CompletedByDesignated() ?? false;
 
         public UICriterion() 
         {
@@ -88,11 +89,11 @@ namespace AATool.UI.Controls
         {
             if (!this.IsStatic)
             {
-                float iconTarget = this.IsCompleted ? 1f : 0.35f;
+                float iconTarget = this.CriterionCompleted ? 1f : 0.35f;
                 this.iconBrightness = MathHelper.Lerp(this.iconBrightness, iconTarget, (float)(10 * time.Delta));
                 this.icon?.SetTint(Color.White * this.iconBrightness);
 
-                float textTarget = this.IsCompleted ? 1f : 0.5f;
+                float textTarget = this.CriterionCompleted ? 1f : 0.5f;
                 this.textBrightness = MathHelper.Lerp(this.textBrightness, textTarget, (float)(10 * time.Delta));        
                 this.label?.SetTextColor(Config.Main.TextColor.Value * textTarget);
             }
