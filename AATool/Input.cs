@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AATool.Configuration;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -26,14 +27,13 @@ namespace AATool
 
         public static Point Cursor(UIScreen screen)
         {
-            Point cursor = MouseNow.Position;
             if (screen == Main.PrimaryScreen)
-                return cursor;
+                return MouseNow.Position / new Point(Config.Main.DisplayScale);
 
             //normalize cursor position on secondary windows
             return new Point(
-                cursor.X + Main.PrimaryScreen.Form.Location.X - screen.Form.Location.X,
-                cursor.Y + Main.PrimaryScreen.Form.Location.Y - screen.Form.Location.Y);
+                MouseNow.Position.X + Main.PrimaryScreen.Form.Location.X - screen.Form.Location.X,
+                MouseNow.Position.Y + Main.PrimaryScreen.Form.Location.Y - screen.Form.Location.Y);
         }
 
         public static bool IsDown(Keys key) => KeysNow.Contains(key);
