@@ -117,7 +117,7 @@ namespace AATool
         public static class Web
         {
             public const string LatestRelease = "https://github.com/DarwinBaker/AATool/releases/latest";
-            public const string ObsHelp       = "https://github.com/DarwinBaker/AATool/blob/master/info/obs.md";
+            public const string ObsHelp       = "https://github.com/DarwinBaker/AATool/blob/main/info/obs.md";
             public const string PatreonFull   = "https://www.patreon.com/_ctm";
             public const string PatreonShort  = "Patreon.com/_CTM";
             public const string UnofficialSpreadsheet = "https://docs.google.com/spreadsheets/d/107ijqjELTQQ29KW4phUmtvYFTX9-pfHsjb18TKoWACk/export?format=csv";
