@@ -37,6 +37,7 @@ namespace AATool.Winforms.Controls
             this.label4 = new System.Windows.Forms.Label();
             this.backColor = new System.Windows.Forms.Button();
             this.overlayGroupAppearance = new System.Windows.Forms.GroupBox();
+            this.clarifyAmbiguous = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.frameStyle = new System.Windows.Forms.ComboBox();
             this.igt = new System.Windows.Forms.CheckBox();
@@ -50,7 +51,7 @@ namespace AATool.Winforms.Controls
             this.direction = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.speed = new System.Windows.Forms.TrackBar();
-            this.clarifyAmbiguous = new System.Windows.Forms.CheckBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.overlayGroupTheme.SuspendLayout();
             this.overlayGroupAppearance.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.overlayWidth)).BeginInit();
@@ -72,6 +73,7 @@ namespace AATool.Winforms.Controls
             // 
             // overlayGroupTheme
             // 
+            this.overlayGroupTheme.Controls.Add(this.label11);
             this.overlayGroupTheme.Controls.Add(this.copyColorKey);
             this.overlayGroupTheme.Controls.Add(this.label2);
             this.overlayGroupTheme.Controls.Add(this.textColor);
@@ -88,7 +90,7 @@ namespace AATool.Winforms.Controls
             // 
             this.copyColorKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.copyColorKey.AutoSize = true;
-            this.copyColorKey.Location = new System.Drawing.Point(6, 109);
+            this.copyColorKey.Location = new System.Drawing.Point(6, 77);
             this.copyColorKey.Name = "copyColorKey";
             this.copyColorKey.Size = new System.Drawing.Size(168, 13);
             this.copyColorKey.TabIndex = 29;
@@ -151,6 +153,16 @@ namespace AATool.Winforms.Controls
             this.overlayGroupAppearance.TabIndex = 33;
             this.overlayGroupAppearance.TabStop = false;
             this.overlayGroupAppearance.Text = "Appearance";
+            // 
+            // clarifyAmbiguous
+            // 
+            this.clarifyAmbiguous.AutoSize = true;
+            this.clarifyAmbiguous.Location = new System.Drawing.Point(6, 112);
+            this.clarifyAmbiguous.Name = "clarifyAmbiguous";
+            this.clarifyAmbiguous.Size = new System.Drawing.Size(144, 17);
+            this.clarifyAmbiguous.TabIndex = 42;
+            this.clarifyAmbiguous.Text = "Clarify Ambiguous Criteria";
+            this.clarifyAmbiguous.UseVisualStyleBackColor = true;
             // 
             // label6
             // 
@@ -309,15 +321,16 @@ namespace AATool.Winforms.Controls
             this.speed.Value = 2;
             this.speed.ValueChanged += new System.EventHandler(this.OnValueChanged);
             // 
-            // clarifyAmbiguous
+            // label11
             // 
-            this.clarifyAmbiguous.AutoSize = true;
-            this.clarifyAmbiguous.Location = new System.Drawing.Point(6, 112);
-            this.clarifyAmbiguous.Name = "clarifyAmbiguous";
-            this.clarifyAmbiguous.Size = new System.Drawing.Size(144, 17);
-            this.clarifyAmbiguous.TabIndex = 42;
-            this.clarifyAmbiguous.Text = "Clarify Ambiguous Criteria";
-            this.clarifyAmbiguous.UseVisualStyleBackColor = true;
+            this.label11.AutoSize = true;
+            this.label11.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label11.Location = new System.Drawing.Point(6, 97);
+            this.label11.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(171, 26);
+            this.label11.TabIndex = 40;
+            this.label11.Text = "🛈 Make sure to use \"Color Key\" \r\nNOT \"Chroma Key\" for best results";
             // 
             // COverlaySettings
             // 
@@ -367,5 +380,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox frameStyle;
         private System.Windows.Forms.CheckBox clarifyAmbiguous;
+        private System.Windows.Forms.Label label11;
     }
 }
