@@ -1,9 +1,8 @@
-﻿using AATool.Utilities;
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
+using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Xml;
 
 namespace AATool.Configuration
 {
@@ -18,6 +17,7 @@ namespace AATool.Configuration
                 {"Light Mode",     (Hex("F0F0F0"), Hex("000000"), Hex("C4C4C4"))},
                 {"GitHub Dark",    (Hex("0D1117"), Hex("C9D1D9"), Hex("30363D"))},
                 {"Ender Pearl",    (Hex("0C3730"), Hex("C6F2EA"), Hex("349988"))},
+                {"Blazed",         (Hex("91360B"), Hex("FFFFB4"), Hex("E4871F"))},
                 {"Brick",          (Hex("804040"), Hex("FFFFFF"), Hex("AA5A5A"))},
                 {"Berry",          (Hex("411126"), Hex("C9D1D9"), Hex("5E1938"))},
                 {"Couri Enjoyer",  (Hex("502880"), Hex("C9D1D9"), Hex("8336B6"))},
@@ -25,7 +25,8 @@ namespace AATool.Configuration
                 {"High Contrast",  (Hex("000000"), Hex("FFFFFF"), Hex("FFFFFF"))}
             };
 
-            private static Color Hex(string hex) => ColorHelper.TryGetHexColor(hex, out Color color) ? color : Color.White;
+            private static Color Hex(string hex) => 
+                ColorHelper.TryGetHexColor(hex, out Color color) ? color : Color.White;
 
             [JsonProperty] public readonly Setting<int> FpsCap = new (60);
             [JsonProperty] public readonly Setting<int> DisplayScale = new (1);
@@ -34,7 +35,7 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<bool> ShowBasicAdvancements = new (true);
             [JsonProperty] public readonly Setting<bool> ShowCompletionGlow = new (true);
             [JsonProperty] public readonly Setting<bool> ShowAmbientGlow = new (true);
-            [JsonProperty] public readonly Setting<bool> CompactMode = new (false);
+            [JsonProperty] public readonly Setting<bool> CompactMode = new (!MonitorSupportsRelaxed);
             [JsonProperty] public readonly Setting<bool> RainbowMode = new (false);
 
             [JsonProperty] public readonly Setting<bool> LayoutDebugMode = new (false);
@@ -62,6 +63,11 @@ namespace AATool.Configuration
                 || this.BackColor.Changed
                 || this.TextColor.Changed
                 || this.ProgressBarStyle.Changed;
+
+            [JsonIgnore]
+            private static bool MonitorSupportsRelaxed =>
+                Screen.PrimaryScreen.Bounds.Width >= 1600
+                && Screen.PrimaryScreen.Bounds.Height >= 900;
 
             protected override string GetId() => "main";
             protected override string GetLegacyId() => "main";

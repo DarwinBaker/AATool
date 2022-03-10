@@ -86,21 +86,6 @@ namespace AATool.UI.Screens
             }
         }
 
-        private void UpdateForcedCompactMode()
-        {
-            System.Drawing.Rectangle desktop = Screen.FromControl(this.Form).WorkingArea;
-            if (this.Width > desktop.Width || this.Height > desktop.Height)
-            {
-                string title = "Compact Mode Enabled";
-                string message = "Your display resolution is too small for Relaxed View. Compact View has been enabled.";
-                Config.Main.CompactMode.Set(true);
-                this.ReloadView();
-                MessageBox.Show(this.Form, message, title,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-            }
-        }
-
         public override string GetCurrentView()
         {
             //get proper view for current category and version
@@ -200,7 +185,6 @@ namespace AATool.UI.Screens
             if (Tracker.ObjectivesChanged || Config.Main.CompactMode.Changed)
                 this.ReloadView();
             
-            this.UpdateForcedCompactMode();
             this.UpdateCollapsedStates();
 
             //keep settings menu version up to date
