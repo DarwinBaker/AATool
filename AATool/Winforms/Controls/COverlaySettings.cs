@@ -27,6 +27,7 @@ namespace AATool.Winforms.Controls
             this.frameStyle.Items.Add("Minecraft");
             foreach (string theme in Config.MainConfig.Themes.Keys)
                 this.frameStyle.Items.Add(theme);
+            this.frameStyle.Items.Add("Geode");
             this.frameStyle.Items.Add("None");
         }
 

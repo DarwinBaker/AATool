@@ -17,7 +17,7 @@ namespace AATool.Configuration
                 {"Light Mode",     (Hex("F0F0F0"), Hex("000000"), Hex("C4C4C4"))},
                 {"GitHub Dark",    (Hex("0D1117"), Hex("C9D1D9"), Hex("30363D"))},
                 {"Ender Pearl",    (Hex("0C3730"), Hex("C6F2EA"), Hex("349988"))},
-                {"Blazed",         (Hex("91360B"), Hex("FFFFB4"), Hex("E4871F"))},
+                {"Blazed",         (Hex("91360B"), Hex("FFFFCC"), Hex("E4871F"))},
                 {"Brick",          (Hex("804040"), Hex("FFFFFF"), Hex("AA5A5A"))},
                 {"Berry",          (Hex("411126"), Hex("C9D1D9"), Hex("5E1938"))},
                 {"Couri Enjoyer",  (Hex("502880"), Hex("C9D1D9"), Hex("8336B6"))},
