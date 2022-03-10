@@ -40,6 +40,7 @@ namespace AATool.UI.Controls
         private Type objectiveType;
         private Rectangle portraitRectangle;
         private Rectangle avatarRectangle;
+        private Rectangle detailRectangle;
         private int scale;
         private string completeFrame;
         private string incompleteFrame;
@@ -186,7 +187,18 @@ namespace AATool.UI.Controls
             int y = this.frame.Top - (3 * this.scale);
             int size = 18 * this.scale;
             this.portraitRectangle = new Rectangle(x, y, size, size);
-            this.avatarRectangle = new Rectangle(this.frame.Left, this.frame.Top + this.scale, 8 * this.scale, 8 * this.scale);
+
+            this.avatarRectangle = new Rectangle(
+                this.frame.Left, 
+                this.frame.Top + this.scale, 
+                8 * this.scale, 
+                8 * this.scale);
+
+            this.detailRectangle = new Rectangle(
+                this.frame.Left + 2 * this.scale, 
+                this.frame.Top + 2 * this.scale, 
+                this.frame.Width - 4 * this.scale, 
+                this.frame.Height - 4 * this.scale);
         }
 
         private void UpdateAppearance()
@@ -217,11 +229,6 @@ namespace AATool.UI.Controls
             float target = this.Root() is not UIOverlayScreen && Config.Main.FrameStyle == "Modern" 
                 ? 0.15f
                 : 0;
-
-            if (this.Objective?.Id is "minecraft:nether/root")
-            {
-                //this.AutoSetObjective();
-            }
 
             if (this.ObjectiveCompleted)
             {
@@ -299,30 +306,56 @@ namespace AATool.UI.Controls
 
         public override void DrawThis(Canvas canvas)
         {
-            if (this.SkipDraw || this.Objective is null)
+            bool overlay = this.Root() is UIOverlayScreen;
+            float opacity = overlay ? 1 : (this.IsActive ? 0.7f : 0.1f);
+            string style = overlay ? Config.Overlay.FrameStyle : Config.Main.FrameStyle;
+
+            if (style is "Furnace" or "Blazed")
+            {
+                Color tint = ColorHelper.Fade(Color.White, this.glow.Brightness / (overlay ? 2f : 3f));
+                canvas.Draw($"fire_flat", this.detailRectangle, tint, Layer.Glow);
+            }
+
+            if (this.SkipDraw || this.Objective is null || style is "None")
                 return;
 
-            string style = this.Root() is UIOverlayScreen
-                ? Config.Overlay.FrameStyle
-                : Config.Main.FrameStyle;
-
-            if (style is "Minecraft")
+            switch (style.ToLower())
             {
-                canvas.Draw(this.incompleteFrame, this.frame.Bounds, this.IsActive ? Color.White : Color.Gray * 0.25f);
-                canvas.Draw(this.completeFrame, this.frame.Bounds, ColorHelper.Fade(Color.White, this.glow.Brightness));
-            }
-            else if (style is not "None")
-            {
-                float opacity = this.Root() is UIOverlayScreen ? 1 : (this.IsActive ? 0.7f : 0.1f);
-                canvas.Draw($"frame_modern_back", this.frame.Bounds,
-                    this.Root().FrameBackColor() * opacity);
-                if (this.IsActive)
-                {
-                    Color brightness = ColorHelper.Fade(Color.White, this.glow.Brightness);
-                    canvas.Draw($"frame_modern_back_complete", this.frame.Bounds, brightness);
-                    canvas.Draw($"frame_modern_border", this.frame.Bounds, this.Root().FrameBorderColor());
-                    canvas.Draw($"frame_modern_border_complete", this.frame.Bounds, brightness);
-                }
+                case "minecraft":
+                    canvas.Draw(this.incompleteFrame, this.frame.Bounds, this.IsActive ? Color.White : Color.Gray * 0.25f);
+                    canvas.Draw(this.completeFrame, this.frame.Bounds, ColorHelper.Fade(Color.White, this.glow.Brightness));
+                    break;
+                case "furnace":
+                case "blazed":
+                    canvas.Draw("frame_modern_back", this.frame.Bounds, this.Root().FrameBackColor() * opacity);
+                    if (this.IsActive)
+                    {
+                        Color brightness = ColorHelper.Fade(Color.White, this.glow.Brightness);
+                        canvas.Draw("frame_furnace_back_complete", this.frame.Bounds, brightness);
+                        canvas.Draw("frame_modern_border", this.frame.Bounds, this.Root().FrameBorderColor());
+                        canvas.Draw("frame_modern_border_complete", this.frame.Bounds, brightness);
+                    }
+                    break;
+                case "geode":
+                    canvas.Draw("frame_geode_back", this.frame.Bounds, Color.White);
+                    if (this.IsActive)
+                    {
+                        Color brightness = ColorHelper.Fade(Color.White, this.glow.Brightness);
+                        canvas.Draw("frame_geode_back_complete", this.frame.Bounds, brightness);
+                        canvas.Draw("frame_geode_border", this.frame.Bounds, Color.White);
+                        canvas.Draw("frame_geode_border_complete", this.frame.Bounds, brightness);
+                    }
+                    break;
+                default: 
+                    canvas.Draw("frame_modern_back", this.frame.Bounds, this.Root().FrameBackColor() * opacity);
+                    if (this.IsActive)
+                    {
+                        Color brightness = ColorHelper.Fade(Color.White, this.glow.Brightness);
+                        canvas.Draw("frame_modern_back_complete", this.frame.Bounds, brightness);
+                        canvas.Draw("frame_modern_border", this.frame.Bounds, this.Root().FrameBorderColor());
+                        canvas.Draw("frame_modern_border_complete", this.frame.Bounds, brightness);
+                    }
+                    break;
             }
         }
 
@@ -348,6 +381,13 @@ namespace AATool.UI.Controls
                             break;
                         case "Modern":
                             canvas.Draw("frame_modern_portrait", this.portraitRectangle, fade);
+                            break;
+                        case "Furnace":
+                        case "Blazed":
+                            canvas.Draw("frame_furnace_portrait", this.portraitRectangle, fade);
+                            break;
+                        case "Geode":
+                            canvas.Draw("frame_geode_portrait", this.portraitRectangle, fade);
                             break;
                     }
                 }       

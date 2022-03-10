@@ -31,6 +31,7 @@ namespace AATool.Winforms.Controls
         {
             this.notesEnabled = new System.Windows.Forms.CheckBox();
             this.mainGroupMain = new System.Windows.Forms.GroupBox();
+            this.highRes = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.infoPanel = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -62,7 +63,6 @@ namespace AATool.Winforms.Controls
             this.label11 = new System.Windows.Forms.Label();
             this.ambientGlow = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.highRes = new System.Windows.Forms.CheckBox();
             this.mainGroupMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -97,6 +97,18 @@ namespace AATool.Winforms.Controls
             this.mainGroupMain.TabIndex = 25;
             this.mainGroupMain.TabStop = false;
             this.mainGroupMain.Text = "Layout";
+            // 
+            // highRes
+            // 
+            this.highRes.AutoSize = true;
+            this.highRes.Location = new System.Drawing.Point(6, 121);
+            this.highRes.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.highRes.Name = "highRes";
+            this.highRes.Size = new System.Drawing.Size(133, 17);
+            this.highRes.TabIndex = 38;
+            this.highRes.Text = "Hi-Res Display Scaling";
+            this.highRes.UseVisualStyleBackColor = true;
+            this.highRes.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
             // label3
             // 
@@ -363,6 +375,8 @@ namespace AATool.Winforms.Controls
             this.frameStyle.FormattingEnabled = true;
             this.frameStyle.Items.AddRange(new object[] {
             "Modern",
+            "Furnace",
+            "Geode",
             "Minecraft",
             "None"});
             this.frameStyle.Location = new System.Drawing.Point(135, 37);
@@ -466,18 +480,6 @@ namespace AATool.Winforms.Controls
             this.groupBox3.TabIndex = 36;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Lighting";
-            // 
-            // highRes
-            // 
-            this.highRes.AutoSize = true;
-            this.highRes.Location = new System.Drawing.Point(6, 121);
-            this.highRes.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
-            this.highRes.Name = "highRes";
-            this.highRes.Size = new System.Drawing.Size(133, 17);
-            this.highRes.TabIndex = 38;
-            this.highRes.Text = "Hi-Res Display Scaling";
-            this.highRes.UseVisualStyleBackColor = true;
-            this.highRes.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
             // CMainSettings
             // 
