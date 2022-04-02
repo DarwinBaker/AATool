@@ -28,12 +28,12 @@
             </flow_panel>
 
             <!-- beta testers -->
-            <flow_panel name="beta_testers" width="220" cell_width="200" cell_height="32" draw_mode="childrenonly" margin_right="20" padding_top="120" direction="toptobottom" horizontal_align="right">
-            </flow_panel>
+            <panel name="beta_testers" width="185" height="135" draw_mode="childrenonly" margin_right="220" margin_top="40" horizontal_align="right" vertical_align="top">
+            </panel>
 
-            <!-- special thanks -->
-            <flow_panel name="special_dedication" width="220" cell_width="200" cell_height="32" draw_mode="childrenonly" margin_right="20" padding_top="270" direction="toptobottom" horizontal_align="right">
-            </flow_panel>
+            <!-- special dedication -->
+            <panel name="special_dedication" width="160" height="135" draw_mode="childrenonly" margin_right="25" margin_top="40" horizontal_align="right" vertical_align="top">
+            </panel>
         </panel>
 
         <!-- page switch timer bar -->

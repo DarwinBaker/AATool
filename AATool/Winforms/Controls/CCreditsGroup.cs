@@ -34,8 +34,8 @@ namespace AATool.Winforms.Controls
 
             label.Image = person.Role switch {
                 "developer" => Resources.supporter_developer,
-                "beta_tester" => Resources.supporter_beta,
-                "dedication" => Resources.supporter_dedication,
+                "beta testers" => Resources.supporter_beta,
+                "special dedication" => Resources.supporter_dedication,
                 "supporter_netherite" => Resources.supporter_netherite,
                 "supporter_emerald" => Resources.supporter_emerald,
                 "supporter_diamond" => Resources.supporter_diamond,

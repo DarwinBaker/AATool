@@ -31,7 +31,7 @@ namespace AATool.Net
 
         public static bool TryGet(out Client client) => (client = Instance as Client) is not null;
 
-        public override bool Connected() => !this.IsConnecting && this.socket.Connected && this.Accepted;
+        public override bool Connected() => !this.IsConnecting && this.socket?.Connected is true && this.Accepted;
 
         public bool TryGetData(string key, out string data) => this.recieved.TryGetValue(key, out data);
 

@@ -748,6 +748,21 @@
     <Content Include="assets\sprites\global\gui\frames\furnace\frame_furnace_portrait.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\gui\frames\eyespy\frame_eyespy^52.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\frames\eyespy\frame_eyespy^78.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\frames\eyespy\frame_eyespy_complete^52.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\frames\eyespy\frame_eyespy_complete^78.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\frames\eyespy\frame_eyespy_portrait.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\gui\frames\geode\frame_geode_back^52.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -773,6 +788,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\frames\geode\frame_geode_portrait.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\shiny_heart.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\elysaku.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\icons\strider_walking%2440x40.png">
@@ -3234,7 +3255,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\supporters\supporter_emerald.png" />
-    <Content Include="Resources\supporters\poppy.png" />
+    <Content Include="Resources\supporters\supporter_dedication.png" />
     <Content Include="Resources\supporters\supporter_beta.gif" />
     <Content Include="Resources\supporters\supporter_patreon_gold.png" />
     <Content Include="Resources\supporters\supporter_patreon_diamond.png" />

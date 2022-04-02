@@ -11,7 +11,7 @@
     <death id="cactus" messages="was pricked to death"      name="Was Pricked&#xA;to Death"             icon="cactus_short"/>
     <death id="hit_the_ground" messages="hit the ground too hard"   name="Hit the Ground too Hard"      icon="fall_damage"/>
     <death id="void" messages="fell out of the world"       name="Fell Out of&#xA;the World"            icon="void"/>
-    <death id="magic" messages="was killed by magic,was killed by potion using magic,was killed by evoker using magic,was killed by guardian using magic"   name="Was Killed&#xA;by Magic"              icon="splash_harming"/>
+    <death id="magic" messages="was killed by magic,was killed by potion using magic,was killed by evoker using magic,was killed by guardian using magic,was killed by witch using magic"   name="Was Killed&#xA;by Magic"              icon="splash_harming"/>
     <death id="slain" messages="was slain by"               name="Was Slain&#xA;by Mob"                 icon="kill_a_mob"/>
     <death id="shot" messages="was shot by"                 name="Was Shot&#xA;by Mob"                  icon="sniper_duel"/>
     <death id="fireballed" messages="was fireballed by"     name="Was&#160;Fireballed&#xA;by Mob"       icon="ghast"/>

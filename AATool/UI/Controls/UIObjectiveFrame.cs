@@ -41,10 +41,10 @@ namespace AATool.UI.Controls
         private Rectangle portraitRectangle;
         private Rectangle avatarRectangle;
         private Rectangle detailRectangle;
+        private Rectangle detailRectangleSmall;
         private int scale;
         private string completeFrame;
         private string incompleteFrame;
-        private string style;
 
         public bool ObjectiveCompleted => this.Objective?.CompletedByAnyone() ?? false;
         public Point IconCenter => this.icon.Center;
@@ -80,11 +80,6 @@ namespace AATool.UI.Controls
 
         public void AutoSetObjective()
         {
-            if (this.ObjectiveId is "minecraft:nether/root")
-            {
-                //this.AutoSetObjective();
-            }
-
             if (this.objectiveType == typeof(Advancement))
             {
                 if (Tracker.TryGetAdvancement(this.ObjectiveId, out Advancement objective))
@@ -195,10 +190,16 @@ namespace AATool.UI.Controls
                 8 * this.scale);
 
             this.detailRectangle = new Rectangle(
-                this.frame.Left + 2 * this.scale, 
-                this.frame.Top + 2 * this.scale, 
-                this.frame.Width - 4 * this.scale, 
+                this.frame.Left + 2 * this.scale,
+                this.frame.Top + 2 * this.scale,
+                this.frame.Width - 4 * this.scale,
                 this.frame.Height - 4 * this.scale);
+
+            this.detailRectangleSmall = new Rectangle(
+                this.frame.Left + 4 * this.scale,
+                this.frame.Top + 4 * this.scale,
+                this.frame.Width - 8 * this.scale,
+                this.frame.Height - 8 * this.scale);
         }
 
         private void UpdateAppearance()
@@ -209,10 +210,6 @@ namespace AATool.UI.Controls
 
             if (this.Objective is Trident trident)
                 this.icon?.SetTexture(trident.Icon);
-
-            this.style = this.Root() is UIOverlayScreen
-                ? Config.Overlay.FrameStyle.Value
-                : Config.Main.FrameStyle.Value;
         }
 
         private void UpdateGlowBrightness(Time time)
@@ -315,7 +312,11 @@ namespace AATool.UI.Controls
                 Color tint = ColorHelper.Fade(Color.White, this.glow.Brightness / (overlay ? 2f : 3f));
                 canvas.Draw($"fire_flat", this.detailRectangle, tint, Layer.Glow);
             }
-
+            else if (overlay && style is "Eye Spy")
+            {
+                Color tint = ColorHelper.Fade(Color.White, this.glow.Brightness / 2f);
+                canvas.Draw($"fire_flat", this.detailRectangleSmall, tint, Layer.Glow);
+            }
             if (this.SkipDraw || this.Objective is null || style is "None")
                 return;
 
@@ -345,6 +346,26 @@ namespace AATool.UI.Controls
                         canvas.Draw("frame_geode_border", this.frame.Bounds, Color.White);
                         canvas.Draw("frame_geode_border_complete", this.frame.Bounds, brightness);
                     }
+                    else
+                    {
+                        canvas.Draw("frame_geode_border", this.frame.Bounds, Color.White * 0.75f);
+                    }
+                    break;
+                case "eye spy":
+                    canvas.Draw("frame_eyespy", this.frame.Bounds, this.IsActive ? Color.White : Color.Gray * 0.25f);
+                    if (this.IsActive)
+                    {
+                        Color brightness = ColorHelper.Fade(Color.White, this.glow.Brightness);
+                        canvas.Draw("frame_eyespy_complete", this.frame.Bounds, brightness);
+                    }
+                    break;
+                case "flex":
+                    canvas.Draw("frame_flex_incomplete", this.frame.Bounds, this.IsActive ? Color.White : Color.Gray * 0.25f);
+                    canvas.Draw("frame_flex_complete", this.frame.Bounds, ColorHelper.Fade(Color.White, this.glow.Brightness));
+                    break;
+                case "enchanted":
+                    canvas.Draw("frame_enchanted_incomplete", this.frame.Bounds, this.IsActive ? Color.White : Color.Gray * 0.25f);
+                    canvas.Draw("frame_enchanted_complete", this.frame.Bounds, ColorHelper.Fade(Color.White, this.glow.Brightness));
                     break;
                 default: 
                     canvas.Draw("frame_modern_back", this.frame.Bounds, this.Root().FrameBackColor() * opacity);
@@ -388,6 +409,12 @@ namespace AATool.UI.Controls
                             break;
                         case "Geode":
                             canvas.Draw("frame_geode_portrait", this.portraitRectangle, fade);
+                            break;
+                        case "Eye Spy":
+                            canvas.Draw("frame_eyespy_portrait", this.portraitRectangle, fade);
+                            break;
+                        case "Flex":
+                            canvas.Draw("frame_flex_portrait", this.portraitRectangle, fade);
                             break;
                     }
                 }       

@@ -377,6 +377,7 @@ namespace AATool.Winforms.Controls
             "Modern",
             "Furnace",
             "Geode",
+            "Eye Spy",
             "Minecraft",
             "None"});
             this.frameStyle.Location = new System.Drawing.Point(135, 37);

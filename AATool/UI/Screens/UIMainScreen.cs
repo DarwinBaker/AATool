@@ -250,7 +250,7 @@ namespace AATool.UI.Screens
             }
 
             //update whether or not top row should be shown
-            if (Config.Main.ShowBasicAdvancements == this.grid.CollapsedRows[0])
+            if (Tracker.Category.GetType() == typeof(AllAdvancements) && Config.Main.ShowBasicAdvancements == this.grid.CollapsedRows[0])
             {
                 if (Config.Main.ShowBasicAdvancements)
                     this.grid.ExpandRow(0);

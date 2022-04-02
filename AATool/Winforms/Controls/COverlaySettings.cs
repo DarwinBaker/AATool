@@ -28,6 +28,7 @@ namespace AATool.Winforms.Controls
             foreach (string theme in Config.MainConfig.Themes.Keys)
                 this.frameStyle.Items.Add(theme);
             this.frameStyle.Items.Add("Geode");
+            this.frameStyle.Items.Add("Eye Spy");
             this.frameStyle.Items.Add("None");
         }
 

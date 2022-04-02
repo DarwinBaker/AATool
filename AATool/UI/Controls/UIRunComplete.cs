@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AATool.Configuration;
 using AATool.Data;
 using AATool.Data.Progress;
+using AATool.Net;
 using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
@@ -65,10 +66,10 @@ namespace AATool.UI.Controls
             this.supporters = new () 
             {
                 { "supporters", this.First("supporters")},
-                { "beta_tester", this.First("beta_testers")},
-                { "dedication", this.First("special_dedication") }
+                { "beta testers", this.First("beta_testers")},
+                { "special dedication", this.First("special_dedication") }
             };
-            this.First<UITextBlock>("supporters_label")?.SetText("Supporters " + new string('-', 40));
+            this.First<UITextBlock>("supporters_label")?.SetText("Supporters " + new string('-', 63));
         }
 
         protected override void UpdateThis(Time time)
@@ -191,16 +192,18 @@ namespace AATool.UI.Controls
         {
             this.pageTimer.SetAndStart(PageHoldDuration);
             this.showCredits = false;
-            this.fadeOut     = true;
-            this.fade        = 1;
+            this.fadeOut = true;
+            this.fade = 1;
             this.statsPageIndex = 0;
             this.MoveTo(new Point(Config.Overlay.RightToLeft ? this.Root().Right : -this.Parent.Width, this.Y));
-            this.currentX    = this.X;
-
+            this.currentX = this.X;
             this.version.SetText(Main.ShortTitle);
 
             string title = Tracker.Category.GetCompletionMessage();
-            string body = $" \nMinecraft: Java Edition ({Tracker.Category.CurrentVersion})\n" +
+            string body = "";
+            if (!Peer.IsRunning && Player.TryGetName(Tracker.GetMainPlayer(), out string name))
+                body = $"{name} Has Completed\n";
+            body += $"Minecraft: Java Edition ({Tracker.Category.CurrentVersion})\n" +
                 $"{Tracker.Category.Name.Replace(" ", "\0")}\n \n" +
                 $"{Tracker.GetPrettyIgt()}\nApproximate IGT\n";
 
@@ -248,32 +251,61 @@ namespace AATool.UI.Controls
             foreach (KeyValuePair<string, UIControl> panel in this.supporters)
             {
                 panel.Value.ClearControls();
-                if (panel.Key is "supporters")
-                    continue;
+                if (panel.Key is not "supporters")
+                {
+                    var header = new UITextBlock() {
+                        FlexWidth  = new Size(400),
+                        FlexHeight = new Size(48),
+                        HorizontalTextAlign = panel.Value.HorizontalAlign,
+                        VerticalTextAlign = VerticalAlign.Top
+                    };
+                    header.SetFont("minecraft", 24);
+                    panel.Value.AddControl(header);
 
-                var header = new UITextBlock() {
-                    FlexWidth  = new Size(400),
-                    FlexHeight = new Size(48),
-                    HorizontalTextAlign = panel.Value.HorizontalAlign,
-                    VerticalTextAlign = VerticalAlign.Top
-                };
-                header.SetFont("minecraft", 24);
-                header.SetText(System.Threading.Thread.CurrentThread.CurrentCulture
-                    .TextInfo.ToTitleCase(panel.Key.Replace("_", " ")) 
-                    + Environment.NewLine + new string('-', 12));
-                panel.Value.AddControl(header);
+                    if (panel.Key is "beta testers")
+                    {
+                        header.SetText("Tested by Elysaku & his cat Churro");
+                        var elysaku = new UIPicture() {
+                            FlexWidth = new (40),
+                            FlexHeight = new (40),
+                            Margin = new (40, 0, 0, -4),
+                            HorizontalAlign = HorizontalAlign.Left,
+                            VerticalAlign = VerticalAlign.Bottom,
+                        };
+                        elysaku.SetTexture("elysaku");
+                        panel.Value.AddControl(elysaku);
+                        var churro = new UIPicture() {
+                            FlexWidth = new (40),
+                            FlexHeight = new (40),
+                            Margin = new (0, 40, 0, -4),
+                            HorizontalAlign = HorizontalAlign.Right,
+                            VerticalAlign = VerticalAlign.Bottom,
+                        };
+                        churro.SetTexture("tabby");
+                        panel.Value.AddControl(churro);
+                    }
+                    else if (panel.Key is "special dedication")
+                    { 
+                        header.SetText("Dedicated to my lovely gf Wroxy");
+                        var heart = new UIPicture() {
+                            FlexWidth = new (36),
+                            FlexHeight = new (36),
+                            Margin = new (0, 0, 0, -4),
+                            VerticalAlign = VerticalAlign.Bottom,
+                        };
+                        heart.SetTexture("shiny_heart");
+                        panel.Value.AddControl(heart);
+                    }
+                }
             }
 
             foreach (Credit person in Credits.All)
             {
-                bool donor = person.Role.ToLower() is not ("developer" or "beta_tester" or "dedication");
-
-                UIControl panel;
-                if (donor)
-                    panel = this.supporters["supporters"];
-                else if (!this.supporters.TryGetValue(person.Role, out panel))
+                bool donor = person.Role.ToLower() is not ("developer" or "beta testers" or "special dedication");
+                if (!donor)
                     continue;
 
+                UIControl panel = this.supporters["supporters"];
                 var supporter = new UITextBlock() {
                     FlexWidth  = new Size(donor ? 180 : 220),
                     FlexHeight = new Size(32),
@@ -290,24 +322,11 @@ namespace AATool.UI.Controls
                     VerticalAlign   = VerticalAlign.Top
                 };
 
+                tier.SetTexture(person.Role);
                 if (supporter.HorizontalTextAlign is HorizontalAlign.Left)
                     supporter.SetText($"     {person.Name}");
                 else
                     supporter.SetText($"{person.Name}     ");
-
-                if (person.Role.ToLower().StartsWith("supporter_"))
-                {
-                    tier.SetTexture(person.Role);
-                }
-                else
-                {
-                    string icon = person.Role switch {
-                        "beta_tester" => "enchanted_golden_apple",
-                        "dedication" => "poppy",
-                        _ => "supporter_gold",
-                    };
-                    tier.SetTexture(icon);
-                }
                 
                 supporter.AddControl(tier);
                 panel.AddControl(supporter);

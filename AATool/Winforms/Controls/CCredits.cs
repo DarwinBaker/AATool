@@ -26,10 +26,10 @@ namespace AATool.Winforms.Controls
                     case "developer":
                         this.developer.Add(credit);
                         break;
-                    case "beta_tester":
+                    case "beta testers":
                         this.testers.Add(credit);
                         break;
-                    case "dedication":
+                    case "special dedication":
                         this.dedication.Add(credit);
                         break;
                     default:

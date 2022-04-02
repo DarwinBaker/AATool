@@ -269,7 +269,7 @@ namespace AATool.UI.Screens
             }
             else if (MinecraftServer.IsEnabled)
             {
-                this.status.SetFont("minecraft", 24);
+                this.status?.SetFont("minecraft", 24);
                 if (MinecraftServer.State is SyncState.Ready)
                 {
                     if (MinecraftServer.CredentialsValidated)
@@ -367,50 +367,44 @@ namespace AATool.UI.Screens
             //handle completion message
             if (Tracker.Category.IsComplete())
             {
-                if (this.runCompletePanel.IsCollapsed)
+                if (this.runCompletePanel?.IsCollapsed is true)
                 {
-                    this.runCompletePanel.Expand();
-                    this.runCompletePanel.First<UIRunComplete>().Show();
+                    this.runCompletePanel?.Expand();
+                    this.runCompletePanel?.First<UIRunComplete>()?.Show();
                 }         
-                this.carouselPanel.Collapse();  
+                this.carouselPanel?.Collapse();  
             }
             else
             {
-                this.runCompletePanel.Collapse();
-                this.carouselPanel.Expand();
+                this.runCompletePanel?.Collapse();
+                this.carouselPanel?.Expand();
             }
 
             //update criteria visibility
-            if (this.criteria?.IsCollapsed == Config.Overlay.ShowCriteria)
-            {
-                if (Config.Overlay.ShowCriteria)
-                    this.criteria.Expand();
-                else
-                    this.criteria.Collapse();
-            }
+            if (Config.Overlay.ShowCriteria)
+                this.criteria?.Expand();
+            else
+                this.criteria?.Collapse();
 
-            if (this.counts is null)
-                return;
-
-            //update item count visibility
-            if (this.counts.IsCollapsed == Config.Overlay.ShowPickups)
+            if (this.counts is not null)
             {
+                //update item count visibility
                 if (Config.Overlay.ShowPickups)
                     this.counts.Expand();
                 else
                     this.counts.Collapse();
-            }
 
-            //update visibility for individual item counters (favorites)
-            foreach (UIControl control in this.counts.Children)
-            {
-                if (control.IsCollapsed == Config.Overlay.ShowPickups)
+                //update visibility for individual item counters (favorites)
+                foreach (UIControl control in this.counts.Children)
                 {
-                    if (Config.Overlay.ShowPickups)
-                        control.Expand();
-                    else
-                        control.Collapse();
-                    this.counts.ReflowChildren();
+                    if (control.IsCollapsed == Config.Overlay.ShowPickups)
+                    {
+                        if (Config.Overlay.ShowPickups)
+                            control.Expand();
+                        else
+                            control.Collapse();
+                        this.counts.ReflowChildren();
+                    }
                 }
             }
         }

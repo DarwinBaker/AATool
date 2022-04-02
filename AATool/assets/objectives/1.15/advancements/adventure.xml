@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <group name="Adventure">
-    <advancement id="minecraft:adventure/whos_the_pillager_now" name="Who's the Pillager Now?"  short_name="The Pillager" type="challenge"/>
+    <advancement id="minecraft:adventure/whos_the_pillager_now" name="Who's the Pillager Now?"  short_name="The Pillager"/>
     <advancement id="minecraft:adventure/ol_betsy"              name="Ol' Betsy"/>
     <advancement id="minecraft:adventure/kill_a_mob"            name="Monster Hunter"           short_name="Hunter"/>
     <advancement id="minecraft:adventure/root"                  name="Adventure"                icon="adventure"/>

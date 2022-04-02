@@ -330,6 +330,7 @@ namespace AATool.Winforms.Controls
             this.label13.TabIndex = 65;
             this.label13.Text = "🛈 Only players in this list will be tracked (one per line)\r\n \r\nLeave blank to sh" +
     "ow everyone on the server";
+            this.label13.Visible = false;
             // 
             // playerFilter
             // 
@@ -339,6 +340,7 @@ namespace AATool.Winforms.Controls
             this.playerFilter.Size = new System.Drawing.Size(113, 70);
             this.playerFilter.TabIndex = 64;
             this.playerFilter.Text = "";
+            this.playerFilter.Visible = false;
             // 
             // label12
             // 
@@ -349,6 +351,7 @@ namespace AATool.Winforms.Controls
             this.label12.Size = new System.Drawing.Size(64, 13);
             this.label12.TabIndex = 63;
             this.label12.Text = "Player Filter:";
+            this.label12.Visible = false;
             // 
             // sftpValidate
             // 

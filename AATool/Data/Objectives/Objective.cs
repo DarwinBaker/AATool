@@ -46,6 +46,8 @@ namespace AATool.Data.Objectives
         public string GetName() => this.Name;
         public string GetShortName() => this.ShortName;
 
+        public Objective() { }
+
         public Objective(XmlNode node)
         {
             if (node is null)

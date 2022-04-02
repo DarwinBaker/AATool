@@ -7,16 +7,19 @@ namespace AATool.Data
         public static readonly HashSet<Credit> All = new ()
         {
             new ("developer", "CTM", "https://www.patreon.com/_ctm"),
-            new ("dedication", "Wroxy"),
+            new ("special dedication", "Wroxy"),
 
-            new ("beta_tester", "Elysaku", "https://www.twitch.tv/elysaku"),
-            new ("beta_tester", "Churro :3", "https://www.instagram.com/theelysaku/"),
+            new ("beta testers", "Elysaku", "https://www.twitch.tv/elysaku"),
+            new ("beta testers", "Churro :3", "https://www.instagram.com/theelysaku/"),
 
+            new ("supporter_netherite", "greasyw00t"),
+            new ("supporter_netherite", "MathoX"),
             new ("supporter_netherite", "Toshio"),
             new ("supporter_emerald", "NiceTwice"),
             new ("supporter_emerald", "Cube1337x"),
             new ("supporter_diamond", "Nex"),
             new ("supporter_diamond", "HAPTlCx"),
+            new ("supporter_diamond", "Soren"),
             new ("supporter_gold", "Antoine"),
             new ("supporter_gold", "TheSwordElf"),
             new ("supporter_gold", "MeisterMaki"),
@@ -30,7 +33,7 @@ namespace AATool.Data
             new ("supporter_gold", "NotValik"),
             new ("supporter_gold", "Switch"),
             new ("supporter_gold", "Melissa"),
-            new ("supporter_gold", "Penguida"),
+            new ("supporter_gold", "pneguin"),
         };
     }
 
