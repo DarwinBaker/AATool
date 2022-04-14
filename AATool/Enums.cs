@@ -7,6 +7,12 @@
         SpecificWorld,
     }
 
+    public enum ProgressFilter
+    {
+        Solo,
+        Combined,
+    }
+
     //used for sftp
     public enum SyncState
     {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AATool.Configuration;
 using AATool.Net.Requests;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Linq;
@@ -95,6 +96,8 @@ namespace AATool.Net
         {
             Uuid id = await FetchUuidAsync(name);
             Cache(id, name);
+            if (name == Config.Tracking.SoloFilterName)
+                Config.Tracking.SoloFilterName.InvokeChange();
         }
     }
 }

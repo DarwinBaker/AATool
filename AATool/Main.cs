@@ -86,6 +86,9 @@ namespace AATool
             NetRequest.Enqueue(new UpdateRequest());
             NetRequest.Enqueue(new LeaderboardRequest());
 
+            if (Config.Tracking.Filter == ProgressFilter.Solo)
+                Player.FetchIdentity(Config.Tracking.SoloFilterName);
+
             //check build number of last aatool session
             Version.TryParse(Config.Tracking.LastSession, out Version lastSession);
             if (lastSession is null || lastSession < Version.Parse("1.3.2"))

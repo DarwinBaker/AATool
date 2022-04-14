@@ -44,6 +44,8 @@ namespace AATool
             public const string LeaderboardsFolder = CacheFolder + "leaderboards/";
 
             //constant asset paths
+            public const string DataFolder        = "data/";
+            public const string LogsFolder        = "logs/";
             public const string AssetsFolder      = "assets/";
             public const string ObjectivesFolder  = AssetsFolder  + "objectives/";
             public const string ViewsFolder       = AssetsFolder  + "views/";
@@ -52,7 +54,6 @@ namespace AATool
             public const string FontsFolder       = AssetsFolder  + "fonts/";
             public const string AvatarCacheFolder = SpritesFolder + "/global/avatar_cache";
             public const string CreditsFolder     = AssetsFolder  + "credits/";
-            public const string LogsFolder        = "logs/";
 
             public const string MainIcon = "assets/icons/aatool.ico";
             public const string UpdateIcon = "assets/icons/aaupdate.ico";
@@ -72,7 +73,6 @@ namespace AATool
             //file getters
             public static string CrashLogFile => Path.Combine(LogsFolder, $"crash_report_{DateTime.Now:yyyy_M_dd_h_mm_ss}.txt");
             public static string CreditsFile => Path.Combine(CreditsFolder, "credits.xml");
-
             public static string LeaderboardFile => Path.Combine(LeaderboardsFolder, Config.Tracking.GameCategory + ".csv");
         }
 
@@ -81,15 +81,11 @@ namespace AATool
             public static string CurrentFolder()
             {
                 if (Config.Tracking.UseSftp)
-                {
                     return System.SftpWorldsFolder;
-                }
-                else
-                {
-                    return Tracker.Source is TrackerSource.CustomSavesPath
-                        ? Config.Tracking.CustomSavesPath
-                        : ActiveInstance.SavesPath;
-                }
+
+                return Tracker.Source is TrackerSource.CustomSavesPath
+                    ? Config.Tracking.CustomSavesPath
+                    : ActiveInstance.SavesPath;
             }
 
             public static string DefaultAppDataSavesPath => Path.Combine(

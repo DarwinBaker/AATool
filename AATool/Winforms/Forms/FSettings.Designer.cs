@@ -35,14 +35,14 @@
             this.update = new System.Windows.Forms.Button();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabMain = new System.Windows.Forms.TabPage();
-            this.tabOverlay = new System.Windows.Forms.TabPage();
-            this.tabNetwork = new System.Windows.Forms.TabPage();
-            this.tabDebug = new System.Windows.Forms.TabPage();
             this.tracker = new AATool.Winforms.Controls.CTrackerSettings();
+            this.tabMain = new System.Windows.Forms.TabPage();
             this.main = new AATool.Winforms.Controls.CMainSettings();
+            this.tabOverlay = new System.Windows.Forms.TabPage();
             this.overlay = new AATool.Winforms.Controls.COverlaySettings();
+            this.tabNetwork = new System.Windows.Forms.TabPage();
             this.network = new AATool.Winforms.Controls.CNetworkSettings();
+            this.tabDebug = new System.Windows.Forms.TabPage();
             this.debug = new AATool.Winforms.Controls.CDebugSettings();
             this.credits = new AATool.Winforms.Controls.CCredits();
             this.tabs.SuspendLayout();
@@ -115,6 +115,14 @@
             this.tabPage1.Text = "Tracking";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // tracker
+            // 
+            this.tracker.BackColor = System.Drawing.SystemColors.Window;
+            this.tracker.Location = new System.Drawing.Point(3, 3);
+            this.tracker.Name = "tracker";
+            this.tracker.Size = new System.Drawing.Size(538, 307);
+            this.tracker.TabIndex = 0;
+            // 
             // tabMain
             // 
             this.tabMain.Controls.Add(this.main);
@@ -125,6 +133,14 @@
             this.tabMain.TabIndex = 0;
             this.tabMain.Text = "Application";
             this.tabMain.UseVisualStyleBackColor = true;
+            // 
+            // main
+            // 
+            this.main.BackColor = System.Drawing.SystemColors.Window;
+            this.main.Location = new System.Drawing.Point(3, 3);
+            this.main.Name = "main";
+            this.main.Size = new System.Drawing.Size(538, 307);
+            this.main.TabIndex = 0;
             // 
             // tabOverlay
             // 
@@ -137,6 +153,14 @@
             this.tabOverlay.Text = "Overlay";
             this.tabOverlay.UseVisualStyleBackColor = true;
             // 
+            // overlay
+            // 
+            this.overlay.BackColor = System.Drawing.SystemColors.Window;
+            this.overlay.Location = new System.Drawing.Point(3, 3);
+            this.overlay.Name = "overlay";
+            this.overlay.Size = new System.Drawing.Size(538, 307);
+            this.overlay.TabIndex = 0;
+            // 
             // tabNetwork
             // 
             this.tabNetwork.Controls.Add(this.network);
@@ -148,6 +172,14 @@
             this.tabNetwork.Text = "Co-op";
             this.tabNetwork.UseVisualStyleBackColor = true;
             // 
+            // network
+            // 
+            this.network.BackColor = System.Drawing.SystemColors.Window;
+            this.network.Location = new System.Drawing.Point(3, 3);
+            this.network.Name = "network";
+            this.network.Size = new System.Drawing.Size(538, 307);
+            this.network.TabIndex = 0;
+            // 
             // tabDebug
             // 
             this.tabDebug.Controls.Add(this.debug);
@@ -157,38 +189,6 @@
             this.tabDebug.TabIndex = 3;
             this.tabDebug.Text = "Debug";
             this.tabDebug.UseVisualStyleBackColor = true;
-            // 
-            // tracker
-            // 
-            this.tracker.BackColor = System.Drawing.SystemColors.Window;
-            this.tracker.Location = new System.Drawing.Point(3, 3);
-            this.tracker.Name = "tracker";
-            this.tracker.Size = new System.Drawing.Size(538, 307);
-            this.tracker.TabIndex = 0;
-            // 
-            // main
-            // 
-            this.main.BackColor = System.Drawing.SystemColors.Window;
-            this.main.Location = new System.Drawing.Point(3, 3);
-            this.main.Name = "main";
-            this.main.Size = new System.Drawing.Size(538, 307);
-            this.main.TabIndex = 0;
-            // 
-            // overlay
-            // 
-            this.overlay.BackColor = System.Drawing.SystemColors.Window;
-            this.overlay.Location = new System.Drawing.Point(3, 3);
-            this.overlay.Name = "overlay";
-            this.overlay.Size = new System.Drawing.Size(538, 307);
-            this.overlay.TabIndex = 0;
-            // 
-            // network
-            // 
-            this.network.BackColor = System.Drawing.SystemColors.Window;
-            this.network.Location = new System.Drawing.Point(3, 3);
-            this.network.Name = "network";
-            this.network.Size = new System.Drawing.Size(538, 307);
-            this.network.TabIndex = 0;
             // 
             // debug
             // 

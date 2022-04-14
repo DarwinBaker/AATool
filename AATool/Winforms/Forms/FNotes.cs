@@ -53,7 +53,14 @@ namespace AATool.Winforms.Forms
             catch (Exception) 
             {
                 //delete corrupt note
-                File.Delete(this.CurrentNotesFile);
+                try
+                {
+                    File.Delete(this.CurrentNotesFile);
+                }
+                catch (Exception)
+                {
+                    //give up
+                }
             }
         }
 
