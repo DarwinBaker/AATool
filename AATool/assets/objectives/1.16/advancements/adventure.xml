@@ -11,9 +11,9 @@
     <advancement id="minecraft:adventure/arbalistic"            name="Arbalistic"               type="challenge" half="false"/>
 
     <advancement id="minecraft:adventure/honey_block_slide"     name="Sticky Situation"         short_name="Sticky" half="false"/>
-    <advancement id="minecraft:adventure/bullseye"              name="Bullseye"                 type="challenge" half="false"/>
+    <advancement id="minecraft:adventure/bullseye"              name="Bullseye"                 type="challenge"/>
     <advancement id="minecraft:adventure/shoot_arrow"           name="Take Aim"/>
-    <advancement id="minecraft:adventure/sniper_duel"           name="Sniper Duel"              type="challenge" half="false"/>
+    <advancement id="minecraft:adventure/sniper_duel"           name="Sniper Duel"              type="challenge"/>
 
     <advancement id="minecraft:adventure/voluntary_exile"       name="Voluntary Exile"          short_name="Exile" icon="pillager_banner" half="false"/>
     <advancement id="minecraft:adventure/hero_of_the_village"   name="Hero of the Village"      short_name="Hero" icon="pillager_banner" type="challenge" half="false"/>

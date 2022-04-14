@@ -102,7 +102,18 @@ namespace AATool
         public static bool TryGetDeath(string id, out Death death) =>
             Deaths.TryGet(id, out death);
 
-        public static Uuid GetMainPlayer() => State.Players.Keys.FirstOrDefault();
+        public static Uuid GetMainPlayer()
+        {
+            if (Config.Tracking.Filter == ProgressFilter.Solo)
+            {
+                Player.TryGetUuid(Config.Tracking.SoloFilterName, out Uuid player);
+                return player;
+            }
+            else
+            {
+                return State.Players.Keys.FirstOrDefault();
+            }
+        }
 
         public static HashSet<Uuid> GetAllPlayers()
         {
@@ -391,7 +402,7 @@ namespace AATool
                 return;
 
             //update progress if source has been invalidated
-            if (World.TryRefresh() || Peer.StateChanged)
+            if (World.TryRefresh() || Peer.StateChanged || Config.Tracking.FilterChanged)
             {
                 LastServerMessage = null;
                 State = World.GetState();

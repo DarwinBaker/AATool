@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyCompany("Darwin Baker Software Solutions")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -33,6 +33,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.4.2.4")]
-[assembly: AssemblyFileVersion("1.4.2.4")]
+[assembly: AssemblyVersion("1.4.2.5")]
+[assembly: AssemblyFileVersion("1.4.2.5")]
 [assembly: NeutralResourcesLanguage("en")]

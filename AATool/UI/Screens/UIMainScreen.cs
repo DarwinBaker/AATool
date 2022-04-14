@@ -39,7 +39,7 @@ namespace AATool.UI.Screens
             //set window title
             this.Form.Text = Main.FullTitle;
             this.Form.FormClosing += this.OnFormClosing;
-            this.settingsCooldown = new Utilities.Timer(0.1f);
+            this.settingsCooldown = new Utilities.Timer(0.25f);
             //this.Form.Location = new System.Drawing.Point(0, 0);
             this.CenterWindow();
         }
@@ -91,7 +91,7 @@ namespace AATool.UI.Screens
             //get proper view for current category and version
             string path = Path.Combine(Paths.System.ViewsFolder,
                 Tracker.Category.ViewName,
-                Tracker.Category.CurrentMajorVersion,
+                Tracker.Category.CurrentMajorVersion ?? Tracker.Category.CurrentVersion,
                 "main.xml");
 
             //check for conditional variant if needed
@@ -99,7 +99,7 @@ namespace AATool.UI.Screens
             {
                 path = Path.Combine(Paths.System.ViewsFolder,
                     Tracker.Category.ViewName,
-                    Tracker.Category.CurrentMajorVersion,
+                    Tracker.Category.CurrentMajorVersion ?? Tracker.Category.CurrentVersion,
                     $"main_{Config.Main.ViewMode}.xml");
             }
             return path;
