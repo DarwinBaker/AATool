@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <rows>
+            <row height="416"/>
+            <row height="370"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="20 * 68"/>
+            <column width="3 * 68"/>
+        </columns>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <!-- info -->
+        <flow_panel row="0" col="1" padding="4" direction="toptobottom">
+            <text_block text="Spawned in Desert" width="200" height="24" h_text_align="left" v_text_align="center" horizontal_align="left" vertical_align="top" margin_left="22">
+                <picture texture="desert" width="16" height="16" horizontal_align="left"  margin="-20,0,1,0"/>
+            </text_block>
+            <text_block text="Any% Rods: 7/19" width="200" height="24" h_text_align="left" v_text_align="center" horizontal_align="left" vertical_align="top" margin_left="22">
+                <picture texture="obtain_blaze_rod" width="16" height="16" horizontal_align="left"  margin="-20,0,1,0"/>
+            </text_block>
+            <text_block text="God Apples: 0" width="200" height="24" h_text_align="left" v_text_align="center" horizontal_align="left" vertical_align="top" margin_left="22">
+                <picture texture="enchanted_golden_apple" width="16" height="16" horizontal_align="left"  margin="-20,0,1,0"/>
+            </text_block>
+            <text_block text="God Apples: 0" width="200" height="24" h_text_align="left" v_text_align="center" horizontal_align="left" vertical_align="top" margin_left="22">
+                <picture texture="enchanted_golden_apple" width="16" height="16" horizontal_align="left"  margin="-20,0,1,0"/>
+            </text_block>
+            <text_block text="God Apples: 0" width="200" height="24" h_text_align="left" v_text_align="center" horizontal_align="left" vertical_align="top" margin_left="22">
+                <picture texture="enchanted_golden_apple" width="16" height="16" horizontal_align="left"  margin="-20,0,1,0"/>
+            </text_block>
+            <text_block text="God Apples: 0" width="200" height="24" h_text_align="left" v_text_align="center" horizontal_align="left" vertical_align="top" margin_left="22">
+                <picture texture="enchanted_golden_apple" width="16" height="16" horizontal_align="left"  margin="-20,0,1,0"/>
+            </text_block>
+            <text_block text="God Apples: 0" width="200" height="24" h_text_align="left" v_text_align="center" horizontal_align="left" vertical_align="top" margin_left="22">
+                <picture texture="enchanted_golden_apple" width="16" height="16" horizontal_align="left"  margin="-20,0,1,0"/>
+            </text_block>
+            <text_block text="God Apples: 0" width="200" height="24" h_text_align="left" v_text_align="center" horizontal_align="left" vertical_align="top" margin_left="22">
+                <picture texture="enchanted_golden_apple" width="16" height="16" horizontal_align="left"  margin="-18,0,1,0"/>
+            </text_block>
+        </flow_panel>
+
+        <!-- advancements with subcriteria -->
+        <timeline row="1" col="1" colspan="2"/>
+
+        <!-- aa leaderboard -->
+        <leaderboard name="Leaderboard" row="0" col="2"/>
+
+        <!-- status strip -->
+        <status_bar row="2" col="1" colspan="3" right="528"/>
+    </grid>
+</control>

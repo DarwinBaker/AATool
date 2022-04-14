@@ -64,6 +64,6 @@
         </flow_panel>
 
         <!-- status strip -->
-        <status_bar row="2" col="1" colspan="3" right="500"/>
+        <status_bar row="2" col="1" colspan="3" right="448"/>
     </grid>
 </control>

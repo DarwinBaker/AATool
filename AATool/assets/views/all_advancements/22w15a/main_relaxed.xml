@@ -8,7 +8,7 @@
         </rows>
         <columns>
             <column width="160" collapsed="true"/>
-            <column width="22 * 68"/>
+            <column width="23 * 68"/>
             <column width="68"/>
         </columns>
 
@@ -25,6 +25,7 @@
                 <column width="4 * 68"/>
                 <column width="68"/>
                 <column width="8 * 68"/>
+                <column width="68"/>
                 <column width="6 * 68"/>
                 <column width="68"/>
                 <column width="3 * 68"/>
@@ -32,46 +33,34 @@
             <advancement_group group="minecraft" row="0" col="0" colspan="2" exclude="minecraft:story/root"/>
             <advancement_group group="nether"    row="0" col="2" direction="righttoleft"/>
             <advancement_group group="end"       row="1" col="0" exclude="minecraft:end/root"/>
-            <advancement_group group="adventure" row="0" col="3" end="minecraft:adventure/spyglass_at_dragon"/>
-            <panel row="1" col="3">
-                <grid>
-                    <rows>
-                        <row height="80"/>
-                        <row height="84"/>
-                    </rows>
-                    <columns>
-                        <column width="68"/>
-                        <column width="5 * 68"/>
-                    </columns>
-                    <advancement_group group="adventure" start="minecraft:adventure/honey_block_slide" end="minecraft:adventure/hero_of_the_village" row="0" col="0" colspan="2" draw_mode="childrenonly"/>
-                    <advancement_group group="adventure" start="minecraft:adventure/throw_trident" row="1" col="1" draw_mode="childrenonly"/>
-                </grid>
-            </panel>
-            <advancement_group group="husbandry"   row="1" col="1" colspan="2"/>
+            <advancement_group group="adventure" row="0" col="4" end="minecraft:adventure/spyglass_at_dragon"/>
+            <advancement_group group="adventure" row="1" col="4" start="minecraft:adventure/honey_block_slide" end="minecraft:husbandry/obtain_netherite_hoe"/>
+            <advancement_group group="husbandry" row="1" col="1" colspan="3" end="minecraft:husbandry/allay_deliver_cake_to_note_block"/>
+            <advancement_group group="husbandry" row="0" col="3" start="minecraft:husbandry/leash_all_frog_variants"/>
 
             <!-- overworld pickup counts -->
-            <flow_panel row="0" col="4">
+            <flow_panel row="0" col="5">
                 <objective_frame pickup="minecraft:enchanted_golden_apple"/>
                 <objective_frame pickup="minecraft:trident"/>
                 <objective_frame pickup="minecraft:nautilus_shell"/>
             </flow_panel>
 
             <!-- nether pickup counts -->
-            <flow_panel row="1" col="4">
+            <flow_panel row="1" col="5">
                 <objective_frame pickup="minecraft:wither_skeleton_skull"/>
                 <objective_frame pickup="minecraft:ancient_debris"/>
             </flow_panel>
 
             <!-- info panel -->
-            <leaderboard name="Leaderboard" row="0" col="5" rowspan="2"/>
-            <potion_group name="Potion Recipes" row="0" col="5" rowspan="2" padding="8,0,6,0"/>
+            <leaderboard name="Leaderboard" row="0" col="6" rowspan="2"/>
+            <potion_group name="Potion Recipes" row="0" col="6" rowspan="2" padding="8,0,6,0"/>
         </grid>
 
         <!-- advancements with subcriteria -->
         <flow_panel row="1" col="1" colspan="2">
-            <criteria_group width="428" advancement="minecraft:adventure/adventuring_time"/>
+            <criteria_group width="496" advancement="minecraft:adventure/adventuring_time" cell_width="122"/>
             <criteria_group width="320" advancement="minecraft:adventure/kill_all_mobs"/>
-            <criteria_group width="5 * 68" advancement="minecraft:husbandry/balanced_diet"/>
+            <criteria_group width="5 * 68" advancement="minecraft:husbandry/balanced_diet" cell_width="112"/>
             <criteria_group width="3 * 68" advancement="minecraft:husbandry/bred_all_animals"/>
             <criteria_group width="2 * 68" advancement="minecraft:husbandry/complete_catalogue"/>
             <criteria_group width="2 * 68" advancement="minecraft:nether/explore_nether"/>
