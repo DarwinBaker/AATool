@@ -31,6 +31,7 @@ namespace AATool.Winforms.Controls
         {
             this.obsHelpLink = new System.Windows.Forms.LinkLabel();
             this.overlayGroupTheme = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.copyColorKey = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
             this.textColor = new System.Windows.Forms.Button();
@@ -47,11 +48,12 @@ namespace AATool.Winforms.Controls
             this.showCounts = new System.Windows.Forms.CheckBox();
             this.overlayWidth = new System.Windows.Forms.NumericUpDown();
             this.overlayGroupBehavior = new System.Windows.Forms.GroupBox();
+            this.pickupPosition = new System.Windows.Forms.ComboBox();
             this.enabled = new System.Windows.Forms.CheckBox();
             this.direction = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.speed = new System.Windows.Forms.TrackBar();
-            this.label11 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.overlayGroupTheme.SuspendLayout();
             this.overlayGroupAppearance.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.overlayWidth)).BeginInit();
@@ -85,6 +87,17 @@ namespace AATool.Winforms.Controls
             this.overlayGroupTheme.TabIndex = 34;
             this.overlayGroupTheme.TabStop = false;
             this.overlayGroupTheme.Text = "Theme";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label11.Location = new System.Drawing.Point(6, 97);
+            this.label11.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(171, 26);
+            this.label11.TabIndex = 40;
+            this.label11.Text = "🛈 Make sure to use \"Color Key\" \r\nNOT \"Chroma Key\" for best results";
             // 
             // copyColorKey
             // 
@@ -263,6 +276,8 @@ namespace AATool.Winforms.Controls
             // 
             // overlayGroupBehavior
             // 
+            this.overlayGroupBehavior.Controls.Add(this.label1);
+            this.overlayGroupBehavior.Controls.Add(this.pickupPosition);
             this.overlayGroupBehavior.Controls.Add(this.enabled);
             this.overlayGroupBehavior.Controls.Add(this.direction);
             this.overlayGroupBehavior.Controls.Add(this.label5);
@@ -273,6 +288,19 @@ namespace AATool.Winforms.Controls
             this.overlayGroupBehavior.TabIndex = 32;
             this.overlayGroupBehavior.TabStop = false;
             this.overlayGroupBehavior.Text = "Behavior";
+            // 
+            // pickupPosition
+            // 
+            this.pickupPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.pickupPosition.FormattingEnabled = true;
+            this.pickupPosition.Items.AddRange(new object[] {
+            "Normal",
+            "Opposite"});
+            this.pickupPosition.Location = new System.Drawing.Point(6, 86);
+            this.pickupPosition.Name = "pickupPosition";
+            this.pickupPosition.Size = new System.Drawing.Size(120, 21);
+            this.pickupPosition.TabIndex = 29;
+            this.pickupPosition.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
             // 
             // enabled
             // 
@@ -294,14 +322,14 @@ namespace AATool.Winforms.Controls
             "Scroll Left to Right"});
             this.direction.Location = new System.Drawing.Point(6, 43);
             this.direction.Name = "direction";
-            this.direction.Size = new System.Drawing.Size(144, 21);
+            this.direction.Size = new System.Drawing.Size(120, 21);
             this.direction.TabIndex = 28;
             this.direction.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 73);
+            this.label5.Location = new System.Drawing.Point(6, 120);
             this.label5.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 13);
@@ -313,7 +341,7 @@ namespace AATool.Winforms.Controls
             this.speed.AutoSize = false;
             this.speed.BackColor = System.Drawing.SystemColors.Window;
             this.speed.LargeChange = 1;
-            this.speed.Location = new System.Drawing.Point(1, 89);
+            this.speed.Location = new System.Drawing.Point(4, 136);
             this.speed.Maximum = 4;
             this.speed.Name = "speed";
             this.speed.Size = new System.Drawing.Size(154, 23);
@@ -321,16 +349,15 @@ namespace AATool.Winforms.Controls
             this.speed.Value = 2;
             this.speed.ValueChanged += new System.EventHandler(this.OnValueChanged);
             // 
-            // label11
+            // label1
             // 
-            this.label11.AutoSize = true;
-            this.label11.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label11.Location = new System.Drawing.Point(6, 97);
-            this.label11.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(171, 26);
-            this.label11.TabIndex = 40;
-            this.label11.Text = "🛈 Make sure to use \"Color Key\" \r\nNOT \"Chroma Key\" for best results";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 70);
+            this.label1.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(108, 13);
+            this.label1.TabIndex = 30;
+            this.label1.Text = "Pickup Row Position:";
             // 
             // COverlaySettings
             // 
@@ -381,5 +408,7 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.ComboBox frameStyle;
         private System.Windows.Forms.CheckBox clarifyAmbiguous;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox pickupPosition;
+        private System.Windows.Forms.Label label1;
     }
 }

@@ -46,6 +46,7 @@ namespace AATool.Winforms.Controls
             this.clarifyAmbiguous.Checked = Config.Overlay.ClarifyAmbiguous;
 
             this.direction.SelectedIndex = Config.Overlay.RightToLeft ? 0 : 1;
+            this.pickupPosition.SelectedIndex = Config.Overlay.PickupsOpposite ? 1 : 0;
             this.overlayWidth.Value = Config.Overlay.Width;
             this.speed.Value = MathHelper.Clamp(Config.Overlay.Speed, this.speed.Minimum, this.speed.Maximum);
 
@@ -69,6 +70,7 @@ namespace AATool.Winforms.Controls
             Config.Overlay.ClarifyAmbiguous.Set(this.clarifyAmbiguous.Checked);
             Config.Overlay.Speed.Set(this.speed.Value);
             Config.Overlay.RightToLeft.Set(this.direction.SelectedIndex is 0);
+            Config.Overlay.PickupsOpposite.Set(this.pickupPosition.SelectedIndex is 1);
             Config.Overlay.FrameStyle.Set(this.frameStyle.Text);
             Config.Overlay.Width.Set((int)this.overlayWidth.Value);
             Config.Overlay.BackColor.Set(ColorHelper.ToXNA(this.backColor.BackColor));

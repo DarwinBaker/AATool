@@ -14,7 +14,8 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<bool> ShowCriteria = new (true);
             [JsonProperty] public readonly Setting<bool> ShowPickups  = new (true);
             [JsonProperty] public readonly Setting<bool> ShowIgt      = new (true);
-            [JsonProperty] public readonly Setting<bool> RightToLeft  = new (true);
+            [JsonProperty] public readonly Setting<bool> RightToLeft  = new (false);
+            [JsonProperty] public readonly Setting<bool> PickupsOpposite  = new (false);
             [JsonProperty] public readonly Setting<bool> ClarifyAmbiguous = new (true);
 
             [JsonProperty] public readonly Setting<string> FrameStyle = new ("Minecraft");
@@ -35,6 +36,7 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.ShowCriteria);
                 this.RegisterSetting(this.ShowPickups);
                 this.RegisterSetting(this.RightToLeft);
+                this.RegisterSetting(this.PickupsOpposite);
                 this.RegisterSetting(this.FrameStyle);
                 this.RegisterSetting(this.Speed);
                 this.RegisterSetting(this.Width);

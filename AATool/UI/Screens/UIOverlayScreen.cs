@@ -239,13 +239,9 @@ namespace AATool.UI.Screens
             
             if (this.counts is not null)
             {
-                this.counts.FlowDirection = Config.Overlay.RightToLeft
+                this.counts.FlowDirection = Config.Overlay.RightToLeft ^ Config.Overlay.PickupsOpposite
                     ? FlowDirection.RightToLeft
                     : FlowDirection.LeftToRight;
-
-                //this.progress.HorizontalTextAlign = Config.Overlay.RightToLeft
-                //    ? HorizontalAlign.Left
-                //    : HorizontalAlign.Right;
             }
 
             if (Client.TryGet(out Client client))
@@ -346,16 +342,13 @@ namespace AATool.UI.Screens
             int title = 42;
 
             int criteria = this.criteria is null || this.criteria.IsCollapsed 
-                ? 0 
-                : 64;
+                ? 0 : 64;
 
             int advancement = this.advancements is null || this.advancements.IsCollapsed 
-                ? 0 
-                : Config.Overlay.ShowLabels ? 160 : 110;
+                ? 0 : Config.Overlay.ShowLabels ? 160 : 110;
 
             int count = this.counts is null || this.counts.IsCollapsed 
-                ? 0 
-                : 128;
+                ? 0 : 128;
 
             this.criteria?.MoveTo(new Point(0, title));
             this.advancements?.MoveTo(new Point(0, title + criteria));
