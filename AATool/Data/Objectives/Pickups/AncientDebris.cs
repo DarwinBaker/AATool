@@ -26,15 +26,15 @@ namespace AATool.Data.Objectives.Pickups
             Tracker.TryGetAdvancement(NetheriteArmor, out Advancement coverMeInDebris);
 
             //ignore count if all netherite related advancements are done
-            this.CompletionOverride = hiddenInTheDepths?.CompletedByAnyone() is true
-                && countryLode?.CompletedByAnyone() is true
-                && seriousDedication?.CompletedByAnyone() is true
-                && coverMeInDebris?.CompletedByAnyone() is true;
+            this.CompletionOverride = hiddenInTheDepths?.IsComplete() is true
+                && countryLode?.IsComplete() is true
+                && seriousDedication?.IsComplete() is true
+                && coverMeInDebris?.IsComplete() is true;
         }
 
         protected override void UpdateLongStatus()
         {
-            if (this.CompletedByAnyone())
+            if (this.IsComplete())
                 this.FullStatus = "Done With Netherite";
             else
                 base.UpdateLongStatus();

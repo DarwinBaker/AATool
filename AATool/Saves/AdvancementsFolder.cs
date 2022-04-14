@@ -1,35 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
-using AATool.Data;
 using AATool.Data.Objectives;
 using AATool.Net;
+using Newtonsoft.Json.Linq;
 
 namespace AATool.Saves
 {
+    public class AdvancementCompletion
+    {
+        public string Id;
+        public DateTime First;
+        public Dictionary<Uuid, DateTime> Players;
+    }
+
     public class AdvancementsFolder : JsonFolder
     {
-        public bool TryGetAdvancementCompletionFor(string advancement, out List<Uuid> players)
+        public bool TryGetAdvancementCompletions(string advancementId, out Dictionary<Uuid, DateTime> completions)
         {
             bool completed = false;
-            players = new List<Uuid>();
+            completions = new ();
+
+            //check for completion by each player in the world
             foreach (KeyValuePair<Uuid, JsonStream> json in this.Players)
             {
-                if (IsCompletedInFile(advancement, json.Value))
+                dynamic token = json.Value[advancementId];
+                if (token?["done"] != true)
+                    continue;
+
+                var adv = new AdvancementCompletion();
+                DateTime timestamp = default;
+                foreach (IEnumerable<JToken> criterion in token?["criteria"]?.Children())
                 {
-                    players.Add(json.Key);
-                    completed = true;
+                    string[] dateTokens = criterion.ToString()?.Split('\"');
+                    string date = dateTokens.Length > 3 ? dateTokens[3] : null;
+                    DateTime.TryParse(date, out timestamp);
                 }
+                completions.Add(json.Key, timestamp);
+                completed = true;
             }
             return completed;
         }
 
-        private static bool IsCompletedInFile(string advancement, JsonStream json) =>
-            json[advancement]?["done"] == true;
-
-
         public Dictionary<Uuid, HashSet<(string adv, string crit)>> GetAllCriteriaCompletions(Advancement advancement)
         {
-            //return
             var completions = new Dictionary<Uuid, HashSet<(string, string)>>();
             foreach (KeyValuePair<Uuid, JsonStream> json in this.Players)
                 completions[json.Key] = this.GetCompletedCriteriaInFile(advancement, json.Value);

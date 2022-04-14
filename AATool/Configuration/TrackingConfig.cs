@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using AATool.Data.Categories;
 using Newtonsoft.Json;
 
@@ -20,8 +21,11 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<bool> UseSftp = new (false);
 
             [JsonProperty] public readonly Setting<TrackerSource> Source = new (TrackerSource.ActiveInstance);
-            [JsonProperty] public readonly Setting<string> CustomSavesPath  = new (string.Empty);
             [JsonProperty] public readonly Setting<string> CustomWorldPath = new (string.Empty);
+            [JsonProperty] public readonly Setting<string> CustomSavesPath = new (Paths.Saves.DefaultAppDataSavesPath);
+
+            [JsonProperty] public readonly Setting<ProgressFilter> Filter = new (ProgressFilter.Combined);
+            [JsonProperty] public readonly Setting<string> SoloFilterName = new (string.Empty);
 
             [JsonProperty] public readonly Setting<bool> BroadcastProgress = new (false);
             [JsonProperty] public readonly Setting<string> OpenTrackerKey = new (string.Empty);
@@ -35,9 +39,12 @@ namespace AATool.Configuration
                 && (this.Source == TrackerSource.ActiveInstance || this.AutoDetectVersion || Tracker.Category is AllDeaths);
             
             [JsonIgnore]
-            public bool SourceChanged => this.UseSftp.Changed || this.Source.Changed
+            public bool SourceChanged => this.Source.Changed || this.UseSftp.Changed || this.FilterChanged
                 || (this.Source == TrackerSource.CustomSavesPath && this.CustomSavesPath.Changed)
                 || (this.Source == TrackerSource.SpecificWorld && this.CustomWorldPath.Changed);
+
+            public bool FilterChanged => this.Filter.Changed 
+                || (this.Filter == ProgressFilter.Solo && this.SoloFilterName.Changed);
 
             public TrackingConfig()
             {
@@ -52,6 +59,9 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.Source);
                 this.RegisterSetting(this.CustomSavesPath);
                 this.RegisterSetting(this.CustomWorldPath);
+
+                this.RegisterSetting(this.Filter);
+                this.RegisterSetting(this.SoloFilterName);
 
                 this.RegisterSetting(this.BroadcastProgress);
                 this.RegisterSetting(this.OpenTrackerKey);

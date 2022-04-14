@@ -41,15 +41,15 @@ namespace AATool.Data.Objectives
         public bool Contains(string criterion) =>
             this.All.ContainsKey(criterion);
 
-        public int NumberCompletedBy(Uuid id) =>
-            this.Progress.TryGetValue(id, out int completed) ? completed : 0;
+        public int NumberCompletedBy(Uuid player) =>
+            this.Progress.TryGetValue(player, out int completed) ? completed : 0;
 
-        public int PercentCompletedBy(Uuid id)
+        public int PercentCompletedBy(Uuid player)
         {
             if (this.Count is 0)
                 return 0;
 
-            float properFraction = (float)this.NumberCompletedBy(id) / this.Count;
+            float properFraction = (float)this.NumberCompletedBy(player) / this.Count;
             return (int)(properFraction * 100);
         }
         
@@ -63,10 +63,10 @@ namespace AATool.Data.Objectives
             foreach (Criterion criterion in this.All.Values)
             {
                 criterion.UpdateState(progress);
-                foreach (Uuid id in criterion.Completionists)
+                foreach (Uuid player in criterion.Completions.Keys)
                 {
-                    this.Progress.TryGetValue(id, out int current);
-                    this.Progress[id] = current + 1;
+                    this.Progress.TryGetValue(player, out int current);
+                    this.Progress[player] = current + 1;
                 }
             }
             this.FindPlayerWithMost(progress);

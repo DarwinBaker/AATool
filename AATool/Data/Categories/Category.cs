@@ -37,18 +37,20 @@ namespace AATool.Data.Categories
 
         public bool TrySetVersion(string version)
         {
-            if (!Version.TryParse(version, out Version number))
-                return false;
-
-            //handle sub-versioning of 1.16 due to piglin brutes
-            version = number > Version.Parse("1.16.1") && number < Version.Parse("1.17")
-                ? "1.16.5"
-                : $"{number.Major}.{number.Minor}";
+            if (Version.TryParse(version, out Version number))
+            {
+                //handle sub-versioning of 1.16 due to piglin brutes
+                version = number > Version.Parse("1.16.1") && number < Version.Parse("1.17")
+                    ? "1.16.5"
+                    : $"{number.Major}.{number.Minor}";
+            }
 
             if (this.GetSupportedVersions().Contains(version))
             {
                 this.CurrentVersion = version;
-                this.CurrentMajorVersion = $"{number.Major}.{number.Minor}";
+                this.CurrentMajorVersion = number is not null 
+                    ? $"{number.Major}.{number.Minor}"
+                    : this.CurrentVersion;
                 Config.Tracking.GameVersion.Set(this.CurrentVersion);
                 Config.Tracking.Save();
                 return true;

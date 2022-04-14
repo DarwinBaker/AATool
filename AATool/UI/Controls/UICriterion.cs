@@ -20,8 +20,8 @@ namespace AATool.UI.Controls
         private float iconBrightness;
         private float textBrightness;
 
-        public bool HideFromOverlay => (this.criterion?.Owner?.CompletedByAnyone() ?? false) || this.CriterionCompleted;
-        public bool CriterionCompleted => this.criterion?.CompletedByDesignated() ?? false;
+        public bool HideFromOverlay => (this.criterion?.Owner?.IsComplete() is true) || this.CriterionCompleted;
+        public bool CriterionCompleted => this.criterion?.CompletedByDesignated() is true;
 
         public UICriterion() 
         {

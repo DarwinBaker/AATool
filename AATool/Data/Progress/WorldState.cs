@@ -100,16 +100,16 @@ namespace AATool.Data.Progress
             return JsonConvert.SerializeObject(this);
         }
 
-        public List<Uuid> CompletionistsOf(IObjective objective)
+        public Dictionary<Uuid, DateTime> CompletionsOf(IObjective objective)
         {
             //compile a list of all players who have completed this objective
-            var completionists = new List<Uuid>();
+            var completionists = new Dictionary<Uuid, DateTime>();
             if (objective is Advancement advancement)
             {
                 foreach (KeyValuePair<Uuid, Contribution> player in this.Players)
                 {
-                    if (player.Value.IncludesAdvancement(advancement.Id))
-                        completionists.Add(player.Key);
+                    if (player.Value.Advancements.TryGetValue(advancement.Id, out DateTime completed))
+                        completionists.Add(player.Key, completed);
                 }
             }
             else if (objective is Criterion criterion)
@@ -117,7 +117,7 @@ namespace AATool.Data.Progress
                 foreach (KeyValuePair<Uuid, Contribution> player in this.Players)
                 {
                     if (player.Value.Criteria.Contains((criterion.Owner.Id, criterion.Id)))
-                        completionists.Add(player.Key);
+                        completionists.Add(player.Key, objective.WhenFirstCompleted());
                 }
             }
             else if (objective is Block block)
@@ -125,13 +125,13 @@ namespace AATool.Data.Progress
                 foreach (KeyValuePair<Uuid, Contribution> player in this.Players)
                 {
                     if (player.Value.IncludesBlock(block.Id))
-                        completionists.Add(player.Key);
+                        completionists.Add(player.Key, objective.WhenFirstCompleted());
                 }
             }
             else if (objective is Death death)
             {
                 if (this.DeathMessages.Contains(death.Id))
-                    completionists.Add(Tracker.GetMainPlayer());
+                    completionists.Add(Tracker.GetMainPlayer(), DateTime.Now);
             }
             return completionists;
         }
@@ -187,11 +187,11 @@ namespace AATool.Data.Progress
             foreach (Advancement advancement in Tracker.Advancements.AllAdvancements.Values)
             {
                 //add advancement if completed
-                if (world.Advancements.TryGetAdvancementCompletionFor(advancement.Id, out List<Uuid> ids))
+                if (world.Advancements.TryGetAdvancementCompletions(advancement.Id, out Dictionary<Uuid, DateTime> ids))
                 {
                     this.CompletedAdvancements.Add(advancement.Id);
-                    foreach (Uuid id in ids)
-                        this.Players[id].AddAdvancement(advancement.Id);
+                    foreach (Uuid id in ids.Keys)
+                        this.Players[id].AddAdvancement(advancement.Id, ids[id]);
                 }
 
                 if (advancement.HasCriteria)
@@ -224,14 +224,14 @@ namespace AATool.Data.Progress
                 {
                     this.CompletedAdvancements.Add(achievement.Id);
                     foreach (Uuid id in ids)
-                        this.Players[id].AddAdvancement(achievement.Id);
+                        this.Players[id].AddAdvancement(achievement.Id, default);
                 }
 
                 if (achievement.HasCriteria)
                 {
                     //add completed criteria if this advancement has any
                     Dictionary<Uuid, HashSet<(string adv, string crit)>> completions;
-                    completions = world.Advancements.GetAllCriteriaCompletions(achievement);
+                    completions = world.Achievements.GetAllCriteriaCompletions(achievement);
                     foreach (KeyValuePair<Uuid, HashSet<(string adv, string crit)>> player in completions)
                     {
                         foreach ((string adv, string crit) criterion in player.Value)

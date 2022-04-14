@@ -20,7 +20,7 @@ namespace AATool.Data.Objectives
         public override string GetShortCaption() => this.ShortName;
 
         public override bool CompletedByAnyone() => 
-            this.FirstCompletionist != Uuid.Empty || this.ManuallyCompleted;
+            this.FirstCompletion.who != Uuid.Empty || this.ManuallyCompleted;
 
         public Block(XmlNode node) : base (node)
         {
@@ -32,20 +32,6 @@ namespace AATool.Data.Objectives
         {
             this.ManuallyCompleted ^= true;
             Tracker.Blocks.UpdateTotal();
-        }
-
-        public override void UpdateState(WorldState progress)
-        {
-            List<Uuid> placers = progress.CompletionistsOf(this);
-            if (placers.Any())
-            {
-                if (this.FirstCompletionist == Uuid.Empty)
-                    this.FirstCompletionist = placers.First();
-            }
-            else
-            {
-                this.FirstCompletionist = Uuid.Empty;
-            }
         }
     }
 }

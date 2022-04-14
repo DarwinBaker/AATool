@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Net.Http;
+using System.Threading;
 using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Net;
@@ -14,28 +18,34 @@ namespace AATool.Winforms.Controls
     {
         private bool loaded;
 
+        private static Image SoloAvatar;
+        private CancellationTokenSource cancelSource;
+
         public CTrackerSettings()
         {
             this.InitializeComponent();
-            this.autoVersion.Checked = Config.Tracking.AutoDetectVersion;
         }
 
         public void LoadSettings()
         {
             this.loaded = false;
+            this.autoVersion.Checked = Config.Tracking.AutoDetectVersion;
             this.UpdateCategoryControls();
 
-            this.worldRemote.Checked  = Config.Tracking.UseSftp;
-            this.worldLocal.Checked   = !Config.Tracking.UseSftp;
+            this.worldRemote.Checked = Config.Tracking.UseSftp;
+            this.worldLocal.Checked = !Config.Tracking.UseSftp;
 
-            this.trackActiveInstance.Checked = Tracker.Source is TrackerSource.ActiveInstance;
-            this.trackCustomSavesFolder.Checked = Tracker.Source is TrackerSource.CustomSavesPath;
-            this.TrackSpecificWorld.Checked = Tracker.Source is TrackerSource.SpecificWorld;
+            this.filterCombined.Checked = Config.Tracking.Filter == ProgressFilter.Combined;
+            this.filterSolo.Checked = Config.Tracking.Filter == ProgressFilter.Solo;
+            this.filterSoloName.Text = Config.Tracking.SoloFilterName;
+
+            this.trackActiveInstance.Checked = Config.Tracking.Source == TrackerSource.ActiveInstance;
+            this.trackCustomSavesFolder.Checked = Config.Tracking.Source == TrackerSource.CustomSavesPath;
+            this.TrackSpecificWorld.Checked = Config.Tracking.Source == TrackerSource.SpecificWorld;
 
             this.customSavesPath.Text = Config.Tracking.CustomSavesPath;
             this.customWorldPath.Text = Config.Tracking.CustomWorldPath;
 
-            this.autoVersion.Checked = Config.Tracking.AutoDetectVersion;
             this.gameVersion.Text = Config.Tracking.GameVersion;
 
             this.enableOpenTracker.Checked = Config.Tracking.BroadcastProgress;
@@ -47,7 +57,18 @@ namespace AATool.Winforms.Controls
             this.sftpRoot.Text = Config.Sftp.ServerRoot;
 
             this.UpdateSaveGroupPanel();
+            this.UpdateFilterPanel();
 
+            if (SoloAvatar is null)
+            {
+                this.cancelSource?.Cancel();
+                this.cancelSource = new CancellationTokenSource();
+                this.TryUpdateSoloFilterAsync(this.cancelSource.Token);
+            }
+            else
+            {
+                this.soloAvatar.Image = SoloAvatar;
+            }
             this.loaded = true;
         }
 
@@ -64,6 +85,13 @@ namespace AATool.Winforms.Controls
 
                 Config.Tracking.CustomSavesPath.Set(this.customSavesPath.Text);
                 Config.Tracking.CustomWorldPath.Set(this.customWorldPath.Text);
+
+                if (this.filterCombined.Checked)
+                    Config.Tracking.Filter.Set(ProgressFilter.Combined);
+                else if (this.filterSolo.Checked)
+                    Config.Tracking.Filter.Set(ProgressFilter.Solo);
+
+                Config.Tracking.SoloFilterName.Set(this.filterSoloName.Text);
 
                 TrackerSource source = this.trackActiveInstance.Checked
                     ? TrackerSource.ActiveInstance
@@ -123,6 +151,11 @@ namespace AATool.Winforms.Controls
                 this.localGroup.Visible = false;
                 this.remoteGroup.Visible = true;
             }
+        }
+
+        private void UpdateFilterPanel()
+        {
+            this.filterSoloName.Enabled = this.filterSolo.Checked;
         }
 
         private void TogglePassword()
@@ -185,6 +218,10 @@ namespace AATool.Winforms.Controls
             {
                 this.UpdateSaveGroupPanel();
             }
+            else if (sender == this.filterCombined || sender == this.filterSolo)
+            {
+                this.UpdateFilterPanel();
+            }
             else if (sender == this.autoVersion)
             {
                 this.UpdateCategoryControls();
@@ -210,6 +247,15 @@ namespace AATool.Winforms.Controls
 
         private void OnTextChanged(object sender, EventArgs e) 
         {
+            if (sender == this.filterSoloName)
+            {
+                //cancel old requests and start a new one
+                this.cancelSource?.Cancel();
+                this.cancelSource = new CancellationTokenSource();
+
+                //cooldown timer to prevent spamming requests for every letter of someone's name
+                this.keyboardTimer.Start();
+            }
             this.SaveSettings();
         }
 
@@ -221,6 +267,43 @@ namespace AATool.Winforms.Controls
                 string body = "Remote tracking over SFTP has only been officially tested on DedicatedMC, " +
                     "although other hosts should work as well.";
                 MessageBox.Show(this, body, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void OnTimerTick(object sender, EventArgs e)
+        {
+            //enough time has passed since last character was typed
+            this.keyboardTimer.Stop();
+            this.TryUpdateSoloFilterAsync(this.cancelSource.Token);
+        }
+
+        private async void TryUpdateSoloFilterAsync(CancellationToken? cancelToken = null)
+        {
+            Uuid id = Uuid.Empty;
+            if (Player.ValidateName(this.filterSoloName.Text))
+                id = await Player.FetchUuidAsync(this.filterSoloName.Text);
+
+            if (id == Uuid.Empty)
+            {
+                this.soloAvatar.Image = null;
+                return;
+            }
+
+            if (this.soloAvatar.Image is null || (this.soloAvatar.Image.Tag is Uuid current && id != current))
+            {
+                try
+                {
+                    //asynchronously pull player avatar from the internet
+                    string url = Paths.Web.GetAvatarUrl(id.ToString());
+                    using HttpClient http = new ();
+                    using HttpResponseMessage responce = await http.GetAsync(new Uri(url), cancelToken ?? CancellationToken.None);
+                    using Stream stream = await responce.Content.ReadAsStreamAsync();
+                    this.soloAvatar.Image = new Bitmap(stream) {
+                        Tag = id
+                    };
+                    SoloAvatar = this.soloAvatar.Image;
+                }
+                catch { }
             }
         }
     }

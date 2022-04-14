@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using AATool.Configuration;
 using AATool.Data.Progress;
 using AATool.Net;
 using AATool.Utilities;
@@ -12,6 +13,11 @@ namespace AATool.Data.Objectives
     {
         public bool CompletedByAnyone();
         public bool CompletedBy(Uuid player);
+
+        public Uuid FirstToComplete();
+
+        public DateTime WhenFirstCompleted();
+        public DateTime WhenCompletedBy(Uuid player);
 
         public string GetId();
         public string GetName();
@@ -31,15 +37,34 @@ namespace AATool.Data.Objectives
         public string Name      { get; protected set; }
         public string ShortName { get; protected set; }
 
-        public Uuid FirstCompletionist { get; protected set; }
-        public readonly List<Uuid> Completionists;
+        public Dictionary<Uuid, DateTime> Completions { get; protected set; }
+        public (Uuid who, DateTime when) FirstCompletion { get; protected set; }
+
         public readonly FrameType Frame;
 
         public abstract string GetFullCaption();
         public abstract string GetShortCaption();
 
-        public virtual bool CompletedByAnyone() => this.Completionists.Any();
-        public virtual bool CompletedBy(Uuid id) => this.Completionists.Contains(id);
+        public bool IsComplete()
+        {
+            return Config.Tracking.Filter == ProgressFilter.Combined
+                ? this.CompletedByAnyone()
+                : this.CompletedBySoloPlayer();
+        }
+
+        public virtual bool CompletedByAnyone() => this.Completions.Any();
+
+        public virtual bool CompletedBy(Uuid player) => this.Completions.ContainsKey(player);
+
+        public virtual bool CompletedBySoloPlayer() =>
+            Player.TryGetUuid(Config.Tracking.SoloFilterName, out Uuid player) ? this.CompletedBy(player) : false;
+
+        public Uuid FirstToComplete() => this.FirstCompletion.who;
+
+        public DateTime WhenFirstCompleted() => this.FirstCompletion.when;
+
+        public DateTime WhenCompletedBy(Uuid player) =>
+           this.Completions.TryGetValue(player, out DateTime completed) ? completed : default;
 
         public string GetId() => this.Id;
         public string GetIcon() => this.Icon;
@@ -53,7 +78,7 @@ namespace AATool.Data.Objectives
             if (node is null)
                 throw new ArgumentNullException("Objective source cannot be null.");
 
-            this.Completionists = new List<Uuid>();
+            this.Completions = new ();
 
             //parse properties from xml
             this.Id = XmlObject.Attribute(node, "id", string.Empty);
@@ -79,17 +104,11 @@ namespace AATool.Data.Objectives
             }
         }
 
-        protected void UpdateFirstCompletionist()
+        public virtual void UpdateState(WorldState progress) 
         {
-            //attempt to reset first completionist
-            if (Tracker.Invalidated)
-                this.FirstCompletionist = Uuid.Empty;
-
-            //lock in first player to give credit to
-            if (this.FirstCompletionist == Uuid.Empty && this.Completionists.Any())
-                this.FirstCompletionist = this.Completionists.First();
+            this.Completions = progress.CompletionsOf(this);
+            KeyValuePair<Uuid, DateTime> first = this.Completions.OrderBy(e => e.Value).FirstOrDefault();
+            this.FirstCompletion = (first.Key, first.Value);
         }
-
-        public abstract void UpdateState(WorldState progress);
     }
 }

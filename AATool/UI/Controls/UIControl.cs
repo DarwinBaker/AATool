@@ -33,7 +33,6 @@ namespace AATool.UI.Controls
             { typeof(UITextBlock),          Color.Yellow },
             { typeof(UIButton),             Color.Orange },
             { typeof(UIPicture),            Color.Lime },
-            { typeof(UIAdvancement),        Color.Red },
             { typeof(UICriterion),          Color.Magenta },
             { typeof(UIEnchantmentTable),   Color.Lime },
             { typeof(UIProgressBar),        Color.Magenta }

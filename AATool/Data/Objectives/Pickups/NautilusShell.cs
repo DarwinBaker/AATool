@@ -31,7 +31,7 @@ namespace AATool.Data.Objectives.Pickups
             {
                 //check if hdwgh complete
                 Tracker.TryGetAdvancement(HDWGH, out Advancement hdwgh);
-                this.CompletionOverride = hdwgh?.CompletedByAnyone() is true;
+                this.CompletionOverride = hdwgh?.IsComplete() is true;
             }
         }
 

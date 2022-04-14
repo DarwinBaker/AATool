@@ -12,7 +12,7 @@ namespace AATool.Data.Progress
     public class Contribution
     {
         [JsonProperty] public readonly Uuid PlayerId;
-        [JsonProperty] public readonly HashSet<string> Advancements;
+        [JsonProperty] public readonly Dictionary<string, DateTime> Advancements;
         [JsonProperty] public readonly HashSet<(string adv, string crit)> Criteria;
         [JsonProperty] public readonly Dictionary<string, int> ItemCounts;
         [JsonProperty] public readonly HashSet<string> BlocksPlaced;
@@ -20,8 +20,8 @@ namespace AATool.Data.Progress
         public int CompletedCount => this.Advancements.Count;
         
         [JsonConstructor]
-        public Contribution(Uuid playerId, 
-            HashSet<string> Advancements, 
+        public Contribution(Uuid playerId,
+            Dictionary<string, DateTime> Advancements, 
             HashSet<(string, string)> Criteria, 
             Dictionary<string, int> ItemCounts,
             HashSet<string> BlocksPlaced)
@@ -49,7 +49,7 @@ namespace AATool.Data.Progress
             JsonConvert.SerializeObject(this);
 
         public bool IncludesAdvancement(string id) => 
-            this.Advancements.Contains(id);
+            this.Advancements.ContainsKey(id);
 
         public bool IncludesBlock(string id) =>
             this.BlocksPlaced.Contains(id);
@@ -60,8 +60,8 @@ namespace AATool.Data.Progress
         public int ItemCount(string item) => 
             this.ItemCounts.TryGetValue(item, out int val) ? val : 0;
 
-        public void AddAdvancement(string advancement) =>
-            this.Advancements.Add(advancement);
+        public void AddAdvancement(string advancement, DateTime whenFirstCompleted) =>
+            this.Advancements.Add(advancement, whenFirstCompleted);
 
         public void AddCriterion(string advancement, string criterion) => 
             this.Criteria.Add((advancement, criterion));

@@ -130,7 +130,7 @@ namespace AATool.UI.Controls
             else
                 this.glow.Collapse();
 
-            float target = this.itemStat.CompletedByAnyone() ? 1 : 0;
+            float target = this.itemStat.IsComplete() ? 1 : 0;
             if (this.itemStat.IsEstimate && this.itemStat.PickedUp > 0)
                 target = this.itemStat.PickedUp / this.itemStat.TargetCount;
 

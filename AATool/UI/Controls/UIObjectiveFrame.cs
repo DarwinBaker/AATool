@@ -46,7 +46,6 @@ namespace AATool.UI.Controls
         private string completeFrame;
         private string incompleteFrame;
 
-        public bool ObjectiveCompleted => this.Objective?.CompletedByAnyone() ?? false;
         public Point IconCenter => this.icon.Center;
 
         public UIObjectiveFrame() 
@@ -227,7 +226,7 @@ namespace AATool.UI.Controls
                 ? 0.15f
                 : 0;
 
-            if (this.ObjectiveCompleted)
+            if (this.Objective?.IsComplete() is true)
             {
                 target = 1;
             }
@@ -257,7 +256,7 @@ namespace AATool.UI.Controls
         private void UpdateActiveState()
         {
             this.IsActive = true;
-            if (this.Objective is Advancement adv && !adv.CompletedByAnyone())
+            if (this.Objective is Advancement adv && !this.Objective?.IsComplete() is true)
             {
                 this.IsActive &= !(adv is Achievement ach && ach.IsLocked);
                 this.IsActive &= !(Tracker.Category is HalfPercent && !adv.UsedInHalfPercent);
@@ -269,7 +268,9 @@ namespace AATool.UI.Controls
         {
             if (this.Parent is not UICriteriaGroup)
             {
-                if (Config.Main.HideCompletedAdvancements && this.ObjectiveCompleted && this.Objective is Advancement)
+                if (Config.Main.HideCompletedAdvancements
+                    && this.Objective?.IsComplete() is true 
+                    && this.Objective is Advancement)
                 {
                     this.glow.SkipToBrightness(0);
                     this.Collapse();
@@ -387,8 +388,12 @@ namespace AATool.UI.Controls
 
             base.DrawRecursive(canvas);
 
+            //skip drawing player heads if in solo filter mode
+            if (Config.Tracking.Filter == ProgressFilter.Solo)
+                return;
+
             //draw player head if multiple players have save data
-            if (this.ObjectiveCompleted 
+            if (this.Objective?.IsComplete() is true
                 && this.Objective is Advancement 
                 && (Tracker.State.Players.Count > 1 || Peer.IsConnected))
             {
@@ -417,8 +422,9 @@ namespace AATool.UI.Controls
                             canvas.Draw("frame_flex_portrait", this.portraitRectangle, fade);
                             break;
                     }
-                }       
-                canvas.Draw($"avatar-{this.Objective.FirstCompletionist}", this.avatarRectangle, fade, Layer.Fore);
+                }
+                canvas.Draw($"avatar-{this.Objective.FirstCompletion.who}",
+                    this.avatarRectangle, fade, Layer.Fore);
             }
         }
 

@@ -29,6 +29,7 @@ namespace AATool.Winforms.Controls
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.autoVersion = new System.Windows.Forms.CheckBox();
             this.gameVersion = new System.Windows.Forms.ComboBox();
             this.localGroup = new System.Windows.Forms.GroupBox();
@@ -48,10 +49,8 @@ namespace AATool.Winforms.Controls
             this.worldRemote = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.remoteGroup = new System.Windows.Forms.GroupBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.playerFilter = new System.Windows.Forms.RichTextBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.sftpValidate = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
             this.sftpCompatibility = new System.Windows.Forms.LinkLabel();
             this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -71,13 +70,21 @@ namespace AATool.Winforms.Controls
             this.configureOpenTracker = new System.Windows.Forms.Button();
             this.enableOpenTracker = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.soloAvatar = new System.Windows.Forms.PictureBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.filterSolo = new System.Windows.Forms.RadioButton();
+            this.filterCombined = new System.Windows.Forms.RadioButton();
+            this.filterSoloName = new System.Windows.Forms.TextBox();
+            this.keyboardTimer = new System.Windows.Forms.Timer(this.components);
             this.localGroup.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.remoteGroup.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.soloAvatar)).BeginInit();
             this.SuspendLayout();
             // 
             // autoVersion
@@ -295,10 +302,8 @@ namespace AATool.Winforms.Controls
             // 
             // remoteGroup
             // 
-            this.remoteGroup.Controls.Add(this.label13);
-            this.remoteGroup.Controls.Add(this.playerFilter);
-            this.remoteGroup.Controls.Add(this.label12);
             this.remoteGroup.Controls.Add(this.sftpValidate);
+            this.remoteGroup.Controls.Add(this.label13);
             this.remoteGroup.Controls.Add(this.sftpCompatibility);
             this.remoteGroup.Controls.Add(this.label7);
             this.remoteGroup.Controls.Add(this.label5);
@@ -319,40 +324,6 @@ namespace AATool.Winforms.Controls
             this.remoteGroup.TabStop = false;
             this.remoteGroup.Text = "Remote Minecraft Server Login";
             // 
-            // label13
-            // 
-            this.label13.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label13.Location = new System.Drawing.Point(125, 136);
-            this.label13.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
-            this.label13.Name = "label13";
-            this.label13.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.label13.Size = new System.Drawing.Size(152, 70);
-            this.label13.TabIndex = 65;
-            this.label13.Text = "🛈 Only players in this list will be tracked (one per line)\r\n \r\nLeave blank to sh" +
-    "ow everyone on the server";
-            this.label13.Visible = false;
-            // 
-            // playerFilter
-            // 
-            this.playerFilter.Enabled = false;
-            this.playerFilter.Location = new System.Drawing.Point(9, 136);
-            this.playerFilter.Name = "playerFilter";
-            this.playerFilter.Size = new System.Drawing.Size(113, 70);
-            this.playerFilter.TabIndex = 64;
-            this.playerFilter.Text = "";
-            this.playerFilter.Visible = false;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 120);
-            this.label12.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(64, 13);
-            this.label12.TabIndex = 63;
-            this.label12.Text = "Player Filter:";
-            this.label12.Visible = false;
-            // 
             // sftpValidate
             // 
             this.sftpValidate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -363,6 +334,18 @@ namespace AATool.Winforms.Controls
             this.sftpValidate.Text = "Sync";
             this.sftpValidate.UseVisualStyleBackColor = true;
             this.sftpValidate.Click += new System.EventHandler(this.OnClicked);
+            // 
+            // label13
+            // 
+            this.label13.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label13.Location = new System.Drawing.Point(6, 165);
+            this.label13.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label13.Name = "label13";
+            this.label13.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.label13.Size = new System.Drawing.Size(234, 42);
+            this.label13.TabIndex = 71;
+            this.label13.Text = "🛈 If you\'re connecting to a survival server and would like to only see your own " +
+    "advancements, set progress filtering to \"Solo\"";
             // 
             // sftpCompatibility
             // 
@@ -525,9 +508,9 @@ namespace AATool.Winforms.Controls
             this.groupBox4.Controls.Add(this.configureOpenTracker);
             this.groupBox4.Controls.Add(this.enableOpenTracker);
             this.groupBox4.Controls.Add(this.label1);
-            this.groupBox4.Location = new System.Drawing.Point(3, 179);
+            this.groupBox4.Location = new System.Drawing.Point(283, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(107, 125);
+            this.groupBox4.Size = new System.Drawing.Size(250, 81);
             this.groupBox4.TabIndex = 37;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "OpenTracker";
@@ -535,7 +518,7 @@ namespace AATool.Winforms.Controls
             // 
             // configureOpenTracker
             // 
-            this.configureOpenTracker.Location = new System.Drawing.Point(16, 49);
+            this.configureOpenTracker.Location = new System.Drawing.Point(73, 18);
             this.configureOpenTracker.Name = "configureOpenTracker";
             this.configureOpenTracker.Size = new System.Drawing.Size(75, 23);
             this.configureOpenTracker.TabIndex = 59;
@@ -547,7 +530,7 @@ namespace AATool.Winforms.Controls
             // 
             this.enableOpenTracker.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.enableOpenTracker.AutoSize = true;
-            this.enableOpenTracker.Location = new System.Drawing.Point(17, 27);
+            this.enableOpenTracker.Location = new System.Drawing.Point(8, 22);
             this.enableOpenTracker.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
             this.enableOpenTracker.Name = "enableOpenTracker";
             this.enableOpenTracker.Size = new System.Drawing.Size(59, 17);
@@ -560,36 +543,97 @@ namespace AATool.Winforms.Controls
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label1.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label1.Location = new System.Drawing.Point(3, 85);
+            this.label1.Location = new System.Drawing.Point(3, 61);
             this.label1.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.label1.Size = new System.Drawing.Size(101, 37);
+            this.label1.Size = new System.Drawing.Size(244, 17);
             this.label1.TabIndex = 35;
             this.label1.Text = "🛈 Share your progress to the web in realtime";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.soloAvatar);
+            this.groupBox5.Controls.Add(this.label10);
+            this.groupBox5.Controls.Add(this.filterSolo);
+            this.groupBox5.Controls.Add(this.filterCombined);
+            this.groupBox5.Controls.Add(this.filterSoloName);
+            this.groupBox5.Location = new System.Drawing.Point(3, 179);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(107, 125);
+            this.groupBox5.TabIndex = 70;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Player Filtering";
+            // 
+            // soloAvatar
+            // 
+            this.soloAvatar.Location = new System.Drawing.Point(86, 99);
+            this.soloAvatar.Name = "soloAvatar";
+            this.soloAvatar.Size = new System.Drawing.Size(16, 16);
+            this.soloAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.soloAvatar.TabIndex = 76;
+            this.soloAvatar.TabStop = false;
+            // 
             // label10
             // 
-            this.label10.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label10.Location = new System.Drawing.Point(281, 6);
-            this.label10.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(4, 81);
+            this.label10.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(255, 81);
-            this.label10.TabIndex = 39;
-            this.label10.Text = "🛈 Changes to settings are applied immediately";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label10.Size = new System.Drawing.Size(82, 13);
+            this.label10.TabIndex = 75;
+            this.label10.Text = "Your MC Name:";
+            // 
+            // filterSolo
+            // 
+            this.filterSolo.AutoSize = true;
+            this.filterSolo.Location = new System.Drawing.Point(6, 45);
+            this.filterSolo.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.filterSolo.Name = "filterSolo";
+            this.filterSolo.Size = new System.Drawing.Size(46, 17);
+            this.filterSolo.TabIndex = 73;
+            this.filterSolo.TabStop = true;
+            this.filterSolo.Text = "Solo";
+            this.filterSolo.UseVisualStyleBackColor = true;
+            this.filterSolo.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            // 
+            // filterCombined
+            // 
+            this.filterCombined.AutoSize = true;
+            this.filterCombined.Location = new System.Drawing.Point(6, 19);
+            this.filterCombined.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.filterCombined.Name = "filterCombined";
+            this.filterCombined.Size = new System.Drawing.Size(72, 17);
+            this.filterCombined.TabIndex = 74;
+            this.filterCombined.TabStop = true;
+            this.filterCombined.Text = "Combined";
+            this.filterCombined.UseVisualStyleBackColor = true;
+            this.filterCombined.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            // 
+            // filterSoloName
+            // 
+            this.filterSoloName.Location = new System.Drawing.Point(7, 97);
+            this.filterSoloName.Name = "filterSoloName";
+            this.filterSoloName.Size = new System.Drawing.Size(76, 20);
+            this.filterSoloName.TabIndex = 72;
+            this.filterSoloName.TextChanged += new System.EventHandler(this.OnTextChanged);
+            // 
+            // keyboardTimer
+            // 
+            this.keyboardTimer.Interval = 500;
+            this.keyboardTimer.Tick += new System.EventHandler(this.OnTimerTick);
             // 
             // CTrackerSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.label10);
             this.Controls.Add(this.remoteGroup);
             this.Controls.Add(this.localGroup);
             this.Name = "CTrackerSettings";
@@ -605,6 +649,9 @@ namespace AATool.Winforms.Controls
             this.groupBox2.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.soloAvatar)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -649,9 +696,13 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Button browseWorld;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.RichTextBox playerFilter;
+        private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox filterSoloName;
+        private System.Windows.Forms.RadioButton filterSolo;
+        private System.Windows.Forms.RadioButton filterCombined;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Timer keyboardTimer;
+        private System.Windows.Forms.PictureBox soloAvatar;
     }
 }

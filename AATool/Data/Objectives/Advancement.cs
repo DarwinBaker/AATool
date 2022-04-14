@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Xml;
+using AATool.Configuration;
 using AATool.Data.Progress;
 using AATool.Net;
 using AATool.Utilities;
@@ -84,16 +85,14 @@ namespace AATool.Data.Objectives
 
         public override void UpdateState(WorldState progress)
         {
-            this.Completionists.Clear();
-            this.Completionists.AddRange(progress.CompletionistsOf(this));
+            base.UpdateState(progress);
             this.Criteria.UpdateStates(progress);
-            this.UpdateFirstCompletionist();
 
             if (!this.HasCriteria)
                 return;
 
             //handle auto-designation
-            if (!(Tracker.Invalidated || Peer.StateChanged))
+            if (!(Tracker.Invalidated || Peer.StateChanged || Config.Tracking.FilterChanged))
                 return;
 
             if (Peer.IsConnected)
@@ -108,8 +107,11 @@ namespace AATool.Data.Objectives
             }
             else
             {
-                //assign to player with most progress so far
-                this.Designate(this.Criteria.ClosestToCompletion);
+                //assign a default based on filter mode
+                if (Config.Tracking.Filter == ProgressFilter.Combined)
+                    this.Designate(this.Criteria.ClosestToCompletion);
+                else if (Player.TryGetUuid(Config.Tracking.SoloFilterName, out Uuid player))
+                    this.Designate(player);
             }
         }
 

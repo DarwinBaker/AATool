@@ -14,7 +14,7 @@ namespace AATool.Data.Categories
         public override IEnumerable<Objective> GetOverlayObjectives() => Tracker.Achievements.AllAdvancements.Values;
 
         public override int GetTargetCount() => Tracker.Achievements.Count;
-        public override int GetCompletedCount() => Tracker.Achievements.CompletedCount;
+        public override int GetCompletedCount() => Tracker.Achievements.CombinedCompletedCount;
 
         public AllAchievements() : base ()
         {

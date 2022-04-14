@@ -6,6 +6,7 @@ namespace AATool.Data.Categories
     public class AllAdvancements : Category
     {
         public static readonly List<string> SupportedVersions = new () {
+            "22w15a",
             "1.18",
             "1.17",
             "1.16.5",
@@ -19,7 +20,7 @@ namespace AATool.Data.Categories
         public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
         public override IEnumerable<Objective> GetOverlayObjectives() => Tracker.Advancements.AllAdvancements.Values;        
         
-        public override int GetCompletedCount() => Tracker.Advancements.CompletedCount;
+        public override int GetCompletedCount() => Tracker.Advancements.CombinedCompletedCount;
         public override int GetTargetCount() => Tracker.Advancements.Count;
 
         public AllAdvancements() : base ()

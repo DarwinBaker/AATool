@@ -49,11 +49,11 @@ namespace AATool.Data.Objectives.Pickups
             {
                 //get advancements requiring thunder
                 this.vvfDone = Tracker.TryGetAdvancement(VVF, out Advancement vvf)
-                    && vvf.CompletedByAnyone();
+                    && vvf.IsComplete();
 
                 //ignore surge prot if it's not in the game yet (pre-1.17)
                 this.surgeAdded = Tracker.TryGetAdvancement(Surge, out Advancement surge);
-                this.surgeDone = !this.surgeAdded || surge.CompletedByAnyone();
+                this.surgeDone = !this.surgeAdded || surge.IsComplete();
 
                 this.CompletionOverride = this.vvfDone && this.surgeDone;
             }

@@ -38,5 +38,7 @@ namespace AATool.Configuration
         public void ApplyDefault() => this.Set(this.Default);
 
         public void ClearFlag() => this.Changed = false;
+
+        public void InvokeChange() => this.Changed = true;
     }
 }

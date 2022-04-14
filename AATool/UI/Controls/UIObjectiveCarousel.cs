@@ -10,7 +10,7 @@ namespace AATool.UI.Controls
     {  
         protected override void UpdateThis(Time time)
         {
-            if (Tracker.Invalidated)
+            if (Tracker.Invalidated || Config.Overlay.Enabled.Changed)
                 this.RefreshSourceList();
 
             if (Tracker.ObjectivesChanged)
@@ -33,13 +33,15 @@ namespace AATool.UI.Controls
 
             this.Fill();
 
-            //remove existing overlay advancements that have since been completed
-            for (int i = this.Children.Count - 1; i >= 0; i--)
+            if (Tracker.ProgressChanged)
             {
-                if ((this.Children[i] as UIObjectiveFrame).ObjectiveCompleted)
-                    this.Children.RemoveAt(i);
+                //remove existing overlay advancements that have since been completed
+                for (int i = this.Children.Count - 1; i >= 0; i--)
+                {
+                    if ((this.Children[i] as UIObjectiveFrame).Objective?.IsComplete() is true)
+                        this.Children.RemoveAt(i);
+                }
             }
-
             base.UpdateThis(time);
         }
 
@@ -51,7 +53,7 @@ namespace AATool.UI.Controls
             //remove completed advancements from pool
             for (int i = this.SourceList.Count - 1; i >= 0; i--)
             {
-                if ((this.SourceList[i] as Objective).CompletedByAnyone())
+                if ((this.SourceList[i] as Objective).IsComplete())
                     this.SourceList.RemoveAt(i);
             }
 

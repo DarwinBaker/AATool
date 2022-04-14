@@ -6,7 +6,7 @@ namespace AATool.Data.Objectives
     public class Achievement : Advancement
     {
         public bool IsRoot => this.Parent is null;
-        public bool IsLocked => !this.IsRoot && !this.Parent.CompletedByAnyone();
+        public bool IsLocked => !this.IsRoot && !this.Parent.IsComplete();
 
         public readonly Dictionary<string, Achievement> Children;
         public readonly Achievement Parent;

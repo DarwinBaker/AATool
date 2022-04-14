@@ -151,7 +151,7 @@ namespace AATool.UI.Controls
             {
                 //calculate arrow color based on completion of parent achievement
                 var start = this.CellContents[path.First().Row, path.First().Column] as UIObjectiveFrame;
-                double blend = start.Objective.CompletedByAnyone() ? 2 : 0.5;
+                double blend = start.Objective.IsComplete() ? 2 : 0.5;
                 Color border = Config.Main.BorderColor;
 
                 byte r   = (byte)((border.R * blend) + (border.R * (1 - blend)));

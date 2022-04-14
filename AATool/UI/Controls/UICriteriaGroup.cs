@@ -31,6 +31,7 @@ namespace AATool.UI.Controls
         private bool hidePlayersPanel;
         private int playersLoggedIn;
         private bool largePlayers;
+        private int cellWidth;
 
         public UICriteriaGroup()
         {
@@ -66,6 +67,9 @@ namespace AATool.UI.Controls
                 {
                     this.criteriaPanel.Padding = new Margin(8, 8, 8, 40);
                 }
+                if (this.cellWidth > 0)
+                    this.criteriaPanel.CellWidth = this.cellWidth;
+
                 this.bar.SetMax(this.advancement.Criteria.Count);
                 this.PopulateCriteria();
             }
@@ -79,7 +83,9 @@ namespace AATool.UI.Controls
             {
                 //this.First("advancement_space").Collapse();
                 this.label.Margin = new Margin(8, 0, 0, 6);
-                this.criteriaPanel.CellWidth = Tracker.Category is AllAchievements ? 100 : 68;
+                if (this.cellWidth <= 0)
+                    this.criteriaPanel.CellWidth = Tracker.Category is AllAchievements ? 100 : 68;
+
                 this.criteriaPanel.RemoveControl(this.objectiveFrame);
                 this.bar.Collapse();
             }
@@ -135,12 +141,14 @@ namespace AATool.UI.Controls
             {
                 this.advancement.LinkDesignation();
                 this.hidePlayersPanel = true;
+                this.UpdateProgress();
             }
             else if (sender is UIButton button && button.Tag is Uuid id)
             {
                 this.advancement.UnlinkDesignation();
                 this.advancement.Designate(id);
                 this.hidePlayersPanel = true;
+                this.UpdateProgress();
             }
         }
 
@@ -149,7 +157,10 @@ namespace AATool.UI.Controls
             if (this.advancement is not null)
             {
                 this.UpdateVisibility();
-                if (Tracker.Invalidated || Config.Main.CompactMode.Changed || Config.Main.ProgressBarStyle.Changed)
+                if (Tracker.Invalidated 
+                    || Config.Main.CompactMode.Changed 
+                    || Config.Main.ProgressBarStyle.Changed
+                    || Config.Tracking.FilterChanged)
                     this.UpdateProgress();
             }
         }
@@ -347,6 +358,7 @@ namespace AATool.UI.Controls
         {
             base.ReadNode(node);
             this.advancementName = Attribute(node, "advancement", string.Empty);
+            this.cellWidth = Attribute(node, "cell_width", 0);
         }
     }
 }

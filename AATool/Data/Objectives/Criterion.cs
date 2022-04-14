@@ -40,9 +40,7 @@ namespace AATool.Data.Objectives
 
         public override void UpdateState(WorldState progress)
         {
-            this.Completionists.Clear();
-            this.Completionists.AddRange(progress.CompletionistsOf(this));
-            this.UpdateFirstCompletionist();
+            base.UpdateState(progress);
         }
     }
 }

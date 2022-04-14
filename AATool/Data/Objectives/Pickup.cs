@@ -1,4 +1,5 @@
-﻿using AATool.Data.Progress;
+﻿using AATool.Configuration;
+using AATool.Data.Progress;
 using AATool.Net;
 using AATool.Utilities;
 using System.Linq;
@@ -43,7 +44,19 @@ namespace AATool.Data.Objectives
 
         public override void UpdateState(WorldState progress)
         {
-            this.PickedUp = progress.PickedUp(this.Id);
+            if (Config.Tracking.Filter == ProgressFilter.Combined)
+            {
+                this.PickedUp = progress.PickedUp(this.Id);
+            }
+            else
+            {
+                Player.TryGetUuid(Config.Tracking.SoloFilterName, out Uuid player);
+                progress.Players.TryGetValue(player, out Contribution individual);
+                int count = 0;
+                individual?.ItemCounts.TryGetValue(this.Id, out count);
+                this.PickedUp = count;
+
+            }
             this.HandleCompletionOverrides();
             this.UpdateLongStatus();
             this.UpdateShortStatus();

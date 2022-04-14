@@ -36,7 +36,7 @@ namespace AATool.UI.Controls
 
         protected override void UpdateThis(Time time)
         {
-            float offset = this.isMainWindow
+            float offset = this.isMainWindow && this.Parent is UIObjectiveFrame
                 ? (this.X * 100) + (this.Y * 100)
                 : 0;
 

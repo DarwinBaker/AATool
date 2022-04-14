@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Progress;
+using AATool.Net;
 using AATool.Utilities;
 
 namespace AATool.Data.Objectives
@@ -15,7 +17,7 @@ namespace AATool.Data.Objectives
         public readonly Dictionary<(string adv, string crit), Criterion> AllCriteria = new ();
         public readonly Dictionary<(string adv, string crit), Criterion> RemainingCriteria = new ();
 
-        public int CompletedCount { get; private set; }
+        public int CombinedCompletedCount { get; private set; }
 
         public int Count => this.AllAdvancements.Count;
 
@@ -42,7 +44,7 @@ namespace AATool.Data.Objectives
             this.RemainingAdvancements.Clear();
             this.AllCriteria.Clear();
             this.RemainingCriteria.Clear();
-            this.CompletedCount = 0;
+            this.CombinedCompletedCount = 0;
         }
 
         public virtual void RefreshObjectives()
@@ -94,14 +96,14 @@ namespace AATool.Data.Objectives
         public void SetState(WorldState progress)
         {
             this.RemainingAdvancements.Clear();
-            this.CompletedCount = 0;
+            this.CombinedCompletedCount = 0;
 
             foreach (KeyValuePair<string, Advancement> advancement in this.AllAdvancements)
             {
                 //update advancement and completion count
                 advancement.Value.UpdateState(progress);
-                if (advancement.Value.CompletedByAnyone())
-                    this.CompletedCount++;
+                if (advancement.Value.IsComplete())
+                    this.CombinedCompletedCount++;
                 else
                     this.RemainingAdvancements.Add(advancement.Key, advancement.Value);
             }
@@ -116,7 +118,7 @@ namespace AATool.Data.Objectives
             //update global remaining criteria for overlay
             foreach (var criterion in this.AllCriteria)
             {
-                if (!criterion.Value.Owner.CompletedByAnyone() && !criterion.Value.CompletedByDesignated())
+                if (!criterion.Value.Owner.IsComplete() && !criterion.Value.CompletedByDesignated())
                     this.RemainingCriteria.Add(criterion.Key, criterion.Value);
             }
         }
