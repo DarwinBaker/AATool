@@ -66,9 +66,6 @@
             <criteria_group width="2 * 68" advancement="minecraft:nether/explore_nether"/>
         </flow_panel>
 
-        <objective_frame advancement="minecraft:enchanted_golden_apple"/>
-
-        <objective_frame criterion="minecraft:enchanted_golden_apple" owner="minecraft:wither_skeleton_skull"/>
         <!-- status strip -->
         <status_bar row="2" col="1" colspan="3" right="476"/>
     </grid>

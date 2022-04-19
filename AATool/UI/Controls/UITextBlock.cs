@@ -110,7 +110,7 @@ namespace AATool.UI.Controls
             {
             	color = this.Root() is not UIOverlayScreen 
             		? Config.Main.TextColor 
-            		: Config.Overlay.TextColor;
+            		: Config.Overlay.FrameStyle != "Custom Theme" ? Color.White : Config.Overlay.CustomTextColor;
             }  
                 
             if (this.Bounds.Size == Point.Zero)

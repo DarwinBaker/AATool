@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace AATool.UI.Controls
 {
-    class UIPicture : UIControl
+    public class UIPicture : UIControl
     {
         public string Texture { get; private set; }
         public Color Tint     { get; private set; }

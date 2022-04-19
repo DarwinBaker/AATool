@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace AATool.UI.Screens
 {
-    sealed class UIOverlayScreen : UIScreen
+    public sealed class UIOverlayScreen : UIScreen
     {
         private const int SCROLL_SPEED_MULTIPLIER = 15;
         private const int BASE_SCROLL_SPEED = 30;
@@ -35,6 +35,8 @@ namespace AATool.UI.Screens
 
         private float titleY;
 
+        public bool FastForwarding { get; set; }
+
         private Color frameBack;
         private Color frameBorder;
 
@@ -48,6 +50,7 @@ namespace AATool.UI.Screens
             this.Form.ResizeBegin += this.OnResizeBegin;
             this.Form.ResizeEnd   += this.OnResizeEnd;
             this.Form.Resize      += this.OnResize;
+            this.Form.FormClosing += this.OnClosing;
             this.Window.AllowUserResizing = true;
             this.titleTimer = new SequenceTimer(60, 1, 10, 1, 10, 1, 10, 1);
             
@@ -57,8 +60,15 @@ namespace AATool.UI.Screens
 
             this.Form.MaximumSize = new System.Drawing.Size(4096 + this.Form.Width - this.Form.ClientSize.Width, 
                 this.Height + this.Form.Height - this.Form.ClientSize.Height);
+        }
 
-            this.MoveTo(Point.Zero);
+        private void OnClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Config.Overlay.StartupArrangement == WindowSnap.Remember)
+            {
+                Config.Overlay.LastWindowPosition.Set(new Point(this.Form.Location.X, this.Form.Location.Y));
+                Config.Overlay.Save();
+            }
         }
 
         public override string GetCurrentView()
@@ -100,6 +110,18 @@ namespace AATool.UI.Screens
                 this.Target = new SwapChainRenderTarget(this.GraphicsDevice, this.Window.Handle, width, height);
                 this.ResizeRecursive(new Rectangle(0, 0, width, height));
                 this.UpdateCarouselLocations();
+            }
+
+            //snap window to user's preferred location
+            if (!this.Positioned || Config.Overlay.StartupArrangement.Changed || Config.Overlay.StartupDisplay.Changed)
+            {
+                if (this.Positioned && Config.Overlay.StartupArrangement == WindowSnap.Remember)
+                    return;
+
+                this.PositionWindow(Config.Overlay.StartupArrangement,
+                    Config.Overlay.StartupDisplay, 
+                    Config.Overlay.LastWindowPosition);
+                this.Positioned = true;
             }
         }
 
@@ -209,11 +231,18 @@ namespace AATool.UI.Screens
             this.UpdateVisibility();
             this.UpdateCarouselLocations();
 
-            if (Config.Overlay.FrameStyle.Changed
-                && Config.MainConfig.Themes.TryGetValue(Config.Overlay.FrameStyle, out var theme))
+            if (Config.Overlay.Enabled.Changed || Config.Overlay.AppearanceChanged)
             {
-                this.frameBack = theme.back;
-                this.frameBorder = theme.border;
+                if (Config.Overlay.FrameStyle == "Custom Theme")
+                {
+                    this.frameBack = Config.Overlay.CustomBackColor;
+                    this.frameBorder = Config.Overlay.CustomBorderColor;
+                }
+                else if (Config.MainConfig.Themes.TryGetValue(Config.Overlay.FrameStyle, out var theme))
+                {
+                    this.frameBack = theme.back;
+                    this.frameBorder = theme.border;
+                }
             }
 
             //reset carousels if settings change
@@ -229,8 +258,7 @@ namespace AATool.UI.Screens
                 }
             }
 
-            if (Config.Overlay.Speed.Changed)
-                this.UpdateSpeed();
+            this.UpdateSpeed();
 
             if (Tracker.Category.IsComplete())
                 this.text.Collapse();
@@ -332,6 +360,8 @@ namespace AATool.UI.Screens
         private void UpdateSpeed()
         {
             double speed = BASE_SCROLL_SPEED + (Config.Overlay.Speed * SCROLL_SPEED_MULTIPLIER);
+            if (this.FastForwarding)
+                speed *= 20;
             this.advancements?.SetSpeed(speed);
             this.criteria?.SetSpeed(speed);
         }
@@ -405,7 +435,7 @@ namespace AATool.UI.Screens
         public override void Prepare()
         {
             base.Prepare();
-            this.GraphicsDevice.Clear(Config.Overlay.BackColor);
+            this.GraphicsDevice.Clear(Config.Overlay.GreenScreen);
         }
     }
 }

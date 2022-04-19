@@ -11,6 +11,7 @@ namespace AATool.Net.Requests
     public sealed class LeaderboardRequest : NetRequest
     {
         public const int MaxShown = 6;
+        public static Dictionary<string, int> Ranks = new ();
         public static List<PersonalBest> Runs = new ();
 
         public static int PlaceIndex = -1;
@@ -25,6 +26,28 @@ namespace AATool.Net.Requests
         public LeaderboardRequest() : base (Paths.Web.UnofficialSpreadsheet)
         {
             this.TryLoadFromCache();
+        }
+
+        public static bool TryGetRank(string runner, out string place)
+        {
+            place = string.Empty;
+            if (!Ranks.TryGetValue(runner, out int ranking) || ranking < 1)
+                return false;
+
+            if (ranking % 100 is 11 or 12 or 13)
+            {
+                place = ranking + "th";
+            }
+            else
+            {
+                place = (ranking % 10) switch {
+                    1 => ranking + "st",
+                    2 => ranking + "nd",
+                    3 => ranking + "rd",
+                    _ => ranking + "th",
+                };
+            }
+            return true;
         }
 
         public override async Task<bool> DownloadAsync()
@@ -63,8 +86,11 @@ namespace AATool.Net.Requests
             for (int i = 2; i < rows.Length; i++)
             {
                 if (PersonalBest.TryParse(rows[i], header, out PersonalBest pb))
+                {
                     Runs.Add(pb);
-
+                    Ranks[pb.Runner] = i - 1;
+                }
+                    
                 if (Runs.Count <= MaxShown)
                     Player.FetchIdentity(pb.Runner);
             }

@@ -32,6 +32,12 @@ namespace AATool.UI.Badges
 
         }
 
+        public override void ResizeThis(Rectangle parent)
+        {
+            this.Margin = new Margin(-13, -0, -10, 0);
+            base.ResizeThis(parent); 
+        }
+
         protected override void UpdateThis(Time time)
         {
             if (time.TotalFrames % 5 is 0)

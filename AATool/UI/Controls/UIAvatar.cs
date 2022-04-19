@@ -151,7 +151,6 @@ namespace AATool.UI.Controls
             if (Badge.TryGet(player, 2, out this.badge))
             {
                 this.AddControl(this.badge);
-                this.badge.Margin = new Margin(-13, -0, -10, 0);
                 this.badge.ResizeRecursive(this.Inner);
             }
         }
@@ -161,6 +160,9 @@ namespace AATool.UI.Controls
             this.FlexWidth  = new Size(8 * this.Scale);
             this.FlexHeight = new Size(8 * this.Scale);
             base.ResizeThis(parent);
+
+            if (this.Width < 32)
+                this.badge?.Collapse();
         }
 
         public override void ReadNode(XmlNode node)

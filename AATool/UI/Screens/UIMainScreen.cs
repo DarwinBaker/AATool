@@ -38,10 +38,10 @@ namespace AATool.UI.Screens
         {
             //set window title
             this.Form.Text = Main.FullTitle;
-            this.Form.FormClosing += this.OnFormClosing;
+            this.Form.FormClosing += this.OnClosing;
             this.settingsCooldown = new Utilities.Timer(0.25f);
             //this.Form.Location = new System.Drawing.Point(0, 0);
-            this.CenterWindow();
+            
         }
 
         public void CloseSettingsMenu()
@@ -59,15 +59,7 @@ namespace AATool.UI.Screens
             }
         }
 
-        private void CenterWindow()
-        {
-            var desktop = Screen.FromControl(this.Form).WorkingArea;
-            int x = Math.Max(desktop.X, desktop.X + ((desktop.Width  - this.grid?.GetExpandedWidth() ?? 0)  / 2));
-            int y = Math.Max(desktop.Y, desktop.Y + ((desktop.Height - this.grid?.GetExpandedHeight() ?? 0) / 2));
-            this.Form.Location = new (x, y);
-        }
-
-        private void OnFormClosing(object sender, FormClosingEventArgs e)
+        private void OnClosing(object sender, FormClosingEventArgs e)
         {
             if (Peer.IsServer && Peer.TryGetLobby(out Lobby lobby) && lobby.UserCount > 1)
             {
@@ -75,7 +67,7 @@ namespace AATool.UI.Screens
                 string caption = "Co-op Shutdown Confirmation";
                 string players = clients is 1 ? "1 player" : $"{clients} players";
                 string text = $"You are currently hosting a Co-op lobby with {players} connected! Are you sure you want to quit?";
-                DialogResult result = System.Windows.Forms.MessageBox.Show(this.Form, text, caption,
+                DialogResult result = MessageBox.Show(this.Form, text, caption,
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Exclamation);
 
@@ -83,6 +75,18 @@ namespace AATool.UI.Screens
                     Peer.StopInstance();
                 else
                     e.Cancel = true;
+            }
+
+            if (Config.Main.StartupArrangement == WindowSnap.Remember)
+            {
+                Config.Main.LastWindowPosition.Set(new Point(this.Form.Location.X, this.Form.Location.Y));
+                Config.Main.Save();
+            }
+
+            if (Config.Overlay.StartupArrangement == WindowSnap.Remember)
+            {
+                Config.Overlay.LastWindowPosition.Set(new Point(Main.OverlayScreen.Form.Location.X, Main.OverlayScreen.Form.Location.Y));
+                Config.Overlay.Save();
             }
         }
 
@@ -171,6 +175,18 @@ namespace AATool.UI.Screens
                 RenderCache = new RenderTarget2D(this.GraphicsDevice, width, height);
             }
             this.Form.ClientSize = new System.Drawing.Size(width * Config.Main.DisplayScale, height * Config.Main.DisplayScale);
+
+            //snap window to user's preferred location
+            if (!this.Positioned || Config.Main.StartupArrangement.Changed || Config.Main.StartupDisplay.Changed)
+            {
+                if (this.Positioned && Config.Main.StartupArrangement == WindowSnap.Remember)
+                    return;
+
+                this.PositionWindow(Config.Main.StartupArrangement, 
+                    Config.Main.StartupDisplay, 
+                    Config.Main.LastWindowPosition);
+                this.Positioned = true;
+            }
         }
 
         public override void UpdateRecursive(Time time)

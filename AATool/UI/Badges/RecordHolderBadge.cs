@@ -1,4 +1,5 @@
 ﻿using AATool.UI.Controls;
+using Microsoft.Xna.Framework;
 
 namespace AATool.UI.Badges
 {
@@ -28,6 +29,30 @@ namespace AATool.UI.Badges
                 this.glow.SetTexture($"badge_pb_{place}_glow");
                 this.glow.SkipToBrightness(1f);
             }
+        }
+
+        public override void ResizeThis(Rectangle parent)
+        {
+            this.Margin = new Margin(-9, -0, -7, 0);
+            this.Margin.Resize(parent.Size);
+            this.FlexWidth.Resize(int.MaxValue);
+            this.FlexHeight.Resize(int.MaxValue);
+
+            //clamp size to min and max
+            this.Width = this.FlexWidth;
+            this.Height = this.FlexHeight;
+
+            this.X = parent.Left + this.Margin.Left;
+            this.Y = parent.Top + this.Margin.Top;
+
+            this.Padding.Resize(this.Size);
+
+            //calculate internal rectangle
+            this.Inner = new Rectangle(
+                this.X + this.Padding.Left,
+                this.Y + this.Padding.Top,
+                this.Width - this.Padding.Horizontal,
+                this.Height - this.Padding.Vertical);
         }
     }
 }

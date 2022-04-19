@@ -7,6 +7,8 @@ namespace AATool.Utilities
 
         private readonly double[] sequence;
 
+        public double Ratio => this.TimeLeft / this.sequence[this.Index];
+
         public SequenceTimer(params double[] sequence)
         {
             this.sequence = new double[sequence.Length];
