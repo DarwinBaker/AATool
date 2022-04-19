@@ -166,6 +166,7 @@ namespace AATool.Winforms.Forms
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Notes";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OnClosed);
+            this.ResizeEnd += new System.EventHandler(this.OnResizeEnd);
             this.Resize += new System.EventHandler(this.OnResize);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

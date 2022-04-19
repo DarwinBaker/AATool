@@ -389,7 +389,7 @@ namespace AATool.UI.Controls
             base.DrawRecursive(canvas);
 
             //skip drawing player heads if in solo filter mode
-            if (Config.Tracking.Filter == ProgressFilter.Solo)
+            if (Config.Tracking.Filter == ProgressFilter.Solo && !Peer.IsRunning)
                 return;
 
             //draw player head if multiple players have save data

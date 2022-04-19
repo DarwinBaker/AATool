@@ -142,7 +142,7 @@ namespace AATool.Winforms.Forms
                 {
                     //asynchronously pull minecraft head from the internet
                     //get player face image async
-                    string url = Paths.Web.GetAvatarUrl(id.ToString());
+                    string url = Paths.Web.GetAvatarUrl(id.ToString(), 48);
 
                     using HttpClient http = new ();
                     using HttpResponseMessage responce = await http.GetAsync(new Uri(url), cancelToken ?? CancellationToken.None);

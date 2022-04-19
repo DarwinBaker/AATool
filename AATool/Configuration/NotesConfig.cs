@@ -11,6 +11,9 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<bool> Enabled     = new (false);
             [JsonProperty] public readonly Setting<bool> AlwaysOnTop = new (true);
 
+            [JsonProperty] public readonly Setting<int> Width = new (420);
+            [JsonProperty] public readonly Setting<int> Height = new (420);
+
             protected override string GetId() => "notes";
             protected override string GetLegacyId() => "notes";
 
@@ -18,6 +21,8 @@ namespace AATool.Configuration
             {
                 this.RegisterSetting(this.Enabled);
                 this.RegisterSetting(this.AlwaysOnTop);
+                this.RegisterSetting(this.Width);
+                this.RegisterSetting(this.Height);
             }
 
             protected override void ApplyLegacySetting(string key, object value)

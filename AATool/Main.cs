@@ -47,6 +47,7 @@ namespace AATool
         public static GraphicsDevice Device => GraphicsManager?.GraphicsDevice;
 
         public static UIMainScreen PrimaryScreen { get; private set; }
+        public static UIOverlayScreen OverlayScreen { get; private set; }
         public static Dictionary<Type, UIScreen> SecondaryScreens { get; private set; }
 
         public static bool IsBeta => FullTitle.ToLower().Contains("beta");
@@ -56,6 +57,7 @@ namespace AATool
 
         private FNotes notesWindow;
         private bool announceUpdate;
+        private Uuid playerOne;
 
         public Main()
         {
@@ -101,7 +103,8 @@ namespace AATool
             //instantiate screens
             SecondaryScreens = new ();
             PrimaryScreen = new UIMainScreen(this);
-            this.AddScreen(new UIOverlayScreen(this));
+            OverlayScreen = new UIOverlayScreen(this);
+            this.AddScreen(OverlayScreen);
             PrimaryScreen.Form.BringToFront();
 
             base.Initialize();
@@ -159,6 +162,10 @@ namespace AATool
                 this.UpdateTitle();
             }
             else if (Tracker.ObjectivesChanged || Tracker.InGameTimeChanged)
+            {
+                this.UpdateTitle();
+            }
+            else if (this.playerOne != Tracker.GetMainPlayer())
             {
                 this.UpdateTitle();
             }
@@ -231,6 +238,10 @@ namespace AATool
             //add igt to title
             if (Tracker.InGameTime > TimeSpan.Zero)
                 this.AppendTitle($"{Tracker.GetPrettyIgt()} IGT");
+
+            //add igt to title
+            if (Player.TryGetName(Tracker.GetMainPlayer(), out string playerOne))
+                this.AppendTitle(playerOne);
 
             //add fps cap to title
             if (Config.Main.FpsCap < 60)

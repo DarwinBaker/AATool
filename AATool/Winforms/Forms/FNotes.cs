@@ -15,6 +15,8 @@ namespace AATool.Winforms.Forms
         public FNotes()
         {
             this.InitializeComponent();
+            this.Width = Config.Notes.Width;
+            this.Height = Config.Notes.Height;
             this.TopMost = Config.Notes.AlwaysOnTop;
             this.alwaysOnTop.Checked = Config.Notes.AlwaysOnTop;
             this.LoadNotes();
@@ -143,6 +145,13 @@ namespace AATool.Winforms.Forms
         private void OnResize(object sender, EventArgs e)
         {
             this.alwaysOnTop.Left = this.ClientSize.Width - this.alwaysOnTop.Width;
+        }
+
+        private void OnResizeEnd(object sender, EventArgs e)
+        {
+            Config.Notes.Width.Set(this.Width);
+            Config.Notes.Height.Set(this.Height);
+            Config.Notes.Save();
         }
     }
 }

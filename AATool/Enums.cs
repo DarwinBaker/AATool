@@ -34,4 +34,5 @@
     public enum FrameType { Normal, Goal, Challenge, Statistic }
     public enum Layer { Main, Glow, Fore }
     public enum Ease { Back, Bounce, Circular, Cubic, Elastic, Exponential, Quadratic, Quartic, Quintic, Sinusoidal }
+    public enum WindowSnap { Centered, Remember, TopLeft, TopRight, BottomLeft, BottomRight }
 }

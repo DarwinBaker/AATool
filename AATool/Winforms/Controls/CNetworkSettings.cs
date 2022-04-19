@@ -63,6 +63,7 @@ namespace AATool.Winforms.Controls
                 Config.Net.Port.Set(portNumber);
             Config.Net.Password.Set(this.password.Text);
             Config.Net.IsServer.Set(this.networkType.Text.ToLower() is "server");
+            Config.Net.AutoServerIP.Set(this.autoServerIP.Checked);
             Config.Net.Save();
         }
 
@@ -127,8 +128,7 @@ namespace AATool.Winforms.Controls
                 {
                     if (peer.Tag is Uuid id)
                         server.KickPlayer(id);
-                }
-                    
+                } 
             }
         }
 
@@ -185,6 +185,7 @@ namespace AATool.Winforms.Controls
                     this.ip.Enabled = true;
                     this.ip.Text = Config.Net.IP;
                 }
+                this.SaveSettings();
             }
             if (this.loaded)
                 this.UpdateEnabledStates();

@@ -120,7 +120,7 @@ namespace AATool
 
             public static string GetUuidUrl(string mojangName) => $"https://api.mojang.com/users/profiles/minecraft/{mojangName}";
             public static string GetNameUrl(string uuid) => $"https://api.mojang.com/user/profiles/{uuid}/names";
-            public static string GetAvatarUrl(string uuid) => $"https://crafatar.com/avatars/{uuid}?size=16&overlay=true";
+            public static string GetAvatarUrl(string uuid, int size = 16) => $"https://crafatar.com/avatars/{uuid}?size={size}&overlay=true";
         }
     }
 }

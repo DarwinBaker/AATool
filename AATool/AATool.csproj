@@ -732,6 +732,15 @@
     <Content Include="assets\sprites\global\advancements\husbandry\tadpole_in_a_bucket.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\badges\badge_couri_100hc_text.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\badge_couri_100hc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\badge_couri_1k_text.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\badges\badge_pb_2_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -864,6 +873,9 @@
     <Content Include="assets\sprites\global\gui\frames\geode\frame_geode_portrait.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\gui\icons\skulk_pulse%247.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\gui\icons\shiny_heart.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -990,7 +1002,7 @@
     <Content Include="assets\objectives\1.14\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_1k.png">
+    <Content Include="assets\sprites\global\badges\badge_couri_1k.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\badges\badge_hhh_down^10.png">
@@ -1002,7 +1014,7 @@
     <Content Include="assets\sprites\global\badges\badge_hhh_down^30.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_1k_glow~1.png">
+    <Content Include="assets\sprites\global\badges\badge_couri_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\badges\badge_hhh_glow~1.png">

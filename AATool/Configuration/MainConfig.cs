@@ -51,6 +51,10 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<Color> TextColor = new (Hex("DCDDDE"));
             [JsonProperty] public readonly Setting<Color> BorderColor = new (Hex("4E5156"));
 
+            [JsonProperty] public readonly Setting<WindowSnap> StartupArrangement = new (WindowSnap.Centered);
+            [JsonProperty] public readonly Setting<Point> LastWindowPosition = new (Point.Zero);
+            [JsonProperty] public readonly Setting<int> StartupDisplay = new (1);
+
             [JsonIgnore]
             public bool RelaxedMode => !this.CompactMode;
 
@@ -88,6 +92,9 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.BackColor);
                 this.RegisterSetting(this.TextColor);
                 this.RegisterSetting(this.BorderColor);
+                this.RegisterSetting(this.StartupArrangement);
+                this.RegisterSetting(this.StartupDisplay);
+                this.RegisterSetting(this.LastWindowPosition);
             } 
 
             protected override void ApplyLegacySetting(string key, object value)

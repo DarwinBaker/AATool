@@ -37,6 +37,7 @@ namespace AATool.Winforms.Controls
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.hideRenderCache = new System.Windows.Forms.CheckBox();
+            this.fastForward = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cacheDebug
@@ -127,11 +128,24 @@ namespace AATool.Winforms.Controls
             this.hideRenderCache.UseVisualStyleBackColor = true;
             this.hideRenderCache.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
+            // fastForward
+            // 
+            this.fastForward.Location = new System.Drawing.Point(12, 220);
+            this.fastForward.Name = "fastForward";
+            this.fastForward.Size = new System.Drawing.Size(122, 23);
+            this.fastForward.TabIndex = 41;
+            this.fastForward.Text = "Fast Forward Overlay";
+            this.fastForward.UseVisualStyleBackColor = true;
+            this.fastForward.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
+            this.fastForward.MouseLeave += new System.EventHandler(this.OnMouseLeave);
+            this.fastForward.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnMouseUp);
+            // 
             // CDebugSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.fastForward);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.hideRenderCache);
             this.Controls.Add(this.label2);
@@ -156,5 +170,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox hideRenderCache;
+        private System.Windows.Forms.Button fastForward;
     }
 }

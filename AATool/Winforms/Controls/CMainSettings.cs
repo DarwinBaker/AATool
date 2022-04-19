@@ -21,7 +21,7 @@ namespace AATool.Winforms.Controls
         {
             this.loaded = false;
 
-            this.fpsCap.Text            = (Config.Main.FpsCap.Value).ToString();
+            this.fpsCap.Text            = Config.Main.FpsCap.Value.ToString();
             this.viewMode.Text          = Config.Main.CompactMode ? "Compact" : "Relaxed";
             this.showBasic.Checked      = Config.Main.ShowBasicAdvancements;
             this.hideCompleted.Checked  = Config.Main.HideCompletedAdvancements;
@@ -36,6 +36,11 @@ namespace AATool.Winforms.Controls
             this.textColor.BackColor    = ColorHelper.ToDrawing(Config.Main.TextColor);
             this.borderColor.BackColor  = ColorHelper.ToDrawing(Config.Main.BorderColor);
             this.notesEnabled.Checked   = Config.Notes.Enabled;
+
+            this.startupPosition.Text = Config.Main.StartupArrangement.Value.ToString();
+            this.UpdateMonitorList();
+            this.startupMonitor.SelectedIndex = MathHelper.Clamp(Config.Main.StartupDisplay - 1, 0, this.startupMonitor.Items.Count);
+            this.startupMonitor.Enabled = this.startupPosition.Text != "Remember";
 
             //colors
             this.theme.Items.Clear();
@@ -76,6 +81,11 @@ namespace AATool.Winforms.Controls
                 Config.Main.BackColor.Set(ColorHelper.ToXNA(this.backColor.BackColor));
                 Config.Main.TextColor.Set(ColorHelper.ToXNA(this.textColor.BackColor));
                 Config.Main.BorderColor.Set(ColorHelper.ToXNA(this.borderColor.BackColor));
+
+                Config.Main.StartupDisplay.Set(this.startupMonitor.SelectedIndex + 1);
+                if (Enum.TryParse(this.startupPosition.Text, out WindowSnap position))
+                    Config.Main.StartupArrangement.Set(position);
+
                 Config.Main.Save();
 
                 Config.Notes.Enabled.Set(this.notesEnabled.Checked);
@@ -96,6 +106,12 @@ namespace AATool.Winforms.Controls
                 this.textColor.BackColor = System.Drawing.Color.Black;
                 this.borderColor.BackColor = System.Drawing.Color.FromArgb((int)(color.R / 1.25f), (int)(color.G / 1.25f), (int)(color.B / 1.25f));
             }
+        }
+
+        private void UpdateMonitorList()
+        {
+            for (int i = 0; i < Screen.AllScreens.Length; i++)
+                this.startupMonitor.Items.Add($"Display {i} ({Screen.AllScreens[i].Bounds.Width}x{Screen.AllScreens[i].Bounds.Height})");
         }
 
         private void OnClicked(object sender, EventArgs e)
@@ -150,9 +166,13 @@ namespace AATool.Winforms.Controls
                     Config.Main.RainbowMode.Set(false);
                 }
             }
+            else if (sender == this.startupPosition)
+            {
+                this.startupMonitor.Enabled = this.startupPosition.Text != "Remember";
+            }
             this.SaveSettings();
         }
-
+            
         private void OnTextChanged(object sender, EventArgs e) 
         {
             this.SaveSettings();

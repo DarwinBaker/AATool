@@ -42,5 +42,29 @@ namespace AATool.Winforms.Controls
         }
 
         private void OnCheckChanged(object sender, EventArgs e) => this.SaveSettings();
+
+        private void OnMouseDown(object sender, MouseEventArgs e)
+        {
+            if (sender == this.fastForward)
+            {
+                Main.OverlayScreen.FastForwarding = true;
+            }
+        }
+
+        private void OnMouseUp(object sender, MouseEventArgs e)
+        {
+            if (sender == this.fastForward)
+            {
+                Main.OverlayScreen.FastForwarding = false;
+            }
+        }
+
+        private void OnMouseLeave(object sender, EventArgs e)
+        {
+            if (sender == this.fastForward)
+            {
+                Main.OverlayScreen.FastForwarding = false;
+            }
+        }
     }
 }

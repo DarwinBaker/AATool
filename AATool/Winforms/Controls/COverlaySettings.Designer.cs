@@ -29,143 +29,148 @@ namespace AATool.Winforms.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            this.obsHelpLink = new System.Windows.Forms.LinkLabel();
             this.overlayGroupTheme = new System.Windows.Forms.GroupBox();
+            this.restoreDefaultGreen = new System.Windows.Forms.LinkLabel();
             this.label11 = new System.Windows.Forms.Label();
             this.copyColorKey = new System.Windows.Forms.LinkLabel();
-            this.label2 = new System.Windows.Forms.Label();
+            this.greenscreenColor = new System.Windows.Forms.Button();
             this.textColor = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.backColor = new System.Windows.Forms.Button();
             this.overlayGroupAppearance = new System.Windows.Forms.GroupBox();
+            this.obsHelpLink = new System.Windows.Forms.LinkLabel();
             this.clarifyAmbiguous = new System.Windows.Forms.CheckBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.frameStyle = new System.Windows.Forms.ComboBox();
             this.igt = new System.Windows.Forms.CheckBox();
             this.showCriteria = new System.Windows.Forms.CheckBox();
             this.showText = new System.Windows.Forms.CheckBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.showCounts = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.frameStyle = new System.Windows.Forms.ComboBox();
+            this.backColor = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.borderColor = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.overlayWidth = new System.Windows.Forms.NumericUpDown();
             this.overlayGroupBehavior = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.pickupPosition = new System.Windows.Forms.ComboBox();
             this.enabled = new System.Windows.Forms.CheckBox();
             this.direction = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.speed = new System.Windows.Forms.TrackBar();
-            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.startupPosition = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.startupMonitor = new System.Windows.Forms.ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.overlayGroupTheme.SuspendLayout();
             this.overlayGroupAppearance.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.overlayWidth)).BeginInit();
             this.overlayGroupBehavior.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.speed)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // obsHelpLink
-            // 
-            this.obsHelpLink.AutoSize = true;
-            this.obsHelpLink.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.obsHelpLink.Location = new System.Drawing.Point(324, 292);
-            this.obsHelpLink.Name = "obsHelpLink";
-            this.obsHelpLink.Size = new System.Drawing.Size(209, 13);
-            this.obsHelpLink.TabIndex = 35;
-            this.obsHelpLink.TabStop = true;
-            this.obsHelpLink.Text = "For help setting up your overlay, click here!";
-            this.obsHelpLink.Click += new System.EventHandler(this.OnClicked);
             // 
             // overlayGroupTheme
             // 
+            this.overlayGroupTheme.Controls.Add(this.restoreDefaultGreen);
             this.overlayGroupTheme.Controls.Add(this.label11);
             this.overlayGroupTheme.Controls.Add(this.copyColorKey);
-            this.overlayGroupTheme.Controls.Add(this.label2);
-            this.overlayGroupTheme.Controls.Add(this.textColor);
-            this.overlayGroupTheme.Controls.Add(this.label4);
-            this.overlayGroupTheme.Controls.Add(this.backColor);
-            this.overlayGroupTheme.Location = new System.Drawing.Point(3, 174);
+            this.overlayGroupTheme.Controls.Add(this.greenscreenColor);
+            this.overlayGroupTheme.Location = new System.Drawing.Point(209, 237);
             this.overlayGroupTheme.Name = "overlayGroupTheme";
-            this.overlayGroupTheme.Size = new System.Drawing.Size(200, 131);
+            this.overlayGroupTheme.Size = new System.Drawing.Size(324, 67);
             this.overlayGroupTheme.TabIndex = 34;
             this.overlayGroupTheme.TabStop = false;
-            this.overlayGroupTheme.Text = "Theme";
+            this.overlayGroupTheme.Text = "Green Screen";
+            // 
+            // restoreDefaultGreen
+            // 
+            this.restoreDefaultGreen.AutoSize = true;
+            this.restoreDefaultGreen.Location = new System.Drawing.Point(47, 43);
+            this.restoreDefaultGreen.Name = "restoreDefaultGreen";
+            this.restoreDefaultGreen.Size = new System.Drawing.Size(79, 13);
+            this.restoreDefaultGreen.TabIndex = 41;
+            this.restoreDefaultGreen.TabStop = true;
+            this.restoreDefaultGreen.Text = "Restore default";
+            this.restoreDefaultGreen.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnClicked);
+            this.restoreDefaultGreen.Click += new System.EventHandler(this.OnClicked);
             // 
             // label11
             // 
-            this.label11.AutoSize = true;
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label11.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label11.Location = new System.Drawing.Point(6, 97);
+            this.label11.Location = new System.Drawing.Point(129, 24);
             this.label11.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(171, 26);
+            this.label11.Size = new System.Drawing.Size(192, 37);
             this.label11.TabIndex = 40;
-            this.label11.Text = "🛈 Make sure to use \"Color Key\" \r\nNOT \"Chroma Key\" for best results";
+            this.label11.Text = "🛈 Make sure to use \"Color Key\" NOT \"Chroma Key\" for best results!";
             // 
             // copyColorKey
             // 
-            this.copyColorKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.copyColorKey.AutoSize = true;
-            this.copyColorKey.Location = new System.Drawing.Point(6, 77);
+            this.copyColorKey.Location = new System.Drawing.Point(47, 24);
             this.copyColorKey.Name = "copyColorKey";
-            this.copyColorKey.Size = new System.Drawing.Size(168, 13);
+            this.copyColorKey.Size = new System.Drawing.Size(77, 13);
             this.copyColorKey.TabIndex = 29;
             this.copyColorKey.TabStop = true;
-            this.copyColorKey.Text = "Copy BG Color (#00aa00) for OBS";
+            this.copyColorKey.Text = "Copy #00aa00";
             this.copyColorKey.Click += new System.EventHandler(this.OnClicked);
             // 
-            // label2
+            // greenscreenColor
             // 
-            this.label2.Location = new System.Drawing.Point(6, 26);
-            this.label2.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(32, 13);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "Back";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.greenscreenColor.Location = new System.Drawing.Point(9, 24);
+            this.greenscreenColor.Name = "greenscreenColor";
+            this.greenscreenColor.Size = new System.Drawing.Size(32, 32);
+            this.greenscreenColor.TabIndex = 10;
+            this.greenscreenColor.UseVisualStyleBackColor = true;
+            this.greenscreenColor.BackColorChanged += new System.EventHandler(this.GreenscreenColorChanged);
+            this.greenscreenColor.Click += new System.EventHandler(this.OnClicked);
             // 
             // textColor
             // 
-            this.textColor.Location = new System.Drawing.Point(44, 42);
+            this.textColor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textColor.Location = new System.Drawing.Point(104, 110);
             this.textColor.Name = "textColor";
             this.textColor.Size = new System.Drawing.Size(32, 32);
             this.textColor.TabIndex = 13;
             this.textColor.UseVisualStyleBackColor = true;
             this.textColor.Click += new System.EventHandler(this.OnClicked);
             // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(44, 26);
-            this.label4.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(32, 13);
-            this.label4.TabIndex = 14;
-            this.label4.Text = "Text";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // backColor
-            // 
-            this.backColor.Location = new System.Drawing.Point(6, 42);
-            this.backColor.Name = "backColor";
-            this.backColor.Size = new System.Drawing.Size(32, 32);
-            this.backColor.TabIndex = 10;
-            this.backColor.UseVisualStyleBackColor = true;
-            this.backColor.Click += new System.EventHandler(this.OnClicked);
-            // 
             // overlayGroupAppearance
             // 
+            this.overlayGroupAppearance.Controls.Add(this.obsHelpLink);
             this.overlayGroupAppearance.Controls.Add(this.clarifyAmbiguous);
-            this.overlayGroupAppearance.Controls.Add(this.label6);
-            this.overlayGroupAppearance.Controls.Add(this.frameStyle);
             this.overlayGroupAppearance.Controls.Add(this.igt);
             this.overlayGroupAppearance.Controls.Add(this.showCriteria);
             this.overlayGroupAppearance.Controls.Add(this.showText);
-            this.overlayGroupAppearance.Controls.Add(this.label3);
             this.overlayGroupAppearance.Controls.Add(this.showCounts);
-            this.overlayGroupAppearance.Controls.Add(this.overlayWidth);
             this.overlayGroupAppearance.Location = new System.Drawing.Point(209, 3);
             this.overlayGroupAppearance.Name = "overlayGroupAppearance";
-            this.overlayGroupAppearance.Size = new System.Drawing.Size(324, 165);
+            this.overlayGroupAppearance.Size = new System.Drawing.Size(153, 228);
             this.overlayGroupAppearance.TabIndex = 33;
             this.overlayGroupAppearance.TabStop = false;
-            this.overlayGroupAppearance.Text = "Appearance";
+            this.overlayGroupAppearance.Text = "Layout";
+            // 
+            // obsHelpLink
+            // 
+            this.obsHelpLink.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.obsHelpLink.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.obsHelpLink.Location = new System.Drawing.Point(3, 193);
+            this.obsHelpLink.Name = "obsHelpLink";
+            this.obsHelpLink.Size = new System.Drawing.Size(147, 32);
+            this.obsHelpLink.TabIndex = 35;
+            this.obsHelpLink.TabStop = true;
+            this.obsHelpLink.Text = "For help setting up your overlay, click here!";
+            this.obsHelpLink.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.obsHelpLink.Click += new System.EventHandler(this.OnClicked);
             // 
             // clarifyAmbiguous
             // 
@@ -176,26 +181,6 @@ namespace AATool.Winforms.Controls
             this.clarifyAmbiguous.TabIndex = 42;
             this.clarifyAmbiguous.Text = "Clarify Ambiguous Criteria";
             this.clarifyAmbiguous.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(195, 22);
-            this.label6.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(65, 13);
-            this.label6.TabIndex = 41;
-            this.label6.Text = "Frame Style:";
-            // 
-            // frameStyle
-            // 
-            this.frameStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.frameStyle.FormattingEnabled = true;
-            this.frameStyle.Location = new System.Drawing.Point(198, 37);
-            this.frameStyle.Name = "frameStyle";
-            this.frameStyle.Size = new System.Drawing.Size(120, 21);
-            this.frameStyle.TabIndex = 40;
-            this.frameStyle.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
             // 
             // igt
             // 
@@ -230,16 +215,6 @@ namespace AATool.Winforms.Controls
             this.showText.UseVisualStyleBackColor = true;
             this.showText.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(195, 70);
-            this.label3.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(38, 13);
-            this.label3.TabIndex = 24;
-            this.label3.Text = "Width:";
-            // 
             // showCounts
             // 
             this.showCounts.AutoSize = true;
@@ -251,9 +226,134 @@ namespace AATool.Winforms.Controls
             this.showCounts.UseVisualStyleBackColor = true;
             this.showCounts.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label2.Location = new System.Drawing.Point(19, 177);
+            this.label2.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(133, 42);
+            this.label2.TabIndex = 49;
+            this.label2.Text = "🛈 Your \"Custom\" preset is remembered even after changing themes";
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(23, 91);
+            this.label4.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(110, 13);
+            this.label4.TabIndex = 49;
+            this.label4.Text = "Custom Preset Colors:";
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(21, 25);
+            this.label6.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(45, 13);
+            this.label6.TabIndex = 41;
+            this.label6.Text = "Presets:";
+            // 
+            // frameStyle
+            // 
+            this.frameStyle.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.frameStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.frameStyle.FormattingEnabled = true;
+            this.frameStyle.Location = new System.Drawing.Point(24, 41);
+            this.frameStyle.Name = "frameStyle";
+            this.frameStyle.Size = new System.Drawing.Size(112, 21);
+            this.frameStyle.TabIndex = 40;
+            this.frameStyle.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
+            // 
+            // backColor
+            // 
+            this.backColor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.backColor.Location = new System.Drawing.Point(24, 110);
+            this.backColor.Name = "backColor";
+            this.backColor.Size = new System.Drawing.Size(32, 32);
+            this.backColor.TabIndex = 43;
+            this.backColor.UseVisualStyleBackColor = true;
+            this.backColor.Click += new System.EventHandler(this.OnClicked);
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.Location = new System.Drawing.Point(104, 144);
+            this.label7.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(32, 13);
+            this.label7.TabIndex = 46;
+            this.label7.Text = "Text";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label9
+            // 
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label9.Location = new System.Drawing.Point(62, 144);
+            this.label9.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(38, 13);
+            this.label9.TabIndex = 48;
+            this.label9.Text = "Border";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // borderColor
+            // 
+            this.borderColor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.borderColor.Location = new System.Drawing.Point(64, 110);
+            this.borderColor.Name = "borderColor";
+            this.borderColor.Size = new System.Drawing.Size(32, 32);
+            this.borderColor.TabIndex = 47;
+            this.borderColor.UseVisualStyleBackColor = true;
+            this.borderColor.Click += new System.EventHandler(this.OnClicked);
+            // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.Location = new System.Drawing.Point(24, 144);
+            this.label8.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(32, 13);
+            this.label8.TabIndex = 44;
+            this.label8.Text = "Back";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(132, 120);
+            this.label3.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(38, 13);
+            this.label3.TabIndex = 24;
+            this.label3.Text = "Width:";
+            // 
             // overlayWidth
             // 
-            this.overlayWidth.Location = new System.Drawing.Point(198, 86);
+            this.overlayWidth.Location = new System.Drawing.Point(135, 136);
             this.overlayWidth.Maximum = new decimal(new int[] {
             3840,
             0,
@@ -282,12 +382,24 @@ namespace AATool.Winforms.Controls
             this.overlayGroupBehavior.Controls.Add(this.direction);
             this.overlayGroupBehavior.Controls.Add(this.label5);
             this.overlayGroupBehavior.Controls.Add(this.speed);
+            this.overlayGroupBehavior.Controls.Add(this.overlayWidth);
+            this.overlayGroupBehavior.Controls.Add(this.label3);
             this.overlayGroupBehavior.Location = new System.Drawing.Point(3, 3);
             this.overlayGroupBehavior.Name = "overlayGroupBehavior";
-            this.overlayGroupBehavior.Size = new System.Drawing.Size(200, 165);
+            this.overlayGroupBehavior.Size = new System.Drawing.Size(200, 175);
             this.overlayGroupBehavior.TabIndex = 32;
             this.overlayGroupBehavior.TabStop = false;
             this.overlayGroupBehavior.Text = "Behavior";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 70);
+            this.label1.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(108, 13);
+            this.label1.TabIndex = 30;
+            this.label1.Text = "Pickup Row Position:";
             // 
             // pickupPosition
             // 
@@ -344,27 +456,97 @@ namespace AATool.Winforms.Controls
             this.speed.Location = new System.Drawing.Point(4, 136);
             this.speed.Maximum = 4;
             this.speed.Name = "speed";
-            this.speed.Size = new System.Drawing.Size(154, 23);
+            this.speed.Size = new System.Drawing.Size(122, 23);
             this.speed.TabIndex = 25;
             this.speed.Value = 2;
             this.speed.ValueChanged += new System.EventHandler(this.OnValueChanged);
             // 
-            // label1
+            // groupBox2
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 70);
-            this.label1.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(108, 13);
-            this.label1.TabIndex = 30;
-            this.label1.Text = "Pickup Row Position:";
+            this.groupBox2.Controls.Add(this.label16);
+            this.groupBox2.Controls.Add(this.startupPosition);
+            this.groupBox2.Controls.Add(this.label15);
+            this.groupBox2.Controls.Add(this.startupMonitor);
+            this.groupBox2.Location = new System.Drawing.Point(3, 184);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(200, 120);
+            this.groupBox2.TabIndex = 50;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Startup Behavior";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(4, 68);
+            this.label16.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(45, 13);
+            this.label16.TabIndex = 42;
+            this.label16.Text = "Monitor:";
+            // 
+            // startupPosition
+            // 
+            this.startupPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.startupPosition.FormattingEnabled = true;
+            this.startupPosition.Items.AddRange(new object[] {
+            "Centered",
+            "Remember",
+            "TopLeft",
+            "TopRight",
+            "BottomLeft",
+            "BottomRight"});
+            this.startupPosition.Location = new System.Drawing.Point(7, 38);
+            this.startupPosition.Name = "startupPosition";
+            this.startupPosition.Size = new System.Drawing.Size(139, 21);
+            this.startupPosition.TabIndex = 39;
+            this.startupPosition.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 22);
+            this.label15.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(47, 13);
+            this.label15.TabIndex = 40;
+            this.label15.Text = "Position:";
+            // 
+            // startupMonitor
+            // 
+            this.startupMonitor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.startupMonitor.FormattingEnabled = true;
+            this.startupMonitor.Location = new System.Drawing.Point(7, 84);
+            this.startupMonitor.Name = "startupMonitor";
+            this.startupMonitor.Size = new System.Drawing.Size(139, 21);
+            this.startupMonitor.TabIndex = 41;
+            this.startupMonitor.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.borderColor);
+            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.frameStyle);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.backColor);
+            this.groupBox1.Controls.Add(this.textColor);
+            this.groupBox1.Location = new System.Drawing.Point(368, 5);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(165, 226);
+            this.groupBox1.TabIndex = 51;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Frame Styling";
             // 
             // COverlaySettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.Controls.Add(this.obsHelpLink);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.overlayGroupTheme);
             this.Controls.Add(this.overlayGroupAppearance);
             this.Controls.Add(this.overlayGroupBehavior);
@@ -378,20 +560,19 @@ namespace AATool.Winforms.Controls
             this.overlayGroupBehavior.ResumeLayout(false);
             this.overlayGroupBehavior.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.speed)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.LinkLabel obsHelpLink;
         private System.Windows.Forms.GroupBox overlayGroupTheme;
         private System.Windows.Forms.LinkLabel copyColorKey;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button textColor;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button backColor;
+        private System.Windows.Forms.Button greenscreenColor;
         private System.Windows.Forms.GroupBox overlayGroupAppearance;
         private System.Windows.Forms.CheckBox showCriteria;
         private System.Windows.Forms.CheckBox showText;
@@ -410,5 +591,20 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox pickupPosition;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button backColor;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button borderColor;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.LinkLabel restoreDefaultGreen;
+        private System.Windows.Forms.LinkLabel obsHelpLink;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.ComboBox startupPosition;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ComboBox startupMonitor;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

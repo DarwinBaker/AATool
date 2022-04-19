@@ -39,6 +39,10 @@ namespace AATool.Winforms.Controls
             this.label1 = new System.Windows.Forms.Label();
             this.viewMode = new System.Windows.Forms.ComboBox();
             this.showBasic = new System.Windows.Forms.CheckBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.startupMonitor = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.startupPosition = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.refreshIcon = new System.Windows.Forms.ComboBox();
             this.completionGlow = new System.Windows.Forms.CheckBox();
@@ -51,28 +55,28 @@ namespace AATool.Winforms.Controls
             this.backColor = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.fpsCap = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.progressBarStyle = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.frameStyle = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.fpsCap = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
             this.ambientGlow = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.mainGroupMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // notesEnabled
             // 
             this.notesEnabled.AutoSize = true;
-            this.notesEnabled.Location = new System.Drawing.Point(6, 147);
+            this.notesEnabled.Location = new System.Drawing.Point(9, 145);
             this.notesEnabled.Name = "notesEnabled";
             this.notesEnabled.Size = new System.Drawing.Size(132, 17);
             this.notesEnabled.TabIndex = 27;
@@ -93,7 +97,7 @@ namespace AATool.Winforms.Controls
             this.mainGroupMain.Controls.Add(this.showBasic);
             this.mainGroupMain.Location = new System.Drawing.Point(3, 3);
             this.mainGroupMain.Name = "mainGroupMain";
-            this.mainGroupMain.Size = new System.Drawing.Size(263, 192);
+            this.mainGroupMain.Size = new System.Drawing.Size(263, 228);
             this.mainGroupMain.TabIndex = 25;
             this.mainGroupMain.TabStop = false;
             this.mainGroupMain.Text = "Layout";
@@ -101,7 +105,7 @@ namespace AATool.Winforms.Controls
             // highRes
             // 
             this.highRes.AutoSize = true;
-            this.highRes.Location = new System.Drawing.Point(6, 121);
+            this.highRes.Location = new System.Drawing.Point(9, 119);
             this.highRes.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
             this.highRes.Name = "highRes";
             this.highRes.Size = new System.Drawing.Size(133, 17);
@@ -113,7 +117,7 @@ namespace AATool.Winforms.Controls
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(117, 22);
+            this.label3.Location = new System.Drawing.Point(118, 22);
             this.label3.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(58, 13);
@@ -127,9 +131,9 @@ namespace AATool.Winforms.Controls
             this.infoPanel.Items.AddRange(new object[] {
             "Leaderboard",
             "Potion Recipes"});
-            this.infoPanel.Location = new System.Drawing.Point(120, 38);
+            this.infoPanel.Location = new System.Drawing.Point(121, 38);
             this.infoPanel.Name = "infoPanel";
-            this.infoPanel.Size = new System.Drawing.Size(108, 21);
+            this.infoPanel.Size = new System.Drawing.Size(136, 21);
             this.infoPanel.TabIndex = 36;
             this.infoPanel.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
             // 
@@ -137,7 +141,7 @@ namespace AATool.Winforms.Controls
             // 
             this.label12.AutoSize = true;
             this.label12.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label12.Location = new System.Drawing.Point(3, 167);
+            this.label12.Location = new System.Drawing.Point(5, 165);
             this.label12.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(221, 13);
@@ -147,7 +151,7 @@ namespace AATool.Winforms.Controls
             // hideCompleted
             // 
             this.hideCompleted.AutoSize = true;
-            this.hideCompleted.Location = new System.Drawing.Point(6, 95);
+            this.hideCompleted.Location = new System.Drawing.Point(9, 93);
             this.hideCompleted.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
             this.hideCompleted.Name = "hideCompleted";
             this.hideCompleted.Size = new System.Drawing.Size(175, 17);
@@ -159,7 +163,7 @@ namespace AATool.Winforms.Controls
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 22);
+            this.label1.Location = new System.Drawing.Point(6, 22);
             this.label1.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
@@ -173,16 +177,16 @@ namespace AATool.Winforms.Controls
             this.viewMode.Items.AddRange(new object[] {
             "Relaxed",
             "Compact"});
-            this.viewMode.Location = new System.Drawing.Point(6, 38);
+            this.viewMode.Location = new System.Drawing.Point(9, 38);
             this.viewMode.Name = "viewMode";
-            this.viewMode.Size = new System.Drawing.Size(108, 21);
+            this.viewMode.Size = new System.Drawing.Size(106, 21);
             this.viewMode.TabIndex = 26;
             this.viewMode.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
             // 
             // showBasic
             // 
             this.showBasic.AutoSize = true;
-            this.showBasic.Location = new System.Drawing.Point(6, 69);
+            this.showBasic.Location = new System.Drawing.Point(9, 67);
             this.showBasic.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
             this.showBasic.Name = "showBasic";
             this.showBasic.Size = new System.Drawing.Size(156, 17);
@@ -191,10 +195,57 @@ namespace AATool.Winforms.Controls
             this.showBasic.UseVisualStyleBackColor = true;
             this.showBasic.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(115, 22);
+            this.label16.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(45, 13);
+            this.label16.TabIndex = 42;
+            this.label16.Text = "Monitor:";
+            // 
+            // startupMonitor
+            // 
+            this.startupMonitor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.startupMonitor.FormattingEnabled = true;
+            this.startupMonitor.Location = new System.Drawing.Point(118, 38);
+            this.startupMonitor.Name = "startupMonitor";
+            this.startupMonitor.Size = new System.Drawing.Size(139, 21);
+            this.startupMonitor.TabIndex = 41;
+            this.startupMonitor.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 22);
+            this.label15.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(47, 13);
+            this.label15.TabIndex = 40;
+            this.label15.Text = "Position:";
+            // 
+            // startupPosition
+            // 
+            this.startupPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.startupPosition.FormattingEnabled = true;
+            this.startupPosition.Items.AddRange(new object[] {
+            "Centered",
+            "Remember",
+            "TopLeft",
+            "TopRight",
+            "BottomLeft",
+            "BottomRight"});
+            this.startupPosition.Location = new System.Drawing.Point(7, 38);
+            this.startupPosition.Name = "startupPosition";
+            this.startupPosition.Size = new System.Drawing.Size(105, 21);
+            this.startupPosition.TabIndex = 39;
+            this.startupPosition.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 73);
+            this.label2.Location = new System.Drawing.Point(6, 67);
             this.label2.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 13);
@@ -208,8 +259,9 @@ namespace AATool.Winforms.Controls
             this.refreshIcon.Items.AddRange(new object[] {
             "Xp Orb",
             "Compass",
-            "Clock"});
-            this.refreshIcon.Location = new System.Drawing.Point(9, 88);
+            "Clock",
+            "Skulk Pulse"});
+            this.refreshIcon.Location = new System.Drawing.Point(9, 82);
             this.refreshIcon.Name = "refreshIcon";
             this.refreshIcon.Size = new System.Drawing.Size(120, 21);
             this.refreshIcon.TabIndex = 27;
@@ -250,7 +302,7 @@ namespace AATool.Winforms.Controls
             // label8
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label8.Location = new System.Drawing.Point(9, 135);
+            this.label8.Location = new System.Drawing.Point(146, 138);
             this.label8.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(32, 13);
@@ -261,7 +313,7 @@ namespace AATool.Winforms.Controls
             // label9
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label9.Location = new System.Drawing.Point(47, 135);
+            this.label9.Location = new System.Drawing.Point(184, 138);
             this.label9.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(38, 13);
@@ -272,7 +324,7 @@ namespace AATool.Winforms.Controls
             // textColor
             // 
             this.textColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textColor.Location = new System.Drawing.Point(88, 151);
+            this.textColor.Location = new System.Drawing.Point(225, 154);
             this.textColor.Name = "textColor";
             this.textColor.Size = new System.Drawing.Size(32, 32);
             this.textColor.TabIndex = 17;
@@ -282,7 +334,7 @@ namespace AATool.Winforms.Controls
             // borderColor
             // 
             this.borderColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.borderColor.Location = new System.Drawing.Point(49, 151);
+            this.borderColor.Location = new System.Drawing.Point(186, 154);
             this.borderColor.Name = "borderColor";
             this.borderColor.Size = new System.Drawing.Size(32, 32);
             this.borderColor.TabIndex = 19;
@@ -292,7 +344,7 @@ namespace AATool.Winforms.Controls
             // backColor
             // 
             this.backColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.backColor.Location = new System.Drawing.Point(9, 151);
+            this.backColor.Location = new System.Drawing.Point(146, 154);
             this.backColor.Name = "backColor";
             this.backColor.Size = new System.Drawing.Size(32, 32);
             this.backColor.TabIndex = 15;
@@ -302,7 +354,7 @@ namespace AATool.Winforms.Controls
             // label7
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label7.Location = new System.Drawing.Point(88, 135);
+            this.label7.Location = new System.Drawing.Point(225, 138);
             this.label7.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(32, 13);
@@ -312,7 +364,10 @@ namespace AATool.Winforms.Controls
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label13);
+            this.groupBox1.Controls.Add(this.fpsCap);
+            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.progressBarStyle);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.frameStyle);
@@ -332,17 +387,54 @@ namespace AATool.Winforms.Controls
             this.groupBox1.Size = new System.Drawing.Size(263, 192);
             this.groupBox1.TabIndex = 27;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Basic Appearance";
+            this.groupBox1.Text = "Appearance";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 112);
+            this.label5.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(52, 13);
+            this.label5.TabIndex = 32;
+            this.label5.Text = "FPS Cap:";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(132, 73);
+            this.label13.Location = new System.Drawing.Point(132, 67);
             this.label13.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(96, 13);
             this.label13.TabIndex = 41;
             this.label13.Text = "Progress Bar Style:";
+            // 
+            // fpsCap
+            // 
+            this.fpsCap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.fpsCap.FormattingEnabled = true;
+            this.fpsCap.Items.AddRange(new object[] {
+            "60",
+            "45",
+            "30",
+            "24",
+            "16",
+            "10"});
+            this.fpsCap.Location = new System.Drawing.Point(9, 128);
+            this.fpsCap.Name = "fpsCap";
+            this.fpsCap.Size = new System.Drawing.Size(68, 21);
+            this.fpsCap.TabIndex = 32;
+            this.fpsCap.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label4.Location = new System.Drawing.Point(8, 154);
+            this.label4.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(134, 28);
+            this.label4.TabIndex = 34;
+            this.label4.Text = "🛈 Reduces CPU and GPU load on slower systems";
             // 
             // progressBarStyle
             // 
@@ -353,7 +445,7 @@ namespace AATool.Winforms.Controls
             "Experience",
             "Ender Dragon",
             "None"});
-            this.progressBarStyle.Location = new System.Drawing.Point(135, 88);
+            this.progressBarStyle.Location = new System.Drawing.Point(135, 82);
             this.progressBarStyle.Name = "progressBarStyle";
             this.progressBarStyle.Size = new System.Drawing.Size(120, 21);
             this.progressBarStyle.TabIndex = 40;
@@ -397,56 +489,6 @@ namespace AATool.Winforms.Controls
             this.label14.TabIndex = 36;
             this.label14.Text = "🛈 Define a custom color scheme";
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 37);
-            this.label5.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(52, 13);
-            this.label5.TabIndex = 32;
-            this.label5.Text = "FPS Cap:";
-            // 
-            // fpsCap
-            // 
-            this.fpsCap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.fpsCap.FormattingEnabled = true;
-            this.fpsCap.Items.AddRange(new object[] {
-            "60",
-            "45",
-            "30",
-            "24",
-            "16",
-            "10"});
-            this.fpsCap.Location = new System.Drawing.Point(6, 53);
-            this.fpsCap.Name = "fpsCap";
-            this.fpsCap.Size = new System.Drawing.Size(68, 21);
-            this.fpsCap.TabIndex = 32;
-            this.fpsCap.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label4.Location = new System.Drawing.Point(3, 77);
-            this.label4.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(245, 13);
-            this.label4.TabIndex = 34;
-            this.label4.Text = "🛈 Reduces CPU and GPU load on slower systems";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.fpsCap);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(3, 201);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(263, 103);
-            this.groupBox2.TabIndex = 35;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Performance";
-            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -482,13 +524,26 @@ namespace AATool.Winforms.Controls
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Lighting";
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label16);
+            this.groupBox2.Controls.Add(this.startupPosition);
+            this.groupBox2.Controls.Add(this.label15);
+            this.groupBox2.Controls.Add(this.startupMonitor);
+            this.groupBox2.Location = new System.Drawing.Point(3, 237);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(263, 67);
+            this.groupBox2.TabIndex = 37;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Startup Behavior";
+            // 
             // CMainSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.mainGroupMain);
             this.Name = "CMainSettings";
@@ -497,10 +552,10 @@ namespace AATool.Winforms.Controls
             this.mainGroupMain.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -528,11 +583,8 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.ComboBox fpsCap;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox ambientGlow;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox frameStyle;
         private System.Windows.Forms.Label label13;
@@ -540,5 +592,12 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox infoPanel;
         private System.Windows.Forms.CheckBox highRes;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ComboBox startupPosition;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.ComboBox startupMonitor;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }
