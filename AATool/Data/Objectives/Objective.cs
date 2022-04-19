@@ -47,7 +47,7 @@ namespace AATool.Data.Objectives
 
         public bool IsComplete()
         {
-            return Config.Tracking.Filter == ProgressFilter.Combined
+            return Config.Tracking.Filter == ProgressFilter.Combined || Peer.IsRunning
                 ? this.CompletedByAnyone()
                 : this.CompletedBySoloPlayer();
         }

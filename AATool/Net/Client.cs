@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using AATool.Configuration;
+using AATool.Data.Objectives;
 
 namespace AATool.Net
 {
@@ -14,6 +15,7 @@ namespace AATool.Net
         public bool IsConnecting         { get; private set; }
         public bool WasKickedByServer    { get; private set; }
         public bool LostConnection       { get; private set; }
+        public bool DesignationsChanged  { get; private set; }
         public DateTime NextRefresh { get; private set; }
 
         private readonly Dictionary<string, string> recieved;
@@ -316,6 +318,12 @@ namespace AATool.Net
                 this.Lobby = Lobby.FromJsonString(jsonString);
                 StateChanged = true;
                 SyncUserList(this.Lobby.Users.Values);
+
+                foreach (KeyValuePair<string, Uuid> designation  in this.Lobby.Designations)
+                {
+                    if (Tracker.TryGetAdvancement(designation.Key, out Advancement advancement) && advancement.DesignationLinked)
+                        advancement.Designate(designation.Value);
+                }
             }
             else if (message.Header is Protocol.Headers.RefreshEstimate)
             {

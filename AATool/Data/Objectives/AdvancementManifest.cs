@@ -119,7 +119,7 @@ namespace AATool.Data.Objectives
             foreach (var criterion in this.AllCriteria)
             {
                 if (!criterion.Value.Owner.IsComplete() && !criterion.Value.CompletedByDesignated())
-                    this.RemainingCriteria.Add(criterion.Key, criterion.Value);
+                    this.RemainingCriteria[criterion.Key] = criterion.Value;
             }
         }
     }

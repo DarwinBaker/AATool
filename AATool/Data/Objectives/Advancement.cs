@@ -55,15 +55,19 @@ namespace AATool.Data.Objectives
         public void Designate(Uuid id)
         {
             if (id == Uuid.Empty)
+                id = new Uuid(id.String);
+            if (id == Uuid.Empty)
                 return;
 
-            if (id != this.DesignatedPlayer)
+            if (id != this.DesignatedPlayer || this.DesignationLinked)
             {
                 this.DesignatedPlayer = id;
                 Tracker.InvalidateDesignations();
 
                 if (Server.TryGet(out Server server))
                     server.DesignatePlayer(this.Id, this.DesignatedPlayer);
+                else
+                    Server.PrepareDesignation(this.Id, this.DesignatedPlayer);
             }
         }
 
@@ -103,6 +107,12 @@ namespace AATool.Data.Objectives
                         this.Designate(this.DesignatedPlayer);
                     else
                         this.Designate(this.Criteria.ClosestToCompletion);
+                }
+                else if (this.DesignationLinked 
+                    && Peer.TryGetLobby(out Lobby lobby) 
+                    && lobby.Designations.TryGetValue(this.Id, out Uuid player))
+                {
+                    this.DesignatedPlayer = player;
                 }
             }
             else

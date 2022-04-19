@@ -120,10 +120,16 @@ namespace AATool
             var ids = new HashSet<Uuid>();
             foreach (Uuid id in State.Players.Keys)
                 ids.Add(id);
+
             if (Peer.IsConnected && Peer.TryGetLobby(out Lobby lobby))
             {
                 foreach (Uuid key in lobby.Users.Keys)
                     ids.Add(key);
+            }
+            else if (Config.Tracking.Filter == ProgressFilter.Solo)
+            {
+                if (Player.TryGetUuid(Config.Tracking.SoloFilterName, out Uuid soloPlayer))
+                    ids.Add(soloPlayer);
             }
             ids.Remove(Uuid.Empty);
             return ids;

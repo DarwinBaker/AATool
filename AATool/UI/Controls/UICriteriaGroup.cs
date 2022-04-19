@@ -140,6 +140,11 @@ namespace AATool.UI.Controls
             else if (sender == this.autoButton)
             {
                 this.advancement.LinkDesignation();
+                if (Client.TryGet(out _) && Peer.TryGetLobby(out Lobby lobby))
+                {
+                    if (lobby.Designations.TryGetValue(this.advancement.Id, out Uuid player))
+                        this.advancement.Designate(player);
+                }
                 this.hidePlayersPanel = true;
                 this.UpdateProgress();
             }
@@ -157,7 +162,7 @@ namespace AATool.UI.Controls
             if (this.advancement is not null)
             {
                 this.UpdateVisibility();
-                if (Tracker.Invalidated 
+                if (Tracker.Invalidated || Tracker.DesignationsChanged
                     || Config.Main.CompactMode.Changed 
                     || Config.Main.ProgressBarStyle.Changed
                     || Config.Tracking.FilterChanged)
@@ -180,6 +185,7 @@ namespace AATool.UI.Controls
                 this.label.SetText(" \n" + text);
 
             this.bar?.StartLerpToValue(this.criteriaGroup.NumberCompletedBy(designated));
+            Tracker.InvalidateDesignations();
         }
 
         private void SwitchToProgress()

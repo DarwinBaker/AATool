@@ -11,17 +11,23 @@ namespace AATool.Net
 {
     public sealed class Server : Peer
     {
-        private bool isStopping;
+        private static readonly Dictionary<string, Uuid> PreparedDesignations = new ();
 
         private readonly Dictionary<string, Socket> clients = new ();
         private readonly Dictionary<Socket, User> users = new ();
         private readonly Socket listener;
         private readonly string password;
 
+        private bool isStopping;
+
+        public static void PrepareDesignation(string advancement, Uuid player) => PreparedDesignations[advancement] = player;
+
         public Server()
         {
             this.listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             this.password = Config.Net.Password;
+            foreach (KeyValuePair<string, Uuid> designation in PreparedDesignations)
+                this.DesignatePlayer(designation.Key, designation.Value);
         }
 
         public static bool TryGet(out Server server) => (server = Instance as Server) is not null;
