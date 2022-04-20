@@ -112,8 +112,7 @@ namespace AATool
 
         protected override void Update(GameTime gameTime)
         {
-            if (this.IsActive)
-                Input.BeginUpdate();
+            Input.BeginUpdate(this.IsActive);
 
             this.Time.Update(gameTime);
 

@@ -41,12 +41,22 @@ namespace AATool
         public static bool Ended(Keys key) => WasDown(key) && !IsDown(key);
         public static bool Started(Keys key) => IsDown(key) && !WasDown(key);
 
-        public static void BeginUpdate()
+        public static void BeginUpdate(bool active)
         {
-            MouseNow = Mouse.GetState();
-            KeyboardCurrent = Keyboard.GetState();
-            KeysNow = KeyboardCurrent.GetPressedKeys();
-            KeysPrev = KeyboardPrevious.GetPressedKeys();
+            if (active)
+            {
+                MouseNow = Mouse.GetState();
+                KeyboardCurrent = Keyboard.GetState();
+                KeysNow = KeyboardCurrent.GetPressedKeys();
+                KeysPrev = KeyboardPrevious.GetPressedKeys();
+            }
+            else
+            {
+                MouseNow = default;
+                KeyboardCurrent = default;
+                KeysNow = new Keys[0];
+                KeysPrev = new Keys[0];
+            }
         }
 
         public static void EndUpdate()
