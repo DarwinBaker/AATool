@@ -15,9 +15,11 @@ namespace AATool.UI.Badges
         private const string HundredHardcoreBack = "badge_couri_100hc";
         private const string HundredHardcoreText = HundredHardcoreBack + "_text";
 
-        private static SequenceTimer SwapTimer = new (60, 1, 0.75, 60, 1, 0.75);
+        private static readonly SequenceTimer SwapTimer = new (60, 1, 0.75, 60, 1, 0.75);
+        private static readonly bool ShowBoth = false;
+
         private static long LastFrameUpdated = -1;
-        private static bool ShowBoth = false;
+        private static bool VariantsInitialized = false;
 
         public UnstoppableBadge(int scale)
         {
@@ -29,6 +31,13 @@ namespace AATool.UI.Badges
             this.VerticalAlign = VerticalAlign.Top;
             this.Layer = Layer.Fore;
 
+            if (!VariantsInitialized)
+            {
+                if (ShowBoth)
+                    SwapTimer.Skip(2);
+                VariantsInitialized = true;
+            }
+
             this.glow = new UIGlowEffect() {
                 Scale = this.Scale / 2,
                 Brightness = 0,
@@ -37,6 +46,7 @@ namespace AATool.UI.Badges
             if (this.Scale < 3)
             {
                 this.glow.SetTexture("badge_couri_glow");
+                this.glow.SetRotationSpeed(200f);
                 this.glow.SkipToBrightness(0.75f);
             }
         }

@@ -26,6 +26,7 @@ namespace AATool.UI.Badges
             this.SetTexture("badge_hhh_up");
             if (this.Scale < 3)
             {
+                this.glow.SetRotationSpeed(200f);
                 this.glow.SetTexture("badge_hhh_glow");
                 this.glow.SkipToBrightness(0.6f);
             }

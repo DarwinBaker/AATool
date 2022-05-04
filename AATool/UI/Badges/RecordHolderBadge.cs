@@ -8,9 +8,12 @@ namespace AATool.UI.Badges
         public int Scale { get; set; }
         private readonly UIGlowEffect glow;
 
+        public int Place { get; private set; }
+
         public RecordHolderBadge(int scale, int place)
         {
             this.Scale = scale;
+            this.Place = place;
             this.FlexWidth = new(25 * (this.Scale / 2));
             this.FlexHeight = new(15 * (this.Scale / 2));
             this.HorizontalAlign = HorizontalAlign.Left;
@@ -26,6 +29,7 @@ namespace AATool.UI.Badges
             this.SetTexture($"badge_pb_{place}");
             if (this.Scale < 3)
             {
+                this.glow.SetRotationSpeed(200f);
                 this.glow.SetTexture($"badge_pb_{place}_glow");
                 this.glow.SkipToBrightness(1f);
             }

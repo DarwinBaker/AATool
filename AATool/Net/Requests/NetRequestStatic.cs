@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AATool.Utilities;
 
 namespace AATool.Net
@@ -14,7 +13,7 @@ namespace AATool.Net
         private static readonly HashSet<string> Active    = new ();
         private static readonly Timer RequestDelay = new (Protocol.Requests.UpdateRate);
 
-        public static void Enqueue(NetRequest request)
+        private static void Enqueue(NetRequest request)
         {
             //add request to pending queue if unique
             if (!AlreadySubmitted(request.Url))

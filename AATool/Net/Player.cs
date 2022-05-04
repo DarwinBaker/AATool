@@ -58,7 +58,7 @@ namespace AATool.Net
                     if (Uuid.TryParse(uuid, out id))
                     {
                         Cache(id, name);
-                        NetRequest.Enqueue(new AvatarRequest(id));
+                        new AvatarRequest(id).EnqueueOnce();
                     }
                 }
                 catch { }
@@ -68,6 +68,9 @@ namespace AATool.Net
 
         public static void Cache(Uuid id, string name)
         {
+            if (id == Uuid.Empty)
+                return;
+
             if (!NameCache.ContainsKey(id) && !string.IsNullOrEmpty(name))
                 NameCache[id] = name;
             if (name is not null && !IdCache.ContainsKey(name) && id != Uuid.Empty)
@@ -88,8 +91,8 @@ namespace AATool.Net
 
         public static void FetchIdentity(Uuid id)
         {
-            NetRequest.Enqueue(new NameRequest(id));
-            NetRequest.Enqueue(new AvatarRequest(id));
+            new NameRequest(id).EnqueueOnce();
+            new AvatarRequest(id).EnqueueOnce();
         }
 
         public static async void FetchIdentity(string name)

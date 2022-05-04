@@ -20,6 +20,8 @@ namespace AATool.Net
             this.cooldown = new Timer();
         }
 
+        public void EnqueueOnce() => Enqueue(this);
+
         public abstract Task<bool> DownloadAsync();
 
         private void Complete() => Completed.Add(this.Url);
