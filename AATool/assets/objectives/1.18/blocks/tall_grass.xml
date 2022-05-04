@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<group name="Tall Grass">
-    <block id="minecraft:tall_grass"    name="Tall Grass"   icon="tall_grass"   double_height="true"/>
-    <block id="minecraft:large_fern"    name="Large Fern"   icon="large_fern"   double_height="true"/>
-</group>

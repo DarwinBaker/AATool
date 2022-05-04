@@ -36,9 +36,18 @@
             <advancement_group group="adventure" row="1" col="2" start="minecraft:adventure/totem_of_undying"/>
             <advancement_group group="husbandry" row="1" col="1"/>
 
-            <!-- overworld pickup counts -->
-            <flow_panel row="0" col="3" rowspan="2">
+            <text_block row="0" col="2" width="120" height="40" horizontal_align="right" vertical_align="bottom" h_text_align="left" margin_right="10" margin_bottom="40" text="Note: Due to the way pre-1.13 Minecraft IDs work, God Apple must be manually checked until eaten."/>
+
+            <!-- pickup counters -->
+            <panel row="0" col="3" vertical_align="top">
+                <objective_frame pickup="minecraft:enchanted_golden_apple" vertical_align="top"/>
+                <button name="toggle_egap" width="36" height="36" margin_top="96" vertical_align="top">
+                    <picture width="32" height="32"/>
+                </button>
+            </panel>
+            <flow_panel row="1" col="3">
                 <objective_frame pickup="minecraft.skull"/>
+                <objective_frame pickup="minecraft.gold_block"/>
             </flow_panel>
 
             <!-- info panel -->

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<control width="1084" height="700">
+<control>
     <grid drawmode="all">
         <rows>
             <row height="658"/>
@@ -7,12 +7,12 @@
         </rows>
         <columns>
             <column width="160" collapsed="true"/>
-            <column width="224"/>
             <column width="700"/>
+            <column width="224"/>
         </columns>
 
         <!-- achievements -->
-        <achievement_tree col="2">
+        <achievement_tree col="1">
             <rows>
                 <row height="16"/>
                 <row height="64"/>
@@ -77,7 +77,7 @@
             <objective_frame achievement="achievement.enchantments"          row="7"     col="12"/>
             <objective_frame achievement="achievement.overkill"              row="7"     col="14"/>
             <objective_frame achievement="achievement.bookcase"              row="11"     col="14"/>
-            <panel draw_mode="none"                             row="10"    col="12"/>
+            <panel draw_mode="none"                                          row="10"    col="12"/>
 
             <objective_frame achievement="achievement.portal"                row="5"     col="10"/>
             <objective_frame achievement="achievement.ghast"                 row="5"     col="8"/>
@@ -93,13 +93,23 @@
             <objective_frame achievement="achievement.fullBeacon"            row="11"    col="1"/>
         </achievement_tree>
 
-        <!-- complex advancements -->
-        <criteria_group advancement="achievement.exploreAllBiomes" col="1" height="512" horizontal_align="right" vertical_align="top"/>
-
         <!-- item count display (trident, shells, skulls etc.) -->
-        <panel name="counts" col="1" width="224" height="146" horizontal_align="left" vertical_align="bottom" padding_bottom="12">
-            <objective_frame pickup="minecraft.skull"/>
+        <panel name="counts" col="2" width="224" height="240" horizontal_align="left" vertical_align="top">
+            <panel width="112" horizontal_align="left" padding_top="16">
+                <objective_frame pickup="minecraft:enchanted_golden_apple" vertical_align="top"/>
+                <button name="toggle_egap" width="36" height="36" margin_top="85" vertical_align="top">
+                    <picture width="32" height="32"/>
+                </button>
+                <text_block col="1" padding="10,10,130,0" text="Note: Due to the way pre-1.13 Minecraft IDs work, God Apple must be manually checked until eaten."/>
+            </panel>
+            <flow_panel width="112" horizontal_align="right" padding_top="16" padding_left="23">
+                <objective_frame pickup="minecraft.skull"/>
+                <objective_frame pickup="minecraft.gold_block" margin_top="40"/>
+            </flow_panel>
         </panel>
+
+        <!-- complex advancements -->
+        <criteria_group advancement="achievement.exploreAllBiomes" col="2" height="418" horizontal_align="right" vertical_align="bottom"/>
 
         <!-- status strip -->
         <status_bar row="1" col="1" colspan="3" right="330"/>

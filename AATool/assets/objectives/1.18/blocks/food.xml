@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<group name="Food">
-    <block id="minecraft:cocoa_beans" name="Cocoa&#xA;Beans" icon="cocoa_beans"/>
-    <block id="minecraft:cake" name="Cake" icon="cake"/>
-</group>

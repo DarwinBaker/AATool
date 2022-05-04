@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control width="1214" height="420">
+    <panel name="panel_congrats" draw_mode="children_only" collapsed="true">
+        <!-- run completion stats -->
+        <run_complete/>
+    </panel>
+    <panel name="panel_carousel" draw_mode="children_only" collapsed="true">
+        <!-- block carousel -->
+        <objective_carousel name="advancements"/>
+
+        <!-- item count display (trident, shells, skulls etc.) -->
+        <panel draw_mode="children_only" height="152" vertical_align="bottom">
+            <flow_panel name="counts" cell_height="102" draw_mode="children_only">
+                <objective_frame width="28" pickup="minecraft:trident" scale="3"/>
+                <objective_frame width="28" pickup="minecraft:nautilus_shell" scale="3"/>
+                <objective_frame width="28" pickup="minecraft:shulker_shell" scale="3"/>
+                <objective_frame width="28" pickup="minecraft:wither_skeleton_skull" scale="3"/>
+                <objective_frame width="28" block="minecraft:red_sand" scale="3"/>
+                <objective_frame width="28" block="minecraft:mycelium" scale="3"/>
+                <objective_frame width="28" block="minecraft:netherite_block" scale="3"/>
+            </flow_panel>
+        </panel>
+    </panel>
+</control>

@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<group name="Dirt">
-    <block id="minecraft:dirt"          name="Dirt"             icon="dirt"/>
-    <block id="minecraft:coarse_dirt"   name="Coarse Dirt"      icon="coarse_dirt"/>
-    <block id="minecraft:rooted_dirt"   name="Rooted Dirt"      icon="rooted_dirt"/>
-    <block id="minecraft:gravel"        name="Gravel"           icon="gravel"/>
-</group>

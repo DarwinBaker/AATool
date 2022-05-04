@@ -7,7 +7,7 @@
         </rows>
         <columns>
             <column width="32"/>
-            <column width="160"/>
+            <column width="1*"/>
         </columns>
 
         <panel row="0" col="0" horizontal_align="left" vertical_align="top" square="true" border_thickness="2" margin_left="6">
@@ -16,7 +16,7 @@
         <text_block name="name" row="0" col="1" h_text_align="left" vertical_align="top" padding_left="14" margin_top="2"/>
         <text_block name="igt" row="0" col="1" h_text_align="left" vertical_align="top" padding_left="14" margin_top="17"/>
         
-        <text_block name="status" row="0" col="1" h_text_align="right" vertical_align="top" padding_right="6" margin_top="2"/>
-        <text_block name="date" row="0" col="1" h_text_align="right" vertical_align="top" padding_right="6" margin_top="17"/>
+        <text_block name="date" row="0" col="1" h_text_align="right" vertical_align="top" padding_right="14" margin_top="2"/>
+        <text_block name="age" row="0" col="1" h_text_align="right" vertical_align="top" padding_right="14" margin_top="17"/>
     </grid>
 </control>

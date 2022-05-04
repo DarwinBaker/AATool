@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<control width="1150" height="828">
+<control>
     <grid>
         <rows>
             <row height="786"/>
@@ -7,12 +7,12 @@
         </rows>
         <columns>
             <column width="160" collapsed="true"/>
-            <column width="224"/>
             <column width="926"/>
+            <column width="330"/>
         </columns>
 
         <!-- achievements -->
-        <achievement_tree col="2">
+        <achievement_tree col="1">
             <rows>
                 <row height="88"/>
                 <row height="64"/>
@@ -91,13 +91,25 @@
             <objective_frame achievement="achievement.fullBeacon"            row="10"    col="1"/>
         </achievement_tree>
 
-        <!-- complex advancements -->
-        <criteria_group advancement="achievement.exploreAllBiomes" col="1" height="640" horizontal_align="right" vertical_align="top"/>
+        <text_block col="1" width="260" horizontal_align="right" h_text_align="left" padding_top="10" text="Note: Due to the way pre-1.13 Minecraft IDs work God Apple must be manually checked until eaten."/>
 
-        <!-- item count display (trident, shells, skulls etc.) -->
-        <panel name="counts" col="1" width="224" height="146" horizontal_align="left" vertical_align="bottom" padding_bottom="12">
-            <objective_frame pickup="minecraft.skull"/>
+        <!-- adventuring time -->
+        <criteria_group advancement="achievement.exploreAllBiomes" col="2" height="370" horizontal_align="right" vertical_align="bottom"/>
+
+        <!-- pickup counters -->
+        <panel col="2" width="100" height="180" horizontal_align="left" vertical_align="top" padding_top="25">
+            <objective_frame pickup="minecraft:enchanted_golden_apple" vertical_align="top"/>
+            <button name="toggle_egap" width="36" height="36" margin_bottom="20" vertical_align="bottom">
+                <picture width="32" height="32"/>
+            </button>
         </panel>
+        <flow_panel name="counts" col="2" width="100" height="236" cell_height="100" padding_left="16" margin_top="180" padding_top="15" horizontal_align="left" vertical_align="top">
+            <objective_frame pickup="minecraft.skull"/>
+            <objective_frame pickup="minecraft.gold_block"/>
+        </flow_panel>
+
+        <!-- leaderboard -->
+        <leaderboard name="Leaderboard" width="230" height="416" col="2" horizontal_align="right" vertical_align="top"/>
 
         <!-- status strip -->
         <status_bar row="1" col="1" colspan="3" right="330"/>

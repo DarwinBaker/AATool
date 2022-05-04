@@ -75,12 +75,12 @@
                                                 <criterion id="Extreme Hills"											icon="mountains"/>
                                                 <criterion id="Extreme Hills+"											icon="wooded_mountains"/>
                                                 <criterion id="Stone Beach"												icon="stone_shore"/>
+                                                <criterion id="Beach"/>
                                                 <criterion id="MushroomIsland"				name="Mushroom"             icon="mushroom_fields"/>
                                                 <criterion id="MushroomIslandShore"			name="Mush-Shore"           icon="mushroom_field_shore"/>
                                                 <criterion id="Mesa"													icon="badlands"/>
                                                 <criterion id="Mesa Plateau"											icon="badlands_plateau"/>
                                                 <criterion id="Mesa Plateau F"				name="Mesa Forest"          icon="wooded_badlands_plateau"/>
-                                                <criterion id="Beach"/>
                                                 <criterion id="River"/>
                                                 <criterion id="FrozenRiver"					name="Frozen River"         icon="frozen_river"/>
                                                 <criterion id="Ocean"/>

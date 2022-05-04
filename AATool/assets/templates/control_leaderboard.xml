@@ -6,8 +6,9 @@
             <row height="1*"/>
         </rows>
         <panel>
-            <textblock text="(Un)-Official 1.16&#xA;AA Leaderboard" font_size="24" horizontal_align="center" vertical_align="top" margin_top="6"/>
+            <textblock name="title" font_size="24" horizontal_align="center" vertical_align="top" margin_top="6"/>
         </panel>
         <flow_panel name="pb_list" row="1" direction="toptobottom" padding_top="8"/>
+        <picture name="spinner" texture="syncing" layer="fore" width="32" height="32" row="1"/>
     </grid>
 </control>

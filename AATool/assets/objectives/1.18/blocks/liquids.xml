@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<group name="Random Stuff">
-    <block id="minecraft:water_bucket"  name="Water"        icon="water"/>
-    <block id="minecraft:jukebox"       name="Jukebox"      icon="jukebox"/>
-    <block id="minecraft:note_block"    name="Note Block"   icon="note_block"/>
-</group>

@@ -1,0 +1,771 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<blocks>
+    <andesite>
+        <andesite name="Andesite" icon="andesite"/>
+        <andesite_stairs name="Andesite&#xA;Stairs" icon="andesite_stairs"/>
+        <andesite_slab name="Andesite&#xA;Slab" icon="andesite_slab"/>
+        <andesite_wall name="Andesite&#xA;Wall" icon="andesite_wall"/>
+        <polished_andesite name="Polished&#xA;Andesite" icon="polished_andesite"/>
+        <polished_andesite_stairs name="Polished&#xA;Andesite&#xA;Stairs" icon="polished_andesite_stairs"/>
+        <polished_andesite_slab name="Polished&#xA;Andesite&#xA;Slab" icon="polished_andesite_slab"/>
+    </andesite>
+    <banners>
+        <white_banner name="White&#xA;Banner" icon="white_banner"/>
+        <red_banner name="Red&#xA;Banner" icon="red_banner"/>
+        <orange_banner name="Orange&#xA;Banner" icon="orange_banner"/>
+        <yellow_banner name="Yellow&#xA;Banner" icon="yellow_banner"/>
+        <lime_banner name="Lime&#xA;Banner" icon="lime_banner"/>
+        <green_banner name="Green&#xA;Banner" icon="green_banner"/>
+        <cyan_banner name="Cyan&#xA;Banner" icon="cyan_banner"/>
+        <light_blue_banner name="Light Blue&#xA;Banner" icon="light_blue_banner"/>
+        <blue_banner name="Blue&#xA;Banner" icon="blue_banner"/>
+        <purple_banner name="Purple&#xA;Banner" icon="purple_banner"/>
+        <magenta_banner name="Magenta&#xA;Banner" icon="magenta_banner"/>
+        <pink_banner name="Pink&#xA;Banner" icon="pink_banner"/>
+        <brown_banner name="Brown&#xA;Banner" icon="brown_banner"/>
+        <light_gray_banner name="Light Gray&#xA;Banner" icon="light_gray_banner"/>
+        <gray_banner name="Gray&#xA;Banner" icon="gray_banner"/>
+        <black_banner name="Black&#xA;Banner" icon="black_banner"/>
+    </banners>
+    <beds>
+        <white_bed name="White Bed" icon="white_bed"/>
+        <red_bed name="Red Bed" icon="red_bed"/>
+        <orange_bed name="Orange Bed" icon="orange_bed"/>
+        <yellow_bed name="Yellow Bed" icon="yellow_bed"/>
+        <lime_bed name="Lime Bed" icon="lime_bed"/>
+        <green_bed name="Green Bed" icon="green_bed"/>
+        <cyan_bed name="Cyan Bed" icon="cyan_bed"/>
+        <light_blue_bed name="Light Blue&#xA;Bed" icon="light_blue_bed"/>
+        <blue_bed name="Blue Bed" icon="blue_bed"/>
+        <purple_bed name="Purple Bed" icon="purple_bed"/>
+        <magenta_bed name="Magenta Bed" icon="magenta_bed"/>
+        <pink_bed name="Pink Bed" icon="pink_bed"/>
+        <brown_bed name="Brown Bed" icon="brown_bed"/>
+        <light_gray_bed name="Light Gray&#xA;Bed" icon="light_gray_bed"/>
+        <gray_bed name="Gray Bed" icon="gray_bed"/>
+        <black_bed name="Black Bed" icon="black_bed"/>
+    </beds>
+    <nether>
+        <blackstone name="Blackstone" icon="blackstone"/>
+        <gilded_blackstone name="Gilded Blackstone" icon="gilded_blackstone"/>
+        <blackstone_stairs name="Blackstone Stairs" icon="blackstone_stairs"/>
+        <blackstone_slab name="Blackstone Slab" icon="blackstone_slab"/>
+        <blackstone_wall name="Blackstone Wall" icon="blackstone_wall"/>
+        <polished_blackstone_bricks name="Polished Blackstone Bricks" icon="polished_blackstone_bricks"/>
+        <cracked_polished_blackstone_bricks name="Cracked Blackstone Bricks" icon="cracked_polished_blackstone_bricks"/>
+        <polished_blackstone_brick_stairs name="Blackstone Brick Stairs" icon="polished_blackstone_brick_stairs"/>
+        <polished_blackstone_brick_slab name="Polished Blackstone Brick Slab" icon="polished_blackstone_brick_slab"/>
+        <polished_blackstone_brick_wall name="Polished Blackstone Wall" icon="polished_blackstone_brick_wall"/>
+        <chiseled_polished_blackstone name="Chiseled Polished Blackstone" icon="chiseled_polished_blackstone"/>
+        <polished_blackstone name="Polished Blackstone" icon="polished_blackstone"/>
+        <polished_blackstone_stairs name="Polished Blackstone Stairs" icon="polished_blackstone_stairs"/>
+        <polished_blackstone_slab name="Polished Blackstone Slab" icon="polished_blackstone_slab"/>
+        <polished_blackstone_wall name="Polished Blackstone Wall" icon="polished_blackstone_wall"/>
+    </nether>
+    <bricks>
+        <bricks name="Bricks" icon="bricks"/>
+        <brick_wall name="Brick Wall" icon="brick_wall"/>
+        <brick_stairs name="Brick Stairs" icon="brick_stairs"/>
+        <brick_slab name="Brick Slab" icon="brick_slab"/>
+    </bricks>
+    <candles>
+        <candle name="Candle" icon="candle"/>
+        <white_candle name="White&#xA;Candle" icon="white_candle"/>
+        <red_candle name="Red&#xA;Candle" icon="red_candle"/>
+        <orange_candle name="Orange&#xA;Candle" icon="orange_candle"/>
+        <yellow_candle name="Yellow&#xA;Candle" icon="yellow_candle"/>
+        <lime_candle name="Lime&#xA;Candle" icon="lime_candle"/>
+        <green_candle name="Green&#xA;Candle" icon="green_candle"/>
+        <cyan_candle name="Cyan&#xA;Candle" icon="cyan_candle"/>
+        <light_blue_candle name="Light Blue&#xA;Candle" icon="light_blue_candle"/>
+        <blue_candle name="Blue&#xA;Candle" icon="blue_candle"/>
+        <purple_candle name="Purple&#xA;Candle" icon="purple_candle"/>
+        <magenta_candle name="Magenta&#xA;Candle" icon="magenta_candle"/>
+        <pink_candle name="Pink&#xA;Candle" icon="pink_candle"/>
+        <brown_candle name="Brown&#xA;Candle" icon="brown_candle"/>
+        <light_gray_candle name="Light Gray&#xA;Candle" icon="light_gray_candle"/>
+        <gray_candle name="Gray&#xA;Candle" icon="gray_candle"/>
+        <black_candle name="Black&#xA;Candle" icon="black_candle"/>
+    </candles>
+    <carpet>
+        <white_carpet name="White&#xA;Carpet" icon="white_carpet"/>
+        <red_carpet name="Red&#xA;Carpet" icon="red_carpet"/>
+        <orange_carpet name="Orange&#xA;Carpet" icon="orange_carpet"/>
+        <yellow_carpet name="Yellow&#xA;Carpet" icon="yellow_carpet"/>
+        <lime_carpet name="Lime&#xA;Carpet" icon="lime_carpet"/>
+        <green_carpet name="Green&#xA;Carpet" icon="green_carpet"/>
+        <cyan_carpet name="Cyan&#xA;Carpet" icon="cyan_carpet"/>
+        <light_blue_carpet name="Light Blue&#xA;Carpet" icon="light_blue_carpet"/>
+        <blue_carpet name="Blue&#xA;Carpet" icon="blue_carpet"/>
+        <purple_carpet name="Purple&#xA;Carpet" icon="purple_carpet"/>
+        <magenta_carpet name="Magenta&#xA;Carpet" icon="magenta_carpet"/>
+        <pink_carpet name="Pink&#xA;Carpet" icon="pink_carpet"/>
+        <brown_carpet name="Brown&#xA;Carpet" icon="brown_carpet"/>
+        <light_gray_carpet name="Light Gray&#xA;Carpet" icon="light_gray_carpet"/>
+        <gray_carpet name="Gray&#xA;Carpet" icon="gray_carpet"/>
+        <black_carpet name="Black&#xA;Carpet" icon="black_carpet"/>
+    </carpet>
+    <cobblestone>
+        <cobblestone name="Cobblestone" icon="cobblestone"/>
+        <cobblestone_wall name="Cobblestone Wall" icon="cobblestone_wall"/>
+        <cobblestone_stairs name="Cobblestone Stairs" icon="cobblestone_stairs"/>
+        <cobblestone_slab name="Cobblestone Slab" icon="cobblestone_slab"/>
+        <mossy_cobblestone name="Mossy Cobblestone" icon="mossy_cobblestone"/>
+        <mossy_cobblestone_wall name="Mossy Cobblestone Wall" icon="mossy_cobblestone_wall"/>
+        <mossy_cobblestone_stairs name="Mossy Cobblestone Stairs" icon="mossy_cobblestone_stairs"/>
+        <mossy_cobblestone_slab name="Mossy Cobblestone Slab" icon="mossy_cobblestone_slab"/>
+        <smooth_stone name="Smooth&#xA;Stone" icon="smooth_stone"/>
+        <smooth_stone_slab name="Smooth&#xA;Stone Slab" icon="smooth_stone_slab"/>
+    </cobblestone>
+    <concrete>
+        <white_concrete name="White Concrete" icon="white_concrete"/>
+        <red_concrete name="Red Concrete" icon="red_concrete"/>
+        <orange_concrete name="Orange Concrete" icon="orange_concrete"/>
+        <yellow_concrete name="Yellow Concrete" icon="yellow_concrete"/>
+        <lime_concrete name="Lime Concrete" icon="lime_concrete"/>
+        <green_concrete name="Green Concrete" icon="green_concrete"/>
+        <cyan_concrete name="Cyan Concrete" icon="cyan_concrete"/>
+        <light_blue_concrete name="Light Blue Concrete" icon="light_blue_concrete"/>
+        <blue_concrete name="Blue Concrete" icon="blue_concrete"/>
+        <purple_concrete name="Purple Concrete" icon="purple_concrete"/>
+        <magenta_concrete name="Magenta Concrete" icon="magenta_concrete"/>
+        <pink_concrete name="Pink Concrete" icon="pink_concrete"/>
+        <brown_concrete name="Brown Concrete" icon="brown_concrete"/>
+        <light_gray_concrete name="Light Gray Concrete" icon="light_gray_concrete"/>
+        <gray_concrete name="Gray Concrete" icon="gray_concrete"/>
+        <black_concrete name="Black Concrete" icon="black_concrete"/>
+        <white_concrete_powder name="White Concrete Powder" icon="white_concrete_powder"/>
+        <red_concrete_powder name="Red Concrete Powder" icon="red_concrete_powder"/>
+        <orange_concrete_powder name="Orange Concrete Powder" icon="orange_concrete_powder"/>
+        <yellow_concrete_powder name="Yellow Concrete Powder" icon="yellow_concrete_powder"/>
+        <lime_concrete_powder name="Lime Concrete Powder" icon="lime_concrete_powder"/>
+        <green_concrete_powder name="Green Concrete Powder" icon="green_concrete_powder"/>
+        <cyan_concrete_powder name="Cyan Concrete Powder" icon="cyan_concrete_powder"/>
+        <light_blue_concrete_powder name="Light Blue Concrete Powder" icon="light_blue_concrete_powder"/>
+        <blue_concrete_powder name="Blue Concrete Powder" icon="blue_concrete_powder"/>
+        <purple_concrete_powder name="Purple Concrete Powder" icon="purple_concrete_powder"/>
+        <magenta_concrete_powder name="Magenta Concrete Powder" icon="magenta_concrete_powder"/>
+        <pink_concrete_powder name="Pink Concrete Powder" icon="pink_concrete_powder"/>
+        <brown_concrete_powder name="Brown Concrete Powder" icon="brown_concrete_powder"/>
+        <light_gray_concrete_powder name="Light Gray Concrete Powder" icon="light_gray_concrete_powder"/>
+        <gray_concrete_powder name="Gray Concrete Powder" icon="gray_concrete_powder"/>
+        <black_concrete_powder name="Black Concrete Powder" icon="black_concrete_powder"/>
+    </concrete>
+    <crops>
+        <cake name="Cake" icon="cake"/>
+        <wheat_seeds name="Wheat" icon="wheat"/>
+        <carrot name="Carrots" icon="carrots"/>
+        <hay_block name="Hay Bale" icon="hay_block"/>
+        <beetroot_seeds name="Beetroots" icon="beetroots"/>
+        <potato name="Potatoes" icon="potatoes"/>
+        <melon name="Melon" icon="melon"/>
+        <melon_seeds name="Melon Stem" icon="melon_stem"/>
+        <pumpkin_seeds name="Pumpkin Stem" icon="pumpkin_stem"/>
+        <pumpkin name="Pumpkin" icon="pumpkin"/>
+        <carved_pumpkin name="Carved Pumpkin" icon="carved_pumpkin"/>
+        <jack_o_lantern name="Jack O' Lantern" icon="jack_o_lantern" light_level="0.8"/>
+    </crops>
+    <diorite>
+        <diorite name="Diorite" icon="diorite"/>
+        <diorite_stairs name="Diorite&#xA;Stairs" icon="diorite_stairs"/>
+        <diorite_slab name="Diorite&#xA;Slab" icon="diorite_slab"/>
+        <diorite_wall name="Diorite&#xA;Wall" icon="diorite_wall"/>
+        <polished_diorite name="Polished&#xA;Diorite" icon="polished_diorite"/>
+        <polished_diorite_stairs name="Polished&#xA;Diorite&#xA;Stairs" icon="polished_diorite_stairs"/>
+        <polished_diorite_slab name="Polished&#xA;Diorite&#xA;Slab" icon="polished_diorite_slab"/>
+    </diorite>
+    <dirt>
+        <dirt name="Dirt" icon="dirt"/>
+        <coarse_dirt name="Coarse Dirt" icon="coarse_dirt"/>
+        <rooted_dirt name="Rooted Dirt" icon="rooted_dirt"/>
+        <gravel name="Gravel" icon="gravel"/>
+    </dirt>
+    <doors>
+        <oak_door name="Oak Door" icon="oak_door" double_height="true"/>
+        <spruce_door name="Spruce Door" icon="spruce_door" double_height="true"/>
+        <birch_door name="Birch Door" icon="birch_door" double_height="true"/>
+        <jungle_door name="Jungle Door" icon="jungle_door" double_height="true"/>
+        <acacia_door name="Acacia Door" icon="acacia_door" double_height="true"/>
+        <dark_oak_door name="Dark Oak Door" icon="dark_oak_door" double_height="true"/>
+        <crimson_door name="Crimson Door" icon="crimson_door" double_height="true"/>
+        <warped_door name="Warped Door" icon="warped_door" double_height="true"/>
+    </doors>
+    <end>
+        <end_stone name="End Stone" icon="end_stone"/>
+        <end_stone_brick_wall name="End Stone Brick Wall" icon="end_stone_brick_wall"/>
+        <purpur_pillar name="Purpur Pillar" icon="purpur_pillar"/>
+        <dragon_egg name="Dragon Egg" icon="dragon_egg"/>
+        <end_stone_bricks name="End Stone Bricks" icon="end_stone_bricks"/>
+        <purpur_block name="Purpur Block" icon="purpur_block"/>
+        <chorus_flower name="Chorus Flower" icon="chorus_flower"/>
+        <end_stone_brick_stairs name="End Stone Brick Stairs" icon="end_stone_brick_stairs"/>
+        <purpur_stairs name="Purpur Stairs" icon="purpur_stairs"/>
+        <end_rod name="End Rod" icon="end_rod"/>
+        <end_stone_brick_slab name="End Stone Brick Slab" icon="end_stone_brick_slab"/>
+        <purpur_slab name="Purpur Slab" icon="purpur_slab"/>
+    </end>
+    <flowers>
+        <red_mushroom name="Red Mushroom" icon="red_mushroom"/>
+        <brown_mushroom name="Brown Mushroom" icon="brown_mushroom"/>
+        <poppy name="Poppy" icon="poppy"/>
+        <red_tulip name="Red Tulip" icon="red_tulip"/>
+        <dandelion name="Dandelion" icon="dandelion"/>
+        <orange_tulip name="Orange Tulip" icon="orange_tulip"/>
+        <blue_orchid name="Blue Orchid" icon="blue_orchid"/>
+        <pink_tulip name="Pink Tulip" icon="pink_tulip"/>
+        <cornflower name="Cornflower" icon="cornflower"/>
+        <white_tulip name="White Tulip" icon="white_tulip"/>
+        <allium name="Allium" icon="allium"/>
+        <lily_of_the_valley name="Lily of the Valley" icon="lily_of_the_valley"/>
+        <oxeye_daisy name="Oxeye Daisy" icon="oxeye_daisy"/>
+        <azure_bluet name="Azure Bluet" icon="azure_bluet"/>
+    </flowers>
+    <foliage>
+        <oak_sapling name="Oak&#xA;Sapling" icon="oak_sapling"/>
+        <oak_leaves name="Oak&#xA;Leaves" icon="oak_leaves"/>
+        <spruce_sapling name="Spruce&#xA;Sapling" icon="spruce_sapling"/>
+        <spruce_leaves name="Spruce&#xA;Leaves" icon="spruce_leaves"/>
+        <birch_sapling name="Birch&#xA;Sapling" icon="birch_sapling"/>
+        <birch_leaves name="Birch&#xA;Leaves" icon="birch_leaves"/>
+        <jungle_sapling name="Jungle&#xA;Sapling" icon="jungle_sapling"/>
+        <jungle_leaves name="Jungle&#xA;Leaves" icon="jungle_leaves"/>
+        <acacia_sapling name="Acacia&#xA;Sapling" icon="acacia_sapling"/>
+        <acacia_leaves name="Acacia&#xA;Leaves" icon="acacia_leaves"/>
+        <dark_oak_sapling name="Dark Oak&#xA;Sapling" icon="dark_oak_sapling"/>
+        <dark_oak_leaves name="Dark Oak&#xA;Leaves" icon="dark_oak_leaves"/>
+        <crimson_fungus name="Crimson&#xA;Fungus" icon="crimson_fungus"/>
+        <nether_wart_block name="Nether Wart&#xA;Block" icon="nether_wart_block"/>
+        <warped_fungus name="Warped Fungus" icon="warped_fungus"/>
+        <warped_wart_block name="Warped Wart&#xA;Block" icon="warped_wart_block"/>
+    </foliage>
+    <food>
+        <cocoa_beans name="Cocoa&#xA;Beans" icon="cocoa_beans"/>
+        <mushroom_stem name="Mushroom Stem" icon="mushroom_stem"/>
+        <red_mushroom_block name="Red Mushroom Block" icon="red_mushroom_block"/>
+        <brown_mushroom_block name="Brown Mushroom Block" icon="brown_mushroom_block"/>
+    </food>
+    <stained_glass>
+        <glass name="Glass" icon="glass"/>
+        <white_stained_glass name="White&#xA;Stained&#xA;Glass" icon="white_stained_glass"/>
+        <red_stained_glass name="Red&#xA;Stained&#xA;Glass" icon="red_stained_glass"/>
+        <orange_stained_glass name="Orange&#xA;Stained&#xA;Glass" icon="orange_stained_glass"/>
+        <yellow_stained_glass name="Yellow&#xA;Stained&#xA;Glass" icon="yellow_stained_glass"/>
+        <lime_stained_glass name="Lime&#xA;Stained&#xA;Glass" icon="lime_stained_glass"/>
+        <green_stained_glass name="Green&#xA;Stained&#xA;Glass" icon="green_stained_glass"/>
+        <cyan_stained_glass name="Cyan&#xA;Stained&#xA;Glass" icon="cyan_stained_glass"/>
+        <light_blue_stained_glass name="Light Blue&#xA;Stained&#xA;Glass" icon="light_blue_stained_glass"/>
+        <blue_stained_glass name="Blue&#xA;Stained&#xA;Glass" icon="blue_stained_glass"/>
+        <purple_stained_glass name="Purple&#xA;Stained&#xA;Glass" icon="purple_stained_glass"/>
+        <magenta_stained_glass name="Magenta&#xA;Stained&#xA;Glass" icon="magenta_stained_glass"/>
+        <pink_stained_glass name="Pink&#xA;Stained&#xA;Glass" icon="pink_stained_glass"/>
+        <brown_stained_glass name="Brown&#xA;Stained&#xA;Glass" icon="brown_stained_glass"/>
+        <light_gray_stained_glass name="Light Gray&#xA;Stained&#xA;Glass" icon="light_gray_stained_glass"/>
+        <gray_stained_glass name="Gray&#xA;Stained&#xA;Glass" icon="gray_stained_glass"/>
+        <black_stained_glass name="Black&#xA;Stained&#xA;Glass" icon="black_stained_glass"/>
+        <glass_pane name="Glass Pane" icon="glass_pane"/>
+        <white_stained_glass_pane name="White&#xA;Stained&#xA;Glass&#160;Pane" icon="white_stained_glass_pane"/>
+        <red_stained_glass_pane name="Red&#xA;Stained&#xA;Glass&#160;Pane" icon="red_stained_glass_pane"/>
+        <orange_stained_glass_pane name="Orange&#xA;Stained&#xA;Glass&#160;Pane" icon="orange_stained_glass_pane"/>
+        <yellow_stained_glass_pane name="Yellow&#xA;Stained&#xA;Glass&#160;Pane" icon="yellow_stained_glass_pane"/>
+        <lime_stained_glass_pane name="Lime&#xA;Stained&#xA;Glass&#160;Pane" icon="lime_stained_glass_pane"/>
+        <green_stained_glass_pane name="Green&#xA;Stained&#xA;Glass&#160;Pane" icon="green_stained_glass_pane"/>
+        <cyan_stained_glass_pane name="Cyan&#xA;Stained&#xA;Glass&#160;Pane" icon="cyan_stained_glass_pane"/>
+        <light_blue_stained_glass_pane name="Light Blue&#xA;Stained&#xA;Glass&#160;Pane" icon="light_blue_stained_glass_pane"/>
+        <blue_stained_glass_pane name="Blue&#xA;Stained&#xA;Glass&#160;Pane" icon="blue_stained_glass_pane"/>
+        <purple_stained_glass_pane name="Purple&#xA;Stained&#xA;Glass&#160;Pane" icon="purple_stained_glass_pane"/>
+        <magenta_stained_glass_pane name="Magenta&#xA;Stained&#xA;Glass&#160; Pane" icon="magenta_stained_glass_pane"/>
+        <pink_stained_glass_pane name="Pink&#xA;Stained&#xA;Glass&#160;Pane" icon="pink_stained_glass_pane"/>
+        <brown_stained_glass_pane name="Brown&#xA;Stained&#xA;Glass&#160;Pane" icon="brown_stained_glass_pane"/>
+        <light_gray_stained_glass_pane name="Light Gray&#xA;Stained&#xA;Glass&#160;Pane" icon="light_gray_stained_glass_pane"/>
+        <gray_stained_glass_pane name="Gray&#xA;Stained&#xA;Glass&#160;Pane" icon="gray_stained_glass_pane"/>
+        <black_stained_glass_pane name="Black&#xA;Stained&#xA;Glass&#160;Pane" icon="black_stained_glass_pane"/>
+    </stained_glass>
+    <glazed_terracotta>
+        <white_glazed_terracotta name="White&#xA;Terracotta" icon="white_glazed_terracotta"/>
+        <red_glazed_terracotta name="Red&#xA;Terracotta" icon="red_glazed_terracotta"/>
+        <orange_glazed_terracotta name="Orange&#xA;Terracotta" icon="orange_glazed_terracotta"/>
+        <yellow_glazed_terracotta name="Yellow&#xA;Terracotta" icon="yellow_glazed_terracotta"/>
+        <lime_glazed_terracotta name="Lime&#xA;Terracotta" icon="lime_glazed_terracotta"/>
+        <green_glazed_terracotta name="Green&#xA;Terracotta" icon="green_glazed_terracotta"/>
+        <cyan_glazed_terracotta name="Cyan&#xA;Terracotta" icon="cyan_glazed_terracotta"/>
+        <light_blue_glazed_terracotta name="Light Blue&#xA;Terracotta" icon="light_blue_glazed_terracotta"/>
+        <blue_glazed_terracotta name="Blue&#xA;Terracotta" icon="blue_glazed_terracotta"/>
+        <purple_glazed_terracotta name="Purple&#xA;Terracotta" icon="purple_glazed_terracotta"/>
+        <magenta_glazed_terracotta name="Magenta&#xA;Terracotta" icon="magenta_glazed_terracotta"/>
+        <pink_glazed_terracotta name="Pink&#xA;Terracotta" icon="pink_glazed_terracotta"/>
+        <brown_glazed_terracotta name="Brown&#xA;Terracotta" icon="brown_glazed_terracotta"/>
+        <light_gray_glazed_terracotta name="Light Gray&#xA;Terracotta" icon="light_gray_glazed_terracotta"/>
+        <gray_glazed_terracotta name="Gray&#xA;Terracotta" icon="gray_glazed_terracotta"/>
+        <black_glazed_terracotta name="Black&#xA;Terracotta" icon="black_glazed_terracotta"/>
+    </glazed_terracotta>
+    <granite>
+        <granite name="Granite" icon="granite"/>
+        <granite_stairs name="Granite&#xA;Stairs" icon="granite_stairs"/>
+        <granite_slab name="Granite&#xA;Slab" icon="granite_slab"/>
+        <granite_wall name="Granite&#xA;Wall" icon="granite_wall"/>
+        <polished_granite name="Polished&#xA;Granite" icon="polished_granite"/>
+        <polished_granite_stairs name="Polished&#xA;Granite&#xA;Stairs" icon="polished_granite_stairs"/>
+        <polished_granite_slab name="Polished&#xA;Granite&#xA;Slab" icon="polished_granite_slab"/>
+    </granite>
+    <dirt>
+        <grass_block name="Grass Block" icon="grass_block"/>
+        <dirt_path name="Dirt Path" icon="dirt_path"/>
+        <podzol name="Podzol" icon="podzol"/>
+        <mycelium name="Mycelium" icon="mycelium"/>
+    </dirt>
+    <heads>
+        <creeper_head name="Creeper Head" icon="creeper_head"/>
+        <zombie_head name="Zombie Head" icon="zombie_head"/>
+        <skeleton_skull name="Skeleton Skull" icon="skeleton_skull"/>
+        <wither_skeleton_skull name="Wither Skull" icon="wither_skeleton_skull"/>
+        <dragon_head name="Dragon Head" icon="dragon_head"/>
+    </heads>
+    <lights>
+        <torch name="Torch" icon="torch" light_level="0.5"/>
+        <soul_torch name="Soul Torch" icon="soul_torch" light_level="0.5"/>
+        <redstone_torch name="Redstone Torch" icon="redstone_torch" light_level="0.5"/>
+        <lantern name="Lantern" icon="lantern" light_level="0.7"/>
+        <soul_lantern name="Soul Lantern" icon="soul_lantern" light_level="0.7"/>
+        <campfire name="Campfire" icon="campfire" light_level="0.7"/>
+        <soul_campfire name="Soul Campfire" icon="soul_campfire" light_level="0.7"/>
+    </lights>
+    <random_stuff>
+        <water_bucket name="Water" icon="water"/>
+        <jukebox name="Jukebox" icon="jukebox"/>
+        <note_block name="Note Block" icon="note_block"/>
+    </random_stuff>
+    <materials>
+        <diamond_block name="Diamond&#xA;Block" icon="diamond_block"/>
+        <emerald_block name="Emerald&#xA;Block" icon="emerald_block"/>
+        <lapis_block name="Lapis Lazuli&#xA;Block" icon="lapis_block"/>
+        <redstone_block name="Redstone&#xA;Block" icon="redstone_block" light_level="0.6"/>
+        <gold_block name="Gold&#xA;Block" icon="gold_block"/>
+        <iron_block name="Iron&#xA;Block" icon="iron_block"/>
+        <coal_block name="Coal&#xA;Block" icon="coal_block"/>
+        <diamond_ore name="Diamond&#xA;Ore" icon="diamond_ore"/>
+        <emerald_ore name="Emerald&#xA;Ore" icon="emerald_ore"/>
+        <lapis_ore name="Lapis Lazuli&#xA;Ore" icon="lapis_ore"/>
+        <redstone_ore name="Redstone&#xA;Ore" icon="redstone_ore" light_level="0.3"/>
+        <gold_ore name="Gold&#xA;Ore" icon="gold_ore"/>
+        <iron_ore name="Iron&#xA;Ore" icon="iron_ore"/>
+        <coal_ore name="Coal&#xA;Ore" icon="coal_ore"/>
+    </materials>
+    <nether_basic>
+        <netherrack name="Netherrack" icon="netherrack_block"/>
+        <crimson_nylium name="Crimson Nylium" icon="crimson_nylium"/>
+        <warped_nylium name="Warped Nylium" icon="warped_nylium"/>
+        <soul_sand name="Soul Sand" icon="soul_sand"/>
+        <soul_soil name="Soul Soil" icon="soul_soil"/>
+        <bone_block name="Bone Block" icon="bone_block"/>
+        <basalt name="Basalt" icon="basalt"/>
+        <smooth_basalt name="Smooth Basalt" icon="smooth_basalt"/>
+        <polished_basalt name="Polished Basalt" icon="polished_basalt"/>
+    </nether_basic>
+    <nether_bricks>
+        <nether_bricks name="Nether&#xA;Bricks" icon="nether_bricks"/>
+        <nether_brick_stairs name="Nether&#xA;Brick&#xA;Stairs" icon="nether_brick_stairs"/>
+        <nether_brick_slab name="Nether&#xA;Brick&#xA;Slab" icon="nether_brick_slab"/>
+        <nether_brick_fence name="Nether&#xA;Brick&#xA;Fence" icon="nether_brick_fence"/>
+        <cracked_nether_bricks name="Cracked&#xA;Nether&#xA;Bricks" icon="cracked_nether_bricks"/>
+        <chiseled_nether_bricks name="Chiseled&#xA;Nether&#xA;Bricks" icon="chiseled_nether_bricks"/>
+        <nether_wart name="Nether Wart" icon="nether_wart_planted"/>
+        <nether_brick_wall name="Nether&#160;Brick&#xA;Wall" icon="nether_brick_wall"/>
+        <red_nether_bricks name="Red&#xA;Nether&#xA;Bricks" icon="red_nether_bricks"/>
+        <red_nether_brick_stairs name="Red&#xA;Nether&#160;Brick Stairs" icon="red_nether_brick_stairs"/>
+        <red_nether_brick_slab name="Red&#xA;Nether&#160;Brick Slab" icon="red_nether_brick_slab"/>
+        <red_nether_brick_wall name="Red&#xA;Nether&#160;Brick Wall" icon="red_nether_brick_wall"/>
+    </nether_bricks>
+    <nether_foliage>
+        <crimson_roots name="Crimson Roots" icon="crimson_roots"/>
+        <warped_roots name="Warped Roots" icon="warped_roots"/>
+        <nether_sprouts name="Nether Sprouts" icon="nether_sprouts"/>
+    </nether_foliage>
+    <nether_special>
+        <netherite_block name="Block of Netherite" icon="netherite_block"/>
+        <ancient_debris name="Ancient Debris" icon="ancient_debris"/>
+        <lodestone name="Lodestone" icon="lodestone" light_level="0.5"/>
+        <nether_gold_ore name="Nether Gold Ore" icon="nether_gold_ore"/>
+        <nether_quartz_ore name="Nether Quartz Ore" icon="nether_quartz_ore"/>
+        <glowstone name="Glowstone" icon="glowstone" light_level="0.5"/>
+        <obsidian name="Obsidian" icon="obsidian"/>
+        <crying_obsidian name="Crying Obsidian" icon="crying_obsidian" light_level="0.6"/>
+        <respawn_anchor name="Respawn Anchor" icon="respawn_anchor" light_level="0.25"/>
+        <lava_bucket name="Lava" icon="lava" light_level="1"/>
+        <magma_block name="Magma Block" icon="magma_block" light_level="0.7"/>
+        <shroomlight name="Shroom Light" icon="shroomlight" light_level="0.9"/>
+    </nether_special>
+    <deep_ocean>
+        <prismarine name="Prismarine" icon="prismarine"/>
+        <prismarine_bricks name="Prismarine Bricks" icon="prismarine_bricks"/>
+        <prismarine_stairs name="Prismarine Stairs" icon="prismarine_stairs"/>
+        <prismarine_brick_stairs name="Prismarine Stairs" icon="prismarine_brick_stairs"/>
+        <prismarine_slab name="Prismarine Slab" icon="prismarine_slab"/>
+        <prismarine_brick_slab name="Prismarine Slab" icon="prismarine_brick_slab"/>
+        <prismarine_wall name="Prismarine Wall" icon="prismarine_wall"/>
+        <seagrass name="Seagrass" icon="seagrass"/>
+        <kelp name="Kelp" icon="kelp"/>
+    </deep_ocean>
+    <deep_ocean>
+        <dark_prismarine name="Dark Prismarine" icon="dark_prismarine"/>
+        <dark_prismarine_stairs name="Dark Prismarine Stairs" icon="dark_prismarine_stairs"/>
+        <dark_prismarine_slab name="Dark Prismarine Slab" icon="dark_prismarine_slab"/>
+        <sea_lantern name="Sea Lantern" icon="sea_lantern" light_level="0.75"/>
+        <conduit name="Conduit" icon="conduit" light_level="0.5"/>
+    </deep_ocean>
+    <warm_ocean>
+        <dried_kelp_block name="Dried Kelp Block" icon="dried_kelp_block"/>
+        <sponge name="Sponge" icon="sponge"/>
+        <wet_sponge name="Wet Sponge" icon="wet_sponge"/>
+        <sea_pickle name="Sea Pickle" icon="sea_pickle"/>
+        <turtle_egg name="Turtle Egg" icon="turtle_egg"/>
+        <fire_coral_block name="Fire&#160;Coral Block" icon="fire_coral_block"/>
+        <horn_coral_block name="Horn&#160;Coral Block" icon="horn_coral_block"/>
+        <tube_coral_block name="Tube&#160;Coral Block" icon="tube_coral_block"/>
+        <bubble_coral_block name="Bubble&#160;Coral Block" icon="bubble_coral_block"/>
+        <brain_coral_block name="Brain&#160;Coral Block" icon="brain_coral_block"/>
+        <fire_coral name="Fire&#160;Coral" icon="fire_coral"/>
+        <horn_coral name="Horn&#160;Coral" icon="horn_coral"/>
+        <tube_coral name="Tube&#160;Coral" icon="tube_coral"/>
+        <bubble_coral name="Bubble&#160;Coral" icon="bubble_coral"/>
+        <brain_coral name="Brain&#160;Coral" icon="brain_coral"/>
+        <fire_coral_fan name="Fire&#160;Coral Fan" icon="fire_coral_fan"/>
+        <horn_coral_fan name="Horn&#160;Coral Fan" icon="horn_coral_fan"/>
+        <tube_coral_fan name="Tube&#160;Coral Fan" icon="tube_coral_fan"/>
+        <bubble_coral_fan name="Bubble&#160;Coral Fan" icon="bubble_coral_fan"/>
+        <brain_coral_fan name="Brain&#160;Coral Fan" icon="brain_coral_fan"/>
+        <dead_fire_coral_block name="Dead Fire&#160;Coral Block" icon="dead_fire_coral_block"/>
+        <dead_horn_coral_block name="Dead Horn&#160;Coral Block" icon="dead_horn_coral_block"/>
+        <dead_tube_coral_block name="Dead Tube&#160;Coral Block" icon="dead_tube_coral_block"/>
+        <dead_bubble_coral_block name="Dead Bubble&#160;Coral Block" icon="dead_bubble_coral_block"/>
+        <dead_brain_coral_block name="Dead Brain&#160;Coral Block" icon="dead_brain_coral_block"/>
+        <dead_fire_coral name="Dead Fire&#160;Coral" icon="dead_fire_coral"/>
+        <dead_horn_coral name="Dead Horn&#160;Coral" icon="dead_horn_coral"/>
+        <dead_tube_coral name="Dead Tube&#160;Coral" icon="dead_tube_coral"/>
+        <dead_bubble_coral name="Dead Bubble&#160;Coral" icon="dead_bubble_coral"/>
+        <dead_brain_coral name="Dead Brain&#160;Coral" icon="dead_brain_coral"/>
+        <dead_fire_coral_fan name="Dead Fire&#160;Coral Fan" icon="dead_fire_coral_fan"/>
+        <dead_horn_coral_fan name="Dead Horn&#160;Coral Fan" icon="dead_horn_coral_fan"/>
+        <dead_tube_coral_fan name="Dead Tube&#160;Coral Fan" icon="dead_tube_coral_fan"/>
+        <dead_bubble_coral_fan name="Dead Bubble&#160;Coral Fan" icon="dead_bubble_coral_fan"/>
+        <dead_brain_coral_fan name="Dead Brain&#160;Coral Fan" icon="dead_brain_coral_fan"/>
+    </warm_ocean>
+    <quartz>
+        <quartz_block name="Quartz&#xA;Block" icon="quartz_block"/>
+        <chiseled_quartz_block name="Chiseled&#xA;Quartz&#xA;Block" icon="chiseled_quartz_block"/>
+        <quartz_pillar name="Quartz&#xA;Pillar" icon="quartz_pillar"/>
+        <quartz_bricks name="Quartz&#xA;Bricks" icon="quartz_bricks"/>
+        <quartz_stairs name="Quartz&#xA;Stairs" icon="quartz_stairs"/>
+        <smooth_quartz_stairs name="Smooth&#xA;Quartz&#xA;Stairs" icon="smooth_quartz_stairs"/>
+        <smooth_quartz name="Smooth&#xA;Quartz" icon="smooth_quartz"/>
+        <quartz_slab name="Quartz&#xA;Slab" icon="quartz_slab"/>
+        <smooth_quartz_slab name="Smooth&#xA;Quartz&#xA;Slab" icon="smooth_quartz_slab"/>
+    </quartz>
+    <misc_stuff>
+        <rail name="Rail" icon="rail"/>
+        <detector_rail name="Detector&#xA;Rail" icon="detector_rail"/>
+        <activator_rail name="Activator&#xA;Rail" icon="activator_rail"/>
+        <powered_rail name="Powered&#xA;Rail" icon="powered_rail"/>
+        <stone_pressure_plate name="Stone Pressure Plate" icon="stone_plate"/>
+        <polished_blackstone_pressure_plate name="Blackstone Pressure Plate" icon="blackstone_plate"/>
+        <heavy_weighted_pressure_plate name="Heavy Pressure Plate" icon="heavy_plate"/>
+        <light_weighted_pressure_plate name="Light Pressure Plate" icon="light_plate"/>
+        <stone_button name="Stone&#xA;Button" icon="stone_button"/>
+        <polished_blackstone_button name="Blackstone&#xA;Button" icon="blackstone_button"/>
+        <lever name="Lever" icon="lever"/>
+        <tripwire_hook name="Tripwire&#xA;Hook" icon="tripwire_hook"/>
+        <scaffolding name="Scaffolding" icon="scaffolding"/>
+        <ladder name="Ladder" icon="ladder"/>
+        <chain name="Chain" icon="chain"/>
+        <flower_pot name="Flower Pot" icon="flower_pot"/>
+    </misc_stuff>
+    <redstone_components>
+        <comparator name="Redstone Comparator" icon="comparator"/>
+        <repeater name="Redstone Repeater" icon="repeater"/>
+        <redstone name="Redstone Dust" icon="redstone_dust" light_level="0.5"/>
+    </redstone_components>
+    <red_sandstone>
+        <red_sand name="Red Sand" icon="red_sand"/>
+        <red_sandstone name="Red Sandstone" icon="red_sandstone"/>
+        <red_sandstone_wall name="Red Sandstone Wall" icon="red_sandstone_wall"/>
+        <cut_red_sandstone name="Cut Red Sandstone" icon="cut_red_sandstone"/>
+        <red_sandstone_stairs name="Red Sandstone Stairs" icon="red_sandstone_stairs"/>
+        <red_sandstone_slab name="Red Sandstone Slab" icon="red_sandstone_slab"/>
+        <chiseled_red_sandstone name="Chiseled Red Sandstone" icon="chiseled_red_sandstone"/>
+        <empty/>
+        <cut_red_sandstone_slab name="Cut Red Sandstone Slab" icon="cut_red_sandstone_slab"/>
+        <smooth_red_sandstone name="Smooth Red Sandstone" icon="smooth_red_sandstone"/>
+        <smooth_red_sandstone_stairs name="Smooth Red Sandstone Stairs" icon="smooth_red_sandstone_stairs"/>
+        <smooth_red_sandstone_slab name="Smooth Red Sandstone Slab" icon="smooth_red_sandstone_slab"/>
+    </red_sandstone>
+    <sandstone>
+        <sand name="Sand" icon="sand"/>
+        <sandstone name="Sandstone" icon="sandstone"/>
+        <sandstone_wall name="Sandstone Wall" icon="sandstone_wall"/>
+        <cut_sandstone name="Cut Sandstone" icon="cut_sandstone"/>
+        <sandstone_stairs name="Sandstone Stairs" icon="sandstone_stairs"/>
+        <sandstone_slab name="Sandstone Slab" icon="sandstone_slab"/>
+        <chiseled_sandstone name="Chiseled Sandstone" icon="chiseled_sandstone"/>
+        <empty/>
+        <cut_sandstone_slab name="Cut Sandstone Slab" icon="cut_sandstone_slab"/>
+        <smooth_sandstone name="Smooth Sandstone" icon="smooth_sandstone"/>
+        <smooth_sandstone_stairs name="Smooth Sandstone Stairs" icon="smooth_sandstone_stairs"/>
+        <smooth_sandstone_slab name="Smooth Sandstone Slab" icon="smooth_sandstone_slab"/>
+    </sandstone>
+    <shrubs>
+        <grass name="Grass" icon="short_grass"/>
+        <fern name="Fern" icon="fern"/>
+        <dead_bush name="Dead Bush" icon="dead_bush"/>
+        <sweet_berries name="Sweet Berry Bush" icon="sweet_berry_bush"/>
+        <lily_pad name="Lily Pad" icon="lily_pad"/>
+        <wither_rose name="Wither Rose" icon="wither_rose"/>
+    </shrubs>
+    <shulker_boxes>
+        <white_shulker_box name="White&#xA;Shulker&#xA;Box" icon="white_shulker_box"/>
+        <red_shulker_box name="Red&#xA;Shulker&#xA;Box" icon="red_shulker_box"/>
+        <orange_shulker_box name="Orange&#xA;Shulker&#xA;Box" icon="orange_shulker_box"/>
+        <yellow_shulker_box name="Yellow&#xA;Shulker&#xA;Box" icon="yellow_shulker_box"/>
+        <lime_shulker_box name="Lime&#xA;Shulker&#xA;Box" icon="lime_shulker_box"/>
+        <green_shulker_box name="Green&#xA;Shulker&#xA;Box" icon="green_shulker_box"/>
+        <cyan_shulker_box name="Cyan&#xA;Shulker&#xA;Box" icon="cyan_shulker_box"/>
+        <light_blue_shulker_box name="Light Blue&#xA;Shulker&#xA;Box" icon="light_blue_shulker_box"/>
+        <blue_shulker_box name="Blue&#xA;Shulker&#xA;Box" icon="blue_shulker_box"/>
+        <purple_shulker_box name="Purple&#xA;Shulker&#xA;Box" icon="purple_shulker_box"/>
+        <magenta_shulker_box name="Magenta&#xA;Shulker&#xA;Box" icon="magenta_shulker_box"/>
+        <pink_shulker_box name="Pink&#xA;Shulker&#xA;Box" icon="pink_shulker_box"/>
+        <brown_shulker_box name="Brown&#xA;Shulker&#xA;Box" icon="brown_shulker_box"/>
+        <light_gray_shulker_box name="Light Gray&#xA;Shulker&#xA;Box" icon="light_gray_shulker_box"/>
+        <gray_shulker_box name="Gray&#xA;Shulker&#xA;Box" icon="gray_shulker_box"/>
+        <black_shulker_box name="Black&#xA;Shulker&#xA;Box" icon="black_shulker_box"/>
+        <shulker_box name="Shulker&#xA;Box" icon="shulker_box"/>
+    </shulker_boxes>
+    <snow>
+        <ice name="Ice" icon="ice"/>
+        <packed_ice name="Packed Ice" icon="packed_ice"/>
+        <blue_ice name="Blue Ice" icon="blue_ice"/>
+        <snow_block name="Snow Block" icon="snow_block"/>
+        <snow name="Snow" icon="snow"/>
+    </snow>
+    <specialized>
+        <crafting_table name="Crafting Table" icon="crafting_table"/>
+        <fletching_table name="Fletching Table" icon="fletching_table"/>
+        <cartography_table name="Cartography Table" icon="cartography_table"/>
+        <smithing_table name="Smithing Table" icon="smithing_table"/>
+        <composter name="Composter" icon="composter"/>
+        <barrel name="Barrel" icon="barrel"/>
+        <lectern name="Lectern" icon="lectern_block"/>
+        <beehive name="Beehive" icon="beehive"/>
+        <honeycomb_block name="Honeycomb Block" icon="honeycomb_block"/>
+        <tnt name="TNT" icon="tnt_block"/>
+        <furnace name="Furnace" icon="furnace"/>
+        <blast_furnace name="Blast Furnace" icon="blast_furnace"/>
+        <smoker name="Smoker" icon="smoker"/>
+        <loom name="Loom" icon="loom"/>
+        <grindstone name="Grindstone" icon="grindstone"/>
+        <stonecutter name="Stone Cutter" icon="stone_cutter"/>
+        <bookshelf name="Bookshelf" icon="bookshelf"/>
+        <bee_nest name="Bee Nest" icon="bee_nest"/>
+        <honey_block name="Honey Block" icon="honey_block"/>
+        <target name="Target" icon="target"/>
+        <dispenser name="Dispenser" icon="dispenser"/>
+        <dropper name="Dropper" icon="dropper"/>
+        <observer name="Observer" icon="observer"/>
+        <anvil name="Anvil" icon="anvil"/>
+        <chipped_anvil name="Chipped&#xA;Anvil" icon="chipped_anvil"/>
+        <damaged_anvil name="Damaged&#xA;Anvil" icon="damaged_anvil"/>
+        <enchanting_table name="Enchanting Table" icon="enchanting_table" light_level="0.7"/>
+        <beacon name="Beacon" icon="beacon" light_level="0.9"/>
+        <slime_block name="Slime Block" icon="slime_block"/>
+        <redstone_lamp name="Redstone Lamp" icon="redstone_lamp"/>
+        <piston name="Piston" icon="piston"/>
+        <sticky_piston name="Sticky Piston" icon="sticky_piston"/>
+        <hopper name="Hopper" icon="hopper"/>
+        <chest name="Chest" icon="chest"/>
+        <trapped_chest name="Trapped Chest" icon="trapped_chest"/>
+        <ender_chest name="Ender Chest" icon="ender_chest_block"/>
+        <brewing_stand name="Brewing Stand" icon="brewing_stand"/>
+        <bell name="Bell" icon="bell"/>
+        <cauldron name="Cauldron" icon="cauldron"/>
+        <daylight_detector name="Daylight Detector" icon="daylight_detector"/>
+    </specialized>
+    <stone>
+        <stone name="Stone" icon="stone"/>
+        <stone_stairs name="Stone Stairs" icon="stone_stairs"/>
+        <clay name="Clay" icon="clay"/>
+        <stone_slab name="Stone Slab" icon="stone_slab"/>
+    </stone>
+    <stronghold>
+        <stone_bricks name="Stone&#160;Bricks" icon="stone_bricks"/>
+        <mossy_stone_bricks name="Mossy&#xA;Stone&#160;Bricks" icon="mossy_stone_bricks"/>
+        <cracked_stone_bricks name="Cracked&#xA;Stone&#160;Bricks" icon="cracked_stone_bricks"/>
+        <stone_brick_stairs name="Stone&#160;Brick&#xA;Stairs" icon="stone_brick_stairs"/>
+        <mossy_stone_brick_stairs name="Mossy&#xA;Stone&#160;Brick&#xA;Stairs" icon="mossy_stone_brick_stairs"/>
+        <chiseled_stone_bricks name="Chiseled&#xA;Stone&#160;Bricks" icon="chiseled_stone_bricks"/>
+        <stone_brick_slab name="Stone&#160;Brick&#xA;Slab" icon="stone_brick_slab"/>
+        <mossy_stone_brick_slab name="Mossy&#xA;Stone&#160;Brick&#xA;Slab" icon="mossy_stone_brick_slab"/>
+        <iron_bars name="Iron Bars" icon="iron_bars"/>
+        <stone_brick_wall name="Stone&#160;Brick&#xA;Wall" icon="stone_brick_wall"/>
+        <mossy_stone_brick_wall name="Mossy&#xA;Stone&#160;Brick&#xA;Wall" icon="mossy_stone_brick_wall"/>
+        <cobweb name="Cobweb" icon="cobweb"/>
+        <iron_door name="Iron Door" icon="iron_door" double_height="true"/>
+        <iron_trapdoor name="Iron Trapdoor" icon="iron_trapdoor"/>
+    </stronghold>
+    <tall_plants>
+        <cactus name="Cactus" icon="cactus_tall" double_height="true"/>
+        <sugar_cane name="Sugarcane" icon="sugarcane_tall" double_height="true"/>
+        <bamboo name="Bamboo" icon="bamboo_tall" double_height="true"/>
+        <tall_grass name="Tall Grass" icon="tall_grass" double_height="true"/>
+        <large_fern name="Large Fern" icon="large_fern" double_height="true"/>
+        <rose_bush name="Rose Bush" icon="rose_bush" double_height="true"/>
+        <peony name="Peony" icon="peony" double_height="true"/>
+        <lilac name="Lilac" icon="lilac" double_height="true"/>
+        <sunflower name="Sunflower" icon="sunflower" double_height="true"/>
+    </tall_plants>
+    <terracotta>
+        <terracotta name="Terracotta" icon="terracotta_block"/>
+        <white_terracotta name="White Terracotta" icon="white_terracotta"/>
+        <red_terracotta name="Red Terracotta" icon="red_terracotta"/>
+        <orange_terracotta name="Orange Terracotta" icon="orange_terracotta"/>
+        <yellow_terracotta name="Yellow Terracotta" icon="yellow_terracotta"/>
+        <lime_terracotta name="Lime Terracotta" icon="lime_terracotta"/>
+        <green_terracotta name="Green Terracotta" icon="green_terracotta"/>
+        <cyan_terracotta name="Cyan Terracotta" icon="cyan_terracotta"/>
+        <light_blue_terracotta name="Light Blue Terracotta" icon="light_blue_terracotta"/>
+        <blue_terracotta name="Blue Terracotta" icon="blue_terracotta"/>
+        <purple_terracotta name="Purple Terracotta" icon="purple_terracotta"/>
+        <magenta_terracotta name="Magenta Terracotta" icon="magenta_terracotta"/>
+        <pink_terracotta name="Pink Terracotta" icon="pink_terracotta"/>
+        <brown_terracotta name="Brown Terracotta" icon="brown_terracotta"/>
+        <light_gray_terracotta name="Light Gray Terracotta" icon="light_gray_terracotta"/>
+        <gray_terracotta name="Gray Terracotta" icon="gray_terracotta"/>
+        <black_terracotta name="Black Terracotta" icon="black_terracotta"/>
+    </terracotta>
+    <vines>
+        <vine name="Vine" icon="vine" double_height="true"/>
+        <weeping_vines name="Weeping Vines" icon="weeping_vines" double_height="true"/>
+        <twisting_vines name="Twisting Vines" icon="twisting_vines" double_height="true"/>
+    </vines>
+    <wood>
+        <oak_log name="Oak&#xA;Log" icon="oak_log"/>
+        <oak_wood name="Oak&#xA;Wood" icon="oak_wood"/>
+        <stripped_oak_log name="Stripped&#xA;Oak Log" icon="stripped_oak_log"/>
+        <stripped_oak_wood name="Stripped&#xA;Oak Wood" icon="stripped_oak_wood"/>
+        <oak_planks name="Oak&#xA;Planks" icon="oak_planks"/>
+        <oak_stairs name="Oak&#xA;Stairs" icon="oak_stairs"/>
+        <oak_slab name="Oak&#xA;Slab" icon="oak_slab"/>
+        <oak_fence name="Oak&#xA;Fence" icon="oak_fence"/>
+        <oak_fence_gate name="Oak&#xA;Fence Gate" icon="oak_fence_gate"/>
+        <oak_trapdoor name="Oak Trapdoor" icon="oak_trapdoor"/>
+        <oak_pressure_plate name="Oak&#xA;Pressure Plate" icon="oak_pressure_plate"/>
+        <oak_button name="Oak&#xA;Button" icon="oak_button"/>
+        <oak_sign name="Oak&#xA;Sign" icon="oak_sign"/>
+        <spruce_log name="Spruce&#xA;Log" icon="spruce_log"/>
+        <spruce_wood name="Spruce&#xA;Wood" icon="spruce_wood"/>
+        <stripped_spruce_log name="Stripped&#xA;Spruce Log" icon="stripped_spruce_log"/>
+        <stripped_spruce_wood name="Stripped&#xA;Spruce Wood" icon="stripped_spruce_wood"/>
+        <spruce_planks name="Spruce&#xA;Planks" icon="spruce_planks"/>
+        <spruce_stairs name="Spruce&#xA;Stairs" icon="spruce_stairs"/>
+        <spruce_slab name="Spruce&#xA;Slab" icon="spruce_slab"/>
+        <spruce_fence name="Spruce&#xA;Fence" icon="spruce_fence"/>
+        <spruce_fence_gate name="Spruce&#xA;Fence Gate" icon="spruce_fence_gate"/>
+        <spruce_trapdoor name="Spruce Trapdoor" icon="spruce_trapdoor"/>
+        <spruce_pressure_plate name="Spruce&#xA;Pressure Plate" icon="spruce_pressure_plate"/>
+        <spruce_button name="Spruce&#xA;Button" icon="spruce_button"/>
+        <spruce_sign name="Spruce&#xA;Sign" icon="spruce_sign"/>
+        <birch_log name="Birch&#xA;Log" icon="birch_log"/>
+        <birch_wood name="Birch&#xA;Wood" icon="birch_wood"/>
+        <stripped_birch_log name="Stripped&#xA;Birch Log" icon="stripped_birch_log"/>
+        <stripped_birch_wood name="Stripped&#xA;Birch Wood" icon="stripped_birch_wood"/>
+        <birch_planks name="Birch&#xA;Planks" icon="birch_planks"/>
+        <birch_stairs name="Birch&#xA;Stairs" icon="birch_stairs"/>
+        <birch_slab name="Birch&#xA;Slab" icon="birch_slab"/>
+        <birch_fence name="Birch&#xA;Fence" icon="birch_fence"/>
+        <birch_fence_gate name="Birch&#xA;Fence Gate" icon="birch_fence_gate"/>
+        <birch_trapdoor name="Birch Trapdoor" icon="birch_trapdoor"/>
+        <birch_pressure_plate name="Birch&#xA;Pressure Plate" icon="birch_pressure_plate"/>
+        <birch_button name="Birch&#xA;Button" icon="birch_button"/>
+        <birch_sign name="Birch&#xA;Sign" icon="birch_sign"/>
+        <jungle_log name="Jungle&#xA;Log" icon="jungle_log"/>
+        <jungle_wood name="Jungle&#xA;Wood" icon="jungle_wood"/>
+        <stripped_jungle_log name="Stripped&#xA;Jungle Log" icon="stripped_jungle_log"/>
+        <stripped_jungle_wood name="Stripped&#xA;Jungle Wood" icon="stripped_jungle_wood"/>
+        <jungle_planks name="Jungle&#xA;Planks" icon="jungle_planks"/>
+        <jungle_stairs name="Jungle&#xA;Stairs" icon="jungle_stairs"/>
+        <jungle_slab name="Jungle&#xA;Slab" icon="jungle_slab"/>
+        <jungle_fence name="Jungle&#xA;Fence" icon="jungle_fence"/>
+        <jungle_fence_gate name="Jungle&#xA;Fence Gate" icon="jungle_fence_gate"/>
+        <jungle_trapdoor name="Jungle Trapdoor" icon="jungle_trapdoor"/>
+        <jungle_pressure_plate name="Jungle&#xA;Pressure Plate" icon="jungle_pressure_plate"/>
+        <jungle_button name="Jungle&#xA;Button" icon="jungle_button"/>
+        <jungle_sign name="Jungle&#xA;Sign" icon="jungle_sign"/>
+        <acacia_log name="Acacia&#xA;Log" icon="acacia_log"/>
+        <acacia_wood name="Acacia&#xA;Wood" icon="acacia_wood"/>
+        <stripped_acacia_log name="Stripped&#xA;Acacia Log" icon="stripped_acacia_log"/>
+        <stripped_acacia_wood name="Stripped&#xA;Acacia Wood" icon="stripped_acacia_wood"/>
+        <acacia_planks name="Acacia&#xA;Planks" icon="acacia_planks"/>
+        <acacia_stairs name="Acacia&#xA;Stairs" icon="acacia_stairs"/>
+        <acacia_slab name="Acacia&#xA;Slab" icon="acacia_slab"/>
+        <acacia_fence name="Acacia&#xA;Fence" icon="acacia_fence"/>
+        <acacia_fence_gate name="Acacia&#xA;Fence Gate" icon="acacia_fence_gate"/>
+        <acacia_trapdoor name="Acacia Trapdoor" icon="acacia_trapdoor"/>
+        <acacia_pressure_plate name="Acacia&#xA;Pressure Plate" icon="acacia_pressure_plate"/>
+        <acacia_button name="Acacia&#xA;Button" icon="acacia_button"/>
+        <acacia_sign name="Acacia&#xA;Sign" icon="acacia_sign"/>
+        <dark_oak_log name="Dark Oak&#xA;Log" icon="dark_oak_log"/>
+        <dark_oak_wood name="Dark Oak&#xA;Wood" icon="dark_oak_wood"/>
+        <stripped_dark_oak_log name="Stripped&#xA;Dark Oak Log" icon="stripped_dark_oak_log"/>
+        <stripped_dark_oak_wood name="Stripped&#xA;Dark Oak Wood" icon="stripped_dark_oak_wood"/>
+        <dark_oak_planks name="Dark Oak&#xA;Planks" icon="dark_oak_planks"/>
+        <dark_oak_stairs name="Dark Oak&#xA;Stairs" icon="dark_oak_stairs"/>
+        <dark_oak_slab name="Dark Oak&#xA;Slab" icon="dark_oak_slab"/>
+        <dark_oak_fence name="Dark Oak&#xA;Fence" icon="dark_oak_fence"/>
+        <dark_oak_fence_gate name="Dark Oak&#xA;Fence Gate" icon="dark_oak_fence_gate"/>
+        <dark_oak_trapdoor name="Dark Oak Trapdoor" icon="dark_oak_trapdoor"/>
+        <dark_oak_pressure_plate name="Dark Oak&#xA;Pressure Plate" icon="dark_oak_pressure_plate"/>
+        <dark_oak_button name="Dark Oak&#xA;Button" icon="dark_oak_button"/>
+        <dark_oak_sign name="Dark Oak&#xA;Sign" icon="dark_oak_sign"/>
+        <crimson_stem name="Crimson&#xA;Stem" icon="crimson_stem"/>
+        <crimson_hyphae name="Crimson&#xA;Hyphae" icon="crimson_hyphae"/>
+        <stripped_crimson_stem name="Stripped&#xA;Crimson Stem" icon="stripped_crimson_stem"/>
+        <stripped_crimson_hyphae name="Stripped&#xA;Crimson Hyphae" icon="stripped_crimson_hyphae"/>
+        <crimson_planks name="Crimson&#xA;Planks" icon="crimson_planks"/>
+        <crimson_stairs name="Crimson&#xA;Stairs" icon="crimson_stairs"/>
+        <crimson_slab name="Crimson&#xA;Slab" icon="crimson_slab"/>
+        <crimson_fence name="Crimson&#xA;Fence" icon="crimson_fence"/>
+        <crimson_fence_gate name="Crimson&#xA;Fence Gate" icon="crimson_fence_gate"/>
+        <crimson_trapdoor name="Crimson Trapdoor" icon="crimson_trapdoor"/>
+        <crimson_pressure_plate name="Crimson&#xA;Pressure Plate" icon="crimson_pressure_plate"/>
+        <crimson_button name="Crimson&#xA;Button" icon="crimson_button"/>
+        <crimson_sign name="Crimson&#xA;Sign" icon="crimson_sign"/>
+        <warped_stem name="Warped&#xA;Stem" icon="warped_stem"/>
+        <warped_hyphae name="Warped&#xA;Hyphae" icon="warped_hyphae"/>
+        <stripped_warped_stem name="Stripped&#xA;Warped Stem" icon="stripped_warped_stem"/>
+        <stripped_warped_hyphae name="Stripped&#xA;Warped Hyphae" icon="stripped_warped_hyphae"/>
+        <warped_planks name="Warped&#xA;Planks" icon="warped_planks"/>
+        <warped_stairs name="Warped&#xA;Stairs" icon="warped_stairs"/>
+        <warped_slab name="Warped&#xA;Slab" icon="warped_slab"/>
+        <warped_fence name="Warped&#xA;Fence" icon="warped_fence"/>
+        <warped_fence_gate name="Warped&#xA;Fence Gate" icon="warped_fence_gate"/>
+        <warped_trapdoor name="Warped Trapdoor" icon="warped_trapdoor"/>
+        <warped_pressure_plate name="Warped&#xA;Pressure Plate" icon="warped_pressure_plate"/>
+        <warped_button name="Warped&#xA;Button" icon="warped_button"/>
+        <warped_sign name="Warped&#xA;Sign" icon="warped_sign"/>
+    </wood>
+    <wool>
+        <white_wool name="White&#xA;Wool" icon="white_wool"/>
+        <red_wool name="Red&#xA;Wool" icon="red_wool"/>
+        <orange_wool name="Orange&#xA;Wool" icon="orange_wool"/>
+        <yellow_wool name="Yellow&#xA;Wool" icon="yellow_wool"/>
+        <lime_wool name="Lime&#xA;Wool" icon="lime_wool"/>
+        <green_wool name="Green&#xA;Wool" icon="green_wool"/>
+        <cyan_wool name="Cyan&#xA;Wool" icon="cyan_wool"/>
+        <light_blue_wool name="Light Blue&#xA;Wool" icon="light_blue_wool"/>
+        <blue_wool name="Blue&#xA;Wool" icon="blue_wool"/>
+        <purple_wool name="Purple&#xA;Wool" icon="purple_wool"/>
+        <magenta_wool name="Magenta&#xA;Wool" icon="magenta_wool"/>
+        <pink_wool name="Pink&#xA;Wool" icon="pink_wool"/>
+        <brown_wool name="Brown&#xA;Wool" icon="brown_wool"/>
+        <light_gray_wool name="Light Gray&#xA;Wool" icon="light_gray_wool"/>
+        <gray_wool name="Gray&#xA;Wool" icon="gray_wool"/>
+        <black_wool name="Black&#xA;Wool" icon="black_wool"/>
+    </wool>
+</blocks>

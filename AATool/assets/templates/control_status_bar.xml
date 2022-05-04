@@ -35,5 +35,5 @@
         <button text="♥ Support me on Patreon ♥" layer="fore" width="170" height="29" horizontal_align="right" margin_right="6">
             <picture name="rainbow_glow" texture="patreon_glow" layer="glow" brightness="0.5" padding="-20"/>
         </button>
-</panel>
+    </panel>
 </control>

@@ -36,9 +36,18 @@
             <criteria_group width="2 * 66"   advancement="minecraft:husbandry/bred_all_animals"/>
         </flow_panel>
 
-        <!-- item count display (trident, shells, skulls etc.) -->
-        <flow_panel name="counts" col="2" cell_width="68" cell_height="68" direction="toptobottom">
+        <text_block col="1" width="260" padding_top="230" horizontal_align="right" h_text_align="left" text="Note: Due to the way pre-1.13 Minecraft IDs work God Apple must be manually checked until eaten."/>
+
+        <!-- pickup counters -->
+        <panel row="0" col="2" height="136" vertical_align="top">
+            <objective_frame pickup="minecraft:enchanted_golden_apple" horizontal_align="left" margin_left="1" vertical_align="top"/>
+            <button name="toggle_egap" width="36" height="36" margin_top="85" vertical_align="top">
+                <picture width="32" height="32"/>
+            </button>
+        </panel>
+        <flow_panel row="0" col="2" height="212" vertical_align="bottom" cell_width="68" cell_height="68" direction="toptobottom">
             <objective_frame pickup="minecraft.skull"/>
+            <objective_frame pickup="minecraft.gold_block"/>
         </flow_panel>
 
         <!-- status strip -->

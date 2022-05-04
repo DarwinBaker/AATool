@@ -56,6 +56,11 @@
                 <objective_frame pickup="minecraft:nautilus_shell"/>
             </flow_panel>
 
+            <!-- enchanted golden apple manual override -->
+            <button name="toggle_egap" row="0" col="4" width="20" height="20" margin_top="5" margin_right="5" vertical_align="top" horizontal_align="right">
+                <picture/>
+            </button>
+
             <!-- nether pickup counts -->
             <flow_panel row="1" col="4">
                 <objective_frame pickup="minecraft:wither_skeleton_skull"/>
