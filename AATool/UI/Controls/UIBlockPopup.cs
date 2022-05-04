@@ -140,21 +140,20 @@ namespace AATool.UI.Controls
             this.source = block;
             this.label.SetText(block.Block.Name);
             this.targetLocation = block.Center.ToVector2();
-            //if (Config.Main.CompactMode)
-            //{
-                this.RemoveControl(this.preview);
-                this.preview = new UIBlockTile(block.Block.DoubleHeight ? 2 : 3) {
-                    VerticalAlign = VerticalAlign.Top,
-                    DrawMode = DrawMode.ChildrenOnly,
-                    BlockId = block.Block.Id,
-                    Margin = new Margin(0, 0, block.Block.DoubleHeight ? 16 : 50, 0),
-                    Layer = Layer.Fore,
-                };
-                this.window.ClearControls();
-                this.window.AddControl(this.label);
-                this.window.AddControl(this.preview);
-                this.preview.InitializeRecursive(this.Root());
-            //}
+
+            this.RemoveControl(this.preview);
+            this.preview = new UIBlockTile(block.Block.DoubleHeight ? 2 : 3) {
+                VerticalAlign = VerticalAlign.Top,
+                DrawMode = DrawMode.ChildrenOnly,
+                BlockId = block.Block.Id,
+                Margin = new Margin(0, 0, block.Block.DoubleHeight || block.BlockId is "minecraft:kelp" ? 16 : 50, 0),
+                Layer = Layer.Fore,
+            };
+            this.window.ClearControls();
+            this.window.AddControl(this.label);
+            this.window.AddControl(this.preview);
+            this.preview.InitializeRecursive(this.Root());
+
             this.ResizeRecursive(this.Parent.Inner);
             UIMainScreen.Invalidate();
         }

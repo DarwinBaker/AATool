@@ -7,20 +7,17 @@ namespace AATool.Graphics
 {
     public class Sprite
     {
-        public const string ResolutionFlag = "^";
-        public const string FramesFlag = "$";
+        public const char ResolutionFlag = '^';
+        public const char FramesFlag = '$';
         public const char ColumnsDelimiter = 'x';
-        public const string PaddingFlag = "~";
+        public const char PaddingFlag = '~';
         public const int MaxAnimationColumns = 32;
 
         public Rectangle Source { get; protected set; }
-
-        public readonly Vector2 Origin;
+        public Vector2 Origin { get; protected set; }
 
         public Point Offset => this.Source.Location;
-        public int X => this.Source.X;
-        public int Y => this.Source.Y;
-        public int Width  => this.Source.Width;
+        public int Width => this.Source.Width;
         public int Height => this.Source.Height;
 
         public Sprite(Rectangle source)
@@ -29,7 +26,7 @@ namespace AATool.Graphics
             this.Origin = new Vector2(source.Width / 2, source.Height / 2);
         }
 
-        public static string ParseId(string fileName, 
+        public static string ParseId(string fileName,
             out int padding,
             out int frames,
             out int columns,

@@ -20,40 +20,25 @@ namespace AATool.UI.Controls
 
         private Color targetColor;
         private float targetBrightness;
-
-        private static readonly HashSet<string> DoubleTallBlocks = new () {
-            "minecraft:cactus",
-            "minecraft:sugar_cane",
-            "minecraft:bamboo",
-            "minecraft:rose_bush",
-            "minecraft:peony",
-            "minecraft:lilac",
-            "minecraft:sunflower",
-            "minecraft:small_dripleaf",
-            "minecraft:armor_stand",
-        };
+        private bool wasManuallyCompleted;
 
         public string BlockId { get; set; }
+        public string GlowTexture { get; set; }
+
         public Block Block;
 
         private UIPicture icon;
-        //private UIPopup popup;
         private UIGlowEffect glowMain;
         private Color glowColor;
         private int scale;
 
         private float brightness;
-        private bool manulOverride;
 
         public bool IsCompleted => this.Block.CompletedByAnyone();
 
-        private string BackgroundTexture => this.Block?.ManuallyCompleted is true
-            ? "block_tile_manual"
-            : "block_tile_complete";
-
         public UIBlockTile()
         {
-            this.scale = Config.Main.RelaxedMode ? 3 : 2;
+            this.scale = 2;
             this.BuildFromTemplate();
         }
 
@@ -80,31 +65,26 @@ namespace AATool.UI.Controls
             this.Style();
         }
 
-        /*
-        public bool TryShowTooltip()
-        {
-            if (!this.Block.CompletedByAnyone()
-                && Config.Main.CompactMode
-                && this.Bounds.Contains(Input.Current.Position))
-            {
-                this.GetRootScreen().First<UIBlockPopup>()?.SetSource(this);
-                return true;
-            }
-            return false;
-        }
-        */
-
         protected override void UpdateThis(Time time)
         {
             if (this.Block is null)
                 return;
-
             this.targetBrightness = this.Block.CompletedByAnyone() ? 1 : 0;
             this.brightness = MathHelper.Lerp(this.brightness, this.targetBrightness, (float)(10 * time.Delta));
 
-            this.targetColor = this.Block.ManuallyCompleted ? Color.Cyan : Color.White;
-            if (Math.Abs(this.brightness - this.targetBrightness) > 0.01f || this.glowColor != this.targetColor)
+            this.wasManuallyCompleted |= this.Block.ManuallyCompleted;
+            this.targetColor = this.Block.ManuallyCompleted || this.wasManuallyCompleted 
+                ? Color.Cyan 
+                : Color.White;
+
+            bool brightnessChanging = Math.Abs(this.brightness - this.targetBrightness) > 0.01f;
+            if (brightnessChanging || this.glowColor != this.targetColor)
                 UIMainScreen.Invalidate();
+            else if (this.brightness is 0)
+                this.wasManuallyCompleted = false;
+            else if (this.brightness is 1)
+                this.wasManuallyCompleted = this.Block.ManuallyCompleted;
+
             this.glowColor = this.targetColor;
         }
 
@@ -116,7 +96,7 @@ namespace AATool.UI.Controls
             Color borderColor;
             if (this.IsCompleted)
             {
-                borderColor = this.Block.ManuallyCompleted
+                borderColor = this.Block.ManuallyCompleted || this.wasManuallyCompleted
                     ? ManualBorder * Math.Max(this.brightness, 0.5f)
                     : CompleteBorder * Math.Max(this.brightness, 0.5f);
             }
@@ -161,7 +141,7 @@ namespace AATool.UI.Controls
                 this.FlexHeight *= 2;
                 this.icon.FlexHeight *= 2;
             }
-            else if (this.Block.Id is "minecraft:kelp")
+            else if (this.Block.Id is "kelp")
             {
                 this.FlexHeight *= 2;
                 this.icon.FlexHeight *= 2;
@@ -169,9 +149,12 @@ namespace AATool.UI.Controls
                 this.icon.SetLayer(Layer.Fore);
             }
 
+            if (this.Block.Id.Contains("torch"))
+                this.icon.SetLayer(Layer.Fore);
+
             if (this.Block.Glows)
             {
-                this.glowMain = new UIGlowEffect() { Scale = Config.Main.CompactMode ? 1 : 1.25f };              
+                this.glowMain = new UIGlowEffect() { Scale = 1 };              
                 this.glowMain.SkipToBrightness(this.Block.LightLevel);
                 if (this.BlockId.Contains("redstone"))
                     this.glowMain.SetTexture("redstone_glow");
@@ -179,10 +162,10 @@ namespace AATool.UI.Controls
                     this.glowMain.SetTexture("amethyst_glow");
                 else if (this.BlockId.Contains("soul"))
                     this.glowMain.SetTexture("sea_lantern_glow");
-                else if (this.BlockId is "minecraft:lantern" || this.BlockId.Contains("torch") || this.BlockId.Contains("campfire"))
+                else if (this.BlockId is "lantern" || this.BlockId.Contains("torch") || this.BlockId.Contains("campfire"))
                     this.glowMain.SetTexture("shroomlight_glow");
                 else
-                    this.glowMain.SetTexture(this.BlockId.Replace("minecraft:", "") + "_glow");
+                    this.glowMain.SetTexture(this.BlockId + "_glow");
                 this.icon.AddControl(this.glowMain);
             }
         }

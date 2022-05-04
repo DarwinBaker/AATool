@@ -14,25 +14,24 @@ namespace AATool.Graphics
     public static class SpriteSheet
     {
         const string AvatarPrefix = "avatar-";
-        const int MaximumWidth = 2048;
-        const int InitialHeight = 2048;
+        const int MaximumSize = 4096;
+        const int InitialSize = 2048;
         const int ExpansionIncrement = 256;
-        const int MaximumHeight = 4096;
 
         public static RenderTarget2D Atlas { get; private set; }
         public static Sprite Pixel { get; private set; }
-
-        public static int Width => Atlas?.Width ?? 0;
-        public static int Height => Atlas?.Height ?? 0;
 
         private static readonly Dictionary<string, Sprite> AllSprites = new ();
         private static readonly Dictionary<string, AnimatedSprite> AnimatedSprites = new ();
         private static readonly HashSet<string> LoadedTextureSets = new ();
 
         private static SpriteBatch InternalBatch;
-        private static int CurrentRowHeight = 0;
-        private static int CursorX = 0;
-        private static int CursorY = 0;
+        private static int ActiveRowHeight = 0;
+        private static int OffsetX = 0;
+        private static int OffsetY = 0;
+        private static int StartX = 0;
+
+        private static int Width => StartX is 0 ? InitialSize : MaximumSize;
 
         public static bool TryGet(string key, out Sprite sprite, int width = 0)
         {
@@ -45,10 +44,10 @@ namespace AATool.Graphics
             return sprite is not null;
         }
 
-        public static bool ContainsSprite(string key) => 
+        public static bool ContainsSprite(string key) =>
             AllSprites.ContainsKey(key ?? string.Empty);
 
-        public static bool IsAnimated(string key) => 
+        public static bool IsAnimated(string key) =>
             AllSprites.TryGetValue(key, out Sprite sprite) && sprite is AnimatedSprite;
 
         public static void Update(Time time)
@@ -61,7 +60,7 @@ namespace AATool.Graphics
         public static void Initialize()
         {
             InternalBatch = new SpriteBatch(Main.Device);
-            Atlas = new RenderTarget2D(Main.Device, MaximumWidth, InitialHeight, false,
+            Atlas = new RenderTarget2D(Main.Device, InitialSize, InitialSize, false,
                 SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 
             //load textures required at launch
@@ -124,22 +123,26 @@ namespace AATool.Graphics
 
         public static void Pack(params Texture2D[] textures)
         {
-            CursorX = 0;
-            CursorY += CurrentRowHeight;
-            CurrentRowHeight = 0;
-
             //sort textures from largest to smallest, first by height then by width
             IOrderedEnumerable<Texture2D> sorted = textures
                 .OrderBy(texture => -texture.Height)
                 .ThenBy(texture => -texture.Width);
 
+            if (sorted.FirstOrDefault()?.Height > ActiveRowHeight)
+            {
+                //start new row to save space
+                OffsetX = StartX;
+                OffsetY += ActiveRowHeight;
+                ActiveRowHeight = 0;
+            }
+
             foreach (Texture2D texture in sorted)
             {
                 //strip away and parse metadata from filename
-                string key = Sprite.ParseId(texture.Tag.ToString(), 
+                string key = Sprite.ParseId(texture.Tag.ToString(),
                     out int padding,
-                    out int frames, 
-                    out int columns, 
+                    out int frames,
+                    out int columns,
                     out decimal speed);
 
                 //find (semi)optimal position in atlas unless already loaded
@@ -150,7 +153,7 @@ namespace AATool.Graphics
                         ? AnimatedSprites[key] = new AnimatedSprite(bounds, frames, columns, speed)
                         : new Sprite(bounds);
                     AllSprites[key] = sprite;
- 
+
                     //store new sprite in texture tag
                     texture.Tag = sprite;
                 }
@@ -163,7 +166,7 @@ namespace AATool.Graphics
         private static void Render(params Texture2D[] textures)
         {
             //make sure atlas texture is big enough to render to
-            ExpandRenderTarget(CursorY + CurrentRowHeight);
+            ExpandRenderTarget(OffsetY + ActiveRowHeight);
 
             lock (Atlas)
             {
@@ -201,7 +204,7 @@ namespace AATool.Graphics
                 }
             }
             catch
-            { 
+            {
                 //couldn't enumerate files, move on
             }
             return textures;
@@ -209,50 +212,66 @@ namespace AATool.Graphics
 
         private static bool Fit(Texture2D texture, int padding, out Rectangle bounds)
         {
-            bounds = Rectangle.Empty;
-            if (texture is null || texture.Width > Width)
+            //validate texture
+            bounds = default;
+            if (texture is null)
                 return false;
 
-            //find next rectangle that will fit the given texture on the atlas
-            if (CursorX + texture.Width > Width && CursorX > 0)
+            int consumedWidth = texture.Width + (padding * 2);
+            int consumedHeight = texture.Height + (padding * 2);
+            ActiveRowHeight = Math.Max(ActiveRowHeight, consumedHeight);
+
+            int right = OffsetX + consumedWidth;
+            if (right > Width)
             {
-                //row is full, move cursor to beginning of next row
-                CursorX = padding;
-                CursorY += CurrentRowHeight + padding;
-                CurrentRowHeight = 0;
+                //start new row
+                OffsetX = StartX;
+                OffsetY += ActiveRowHeight;
+                ActiveRowHeight = consumedHeight;
+            }
+
+            int bottom = OffsetY + ActiveRowHeight;
+            if (bottom > MaximumSize)
+            {
+                //expand horizontally and start at top
+                StartX = InitialSize;
+                OffsetX = StartX;
+                OffsetY = 0;
             }
 
             //calculate bounds for this texture
             bounds = new Rectangle(
-                    CursorX + padding,
-                    CursorY + padding,
-                    texture.Width,
-                    texture.Height);
+                OffsetX + padding,
+                OffsetY + padding,
+                texture.Width,
+                texture.Height);
 
             //move to the right
-            CursorX += texture.Width + (padding * 2);
-            CurrentRowHeight = Math.Max(CurrentRowHeight, texture.Height + (padding * 2));
-
-            return bounds != Rectangle.Empty;
+            OffsetX += consumedWidth;
+            return bounds != default;
         }
 
         private static void ExpandRenderTarget(int bottom)
         {
-            //nothing to do if atlas isn't initialized yet or is already big enough
-            if (Atlas is null || Height >= bottom)
+            //nothing to do if atlas isn't initialized yet
+            if (Atlas is null)
                 return;
 
             int newHeight = (int)(Math.Ceiling((decimal)bottom / ExpansionIncrement) * ExpansionIncrement);
-            if (newHeight > MaximumHeight)
+            if (StartX > 0)
+                newHeight = MaximumSize;
+
+            //nothing to do if height is already enough or is max size
+            if (Width == Atlas?.Width && newHeight == Atlas?.Height)
                 return;
-            
+
             lock (Atlas)
             {
                 //store existing render target temporarily
                 RenderTarget2D oldAtlas = Atlas;
 
                 //create new render target of required size
-                Atlas = new RenderTarget2D(Main.Device, MaximumWidth, newHeight, false,
+                Atlas = new RenderTarget2D(Main.Device, Width, newHeight, false,
                     SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 
                 //re-add old render target contents to new one

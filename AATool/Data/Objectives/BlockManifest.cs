@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using AATool.Data.Categories;
 using AATool.Data.Progress;
 using AATool.Utilities;
 
@@ -10,8 +11,8 @@ namespace AATool.Data.Objectives
     {
         public Dictionary<string, Block> All            { get; private set; }
         public Dictionary<string, List<Block>> Groups   { get; private set; }
-        public int PlacedCount                          { get; private set; }
-
+        public int ObtainedCount { get; private set; }
+        public int PlacedCount { get; private set; }
         public int Count => this.All.Count;
 
         public BlockManifest()
@@ -31,40 +32,60 @@ namespace AATool.Data.Objectives
             this.Groups.Clear();
             this.All.Clear();
             this.PlacedCount = 0;
+            this.ObtainedCount = 0;
         }
 
         public void RefreshObjectives()
         {
             this.ClearObjectives();
 
-            bool filesExist = Paths.TryGetAllFiles(Paths.System.BlocksFolder, "*.xml", 
-                SearchOption.TopDirectoryOnly,
-                out IEnumerable<string> files);
-            if (!filesExist)
-                return;
-
-            //iterate block reference files for current game version
-            foreach (string file in files)
+            //load the blocks added in each past game version up to the current game version
+            foreach (string version in AllBlocks.SupportedVersions)
             {
-                if (!XmlObject.TryGetDocument(file, out XmlDocument document))
-                    continue;
-
-                //add blocks and group by file
-                var group = new List<Block>();
-                foreach (XmlNode blockNode in document.DocumentElement.ChildNodes)
+                string blockFile = Path.Combine(Paths.System.ObjectiveFolder, "blocks.xml");
+                if (!XmlObject.TryGetDocument(blockFile, out XmlDocument document))
                 {
-                    if (blockNode.Name is "block")
-                    {
-                        var block = new Block(blockNode);
-                        this.All.Add(block.Id, block);
-                        group.Add(block);
-                    }
-                    else if (blockNode.Name is "empty")
-                    {
-                        group.Add(null);
-                    }
+                    //error reading a required block file 
+                    this.ClearObjectives();
+                    return;
                 }
-                this.Groups[Path.GetFileNameWithoutExtension(file)] = group;
+
+                //add block groups from this version
+                foreach (XmlNode groupNode in document.DocumentElement?.ChildNodes)
+                {
+                    var group = new List<Block>();
+                    foreach (XmlNode blockNode in groupNode?.ChildNodes)
+                    {
+                        //skip spacer nodes
+                        if (blockNode.Name is "empty")
+                            continue;
+
+                        //remove block from past versions if mojang has since removed it from the game
+                        if (blockNode.Name is "remove")
+                        {
+                            string blockId = XmlObject.Attribute(blockNode, "block", string.Empty);
+                            string groupId = XmlObject.Attribute(blockNode, "group", string.Empty);
+                            if (this.TryGet(blockId, out Block removed))
+                            {
+                                this.All.Remove(blockId);
+                                if (this.TryGetGroup(groupId, out List<Block> removalGroup))
+                                    removalGroup.Remove(removed);
+                            }
+                        }
+                        else
+                        {
+                            //add all blocks in group
+                            var block = new Block(blockNode);
+                            this.All[block.Id] = block;
+                            group.Add(block);
+                        }
+                    }
+                    this.Groups[groupNode.Name] = group;
+                }
+
+                //skip blocks added in versions that came after the currently selected game version
+                if (version == Tracker.Category.CurrentVersion)
+                    return;
             }
         }
 
@@ -78,11 +99,14 @@ namespace AATool.Data.Objectives
         public void UpdateTotal()
         {
             this.PlacedCount = 0;
+            this.ObtainedCount = 0;
             foreach (Block block in this.All.Values)
             {
                 //update completion count
                 if (block.CompletedByAnyone())
                     this.PlacedCount++;
+                if (block.PickedUpByAnyone())
+                    this.ObtainedCount++;
             }
         }
     }

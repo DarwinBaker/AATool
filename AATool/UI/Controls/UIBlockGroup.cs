@@ -1,4 +1,5 @@
 ﻿using AATool.Configuration;
+using AATool.Data.Categories;
 using AATool.Data.Objectives;
 using AATool.Graphics;
 using AATool.UI.Screens;
@@ -90,8 +91,12 @@ namespace AATool.UI.Controls
             {
                 if (tile.Bounds.Contains(cursor))
                 {
-                    if (Input.LeftClicked)
+                    if (Input.LeftClicked && Tracker.IsWorking)
+                    {
                         tile.Block.ToggleManualOverride();
+                        (Tracker.Category as AllBlocks)?.SaveChecklist();
+                    }
+                        
                     if (Input.RightClicked)
                         this.popup.SetSource(tile);  
 
