@@ -15,6 +15,7 @@ namespace AATool.Data.Progress
         [JsonProperty] public readonly Dictionary<string, DateTime> Advancements;
         [JsonProperty] public readonly HashSet<(string adv, string crit)> Criteria;
         [JsonProperty] public readonly Dictionary<string, int> ItemCounts;
+        [JsonProperty] public readonly Dictionary<string, int> ItemsDropped;
         [JsonProperty] public readonly HashSet<string> BlocksPlaced;
 
         public int CompletedCount => this.Advancements.Count;
@@ -22,24 +23,27 @@ namespace AATool.Data.Progress
         [JsonConstructor]
         public Contribution(Uuid playerId,
             Dictionary<string, DateTime> Advancements, 
-            HashSet<(string, string)> Criteria, 
+            HashSet<(string, string)> Criteria,
             Dictionary<string, int> ItemCounts,
+            Dictionary<string, int> ItemsDropped,
             HashSet<string> BlocksPlaced)
         {
             this.PlayerId      = playerId;
             this.Advancements  = Advancements;
             this.Criteria      = Criteria;
             this.ItemCounts    = ItemCounts;
+            this.ItemsDropped    = ItemsDropped;
             this.BlocksPlaced  = BlocksPlaced;
         }
 
         public Contribution(Uuid playerId)
         {
-            this.PlayerId      = playerId;
-            this.Advancements  = new ();
-            this.Criteria      = new ();
-            this.ItemCounts    = new ();
-            this.BlocksPlaced  = new ();
+            this.PlayerId     = playerId;
+            this.Advancements = new ();
+            this.Criteria     = new ();
+            this.ItemCounts   = new ();
+            this.ItemsDropped = new();
+            this.BlocksPlaced = new ();
         }
 
         public static Contribution FromJsonString(string jsonString) =>
@@ -68,6 +72,9 @@ namespace AATool.Data.Progress
 
         public void AddItemCount(string item, int count) =>
             this.ItemCounts[item] = count;
+
+        public void AddDropCount(string item, int count) =>
+            this.ItemsDropped[item] = count;
 
         public void AddBlock(string block) =>
             this.BlocksPlaced.Add(block);

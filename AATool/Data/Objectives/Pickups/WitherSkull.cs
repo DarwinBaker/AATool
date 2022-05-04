@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Xml;
 using AATool.Data.Categories;
 
 namespace AATool.Data.Objectives.Pickups
@@ -53,9 +48,15 @@ namespace AATool.Data.Objectives.Pickups
         {
             //show wither killed if applicable
             if (this.CompletionOverride)
-                this.FullStatus = Tracker.Category is AllBlocks ? "Beacon+Rose Placed" : "Wither Has Been Killed";
+            {
+                this.FullStatus = Tracker.Category is AllBlocks 
+                    ? "Beacon&Rose Placed" 
+                    : "Wither Has Been Killed";
+            }
             else
+            { 
                 base.UpdateLongStatus();
+            }
         }
     }
 }

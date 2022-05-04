@@ -125,9 +125,10 @@ namespace AATool.Saves
             int total = 0;
             foreach (JsonStream json in this.Players.Values)
             {
-                total += (int)(json?["stats"]
+                total += (int)(json
+                    ?["stats"]
                     ?["minecraft:custom"]
-                    ?["	minecraft:deaths"]
+                    ?["minecraft:deaths"]
                     ?.Value ?? 0);
             }
             return total;
@@ -159,14 +160,14 @@ namespace AATool.Saves
             return total;
         }
 
-        public int TimesUsed(string mob)
+        public int TimesUsed(string id)
         {
             int total = 0;
             foreach (JsonStream json in this.Players.Values)
             {
                 total += (int)(json?["stats"]
                     ?["minecraft:used"]
-                    ?["minecraft:" + mob]
+                    ?["minecraft:" + id]
                     ?.Value ?? 0);
             }
             return total;
@@ -198,6 +199,26 @@ namespace AATool.Saves
                 //handle pre-1.12 formatting
                 if (count is 0)
                     count = (int)(json.Value?["stat.pickup." + item]?.Value ?? 0);
+
+                playerItemCounts[json.Key] = count;
+                total += count;
+            }
+            return total;
+        }
+
+        public int TimesDropped(string item, out Dictionary<Uuid, int> playerItemCounts)
+        {
+            //count how many of this item everybody has picked up
+            int total = 0;
+            playerItemCounts = new Dictionary<Uuid, int>();
+            foreach (KeyValuePair<Uuid, JsonStream> json in this.Players)
+            {
+                int count = 0;
+                count = (int)(json.Value?["stats"]?["minecraft:dropped"]?[item]?.Value ?? 0);
+
+                //handle pre-1.12 formatting
+                if (count is 0)
+                    count = (int)(json.Value?["stat.drop." + item]?.Value ?? 0);
 
                 playerItemCounts[json.Key] = count;
                 total += count;

@@ -1,7 +1,9 @@
 ﻿using AATool.Configuration;
+using AATool.Data.Objectives.Pickups;
 using AATool.Data.Progress;
 using AATool.Net;
 using AATool.Utilities;
+using System;
 using System.Linq;
 using System.Xml;
 
@@ -14,15 +16,25 @@ namespace AATool.Data.Objectives
         public int TargetCount { get; protected set; }
         public bool IsEstimate { get; protected set; }
 
-        protected string FullStatus;
-        protected string ShortStatus;
         protected bool CompletionOverride;
 
-        public override bool CompletedByAnyone() => this.PickedUp >= this.TargetCount || this.CompletionOverride;
+        protected string FullStatus;
+        protected string ShortStatus;
+
+        public virtual int GetTotal() => Math.Max(this.PickedUp - this.Dropped, 0);
+
+        public override bool CompletedByAnyone()
+        {
+            return this.TargetCount is 1
+                ? this.PickedUp > 0 || this.CompletionOverride
+                : this.GetTotal() >= this.TargetCount || this.CompletionOverride;
+        }
         public override bool CompletedBy(Uuid player) => this.CompletedByAnyone();
 
         public override string GetFullCaption() => this.FullStatus;
         public override string GetShortCaption() => this.ShortStatus;
+
+        protected virtual void HandleCompletionOverrides() { }
 
         public Pickup(XmlNode node) : base(node)
         {
@@ -47,15 +59,20 @@ namespace AATool.Data.Objectives
             if (Config.Tracking.Filter == ProgressFilter.Combined)
             {
                 this.PickedUp = progress.PickedUp(this.Id);
+                this.Dropped = progress.Dropped(this.Id);
             }
             else
             {
                 Player.TryGetUuid(Config.Tracking.SoloFilterName, out Uuid player);
                 progress.Players.TryGetValue(player, out Contribution individual);
-                int count = 0;
-                individual?.ItemCounts.TryGetValue(this.Id, out count);
-                this.PickedUp = count;
 
+                int pickedUp = 0;
+                individual?.ItemCounts.TryGetValue(this.Id, out pickedUp);
+                this.PickedUp = pickedUp;
+
+                int dropped = 0;
+                individual?.ItemsDropped.TryGetValue(this.Id, out dropped);
+                this.Dropped = dropped;
             }
             this.HandleCompletionOverrides();
             this.UpdateLongStatus();
@@ -67,7 +84,7 @@ namespace AATool.Data.Objectives
             if (this.TargetCount is 1)
                 this.FullStatus = this.Name;
             else
-                this.FullStatus = $"{this.Name}\n{this.PickedUp}\0/\0{this.TargetCount}";
+                this.FullStatus = $"{this.Name}\n{this.GetTotal()}\0/\0{this.TargetCount}";
         }
 
         protected virtual void UpdateShortStatus()
@@ -79,14 +96,23 @@ namespace AATool.Data.Objectives
             else
             {
                 this.ShortStatus = this.TargetCount is 1
-                    ? this.PickedUp.ToString()
-                    : $"{this.PickedUp} / {this.TargetCount}";
+                    ? this.GetTotal().ToString()
+                    : $"{this.GetTotal()} / {this.TargetCount}";
             }
         }
 
-        protected virtual void HandleCompletionOverrides()
+        public static Pickup FromNode(XmlNode node)
         {
-
+            string id = XmlObject.Attribute(node, "id", string.Empty);
+            return id switch {
+                WitherSkull.ItemId or WitherSkull.LegacyItemId => new WitherSkull(node),
+                GoldBlocks.ItemId or GoldBlocks.LegacyItemId => new GoldBlocks(node),
+                NautilusShell.ItemId => new NautilusShell(node),
+                AncientDebris.ItemId => new AncientDebris(node),
+                Trident.ItemId => new Trident(node),
+                EGap.ItemId => new EGap(node),
+                _ => null
+            };
         }
     }
 }

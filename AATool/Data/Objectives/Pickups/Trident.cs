@@ -18,7 +18,6 @@ namespace AATool.Data.Objectives.Pickups
         private bool skeletonSkull;
         private int headsObtained;
 
-
         public Trident(XmlNode node) : base(node) { }
 
         protected override void HandleCompletionOverrides()

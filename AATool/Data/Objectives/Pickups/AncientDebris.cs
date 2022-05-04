@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace AATool.Data.Objectives.Pickups
@@ -34,10 +30,15 @@ namespace AATool.Data.Objectives.Pickups
 
         protected override void UpdateLongStatus()
         {
-            if (this.IsComplete())
+            if (this.CompletionOverride)
+            {
                 this.FullStatus = "Done With Netherite";
+            }
             else
-                base.UpdateLongStatus();
+            {
+                int estimatedTNT = Math.Max(Tracker.State.TNTPickedUp - Tracker.State.TNTPlaced, 0);
+                this.FullStatus = $"Debris: {this.GetTotal()}\nTNT: {estimatedTNT}";
+            }
         }
     }
 }

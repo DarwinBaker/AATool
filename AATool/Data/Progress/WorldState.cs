@@ -49,6 +49,7 @@ namespace AATool.Data.Progress
         [JsonProperty] public HashSet<string> BlocksPlaced { get; private set; }
         [JsonProperty] public HashSet<string> DeathMessages { get; private set; }
         [JsonProperty] public Dictionary<string, int> PickupTotals { get; private set; }
+        [JsonProperty] public Dictionary<string, int> DropTotals { get; private set; }
         [JsonProperty] public Dictionary<string, int> KillTotals { get; private set; }
 
         [JsonProperty] public TimeSpan InGameTime { get; private set; }
@@ -68,6 +69,8 @@ namespace AATool.Data.Progress
         [JsonProperty] public int ItemsEnchanted        { get; private set; } 
         [JsonProperty] public int EnderPearlsThrown     { get; private set; }
         [JsonProperty] public int TemplesRaided         { get; private set; }
+        [JsonProperty] public int TNTPickedUp           { get; private set; }
+        [JsonProperty] public int TNTPlaced             { get; private set; }
 
         [JsonProperty] public int CreepersKilled        { get; private set; }
         [JsonProperty] public int DrownedKilled         { get; private set; }
@@ -81,6 +84,9 @@ namespace AATool.Data.Progress
         [JsonProperty] public int GoldMined             { get; private set; }
         [JsonProperty] public int EnderChestsMined      { get; private set; }
 
+        [JsonProperty] public int GoldIngotsPickedUp    { get; private set; }
+        [JsonProperty] public int GoldIngotsDropped     { get; private set; }
+        
         public WorldState()
         {
             this.CompletedAdvancements = new ();
@@ -88,6 +94,7 @@ namespace AATool.Data.Progress
             this.BlocksPlaced = new ();
             this.DeathMessages = new ();
             this.PickupTotals = new ();
+            this.DropTotals = new ();
             this.KillTotals = new ();
             this.Players = new ();
         }
@@ -148,8 +155,11 @@ namespace AATool.Data.Progress
         public int PickedUp(string item) =>
             this.PickupTotals.TryGetValue(item, out int count) ? count : 0;
 
+        public int Dropped(string item) =>
+            this.DropTotals.TryGetValue(item, out int count) ? count : 0;
+
         public int KillCount(string mob) =>
-            this.PickupTotals.TryGetValue(mob, out int count) ? count : 0;
+            this.KillTotals.TryGetValue(mob, out int count) ? count : 0;
 
         public void Sync(WorldFolder world)
         {
@@ -175,6 +185,7 @@ namespace AATool.Data.Progress
             this.BlocksPlaced.Clear();
             this.DeathMessages.Clear();
             this.PickupTotals.Clear();
+            this.DropTotals.Clear();
             this.KillTotals.Clear();
         }
 
@@ -262,6 +273,8 @@ namespace AATool.Data.Progress
             this.BreadEaten         = world.Statistics.TimesUsed("bread");
             this.ItemsEnchanted     = world.Statistics.GetItemsEnchanted();
             this.EnderPearlsThrown  = world.Statistics.TimesUsed("ender_pearl");
+            this.TNTPickedUp        = world.Statistics.TimesPickedUp("minecraft:tnt", out _);
+            this.TNTPlaced          = world.Statistics.TimesUsed("tnt");
             this.TemplesRaided      = world.Statistics.TimesMined("tnt") / 9;
 
             //run completion screen stats page 2
@@ -278,21 +291,45 @@ namespace AATool.Data.Progress
             this.GoldMined          = world.Statistics.TimesMined("gold_block");
             this.EnderChestsMined   = world.Statistics.TimesMined("ender_chest");
 
+            this.GoldIngotsPickedUp = world.Statistics.TimesPickedUp("minecraft:gold_ingot", out _);
+            this.GoldIngotsDropped = world.Statistics.TimesDropped("minecraft:gold_ingot", out _);
+
             //pickup counts
-            foreach (string item in Tracker.Pickups.All.Keys)
+            IEnumerable<string> trackingItems = Tracker.Category is AllBlocks
+                ? Tracker.Pickups.All.Keys.Union(Tracker.Blocks.All.Keys)
+                : Tracker.Pickups.All.Keys;
+
+            foreach (string item in trackingItems)
             {
-                int total = world.Statistics.TimesPickedUp(item, out Dictionary<Uuid, int> countsByPlayer);
-                if (total > 0)
+                //update times picked up
+                int pickups = world.Statistics.TimesPickedUp(item, out Dictionary<Uuid, int> pickupsByPlayer);
+                if (pickups > 0)
                 {
                     if (!this.PickupTotals.ContainsKey(item))
-                        this.PickupTotals[item] = total;
+                        this.PickupTotals[item] = pickups;
                     else
-                        this.PickupTotals[item] += total;
+                        this.PickupTotals[item] += pickups;
 
-                    foreach (KeyValuePair<Uuid, int> count in countsByPlayer)
+                    foreach (KeyValuePair<Uuid, int> count in pickupsByPlayer)
                     {
                         if (this.Players.TryGetValue(count.Key, out Contribution player))
                             player.AddItemCount(item, count.Value);
+                    }
+                }
+
+                //update times dropped
+                int drops = world.Statistics.TimesDropped(item, out Dictionary<Uuid, int> dropsByPlayer);
+                if (drops > 0)
+                {
+                    if (!this.DropTotals.ContainsKey(item))
+                        this.DropTotals[item] = drops;
+                    else
+                        this.DropTotals[item] += drops;
+
+                    foreach (KeyValuePair<Uuid, int> count in dropsByPlayer)
+                    {
+                        if (this.Players.TryGetValue(count.Key, out Contribution player))
+                            player.AddDropCount(item, count.Value);
                     }
                 }
             }
@@ -327,6 +364,26 @@ namespace AATool.Data.Progress
                             break;
                         }
                     }
+                }
+            }
+        }
+
+        public void SyncLogAdvancements()
+        {
+            if (ActiveInstance.TryGetLog(out string log) && Player.TryGetName(Tracker.GetMainPlayer(), out string name))
+            {
+                log = log.ToLower();
+                foreach (Advancement advancement in Tracker.Advancements.AllAdvancements.Values)
+                {
+                    if (advancement.Id is "minecraft:adventure/throw_trident")
+                    {
+
+                    }
+
+                    string query = $"[server thread/info]: {name.ToLower()} " +
+                        $"has completed the {advancement.LogType} [{advancement.LogName}]";
+                    if (log.Contains(query))
+                        this.CompletedAdvancements.Add(advancement.Id);
                 }
             }
         }

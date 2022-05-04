@@ -28,18 +28,9 @@ namespace AATool.Data.Objectives
                 //build list of items to count
                 foreach (XmlNode node in document.DocumentElement.ChildNodes)
                 {
-                    string id = XmlObject.Attribute(node, "id", string.Empty);
-                    Pickup itemCount = id switch {
-                        NautilusShell.ItemId     => new NautilusShell(node),
-                        AncientDebris.ItemId     => new AncientDebris(node),
-                        WitherSkull.ItemId       => new WitherSkull(node),
-                        WitherSkull.LegacyItemId => new WitherSkull(node),
-                        Trident.ItemId           => new Trident(node),
-                        EGap.ItemId              => new EGap(node),
-                        _ => null
-                    };
-                    if (itemCount is not null)
-                        this.All.Add(itemCount.Id, itemCount);
+                    var counter = Pickup.FromNode(node);
+                    if (counter is not null)
+                        this.All.Add(counter.Id, counter);
                 }
             }
         }
