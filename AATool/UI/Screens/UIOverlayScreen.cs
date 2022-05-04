@@ -17,9 +17,9 @@ namespace AATool.UI.Screens
 {
     public sealed class UIOverlayScreen : UIScreen
     {
-        private const int SCROLL_SPEED_MULTIPLIER = 15;
-        private const int BASE_SCROLL_SPEED = 30;
-        private const int TITLE_MOVE_SPEED = 4;
+        private const int ScrollSpeedMultiplier = 15;
+        private const int BaseScrollSpeed = 30;
+        private const int TitleSlideSpeed = 4;
 
         private readonly SequenceTimer titleTimer;
         
@@ -73,9 +73,9 @@ namespace AATool.UI.Screens
 
         public override string GetCurrentView()
         {
-            return Path.Combine(Paths.System.ViewsFolder,
-                Tracker.Category.ViewName,
-                "overlay.xml");
+            return Tracker.Category is AllBlocks
+                ? Path.Combine(Paths.System.ViewsFolder, Tracker.Category.ViewName, Tracker.Category.CurrentMajorVersion, "overlay.xml")
+                : Path.Combine(Paths.System.ViewsFolder, Tracker.Category.ViewName, "overlay.xml");
         }
 
         public override void ReloadView()
@@ -314,7 +314,7 @@ namespace AATool.UI.Screens
             {
                 this.status?.SetFont("minecraft", 48);
                 if (Config.Overlay.ShowIgt && Tracker.InGameTime != default)
-                    this.status?.SetText(Tracker.GetPrettyIgt());
+                    this.status?.SetText(Tracker.GetFullIgt());
                 else
                     this.status?.SetText(string.Empty);
             }
@@ -332,8 +332,7 @@ namespace AATool.UI.Screens
 
             if (this.titleTimer.Index is 0)
             {
-                this.text.SetText($"{Tracker.Category.GetCompletedCount()} / {Tracker.Category.GetTargetCount()}");
-                this.text.Append($" {Tracker.Category.Objective} {Tracker.Category.Action}");
+                this.text.SetText(Tracker.Category.GetStatus());
             }
             else if (this.titleTimer.Index is 2)
             {
@@ -347,19 +346,19 @@ namespace AATool.UI.Screens
             if (this.titleTimer.Index % 2 is 0)
             {
                 //slide in from top
-                this.titleY = MathHelper.Lerp(this.titleY, 0, (float)(TITLE_MOVE_SPEED * time.Delta));
+                this.titleY = MathHelper.Lerp(this.titleY, 0, (float)(TitleSlideSpeed * time.Delta));
             }
             else
             {
                 //slide out from top
-                this.titleY = MathHelper.Lerp(this.titleY, -48, (float)(TITLE_MOVE_SPEED * time.Delta));
+                this.titleY = MathHelper.Lerp(this.titleY, -48, (float)(TitleSlideSpeed * time.Delta));
             }
             this.text.MoveTo(new Point(0, (int)this.titleY));
         }
 
         private void UpdateSpeed()
         {
-            double speed = BASE_SCROLL_SPEED + (Config.Overlay.Speed * SCROLL_SPEED_MULTIPLIER);
+            float speed = BaseScrollSpeed + (Config.Overlay.Speed * ScrollSpeedMultiplier);
             if (this.FastForwarding)
                 speed *= 20;
             this.advancements?.SetSpeed(speed);

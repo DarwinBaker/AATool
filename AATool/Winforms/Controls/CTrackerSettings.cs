@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Net.Http;
@@ -8,9 +7,7 @@ using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Net;
 using AATool.Saves;
-using AATool.Utilities;
 using AATool.Winforms.Forms;
-using Microsoft.Xna.Framework;
 
 namespace AATool.Winforms.Controls
 {

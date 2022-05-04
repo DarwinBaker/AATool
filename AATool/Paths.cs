@@ -42,6 +42,7 @@ namespace AATool
             public const string CacheFolder = "assets/cache/";
             public const string SftpWorldsFolder = CacheFolder + "sftp_worlds/";
             public const string LeaderboardsFolder = CacheFolder + "leaderboards/";
+            public const string BlockChecklistsFolder = CacheFolder + "block_checklists/";
 
             //constant asset paths
             public const string DataFolder        = "data/";
@@ -64,7 +65,6 @@ namespace AATool
             //dependant paths
             public static string ObjectiveFolder => Path.Combine(ObjectivesFolder, Config.Tracking.GameVersion);
             public static string AdvancementsFolder => Path.Combine(ObjectiveFolder, "advancements/");
-            public static string BlocksFolder => Path.Combine(ObjectiveFolder, "blocks/");
             public static string AchievementsFile => Path.Combine(ObjectiveFolder, "achievements.xml");
             public static string StatisticsFile => Path.Combine(ObjectiveFolder, "statistics.xml");
             public static string DeathMessagesFile => Path.Combine(ObjectiveFolder, "deaths.xml");
@@ -73,18 +73,25 @@ namespace AATool
             //file getters
             public static string CrashLogFile => Path.Combine(LogsFolder, $"crash_report_{DateTime.Now:yyyy_M_dd_h_mm_ss}.txt");
             public static string CreditsFile => Path.Combine(CreditsFolder, "credits.xml");
-            public static string LeaderboardFile => Path.Combine(LeaderboardsFolder, Config.Tracking.GameCategory + ".csv");
+
+            public static string LeaderboardFile(string fileName) => 
+                Path.Combine(LeaderboardsFolder, $"{fileName}.csv");
+
+            public static string BlockChecklistFile(string instance, string worldName) => 
+                Path.Combine(BlockChecklistsFolder, $"{instance}{worldName}.txt");
         }
 
         public static class Saves
         {
+            public const string AppDataShortcut = "%AppData%\\Roaming";
+
             public static string CurrentFolder()
             {
                 if (Config.Tracking.UseSftp)
                     return System.SftpWorldsFolder;
 
                 return Tracker.Source is TrackerSource.CustomSavesPath
-                    ? Config.Tracking.CustomSavesPath
+                    ? Config.Tracking.CustomSavesPath.Value.Replace(AppDataShortcut, GetFolderPath(SpecialFolder.ApplicationData))
                     : ActiveInstance.SavesPath;
             }
 
@@ -116,11 +123,23 @@ namespace AATool
             public const string ObsHelp       = "https://github.com/DarwinBaker/AATool/blob/main/info/obs.md";
             public const string PatreonFull   = "https://www.patreon.com/_ctm";
             public const string PatreonShort  = "Patreon.com/_CTM";
-            public const string UnofficialSpreadsheet = "https://docs.google.com/spreadsheets/d/107ijqjELTQQ29KW4phUmtvYFTX9-pfHsjb18TKoWACk/export?format=csv";
 
-            public static string GetUuidUrl(string mojangName) => $"https://api.mojang.com/users/profiles/minecraft/{mojangName}";
-            public static string GetNameUrl(string uuid) => $"https://api.mojang.com/user/profiles/{uuid}/names";
-            public static string GetAvatarUrl(string uuid, int size = 16) => $"https://crafatar.com/avatars/{uuid}?size={size}&overlay=true";
+            public const string LeaderboardSpreadsheet = "107ijqjELTQQ29KW4phUmtvYFTX9-pfHsjb18TKoWACk";
+            public const string NicknameSpreadsheet = "1j2APgxS_En7em5lcVF2OWjEvsUY2DHVX4QvdVGhSR_o";
+            public const string PrimaryVersionBoard = "1706556435";
+            public const string OtherVersionsBoard = "1283472797";
+
+            public static string GetUuidUrl(string mojangName) => 
+                $"https://api.mojang.com/users/profiles/minecraft/{mojangName}";
+
+            public static string GetNameUrl(string uuid) => 
+                $"https://api.mojang.com/user/profiles/{uuid}/names";
+
+            public static string GetAvatarUrl(string uuid, int size = 16) => 
+                $"https://crafatar.com/avatars/{uuid}?size={size}&overlay=true";
+
+            public static string GetSpreadsheetUrl(string sheet, string page) =>
+                $"https://docs.google.com/spreadsheets/d/{sheet}/export?gid={page}&format=csv";
         }
     }
 }

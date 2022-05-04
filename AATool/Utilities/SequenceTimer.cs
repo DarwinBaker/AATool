@@ -19,6 +19,12 @@ namespace AATool.Utilities
 
         public void Continue() => this.SetAndStart(this.NextDuration());
 
+        public void Skip(int count)
+        {
+            for (int i = 0; i < count; i++)
+                this.Continue();
+        }
+
         private double NextDuration()
         {
             this.Index++;

@@ -101,7 +101,7 @@ namespace AATool.UI.Controls
 
         public UITimeline() : base()
         {
-            this.items = new();
+            this.items = new ();
             this.sortedAdvancements = new ();
         }
 
@@ -141,7 +141,7 @@ namespace AATool.UI.Controls
             //remove unimportant advancements
             for (int i = this.sortedAdvancements.Count - 1; i > 0; i--)
             {
-                if (!important.Contains(this.sortedAdvancements[i].Id))
+                if (!important.Contains(this.sortedAdvancements[i].Id) || !this.sortedAdvancements[i].IsComplete())
                     this.sortedAdvancements.RemoveAt(i);
             }
 

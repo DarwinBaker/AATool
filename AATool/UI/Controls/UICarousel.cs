@@ -71,11 +71,17 @@ namespace AATool.UI.Controls
                 for (int i = 0; i < this.Children.Count; i++)
                     this.Children[i].MoveBy(new Point((int)this.offset * this.Direction, 0));
 
-                //remove controls that leave the viewport
                 if (this.Children.Count > 0 && (this.Children[0].Right < 0 || this.Children[0].Left > this.Width))
-                    this.RemoveControl(this.Children[0]);
+                    this.Trim();
+
                 this.offset -= (int)this.offset;
             }
+        }
+
+        protected virtual void Trim()
+        {
+            //remove controls that leave the viewport
+            this.RemoveControl(this.Children[0]);
         }
 
         protected virtual void Fill()

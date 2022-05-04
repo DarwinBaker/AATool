@@ -2,6 +2,7 @@
 using AATool.Data;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
+using AATool.UI.Screens;
 using System.Collections.Generic;
 
 namespace AATool.UI.Controls
@@ -33,9 +34,9 @@ namespace AATool.UI.Controls
 
             this.Fill();
 
-            if (Tracker.ProgressChanged)
+            //remove existing overlay advancements that have since been completed
+            if (Tracker.ProgressChanged || Tracker.MainPlayerChanged)
             {
-                //remove existing overlay advancements that have since been completed
                 for (int i = this.Children.Count - 1; i >= 0; i--)
                 {
                     if ((this.Children[i] as UIObjectiveFrame).Objective?.IsComplete() is true)
@@ -79,23 +80,6 @@ namespace AATool.UI.Controls
 
         private void Style(UIObjectiveFrame frame)
         {
-            if (frame.Objective is Death)
-            {
-                frame.FlexWidth = new Size(42);
-                if (frame.Objective?.Id is "death.fall.accident.water")
-                {
-                    var slab = new UIPicture("inverted_stone_slab") {
-                        FlexWidth = new (48),
-                        FlexHeight = new (48),
-                        VerticalAlign = VerticalAlign.Top,
-                        Margin = new Margin(0, 0, 15, 0),
-                        Layer = Layer.Fore,
-                    };
-                    frame.AddControl(slab);
-                }
-            }
-                
-
             frame.InitializeRecursive(this.Root());
             if (!Config.Overlay.ShowLabels)
                 frame.HideText();

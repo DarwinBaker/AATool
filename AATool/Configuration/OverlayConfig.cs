@@ -33,16 +33,18 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<Point> LastWindowPosition = new (Point.Zero);
             [JsonProperty] public readonly Setting<int> StartupDisplay = new (1);
 
+            [JsonIgnore]
+            public bool AppearanceChanged => this.FrameStyle.Changed
+                || this.CustomTextColor.Changed
+                || this.CustomBackColor.Changed
+                || this.CustomBorderColor.Changed;
+
             protected override string GetId() => "overlay";
             protected override string GetLegacyId() => "overlay";
 
             private static Color Hex(string hex) =>
                 ColorHelper.TryGetHexColor(hex, out Color color) ? color : Color.White;
 
-            public bool AppearanceChanged => this.FrameStyle.Changed
-                || this.CustomTextColor.Changed
-                || this.CustomBackColor.Changed
-                || this.CustomBorderColor.Changed;
 
             public OverlayConfig()
             {

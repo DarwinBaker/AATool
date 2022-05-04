@@ -30,6 +30,8 @@ namespace AATool.UI.Controls
             }
 
             base.UpdateThis(time);
+
+            this.Style();
         }
 
         protected override void RefreshSourceList()
@@ -86,17 +88,32 @@ namespace AATool.UI.Controls
             if (Config.Overlay.ClarifyAmbiguous && criterion.Icon is "hoglin" or "cat" or "tuxedo")
             {
                 var advIcon = new UIPicture() {
+                    Name = "clarifying_icon",
                     FlexWidth = new Size(48),
                     FlexHeight = new Size(48),
                     HorizontalAlign = HorizontalAlign.Left,
                     VerticalAlign = VerticalAlign.Top,
-                    Margin = new Margin(-16, 0, -16, 0),
+                    Margin = new Margin(-18, 0, -9, 0),
                 };
                 advIcon.SetTexture(criterion.Owner.Icon);
                 advIcon.ResizeThis(control.Inner);
                 control.AddControl(advIcon);
             }
             return control;
+        }
+
+        private void Style()
+        {
+            if (Config.Overlay.ClarifyAmbiguous.Changed)
+            {
+                foreach (UIControl criterion in this.Children)
+                {
+                    if (Config.Overlay.ClarifyAmbiguous)
+                        criterion.First("clarifying_icon")?.Expand();
+                    else
+                        criterion.First("clarifying_icon")?.Collapse();
+                }
+            }
         }
     }
 }

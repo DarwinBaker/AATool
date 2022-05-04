@@ -11,13 +11,18 @@ namespace AATool.UI.Controls
         public float Scale { get; set; }
 
         private float displayBrightness;
+        private float rotationFactor = 400f;
 
         private bool isMainWindow;
+
+
 
         public UIGlowEffect()
         {
             this.Layer = Layer.Glow;
         }
+
+        public void SetRotationSpeed(float factor) => this.rotationFactor = MathHelper.Max(factor, 1);
 
         public void LerpToBrightness(float brightness) => this.Brightness = MathHelper.Clamp(brightness, 0, 1);
 
@@ -40,7 +45,7 @@ namespace AATool.UI.Controls
                 ? (this.X * 100) + (this.Y * 100)
                 : 0;
 
-            this.SetRotation((float)(offset + (time.TotalFrames / 400f)));
+            this.SetRotation((float)(offset + (time.TotalFrames / this.rotationFactor)));
             this.displayBrightness = MathHelper.Lerp(this.displayBrightness, this.Brightness, (float)(10 * time.Delta));
         }
 

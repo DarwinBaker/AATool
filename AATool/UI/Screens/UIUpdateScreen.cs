@@ -84,40 +84,54 @@ namespace AATool.UI.Screens
         public override void InitializeThis(UIScreen screen)
         {
             this.textTinted = new List<UIPicture>();
+
             this.versionLabel = this.First<UITextBlock>("version");
-            this.versionLabel.SetText("AATool " + UpdateRequest.LatestVersion.ToString());
+            this.versionLabel?.SetText("AATool " + UpdateRequest.LatestVersion.ToString());
             this.titleLabel = this.First<UITextBlock>("title");
-            this.titleLabel.SetText(UpdateRequest.LatestTitle);
+            this.titleLabel?.SetText(UpdateRequest.LatestTitle);
 
             this.hasLatestLabel = this.First<UITextBlock>("has_latest");
             this.thumbnailBounds = this.First("thumbnail");
 
-            //buttons
+            //install now button
             this.nowButton = this.First<UIButton>("now");
             if (this.nowButton is not null)
+            { 
                 this.nowButton.OnClick += this.OnClick;
+                this.textTinted.Add(this.nowButton?.First<UIPicture>());
+            }
+
+            //remind me later button
             this.laterButton = this.First<UIButton>("later");
             if (this.laterButton is not null)
+            { 
                 this.laterButton.OnClick += this.OnClick;
+                this.textTinted.Add(this.laterButton?.First<UIPicture>());  
+            }
+
+            //github link button
             this.githubButton = this.First<UIButton>("github");
             if (this.githubButton is not null)
+            { 
                 this.githubButton.OnClick += this.OnClick;
+                this.textTinted.Add(this.githubButton?.First<UIPicture>());
+            }
+
+            //close button
             this.closeButton = this.First<UIButton>("close");
             if (this.closeButton is not null)
+            { 
                 this.closeButton.OnClick += this.OnClick;
-
+                this.textTinted.Add(this.closeButton?.First<UIPicture>());
+            }
+            
             this.upgrades = this.First<UIFlowPanel>("upgrades");
             this.fixes = this.First<UIFlowPanel>("fixes");
 
-            this.textTinted.Add(this.nowButton.First<UIPicture>());
-            this.textTinted.Add(this.laterButton.First<UIPicture>());
-            this.textTinted.Add(this.githubButton.First<UIPicture>());
-            this.textTinted.Add(this.closeButton.First<UIPicture>());
-
             foreach ((string text, string icon) in UpdateRequest.LatestUpgrades)
-                this.upgrades.AddControl(this.ConstructChangelistItem(text, icon));
+                this.upgrades?.AddControl(this.ConstructChangelistItem(text, icon));
             foreach ((string text, string icon) in UpdateRequest.LatestFixes)
-                this.fixes.AddControl(this.ConstructChangelistItem(text, icon));
+                this.fixes?.AddControl(this.ConstructChangelistItem(text, icon));
 
             //update button visibility
             if (UpdateRequest.UpdatesAreAvailable())
@@ -127,36 +141,36 @@ namespace AATool.UI.Screens
             else if (this.postInstall && !Main.IsBeta)
             {
                 this.Form.Text = $"Welcome to AATool {Main.Version}!";
-                this.closeButton.Expand();
-                this.nowButton.Collapse();
-                this.laterButton.Collapse();
+                this.closeButton?.Expand();
+                this.nowButton?.Collapse();
+                this.laterButton?.Collapse();
             }
             else
             {
-                this.hasLatestLabel.Expand();
-                this.nowButton.Collapse();
-                this.laterButton.Collapse();
+                this.hasLatestLabel?.Expand();
+                this.nowButton?.Collapse();
+                this.laterButton?.Collapse();
 
                 //update text
                 if (Main.IsModded)
                 {
                     this.Form.Text = $"You are running {Main.FullTitle}";
-                    this.hasLatestLabel.SetText("You're on an unofficial build");
+                    this.hasLatestLabel?.SetText("You're on an unofficial build");
                 }
                 if (Main.IsBeta)
                 {
                     this.Form.Text = $"You are running {Main.FullTitle}";
-                    this.hasLatestLabel.SetText("You're ahead of the latest release!");
+                    this.hasLatestLabel?.SetText("You're ahead of the latest release!");
                 }
                 else if (Main.Version > UpdateRequest.LatestVersion)
                 {
                     this.Form.Text = $"You are on a preview version of AATool ({Main.Version})";
-                    this.hasLatestLabel.SetText("You're ahead of the latest release!");
+                    this.hasLatestLabel?.SetText("You're ahead of the latest release!");
                 }
                 else
                 {
                     this.Form.Text = $"You are already on the latest version of AATool ({Main.Version})";
-                    this.hasLatestLabel.SetText("Latest version already installed!");
+                    this.hasLatestLabel?.SetText("Latest version already installed!");
                 }
             }
         }

@@ -35,7 +35,8 @@ namespace AATool.UI.Controls
             { typeof(UIPicture),            Color.Lime },
             { typeof(UICriterion),          Color.Magenta },
             { typeof(UIEnchantmentTable),   Color.Lime },
-            { typeof(UIProgressBar),        Color.Magenta }
+            { typeof(UIProgressBar),        Color.Magenta },
+            { typeof(UIBlockGroup),         Color.Red },
         };
 
         private UIScreen rootScreen;

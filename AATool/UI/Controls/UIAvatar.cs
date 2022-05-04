@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Xml;
 using AATool.Configuration;
+using AATool.Data.Players;
 using AATool.Graphics;
 using AATool.Net;
 using AATool.Net.Requests;
@@ -22,7 +23,9 @@ namespace AATool.UI.Controls
         private UIGlowEffect glow;
         private UITextBlock name;
         private float nameOpacity;
-        private bool leaderboardChecked;
+        private bool cacheChecked;
+        private bool emptyLeaderboardSlot;
+        private bool liveChecked;
         private string offlineName;
 
         public void Glow() => this.glow.SkipToBrightness(this.Scale / 4f);
@@ -38,13 +41,19 @@ namespace AATool.UI.Controls
             this.SetPlayer(player);
         }
 
+        public void SetEmptyLeaderboardSlot()
+        {
+            this.emptyLeaderboardSlot = true;
+            this.SetLayer(Layer.Fore);
+            this.SetTexture("unclaimed_slot");
+        }
+
         public void SetPlayer(Uuid player)
         {
             if (this.Player.String != player.String)
             {
                 this.Player = player;
-                this.InitializeBadge(player);
-                this.UpdateTrophy(true);
+                this.RefreshBadge();
             }
             this.face.SetTexture($"avatar-{this.Player.String}");
         }
@@ -52,7 +61,7 @@ namespace AATool.UI.Controls
         public void SetPlayer(string name)
         {
             this.offlineName = name;
-            this.face.SetTexture($"avatar-{name.ToLower()}");
+            this.face.SetTexture($"avatar-{Leaderboard.GetRealName(name ?? string.Empty).ToLower()}");
         }
 
         public override void InitializeRecursive(UIScreen screen)
@@ -66,44 +75,30 @@ namespace AATool.UI.Controls
 
         protected override void UpdateThis(Time time)
         {
-            this.UpdateTrophy();
             this.UpdateGlowEffect();
             this.UpdateNameText(time);
-        }
 
-        private void UpdateTrophy(bool forceRecheck = false)
-        {
-            if (this.leaderboardChecked && !forceRecheck)
-                return;
-            if (!LeaderboardRequest.Runs.Any())
-                return;
-            if (!Net.Player.TryGetName(this.Player, out string name) && string.IsNullOrEmpty(this.offlineName))
-                return;
+            bool invalidated = !this.cacheChecked && Leaderboard.TryGet(Leaderboard.Current, out _);
+            invalidated |= !this.liveChecked && Leaderboard.IsLiveAvailable;
 
-            RecordHolderBadge trophy = null;
-            int place;
-            for (place = 0; place < Math.Min(LeaderboardRequest.Runs.Count, 10); place++)
+            if (invalidated)
             {
-                if (LeaderboardRequest.Runs[place].Runner == (name ?? this.offlineName))
-                {
-                    trophy = new RecordHolderBadge(2, place + 1);
-                    break;
-                }
-            };
-
-            if (trophy is not null && (this.badge is null || place is 0))
-            {
-                this.RemoveControl(this.badge);
-                this.badge = trophy;
-                this.AddControl(this.badge);
-                this.badge.Margin = new Margin(-8, -0, -7, 0);
-                this.badge.ResizeRecursive(this.Inner);
-            }
-            this.leaderboardChecked = true;
+                this.RefreshBadge();
+                this.cacheChecked = true;
+                if (Leaderboard.IsLiveAvailable)
+                    this.liveChecked = true;
+            } 
         }
 
         private void UpdateGlowEffect()
         {
+            if (this.emptyLeaderboardSlot)
+            {
+                this.glow.LerpToBrightness(1);
+                this.glow.SetTint(this.Tint);
+                return;
+            }
+
             if (Net.Player.TryGetColor(this.Player, out Color accent) 
                 || Net.Player.TryGetColor(this.offlineName?.ToLower(), out accent))
             { 
@@ -145,11 +140,26 @@ namespace AATool.UI.Controls
             this.name.SetTextColor(Config.Main.TextColor.Value * this.nameOpacity);
         }
 
-        private void InitializeBadge(Uuid player)
+        private void RefreshBadge()
         {
+            string playerName = Leaderboard.GetNickName(this.offlineName ?? string.Empty);
+            if (string.IsNullOrEmpty(playerName))
+                Net.Player.TryGetName(this.Player, out playerName);
+
             this.RemoveControl(this.badge);
-            if (Badge.TryGet(player, 2, out this.badge))
+            if (Badge.TryGet(this.Player, playerName, 2, out this.badge))
             {
+                this.AddControl(this.badge);
+                this.badge.ResizeRecursive(this.Inner);
+            }
+        }
+
+        private void RefreshBadge(string player)
+        {
+            if (Badge.TryGet(player, 2, out var newBadge))
+            {
+                this.RemoveControl(this.badge);
+                this.badge = newBadge;
                 this.AddControl(this.badge);
                 this.badge.ResizeRecursive(this.Inner);
             }

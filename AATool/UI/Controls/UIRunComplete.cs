@@ -205,7 +205,7 @@ namespace AATool.UI.Controls
                 body = $"{name} Has Completed\n";
             body += $"Minecraft: Java Edition ({Tracker.Category.CurrentVersion})\n" +
                 $"{Tracker.Category.Name.Replace(" ", "\0")}\n \n" +
-                $"{Tracker.GetPrettyIgt()}\nApproximate IGT\n";
+                $"{Tracker.GetFullIgt()}\nApproximate IGT\n";
 
             this.First<UITextBlock>("head").SetText(title);
             this.First<UITextBlock>("head_shadow").SetText(title);

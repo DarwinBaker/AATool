@@ -634,8 +634,8 @@ namespace AATool.Winforms.Controls
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.remoteGroup);
             this.Controls.Add(this.localGroup);
+            this.Controls.Add(this.remoteGroup);
             this.Name = "CTrackerSettings";
             this.Size = new System.Drawing.Size(538, 307);
             this.localGroup.ResumeLayout(false);

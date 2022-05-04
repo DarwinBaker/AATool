@@ -367,25 +367,5 @@ namespace AATool.Data.Progress
                 }
             }
         }
-
-        public void SyncLogAdvancements()
-        {
-            if (ActiveInstance.TryGetLog(out string log) && Player.TryGetName(Tracker.GetMainPlayer(), out string name))
-            {
-                log = log.ToLower();
-                foreach (Advancement advancement in Tracker.Advancements.AllAdvancements.Values)
-                {
-                    if (advancement.Id is "minecraft:adventure/throw_trident")
-                    {
-
-                    }
-
-                    string query = $"[server thread/info]: {name.ToLower()} " +
-                        $"has completed the {advancement.LogType} [{advancement.LogName}]";
-                    if (log.Contains(query))
-                        this.CompletedAdvancements.Add(advancement.Id);
-                }
-            }
-        }
     }
 }

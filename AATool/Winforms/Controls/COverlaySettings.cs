@@ -26,10 +26,10 @@ namespace AATool.Winforms.Controls
             this.frameStyle.Items.Clear();
             this.frameStyle.Items.Add("Minecraft");
             this.frameStyle.Items.Add("Custom Theme");
-            this.frameStyle.Items.Add("Eye Spy");
-            this.frameStyle.Items.Add("Geode");
             foreach (string theme in Config.MainConfig.Themes.Keys)
                 this.frameStyle.Items.Add(theme);
+            this.frameStyle.Items.Add("Eye Spy");
+            this.frameStyle.Items.Add("Geode");
             this.frameStyle.Items.Add("None");
         }
 

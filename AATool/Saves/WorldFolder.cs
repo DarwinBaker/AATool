@@ -21,8 +21,8 @@ namespace AATool.Saves
 
         public bool IsEmpty => this.CurrentFolder is null;
 
-        public string FullName => this.CurrentFolder?.FullName;
-        public string Name => this.CurrentFolder?.Name;
+        public string FullName => this.CurrentFolder?.FullName ?? string.Empty;
+        public string Name => this.CurrentFolder?.Name ?? string.Empty;
 
         public WorldFolder()
         {

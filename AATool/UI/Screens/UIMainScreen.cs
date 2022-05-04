@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
+using AATool.Data.Objectives.Pickups;
 using AATool.Graphics;
 using AATool.Net;
 using AATool.UI.Controls;
@@ -29,6 +30,7 @@ namespace AATool.UI.Screens
         private UILeaderboard leaderboard;
         private UIPotionGroup potions;
         private UIButton resetDeaths;
+        private UIButton toggleEGap;
         private readonly Utilities.Timer settingsCooldown;
 
         public override Color FrameBackColor() => Config.Main.BackColor;
@@ -106,6 +108,10 @@ namespace AATool.UI.Screens
                     Tracker.Category.CurrentMajorVersion ?? Tracker.Category.CurrentVersion,
                     $"main_{Config.Main.ViewMode}.xml");
             }
+
+            //path = Path.Combine(Paths.System.ViewsFolder,
+            //    "overview",
+            //    "relaxed.xml");
             return path;
         }
 
@@ -133,6 +139,10 @@ namespace AATool.UI.Screens
             this.popup = this.First<UIBlockPopup>();
             this.leaderboard = this.First<UILeaderboard>();
             this.potions = this.First<UIPotionGroup>();
+            this.toggleEGap = this.First<UIButton>("toggle_egap");
+            if (this.toggleEGap is not null)
+                this.toggleEGap.OnClick += this.Click;
+
             this.resetDeaths = this.First<UIButton>("reset");
             if (this.resetDeaths is not null)
             {
@@ -150,13 +160,21 @@ namespace AATool.UI.Screens
                 foreach (Death death in Tracker.Deaths.All.Values)
                     death.Clear();
             }
+            else if (sender == this.toggleEGap)
+            {
+                if (Tracker.TryGetPickup(EGap.ItemId, out Pickup apple))
+                    (apple as EGap).ToggleManualCompletion();
+            }
         }
 
         public override void ResizeRecursive(Rectangle rectangle)
         {
             base.ResizeRecursive(rectangle);
-            this.leaderboard?.Collapse();
-            this.potions?.Collapse();
+            if (this.leaderboard is not null && Tracker.Category is not AllAchievements)
+            {
+                this.leaderboard.Collapse();
+                this.potions?.Collapse();
+            }
             this.First(Config.Main.InfoPanel)?.Expand();
         }
 
@@ -218,8 +236,30 @@ namespace AATool.UI.Screens
             if (Input.Started(Microsoft.Xna.Framework.Input.Keys.Escape) && this.settingsCooldown.IsExpired)
                 this.OpenSettingsMenu();
 
+            this.UpdateEGapCheckbox();
+
             //enforce window size
             this.ConstrainWindow();
+        }
+
+        private void UpdateEGapCheckbox()
+        {
+            if (this.toggleEGap is null || !Tracker.TryGetPickup(EGap.ItemId, out Pickup pickup))
+                return;
+
+            //update the manual override god apple checkbox
+            var eGap = pickup as EGap;
+            if (Tracker.IsWorking && !eGap.Eaten)
+            {
+                this.toggleEGap.Expand();
+                string variant = Config.Main.FrameStyle == "Modern" ? "modern" : "basic";
+                variant = eGap.IsComplete() ? $"checked_{variant}" : $"unchecked_{variant}";
+                this.toggleEGap.First<UIPicture>()?.SetTexture(variant);
+            }
+            else
+            {
+                this.toggleEGap.Collapse();
+            }
         }
 
         private void ShowErrorScreen() 
@@ -258,11 +298,18 @@ namespace AATool.UI.Screens
                 return;
 
             //update which info panel to show
-            if (Config.Main.InfoPanel.Changed)
+            if (Config.Main.InfoPanel.Changed && this.leaderboard is not null)
             {
-                this.leaderboard?.Collapse();
-                this.potions?.Collapse();
-                this.First(Config.Main.InfoPanel)?.Expand();
+                if (Tracker.Category is not AllAchievements)
+                {
+                    this.leaderboard?.Collapse();
+                    this.potions?.Collapse();
+                    this.First(Config.Main.InfoPanel)?.Expand();
+                }
+                else
+                {
+                    this.leaderboard?.Expand();
+                }
             }
 
             //update whether or not top row should be shown

@@ -32,6 +32,7 @@ namespace AATool.UI.Controls
         public string ObjectiveId { get; private set; }
         public string ObjectiveOwnerId { get; private set; }
         public bool IsActive { get; private set; }
+        public float OverlayCoverPosition { get; set; }
 
         private UIControl frame;
         private UIPicture icon;
@@ -46,6 +47,7 @@ namespace AATool.UI.Controls
         private string completeFrame;
         private string incompleteFrame;
 
+        public bool ObjectiveCompleted => this.Objective?.IsComplete() is true;
         public Point IconCenter => this.icon.Center;
 
         public UIObjectiveFrame() 
@@ -157,7 +159,7 @@ namespace AATool.UI.Controls
                     this.label.DrawBackground = true;
             }
 
-            if (screen is UIMainScreen && Config.Main.CompactMode && Tracker.Category is not SingleAdvancement)
+            if (screen is UIMainScreen && Config.Main.CompactMode && Tracker.Category is not (SingleAdvancement or AllBlocks))
             {
                 //make gap between frames slightly smaller in compact mode
                 this.FlexWidth  = new Size(66);
@@ -240,14 +242,14 @@ namespace AATool.UI.Controls
 
             if (time is not null)
             {
-                if (Math.Abs(current - target) > 0.1f && this.Root() is UIMainScreen)
+                if (Math.Abs(current - target) > 0.01f && this.Root() is UIMainScreen)
                     UIMainScreen.Invalidate();
                 float smoothed = MathHelper.Lerp(this.glow.Brightness, target, (float)(10 * time.Delta));
                 this.glow.LerpToBrightness(smoothed);
             }
             else
             {
-                if (Math.Abs(current - target) > 0.1f && this.Root() is UIMainScreen)
+                if (Math.Abs(current - target) > 0.01f && this.Root() is UIMainScreen)
                     UIMainScreen.Invalidate();
                 this.glow.LerpToBrightness(target);
             }
@@ -292,7 +294,8 @@ namespace AATool.UI.Controls
             //pickups have labels that change over time and need to be refreshed
             if (this.Objective is Pickup)
             {
-                if (Config.Main.RelaxedMode || this.Root() is UIOverlayScreen)
+                bool fullSize = Config.Main.RelaxedMode && Tracker.Category is AllAdvancements or AllAchievements or AllBlocks;
+                if (fullSize || this.Root() is UIOverlayScreen)
                     this.label?.SetText(this.Objective?.GetFullCaption());
                 else
                     this.label?.SetText(this.Objective?.GetShortCaption());
@@ -393,7 +396,7 @@ namespace AATool.UI.Controls
                 return;
 
             //draw player head if multiple players have save data
-            if (this.Objective?.IsComplete() is true
+            if (this.ObjectiveCompleted 
                 && this.Objective is Advancement 
                 && (Tracker.State.Players.Count > 1 || Peer.IsConnected))
             {

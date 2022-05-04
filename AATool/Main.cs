@@ -85,8 +85,7 @@ namespace AATool
             FontSet.Initialize();
 
             //check for updates in the background
-            NetRequest.Enqueue(new UpdateRequest());
-            NetRequest.Enqueue(new LeaderboardRequest());
+            new UpdateRequest().EnqueueOnce();
 
             if (Config.Tracking.Filter == ProgressFilter.Solo)
                 Player.FetchIdentity(Config.Tracking.SoloFilterName);
@@ -160,11 +159,10 @@ namespace AATool
                 this.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / Config.Main.FpsCap);
                 this.UpdateTitle();
             }
-            else if (Tracker.ObjectivesChanged || Tracker.InGameTimeChanged)
-            {
-                this.UpdateTitle();
-            }
-            else if (this.playerOne != Tracker.GetMainPlayer())
+            else if (Tracker.ObjectivesChanged 
+                || Tracker.InGameTimeChanged 
+                || Config.Tracking.FilterChanged
+                || Tracker.ProgressChanged)
             {
                 this.UpdateTitle();
             }
@@ -234,12 +232,31 @@ namespace AATool
             int total = Tracker.Category.GetTargetCount();
             this.AppendTitle($"{Tracker.Category.CurrentVersion} {Tracker.Category.Name} ({completed} / {total})");
 
-            //add igt to title
             if (Tracker.InGameTime > TimeSpan.Zero)
-                this.AppendTitle($"{Tracker.GetPrettyIgt()} IGT");
+            {
+                if (Tracker.InGameTime.Days is 0)
+                {
+                    //add igt to title
+                    this.AppendTitle($"{Tracker.GetFullIgt()} IGT");
+                }
+                else if (string.IsNullOrEmpty(Tracker.WorldName))
+                {
+                    //add world name and days/hours played to title
+                    this.AppendTitle($"{Tracker.GetDaysAndHours()}");
+                }
+                else
+                {
+                    //add world name and days/hours played to title
+                    this.AppendTitle($"{Tracker.WorldName}: {Tracker.GetDaysAndHours()}");
+                }
+            }
+            
 
             //add igt to title
-            if (Player.TryGetName(Tracker.GetMainPlayer(), out string playerOne))
+            HashSet<Uuid> players = Tracker.GetAllPlayers();
+            if (players.Count > 1 && Config.Tracking.Filter == ProgressFilter.Combined)
+                this.AppendTitle($"Tracking {players.Count} Players");
+            else if (Player.TryGetName(Tracker.GetMainPlayer(), out string playerOne))
                 this.AppendTitle(playerOne);
 
             //add fps cap to title

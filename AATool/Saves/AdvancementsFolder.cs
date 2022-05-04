@@ -33,7 +33,8 @@ namespace AATool.Saves
                 {
                     string[] dateTokens = criterion.ToString()?.Split('\"');
                     string date = dateTokens.Length > 3 ? dateTokens[3] : null;
-                    DateTime.TryParse(date, out timestamp);
+                    if (DateTime.TryParse(date, out DateTime latest) && latest > timestamp)
+                        timestamp = latest;
                 }
                 completions.Add(json.Key, timestamp);
                 completed = true;

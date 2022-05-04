@@ -27,6 +27,7 @@ namespace AATool
         public static WorldState State  { get; private set; }
         public static Exception LastError { get; private set; }
         public static bool DesignationsChanged { get; private set; }
+        public static bool MainPlayerChanged { get; private set; }
         public static bool CoOpStateChanged { get; private set; }
         public static bool WorldLocked { get; private set; }
         public static string Status { get; private set; }
@@ -36,6 +37,8 @@ namespace AATool
 
         public static bool SavesFolderChanged => 
             PreviousSavesPath != Paths.Saves.CurrentFolder();
+
+        public static bool WorldChanged => World.PathChanged;
 
         public static bool ObjectivesChanged => 
             Config.Tracking.GameCategory.Changed || Config.Tracking.GameVersion.Changed;
@@ -64,16 +67,26 @@ namespace AATool
 
         public static void ToggleWorldLock() => WorldLocked ^= true;
 
-        public static string GetPrettyIgt()
+        public static string GetFullIgt() => $"{(int)InGameTime.TotalHours}:{InGameTime:mm':'ss}";
+
+        public static string GetShortIgt() => $"{InGameTime:hh':'mm':'ss}";
+
+        public static string GetDays() => InGameTime.Days is 0 ? string.Empty : $"{Math.Round(InGameTime.TotalDays, 2)} IRL Days";
+
+        public static string GetDaysAndHours()
         {
-            return InGameTime.TotalDays > 1 
-                ? $"{(int)InGameTime.TotalHours}:{InGameTime:mm':'ss}" 
-                : InGameTime.ToString("hh':'mm':'ss");
+            if (InGameTime.Days is 0)
+                return string.Empty;
+
+            return InGameTime.Days is 1
+                ? $"1 Day, {InGameTime.Hours}.{(int)(InGameTime.Minutes / 60.0f * 100)} Hrs Played"
+                : $"{InGameTime.Days} Days, {InGameTime.Hours}.{(int)(InGameTime.Minutes / 60.0f * 100)} Hrs Played";
         }
 
         private static WorldFolder World;
         private static Timer RefreshTimer;
         private static TimeSpan LastInGameTime;
+        private static Uuid PreviousMainPlayer;
         private static string PreviousSavesPath;
         private static string PreviousWorldPath;
         private static string LastServerMessage;
@@ -106,7 +119,9 @@ namespace AATool
         {
             if (Config.Tracking.Filter == ProgressFilter.Solo)
             {
-                Player.TryGetUuid(Config.Tracking.SoloFilterName, out Uuid player);
+                if (PreviousMainPlayer == Uuid.Empty & Player.TryGetUuid(Config.Tracking.SoloFilterName, out Uuid player))
+                    MainPlayerChanged = true;
+                PreviousMainPlayer = player;
                 return player;
             }
             else
@@ -222,6 +237,7 @@ namespace AATool
         {
             LastInGameTime = InGameTime;
             DesignationsChanged = false;
+            MainPlayerChanged = false;
             CoOpStateChanged = false;
             World.ClearFlags();
         }
@@ -240,6 +256,7 @@ namespace AATool
 
                 RefreshTimer.SetAndStart(RefreshInterval);
             }
+            Category.Update();
         }
 
         private static void UpdateCurrentWorld()
@@ -407,6 +424,8 @@ namespace AATool
             if (Config.Tracking.UseSftp && MinecraftServer.IsDownloading)
                 return;
 
+            ReadLatestLog();
+
             //update progress if source has been invalidated
             if (World.TryRefresh() || Peer.StateChanged || Config.Tracking.FilterChanged)
             {
@@ -422,16 +441,17 @@ namespace AATool
                 if (Config.Tracking.BroadcastProgress)
                     OpenTracker.BroadcastProgress();
             }
+        }
 
-            //attempt to sync death messages
+        private static void ReadLatestLog()
+        {  
             if (Category is AllDeaths)
-            { 
+            {
+                //attempt to sync death messages
                 int before = State.DeathMessages.Count;
                 State.SyncDeathMessages();
                 if (State.DeathMessages.Count != before)
-                {
                     Deaths.SetState(State);
-                }
             }
         }
 

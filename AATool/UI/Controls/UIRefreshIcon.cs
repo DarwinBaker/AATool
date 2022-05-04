@@ -95,7 +95,10 @@ namespace AATool.UI.Controls
                 //configure appearance as refresh indicator
                 this.button.Enabled = Tracker.IsWorking && !Peer.IsClient && Tracker.Source is not TrackerSource.SpecificWorld;
                 this.lockIcon.SetTexture(Tracker.WorldLocked ? LockedTexture : string.Empty);
-                this.lockIcon.SetTint(ColorHelper.Fade(Config.Main.TextColor, Math.Max(0.25f, 1 - (alpha * 4))));
+                alpha = Math.Max(0.25f, 1 - (alpha * 4));
+                if (!this.button.Enabled)
+                    alpha /= 3;
+                this.lockIcon.SetTint(ColorHelper.Fade(Config.Main.TextColor, alpha));
             }  
             else
             {

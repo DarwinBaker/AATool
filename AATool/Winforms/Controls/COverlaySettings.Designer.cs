@@ -181,6 +181,7 @@ namespace AATool.Winforms.Controls
             this.clarifyAmbiguous.TabIndex = 42;
             this.clarifyAmbiguous.Text = "Clarify Ambiguous Criteria";
             this.clarifyAmbiguous.UseVisualStyleBackColor = true;
+            this.clarifyAmbiguous.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
             // igt
             // 

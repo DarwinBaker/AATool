@@ -159,16 +159,14 @@ namespace AATool.UI.Controls
                 $"/ {Tracker.Category.GetTargetCount()} {Tracker.Category.Objective} " +
                 $"({Tracker.Category.GetCompletionPercent()}%)";
 
-            if (Config.Main.ProgressBarStyle != "None")
-            {
-                if (this.progressBar.Width > 250)
-                    progress += $"    -    {Tracker.GetPrettyIgt()} IGT";
-            }
-            else
-            {
-                progress += $"\n{Tracker.GetPrettyIgt()} IGT\n{new string('-', this.progressBar.Width / 7)}";
-            }
-                
+            if (this.progressBar.Width > 250)
+                progress += $"    -    {Tracker.GetFullIgt()} IGT";
+
+            string days = Tracker.GetDaysAndHours();
+            if (this.progressBar.Width > 420 && !string.IsNullOrEmpty(days))
+                progress += $"    -    {days}";
+
+
             this.progressLabel.SetText(progress);
             this.progressBar.StartLerpToValue(Tracker.Category.GetCompletionRatio());
 
@@ -209,12 +207,10 @@ namespace AATool.UI.Controls
             }
             else if (sender == this.manualClearButton)
             {
-                var controls = new List<UIControl>();
-                this.Root().GetTreeRecursive(controls);
-                foreach (UIControl control in controls)
+                if (Tracker.Category is AllBlocks ab)
                 {
-                    if (control is UIBlockTile block)
-                        block.Block.ManuallyCompleted = false;
+                    ab.ClearManuallyChecked();
+                    ab.SaveChecklist();
                 }
             }
         }
