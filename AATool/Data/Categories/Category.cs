@@ -20,16 +20,24 @@ namespace AATool.Data.Categories
         public virtual string ViewName => this.Name.ToLower().Replace(" ", "_");
         public string LatestSupportedVersion => this.GetSupportedVersions().First();
 
+        public virtual string GetDefaultVersion() => this.LatestSupportedVersion;
+
         public Category()
         {
-            this.CurrentVersion = this.LatestSupportedVersion;
+            this.CurrentVersion = this.GetDefaultVersion();
             if (Version.TryParse(this.CurrentVersion, out Version current))
                 this.CurrentMajorVersion = $"{current.Major}.{current.Minor}";
         }
 
-        public virtual bool IsComplete() => this.GetCompletedCount() >= this.GetTargetCount();
-        public virtual string GetCompletionMessage() => $"All {this.GetTargetCount()} {this.Objective} {this.Action}!";
-        
+        public virtual bool IsComplete() => 
+            this.GetCompletedCount() >= this.GetTargetCount();
+
+        public virtual string GetCompletionMessage() => 
+            $"All {this.GetTargetCount()} {this.Objective} {this.Action}!";
+
+        public virtual string GetStatus() => 
+            $"{this.GetCompletedCount()} / {this.GetTargetCount()} {this.Objective} {this.Action}";
+
         public abstract IEnumerable<Objective> GetOverlayObjectives();
         public abstract IEnumerable<string> GetSupportedVersions();
         public abstract int GetTargetCount();
@@ -59,7 +67,7 @@ namespace AATool.Data.Categories
         }
 
         public abstract void LoadObjectives();
-
+        public virtual void Update() { }
         public int GetCompletionPercent() => (int)(this.GetCompletionRatio() * 100);
 
         public float GetCompletionRatio()

@@ -8,6 +8,8 @@ namespace AATool.Data.Categories
 
         public IEnumerable<string> GetSupportedVersions();
 
+        public string GetDefaultVersion();
+
         public bool IsComplete();
         public int GetCompletionPercent();
         public string GetCompletionMessage();

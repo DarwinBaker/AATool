@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using AATool.Data.Categories;
+﻿using AATool.Data.Categories;
 using Newtonsoft.Json;
 
 namespace AATool.Configuration
@@ -15,14 +12,14 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<string> LastSession = new (string.Empty);
 
             [JsonProperty] public readonly Setting<string> GameCategory = new ("All Advancements");
-            [JsonProperty] public readonly Setting<string> GameVersion = new ("1.18");
+            [JsonProperty] public readonly Setting<string> GameVersion = new ("1.16");
 
             [JsonProperty] public readonly Setting<bool> AutoDetectVersion = new (true);
             [JsonProperty] public readonly Setting<bool> UseSftp = new (false);
 
             [JsonProperty] public readonly Setting<TrackerSource> Source = new (TrackerSource.ActiveInstance);
             [JsonProperty] public readonly Setting<string> CustomWorldPath = new (string.Empty);
-            [JsonProperty] public readonly Setting<string> CustomSavesPath = new (Paths.Saves.DefaultAppDataSavesPath);
+            [JsonProperty] public readonly Setting<string> CustomSavesPath = new (Paths.Saves.AppDataShortcut + "\\.minecraft\\saves");
 
             [JsonProperty] public readonly Setting<ProgressFilter> Filter = new (ProgressFilter.Combined);
             [JsonProperty] public readonly Setting<string> SoloFilterName = new (string.Empty);
@@ -30,9 +27,6 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<bool> BroadcastProgress = new (false);
             [JsonProperty] public readonly Setting<string> OpenTrackerKey = new (string.Empty);
             [JsonProperty] public readonly Setting<string> OpenTrackerUrl = new (string.Empty);
-
-            protected override string GetId() => "tracking";
-            protected override string GetLegacyId() => "tracker";
 
             [JsonIgnore]
             public bool WatchActiveInstance => !this.UseSftp 
@@ -43,8 +37,12 @@ namespace AATool.Configuration
                 || (this.Source == TrackerSource.CustomSavesPath && this.CustomSavesPath.Changed)
                 || (this.Source == TrackerSource.SpecificWorld && this.CustomWorldPath.Changed);
 
+            [JsonIgnore]
             public bool FilterChanged => this.Filter.Changed 
                 || (this.Filter == ProgressFilter.Solo && this.SoloFilterName.Changed);
+
+            protected override string GetId() => "tracking";
+            protected override string GetLegacyId() => "tracker";
 
             public TrackingConfig()
             {
