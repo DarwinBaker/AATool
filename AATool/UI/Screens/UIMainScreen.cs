@@ -249,16 +249,16 @@ namespace AATool.UI.Screens
 
             //update the manual override god apple checkbox
             var eGap = pickup as EGap;
-            if (Tracker.IsWorking && !eGap.Eaten)
+            if (!Tracker.IsWorking || eGap.PickedUp > 0 || eGap.Eaten)
+            {
+                this.toggleEGap.Collapse();
+            }
+            else
             {
                 this.toggleEGap.Expand();
                 string variant = Config.Main.FrameStyle == "Modern" ? "modern" : "basic";
                 variant = eGap.IsComplete() ? $"checked_{variant}" : $"unchecked_{variant}";
-                this.toggleEGap.First<UIPicture>()?.SetTexture(variant);
-            }
-            else
-            {
-                this.toggleEGap.Collapse();
+                this.toggleEGap.First<UIPicture>()?.SetTexture(variant);   
             }
         }
 
