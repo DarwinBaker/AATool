@@ -21,7 +21,7 @@ namespace AATool.UI.Controls
 
         public override void InitializeThis(UIScreen screen)
         {
-            if (Config.Main.CompactMode)
+            if (Config.Main.UseCompactStyling)
             {
                 this.CellWidth  = 66;
                 this.CellHeight = 68;

@@ -83,16 +83,16 @@ namespace AATool.UI.Controls
             switch (this.State)
             {
                 case ControlState.Released:
-                    canvas.DrawRectangle(this.Bounds, backColor, borderColor, 2, this.Layer);
+                    canvas.DrawRectangle(this.Bounds, backColor, borderColor, this.BorderThickness, this.Layer);
                     break;
                 case ControlState.Hovered:
-                    canvas.DrawRectangle(this.Bounds, backColor, borderColor * 1.25f, 2, this.Layer);
+                    canvas.DrawRectangle(this.Bounds, backColor, borderColor * 1.25f, this.BorderThickness, this.Layer);
                     break;
                 case ControlState.Pressed:
-                    canvas.DrawRectangle(this.Bounds, backColor * 1.25f, borderColor * 1.5f, 3, this.Layer);
+                    canvas.DrawRectangle(this.Bounds, backColor * 1.25f, borderColor * 1.5f, this.BorderThickness + (this.BorderThickness / 2), this.Layer);
                     break;
                 case ControlState.Disabled:
-                    canvas.DrawRectangle(this.Bounds, backColor * 1.1f, backColor * 1.2f, 2, this.Layer);
+                    canvas.DrawRectangle(this.Bounds, backColor * 1.1f, backColor * 1.2f, this.BorderThickness, this.Layer);
                     break;
             }
         }
@@ -112,6 +112,8 @@ namespace AATool.UI.Controls
             this.TextBlock.HorizontalAlign = Attribute(node, "text_align", this.TextBlock.HorizontalAlign);
             this.ShowBorder = Attribute(node, "border", true);
 			this.TextBlock.SetLayer(this.Layer);
+
+            this.BorderThickness = 2;
         }
     }
 }

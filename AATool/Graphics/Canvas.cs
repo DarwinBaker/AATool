@@ -49,7 +49,7 @@ namespace AATool.Graphics
             //fade rainbow to next color
             RainbowFast = ColorHelper.FromHSV(time.TotalFrames % 360, 0.5, 1.0);
             RainbowLight = ColorHelper.FromHSV(time.TotalFrames / 4 % 360, 0.33, 1.0);
-            RainbowStrong = ColorHelper.FromHSV(time.TotalFrames / 8 % 360, 1.0, 1.0);
+            RainbowStrong = ColorHelper.FromHSV(time.TotalFrames / 16 % 360, 1.0, 1.0);
         }
 
         private static SpriteBatch BatchOf(Layer layer) => Batches[(int)layer];

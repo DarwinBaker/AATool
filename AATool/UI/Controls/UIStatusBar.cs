@@ -149,7 +149,7 @@ namespace AATool.UI.Controls
                 this.refreshTimer.Reset();
                 this.statusLabel.SetText(this.GetLabelText());
             }
-            else if (Tracker.ProgressChanged || Peer.StateChanged || !string.IsNullOrEmpty(MinecraftServer.GetStatusText()))
+            else if (Tracker.ProgressChanged || Peer.StateChanged || !string.IsNullOrEmpty(MinecraftServer.GetLongStatusText()))
             {
                 this.statusLabel.SetText(this.GetLabelText());
             }
@@ -177,10 +177,10 @@ namespace AATool.UI.Controls
         private string GetLabelText()
         {
             if (Client.TryGet(out Client client))
-                return client.GetStatusText();
+                return client.GetLongStatusText();
 
             if (Config.Tracking.UseSftp)
-                return MinecraftServer.GetStatusText();
+                return MinecraftServer.GetLongStatusText();
 
             return Tracker.GetStatusText();
         }

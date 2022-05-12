@@ -23,6 +23,7 @@ namespace AATool.Configuration
         protected abstract string GetLegacyId();
 
         protected virtual void ApplyLegacySetting(string key, object value) { }
+        protected virtual void MigrateDepricatedConfigs() { }
 
         protected void ApplyDefaultValues()
         {
@@ -36,7 +37,7 @@ namespace AATool.Configuration
                 setting.ClearFlag();
         }
 
-        private void ApplyLegacy(XmlDocument document)
+        private void ApplyAllLegacySettings(XmlDocument document)
         {
             foreach (XmlNode setting in document.DocumentElement?.ChildNodes)
             {

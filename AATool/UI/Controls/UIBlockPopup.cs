@@ -56,7 +56,7 @@ namespace AATool.UI.Controls
         private void Style()
         {
             this.window.DrawMode = DrawMode.ChildrenOnly;
-            if (Config.Main.RelaxedMode)
+            if (Config.Main.UseRelaxedStyling)
             {
                 //this.label.SetFont("minecraft", 24);
                 //this.window.FlexWidth = new (120);

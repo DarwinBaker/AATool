@@ -142,7 +142,7 @@ namespace AATool.UI.Controls
                 int textSize = screen is UIMainScreen ? 12 : 24;
                 if (screen is UIMainScreen)
                 {
-                    this.label.FlexHeight = Config.Main.CompactMode
+                    this.label.FlexHeight = Config.Main.UseCompactStyling
                         ? new Size(textSize)
                         : new Size(textSize * 2);
                 }
@@ -159,7 +159,7 @@ namespace AATool.UI.Controls
                     this.label.DrawBackground = true;
             }
 
-            if (screen is UIMainScreen && Config.Main.CompactMode && Tracker.Category is not (SingleAdvancement or AllBlocks))
+            if (screen is UIMainScreen && Config.Main.UseCompactStyling && Tracker.Category is not (SingleAdvancement or AllBlocks))
             {
                 //make gap between frames slightly smaller in compact mode
                 this.FlexWidth  = new Size(66);
@@ -294,7 +294,7 @@ namespace AATool.UI.Controls
             //pickups have labels that change over time and need to be refreshed
             if (this.Objective is Pickup)
             {
-                bool fullSize = Config.Main.RelaxedMode && Tracker.Category is AllAdvancements or AllAchievements or AllBlocks;
+                bool fullSize = Config.Main.UseRelaxedStyling && Tracker.Category is AllAdvancements or AllAchievements or AllBlocks;
                 if (fullSize || this.Root() is UIOverlayScreen)
                     this.label?.SetText(this.Objective?.GetFullCaption());
                 else

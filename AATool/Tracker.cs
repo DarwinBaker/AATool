@@ -83,6 +83,13 @@ namespace AATool
                 : $"{InGameTime.Days} Days, {InGameTime.Hours}.{(int)(InGameTime.Minutes / 60.0f * 100)} Hrs Played";
         }
 
+        public static string GetEstimateString(int seconds)
+        {
+            return seconds >= 60
+                ? $"{seconds / 60} min & {seconds % 60} sec"
+                : $"{seconds} seconds";
+        }
+
         private static WorldFolder World;
         private static Timer RefreshTimer;
         private static TimeSpan LastInGameTime;
@@ -205,7 +212,6 @@ namespace AATool
                 Config.Tracking.GameCategory.Set(Category.Name);
                 Config.Tracking.GameVersion.Set(Category.CurrentVersion);
                 Config.Tracking.Save();
-
                 Category.LoadObjectives();
                 return true;
             }

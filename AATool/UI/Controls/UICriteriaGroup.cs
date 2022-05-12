@@ -57,7 +57,7 @@ namespace AATool.UI.Controls
             if (this.advancement is not null)
             {
                 this.criteriaGroup = this.advancement.Criteria;
-                if (Config.Main.CompactMode)
+                if (Config.Main.UseCompactStyling)
                 {
                     this.criteriaPanel.Padding = new Margin(8, 8, 8, 16);
                     this.First("advancement_space")?.Collapse();
@@ -79,7 +79,7 @@ namespace AATool.UI.Controls
             this.playerButton.OnClick += this.OnClicked;
 
             //set up in compact mode
-            if (Config.Main.CompactMode)
+            if (Config.Main.UseCompactStyling)
             {
                 //this.First("advancement_space").Collapse();
                 this.label.Margin = new Margin(8, 0, 0, 6);
@@ -103,7 +103,7 @@ namespace AATool.UI.Controls
             //populate criteria flow panel
             UIControl spacer = this.First("advancement_space");
             this.criteriaPanel.ClearControls();
-            if (!Config.Main.CompactMode)
+            if (!Config.Main.UseCompactStyling)
                 this.criteriaPanel.AddControl(spacer);
 
             foreach (KeyValuePair<string, Criterion> criterion in this.advancement.Criteria.All)
@@ -163,7 +163,7 @@ namespace AATool.UI.Controls
             {
                 this.UpdateVisibility();
                 if (Tracker.Invalidated || Tracker.DesignationsChanged
-                    || Config.Main.CompactMode.Changed 
+                    || Config.Main.Layout.Changed 
                     || Config.Main.ProgressBarStyle.Changed
                     || Config.Tracking.FilterChanged)
                     this.UpdateProgress();
@@ -179,7 +179,7 @@ namespace AATool.UI.Controls
             if (this.Width > 180)
                 text += $" ({this.criteriaGroup.PercentCompletedBy(designated)}%)";
 
-            if (Config.Main.ProgressBarStyle != "None" || Config.Main.CompactMode)
+            if (Config.Main.ProgressBarStyle != "None" || Config.Main.UseCompactStyling)
                 this.label.SetText(text);
             else
                 this.label.SetText(" \n" + text);
@@ -196,7 +196,7 @@ namespace AATool.UI.Controls
             this.noPlayerMessage.Collapse();
             this.First("criteria").Expand();
             this.objectiveFrame?.Expand();
-            if (!Config.Main.CompactMode)
+            if (!Config.Main.UseCompactStyling)
                 this.bar.Expand();
         }
 
@@ -305,28 +305,13 @@ namespace AATool.UI.Controls
 
             //calculate scale
             this.playerPanel.CellWidth = this.largePlayers
-                ? 18 * scale
-                : 14 * scale;
+                ? 18 * scale : 14 * scale;
 
             this.playerPanel.CellHeight = this.largePlayers
-                ? 16 * scale
-                : 14 * scale;
+                ? 16 * scale : 14 * scale;
 
-            if (Tracker.State.Players.Count is 0)
-            {
-                this.noPlayerMessage.Expand();
-                this.singlePlayerMessage.Collapse();
-            }
-            else if (ids.Count is 1)
-            {
-                this.singlePlayerMessage.Expand();
-                this.noPlayerMessage.Collapse();
-            }
-            else
-            {
-                this.singlePlayerMessage.Collapse();
-                this.noPlayerMessage.Collapse();
-            }
+            this.noPlayerMessage.SetVisibility(Tracker.State.Players.Count is 0);
+            this.singlePlayerMessage.SetVisibility(ids.Count is 1);
 
             int remainder = required is 1
                 ? this.playerPanel.Width - this.playerPanel.CellWidth
@@ -347,11 +332,12 @@ namespace AATool.UI.Controls
                 var button = new UIButton() {
                     FlexWidth = new Size((8 * scale) + 6),
                     FlexHeight = new Size((8 * scale) + 6),
+                    BorderThickness = 2,
                     Tag = id,
                 };
                 var face = new UIAvatar(id, this.Root()) { 
-                    Scale    = scale,
-                    ShowName = true 
+                    ShowName = true,
+                    Scale = scale,
                 };
                 button.AddControl(face);
                 button.OnClick += this.OnClicked;

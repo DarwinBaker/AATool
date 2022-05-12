@@ -34,10 +34,15 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<int> StartupDisplay = new (1);
 
             [JsonIgnore]
-            public bool AppearanceChanged => this.FrameStyle.Changed
-                || this.CustomTextColor.Changed
+            public bool AppearanceChanged => this.Enabled.Changed 
+                || this.FrameStyle.Changed
                 || this.CustomBackColor.Changed
                 || this.CustomBorderColor.Changed;
+
+            [JsonIgnore]
+            public bool ArrangementChanged => this.Enabled.Changed
+                || this.RightToLeft.Changed 
+                || this.PickupsOpposite.Changed;
 
             protected override string GetId() => "overlay";
             protected override string GetLegacyId() => "overlay";

@@ -30,7 +30,6 @@ namespace AATool.UI.Badges
                 this.glow.SetTexture("badge_hhh_glow");
                 this.glow.SkipToBrightness(0.6f);
             }
-
         }
 
         public override void ResizeThis(Rectangle parent)

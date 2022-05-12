@@ -126,6 +126,14 @@ namespace AATool.UI.Controls
             this.IsCollapsed = true;
         }
 
+        public void SetVisibility(bool isVisible)
+        {
+            if (isVisible)
+                this.Expand();
+            else
+                this.Collapse();
+        }
+
         public UIScreen Root()
         {
             //if not yet cached, recursively search tree for root screen and cache

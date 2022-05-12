@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Threading;
 using AATool.Configuration;
 using AATool.Data.Objectives;
+using AATool.Saves;
 
 namespace AATool.Net
 {
@@ -37,7 +38,7 @@ namespace AATool.Net
 
         public bool TryGetData(string key, out string data) => this.recieved.TryGetValue(key, out data);
 
-        public string GetStatusText()
+        public string GetLongStatusText()
         {
             string hostname = "remote server";
             if (this.Lobby.TryGetHost(out User host))
@@ -57,6 +58,25 @@ namespace AATool.Net
                 return $"Synced! Refreshing in {time}";
             }
             return $"Synced with {hostname}!";
+        }
+
+        public string GetShortStatusText()
+        {
+            int seconds = (int)Math.Ceiling((this.NextRefresh - DateTime.UtcNow).TotalSeconds);
+            if (seconds <= 0)
+            {
+                string hostName = "host";
+                if (TryGetLobby(out Lobby lobby) && lobby.TryGetHost(out User host))
+                {
+                    Player.TryGetName(host.Id, out string name);
+                    hostName = name;
+                }
+                return $"Syncing with {hostName}";
+            }
+            else
+            {
+                return $"Refreshing in {Tracker.GetEstimateString(seconds).Replace(" ", "\0")}";
+            }
         }
 
 

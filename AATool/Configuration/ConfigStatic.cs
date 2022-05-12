@@ -87,10 +87,8 @@ namespace AATool.Configuration
                     config = (T)new JsonSerializer {
                         Formatting = Newtonsoft.Json.Formatting.Indented
                     }.Deserialize(stream, typeof(T));
-
-                    //if (config is null)
-                    //    throw new InvalidDataException();
                 }
+                config.MigrateDepricatedConfigs();
             }
             catch (Exception e)
             {
@@ -101,7 +99,7 @@ namespace AATool.Configuration
                     //attempt to read depricated xml config format (for upgrading aatool from pre-1.4.0.0)
                     string file = Path.Combine(Paths.System.LegacySettingsFolder, config.LegacyFileName);
                     if (XmlObject.TryGetDocument(file, out XmlDocument document))
-                        config.ApplyLegacy(document);
+                        config.ApplyAllLegacySettings(document);
                 }
                 //overwrite missing/corrupt config file
                 Save(config);

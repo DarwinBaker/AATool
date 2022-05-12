@@ -6,7 +6,7 @@ namespace AATool
 {
     public sealed class Time
     {
-        private const int SAMPLE_SIZE = 60;
+        private const int SampleSize = 60;
 
         public double TotalSeconds  { get; private set; }
         public long TotalFrames     { get; private set; }
@@ -24,7 +24,7 @@ namespace AATool
 
             //calculate fps
             SampleBuffer.Enqueue(this.CurrentFPS);
-            if (SampleBuffer.Count > SAMPLE_SIZE)
+            if (SampleBuffer.Count > SampleSize)
             {
                 SampleBuffer.Dequeue();
                 this.AverageFPS = SampleBuffer.Average(i => i);
@@ -34,8 +34,8 @@ namespace AATool
                 this.AverageFPS = this.CurrentFPS;
             }
 
-            TotalFrames++;
-            TotalSeconds += this.Delta;
+            this.TotalFrames++;
+            this.TotalSeconds += this.Delta;
         }
     }
 }

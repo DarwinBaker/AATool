@@ -17,6 +17,9 @@ namespace AATool.Net
         private static readonly Dictionary<Uuid, Color> IdColorCache = new ();
         private static readonly Dictionary<string, Color> NameColorCache = new ();
 
+        private static readonly HashSet<string> NamesAlreadyRequested = new ();
+        private static readonly HashSet<Uuid> IdentitiesAlreadyRequested = new ();
+
         public static bool TryGetUuid(string name, out Uuid id) => IdCache.TryGetValue(name ?? "", out id);
         public static bool TryGetName(Uuid id, out string name) => NameCache.TryGetValue(id, out name);
         public static bool TryGetColor(Uuid id, out Color color) => IdColorCache.TryGetValue(id, out color);
@@ -91,12 +94,20 @@ namespace AATool.Net
 
         public static void FetchIdentity(Uuid id)
         {
+            if (IdentitiesAlreadyRequested.Contains(id))
+                return;
+
+            IdentitiesAlreadyRequested.Add(id);
             new NameRequest(id).EnqueueOnce();
             new AvatarRequest(id).EnqueueOnce();
         }
 
         public static async void FetchIdentity(string name)
         {
+            if (NamesAlreadyRequested.Contains(name))
+                return;
+
+            NamesAlreadyRequested.Add(name);
             Uuid id = await FetchUuidAsync(name);
             Cache(id, name);
             if (name == Config.Tracking.SoloFilterName)

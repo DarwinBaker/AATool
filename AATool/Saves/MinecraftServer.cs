@@ -47,13 +47,6 @@ namespace AATool.Saves
             ? LastWorldSave.Add(TimeSpan.FromSeconds(SaveInterval))
             : default;
 
-        public static string GetEstimateString(int seconds)
-        {
-            return seconds >= 60
-                ? $"{seconds / 60} min & {seconds % 60} sec"
-                : $"{seconds} seconds";
-        }
-
         public static void Update(Time time)
         {
             if (LastError is ArgumentException)
@@ -129,7 +122,7 @@ namespace AATool.Saves
             });
         }
 
-        public static string GetStatusText()
+        public static string GetLongStatusText()
         {
             if (State is SyncState.Connecting)
                 return "Connecting to Minecraft server...";
@@ -138,7 +131,7 @@ namespace AATool.Saves
             {
                 if (State is SyncState.Ready)
                 {
-                    string timeLeft = GetEstimateString(GetNextRefresh());
+                    string timeLeft = Tracker.GetEstimateString(GetNextRefresh());
 
                     //waiting
                     if (LastError is IOException)
@@ -174,7 +167,23 @@ namespace AATool.Saves
             if (LastError is ArgumentException)
                 return "Invalid SFTP Login.";
 
-            return $"SFTP not running: Retrying in {GetEstimateString(GetNextRefresh())}";
+            return $"SFTP not running: Retrying in {Tracker.GetEstimateString(GetNextRefresh())}";
+        }
+
+        public static string GetShortStatusText()
+        {
+            if (State is SyncState.Ready)
+            {
+                return CredentialsValidated
+                    ? $"Refreshing in {Tracker.GetEstimateString(GetNextRefresh()).Replace(" ", "\0")}"
+                    : "SFTP Offline";
+            }
+            else
+            {
+                return State is SyncState.Connecting
+                    ? "Connecting..."
+                    : "Syncing...";
+            }
         }
 
         private static void ClearCredentials() => Credentials = null;
