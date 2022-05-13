@@ -42,8 +42,6 @@ namespace AATool.UI.Screens
             this.Form.Text = Main.FullTitle;
             this.Form.FormClosing += this.OnClosing;
             this.settingsCooldown = new Utilities.Timer(0.25f);
-            //this.Form.Location = new System.Drawing.Point(0, 0);
-            
         }
 
         public void CloseSettingsMenu()
@@ -79,21 +77,28 @@ namespace AATool.UI.Screens
                     e.Cancel = true;
             }
 
+            //remember main window position
             if (Config.Main.StartupArrangement == WindowSnap.Remember)
             {
                 Config.Main.LastWindowPosition.Set(new Point(this.Form.Location.X, this.Form.Location.Y));
                 Config.Main.Save();
             }
 
-            if (Config.Overlay.StartupArrangement == WindowSnap.Remember)
+            //remember last main player
+            if (Player.TryGetName(Tracker.GetMainPlayer(), out string name))
             {
-                Config.Overlay.LastWindowPosition.Set(new Point(Main.OverlayScreen.Form.Location.X, Main.OverlayScreen.Form.Location.Y));
-                Config.Overlay.Save();
+                Config.Tracking.LastPlayer.Set(name);
+                Config.Tracking.Save();
             }
         }
 
         public override string GetCurrentView()
         {
+            //fullscreen multi-version leaderboards
+            //return Path.Combine(Paths.System.ViewsFolder,
+            //    "full_leaderboards",
+            //    $"{Config.Main.Layout.Value}.xml");
+
             //get proper view for current category and version
             string path = Path.Combine(Paths.System.ViewsFolder,
                 Tracker.Category.ViewName,
@@ -106,12 +111,8 @@ namespace AATool.UI.Screens
                 path = Path.Combine(Paths.System.ViewsFolder,
                     Tracker.Category.ViewName,
                     Tracker.Category.CurrentMajorVersion ?? Tracker.Category.CurrentVersion,
-                    $"main_{Config.Main.ViewMode}.xml");
+                    $"main_{Config.Main.Layout.Value}.xml");
             }
-
-            //path = Path.Combine(Paths.System.ViewsFolder,
-            //    "overview",
-            //    "relaxed.xml");
             return path;
         }
 
@@ -152,21 +153,6 @@ namespace AATool.UI.Screens
             Peer.BindController(this.status);
         }
 
-        private void Click(UIControl sender)
-        {
-            if (sender == this.resetDeaths)
-            {
-                ActiveInstance.SetLogStart();
-                foreach (Death death in Tracker.Deaths.All.Values)
-                    death.Clear();
-            }
-            else if (sender == this.toggleEGap)
-            {
-                if (Tracker.TryGetPickup(EGap.ItemId, out Pickup apple))
-                    (apple as EGap).ToggleManualCompletion();
-            }
-        }
-
         public override void ResizeRecursive(Rectangle rectangle)
         {
             base.ResizeRecursive(rectangle);
@@ -178,35 +164,6 @@ namespace AATool.UI.Screens
             this.First(Config.Main.InfoPanel)?.Expand();
         }
 
-        protected override void ConstrainWindow()
-        {
-            int width = this.grid?.GetExpandedWidth() ?? 640;
-            int height = this.grid?.GetExpandedHeight() ?? 320;
-            if (this.Width != width || this.Height != height || Tracker.ObjectivesChanged)
-            {
-                //this.Form.ClientSize = new System.Drawing.Size(width * Config.Main.DisplayScale, height * Config.Main.DisplayScale);
-                Main.GraphicsManager.PreferredBackBufferWidth  = width;
-                Main.GraphicsManager.PreferredBackBufferHeight = height;
-                Main.GraphicsManager.ApplyChanges();
-                this.ResizeRecursive(new Rectangle(0, 0, width, height));
-                RenderCache?.Dispose();
-                RenderCache = new RenderTarget2D(this.GraphicsDevice, width, height);
-            }
-            this.Form.ClientSize = new System.Drawing.Size(width * Config.Main.DisplayScale, height * Config.Main.DisplayScale);
-
-            //snap window to user's preferred location
-            if (!this.Positioned || Config.Main.StartupArrangement.Changed || Config.Main.StartupDisplay.Changed)
-            {
-                if (this.Positioned && Config.Main.StartupArrangement == WindowSnap.Remember)
-                    return;
-
-                this.PositionWindow(Config.Main.StartupArrangement, 
-                    Config.Main.StartupDisplay, 
-                    Config.Main.LastWindowPosition);
-                this.Positioned = true;
-            }
-        }
-
         public override void UpdateRecursive(Time time)
         {
             base.UpdateRecursive(time);
@@ -216,7 +173,7 @@ namespace AATool.UI.Screens
         protected override void UpdateThis(Time time)
         {
             //update game version
-            if (Tracker.ObjectivesChanged || Config.Main.CompactMode.Changed)
+            if (Tracker.ObjectivesChanged || Config.Main.Layout.Changed || Config.Main.FullScreenLeaderboards.Changed)
                 this.ReloadView();
             
             this.UpdateCollapsedStates();
@@ -242,6 +199,50 @@ namespace AATool.UI.Screens
             this.ConstrainWindow();
         }
 
+        protected override void ConstrainWindow()
+        {
+            int width = this.grid?.GetExpandedWidth() ?? 1200;
+            int height = this.grid?.GetExpandedHeight() ?? 600;
+            if (this.Width != width || this.Height != height || Tracker.ObjectivesChanged)
+            {
+                //this.Form.ClientSize = new System.Drawing.Size(width * Config.Main.DisplayScale, height * Config.Main.DisplayScale);
+                Main.GraphicsManager.PreferredBackBufferWidth  = width;
+                Main.GraphicsManager.PreferredBackBufferHeight = height;
+                Main.GraphicsManager.ApplyChanges();
+                this.ResizeRecursive(new Rectangle(0, 0, width, height));
+                RenderCache?.Dispose();
+                RenderCache = new RenderTarget2D(this.GraphicsDevice, width, height);
+            }
+            this.Form.ClientSize = new System.Drawing.Size(width * Config.Main.DisplayScale, height * Config.Main.DisplayScale);
+
+            //snap window to user's preferred location
+            if (!this.Positioned || Config.Main.StartupArrangement.Changed || Config.Main.StartupDisplay.Changed)
+            {
+                if (this.Positioned && Config.Main.StartupArrangement == WindowSnap.Remember)
+                    return;
+
+                this.PositionWindow(Config.Main.StartupArrangement,
+                    Config.Main.StartupDisplay,
+                    Config.Main.LastWindowPosition);
+                this.Positioned = true;
+            }
+        }
+
+        private void Click(UIControl sender)
+        {
+            if (sender == this.resetDeaths)
+            {
+                ActiveInstance.SetLogStart();
+                foreach (Death death in Tracker.Deaths.All.Values)
+                    death.Clear();
+            }
+            else if (sender == this.toggleEGap)
+            {
+                if (Tracker.TryGetPickup(EGap.ItemId, out Pickup apple))
+                    (apple as EGap).ToggleManualCompletion();
+            }
+        }
+
         private void UpdateEGapCheckbox()
         {
             if (this.toggleEGap is null || !Tracker.TryGetPickup(EGap.ItemId, out Pickup pickup))
@@ -262,24 +263,33 @@ namespace AATool.UI.Screens
             }
         }
 
-        private void ShowErrorScreen() 
+        private void ShowErrorScreen()
         {
             Peer.UnbindController(this.status);
             this.Children.Clear();
 
-            var label = new UITextBlock();
-            label.SetFont("minecraft", 24);
-            label.SetText($"There was an error attempting to load layout file:\n{this.GetCurrentView()}");
+            var label = new UITextBlock() {
+                VerticalTextAlign = VerticalAlign.Top,
+                Padding = new Margin(0, 0, 200, 0),
+            };
+            label.SetFont("minecraft", 36);
+
+            if (Config.Main.UseVerticalStyling 
+                && (Tracker.Category.GetType() != typeof(AllAdvancements) || Tracker.Category.CurrentMajorVersion is not "1.16"))
+                label.SetText($"The current vertical layout is still under development :)");
+            else
+                label.SetText($"There was an error attempting to load layout file:\n{this.GetCurrentView().Replace("\\", "/")}");
             this.AddControl(label);
 
             var settings = new UIButton() {
-                FlexWidth = new Size(140),
-                FlexHeight = new Size(50),
+                FlexWidth = new Size(200),
+                FlexHeight = new Size(75),
                 VerticalAlign = VerticalAlign.Top,
-                Margin = new Margin(0, 0, 200, 0),
+                Margin = new Margin(0, 0, 300, 0),
+                BorderThickness = 4,
             };
-            settings.OnClick += this.OnClick;
-            settings.TextBlock.SetFont("minecraft", 24);
+            settings.OnClick += this.OnSettingsClick;
+            settings.TextBlock.SetFont("minecraft", 36);
             settings.SetText("Settings");
             this.AddControl(settings);
 
@@ -287,7 +297,7 @@ namespace AATool.UI.Screens
             this.ResizeRecursive(this.Bounds);
         }
 
-        private void OnClick(UIControl sender)
+        private void OnSettingsClick(UIControl sender)
         {
             this.OpenSettingsMenu();
         }

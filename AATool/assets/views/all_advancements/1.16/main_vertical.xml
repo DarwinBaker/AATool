@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <rows>
+            <row height="664"/>
+            <row height="268"/>
+            <row height="248"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="10 * 68"/>
+            <column width="3 * 68"/>
+        </columns>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="5"/>
+
+        <!-- basic advancements -->
+        <grid row="0" col="1" drawmode="all">
+            <rows>
+                <row height="248"/>
+                <row height="168"/>
+                <row height="248"/>
+            </rows>
+            <columns>
+                <column width="4 * 68"/>
+                <column width="1 * 68"/>
+                <column width="4 * 68"/>
+                <column width="68"/>
+                <column width="68"/>
+                <column width="68"/>
+                <column width="68"/>
+            </columns>
+
+            <advancement_group group="minecraft" row="0" col="0" colspan="2" exclude="minecraft:story/root"/>
+            <advancement_group group="nether"    row="0" col="2" colspan="2" end="minecraft:nether/distract_piglin"/>
+            <advancement_group group="nether"    row="1" col="2" colspan="2" start="minecraft:nether/obtain_ancient_debris"/>
+            <advancement_group group="end"       row="1" col="0" colspan="2" exclude="minecraft:end/root"/>
+            <advancement_group group="husbandry" row="2" col="0"/>
+            <advancement_group group="adventure" row="2" col="1" colspan="2" end="minecraft:adventure/hero_of_the_village"/>
+            <advancement_group group="adventure" row="2" col="3" colspan="2" start="minecraft:adventure/throw_trident"/>
+
+            <!-- overworld pickup counts -->
+            <flow_panel row="2" col="5" colspan="2" direction="toptobottom">
+                <objective_frame pickup="minecraft:enchanted_golden_apple"/>
+                <objective_frame pickup="minecraft:trident"/>
+                <objective_frame pickup="minecraft:nautilus_shell"/>
+                <objective_frame pickup="minecraft:wither_skeleton_skull"/>
+                <objective_frame pickup="minecraft:ancient_debris"/>
+            </flow_panel>
+
+            <!-- enchanted golden apple manual override -->
+            <button name="toggle_egap" row="2" col="5" width="20" height="20" margin_top="5" margin_right="5" vertical_align="top" horizontal_align="right">
+                <picture/>
+            </button>
+
+            <!-- info panel -->
+            <leaderboard name="Leaderboard" row="0" col="4" rowspan="2" colspan="3"/>
+            <potion_group name="Potion Recipes" row="0" col="4" rowspan="2" colspan="3" padding="8,0,6,0"/>
+        </grid>
+
+        <!-- advancements with subcriteria -->
+        <flow_panel row="1" col="1" colspan="2">
+            <criteria_group width="442" height="268" advancement="minecraft:adventure/adventuring_time"/>
+            <criteria_group width="442" height="268" advancement="minecraft:husbandry/balanced_diet"/>
+        </flow_panel>
+        <flow_panel row="2" col="1" colspan="2">
+            <criteria_group width="442" height="248" advancement="minecraft:adventure/kill_all_mobs"/>
+            <criteria_group width="202" height="248" advancement="minecraft:husbandry/bred_all_animals"/>
+            <panel width="240" height="248">
+                <criteria_group height="134" cell_width="80" advancement="minecraft:husbandry/complete_catalogue" vertical_align="top"/>
+                <criteria_group height="114" advancement="minecraft:nether/explore_nether" vertical_align="bottom"/>
+            </panel>
+        </flow_panel>
+
+        <!-- status strip -->
+        <status_bar row="3" col="1" colspan="3" right="182"/>
+    </grid>
+</control>

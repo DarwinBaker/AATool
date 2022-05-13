@@ -57,16 +57,10 @@ namespace AATool.UI.Controls
             if (this.advancement is not null)
             {
                 this.criteriaGroup = this.advancement.Criteria;
-                if (Config.Main.UseCompactStyling)
-                {
-                    this.criteriaPanel.Padding = new Margin(8, 8, 8, 16);
-                    this.First("advancement_space")?.Collapse();
-                    this.RemoveControl(this.objectiveFrame);
-                }
-                else
-                {
-                    this.criteriaPanel.Padding = new Margin(8, 8, 8, 40);
-                }
+                this.criteriaPanel.Padding = Config.Main.UseCompactStyling 
+                    ? new Margin(8, 8, 8, 16) 
+                    : new Margin(8, 8, 8, 40);
+
                 if (this.cellWidth > 0)
                     this.criteriaPanel.CellWidth = this.cellWidth;
 
@@ -78,6 +72,13 @@ namespace AATool.UI.Controls
                 this.autoButton.OnClick += this.OnClicked;
             this.playerButton.OnClick += this.OnClicked;
 
+            if (Config.Main.UseCompactStyling || Config.Main.UseVerticalStyling)
+            {
+                this.First("advancement_space")?.Collapse();
+                this.RemoveControl(this.objectiveFrame);
+                this.criteriaPanel.RemoveControl(this.objectiveFrame);
+            }
+
             //set up in compact mode
             if (Config.Main.UseCompactStyling)
             {
@@ -85,8 +86,6 @@ namespace AATool.UI.Controls
                 this.label.Margin = new Margin(8, 0, 0, 6);
                 if (this.cellWidth <= 0)
                     this.criteriaPanel.CellWidth = Tracker.Category is AllAchievements ? 100 : 68;
-
-                this.criteriaPanel.RemoveControl(this.objectiveFrame);
                 this.bar.Collapse();
             }
             else if (Tracker.Category is AllAchievements)
@@ -103,15 +102,20 @@ namespace AATool.UI.Controls
             //populate criteria flow panel
             UIControl spacer = this.First("advancement_space");
             this.criteriaPanel.ClearControls();
-            if (!Config.Main.UseCompactStyling)
+            if (!Config.Main.UseCompactStyling && !Config.Main.UseVerticalStyling)
                 this.criteriaPanel.AddControl(spacer);
 
             foreach (KeyValuePair<string, Criterion> criterion in this.advancement.Criteria.All)
             {
                 var crit = new UICriterion {
                     AdvancementID = this.advancementName,
-                    CriterionID   = criterion.Key
+                    CriterionID   = criterion.Key,
+                    HorizontalAlign = HorizontalAlign.Left,
                 };
+                if (Config.Main.UseVerticalStyling && this.cellWidth is not 0)
+                {
+                    crit.FlexWidth = new (this.cellWidth);
+                }
                 this.criteriaPanel.AddControl(crit);
             }
         }
@@ -310,8 +314,8 @@ namespace AATool.UI.Controls
             this.playerPanel.CellHeight = this.largePlayers
                 ? 16 * scale : 14 * scale;
 
-            this.noPlayerMessage.SetVisibility(Tracker.State.Players.Count is 0);
-            this.singlePlayerMessage.SetVisibility(ids.Count is 1);
+            this.noPlayerMessage.SetVisibility(Tracker.State.Players.Count is 0 && this.playerPanel.Height > 150);
+            this.singlePlayerMessage.SetVisibility(ids.Count is 1 && this.playerPanel.Height > 150);
 
             int remainder = required is 1
                 ? this.playerPanel.Width - this.playerPanel.CellWidth
