@@ -136,6 +136,7 @@
     <Compile Include="Data\Players\LeaderboardSheet.cs" />
     <Compile Include="Data\Players\Spreadsheet.cs" />
     <Compile Include="Data\Progress\Timeline.cs" />
+    <Compile Include="Debug.cs" />
     <Compile Include="Exceptions\InvalidPathException.cs" />
     <Compile Include="Exceptions\NoSavesFolderException.cs" />
     <Compile Include="Exceptions\NoWorldException.cs" />
@@ -168,7 +169,7 @@
     <Compile Include="Saves\AdvancementsFolder.cs" />
     <Compile Include="Saves\JsonFolder.cs" />
     <Compile Include="Saves\JSONStream.cs" />
-    <Compile Include="Saves\SftpSave.cs" />
+    <Compile Include="Saves\MinecraftServer.cs" />
     <Compile Include="Saves\StatisticsFolder.cs" />
     <Compile Include="Saves\WorldFolder.cs" />
     <Compile Include="Enums.cs" />
@@ -200,7 +201,6 @@
     <Compile Include="UI\Controls\UIMinecraftPanel.cs" />
     <Compile Include="UI\Controls\UIRefreshIcon.cs" />
     <Compile Include="UI\Controls\UIFlowCarousel.cs" />
-    <Compile Include="UI\Controls\UIItemCount.cs" />
     <Compile Include="UI\Controls\UIObjectiveCarousel.cs" />
     <Compile Include="UI\Controls\UICarousel.cs" />
     <Compile Include="UI\Controls\UICriteriaCarousel.cs" />
@@ -4796,6 +4796,12 @@
     <Content Include="assets\sprites\global\items\gold_blocks^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\items\gold_block^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\gold_block^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\items\powder_snow_bucket.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -4889,6 +4895,9 @@
     <Content Include="assets\views\adventuring_time\overlay.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\views\all_advancements\1.16\main_vertical.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\views\all_advancements\22w15a\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -4914,6 +4923,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\all_deaths\overlay.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\full_leaderboards\primary_version.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\half_percent\1.16\main_compact.xml">
@@ -5418,9 +5430,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\progress_bars\modern\bar_modern_inactive_right.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\supporters\supporter_emerald%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\items\ender_chest.png">
@@ -7204,6 +7213,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\supporters\supporter_emerald.png" />
+    <Content Include="assets\views\full_leaderboards\relaxed.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\views\overview\relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
