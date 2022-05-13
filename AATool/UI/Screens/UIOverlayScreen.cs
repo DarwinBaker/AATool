@@ -276,7 +276,7 @@ namespace AATool.UI.Screens
             //cycle header text
             return this.titleTimer.Index switch {
                 2 or 3 => $"Minecraft JE: {Tracker.Category.Name} ({Tracker.Category.CurrentVersion})",
-                4 or 5 => $"{Main.ShortTitle} ({(UpdateRequest.UpdatesAreAvailable() ? "Outdated" : "")})",
+                4 or 5 => $"{Main.ShortTitle} {(UpdateRequest.UpdatesAreAvailable() ? "(Outdated)" : "")}",
                 6 or 7 => Paths.Web.PatreonShort,
                 _ => Tracker.Category.GetStatus()
             };
