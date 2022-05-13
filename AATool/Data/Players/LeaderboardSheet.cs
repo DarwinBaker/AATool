@@ -35,9 +35,26 @@ namespace AATool.Data.Players
         public bool TryGetRunner(int index, out string runner) =>
             this.TryGetCell(index, this.runnersCol, out runner);
 
-        public bool TryGetTime(int index, out TimeSpan time) =>
-            this.TryGetCell(index, this.timesCol, out string timeString) 
-            & TimeSpan.TryParse(timeString, out time);
+        public bool TryGetTime(int index, out TimeSpan time)
+        {
+            time = default;
+            if (!this.TryGetCell(index, this.timesCol, out string timeString))
+                return false;
+
+            string[] tokens = timeString.Trim().Split(':');
+            if (tokens.Length < 3)
+                return false;
+
+            if (!int.TryParse(tokens[0], out int hours))
+                return false;
+            if (!int.TryParse(tokens[1], out int minutes))
+                return false;
+            if (!int.TryParse(tokens[2], out int seconds))
+                return false;
+
+            time = new TimeSpan(hours, minutes, seconds);
+            return true;
+        }
 
         public bool TryGetDate(int index, out DateTime date) =>
             this.TryGetCell(index, this.datesCol, out string dateString)

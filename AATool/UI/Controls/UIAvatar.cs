@@ -1,11 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Xml;
+﻿using System.Xml;
 using AATool.Configuration;
 using AATool.Data.Players;
-using AATool.Graphics;
 using AATool.Net;
-using AATool.Net.Requests;
 using AATool.UI.Badges;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
@@ -18,6 +14,7 @@ namespace AATool.UI.Controls
         public bool ShowName { get; set; }
         public int Scale { get; set; }
 
+        private Leaderboard owner;
         private UIPicture face;
         private UIControl badge;
         private UIGlowEffect glow;
@@ -63,6 +60,8 @@ namespace AATool.UI.Controls
             this.offlineName = name;
             this.face.SetTexture($"avatar-{Leaderboard.GetRealName(name ?? string.Empty).ToLower()}");
         }
+
+        public void RegisterOnLeaderboard(Leaderboard board) => this.owner = board;
 
         public override void InitializeRecursive(UIScreen screen)
         { 
@@ -140,26 +139,19 @@ namespace AATool.UI.Controls
             this.name.SetTextColor(Config.Main.TextColor.Value * this.nameOpacity);
         }
 
-        private void RefreshBadge()
+        public void RefreshBadge()
         {
             string playerName = Leaderboard.GetNickName(this.offlineName ?? string.Empty);
             if (string.IsNullOrEmpty(playerName))
                 Net.Player.TryGetName(this.Player, out playerName);
 
             this.RemoveControl(this.badge);
-            if (Badge.TryGet(this.Player, playerName, 2, out this.badge))
-            {
-                this.AddControl(this.badge);
-                this.badge.ResizeRecursive(this.Inner);
-            }
-        }
+            string boardName = this.owner is null 
+                ? Leaderboard.Current 
+                : this.owner.BoardName ;
 
-        private void RefreshBadge(string player)
-        {
-            if (Badge.TryGet(player, 2, out var newBadge))
+            if (Badge.TryGet(this.Player, playerName, 2, boardName, out this.badge))
             {
-                this.RemoveControl(this.badge);
-                this.badge = newBadge;
                 this.AddControl(this.badge);
                 this.badge.ResizeRecursive(this.Inner);
             }

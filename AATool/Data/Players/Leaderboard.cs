@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Net;
 using AATool.UI.Controls;
@@ -12,11 +13,14 @@ namespace AATool.Data.Players
     {
         private static Dictionary<string, Leaderboard> AllBoards = new ();
         private static HashSet<string> LiveBoards = new ();
+        private static HashSet<string> RequestedIdentities = new ();
         private static Dictionary<string, string> NickNames = new ();
         private static Dictionary<string, string> RealNames = new ();
 
         public static readonly TimeZoneInfo TimeZone = TimeZoneInfo
             .FindSystemTimeZoneById("Eastern Standard Time");
+
+        public string BoardName { get; private set; }
 
         public Dictionary<string, int> Ranks = new ();
         public List<PersonalBest> Runs = new ();
@@ -26,8 +30,11 @@ namespace AATool.Data.Players
         public static bool NickNamesLoaded { get; private set; }
 
         public static string Current => $"{Tracker.Category.Name} {Tracker.Category.CurrentMajorVersion}";
+        public static string Specific(string version) => $"All Advancements {version ?? "1.16"}";
         public static string CurrentBoardHeader => $"{Tracker.Category.CurrentMajorVersion} rsg";
+        public static string SpecificBoardHeader(string version) => $"{version} rsg";
         public static bool IsLiveAvailable => LiveBoards.Contains(Current);
+        public static bool IdentityAlreadyRequested(string name) => RequestedIdentities.Contains(name);
 
         public static string GetRealName(string runner) =>
             !string.IsNullOrEmpty(runner) && RealNames.TryGetValue(runner.ToLower(), out string real) ? real : runner;
@@ -38,8 +45,9 @@ namespace AATool.Data.Players
         public static string GetKey(string page) =>
             page is Paths.Web.PrimaryVersionBoard ? "leaderboard_primary" : "leaderboard_others";
 
-        public Leaderboard(LeaderboardSheet sheet)
+        public Leaderboard(LeaderboardSheet sheet, string boardName)
         {
+            this.BoardName = boardName;
             this.sheet = sheet;
             lock (this.Ranks)
             {
@@ -49,9 +57,6 @@ namespace AATool.Data.Players
                     {
                         this.Runs.Add(pb);
                         this.Ranks[pb.Runner.ToLower()] = i - 1;
-
-                        if (this.Runs.Count <= UILeaderboard.Rows)
-                            Player.FetchIdentity(pb.Runner);
                     }
                 }
             }
@@ -60,15 +65,15 @@ namespace AATool.Data.Players
         public static bool TryGet(string boardName, out Leaderboard leaderboard)
         {
             if (AllBoards.TryGetValue(boardName, out leaderboard))
-                return true;
+                return leaderboard is not null;
             return TryLoadCached(boardName, out leaderboard);
         }
 
-        public static bool TryGetRank(string runner, out int rank)
+        public static bool TryGetRank(string runner, string boardName, out int rank)
         {
             if (!string.IsNullOrEmpty(runner))
             {
-                if (AllBoards.TryGetValue(Current, out Leaderboard board))
+                if (AllBoards.TryGetValue(boardName, out Leaderboard board) && board is not null)
                 {
                     lock (board.Ranks)
                     {
@@ -88,28 +93,43 @@ namespace AATool.Data.Players
 
         public static bool SyncRecords(string page, string csv)
         {
+            LeaderboardSheet sheet = null;
             string key = GetKey(page);
             if (page is Paths.Web.PrimaryVersionBoard)
             {
-                if (LeaderboardSheet.TryParse(csv, key, null, out LeaderboardSheet sheet))
+                //load primary 1.16 leaderboard
+                if (LeaderboardSheet.TryParse(csv, key, null, out sheet))
                 {
-                    AllBoards["All Advancements 1.16"] = new Leaderboard(sheet);
-                    LiveBoards.Add("All Advancements 1.16");
+                    string boardName = "All Advancements 1.16";
+                    AllBoards[boardName] = new Leaderboard(sheet, boardName);
+                    LiveBoards.Add(boardName);
                     sheet.SaveToCache();
-                    return true;
                 }
             }
             else
             {
-                if (LeaderboardSheet.TryParse(csv, key, CurrentBoardHeader, out LeaderboardSheet sheet))
+                if (Config.Main.FullScreenLeaderboards)
                 {
-                    AllBoards[Current] = new Leaderboard(sheet);
+                    //load all leaderboards
+                    foreach (string version in AllAdvancements.SupportedVersions)
+                    {
+                        if (LeaderboardSheet.TryParse(csv, key, SpecificBoardHeader(version), out sheet))
+                        {
+                            AllBoards[Current] = new Leaderboard(sheet, Current);
+                            LiveBoards.Add(Current);
+                        }
+                    }
+                    sheet?.SaveToCache();
+                }
+                else if (LeaderboardSheet.TryParse(csv, key, CurrentBoardHeader, out sheet))
+                {
+                    //load current 'other' version leaderboard
+                    AllBoards[Current] = new Leaderboard(sheet, Current);
                     LiveBoards.Add(Current);
                     sheet.SaveToCache();
-                    return true;
                 }
             }
-            return false;
+            return sheet is not null;
         }
 
         public static bool SyncNicknames(string csv)
@@ -152,7 +172,7 @@ namespace AATool.Data.Players
                 ? Paths.Web.PrimaryVersionBoard
                 : Paths.Web.OtherVersionsBoard;
             string header = boardName == "All Advancements 1.16"
-                ? null : CurrentBoardHeader;
+                ? null : SpecificBoardHeader(boardName.Split(' ').LastOrDefault());
 
             string key = GetKey(page);
             string leaderboardFile = Paths.System.LeaderboardFile(key);
@@ -162,11 +182,13 @@ namespace AATool.Data.Players
                 {
                     string csv = File.ReadAllText(leaderboardFile);
                     if (LeaderboardSheet.TryParse(csv, key, header, out LeaderboardSheet sheet))
-                        AllBoards[boardName] = leaderboard = new Leaderboard(sheet);
+                        AllBoards[boardName] = leaderboard = new Leaderboard(sheet, boardName);
+                    else
+                        AllBoards[boardName] = null;
                 }
                 catch
                 {
-                    //couldn't read cached leaderboard, move on
+                    //couldn't read cached leaderboard, move on 
                 }
             }
 

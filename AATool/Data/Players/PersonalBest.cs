@@ -33,17 +33,17 @@ namespace AATool.Data.Players
             try
             {
                 string[] row = sheet.Rows[rowIndex];
+                if (!sheet.TryGetRunner(rowIndex, out string runner))
+                    return false;
                 if (!sheet.TryGetTime(rowIndex, out TimeSpan time))
                     return false;
                 if (!sheet.TryGetDate(rowIndex, out DateTime date))
-                    return false;
-                if (!sheet.TryGetRunner(rowIndex, out string runner))
                     return false;
 
                 sheet.TryGetStatus(rowIndex, out string status);
                 sheet.TryGetComment(rowIndex, out string comment);
 
-                pb = new PersonalBest(rowIndex, time, date, runner, status, comment);
+                pb = new PersonalBest(rowIndex - 1, time, date, runner, status, comment);
                 return true;
             }
             catch 
