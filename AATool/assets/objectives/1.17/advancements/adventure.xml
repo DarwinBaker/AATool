@@ -46,7 +46,8 @@
             <criterion id="minecraft:snowy_tundra"              name="Snowy Tundra"      short_name="Snow Tundra"/>
             <criterion id="minecraft:snowy_mountains"           name="Snowy Mountain"    short_name="Snow Mtn"/>
             <criterion id="minecraft:snowy_beach"               name="Snowy Beach"       short_name="Snow Beach"/>
-            <criterion id="minecraft:beach"/>
+            <criterion id="minecraft:frozen_river"                                      short_name="F River"/>
+            <criterion id="minecraft:river"/>
             <criterion id="minecraft:desert"/>
             <criterion id="minecraft:desert_hills"/>
             <criterion id="minecraft:savanna"/>
@@ -57,15 +58,14 @@
             <criterion id="minecraft:bamboo_jungle"             short_name="Bamboo"/>
             <criterion id="minecraft:bamboo_jungle_hills"       name="Bamboo Hills"/>
             <criterion id="minecraft:stone_shore"               short_name="Stn Shore"/>
-            <criterion id="minecraft:wooded_mountains"          name="Wooded Mtn"/>
             <criterion id="minecraft:mountains"/>
-            <criterion id="minecraft:river"/>
-            <criterion id="minecraft:frozen_river"                                      short_name="F River"/>
+            <criterion id="minecraft:wooded_mountains"          name="Wooded Mtn"/>
             <criterion id="minecraft:badlands"/>
             <criterion id="minecraft:badlands_plateau"          name="Badlands Plateau"    short_name="Bad Plat"/>
             <criterion id="minecraft:wooded_badlands_plateau"   name="Wooded Plateau" short_name="Wood Plat"/>
             <criterion id="minecraft:mushroom_fields"           short_name="Mushroom"/>
-            <criterion id="minecraft:mushroom_field_shore"      name="Mushroom Shore"       short_name="MuShore"/>
+            <criterion id="minecraft:mushroom_field_shore"      name="Mushroom Shore"       short_name="MushShore"/>
+            <criterion id="minecraft:beach"/>
             <criterion id="minecraft:warm_ocean"                                        short_name="Warm"/>
             <criterion id="minecraft:lukewarm_ocean"                                    short_name="Lukewarm"/>
             <criterion id="minecraft:deep_lukewarm_ocean"       name="Deep Lukewarm"    short_name="Deep LW"/>
