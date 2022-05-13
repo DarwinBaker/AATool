@@ -34,6 +34,7 @@ namespace AATool.Utilities
         private static readonly Timer RefreshCooldown = new (1);
 
         private static string LatestLogContents;
+        private static string LatestGameVersion;
         private static int LastActiveInstance;
         private static DateTime LastLogWriteTimeUtc;
         private static int LogStart;
@@ -48,25 +49,32 @@ namespace AATool.Utilities
                 RefreshCooldown.Reset();
 
                 //exit if minecraft is not active process or instance unchanged
-                if (!TryGetActive(out Process instance) || instance.Id == LastActiveInstance)
+                if (!TryGetActive(out Process instance))
                     return;
 
-                //update saves folder
-                string args = instance.CommandLine();
-                SavesPath = TryParseDotMinecraft(args, out DirectoryInfo dotMinecraft)
-                    ? Path.Combine(dotMinecraft.FullName, "saves")
-                    : string.Empty;
+                if (instance.Id != LastActiveInstance)
+                { 
+                    //update saves folder
+                    string args = instance.CommandLine();
+                    SavesPath = TryParseDotMinecraft(args, out DirectoryInfo dotMinecraft)
+                        ? Path.Combine(dotMinecraft.FullName, "saves")
+                        : string.Empty;
 
-                LogFile = dotMinecraft is not null
-                    ? Path.Combine(dotMinecraft.FullName, "logs/latest.log")
-                    : string.Empty;
+                    LogFile = dotMinecraft is not null
+                        ? Path.Combine(dotMinecraft.FullName, "logs/latest.log")
+                        : string.Empty;
 
-                //update instance properties
-                UpdateInstanceNumber(dotMinecraft?.FullName);
-                UpdateGameVersion(instance);
+                    //update instance properties
+                    UpdateGameVersion(instance);
+                    UpdateInstanceNumber(dotMinecraft?.FullName);
 
-                //prepare for next check
-                LastActiveInstance = instance.Id;
+                    //prepare for next check
+                    LastActiveInstance = instance.Id;
+                }
+
+                //update game version
+                if (Config.Tracking.AutoDetectVersion && LatestGameVersion != Tracker.Category.CurrentVersion)
+                    Tracker.TrySetVersion(LatestGameVersion);
             }
         }
 
@@ -204,13 +212,10 @@ namespace AATool.Utilities
 
         private static void UpdateGameVersion(Process instance)
         {
-            if (Config.Tracking.AutoDetectVersion)
-            {
-                //get game version number from second word of title
-                string[] title = instance.MainWindowTitle.Split(' ');
-                if (title.Length > 1)
-                    Tracker.TrySetVersion(title[1]);
-            }
+            //get game version number from second word of title
+            string[] title = instance.MainWindowTitle.Split(' ');
+            if (title.Length > 1)
+                LatestGameVersion = title[1];
         }
     }
 }
