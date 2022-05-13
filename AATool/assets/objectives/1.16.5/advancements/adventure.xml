@@ -22,22 +22,25 @@
 
     <advancement id="minecraft:adventure/summon_iron_golem"     name="Hired Help"               type="goal"/>
     <advancement id="minecraft:adventure/totem_of_undying"      name="Postmortal"               type="goal"/>
-    <advancement id="minecraft:adventure/adventuring_time"      name="Adventuring Time" short_name="Adventuring" type="challenge">
+    <advancement id="minecraft:adventure/adventuring_time"      name="Adventuring Time" short_name="Adventuring" type="challenge" half="false">
         <criteria goal="Biomes Visited">
             <criterion id="minecraft:plains"/>
             <criterion id="minecraft:forest"/>
+            <criterion id="minecraft:wooded_hills"              short_name="Wooded Hills"/>
             <criterion id="minecraft:birch_forest"/>
             <criterion id="minecraft:birch_forest_hills"        name="Birch Hills"/>
-            <criterion id="minecraft:swamp"/>
             <criterion id="minecraft:dark_forest"/>
+            <criterion id="minecraft:swamp"/>
             <criterion id="minecraft:taiga"/>
             <criterion id="minecraft:taiga_hills"/>
             <criterion id="minecraft:giant_tree_taiga"          name="Mega Taiga"/>
-            <criterion id="minecraft:giant_tree_taiga_hills"    name="Mega Taiga H"/>
-            <criterion id="minecraft:snowy_taiga"               name="Snow Taiga"       short_name="Snow Taiga"/>
-            <criterion id="minecraft:snowy_taiga_hills"         name="Snow Taiga Hill"  short_name="Snow Taiga H"/>
-            <criterion id="minecraft:snowy_tundra"              name="Snow Tundra"      short_name="Snow Tundra"/>
-            <criterion id="minecraft:snowy_mountains"           name="Snow Mountain"    short_name="Snow Mtn"/>
+            <criterion id="minecraft:giant_tree_taiga_hills"    name="Mega Taiga Hill" short_name="Mega Taiga H"/>
+            <criterion id="minecraft:snowy_taiga"               name="Snowy Taiga"       short_name="Snow Taiga"/>
+            <criterion id="minecraft:snowy_taiga_hills"         name="Snowy Taiga Hill"  short_name="Snow Taiga H"/>
+            <criterion id="minecraft:snowy_tundra"              name="Snowy Tundra"      short_name="Snow Tundra"/>
+            <criterion id="minecraft:snowy_mountains"           name="Snowy Mountain"    short_name="Snow Mtn"/>
+            <criterion id="minecraft:snowy_beach"               name="Snowy Beach"       short_name="Snow Beach"/>
+            <criterion id="minecraft:beach"/>
             <criterion id="minecraft:desert"/>
             <criterion id="minecraft:desert_hills"/>
             <criterion id="minecraft:savanna"/>
@@ -45,27 +48,24 @@
             <criterion id="minecraft:jungle"/>
             <criterion id="minecraft:jungle_edge"/>
             <criterion id="minecraft:jungle_hills"/>
-            <criterion id="minecraft:bamboo_jungle"             name="Bamboo"/>
+            <criterion id="minecraft:bamboo_jungle"             short_name="Bamboo"/>
             <criterion id="minecraft:bamboo_jungle_hills"       name="Bamboo Hills"/>
+            <criterion id="minecraft:stone_shore"               short_name="Stn Shore"/>
+            <criterion id="minecraft:wooded_mountains"          name="Wooded Mtn"/>
             <criterion id="minecraft:mountains"/>
-            <criterion id="minecraft:wooded_mountains"          name="Wood Mtn"/>
-            <criterion id="minecraft:wooded_hills"              name="Wood Hills"/>
-            <criterion id="minecraft:stone_shore"/>
-            <criterion id="minecraft:snowy_beach"               name="Snow Beach"       short_name="Snow Beach"/>
-            <criterion id="minecraft:mushroom_fields"           name="Mushroom"/>
-            <criterion id="minecraft:mushroom_field_shore"      name="Mush-Shore"       short_name="MuShore"/>
-            <criterion id="minecraft:badlands"/>
-            <criterion id="minecraft:badlands_plateau"          name="Badlands Plat"    short_name="Bad Plat"/>
-            <criterion id="minecraft:wooded_badlands_plateau"   name="Wood Plat"/>
-            <criterion id="minecraft:beach"/>
             <criterion id="minecraft:river"/>
             <criterion id="minecraft:frozen_river"                                      short_name="F River"/>
+            <criterion id="minecraft:badlands"/>
+            <criterion id="minecraft:badlands_plateau"          name="Badlands Plateau"    short_name="Bad Plat"/>
+            <criterion id="minecraft:wooded_badlands_plateau"   name="Wooded Plateau" short_name="Wood Plat"/>
+            <criterion id="minecraft:mushroom_fields"           short_name="Mushroom"/>
+            <criterion id="minecraft:mushroom_field_shore"      name="Mushroom Shore"       short_name="MuShore"/>
             <criterion id="minecraft:warm_ocean"                                        short_name="Warm"/>
             <criterion id="minecraft:lukewarm_ocean"                                    short_name="Lukewarm"/>
             <criterion id="minecraft:deep_lukewarm_ocean"       name="Deep Lukewarm"    short_name="Deep LW"/>
             <criterion id="minecraft:cold_ocean"                                        short_name="Cold"/>
             <criterion id="minecraft:deep_cold_ocean"                                   short_name="Deep C"/>
-            <criterion id="minecraft:deep_frozen_ocean"         name="Deep Frozen"      short_name="Deep F"/>
+            <criterion id="minecraft:deep_frozen_ocean"         name="Deep Frozen"      short_name="DF"/>
         </criteria>
     </advancement>
     <advancement id="minecraft:adventure/kill_all_mobs" name="Monsters Hunted" short_name="Monsters" type="challenge">

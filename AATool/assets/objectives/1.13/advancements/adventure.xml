@@ -47,8 +47,8 @@
             <criterion id="minecraft:forest"/>
             <criterion id="minecraft:birch_forest"/>
             <criterion id="minecraft:birch_forest_hills"        name="Birch Hills"/>
-            <criterion id="minecraft:swamp"/>
             <criterion id="minecraft:dark_forest"/>
+            <criterion id="minecraft:swamp"/>
             <criterion id="minecraft:taiga"/>
             <criterion id="minecraft:taiga_hills"/>
             <criterion id="minecraft:giant_tree_taiga"          name="Mega Taiga"/>

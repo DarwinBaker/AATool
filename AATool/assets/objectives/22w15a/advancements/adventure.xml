@@ -36,9 +36,9 @@
             <criterion id="minecraft:forest"/>
             <criterion id="minecraft:birch_forest"/>
             <criterion id="minecraft:old_growth_birch_forest" name="Old Birch"/>
+            <criterion id="minecraft:dark_forest"/>
             <criterion id="minecraft:swamp"/>
             <criterion id="minecraft:mangrove_swamp"/>
-            <criterion id="minecraft:dark_forest"/>
             <criterion id="minecraft:taiga"/>
             <criterion id="minecraft:old_growth_pine_taiga" name="Old Pine"/>
             <criterion id="minecraft:old_growth_spruce_taiga" name="Old Spruce"/>

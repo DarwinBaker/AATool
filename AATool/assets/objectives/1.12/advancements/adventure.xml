@@ -18,8 +18,8 @@
             <criterion id="forest_hills"/>
             <criterion id="birch_forest"/>
             <criterion id="birch_forest_hills"        name="Birch Hills"/>
-            <criterion id="swampland"                                             icon="swamp"/>
             <criterion id="roofed_forest"                                         icon="dark_forest"/> 
+            <criterion id="swampland"                                             icon="swamp"/>
             <criterion id="taiga"/>
             <criterion id="taiga_hills"/>
             <criterion id="redwood_taiga"                                         icon="giant_tree_taiga"/>
