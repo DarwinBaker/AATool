@@ -10,6 +10,7 @@ namespace AATool.Configuration
         public class TrackingConfig : Config
         {
             [JsonProperty] public readonly Setting<string> LastSession = new (string.Empty);
+            [JsonProperty] public readonly Setting<string> LastPlayer = new (string.Empty);
 
             [JsonProperty] public readonly Setting<string> GameCategory = new ("All Advancements");
             [JsonProperty] public readonly Setting<string> GameVersion = new ("1.16");

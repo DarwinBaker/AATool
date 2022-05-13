@@ -1,17 +1,17 @@
-﻿using AATool.Configuration;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
-using AATool.Graphics;
 using AATool.Net;
+using AATool.Net.Requests;
 using AATool.Saves;
 using AATool.UI.Controls;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
 
 namespace AATool.UI.Screens
 {
@@ -19,11 +19,24 @@ namespace AATool.UI.Screens
     {
         private const int ScrollSpeedMultiplier = 15;
         private const int BaseScrollSpeed = 30;
-        private const int TitleSlideSpeed = 4;
+        private const int HeaderSlideSpeed = 4;
+        private const int HeaderHeight = 42;
+
+        private const int HeaderProgress = 60;
+        private const int HeaderCategory = 10;
+        private const int HeaderToolVersion = 10;
+        private const int HeaderPatreon = 10;
+        private const int HeaderSlide = 1;
+
+        private const int BottomRowPickups = 60 * 5;
+        private const int BottomRowComplex = 30;
+        private const int BottomRowSlide = 2;
+
+        public bool FastForwarding { get; set; }
 
         private readonly SequenceTimer titleTimer;
-        
-        private UITextBlock progress;
+        private readonly SequenceTimer pickupTimer;
+
         private UITextBlock text;
         private UITextBlock status;
         private UICarousel advancements;
@@ -32,19 +45,16 @@ namespace AATool.UI.Screens
         private UIControl runCompletePanel;
         private UIControl carouselPanel;
         private bool isResizing;
-
+        private Color frameBackColor;
+        private Color frameBorderColor;
         private float titleY;
 
-        public bool FastForwarding { get; set; }
-
-        private Color frameBack;
-        private Color frameBorder;
-
-        public override Color FrameBackColor() => this.frameBack;
-        public override Color FrameBorderColor() => this.frameBorder;
+        public override Color FrameBackColor() => this.frameBackColor;
+        public override Color FrameBorderColor() => this.frameBorderColor;
 
         public UIOverlayScreen(Main main) : base(main, GameWindow.Create(main, 360, 360))
         {
+            //initialize window
             this.Form.Text         = "Stream Overlay";
             this.Form.ControlBox   = false;
             this.Form.ResizeBegin += this.OnResizeBegin;
@@ -52,23 +62,33 @@ namespace AATool.UI.Screens
             this.Form.Resize      += this.OnResize;
             this.Form.FormClosing += this.OnClosing;
             this.Window.AllowUserResizing = true;
-            this.titleTimer = new SequenceTimer(60, 1, 10, 1, 10, 1, 10, 1);
-            
+
+            //cycle overlay header text
+            this.titleTimer = new SequenceTimer(
+                HeaderProgress, HeaderSlide,
+                HeaderCategory, HeaderSlide,
+                HeaderToolVersion, HeaderSlide,
+                HeaderPatreon, HeaderSlide);
+
+            //cycle pickup row
+            this.pickupTimer = new SequenceTimer(
+                BottomRowPickups, BottomRowSlide, 
+                BottomRowComplex, BottomRowSlide);
+
+            //load layout
             this.ReloadView();
+
+            //enforce minimum size
             this.Form.MinimumSize = new System.Drawing.Size(1260 + this.Form.Width - this.Form.ClientSize.Width, 
                 this.Height + this.Form.Height - this.Form.ClientSize.Height);
-
             this.Form.MaximumSize = new System.Drawing.Size(4096 + this.Form.Width - this.Form.ClientSize.Width, 
                 this.Height + this.Form.Height - this.Form.ClientSize.Height);
         }
 
-        private void OnClosing(object sender, FormClosingEventArgs e)
+        public override void Prepare()
         {
-            if (Config.Overlay.StartupArrangement == WindowSnap.Remember)
-            {
-                Config.Overlay.LastWindowPosition.Set(new Point(this.Form.Location.X, this.Form.Location.Y));
-                Config.Overlay.Save();
-            }
+            base.Prepare();
+            this.GraphicsDevice.Clear(Config.Overlay.GreenScreen);
         }
 
         public override string GetCurrentView()
@@ -95,7 +115,7 @@ namespace AATool.UI.Screens
 
             //enforce minimum size
             if (this.Form.MinimumSize.Width > 0)
-                width  = Math.Max(width, this.Form.MinimumSize.Width - (this.Form.Width - this.Form.ClientSize.Width));
+                width = Math.Max(width, this.Form.MinimumSize.Width - (this.Form.Width - this.Form.ClientSize.Width));
             if (this.Form.MinimumSize.Height > 0)
                 height = Math.Max(height, this.Form.MinimumSize.Height - (this.Form.Height - this.Form.ClientSize.Height));
 
@@ -130,16 +150,7 @@ namespace AATool.UI.Screens
             this.runCompletePanel = this.First("panel_congrats");
             this.carouselPanel = this.First("panel_carousel");
 
-            int textScale = 24;
-
-            this.progress = new UITextBlock("minecraft", textScale) {
-                Margin              = new Margin(16, 0, 8, 0),
-                HorizontalTextAlign = HorizontalAlign.Left,
-                VerticalAlign       = VerticalAlign.Top
-            };
-            this.AddControl(this.progress);
-
-            this.text = new UITextBlock("minecraft", textScale) {
+            this.text = new UITextBlock("minecraft", 24) {
                 Padding             = new Margin(16, 16, 8, 0),
                 HorizontalTextAlign = HorizontalAlign.Center,
                 VerticalTextAlign   = VerticalAlign.Top
@@ -148,17 +159,11 @@ namespace AATool.UI.Screens
 
             //initialize main objective carousel
             this.advancements = this.First<UICarousel>("advancements");
-            if (this.advancements is not null)
-            {
-                this.advancements.SetScrollDirection(Config.Overlay.RightToLeft);
-            }
+            this.advancements?.SetScrollDirection(Config.Overlay.RightToLeft);
 
             //initialize criteria carousel
             this.criteria = this.First<UICarousel>("criteria");
-            if (this.criteria is not null)
-            {
-                this.criteria.SetScrollDirection(Config.Overlay.RightToLeft);
-            }
+            this.criteria?.SetScrollDirection(Config.Overlay.RightToLeft);
 
             //initialize item counters
             this.counts = this.First<UIFlowPanel>("counts");
@@ -191,6 +196,184 @@ namespace AATool.UI.Screens
             this.UpdateSpeed();
         }
 
+        protected override void UpdateThis(Time time)
+        {
+            //update enabled state
+            if (!this.Form.IsDisposed)
+                this.Form.Visible = Config.Overlay.Enabled;
+            if (!this.Form.Visible)
+                return;
+
+            if (Tracker.ObjectivesChanged || Config.Overlay.Enabled.Changed)
+                this.ReloadView();
+
+            this.ConstrainWindow();
+            this.UpdateContentVisibility();
+            this.UpdateCarouselLocations();
+            this.UpdateSpeed();
+
+            if (Config.Overlay.AppearanceChanged)
+                this.UpdateTheme();
+
+            if (Config.Overlay.ArrangementChanged)
+                this.UpdateDirection();
+
+            //top center header text
+            this.text?.SetText(this.PrepareHeaderText(time));
+            //text next to pickup counts
+            this.status?.SetText(this.PrepareStatusText());
+        }
+
+        private void UpdateTheme()
+        {
+            if (Config.Overlay.FrameStyle == "Custom Theme")
+            {
+                this.frameBackColor = Config.Overlay.CustomBackColor;
+                this.frameBorderColor = Config.Overlay.CustomBorderColor;
+            }
+            else if (Config.MainConfig.Themes.TryGetValue(Config.Overlay.FrameStyle,
+                out (Color back, Color text, Color border) theme))
+            {
+                this.frameBackColor = theme.back;
+                this.frameBorderColor = theme.border;
+            }
+        }
+
+        private void UpdateDirection()
+        {
+            this.advancements?.SetScrollDirection(Config.Overlay.RightToLeft);
+            this.criteria?.SetScrollDirection(Config.Overlay.RightToLeft);
+
+            if (this.counts is not null)
+            {
+                this.counts.FlowDirection = Config.Overlay.RightToLeft ^ Config.Overlay.PickupsOpposite
+                    ? FlowDirection.RightToLeft
+                    : FlowDirection.LeftToRight;
+            }
+
+            if (this.status is not null)
+            {
+                this.status.HorizontalTextAlign = Config.Overlay.RightToLeft
+                    ? HorizontalAlign.Right
+                    : HorizontalAlign.Left;
+            }
+        }
+
+        private string PrepareHeaderText(Time time)
+        {
+            if (Tracker.Category.IsComplete())
+                return string.Empty;
+
+            //slide header in/out from top of screen
+            int targetY = this.titleTimer.Index % 2 is 0 ? 0 : -48;
+            this.titleY = MathHelper.Lerp(this.titleY, targetY, (float)(HeaderSlideSpeed * time.Delta));
+            this.text.MoveTo(new Point(0, (int)this.titleY));
+
+            this.titleTimer.Update(time);
+            if (this.titleTimer.IsExpired)
+                this.titleTimer.Continue();
+
+            //cycle header text
+            return this.titleTimer.Index switch {
+                2 or 3 => $"Minecraft JE: {Tracker.Category.Name} ({Tracker.Category.CurrentVersion})",
+                4 or 5 => $"{Main.ShortTitle} ({(UpdateRequest.UpdatesAreAvailable() ? "Outdated" : "")})",
+                6 or 7 => Paths.Web.PatreonShort,
+                _ => Tracker.Category.GetStatus()
+            };
+        }
+
+        private string PrepareStatusText()
+        {
+            if (Client.TryGet(out Client client))
+            {
+                //use smaller font
+                this.status?.SetFont("minecraft", 24);
+                return client.GetShortStatusText();
+            }
+            else if (MinecraftServer.IsEnabled)
+            {
+                //use smaller font
+                this.status?.SetFont("minecraft", 24);
+                return MinecraftServer.GetShortStatusText();
+            }
+            else
+            {
+                //use larger font
+                this.status?.SetFont("minecraft", 48);
+                if (Config.Overlay.ShowIgt && Tracker.InGameTime != default)
+                    return Tracker.GetFullIgt();
+            }
+            return string.Empty;
+        }
+
+        private void UpdateSpeed()
+        {
+            float speed = BaseScrollSpeed + (Config.Overlay.Speed * ScrollSpeedMultiplier);
+            if (this.FastForwarding)
+                speed *= 20;
+            this.advancements?.SetSpeed(speed);
+            this.criteria?.SetSpeed(speed);
+        }
+
+        private void UpdateCarouselLocations()
+        {
+            //update vertical position of rows based on what is or isn't enabled
+            int criteria = this.criteria is null || this.criteria.IsCollapsed 
+                ? 0 : 64;
+
+            int advancement = this.advancements is null || this.advancements.IsCollapsed 
+                ? 0 : Config.Overlay.ShowLabels ? 160 : 110;
+
+            this.criteria?.MoveTo(new Point(0, HeaderHeight));
+            this.advancements?.MoveTo(new Point(0, HeaderHeight + criteria));
+            this.counts?.MoveTo(new Point(this.counts.X, HeaderHeight + criteria + advancement));
+        }
+
+        private void UpdateContentVisibility()
+        {
+            //handle completion screen popup
+            if (Tracker.Category.IsComplete())
+            {
+                this.carouselPanel?.Collapse();  
+                if (this.runCompletePanel?.IsCollapsed is true)
+                {
+                    this.runCompletePanel.Expand();
+                    this.runCompletePanel.First<UIRunComplete>()?.Show();
+                }         
+            }
+            else
+            {
+                this.carouselPanel?.Expand();
+                this.runCompletePanel?.Collapse();
+            }
+
+            //update criteria visibility
+            this.criteria?.SetVisibility(Config.Overlay.ShowCriteria);
+
+            //update item count visibility
+            if (this.counts is not null)
+            {
+                this.counts.SetVisibility(Config.Overlay.ShowPickups);
+                foreach (UIControl control in this.counts.Children)
+                {
+                    if (control.IsCollapsed == Config.Overlay.ShowPickups)
+                    {
+                        if (Config.Overlay.ShowPickups)
+                            control.Expand();
+                        else
+                            control.Collapse();
+                        this.counts.ReflowChildren();
+                    }
+                }
+            }
+        }
+
+        private void RememberWindowPosition()
+        {
+            Config.Overlay.LastWindowPosition.Set(new Point(this.Form.Location.X, this.Form.Location.Y));
+            Config.Overlay.Save();
+        }
+
         private void OnResizeBegin(object sender, EventArgs e)
         {
             this.isResizing = true;
@@ -216,225 +399,9 @@ namespace AATool.UI.Screens
             Config.Overlay.Save();
         }
 
-        protected override void UpdateThis(Time time)
+        private void OnClosing(object sender, FormClosingEventArgs e)
         {
-            //update enabled state
-            if (!this.Form.IsDisposed)
-                this.Form.Visible = Config.Overlay.Enabled;
-            if (!this.Form.Visible)
-                return;
-
-            if (Tracker.ObjectivesChanged || Config.Overlay.Enabled.Changed)
-                this.ReloadView();
-
-            this.ConstrainWindow();
-            this.UpdateVisibility();
-            this.UpdateCarouselLocations();
-
-            if (Config.Overlay.Enabled.Changed || Config.Overlay.AppearanceChanged)
-            {
-                if (Config.Overlay.FrameStyle == "Custom Theme")
-                {
-                    this.frameBack = Config.Overlay.CustomBackColor;
-                    this.frameBorder = Config.Overlay.CustomBorderColor;
-                }
-                else if (Config.MainConfig.Themes.TryGetValue(Config.Overlay.FrameStyle, out var theme))
-                {
-                    this.frameBack = theme.back;
-                    this.frameBorder = theme.border;
-                }
-            }
-
-            //reset carousels if settings change
-            if (Config.Overlay.RightToLeft.Changed)
-            {
-                this.advancements?.SetScrollDirection(Config.Overlay.RightToLeft);
-                this.criteria?.SetScrollDirection(Config.Overlay.RightToLeft);
-                if (this.status is not null)
-                {
-                    this.status.HorizontalTextAlign = Config.Overlay.RightToLeft
-                        ? HorizontalAlign.Right
-                        : HorizontalAlign.Left;
-                }
-            }
-
-            this.UpdateSpeed();
-
-            if (Tracker.Category.IsComplete())
-                this.text.Collapse();
-            else
-                this.text.Expand();
-            
-            if (this.counts is not null)
-            {
-                this.counts.FlowDirection = Config.Overlay.RightToLeft ^ Config.Overlay.PickupsOpposite
-                    ? FlowDirection.RightToLeft
-                    : FlowDirection.LeftToRight;
-            }
-
-            if (Client.TryGet(out Client client))
-            {
-                this.status.SetFont("minecraft", 24);
-                int seconds = (int)Math.Ceiling((client.NextRefresh - DateTime.UtcNow).TotalSeconds);
-                if (seconds <= 0)
-                {
-                    string hostName = "host";
-                    if (Peer.TryGetLobby(out Lobby lobby) && lobby.TryGetHost(out User host))
-                    {
-                        Player.TryGetName(host.Id, out string name);
-                            hostName = name;
-                    }
-                    this.status?.SetText($"Syncing with {hostName}");
-                }
-                else
-                {
-                    this.status?.SetText($"Refreshing in {MinecraftServer.GetEstimateString(seconds).Replace(" ", "\0")}");
-                }
-            }
-            else if (MinecraftServer.IsEnabled)
-            {
-                this.status?.SetFont("minecraft", 24);
-                if (MinecraftServer.State is SyncState.Ready)
-                {
-                    if (MinecraftServer.CredentialsValidated)
-                        this.status?.SetText($"Refreshing in {MinecraftServer.GetEstimateString(MinecraftServer.GetNextRefresh()).Replace(" ", "\0")}");
-                    else
-                        this.status?.SetText($"SFTP Offline");
-                }                
-                else if (MinecraftServer.State is SyncState.Connecting)
-                {
-                    this.status?.SetText($"Connecting...");
-                }
-                else
-                {
-                    this.status?.SetText($"Syncing...");
-                }
-            }
-            else
-            {
-                this.status?.SetFont("minecraft", 48);
-                if (Config.Overlay.ShowIgt && Tracker.InGameTime != default)
-                    this.status?.SetText(Tracker.GetFullIgt());
-                else
-                    this.status?.SetText(string.Empty);
-            }
-
-            this.titleTimer.Update(time);
-            if (this.titleTimer.IsExpired)
-            {
-                if (this.titleTimer.Index is 3)
-                    this.text.SetText(Main.ShortTitle);
-                else if (this.titleTimer.Index is 5)
-                    this.text.SetText(Paths.Web.PatreonShort);
-
-                this.titleTimer.Continue();
-            }
-
-            if (this.titleTimer.Index is 0)
-            {
-                this.text.SetText(Tracker.Category.GetStatus());
-            }
-            else if (this.titleTimer.Index is 2)
-            {
-                this.text.SetText($"Minecraft JE: {Tracker.Category.Name} ({Tracker.Category.CurrentVersion})");
-            }
-
-            //this.text.HorizontalTextAlign = Config.Overlay.RightToLeft
-            //    ? HorizontalAlign.Left
-            //    : HorizontalAlign.Right;
-
-            if (this.titleTimer.Index % 2 is 0)
-            {
-                //slide in from top
-                this.titleY = MathHelper.Lerp(this.titleY, 0, (float)(TitleSlideSpeed * time.Delta));
-            }
-            else
-            {
-                //slide out from top
-                this.titleY = MathHelper.Lerp(this.titleY, -48, (float)(TitleSlideSpeed * time.Delta));
-            }
-            this.text.MoveTo(new Point(0, (int)this.titleY));
-        }
-
-        private void UpdateSpeed()
-        {
-            float speed = BaseScrollSpeed + (Config.Overlay.Speed * ScrollSpeedMultiplier);
-            if (this.FastForwarding)
-                speed *= 20;
-            this.advancements?.SetSpeed(speed);
-            this.criteria?.SetSpeed(speed);
-        }
-
-        private void UpdateCarouselLocations()
-        {
-            //update vertical position of rows based on what is or isn't enabled
-            int title = 42;
-
-            int criteria = this.criteria is null || this.criteria.IsCollapsed 
-                ? 0 : 64;
-
-            int advancement = this.advancements is null || this.advancements.IsCollapsed 
-                ? 0 : Config.Overlay.ShowLabels ? 160 : 110;
-
-            int count = this.counts is null || this.counts.IsCollapsed 
-                ? 0 : 128;
-
-            this.criteria?.MoveTo(new Point(0, title));
-            this.advancements?.MoveTo(new Point(0, title + criteria));
-            this.counts?.MoveTo(new Point(this.counts.X, title + criteria + advancement));
-        }
-
-        private void UpdateVisibility()
-        {
-            //handle completion message
-            if (Tracker.Category.IsComplete())
-            {
-                if (this.runCompletePanel?.IsCollapsed is true)
-                {
-                    this.runCompletePanel?.Expand();
-                    this.runCompletePanel?.First<UIRunComplete>()?.Show();
-                }         
-                this.carouselPanel?.Collapse();  
-            }
-            else
-            {
-                this.runCompletePanel?.Collapse();
-                this.carouselPanel?.Expand();
-            }
-
-            //update criteria visibility
-            if (Config.Overlay.ShowCriteria)
-                this.criteria?.Expand();
-            else
-                this.criteria?.Collapse();
-
-            if (this.counts is not null)
-            {
-                //update item count visibility
-                if (Config.Overlay.ShowPickups)
-                    this.counts.Expand();
-                else
-                    this.counts.Collapse();
-
-                //update visibility for individual item counters (favorites)
-                foreach (UIControl control in this.counts.Children)
-                {
-                    if (control.IsCollapsed == Config.Overlay.ShowPickups)
-                    {
-                        if (Config.Overlay.ShowPickups)
-                            control.Expand();
-                        else
-                            control.Collapse();
-                        this.counts.ReflowChildren();
-                    }
-                }
-            }
-        }
-
-        public override void Prepare()
-        {
-            base.Prepare();
-            this.GraphicsDevice.Clear(Config.Overlay.GreenScreen);
+            this.RememberWindowPosition();
         }
     }
 }

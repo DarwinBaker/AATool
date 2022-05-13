@@ -15,6 +15,7 @@ using System.Linq;
 using AATool.Saves;
 using AATool.Net.Requests;
 using Microsoft.Xna.Framework.Graphics;
+using System.Globalization;
 
 namespace AATool
 {
@@ -42,6 +43,8 @@ namespace AATool
         public static string ShortTitle     { get; private set; }
         public static Version Version       { get; private set; }
         public static Random RNG            { get; private set; }
+
+        public static readonly TextInfo TextInfo = new CultureInfo("en-US", false).TextInfo;
 
         public static GraphicsDeviceManager GraphicsManager { get; private set; }
         public static GraphicsDevice Device => GraphicsManager?.GraphicsDevice;
@@ -115,6 +118,8 @@ namespace AATool
 
             this.Time.Update(gameTime);
 
+            Debug.BeginTiming("update_main");
+
             //check minecraft version
             ActiveInstance.Update(this.Time);
             MinecraftServer.Update(this.Time);
@@ -172,11 +177,15 @@ namespace AATool
             Tracker.ClearFlags();
             Peer.ClearFlags();
             Input.EndUpdate();
+
+            Debug.EndTiming("update_main");
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            Debug.BeginTiming("draw_main");
             lock (SpriteSheet.Atlas)
             {
                 //render each secondary screen to its respective viewport
@@ -193,6 +202,7 @@ namespace AATool
                 PrimaryScreen.Present();
                 base.Draw(gameTime);
             }
+            Debug.EndTiming("draw_main");
         }
 
         private void AddScreen(UIScreen screen)
