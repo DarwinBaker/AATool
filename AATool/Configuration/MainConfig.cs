@@ -38,7 +38,7 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<int> FpsCap = new (60);
             [JsonProperty] public readonly Setting<int> DisplayScale = new (1);
 
-            [JsonProperty] public readonly Setting<bool> FullScreenLeaderboards = new (true);
+            [JsonProperty] public readonly Setting<bool> FullScreenLeaderboards = new (false);
             [JsonProperty] public readonly Setting<bool> HideCompletedAdvancements = new (false);
             [JsonProperty] public readonly Setting<bool> HideCompletedCriteria = new (false);
             [JsonProperty] public readonly Setting<bool> ShowBasicAdvancements = new (true);
