@@ -150,7 +150,7 @@ namespace AATool.UI.Controls
                 ? Leaderboard.Current 
                 : this.owner.BoardName ;
 
-            if (Badge.TryGet(this.Player, playerName, 2, boardName, out this.badge))
+            if (this.Width >= 32 && Badge.TryGet(this.Player, playerName, 2, boardName, out this.badge))
             {
                 this.AddControl(this.badge);
                 this.badge.ResizeRecursive(this.Inner);
