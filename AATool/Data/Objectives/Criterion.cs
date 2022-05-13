@@ -9,8 +9,6 @@ namespace AATool.Data.Objectives
 {
     public class Criterion : Objective
     {
-        private static readonly TextInfo Text = new CultureInfo("en-US", false).TextInfo;
-
         public readonly Advancement Owner;
         
         public Uuid DesignatedPlayer => this.Owner.DesignatedPlayer;
@@ -29,7 +27,7 @@ namespace AATool.Data.Objectives
             //construct name from id if not explicitly provided
             string implicitName = this.Id.Split(':').LastOrDefault() ?? string.Empty;
             if (string.IsNullOrEmpty(this.Name))
-                this.Name = Text.ToTitleCase(implicitName.Replace('_', ' ') ?? string.Empty);
+                this.Name = Main.TextInfo.ToTitleCase(implicitName.Replace('_', ' ') ?? string.Empty);
             this.ShortName = XmlObject.Attribute(node, "short_name", this.Name);
 
             //construct icon from id if not explicitly provided

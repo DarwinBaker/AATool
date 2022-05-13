@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AATool.Configuration;
-using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
 
@@ -21,10 +20,11 @@ namespace AATool.Winforms.Controls
         {
             this.loaded = false;
 
+            this.hideCompletedAdvancements.Checked = Config.Main.HideCompletedAdvancements;
+            this.hideCompletedCriteria.Checked = Config.Main.HideCompletedCriteria;
             this.fpsCap.Text            = Config.Main.FpsCap.Value.ToString();
-            this.viewMode.Text          = Config.Main.CompactMode ? "Compact" : "Relaxed";
+            this.viewMode.Text          = Main.TextInfo.ToTitleCase(Config.Main.Layout.Value);
             this.showBasic.Checked      = Config.Main.ShowBasicAdvancements;
-            this.hideCompleted.Checked  = Config.Main.HideCompletedAdvancements;
             this.completionGlow.Checked = Config.Main.ShowCompletionGlow;
             this.ambientGlow.Checked    = Config.Main.ShowAmbientGlow;
             this.highRes.Checked        = Config.Main.DisplayScale > 1;
@@ -68,11 +68,12 @@ namespace AATool.Winforms.Controls
                     Config.Main.FpsCap.Set(cap);
 
                 Config.Main.ShowBasicAdvancements.Set(this.showBasic.Checked);
-                Config.Main.HideCompletedAdvancements.Set(this.hideCompleted.Checked);
+                Config.Main.HideCompletedAdvancements.Set(this.hideCompletedAdvancements.Checked);
+                Config.Main.HideCompletedCriteria.Set(this.hideCompletedCriteria.Checked);
                 Config.Main.ShowCompletionGlow.Set(this.completionGlow.Checked);
                 Config.Main.ShowAmbientGlow.Set(this.ambientGlow.Checked);
                 Config.Main.DisplayScale.Set(this.highRes.Checked ? 2 : 1);
-                Config.Main.CompactMode.Set(this.viewMode.Text.ToLower() is "compact");
+                Config.Main.Layout.Set(this.viewMode.Text.ToLower());
                 Config.Main.FrameStyle.Set(this.frameStyle.Text);
                 Config.Main.ProgressBarStyle.Set(this.progressBarStyle.Text);
                 Config.Main.RefreshIcon.Set(this.refreshIcon.Text);

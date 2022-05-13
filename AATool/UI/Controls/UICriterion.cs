@@ -17,8 +17,11 @@ namespace AATool.UI.Controls
         private Criterion criterion;
         private UIPicture icon;
         private UITextBlock label;
+
         private float iconBrightness;
         private float textBrightness;
+        private float iconTarget;
+        private float textTarget;
 
         public bool HideFromOverlay => (this.criterion?.Owner?.IsComplete() is true) || this.CriterionCompleted;
         public bool CriterionCompleted => this.criterion?.CompletedByDesignated() is true;
@@ -46,7 +49,7 @@ namespace AATool.UI.Controls
         {
             Tracker.TryGetCriterion(this.AdvancementID, this.CriterionID, out this.criterion);
 
-            if (Config.Main.CompactMode && this.scale is 1)
+            if (Config.Main.UseCompactStyling && this.scale is 1)
                 this.FlexWidth = new Size(95, SizeMode.Absolute);
 
             this.icon = this.First<UIPicture>("icon");
@@ -60,7 +63,7 @@ namespace AATool.UI.Controls
             this.label = this.First<UITextBlock>("label");
             if (this.scale is 1)
             { 
-                if (Config.Main.CompactMode)
+                if (Config.Main.UseCompactStyling)
                     this.label?.SetText(this.criterion.ShortName);
                 else
                     this.label?.SetText(this.criterion.Name);
@@ -87,16 +90,30 @@ namespace AATool.UI.Controls
 
         protected override void UpdateThis(Time time)
         {
-            if (!this.IsStatic)
-            {
-                float iconTarget = this.CriterionCompleted ? 1f : 0.35f;
-                this.iconBrightness = MathHelper.Lerp(this.iconBrightness, iconTarget, (float)(10 * time.Delta));
-                this.icon?.SetTint(Color.White * this.iconBrightness);
+            if (this.IsStatic)
+                return;
 
-                float textTarget = this.CriterionCompleted ? 1f : 0.5f;
-                this.textBrightness = MathHelper.Lerp(this.textBrightness, textTarget, (float)(10 * time.Delta));        
-                this.label?.SetTextColor(Config.Main.TextColor.Value * textTarget);
+            bool completed = this.CriterionCompleted;
+            if (Config.Main.HideCompletedCriteria)
+            {
+                this.iconTarget = completed ? 0 : 1f;
+                this.textTarget = completed ? 0 : 1f;
             }
+            else
+            {
+                this.iconTarget = completed ? 1f : 0.35f;
+                this.textTarget = completed ? 1f : 0.5f;
+            }
+
+            bool visible = !(completed && Config.Main.HideCompletedCriteria);
+            this.icon.SetVisibility(visible);
+            this.label.SetVisibility(visible);
+
+            this.iconBrightness = MathHelper.Lerp(this.iconBrightness, this.iconTarget, (float)(10 * time.Delta));
+            this.icon?.SetTint(Color.White * this.iconBrightness);
+
+            this.textBrightness = MathHelper.Lerp(this.textBrightness, this.textTarget, (float)(10 * time.Delta));
+            this.label?.SetTextColor(Config.Main.TextColor.Value * this.textTarget);
         }
     }
 }

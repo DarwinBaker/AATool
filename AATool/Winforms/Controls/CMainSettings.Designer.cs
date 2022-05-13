@@ -35,7 +35,7 @@ namespace AATool.Winforms.Controls
             this.label3 = new System.Windows.Forms.Label();
             this.infoPanel = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.hideCompleted = new System.Windows.Forms.CheckBox();
+            this.hideCompletedAdvancements = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.viewMode = new System.Windows.Forms.ComboBox();
             this.showBasic = new System.Windows.Forms.CheckBox();
@@ -67,6 +67,7 @@ namespace AATool.Winforms.Controls
             this.ambientGlow = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.hideCompletedCriteria = new System.Windows.Forms.CheckBox();
             this.mainGroupMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -76,7 +77,7 @@ namespace AATool.Winforms.Controls
             // notesEnabled
             // 
             this.notesEnabled.AutoSize = true;
-            this.notesEnabled.Location = new System.Drawing.Point(9, 145);
+            this.notesEnabled.Location = new System.Drawing.Point(9, 171);
             this.notesEnabled.Name = "notesEnabled";
             this.notesEnabled.Size = new System.Drawing.Size(132, 17);
             this.notesEnabled.TabIndex = 27;
@@ -86,12 +87,13 @@ namespace AATool.Winforms.Controls
             // 
             // mainGroupMain
             // 
+            this.mainGroupMain.Controls.Add(this.hideCompletedCriteria);
             this.mainGroupMain.Controls.Add(this.highRes);
             this.mainGroupMain.Controls.Add(this.label3);
             this.mainGroupMain.Controls.Add(this.infoPanel);
             this.mainGroupMain.Controls.Add(this.label12);
             this.mainGroupMain.Controls.Add(this.notesEnabled);
-            this.mainGroupMain.Controls.Add(this.hideCompleted);
+            this.mainGroupMain.Controls.Add(this.hideCompletedAdvancements);
             this.mainGroupMain.Controls.Add(this.label1);
             this.mainGroupMain.Controls.Add(this.viewMode);
             this.mainGroupMain.Controls.Add(this.showBasic);
@@ -105,7 +107,7 @@ namespace AATool.Winforms.Controls
             // highRes
             // 
             this.highRes.AutoSize = true;
-            this.highRes.Location = new System.Drawing.Point(9, 119);
+            this.highRes.Location = new System.Drawing.Point(9, 145);
             this.highRes.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
             this.highRes.Name = "highRes";
             this.highRes.Size = new System.Drawing.Size(133, 17);
@@ -141,24 +143,24 @@ namespace AATool.Winforms.Controls
             // 
             this.label12.AutoSize = true;
             this.label12.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label12.Location = new System.Drawing.Point(5, 165);
+            this.label12.Location = new System.Drawing.Point(5, 191);
             this.label12.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(221, 13);
             this.label12.TabIndex = 35;
             this.label12.Text = "🛈 Persistent, auto-cleared, per-world notepad";
             // 
-            // hideCompleted
+            // hideCompletedAdvancements
             // 
-            this.hideCompleted.AutoSize = true;
-            this.hideCompleted.Location = new System.Drawing.Point(9, 93);
-            this.hideCompleted.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
-            this.hideCompleted.Name = "hideCompleted";
-            this.hideCompleted.Size = new System.Drawing.Size(175, 17);
-            this.hideCompleted.TabIndex = 32;
-            this.hideCompleted.Text = "Hide Completed Advancements";
-            this.hideCompleted.UseVisualStyleBackColor = true;
-            this.hideCompleted.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            this.hideCompletedAdvancements.AutoSize = true;
+            this.hideCompletedAdvancements.Location = new System.Drawing.Point(9, 93);
+            this.hideCompletedAdvancements.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.hideCompletedAdvancements.Name = "hideCompletedAdvancements";
+            this.hideCompletedAdvancements.Size = new System.Drawing.Size(175, 17);
+            this.hideCompletedAdvancements.TabIndex = 32;
+            this.hideCompletedAdvancements.Text = "Hide Completed Advancements";
+            this.hideCompletedAdvancements.UseVisualStyleBackColor = true;
+            this.hideCompletedAdvancements.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
             // label1
             // 
@@ -176,7 +178,8 @@ namespace AATool.Winforms.Controls
             this.viewMode.FormattingEnabled = true;
             this.viewMode.Items.AddRange(new object[] {
             "Relaxed",
-            "Compact"});
+            "Compact",
+            "Vertical"});
             this.viewMode.Location = new System.Drawing.Point(9, 38);
             this.viewMode.Name = "viewMode";
             this.viewMode.Size = new System.Drawing.Size(106, 21);
@@ -537,6 +540,18 @@ namespace AATool.Winforms.Controls
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Startup Behavior";
             // 
+            // hideCompletedCriteria
+            // 
+            this.hideCompletedCriteria.AutoSize = true;
+            this.hideCompletedCriteria.Location = new System.Drawing.Point(9, 119);
+            this.hideCompletedCriteria.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.hideCompletedCriteria.Name = "hideCompletedCriteria";
+            this.hideCompletedCriteria.Size = new System.Drawing.Size(136, 17);
+            this.hideCompletedCriteria.TabIndex = 39;
+            this.hideCompletedCriteria.Text = "Hide Completed Criteria";
+            this.hideCompletedCriteria.UseVisualStyleBackColor = true;
+            this.hideCompletedCriteria.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            // 
             // CMainSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -577,7 +592,7 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.ComboBox viewMode;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox refreshIcon;
-        private System.Windows.Forms.CheckBox hideCompleted;
+        private System.Windows.Forms.CheckBox hideCompletedAdvancements;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox fpsCap;
@@ -599,5 +614,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.ComboBox startupMonitor;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.CheckBox hideCompletedCriteria;
     }
 }

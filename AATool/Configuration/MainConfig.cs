@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
@@ -8,6 +9,12 @@ namespace AATool.Configuration
 {
     public abstract partial class Config
     {
+        private static readonly Version VerticalMonitorUpdate = new ("1.4.5.0");
+
+        public const string RelaxedLayout = "relaxed";
+        public const string CompactLayout = "compact";
+        public const string VerticalLayout = "vertical";
+
         [JsonObject]
         public class MainConfig : Config
         {
@@ -31,12 +38,18 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<int> FpsCap = new (60);
             [JsonProperty] public readonly Setting<int> DisplayScale = new (1);
 
+            [JsonProperty] public readonly Setting<bool> FullScreenLeaderboards = new (true);
             [JsonProperty] public readonly Setting<bool> HideCompletedAdvancements = new (false);
+            [JsonProperty] public readonly Setting<bool> HideCompletedCriteria = new (false);
             [JsonProperty] public readonly Setting<bool> ShowBasicAdvancements = new (true);
             [JsonProperty] public readonly Setting<bool> ShowCompletionGlow = new (true);
             [JsonProperty] public readonly Setting<bool> ShowAmbientGlow = new (true);
-            [JsonProperty] public readonly Setting<bool> CompactMode = new (!MonitorSupportsRelaxed);
             [JsonProperty] public readonly Setting<bool> RainbowMode = new (false);
+
+            [JsonProperty] public readonly Setting<string> Layout = new (MonitorSupportsRelaxed ? RelaxedLayout : CompactLayout);
+
+            //deprecated (now used to migrate preference from pre-1.4.5.0)
+            [JsonProperty] public readonly Setting<bool> CompactMode = new (false);
 
             [JsonProperty] public readonly Setting<bool> LayoutDebugMode = new (false);
             [JsonProperty] public readonly Setting<bool> CacheDebugMode = new (false);
@@ -56,10 +69,13 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<int> StartupDisplay = new (1);
 
             [JsonIgnore]
-            public bool RelaxedMode => !this.CompactMode;
+            public bool UseRelaxedStyling => this.Layout != CompactLayout;
 
             [JsonIgnore]
-            public string ViewMode => this.CompactMode ? "compact" : "relaxed";
+            public bool UseCompactStyling => this.Layout == CompactLayout;
+
+            [JsonIgnore]
+            public bool UseVerticalStyling => this.Layout == VerticalLayout;
 
             [JsonIgnore]
             public bool StyleChanged => this.FrameStyle.Changed
@@ -78,24 +94,49 @@ namespace AATool.Configuration
 
             public MainConfig()
             {
+                this.RegisterSetting(this.FullScreenLeaderboards);
+                this.RegisterSetting(this.Layout);
                 this.RegisterSetting(this.FpsCap);
                 this.RegisterSetting(this.DisplayScale);
+
+                this.RegisterSetting(this.HideCompletedAdvancements);
+                this.RegisterSetting(this.HideCompletedCriteria);
+
                 this.RegisterSetting(this.ShowBasicAdvancements);
                 this.RegisterSetting(this.ShowCompletionGlow);
+                this.RegisterSetting(this.ShowAmbientGlow);
+
                 this.RegisterSetting(this.CompactMode);
                 this.RegisterSetting(this.RainbowMode);
+
                 this.RegisterSetting(this.LayoutDebugMode);
+                this.RegisterSetting(this.CacheDebugMode);
+
                 this.RegisterSetting(this.FrameStyle);
                 this.RegisterSetting(this.ProgressBarStyle);
                 this.RegisterSetting(this.RefreshIcon);
                 this.RegisterSetting(this.InfoPanel);
+
                 this.RegisterSetting(this.BackColor);
                 this.RegisterSetting(this.TextColor);
                 this.RegisterSetting(this.BorderColor);
+
                 this.RegisterSetting(this.StartupArrangement);
                 this.RegisterSetting(this.StartupDisplay);
                 this.RegisterSetting(this.LastWindowPosition);
-            } 
+            }
+
+            protected override void MigrateDepricatedConfigs()
+            {
+                //migrate relaxed vs compact preference from pre-1.4.5.0 installation
+                if (Version.TryParse(Tracking.LastSession, out Version last)
+                    && last < VerticalMonitorUpdate && this.CompactMode)
+                {
+                    this.Layout.Set(CompactLayout);
+                    this.CompactMode.Set(false);
+                    this.Save();
+                }
+            }
 
             protected override void ApplyLegacySetting(string key, object value)
             {
@@ -103,7 +144,6 @@ namespace AATool.Configuration
                     "show_basic_advancements" => this.ShowBasicAdvancements,
                     "fps_cap"           => this.FpsCap,
                     "layout_debug"      => this.LayoutDebugMode,
-                    "compact_mode"      => this.CompactMode,
                     "hide_completed"    => this.HideCompletedAdvancements,
                     "refresh_icon"      => this.RefreshIcon,
                     "rainbow_mode"      => this.RainbowMode,
