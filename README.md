@@ -1,4 +1,5 @@
 # CTM's AATool ➔ [Download Here!](https://github.com/DarwinBaker/AATool/releases/latest)
+# Setup Guide ➔ [Watch Here!](https://www.youtube.com/watch?v=Oc9Uw9M_Yho)
 
 ![](info/preview_main.png)
 ![](info/preview_overlay.gif)
