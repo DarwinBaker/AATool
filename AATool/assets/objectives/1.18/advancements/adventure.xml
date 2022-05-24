@@ -116,12 +116,12 @@
             <criterion id="minecraft:phantom"/>
             <criterion id="minecraft:guardian"/>
             <criterion id="minecraft:elder_guardian"/>
+            <criterion id="minecraft:zombie_villager" short_name="Z-Villager"/>
             <criterion id="minecraft:witch"/>
             <criterion id="minecraft:pillager"/>
             <criterion id="minecraft:vindicator"/>
             <criterion id="minecraft:evoker"/>
             <criterion id="minecraft:vex"/>
-            <criterion id="minecraft:zombie_villager" short_name="Z-Villager"/>
             <criterion id="minecraft:ravager"/>
         </criteria>
     </advancement>

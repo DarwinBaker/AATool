@@ -35,10 +35,10 @@
             <criterion id="minecraft:phantom"/>
             <criterion id="minecraft:guardian"/>
             <criterion id="minecraft:polar_bear"/>
+            <criterion id="minecraft:zombie_villager"     icon="zombie_villager_1.12" short_name="Z-Villager"/>
             <criterion id="minecraft:witch"               icon="witch_1.12"/>
             <criterion id="minecraft:vindicator"          icon="vindicator_1.12"/>
             <criterion id="minecraft:evoker"              icon="evoker_1.12"/>
-            <criterion id="minecraft:zombie_villager"     icon="zombie_villager_1.12" short_name="Z-Villager"/>
         </criteria>
     </advancement>
     <advancement id="minecraft:adventure/adventuring_time"      name="Adventuring Time" short_name="Adventuring" icon="adventuring_time_1.12"    type="challenge" >
