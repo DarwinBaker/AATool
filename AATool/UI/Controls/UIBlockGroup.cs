@@ -2,6 +2,7 @@
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
 using AATool.Graphics;
+using AATool.Net;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -91,9 +92,9 @@ namespace AATool.UI.Controls
             {
                 if (tile.Bounds.Contains(cursor))
                 {
-                    if (Input.LeftClicked && Tracker.IsWorking)
+                    if (Input.LeftClicked && (Tracker.IsWorking || Peer.IsClient))
                     {
-                        tile.Block.ToggleManualOverride();
+                        tile.Block.ToggleHighlight();
                         (Tracker.Category as AllBlocks)?.SaveChecklist();
                     }
                         

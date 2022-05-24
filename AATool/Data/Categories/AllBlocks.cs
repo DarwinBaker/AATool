@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using AATool.Data.Objectives;
 using AATool.Graphics;
+using AATool.Net;
 using AATool.Utilities;
 
 namespace AATool.Data.Categories
@@ -12,13 +14,28 @@ namespace AATool.Data.Categories
             "1.16"
         };
 
+        public static readonly Dictionary<string, int> TotalBlocks = new () {
+            { "1.18", 747 },
+            { "1.16", 651 },
+        };
+
+        public static int GetTotalBlocksFor(string version) =>
+            TotalBlocks.TryGetValue(version ?? string.Empty, out int total) ? total : 0;
+
         public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
         public override IEnumerable<Objective> GetOverlayObjectives() => Tracker.Blocks.All.Values;
 
         public override int GetTargetCount() => Tracker.Blocks.Count;
         public override int GetCompletedCount() => Tracker.Blocks.PlacedCount;
 
-        public override string GetStatus() => $"{base.GetStatus()} (Approximately {Tracker.Blocks.ObtainedCount} Obtained)";
+        public override string GetStatus()
+        {
+            return Tracker.Blocks.ObtainedCount > 0
+                ? $"{base.GetStatus()} (Approximately {Tracker.Blocks.ObtainedCount} Obtained)"
+                : $"{base.GetStatus()} ({Tracker.Blocks.ObtainedCount} Obtained)";
+        }
+
+        public static bool SpritesLoaded { get; set; }
 
         public AllBlocks() : base()
         {
@@ -27,7 +44,7 @@ namespace AATool.Data.Categories
             this.Objective = "Blocks";
             this.Action    = "Placed";
 
-            SpriteSheet.Require("blocks");
+            SpriteSheet.Include("blocks");
         }
 
         public override void LoadObjectives()
@@ -36,36 +53,48 @@ namespace AATool.Data.Categories
             Tracker.Pickups.RefreshObjectives();
         }
 
-        public void ClearManuallyChecked()
+        public void ClearHighlighted()
         {
             foreach (Block block in Tracker.Blocks.All.Values)
-                block.ManuallyCompleted = false;
-            Tracker.Blocks.UpdateTotal();
+                block.Highlighted = false;
         }
 
         public override void Update()
         {
             if (Tracker.SavesFolderChanged || Tracker.WorldChanged)
+            {
+                this.ClearHighlighted();
                 this.TryLoadChecklist();
+            }
+        }
+
+        public string GetBlockHighlights()
+        {
+            var builder = new StringBuilder();
+            foreach (Block block in Tracker.Blocks.All.Values)
+            {
+                if (block.Highlighted)
+                    builder.AppendLine(block.Id);
+            }
+            return builder.ToString();
         }
 
         public void TryLoadChecklist()
         {
-            if (!Tracker.IsWorking)
+            if (!Tracker.IsWorking || Peer.IsClient)
+                return;
+            string path = Paths.System.BlockChecklistFile(ActiveInstance.Number, Tracker.WorldName);
+            if (!File.Exists(path))
                 return;
 
             try
             {
-                string instance = ActiveInstance.Number > 0
-                    ? $"instance_{ActiveInstance.Number}-" : "";
-                string path = Paths.System.BlockChecklistFile(instance, Tracker.WorldName);
                 string[] lines = File.ReadAllLines(path);
-                this.ClearManuallyChecked();
-
+                this.ApplyChecklist(lines);
                 foreach (string id in lines)
                 {
                     if (Tracker.TryGetBlock(id, out Block block))
-                        block.ManuallyCompleted = true;
+                        block.Highlighted = true;
                 }
             }
             catch
@@ -74,14 +103,33 @@ namespace AATool.Data.Categories
             }
         }
 
+        public void ApplyChecklist(string[] lines)
+        {
+            if (lines is null)
+                return;
+            foreach (string id in lines)
+            {
+                if (Tracker.TryGetBlock(id, out Block block))
+                    block.Highlighted = true;
+            }
+        }
+
         public void SaveChecklist()
         {
-            if (!Tracker.IsWorking)
+            if (!Tracker.IsWorking || Peer.IsClient)
                 return;
-
+            string path = Paths.System.BlockChecklistFile(ActiveInstance.Number, Tracker.WorldName);
             try
             {
-                
+                Directory.CreateDirectory(Paths.System.BlockChecklistsFolder);
+                using (StreamWriter file = File.CreateText(path))
+                {
+                    foreach (Block block in Tracker.Blocks.All.Values)
+                    {
+                        if (block.Highlighted)
+                            file.WriteLine(block.Id);
+                    }
+                }
             }
             catch
             {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using AATool.Configuration;
+using AATool.Data.Categories;
 using AATool.Net.Requests;
 using AATool.Saves;
 
@@ -59,9 +60,24 @@ namespace AATool.Net
         public void SendLobby(Socket client = null)
         {
             //clients never receive and are completely oblivious to everyone else's ip addresses
-            
             string jsonString = this.Lobby.ToJsonString();
             var message = Message.Lobby(jsonString);
+
+            //send lobby state to client(s)
+            if (client is null)
+                this.SendToAllClients(message);
+            else
+                this.SendToClient(client, message);
+        }
+
+        public void SendBlockHighlights(Socket client = null)
+        {
+            if (Tracker.Category is not AllBlocks ab)
+                return;
+
+            //clients never receive and are completely oblivious to everyone else's ip addresses
+            string blockList = ab.GetBlockHighlights();
+            var message = Message.BlockHighlights(blockList);
 
             //send lobby state to client(s)
             if (client is null)
@@ -373,7 +389,7 @@ namespace AATool.Net
                 //register new user
                 var user = new User(id, pronouns, displayName);
                 if (this.TryLogIn(user, password, versionNumber, sender))
-                    Player.FetchIdentity(id);
+                    Player.FetchIdentityAsync(id);
             }
             else if (message.Header is Protocol.Headers.Logout)
             {

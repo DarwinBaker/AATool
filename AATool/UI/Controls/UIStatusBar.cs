@@ -205,11 +205,16 @@ namespace AATool.UI.Controls
             {
                 Process.Start(Paths.Web.PatreonFull);
             }
-            else if (sender == this.manualClearButton)
+            else if (sender == this.manualClearButton && Tracker.Category is AllBlocks ab)
             {
-                if (Tracker.Category is AllBlocks ab)
+                var result = System.Windows.Forms.MessageBox.Show("You are about to clear all currently checked (glowing green) blocks. You will have to manually re-check them all. Are you sure you want to perform this action?",
+                    "Clear Manually Checked Blocks",
+                    System.Windows.Forms.MessageBoxButtons.OKCancel,
+                    System.Windows.Forms.MessageBoxIcon.Warning);
+
+                if (result is System.Windows.Forms.DialogResult.OK)
                 {
-                    ab.ClearManuallyChecked();
+                    ab.ClearHighlighted();
                     ab.SaveChecklist();
                 }
             }

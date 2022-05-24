@@ -37,6 +37,10 @@ namespace AATool.Data.Objectives
         public string Name      { get; protected set; }
         public string ShortName { get; protected set; }
 
+        public bool CanBeManuallyChecked { get; protected set; }
+        public bool CompletionOverride { get; protected set; }
+        public bool ManuallyChecked { get; set; }
+
         public Dictionary<Uuid, DateTime> Completions { get; protected set; }
         public (Uuid who, DateTime when) FirstCompletion { get; protected set; }
 
@@ -71,6 +75,17 @@ namespace AATool.Data.Objectives
         public string GetName() => this.Name;
         public string GetShortName() => this.ShortName;
 
+        public virtual void ToggleManualCheck()
+        {
+            this.ManuallyChecked ^= true;
+            this.UpdateState(Tracker.State);
+        }
+
+        protected virtual void HandleCompletionOverrides()
+        {
+            this.CompletionOverride = this.ManuallyChecked;
+        }
+
         public Objective() { }
 
         public Objective(XmlNode node)
@@ -84,6 +99,7 @@ namespace AATool.Data.Objectives
             this.Id = XmlObject.Attribute(node, "id", string.Empty);
             this.Name = XmlObject.Attribute(node, "name", string.Empty);
             this.ShortName = XmlObject.Attribute(node, "short_name", this.Name);
+            this.CanBeManuallyChecked = XmlObject.Attribute(node, "manual", this.CanBeManuallyChecked);
 
             //parse icon
             this.Icon = XmlObject.Attribute(node, "icon", string.Empty);
@@ -106,6 +122,9 @@ namespace AATool.Data.Objectives
 
         public virtual void UpdateState(WorldState progress) 
         {
+            if (Tracker.WorldChanged || Tracker.SavesFolderChanged || !Tracker.IsWorking)
+                this.ManuallyChecked = false;
+
             this.Completions = progress.CompletionsOf(this);
             KeyValuePair<Uuid, DateTime> first = this.Completions.OrderBy(e => e.Value).FirstOrDefault();
             this.FirstCompletion = (first.Key, first.Value);

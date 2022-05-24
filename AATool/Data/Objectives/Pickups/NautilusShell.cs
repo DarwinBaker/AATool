@@ -9,18 +9,22 @@ namespace AATool.Data.Objectives.Pickups
         private const string HDWGH = "minecraft:nether/all_effects";
         private const string Conduit = "minecraft:conduit";
 
+        private bool placedConduit;
+
         public NautilusShell(XmlNode node) : base(node) 
         {
-            if (Tracker.Category is AllBlocks)
-                this.Icon = "shell_and_conduit";
+            //if (Tracker.Category is AllBlocks)
+            //    this.Icon = "shell_and_conduit";
         }
 
         protected override void HandleCompletionOverrides()
         {
+            this.placedConduit = Tracker.TryGetBlock(Conduit, out Block conduit)
+                && conduit.IsComplete();
+
             if (Tracker.Category is AllBlocks)
             {
-                Tracker.TryGetBlock(Conduit, out Block conduit);
-                this.CompletionOverride = conduit?.CompletedByAnyone() is true;
+                this.CompletionOverride = this.placedConduit;
             }
             else
             {
@@ -32,9 +36,11 @@ namespace AATool.Data.Objectives.Pickups
 
         protected override void UpdateLongStatus()
         {
-            //show if hdwgh is complete 
+            //show if conduit has been placed or if hdwgh is complete
             if (this.CompletionOverride)
                 this.FullStatus = Tracker.Category is AllBlocks ? "Conduit Placed" : "HDWGH Complete";
+            else if (this.placedConduit)
+                this.FullStatus = "Conduit Placed";
             else
                 base.UpdateLongStatus();
         }

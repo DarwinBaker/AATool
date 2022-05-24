@@ -105,7 +105,7 @@ namespace AATool.Data.Objectives
                 //update completion count
                 if (block.CompletedByAnyone())
                     this.PlacedCount++;
-                if (block.PickedUpByAnyone())
+                if (block.Obtained)
                     this.ObtainedCount++;
             }
         }

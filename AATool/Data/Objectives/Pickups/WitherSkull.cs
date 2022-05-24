@@ -19,7 +19,7 @@ namespace AATool.Data.Objectives.Pickups
         {
             if (Tracker.Category is AllBlocks)
             {
-                this.Icon = "skull_and_beacon";
+                //this.Icon = "skull_and_beacon";
                 this.TargetCount = 4;
             }
         }
@@ -46,11 +46,10 @@ namespace AATool.Data.Objectives.Pickups
 
         protected override void UpdateLongStatus()
         {
-            //show wither killed if applicable
             if (this.CompletionOverride)
             {
                 this.FullStatus = Tracker.Category is AllBlocks 
-                    ? "Beacon&Rose Placed" 
+                    ? "Beacon+Rose Placed" 
                     : "Wither Has Been Killed";
             }
             else

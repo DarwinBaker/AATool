@@ -1,4 +1,5 @@
-﻿using AATool.Configuration;
+﻿using System;
+using AATool.Configuration;
 using AATool.Graphics;
 using AATool.UI.Screens;
 using AATool.Utilities;
@@ -33,15 +34,17 @@ namespace AATool.UI.Controls
         public void Finalize(Time time)
         {
             this.showTimer.Update(time);
+            bool justExpanded = false;
             if (this.showTimer.IsExpired)
             {
                 this.Collapse();
                 this.source = null;
                 
             }
-            else
+            else if (this.IsCollapsed)
             {
                 this.Expand();
+                justExpanded = true;
             }
 
             this.currentLocation = Vector2.Lerp(this.currentLocation, this.targetLocation, (float)(LerpSpeed * time.Delta));
@@ -49,43 +52,51 @@ namespace AATool.UI.Controls
                 this.currentLocation = this.targetLocation;
 
             var nextLocation = this.currentLocation.ToPoint();
-            if (nextLocation != this.previousLocation)
-                this.MoveTo(new Point(nextLocation.X - (this.Width / 2), nextLocation.Y + 8));
-        }
-
-        private void Style()
-        {
-            this.window.DrawMode = DrawMode.ChildrenOnly;
-            if (Config.Main.UseRelaxedStyling)
+            if (nextLocation != this.previousLocation || justExpanded)
             {
-                //this.label.SetFont("minecraft", 24);
-                //this.window.FlexWidth = new (120);
-                //this.window.FlexHeight = new (40);
-            }
-            else
-            {
-                
+                int x = nextLocation.X - (this.Width / 2);
+                x = MathHelper.Clamp(x, -32, this.Root().Width - 32);
+                this.MoveTo(new Point(x, nextLocation.Y + 8));
+                this.previousLocation = nextLocation;
             }
         }
 
         public override void DrawThis(Canvas canvas)
         {
+            canvas.Draw($"popup_block_glow", this.window.Bounds, Config.Main.TextColor, Layer.Fore);
             canvas.Draw($"popup_block_back", this.window.Bounds, this.Root().FrameBackColor(), Layer.Fore);
             canvas.Draw($"popup_block_border", this.window.Bounds, this.Root().FrameBorderColor(), Layer.Fore);
 
             if (this.VerticalAlign is VerticalAlign.Top)
             {
-                canvas.Draw($"popup_block_arrow_bottom", 
-                    this.bottomArrow.Bounds, 
-                    this.Root().FrameBorderColor(), 
+                canvas.Draw($"popup_block_arrow_bottom_glow",
+                    this.bottomArrow.Bounds,
+                    Config.Main.TextColor,
+                    Layer.Fore);
+                canvas.Draw($"popup_block_arrow_bottom_back",
+                    this.bottomArrow.Bounds,
+                    this.Root().FrameBackColor(),
+                    Layer.Fore);
+                canvas.Draw($"popup_block_arrow_bottom_border",
+                    this.bottomArrow.Bounds,
+                    this.Root().FrameBorderColor(),
                     Layer.Fore);
             }
             else
             {
-                canvas.Draw($"popup_block_arrow_top",
+                canvas.Draw($"popup_block_arrow_top_glow",
+                    this.topArrow.Bounds,
+                    Config.Main.TextColor,
+                    Layer.Fore);
+                canvas.Draw($"popup_block_arrow_top_back",
+                    this.topArrow.Bounds,
+                    this.Root().FrameBackColor(),
+                    Layer.Fore);
+                canvas.Draw($"popup_block_arrow_top_border",
                     this.topArrow.Bounds,
                     this.Root().FrameBorderColor(),
                     Layer.Fore);
+
             }
         }
 
@@ -95,18 +106,18 @@ namespace AATool.UI.Controls
             this.label = this.window.First<UITextBlock>();
             this.topArrow = this.First("arrow_top");
             this.bottomArrow = this.First("arrow_bottom");
-            this.Style();
+            this.window.DrawMode = DrawMode.ChildrenOnly;
         }
 
         public override void MoveTo(Point point)
         {
             if (this.VerticalAlign is VerticalAlign.Top)
             {
-                base.MoveTo(new Point(point.X, point.Y - this.Height - 16));
+                base.MoveTo(new Point(point.X, point.Y - this.Height - 8));
             }
             else
             {
-                base.MoveTo(new Point(point.X, point.Y));
+                base.MoveTo(new Point(point.X, point.Y - 8));
             }
         }
 
@@ -142,11 +153,12 @@ namespace AATool.UI.Controls
             this.targetLocation = block.Center.ToVector2();
 
             this.RemoveControl(this.preview);
+            int top = block.Block.DoubleHeight || block.BlockId is "minecraft:kelp" ? 36 : 70;
             this.preview = new UIBlockTile(block.Block.DoubleHeight ? 2 : 3) {
                 VerticalAlign = VerticalAlign.Top,
                 DrawMode = DrawMode.ChildrenOnly,
                 BlockId = block.Block.Id,
-                Margin = new Margin(0, 0, block.Block.DoubleHeight || block.BlockId is "minecraft:kelp" ? 16 : 50, 0),
+                Margin = new Margin(0, 0, top, 0),
                 Layer = Layer.Fore,
             };
             this.window.ClearControls();

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using AATool.Configuration;
+using AATool.Data.Categories;
 using AATool.Data.Objectives;
 using AATool.Graphics;
+using AATool.Net;
 using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
@@ -15,36 +13,40 @@ namespace AATool.UI.Controls
 {
     class UIBlockTile : UIButton
     {
-        private static readonly Color CompleteBorder = new (230, 218, 164);
-        private static readonly Color ManualBorder = new (64, 255, 200);
-
-        private Color targetColor;
-        private float targetBrightness;
-        private bool wasManuallyCompleted;
+        private const float FadeFast = 10f;
+        private const float FadeSlow = 5f;
 
         public string BlockId { get; set; }
-        public string GlowTexture { get; set; }
 
         public Block Block;
 
         private UIPicture icon;
         private UIGlowEffect glowMain;
-        private Color glowColor;
+        private bool spriteLoaded;
+        private bool wasHighlighted;
+        private bool wasPlaced;
+        private string highlightTexture;
+        private float opacityHighlight;
+        private float opacityPlaced;
+        private float opacityBlock;
         private int scale;
 
-        private float brightness;
+        private bool IsAnimated => SpriteSheet.IsAnimated(this.Block.Icon + Sprite.ResolutionFlag + (16 * this.scale));
 
-        public bool IsCompleted => this.Block.CompletedByAnyone();
+        private string PlacedTexture => this.Block.DoubleHeight ? "block_tile_tall_gold" : "block_tile_gold";
 
         public UIBlockTile()
         {
-            this.scale = 2;
             this.BuildFromTemplate();
+            this.scale = 2;
+            this.BorderThickness = 1;
+            this.opacityBlock = AllBlocks.SpritesLoaded ? 1 : 0;
         }
 
         public UIBlockTile(int scale = 2) : this()
         {
             this.scale = scale;
+            this.opacityBlock = AllBlocks.SpritesLoaded ? 1 : 0;
         }
 
         public override void InitializeThis(UIScreen screen)
@@ -55,12 +57,11 @@ namespace AATool.UI.Controls
             this.Name = this.Block.Id;
             //this.popup = this.First<UIPopup>();
             this.icon = this.First<UIPicture>();
-            int size = 16 * this.scale;
-            if (SpriteSheet.IsAnimated(this.Block.Icon + Sprite.ResolutionFlag + size))
+            if (this.IsAnimated)
                 this.icon.SetLayer(Layer.Fore);
             this.icon?.SetTexture(this.Block.Icon);
-            this.brightness = this.Block.CompletedByAnyone() ? 1 : 0;
-            this.glowColor = Color.White;
+            this.opacityPlaced = this.Block.HasBeenPlaced ? 1 : 0;
+            this.opacityHighlight = this.Block.Highlighted ? 1 : 0;
 
             this.Style();
         }
@@ -69,49 +70,96 @@ namespace AATool.UI.Controls
         {
             if (this.Block is null)
                 return;
-            this.targetBrightness = this.Block.CompletedByAnyone() ? 1 : 0;
-            this.brightness = MathHelper.Lerp(this.brightness, this.targetBrightness, (float)(10 * time.Delta));
 
-            this.wasManuallyCompleted |= this.Block.ManuallyCompleted;
-            this.targetColor = this.Block.ManuallyCompleted || this.wasManuallyCompleted 
-                ? Color.Cyan 
-                : Color.White;
+            //fade blocks in once textures load
+            this.UpdateIconOpacity(time);
+            this.UpdateBackgroundOpacity(time);
+            this.UpdateTextures();
+        }
 
-            bool brightnessChanging = Math.Abs(this.brightness - this.targetBrightness) > 0.01f;
-            if (brightnessChanging || this.glowColor != this.targetColor)
+        private void UpdateIconOpacity(Time time)
+        {
+            float target = Tracker.IsWorking || Peer.IsClient ? 1 : 0.5f;
+            if (this.opacityBlock != target)
+            {
+                this.opacityBlock = MathHelper.Lerp(this.opacityBlock, AllBlocks.SpritesLoaded ? target : 0, (float)(5 * time.Delta));
+                if (this.opacityBlock > 0.99)
+                    this.opacityBlock = 1;
+
+                this.icon.SetTint(ColorHelper.Fade(Color.White, this.opacityBlock));
+                if (!this.spriteLoaded && AllBlocks.SpritesLoaded && this.IsAnimated)
+                {
+                    this.spriteLoaded = true;
+                    this.icon.SetLayer(Layer.Fore);
+                }
+            }
+        }
+
+        private void UpdateBackgroundOpacity(Time time)
+        {
+            float targetPlaced = this.Block.HasBeenPlaced ? 1 : 0;
+            if (this.opacityPlaced != targetPlaced)
+            {
+                this.opacityPlaced = MathHelper.Lerp(this.opacityPlaced, targetPlaced, (float)(FadeSlow * time.Delta));
+                if (this.opacityPlaced > 0.99)
+                    this.opacityPlaced = 1;
+                else if (this.opacityPlaced < 0.01)
+                    this.opacityPlaced = 0;
                 UIMainScreen.Invalidate();
-            else if (this.brightness is 0)
-                this.wasManuallyCompleted = false;
-            else if (this.brightness is 1)
-                this.wasManuallyCompleted = this.Block.ManuallyCompleted;
+            }
 
-            this.glowColor = this.targetColor;
+            float targetHighlight = this.Block.Highlighted && (Tracker.IsWorking || Peer.IsClient) ? 1 : 0;
+            if (this.opacityHighlight != targetHighlight)
+            {
+                if (this.opacityHighlight > 0.99)
+                    this.opacityHighlight = 1;
+                else if (this.opacityHighlight < 0.01)
+                    this.opacityHighlight = 0;
+                this.opacityHighlight = MathHelper.Lerp(this.opacityHighlight, targetHighlight, (float)(FadeFast * time.Delta));
+                UIMainScreen.Invalidate();
+            }
+        }
+
+        private void UpdateTextures()
+        {
+            if (this.wasPlaced != this.Block.HasBeenPlaced || this.Block.Highlighted != this.wasHighlighted)
+            {
+                if (this.Block.DoubleHeight)
+                {
+                    this.highlightTexture = this.Block.HasBeenPlaced
+                        ? "block_tile_tall_green"
+                        : "block_tile_tall_red";
+                }
+                else
+                {
+                    this.highlightTexture = this.Block.HasBeenPlaced
+                        ? "block_tile_green"
+                        : "block_tile_red";
+                }
+                this.wasPlaced = this.Block.HasBeenPlaced;
+                this.wasHighlighted = this.Block.Highlighted;
+            }
         }
 
         public override void DrawThis(Canvas canvas) 
         { 
             if (this.SkipDraw)
                 return;
-
-            Color borderColor;
-            if (this.IsCompleted)
-            {
-                borderColor = this.Block.ManuallyCompleted || this.wasManuallyCompleted
-                    ? ManualBorder * Math.Max(this.brightness, 0.5f)
-                    : CompleteBorder * Math.Max(this.brightness, 0.5f);
-            }
-            else
-            {
-                borderColor = Config.Main.BorderColor;
-            }
-
+            
+            //background
             canvas.DrawRectangle(this.Bounds,
                 Config.Main.BackColor,
-                borderColor,
+                Config.Main.BorderColor,
                 this.BorderThickness,
                 this.Layer);
 
-            canvas.Draw("block_tile_complete", this.Inner, this.glowColor * this.brightness);     
+            //gold placed state
+            if (this.opacityPlaced > 0.01)
+                canvas.Draw(this.PlacedTexture, this.Bounds, ColorHelper.Fade(Color.White, this.opacityPlaced));
+
+            //green confirmed state
+            if (this.opacityHighlight > 0.01)
+                canvas.Draw(this.highlightTexture, this.Bounds, ColorHelper.Fade(Color.White, this.opacityHighlight));
         }
 
         public override void ReadNode(XmlNode node)
@@ -136,17 +184,17 @@ namespace AATool.UI.Controls
                 this.icon.SetLayer(this.Layer);
             }
             
-            if (this.Block.DoubleHeight)
-            {
-                this.FlexHeight *= 2;
-                this.icon.FlexHeight *= 2;
-            }
-            else if (this.Block.Id is "kelp")
+            if (this.Block.Id is "minecraft:kelp")
             {
                 this.FlexHeight *= 2;
                 this.icon.FlexHeight *= 2;
                 this.icon.FlexWidth *= 2;
                 this.icon.SetLayer(Layer.Fore);
+            }
+            else if (this.Block.DoubleHeight)
+            {
+                this.FlexHeight *= 2;
+                this.icon.FlexHeight *= 2;
             }
 
             if (this.Block.Id.Contains("torch"))
@@ -162,10 +210,10 @@ namespace AATool.UI.Controls
                     this.glowMain.SetTexture("amethyst_glow");
                 else if (this.BlockId.Contains("soul"))
                     this.glowMain.SetTexture("sea_lantern_glow");
-                else if (this.BlockId is "lantern" || this.BlockId.Contains("torch") || this.BlockId.Contains("campfire"))
+                else if (this.BlockId is "minecraft:lantern" || this.BlockId.Contains("torch") || this.BlockId.Contains("campfire"))
                     this.glowMain.SetTexture("shroomlight_glow");
                 else
-                    this.glowMain.SetTexture(this.BlockId + "_glow");
+                    this.glowMain.SetTexture(this.BlockId.Replace("minecraft:", "") + "_glow");
                 this.icon.AddControl(this.glowMain);
             }
         }

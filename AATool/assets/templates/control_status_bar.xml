@@ -23,7 +23,7 @@
             <text_block width="0.85*" height="12" vertical_align="bottom" margin_bottom="24"/>
             <progress_bar vertical_align="bottom" horizontal_align="left" margin="10,10,0,8"/>
         </panel>
-        <button name="manual_clear" text="Clear User Marked" width="110" height="30" horizontal_align="left" margin_left="6"/>
+        <button name="manual_clear" text="Clear Highlighted" width="110" height="30" horizontal_align="left" margin_left="6"/>
     </panel>
 
     <!-- patreon -->

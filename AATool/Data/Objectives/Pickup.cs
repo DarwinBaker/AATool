@@ -16,8 +16,6 @@ namespace AATool.Data.Objectives
         public int TargetCount { get; protected set; }
         public bool IsEstimate { get; protected set; }
 
-        protected bool CompletionOverride;
-
         protected string FullStatus;
         protected string ShortStatus;
 
@@ -33,8 +31,6 @@ namespace AATool.Data.Objectives
 
         public override string GetFullCaption() => this.FullStatus;
         public override string GetShortCaption() => this.ShortStatus;
-
-        protected virtual void HandleCompletionOverrides() { }
 
         public Pickup(XmlNode node) : base(node)
         {
@@ -56,6 +52,9 @@ namespace AATool.Data.Objectives
 
         public override void UpdateState(WorldState progress)
         {
+            if (Tracker.WorldChanged || Tracker.SavesFolderChanged || !Tracker.IsWorking)
+                this.ManuallyChecked = false;
+
             if (Config.Tracking.Filter == ProgressFilter.Combined)
             {
                 this.PickedUp = progress.PickedUp(this.Id);
@@ -111,6 +110,8 @@ namespace AATool.Data.Objectives
                 AncientDebris.ItemId => new AncientDebris(node),
                 Trident.ItemId => new Trident(node),
                 EGap.ItemId => new EGap(node),
+                ShulkerShell.ItemId => new ShulkerShell(node),
+                Mycelium.BlockId => new Mycelium(node),
                 _ => null
             };
         }

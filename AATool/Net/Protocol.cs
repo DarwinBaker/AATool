@@ -4,7 +4,7 @@ namespace AATool.Net
 {
     public static class Protocol
     {
-        public static readonly Version Version = new ("4.0");
+        public static readonly Version Version = new ("5.0");
 
         public const int BufferSize = 8192;
         public const char CommandPrefix = '/';
@@ -46,6 +46,7 @@ namespace AATool.Net
             public const string Progress = "progress";
             public const string Lobby = "lobby";
             public const string RefreshEstimate = "refresh estimate";
+            public const string BlockHighlights = "block highlights";
         }
     }
 }

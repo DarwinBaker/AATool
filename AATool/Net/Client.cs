@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using AATool.Configuration;
+using AATool.Data.Categories;
 using AATool.Data.Objectives;
 using AATool.Saves;
 
@@ -339,7 +340,7 @@ namespace AATool.Net
                 StateChanged = true;
                 SyncUserList(this.Lobby.Users.Values);
 
-                foreach (KeyValuePair<string, Uuid> designation  in this.Lobby.Designations)
+                foreach (KeyValuePair<string, Uuid> designation in this.Lobby.Designations)
                 {
                     if (Tracker.TryGetAdvancement(designation.Key, out Advancement advancement) && advancement.DesignationLinked)
                         advancement.Designate(designation.Value);
@@ -351,6 +352,16 @@ namespace AATool.Net
                 message.TryGetItem(0, out string dateString);
                 if (DateTime.TryParse(dateString, out DateTime nextEstimate))
                     this.NextRefresh = nextEstimate;
+            }
+            else if (message.Header is Protocol.Headers.BlockHighlights)
+            {
+                //deserialize all blocks highlights
+                message.TryGetItem(0, out string list);
+                if (Tracker.Category is AllBlocks ab)
+                {
+                    ab.ClearHighlighted();
+                    ab.ApplyChecklist(list?.Split('\n'));
+                }
             }
             else if (message.TryGetItem(0, out string jsonString))
             {

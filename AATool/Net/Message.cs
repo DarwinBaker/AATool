@@ -33,6 +33,7 @@ namespace AATool.Net
         public static Message Kick(string reason)             => NewCommand(Protocol.Headers.Kick, reason);
         public static Message Progress(string jsonString)     => NewData(Protocol.Headers.Progress, jsonString);
         public static Message Lobby(string jsonString)        => NewData(Protocol.Headers.Lobby, jsonString);
+        public static Message BlockHighlights(string list)    => NewData(Protocol.Headers.BlockHighlights, list);
         public static Message SftpEstimate(DateTime nextRefresh) => NewData(Protocol.Headers.RefreshEstimate, nextRefresh.ToString());
 
         private static Message NewCommand(string header, params string[] items) => new(Protocol.CommandPrefix, header, items);
