@@ -92,7 +92,7 @@
             <criterion id="minecraft:black"             name="Tuxedo"     icon="tuxedo"/>
             <criterion id="minecraft:white"             name="White"      icon="white"/>
             <criterion id="minecraft:ragdoll"           name="Ragdoll"    icon="ragdoll"/>
-            <criterion id="minecraft:british"           name="British"    icon="british_shorthair"/>
+            <criterion id="minecraft:british_shorthair" name="British"    icon="british_shorthair"/>
             <criterion id="minecraft:tabby"             name="Tabby"      icon="tabby"/>
             <criterion id="minecraft:all_black"         name="Black"      icon="black"/>
             <criterion id="minecraft:persian"           name="Persian"    icon="persian"/>
