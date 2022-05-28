@@ -33,7 +33,7 @@ namespace AATool.Data.Progress
 
                 //make sure everyone's names and avatars are loaded
                 foreach (KeyValuePair<Uuid, Contribution> contribution in state.Players)
-                    Player.FetchIdentity(contribution.Key);
+                    Player.FetchIdentityAsync(contribution.Key);
                 return state;
             }
             catch

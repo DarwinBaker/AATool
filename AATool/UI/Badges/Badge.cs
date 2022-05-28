@@ -1,4 +1,4 @@
-﻿using AATool.Data.Players;
+﻿using AATool.Data.Speedrunning;
 using AATool.Net;
 using AATool.UI.Controls;
 
@@ -14,12 +14,12 @@ namespace AATool.UI.Badges
         private static readonly Uuid Couriway = new ("994f9376-3f80-48bc-9e72-ee92f861911d");
         private const string CouriwayName = "couriway";
 
-        public static bool TryGet(Uuid player, string name, int scale, string board, out UIControl badge)
+        public static bool TryGet(Uuid player, string name, int scale, string category, string version, out UIControl badge)
         {
             badge = null;
             player = new Uuid(player.String);
             name = name?.ToLower();
-            bool hasWorldRecord = Leaderboard.TryGetRank(name, board, out int rank) && rank is 1;
+            bool hasWorldRecord = Leaderboard.TryGetRank(name, category, version, out int rank) && rank is 1;
             if (hasWorldRecord)
             {
                 //award wr badge if player holds the top time on the current leaderboard
@@ -44,7 +44,7 @@ namespace AATool.UI.Badges
             return badge is not null;
         }
 
-        public static bool TryGet(string player, int scale, string board, out UIControl badge)
+        public static bool TryGet(string player, int scale, string category, string version, out UIControl badge)
         {
             badge = null;
             if (string.IsNullOrEmpty(player))
@@ -64,7 +64,7 @@ namespace AATool.UI.Badges
             else
             {
                 //award pb/wr badge if player holds a top 10 time on the current leaderboard
-                if (Leaderboard.TryGetRank(leaderboardName, board, out int rank) && rank <= 10)
+                if (Leaderboard.TryGetRank(leaderboardName, category, version, out int rank) && rank <= 10)
                     badge = new RecordHolderBadge(2, rank);
             }
             return badge is not null;

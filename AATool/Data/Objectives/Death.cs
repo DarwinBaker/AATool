@@ -9,8 +9,6 @@ namespace AATool.Data.Objectives
 {
     public class Death : Objective
     {
-        public bool ManuallyCompleted { get; set; }
-
         public bool DoubleHeight { get; private set; }
         public float LightLevel  { get; private set; }
 
@@ -22,23 +20,24 @@ namespace AATool.Data.Objectives
         public override string GetShortCaption() => this.ShortName;
 
         public override bool CompletedByAnyone() => 
-            this.FirstCompletion.who != Uuid.Empty || this.ManuallyCompleted;
+            this.FirstCompletion.who != Uuid.Empty || this.ManuallyChecked;
 
         public Death(XmlNode node) : base (node)
         {
             this.DoubleHeight = XmlObject.Attribute(node, "double_height", false);
             this.LightLevel = XmlObject.Attribute(node, "light_level", 0f);
             this.Messages = XmlObject.Attribute(node, "messages", "").Split(',');
+            this.CanBeManuallyChecked = true;
         }
 
         public void Clear()
         {
-            this.ManuallyCompleted = false;
+            this.ManuallyChecked = false;
         }
 
-        public void ToggleManualOverride()
+        public override void ToggleManualCheck()
         {
-            this.ManuallyCompleted ^= true;
+            base.ToggleManualCheck();
             Tracker.Deaths.UpdateTotal();
         }
     }

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AATool.Data.Players;
+using AATool.Data.Speedrunning;
 
 namespace AATool.Net.Requests
 {
     public sealed class SpreadsheetRequest : NetRequest
     { 
-        public static HashSet<string> DownloadedPages = new ();
+        public static HashSet<(string sheetId, string pageId)> DownloadedPages = new ();
         private readonly string sheet;
         private readonly string page;
 
@@ -29,7 +29,7 @@ namespace AATool.Net.Requests
                 string response = await client.GetStringAsync(this.Url);
                 if (this.HandleResponse(response))
                 {
-                    DownloadedPages.Add(this.page);
+                    DownloadedPages.Add((this.sheet, this.page));
                     return true;
                 }
                 return false;
@@ -47,11 +47,18 @@ namespace AATool.Net.Requests
 
         private bool HandleResponse(string csv)
         {
-            if (this.sheet is Paths.Web.LeaderboardSpreadsheet)
-                return Leaderboard.SyncRecords(this.page, csv);
-            else if (this.sheet is Paths.Web.NicknameSpreadsheet)
+            if (this.sheet is Paths.Web.NicknameSheet)
+            {
                 return Leaderboard.SyncNicknames(csv);
-            return false;
+            }
+            else if (this.page == Paths.Web.PrimaryAAHistory)
+            {
+                return Leaderboard.SyncHistory(csv);
+            }
+            else
+            {
+                return Leaderboard.SyncRecords(this.sheet, this.page, csv);
+            }
         }
     }
 }

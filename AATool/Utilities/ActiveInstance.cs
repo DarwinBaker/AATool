@@ -53,7 +53,9 @@ namespace AATool.Utilities
                     return;
 
                 if (instance.Id != LastActiveInstance)
-                { 
+                {
+                    Debug.BeginTiming("read_instance");
+
                     //update saves folder
                     string args = instance.CommandLine();
                     SavesPath = TryParseDotMinecraft(args, out DirectoryInfo dotMinecraft)
@@ -70,6 +72,8 @@ namespace AATool.Utilities
 
                     //prepare for next check
                     LastActiveInstance = instance.Id;
+
+                    Debug.EndTiming("read_instance");
                 }
 
                 //update game version
@@ -94,9 +98,11 @@ namespace AATool.Utilities
             instance = null;
             try
             {
+                Debug.BeginTiming("get_active_instance");
                 IntPtr hWnd = GetForegroundWindow();
                 GetWindowThreadProcessId(hWnd, out uint processId);
                 var active = Process.GetProcessById((int)processId);
+                Debug.EndTiming("get_active_instance");
 
                 //verify that process is an instance of minecraft 
                 if (active.ProcessName is "javaw" && active.MainWindowTitle.StartsWith("Minecraft"))

@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 using AATool.Configuration;
-using AATool.Data.Players;
+using AATool.Data.Speedrunning;
 using AATool.Net;
 using AATool.UI.Badges;
 using AATool.UI.Screens;
@@ -26,6 +26,8 @@ namespace AATool.UI.Controls
         private string offlineName;
 
         public void Glow() => this.glow.SkipToBrightness(this.Scale / 4f);
+
+        private bool RegisteredOnLeaderboard => this.owner is not null;
 
         public UIAvatar()
         {
@@ -77,14 +79,16 @@ namespace AATool.UI.Controls
             this.UpdateGlowEffect();
             this.UpdateNameText(time);
 
-            bool invalidated = !this.cacheChecked && Leaderboard.TryGet(Leaderboard.Current, out _);
-            invalidated |= !this.liveChecked && Leaderboard.IsLiveAvailable;
+            string category = this.RegisteredOnLeaderboard ? this.owner.Category : Leaderboard.Current.category;
+            string version = this.RegisteredOnLeaderboard ? this.owner.Version : Leaderboard.Current.version;
 
+            bool invalidated = !this.cacheChecked && Leaderboard.TryGet(category, version, out _);
+            invalidated |= !this.liveChecked && Leaderboard.IsLiveAvailable(category, version);
             if (invalidated)
             {
-                this.RefreshBadge();
+                this.RefreshBadge(category, version);
                 this.cacheChecked = true;
-                if (Leaderboard.IsLiveAvailable)
+                if (Leaderboard.IsLiveAvailable(category, version))
                     this.liveChecked = true;
             } 
         }
@@ -141,16 +145,19 @@ namespace AATool.UI.Controls
 
         public void RefreshBadge()
         {
+            string category = this.RegisteredOnLeaderboard ? this.owner.Category : Leaderboard.Current.category;
+            string version = this.RegisteredOnLeaderboard ? this.owner.Version : Leaderboard.Current.version;
+            this.RefreshBadge(category, version);
+        }
+
+        public void RefreshBadge(string category, string version)
+        {
             string playerName = Leaderboard.GetNickName(this.offlineName ?? string.Empty);
             if (string.IsNullOrEmpty(playerName))
                 Net.Player.TryGetName(this.Player, out playerName);
 
             this.RemoveControl(this.badge);
-            string boardName = this.owner is null 
-                ? Leaderboard.Current 
-                : this.owner.BoardName ;
-
-            if (this.Width >= 32 && Badge.TryGet(this.Player, playerName, 2, boardName, out this.badge))
+            if (this.Width >= 32 && Badge.TryGet(this.Player, playerName, 2, category, version, out this.badge))
             {
                 this.AddControl(this.badge);
                 this.badge.ResizeRecursive(this.Inner);

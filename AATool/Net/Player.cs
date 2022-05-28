@@ -78,6 +78,9 @@ namespace AATool.Net
                 NameCache[id] = name;
             if (name is not null && !IdCache.ContainsKey(name) && id != Uuid.Empty)
                 IdCache[name] = id;
+
+            if (name == Config.Tracking.SoloFilterName)
+                Config.Tracking.SoloFilterName.InvokeChange();
         }
 
         public static void Cache(Uuid id, Color color)
@@ -92,7 +95,7 @@ namespace AATool.Net
                 NameColorCache[name] = color;
         }
 
-        public static void FetchIdentity(Uuid id)
+        public static void FetchIdentityAsync(Uuid id)
         {
             if (IdentitiesAlreadyRequested.Contains(id))
                 return;
@@ -102,16 +105,13 @@ namespace AATool.Net
             new AvatarRequest(id).EnqueueOnce();
         }
 
-        public static async void FetchIdentity(string name)
+        public static void FetchIdentityAsync(string name)
         {
             if (NamesAlreadyRequested.Contains(name))
                 return;
-
+            
             NamesAlreadyRequested.Add(name);
-            Uuid id = await FetchUuidAsync(name);
-            Cache(id, name);
-            if (name == Config.Tracking.SoloFilterName)
-                Config.Tracking.SoloFilterName.InvokeChange();
+            new UuidRequest(name, true).EnqueueOnce();
         }
     }
 }

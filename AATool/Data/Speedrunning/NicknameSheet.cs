@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AATool.Data.Players
+namespace AATool.Data.Speedrunning
 {
     public class NicknameSheet : Spreadsheet
     {

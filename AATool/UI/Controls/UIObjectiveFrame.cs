@@ -38,6 +38,7 @@ namespace AATool.UI.Controls
         private UIPicture icon;
         private UIGlowEffect glow;
         private UITextBlock label;
+        private UIButton manualCheck;
         private Type objectiveType;
         private Rectangle portraitRectangle;
         private Rectangle avatarRectangle;
@@ -108,6 +109,24 @@ namespace AATool.UI.Controls
             }
         }
 
+        private void UpdateManualCheckbox()
+        {
+            if (this.manualCheck is null || this.Objective is null)
+                return;
+
+            if (Tracker.IsWorking && this.Objective.CanBeManuallyChecked)
+            {
+                this.manualCheck.Expand();
+                string variant = Config.Main.FrameStyle == "Modern" ? "modern" : "basic";
+                variant = this.Objective.IsComplete() ? $"checked_{variant}" : $"unchecked_{variant}";
+                this.manualCheck.First<UIPicture>()?.SetTexture(variant);
+            }
+            else
+            {
+                this.manualCheck.Collapse();       
+            }
+        }
+
         public override void InitializeThis(UIScreen screen)
         {
             if (this.Objective is null)
@@ -134,13 +153,15 @@ namespace AATool.UI.Controls
             this.icon.SetTexture(this.Objective?.Icon);
             this.icon.SetLayer(Layer.Fore);
 
+            bool isMainScreen = screen is UIMainScreen mainScreen;
+
             //set up label
             if (this.label is not null)
             {
                 this.label.Margin = new Margin(0, 0, 26 * this.scale, 0);
 
-                int textSize = screen is UIMainScreen ? 12 : 24;
-                if (screen is UIMainScreen)
+                int textSize = isMainScreen ? 12 : 24;
+                if (isMainScreen)
                 {
                     this.label.FlexHeight = Config.Main.UseCompactStyling
                         ? new Size(textSize)
@@ -150,16 +171,16 @@ namespace AATool.UI.Controls
                 {
                     this.label.FlexHeight = new Size(textSize * 2);
                 }
-                if (screen is UIMainScreen)
+                if (isMainScreen)
                     this.label.SetFont("minecraft", 12);
                 else
                     this.label.SetFont("minecraft", textSize);
 
-                if (Tracker.Category is AllAchievements && screen is UIMainScreen)
+                if (Tracker.Category is AllAchievements && isMainScreen)
                     this.label.DrawBackground = true;
             }
 
-            if (screen is UIMainScreen && Config.Main.UseCompactStyling && Tracker.Category is not (SingleAdvancement or AllBlocks))
+            if (isMainScreen && Config.Main.UseCompactStyling && Tracker.Category is not (SingleAdvancement or AllBlocks))
             {
                 //make gap between frames slightly smaller in compact mode
                 this.FlexWidth  = new Size(66);
@@ -171,6 +192,29 @@ namespace AATool.UI.Controls
                 //relaxed mode
                 this.FlexHeight *= this.scale;
                 this.label?.SetText(this.Objective?.Name);
+            }
+
+            //add manual override checkbox
+            if (this.Objective is not null && this.Objective.CanBeManuallyChecked && isMainScreen)
+            {
+                Margin margin = this.Objective is Death
+                    ? new Margin(0, -2, -10, 0)
+                    : new Margin(0, 5, -3, 0);
+
+                this.manualCheck = new UIButton() {
+                    FlexWidth = new(20),
+                    FlexHeight = new(20),
+                    Margin = margin,
+                    VerticalAlign = VerticalAlign.Top,
+                    HorizontalAlign = HorizontalAlign.Right,
+                    BorderThickness = 2,
+                    Name = "manual_check",
+                    Tag = this.ObjectiveId,
+                    Layer = Layer.Main,
+                };
+                this.manualCheck.AddControl(new UIPicture());
+                this.manualCheck.OnClick += (this.Root() as UIMainScreen).Click;
+                this.AddControl(this.manualCheck);
             }
             this.UpdateGlowBrightness(null); 
         }
@@ -290,11 +334,12 @@ namespace AATool.UI.Controls
             this.UpdateActiveState();
             this.UpdateGlowBrightness(time);
             this.UpdateAppearance();
+            this.UpdateManualCheckbox();
 
             //pickups have labels that change over time and need to be refreshed
             if (this.Objective is Pickup)
             {
-                bool fullSize = Config.Main.UseRelaxedStyling && Tracker.Category is AllAdvancements or AllAchievements or AllBlocks;
+                bool fullSize = !Config.Main.UseCompactStyling && Tracker.Category is AllAdvancements or AllAchievements or AllBlocks;
                 if (fullSize || this.Root() is UIOverlayScreen)
                     this.label?.SetText(this.Objective?.GetFullCaption());
                 else

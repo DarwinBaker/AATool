@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security;
 using AATool.Configuration;
 using AATool.Net;
+using AATool.Net.Requests;
 
 namespace AATool.Saves
 {
@@ -74,7 +75,7 @@ namespace AATool.Saves
                     {
                         //filename is uuid
                         players[id] = file;
-                        Player.FetchIdentity(id);
+                        Player.FetchIdentityAsync(id);
                     }
                 }
             }

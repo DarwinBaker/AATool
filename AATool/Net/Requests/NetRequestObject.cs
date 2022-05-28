@@ -7,6 +7,8 @@ namespace AATool.Net
 {
     public abstract partial class NetRequest
     {
+        public const string DebugSection = "requests";
+
         protected string Url;
 
         private int failures;

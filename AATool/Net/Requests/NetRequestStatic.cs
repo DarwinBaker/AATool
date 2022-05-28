@@ -11,13 +11,17 @@ namespace AATool.Net
         private static readonly HashSet<string> Abandoned = new ();
         private static readonly HashSet<string> Completed = new ();
         private static readonly HashSet<string> Active    = new ();
+        private static readonly HashSet<string> Submitted = new ();
         private static readonly Timer RequestDelay = new (Protocol.Requests.UpdateRate);
 
         private static void Enqueue(NetRequest request)
         {
             //add request to pending queue if unique
-            if (!AlreadySubmitted(request.Url))
+            if (!Submitted.Contains(request.Url))
+            {
                 Pending.Enqueue(request);
+                Submitted.Add(request.Url);
+            }
         }
 
         public static void Update(Time time)
@@ -29,23 +33,6 @@ namespace AATool.Net
                 RequestDelay.Reset();   
                 UpdatePending();
             }
-        }
-
-        private static bool AlreadySubmitted(string url)
-        {
-            //check against urls
-            if (Completed.Contains(url) || Abandoned.Contains(url) || Active.Contains(url))
-                return true;
-
-            //check against pending requests
-            foreach (NetRequest request in Pending.Union(TimedOut))
-            {
-                if (url == request.Url)
-                    return true;
-            }
-
-            //url nowhere in pipeline
-            return false;
         }
 
         private static void UpdateTimeouts(Time time)

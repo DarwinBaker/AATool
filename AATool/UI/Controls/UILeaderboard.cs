@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using AATool.Configuration;
 using AATool.Data.Categories;
-using AATool.Data.Players;
+using AATool.Data.Speedrunning;
 using AATool.Graphics;
 using AATool.Net;
 using AATool.Net.Requests;
@@ -18,12 +19,14 @@ namespace AATool.UI.Controls
 
         public const int MinimumRows = 6;
 
+        public string Category { get; private set; }
         public string Version { get; private set; }
         public int Rows { get; private set; } = MinimumRows;
 
         private UITextBlock title;
         private UIFlowPanel flow;
         private UIPicture spinner;
+        private string sourceSheet;
         private string sourcePage;
         private bool upToDate;
 
@@ -33,7 +36,7 @@ namespace AATool.UI.Controls
             this.BuildFromTemplate();
         }
 
-        public bool LiveBoardAvailable => SpreadsheetRequest.DownloadedPages.Contains(this.sourcePage);
+        public bool LiveBoardAvailable => SpreadsheetRequest.DownloadedPages.Contains((this.sourceSheet, this.sourcePage));
 
         public override void InitializeRecursive(UIScreen screen)
         {
@@ -42,46 +45,58 @@ namespace AATool.UI.Controls
             this.spinner = this.First<UIPicture>("spinner");
             base.InitializeRecursive(screen);
 
-            if (string.IsNullOrEmpty(this.Version))
-                this.Version = Tracker.Category.CurrentMajorVersion;
-
             this.UpdateTitle();
 
             //attempt to populate with cached or already downloaded data
-            if (Leaderboard.TryGet(Leaderboard.Specific(this.Version), out Leaderboard board))
+            if (Leaderboard.TryGet(this.Category, this.Version, out Leaderboard board))
                 this.Populate(board);
 
             //request ota leaderboard refresh unless already downloaded
-            this.sourcePage = this.Version is "1.16"
-                ? Paths.Web.PrimaryVersionBoard
-                : Paths.Web.OtherVersionsBoard;
+            if (this.Category is "All Blocks")
+            {
+                this.sourceSheet = Paths.Web.ABSheet;
+                this.sourcePage = this.Version is "1.16" 
+                    ? Paths.Web.ABPage16 
+                    : Paths.Web.ABPage18;
+            }
+            else
+            {
+                this.sourceSheet = Paths.Web.AASheet;
+                this.sourcePage = this.Version is "1.16"
+                    ? Paths.Web.AAPage16
+                    : Paths.Web.AAPageOthers;
+            }
 
             if (!this.LiveBoardAvailable)
             {
-                new SpreadsheetRequest(Paths.Web.LeaderboardSpreadsheet, this.sourcePage).EnqueueOnce();
-                new SpreadsheetRequest(Paths.Web.NicknameSpreadsheet).EnqueueOnce();
+                new SpreadsheetRequest(this.sourceSheet, this.sourcePage).EnqueueOnce();
+                new SpreadsheetRequest(Paths.Web.NicknameSheet).EnqueueOnce();
             }
+        }
+
+        public override void UpdateRecursive(Time time)
+        {
+            this.UpdateThis(time);
+            if (!this.IsCollapsed)
+            {
+                foreach (UIControl control in this.Children)
+                    control.UpdateRecursive(time);
+            }    
         }
 
         private void UpdateTitle()
         {
-            if (Config.Main.FullScreenLeaderboards)
-            {
-                string name = this.Version is not "1.11" ? "All Advancements" : "All Achievements";
-                this.title.SetText($"{name}\n{this.Version}");
-            }
-            else if (Tracker.Category is not AllAchievements)
-            {
-                this.title.SetText($"(Un)-Official {this.Version}" +
-                    $"\n{Tracker.Category.Acronym} Leaderboard");
-            }
-            else
-            {
-                if (this.Version is "1.11")
-                    this.title.SetText($"(Un)-Official 1.8-1.11\nAACH Leaderboard");
-                else
-                    this.title.SetText($"(Un)-Official 1.0-1.6\nAACH Leaderboard");
-            }
+            string version = this.Version switch {
+                "1.6" => "1.0-1.6",
+                "1.11" => "1.8-1.11",
+                _ => this.Version,
+            };
+
+            string title = Config.Main.ActiveTab != "tracker"
+                ? $"{this.Category}\n{version}"
+                : $"(Un)-Official {version}\n{Tracker.Category.Acronym} Leaderboard";
+
+            this.title.SetText(title);
         }
 
         private void Clear()
@@ -92,8 +107,40 @@ namespace AATool.UI.Controls
 
         private void Populate(Leaderboard board)
         {
+            if (this.Category is "All Blocks" && board.Runs.Any())
+            {
+                this.Root().First<UIAvatar>($"ab_wr_{this.Version}_avatar")?.SetPlayer(board.Runs[0].Runner);
+                this.Root().First<UIAvatar>($"ab_wr_{this.Version}_avatar")?.RegisterOnLeaderboard(board);
+                this.Root().First<UIAvatar>($"ab_wr_{this.Version}_avatar")?.RefreshBadge();
+                this.Root().First<UITextBlock>($"ab_wr_{this.Version}_runner")?.SetText(board.Runs[0].Runner);
+                this.Root().First<UITextBlock>($"ab_wr_{this.Version}_igt")?.SetText(board.Runs[0].InGameTime.ToString());
+                this.Root().First<UITextBlock>($"ab_wr_{this.Version}_blocks")?.SetText($"({board.Runs[0].Blocks} Blocks)");
+                //int blocksPerHour = (int)(AllBlocks.GetTotalBlocksFor(this.Version) / board.Runs[0].InGameTime.TotalHours);
+                //this.Root().First<UITextBlock>($"ab_wr_{this.Version}_blockrate")?.SetText($"{blocksPerHour} blocks/hr");
+                return;
+            }
+            else if (Config.Main.ActiveTab == Config.RunnersTab)
+            {
+                UIFlowPanel list = this.Root().First<UIFlowPanel>("runner_list");
+                if (list is not null)
+                {
+                    list.ClearControls();
+                    for (int i = 0; i < board.Runs.Count; i++)
+                    {
+                        var control = new UIPersonalBest(board) { FlexWidth = new (140), IsSmall = true };
+                        Run submission = board.Runs[i];
+                        this.runs[submission.Runner] = control;
+                        Player.FetchIdentityAsync(submission.Runner);
+                        control.SetRun(submission, true);
+                        control.InitializeRecursive(this.Root());
+                        list.AddControl(control);
+                    }
+                }
+                return;
+            }
+
             this.Clear();
-            PersonalBest run = null;
+            Run run = null;
             for (int i = 0; i < this.Rows; i++)
             {
                 bool claimed = i < board.Runs.Count;
@@ -102,7 +149,7 @@ namespace AATool.UI.Controls
                 {
                     run = board.Runs[i];
                     this.runs[run.Runner] = control;
-                    Player.FetchIdentity(run.Runner);
+                    Player.FetchIdentityAsync(run.Runner);
                 }
                 control.SetRun(run, claimed);
                 control.InitializeRecursive(this.Root());
@@ -116,7 +163,7 @@ namespace AATool.UI.Controls
         {
             if (!this.upToDate && this.LiveBoardAvailable)
             {
-                if (Leaderboard.TryGet(Leaderboard.Specific(this.Version), out Leaderboard live))
+                if (Leaderboard.TryGet(this.Category, this.Version, out Leaderboard live))
                     this.Populate(live);
                 this.upToDate = true;
             }
@@ -140,8 +187,8 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         { 
             base.ReadNode(node);
-            this.Version = Attribute(node, "version", this.Version);
-            this.Version ??= string.Empty;
+            this.Category = Attribute(node, "category", Tracker.Category.Name);
+            this.Version = Attribute(node, "version", Tracker.Category.CurrentMajorVersion);
             this.Rows = Attribute(node, "rows", this.Rows);
         }
     }

@@ -30,7 +30,11 @@ namespace AATool.UI.Screens
         private UILeaderboard leaderboard;
         private UIPotionGroup potions;
         private UIButton resetDeaths;
-        private UIButton toggleEGap;
+
+        private UIButton tabAAMultiboard;
+        private UIButton tabABMultiboard;
+        private UIButton tabRunners;
+        private bool needsLayoutRefresh;
         private readonly Utilities.Timer settingsCooldown;
 
         public override Color FrameBackColor() => Config.Main.BackColor;
@@ -95,9 +99,30 @@ namespace AATool.UI.Screens
         public override string GetCurrentView()
         {
             //fullscreen multi-version leaderboards
-            //return Path.Combine(Paths.System.ViewsFolder,
-            //    "full_leaderboards",
-            //    $"{Config.Main.Layout.Value}.xml");
+            if (Config.Main.ActiveTab == "multiboard_aa")
+            {
+                //return Path.Combine(Paths.System.ViewsFolder,
+                //    "leaderboards",
+                //    $"multiboard_aa.xml");
+            }
+            else if (Config.Main.ActiveTab == "multiboard_ab")
+            {
+                //return Path.Combine(Paths.System.ViewsFolder,
+                //    "leaderboards",
+                //    $"multiboard_ab.xml");
+            }
+            else if (Config.Main.ActiveTab == "timeline")
+            {
+                //return Path.Combine(Paths.System.ViewsFolder,
+                //    "leaderboards",
+                //    $"timeline.xml");
+            }
+            //else if (Config.Main.ActiveTab == "runners_1.16")
+            //{
+                //return Path.Combine(Paths.System.ViewsFolder,
+                //    "leaderboards",
+                //    $"runners_1.16.xml");
+            //}
 
             //get proper view for current category and version
             string path = Path.Combine(Paths.System.ViewsFolder,
@@ -130,6 +155,7 @@ namespace AATool.UI.Screens
             {
                 this.ShowErrorScreen();
             }
+            this.needsLayoutRefresh = false;
         }
 
         public override void InitializeThis(UIScreen screen)
@@ -138,11 +164,17 @@ namespace AATool.UI.Screens
             this.lobby  = this.First<UILobby>();
             this.status = this.First<UIStatusBar>();
             this.popup = this.First<UIBlockPopup>();
-            this.leaderboard = this.First<UILeaderboard>();
+            this.leaderboard = this.First<UILeaderboard>("Leaderboard");
             this.potions = this.First<UIPotionGroup>();
-            this.toggleEGap = this.First<UIButton>("toggle_egap");
-            if (this.toggleEGap is not null)
-                this.toggleEGap.OnClick += this.Click;
+            this.tabAAMultiboard = this.First<UIButton>("tab_multiboard_aa");
+            if (this.tabAAMultiboard is not null)
+                this.tabAAMultiboard.OnClick += this.Click;
+            this.tabABMultiboard = this.First<UIButton>("tab_multiboard_ab");
+            if (this.tabABMultiboard is not null)
+                this.tabABMultiboard.OnClick += this.Click;
+            this.tabRunners = this.First<UIButton>("tab_runners");
+            if (this.tabRunners is not null)
+                this.tabRunners.OnClick += this.Click;
 
             this.resetDeaths = this.First<UIButton>("reset");
             if (this.resetDeaths is not null)
@@ -173,7 +205,7 @@ namespace AATool.UI.Screens
         protected override void UpdateThis(Time time)
         {
             //update game version
-            if (Tracker.ObjectivesChanged || Config.Main.Layout.Changed || Config.Main.FullScreenLeaderboards.Changed)
+            if (Tracker.ObjectivesChanged || Config.Main.Layout.Changed || Config.Main.ActiveTab.Changed || this.needsLayoutRefresh)
                 this.ReloadView();
             
             this.UpdateCollapsedStates();
@@ -192,8 +224,6 @@ namespace AATool.UI.Screens
             this.settingsCooldown.Update(time);
             if (Input.Started(Microsoft.Xna.Framework.Input.Keys.Escape) && this.settingsCooldown.IsExpired)
                 this.OpenSettingsMenu();
-
-            this.UpdateEGapCheckbox();
 
             //enforce window size
             this.ConstrainWindow();
@@ -228,7 +258,7 @@ namespace AATool.UI.Screens
             }
         }
 
-        private void Click(UIControl sender)
+        public void Click(UIControl sender)
         {
             if (sender == this.resetDeaths)
             {
@@ -236,30 +266,33 @@ namespace AATool.UI.Screens
                 foreach (Death death in Tracker.Deaths.All.Values)
                     death.Clear();
             }
-            else if (sender == this.toggleEGap)
+            else if (sender.Name is "manual_check")
             {
-                if (Tracker.TryGetPickup(EGap.ItemId, out Pickup apple))
-                    (apple as EGap).ToggleManualCompletion();
+                string id = sender.Tag?.ToString() ?? "";
+                if (Tracker.TryGetPickup(id, out Pickup pickup))
+                    pickup.ToggleManualCheck();
+                else if (Tracker.TryGetBlock(id, out Block block))
+                    block.ToggleManualCheck();
+                else if (Tracker.TryGetDeath(id, out Death death))
+                    death.ToggleManualCheck();
             }
-        }
-
-        private void UpdateEGapCheckbox()
-        {
-            if (this.toggleEGap is null || !Tracker.TryGetPickup(EGap.ItemId, out Pickup pickup))
-                return;
-
-            //update the manual override god apple checkbox
-            var eGap = pickup as EGap;
-            if (!Tracker.IsWorking || eGap.PickedUp > 0 || eGap.Eaten)
+            else if (sender == this.tabAAMultiboard)
             {
-                this.toggleEGap.Collapse();
+                Config.Main.ActiveTab.Set("multiboard_aa");
+                Config.Main.Save();
+                this.needsLayoutRefresh = true;
             }
-            else
+            else if (sender == this.tabABMultiboard)
             {
-                this.toggleEGap.Expand();
-                string variant = Config.Main.FrameStyle == "Modern" ? "modern" : "basic";
-                variant = eGap.IsComplete() ? $"checked_{variant}" : $"unchecked_{variant}";
-                this.toggleEGap.First<UIPicture>()?.SetTexture(variant);   
+                Config.Main.ActiveTab.Set("multiboard_ab");
+                Config.Main.Save();
+                this.needsLayoutRefresh = true;
+            }
+            else if (sender == this.tabRunners)
+            {
+                Config.Main.ActiveTab.Set("runners_1.16");
+                Config.Main.Save();
+                this.needsLayoutRefresh = true;
             }
         }
 

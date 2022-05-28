@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
+using AATool.Data.Objectives.Pickups;
 using AATool.Net;
 using AATool.Net.Requests;
 using AATool.Saves;
@@ -177,7 +178,10 @@ namespace AATool.UI.Screens
                 {
                     //add pickup counters
                     foreach (Pickup pickup in Tracker.Pickups.All.Values.Reverse())
-                        this.counts.AddControl(new UIObjectiveFrame(pickup, 3));
+                    {
+                        if (pickup.Id is not (ShulkerShell.ItemId or Mycelium.BlockId))
+                            this.counts.AddControl(new UIObjectiveFrame(pickup, 3));
+                    }
                 }
 
                 //status label
@@ -310,7 +314,7 @@ namespace AATool.UI.Screens
         {
             float speed = BaseScrollSpeed + (Config.Overlay.Speed * ScrollSpeedMultiplier);
             if (this.FastForwarding)
-                speed *= 20;
+                speed *= 60;
             this.advancements?.SetSpeed(speed);
             this.criteria?.SetSpeed(speed);
         }

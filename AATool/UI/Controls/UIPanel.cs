@@ -11,6 +11,8 @@ namespace AATool.UI.Controls
         public Color BackColor      { get; set; }
         public Color BorderColor    { get; set; }
 
+        private bool innerCorners = true;
+
         public UIPanel()
         {
             this.BorderThickness = 1;
@@ -21,17 +23,29 @@ namespace AATool.UI.Controls
             if (this.SkipDraw)
                 return;
 
-            canvas.DrawRectangle(this.Bounds,
+            if (this.innerCorners)
+            {
+                canvas.DrawRectangle(this.Bounds,
                 Config.Main.BackColor,
                 Config.Main.BorderColor,
                 this.BorderThickness,
                 this.Layer);
+            }
+            else
+            {
+                canvas.DrawRectangle(this.Bounds,
+                Config.Main.BorderColor, 
+                null, 
+                0,
+                this.Layer);
+            }
         }
 
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
             this.BorderThickness = Attribute(node, "border_thickness", 1);
+            this.innerCorners = Attribute(node, "inner_corners", true);
         }
     }
 }

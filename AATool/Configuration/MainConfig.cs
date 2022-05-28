@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using AATool.Data.Categories;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
@@ -14,6 +15,10 @@ namespace AATool.Configuration
         public const string RelaxedLayout = "relaxed";
         public const string CompactLayout = "compact";
         public const string VerticalLayout = "vertical";
+
+        public const string TrackerTab = "tracker";
+        public const string MultiboardTab = "multiboard";
+        public const string RunnersTab = "runners_1.16";
 
         [JsonObject]
         public class MainConfig : Config
@@ -38,7 +43,8 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<int> FpsCap = new (60);
             [JsonProperty] public readonly Setting<int> DisplayScale = new (1);
 
-            [JsonProperty] public readonly Setting<bool> FullScreenLeaderboards = new (false);
+            [JsonProperty] public readonly Setting<string> ActiveTab = new (MultiboardTab);
+
             [JsonProperty] public readonly Setting<bool> HideCompletedAdvancements = new (false);
             [JsonProperty] public readonly Setting<bool> HideCompletedCriteria = new (false);
             [JsonProperty] public readonly Setting<bool> ShowBasicAdvancements = new (true);
@@ -47,9 +53,6 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<bool> RainbowMode = new (false);
 
             [JsonProperty] public readonly Setting<string> Layout = new (MonitorSupportsRelaxed ? RelaxedLayout : CompactLayout);
-
-            //deprecated (now used to migrate preference from pre-1.4.5.0)
-            [JsonProperty] public readonly Setting<bool> CompactMode = new (false);
 
             [JsonProperty] public readonly Setting<bool> LayoutDebugMode = new (false);
             [JsonProperty] public readonly Setting<bool> CacheDebugMode = new (false);
@@ -68,11 +71,14 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<Point> LastWindowPosition = new (Point.Zero);
             [JsonProperty] public readonly Setting<int> StartupDisplay = new (1);
 
+            //deprecated (now used to migrate preference from pre-1.4.5.0)
+            [JsonProperty] public readonly Setting<bool> CompactMode = new (false);
+
             [JsonIgnore]
             public bool UseRelaxedStyling => this.Layout != CompactLayout;
 
             [JsonIgnore]
-            public bool UseCompactStyling => this.Layout == CompactLayout;
+            public bool UseCompactStyling => this.Layout == CompactLayout  && Tracker.Category is not AllBlocks;
 
             [JsonIgnore]
             public bool UseVerticalStyling => this.Layout == VerticalLayout;
@@ -94,7 +100,7 @@ namespace AATool.Configuration
 
             public MainConfig()
             {
-                this.RegisterSetting(this.FullScreenLeaderboards);
+                this.RegisterSetting(this.ActiveTab);
                 this.RegisterSetting(this.Layout);
                 this.RegisterSetting(this.FpsCap);
                 this.RegisterSetting(this.DisplayScale);

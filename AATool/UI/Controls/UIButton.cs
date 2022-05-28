@@ -108,12 +108,16 @@ namespace AATool.UI.Controls
             if (width > 0)
                 this.TextBlock.FlexWidth = new Size(width);
 
+            int fontSize = Attribute(node, "font_size", 0);
+            if (fontSize > 0)
+                this.TextBlock.SetFont("minecraft", fontSize);
+
             this.Enabled = Attribute(node, "enabled", true);
             this.TextBlock.HorizontalAlign = Attribute(node, "text_align", this.TextBlock.HorizontalAlign);
             this.ShowBorder = Attribute(node, "border", true);
 			this.TextBlock.SetLayer(this.Layer);
 
-            this.BorderThickness = 2;
+            this.BorderThickness = Attribute(node, "border_thickness", 2);
         }
     }
 }

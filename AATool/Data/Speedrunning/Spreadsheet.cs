@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework;
 
-namespace AATool.Data.Players
+namespace AATool.Data.Speedrunning
 {
     public abstract class Spreadsheet
     {

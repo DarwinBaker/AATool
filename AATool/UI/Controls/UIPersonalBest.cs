@@ -1,7 +1,7 @@
 ﻿using System;
 using AATool.Configuration;
 using AATool.Data;
-using AATool.Data.Players;
+using AATool.Data.Speedrunning;
 using AATool.Graphics;
 using AATool.Net;
 using AATool.UI.Screens;
@@ -10,14 +10,15 @@ namespace AATool.UI.Controls
 {
     public class UIPersonalBest : UIPanel
     {
-        public PersonalBest Run { get; private set; }
+        public Run Run { get; private set; }
+        public bool IsSmall { get; set; }
 
         private UIAvatar face;
         private bool nickNameChecked;
         private bool uuidRequested;
         private bool isClaimed;
 
-        public void SetRun(PersonalBest run, bool isClaimed = true)
+        public void SetRun(Run run, bool isClaimed = true)
         {
             this.Run = run;
             this.isClaimed = isClaimed;
@@ -48,7 +49,7 @@ namespace AATool.UI.Controls
                 }
                 if (!this.uuidRequested)
                 {
-                    Player.FetchIdentity(ign);
+                    Player.FetchIdentityAsync(ign);
                     this.uuidRequested = true;
                 }
             }
@@ -76,7 +77,9 @@ namespace AATool.UI.Controls
 
                 this.First<UITextBlock>("name").SetText(this.Run.Runner);
                 this.First<UITextBlock>("igt").SetText(time);
-                this.First<UITextBlock>("date").SetText(this.Run.Date.ToShortDateString());
+
+                if (!this.IsSmall)
+                    this.First<UITextBlock>("date").SetText(this.Run.Date.ToShortDateString());
 
                 DateTime estNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, Leaderboard.TimeZone);
                 int days = (int)(estNow - this.Run.Date).TotalDays;
@@ -94,12 +97,13 @@ namespace AATool.UI.Controls
                 {
                     age = $"{years} year{(years > 1 ? "s" : "")} ago";            
                 }
-                this.First<UITextBlock>("age").SetText(age);
+                if (!this.IsSmall)
+                    this.First<UITextBlock>("age").SetText(age);
             }
             else
             {
                 this.face.SetEmptyLeaderboardSlot();
-                if (!Config.Main.FullScreenLeaderboards)
+                if (Config.Main.ActiveTab != "multiboard")
                     this.First<UITextBlock>("igt").SetText($"__:__:__");
             }
             this.face.Glow();

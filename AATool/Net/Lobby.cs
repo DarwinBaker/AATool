@@ -32,7 +32,7 @@ namespace AATool.Net
 
             //attempt to load player identities
             foreach (Uuid id in lobby.Users.Keys)
-                Player.FetchIdentity(id);
+                Player.FetchIdentityAsync(id);
             return lobby;
         }
 
