@@ -63,6 +63,16 @@ namespace AATool.Winforms.Forms
             }
         }
 
+        protected override bool ProcessCmdKey(ref Message message, Keys key)
+        {
+            if (key == Keys.Escape)
+            {
+                this.Close();
+                return true;
+            }
+            return base.ProcessCmdKey(ref message, key);
+        }
+
         private string GetFramesFolder(string group)
         {
             return this.overlay
