@@ -51,11 +51,6 @@
             <objective_frame pickup="minecraft:gold_block"/>
         </flow_panel>
 
-        <!-- enchanted golden apple manual override -->
-        <button name="toggle_egap" row="0" col="2" width="20" height="20" margin_top="5" margin_right="5" vertical_align="top" horizontal_align="right">
-            <picture/>
-        </button>
-
         <!-- status strip -->
         <status_bar row="2" col="1" colspan="3" right="182"/>
     </grid>

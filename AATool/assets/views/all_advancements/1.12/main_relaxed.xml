@@ -41,9 +41,6 @@
             <!-- pickup counters -->
             <panel row="0" col="3" vertical_align="top">
                 <objective_frame pickup="minecraft:enchanted_golden_apple" vertical_align="top"/>
-                <button name="toggle_egap" width="36" height="36" margin_top="96" vertical_align="top">
-                    <picture width="32" height="32"/>
-                </button>
             </panel>
             <flow_panel row="1" col="3">
                 <objective_frame pickup="minecraft.skull"/>
@@ -51,7 +48,7 @@
             </flow_panel>
 
             <!-- info panel -->
-            <leaderboard name="Leaderboard" row="0" col="4" rowspan="2"/>
+            <leaderboard name="Leaderboard" category="All Advancements" version="1.12" row="0" col="4" rowspan="2"/>
             <potion_group name="Potion Recipes" row="0" col="4" rowspan="2" padding="8,0,6,0"/>
         </grid>
 

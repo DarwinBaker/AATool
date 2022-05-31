@@ -87,14 +87,14 @@
         <black_carpet name="Black&#xA;Carpet" icon="black_carpet"/>
     </carpet>
     <cobblestone>
-        <cobblestone name="Cobblestone" icon="cobblestone"/>
-        <cobblestone_wall name="Cobblestone Wall" icon="cobblestone_wall"/>
-        <cobblestone_stairs name="Cobblestone Stairs" icon="cobblestone_stairs"/>
-        <cobblestone_slab name="Cobblestone Slab" icon="cobblestone_slab"/>
-        <mossy_cobblestone name="Mossy Cobblestone" icon="mossy_cobblestone"/>
-        <mossy_cobblestone_wall name="Mossy Cobblestone Wall" icon="mossy_cobblestone_wall"/>
-        <mossy_cobblestone_stairs name="Mossy Cobblestone Stairs" icon="mossy_cobblestone_stairs"/>
-        <mossy_cobblestone_slab name="Mossy Cobblestone Slab" icon="mossy_cobblestone_slab"/>
+        <cobblestone name="Cobble" icon="cobblestone"/>
+        <cobblestone_wall name="Cobble&#xA;Wall" icon="cobblestone_wall"/>
+        <cobblestone_stairs name="Cobble&#xA;Stairs" icon="cobblestone_stairs"/>
+        <cobblestone_slab name="Cobble&#xA;Slab" icon="cobblestone_slab"/>
+        <mossy_cobblestone name="Mossy&#xA;Cobble" icon="mossy_cobblestone"/>
+        <mossy_cobblestone_wall name="Mossy&#xA;Cobble&#xA;Wall" icon="mossy_cobblestone_wall"/>
+        <mossy_cobblestone_stairs name="Mossy&#xA;Cobble&#xA;Stairs" icon="mossy_cobblestone_stairs"/>
+        <mossy_cobblestone_slab name="Mossy&#xA;Cobble&#xA;Slab" icon="mossy_cobblestone_slab"/>
         <smooth_stone name="Smooth&#xA;Stone" icon="smooth_stone"/>
         <smooth_stone_slab name="Smooth&#xA;Stone Slab" icon="smooth_stone_slab"/>
     </cobblestone>
@@ -180,7 +180,7 @@
         <chorus_flower name="Chorus Flower" icon="chorus_flower"/>
         <end_stone_brick_stairs name="End Stone Brick Stairs" icon="end_stone_brick_stairs"/>
         <purpur_stairs name="Purpur Stairs" icon="purpur_stairs"/>
-        <end_rod name="End Rod" icon="end_rod"/>
+        <end_rod name="End Rod" icon="end_rod" light_level="0.5"/>
         <end_stone_brick_slab name="End Stone Brick Slab" icon="end_stone_brick_slab"/>
         <purpur_slab name="Purpur Slab" icon="purpur_slab"/>
     </end>
@@ -293,11 +293,11 @@
         <mycelium name="Mycelium" icon="mycelium"/>
     </grass>
     <heads>
-        <creeper_head name="Creeper Head" icon="creeper_head"/>
-        <zombie_head name="Zombie Head" icon="zombie_head"/>
-        <skeleton_skull name="Skeleton Skull" icon="skeleton_skull"/>
-        <wither_skeleton_skull name="Wither Skull" icon="wither_skeleton_skull"/>
-        <dragon_head name="Dragon Head" icon="dragon_head"/>
+        <creeper_head name="Creeper&#xA;Head" icon="creeper_head"/>
+        <zombie_head name="Zombie&#xA;Head" icon="zombie_head"/>
+        <skeleton_skull name="Skeleton&#xA;Skull" icon="skeleton_skull"/>
+        <wither_skeleton_skull name="Wither&#xA;Skull" icon="wither_skeleton_skull"/>
+        <dragon_head name="Dragon&#xA;Head" icon="dragon_head"/>
     </heads>
     <lights>
         <torch name="Torch" icon="torch" light_level="0.5"/>
@@ -316,15 +316,15 @@
     <materials>
         <diamond_block name="Diamond&#xA;Block" icon="diamond_block"/>
         <emerald_block name="Emerald&#xA;Block" icon="emerald_block"/>
-        <lapis_block name="Lapis Lazuli&#xA;Block" icon="lapis_block"/>
         <redstone_block name="Redstone&#xA;Block" icon="redstone_block" light_level="0.6"/>
+        <lapis_block name="Lapis Lazuli&#xA;Block" icon="lapis_block"/>
         <gold_block name="Gold&#xA;Block" icon="gold_block"/>
         <iron_block name="Iron&#xA;Block" icon="iron_block"/>
         <coal_block name="Coal&#xA;Block" icon="coal_block"/>
         <diamond_ore name="Diamond&#xA;Ore" icon="diamond_ore_old"/>
         <emerald_ore name="Emerald&#xA;Ore" icon="emerald_ore_old"/>
-        <lapis_ore name="Lapis Lazuli&#xA;Ore" icon="lapis_ore_old"/>
         <redstone_ore name="Redstone&#xA;Ore" icon="redstone_ore_old" light_level="0.3"/>
+        <lapis_ore name="Lapis Lazuli&#xA;Ore" icon="lapis_ore_old"/>
         <gold_ore name="Gold&#xA;Ore" icon="gold_ore_old"/>
         <iron_ore name="Iron&#xA;Ore" icon="iron_ore_old"/>
         <coal_ore name="Coal&#xA;Ore" icon="coal_ore_old"/>
@@ -361,16 +361,16 @@
     <nether_special>
         <netherite_block name="Block of Netherite" icon="netherite_block"/>
         <ancient_debris name="Ancient Debris" icon="ancient_debris"/>
-        <lodestone name="Lodestone" icon="lodestone" light_level="0.5"/>
+        <lodestone name="Lodestone" icon="lodestone"/>
         <nether_gold_ore name="Nether Gold Ore" icon="nether_gold_ore"/>
         <nether_quartz_ore name="Nether Quartz Ore" icon="nether_quartz_ore"/>
-        <glowstone name="Glowstone" icon="glowstone" light_level="0.5"/>
-        <obsidian name="Obsidian" icon="obsidian"/>
-        <crying_obsidian name="Crying Obsidian" icon="crying_obsidian" light_level="0.6"/>
-        <respawn_anchor name="Respawn Anchor" icon="respawn_anchor" light_level="0.25"/>
+        <glowstone name="Glowstone" icon="glowstone" light_level="0.6"/>
+        <obsidian name="Obsidian" icon="obsidian"/> 
+        <crying_obsidian name="Crying Obsidian" icon="crying_obsidian" light_level="0.5"/>
+        <respawn_anchor name="Respawn Anchor" icon="respawn_anchor" light_level="0.75"/>
         <lava_bucket name="Lava" icon="lava" light_level="1"/>
         <magma_block name="Magma Block" icon="magma_block" light_level="0.7"/>
-        <shroomlight name="Shroom Light" icon="shroomlight" light_level="0.9"/>
+        <shroomlight name="Shroom Light" icon="shroomlight" light_level="0.75"/>
     </nether_special>
     <ocean_monument_1>
         <prismarine name="Prismarine" icon="prismarine"/>
@@ -380,22 +380,24 @@
         <prismarine_slab name="Prismarine Slab" icon="prismarine_slab"/>
         <prismarine_brick_slab name="Prismarine Slab" icon="prismarine_brick_slab"/>
         <prismarine_wall name="Prismarine Wall" icon="prismarine_wall"/>
-        <seagrass name="Seagrass" icon="seagrass"/>
-        <kelp name="Kelp" icon="kelp"/>
+        <conduit name="Conduit" icon="conduit" light_level="0.5"/>
+        <kelp name="Kelp" icon="kelp" double_height="true"/>
     </ocean_monument_1>
     <ocean_monument_2>
         <dark_prismarine name="Dark Prismarine" icon="dark_prismarine"/>
         <dark_prismarine_stairs name="Dark Prismarine Stairs" icon="dark_prismarine_stairs"/>
         <dark_prismarine_slab name="Dark Prismarine Slab" icon="dark_prismarine_slab"/>
         <sea_lantern name="Sea Lantern" icon="sea_lantern" light_level="0.75"/>
-        <conduit name="Conduit" icon="conduit" light_level="0.5"/>
+        <seagrass name="Seagrass" icon="seagrass"/>
     </ocean_monument_2>
-    <warm_ocean>
+    <ocean_misc>
         <dried_kelp_block name="Dried Kelp Block" icon="dried_kelp_block"/>
         <sponge name="Sponge" icon="sponge"/>
         <wet_sponge name="Wet Sponge" icon="wet_sponge"/>
         <sea_pickle name="Sea Pickle" icon="sea_pickle"/>
         <turtle_egg name="Turtle Egg" icon="turtle_egg"/>
+    </ocean_misc>
+    <coral>
         <fire_coral_block name="Fire&#160;Coral Block" icon="fire_coral_block"/>
         <horn_coral_block name="Horn&#160;Coral Block" icon="horn_coral_block"/>
         <tube_coral_block name="Tube&#160;Coral Block" icon="tube_coral_block"/>
@@ -411,6 +413,8 @@
         <tube_coral_fan name="Tube&#160;Coral Fan" icon="tube_coral_fan"/>
         <bubble_coral_fan name="Bubble&#160;Coral Fan" icon="bubble_coral_fan"/>
         <brain_coral_fan name="Brain&#160;Coral Fan" icon="brain_coral_fan"/>
+    </coral>
+    <dead_coral>
         <dead_fire_coral_block name="Dead Fire&#160;Coral Block" icon="dead_fire_coral_block"/>
         <dead_horn_coral_block name="Dead Horn&#160;Coral Block" icon="dead_horn_coral_block"/>
         <dead_tube_coral_block name="Dead Tube&#160;Coral Block" icon="dead_tube_coral_block"/>
@@ -426,7 +430,7 @@
         <dead_tube_coral_fan name="Dead Tube&#160;Coral Fan" icon="dead_tube_coral_fan"/>
         <dead_bubble_coral_fan name="Dead Bubble&#160;Coral Fan" icon="dead_bubble_coral_fan"/>
         <dead_brain_coral_fan name="Dead Brain&#160;Coral Fan" icon="dead_brain_coral_fan"/>
-    </warm_ocean>
+    </dead_coral>
     <quartz>
         <quartz_block name="Quartz&#xA;Block" icon="quartz_block"/>
         <chiseled_quartz_block name="Chiseled&#xA;Quartz&#xA;Block" icon="chiseled_quartz_block"/>
@@ -457,10 +461,15 @@
         <flower_pot name="Flower Pot" icon="flower_pot"/>
     </misc_stuff>
     <redstone_components>
+        <iron_door name="Iron Door" icon="iron_door" double_height="true"/>
+        <string name="String" icon="string"/>
+        <iron_trapdoor name="Iron Trapdoor" icon="iron_trapdoor"/>
         <comparator name="Redstone Comparator" icon="comparator"/>
         <repeater name="Redstone Repeater" icon="repeater"/>
-        <redstone name="Redstone Dust" icon="redstone_dust" light_level="0.5"/>
     </redstone_components>
+    <redstone_dust>
+        <redstone name="Redstone Dust" icon="redstone_dust" light_level="0.5"/>
+    </redstone_dust>
     <red_sandstone>
         <red_sand name="Red Sand" icon="red_sand"/>
         <red_sandstone name="Red Sandstone" icon="red_sandstone"/>
@@ -494,7 +503,6 @@
         <fern name="Fern" icon="fern"/>
         <dead_bush name="Dead Bush" icon="dead_bush"/>
         <sweet_berries name="Sweet Berry Bush" icon="sweet_berry_bush"/>
-        <lily_pad name="Lily Pad" icon="lily_pad"/>
         <wither_rose name="Wither Rose" icon="wither_rose"/>
     </shrubs>
     <shulker_boxes>
@@ -517,9 +525,9 @@
         <shulker_box name="Shulker&#xA;Box" icon="shulker_box"/>
     </shulker_boxes>
     <snow>
-        <ice name="Ice" icon="ice"/>
-        <packed_ice name="Packed Ice" icon="packed_ice"/>
         <blue_ice name="Blue Ice" icon="blue_ice"/>
+        <packed_ice name="Packed Ice" icon="packed_ice"/>
+        <ice name="Ice" icon="ice"/>
         <snow_block name="Snow Block" icon="snow_block"/>
         <snow name="Snow" icon="snow"/>
     </snow>
@@ -551,7 +559,7 @@
         <chipped_anvil name="Chipped&#xA;Anvil" icon="chipped_anvil"/>
         <damaged_anvil name="Damaged&#xA;Anvil" icon="damaged_anvil"/>
         <enchanting_table name="Enchanting Table" icon="enchanting_table" light_level="0.7"/>
-        <beacon name="Beacon" icon="beacon_block" light_level="0.9"/>
+        <beacon name="Beacon" icon="beacon_block" light_level="0.75"/>
         <slime_block name="Slime Block" icon="slime_block"/>
         <redstone_lamp name="Redstone Lamp" icon="redstone_lamp"/>
         <piston name="Piston" icon="piston"/>
@@ -584,8 +592,6 @@
         <stone_brick_wall name="Stone&#160;Brick&#xA;Wall" icon="stone_brick_wall"/>
         <mossy_stone_brick_wall name="Mossy&#xA;Stone&#160;Brick&#xA;Wall" icon="mossy_stone_brick_wall"/>
         <cobweb name="Cobweb" icon="cobweb"/>
-        <iron_door name="Iron Door" icon="iron_door" double_height="true"/>
-        <iron_trapdoor name="Iron Trapdoor" icon="iron_trapdoor"/>
     </stronghold>
     <tall_plants>
         <tall_grass name="Tall Grass" icon="tall_grass" double_height="true"/>
@@ -619,8 +625,8 @@
     </terracotta>
     <vines>
         <vine name="Vine" icon="vine" double_height="true"/>
-        <weeping_vines name="Weeping Vines" icon="weeping_vines" double_height="true"/>
         <twisting_vines name="Twisting Vines" icon="twisting_vines" double_height="true"/>
+        <weeping_vines name="Weeping Vines" icon="weeping_vines" double_height="true"/>
     </vines>
     <wood>
         <oak_log name="Oak&#xA;Log" icon="oak_log"/>

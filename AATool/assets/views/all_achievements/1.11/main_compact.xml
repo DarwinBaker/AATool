@@ -96,10 +96,7 @@
         <!-- item count display (trident, shells, skulls etc.) -->
         <panel name="counts" col="2" width="224" height="240" horizontal_align="left" vertical_align="top">
             <panel width="112" horizontal_align="left" padding_top="16">
-                <objective_frame pickup="minecraft:enchanted_golden_apple" vertical_align="top"/>
-                <button name="toggle_egap" width="36" height="36" margin_top="85" vertical_align="top">
-                    <picture width="32" height="32"/>
-                </button>
+                <objective_frame pickup="minecraft:enchanted_golden_apple" vertical_align="top" margin_top="30"/>
                 <text_block col="1" padding="10,10,130,0" text="Note: Due to the way pre-1.13 Minecraft IDs work, God Apple must be manually checked until eaten."/>
             </panel>
             <flow_panel width="112" horizontal_align="right" padding_top="16" padding_left="23">

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <rows>
+            <row height="648"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="3 * 68"/>
+            <column width="3 * 68"/>
+            <column width="3 * 68"/>
+            <column width="3 * 68"/>
+            <column width="3 * 68"/>
+            <column width="3 * 68"/>
+            <column width="3 * 68"/>
+            <column width="3 * 68"/>
+        </columns>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <!-- aa leaderboard -->
+        <leaderboard/>
+        <leaderboard version="1.18" col="1" rows="10" width="3 * 68"/>
+        <leaderboard version="1.17" col="2" rows="10" width="3 * 68"/>
+        <leaderboard version="1.16" col="3" rows="10" width="3 * 68"/>
+        <leaderboard version="1.15" col="4" rows="10" width="3 * 68"/>
+        <leaderboard version="1.14" col="5" rows="10" width="3 * 68"/>
+        <leaderboard version="1.13" col="6" rows="10" width="3 * 68"/>
+        <leaderboard version="1.12" col="7" rows="10" width="3 * 68"/>
+        <leaderboard version="1.11" col="8" rows="10" width="3 * 68"/>
+
+        <!-- status strip -->
+        <status_bar row="1" col="1" colspan="8" right="528"/>
+    </grid>
+</control>

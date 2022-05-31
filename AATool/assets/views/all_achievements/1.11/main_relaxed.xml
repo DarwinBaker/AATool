@@ -97,11 +97,8 @@
         <criteria_group advancement="achievement.exploreAllBiomes" col="2" height="370" horizontal_align="right" vertical_align="bottom"/>
 
         <!-- pickup counters -->
-        <panel col="2" width="100" height="180" horizontal_align="left" vertical_align="top" padding_top="25">
+        <panel col="2" width="100" height="180" horizontal_align="left" vertical_align="top" padding_top="50">
             <objective_frame pickup="minecraft:enchanted_golden_apple" vertical_align="top"/>
-            <button name="toggle_egap" width="36" height="36" margin_bottom="20" vertical_align="bottom">
-                <picture width="32" height="32"/>
-            </button>
         </panel>
         <flow_panel name="counts" col="2" width="100" height="236" cell_height="100" padding_left="16" margin_top="180" padding_top="15" horizontal_align="left" vertical_align="top">
             <objective_frame pickup="minecraft.skull"/>
@@ -109,7 +106,7 @@
         </flow_panel>
 
         <!-- leaderboard -->
-        <leaderboard name="Leaderboard" width="230" height="416" col="2" horizontal_align="right" vertical_align="top"/>
+        <leaderboard name="Leaderboard" category="All Achievements" version="1.11" width="230" height="416" col="2" horizontal_align="right" vertical_align="top"/>
 
         <!-- status strip -->
         <status_bar row="1" col="1" colspan="3" right="330"/>

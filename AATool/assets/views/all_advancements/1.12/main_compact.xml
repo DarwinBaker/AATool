@@ -41,9 +41,6 @@
         <!-- pickup counters -->
         <panel row="0" col="2" height="136" vertical_align="top">
             <objective_frame pickup="minecraft:enchanted_golden_apple" horizontal_align="left" margin_left="1" vertical_align="top"/>
-            <button name="toggle_egap" width="36" height="36" margin_top="85" vertical_align="top">
-                <picture width="32" height="32"/>
-            </button>
         </panel>
         <flow_panel row="0" col="2" height="212" vertical_align="bottom" cell_width="68" cell_height="68" direction="toptobottom">
             <objective_frame pickup="minecraft.skull"/>

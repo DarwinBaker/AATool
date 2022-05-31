@@ -43,11 +43,6 @@
                 <objective_frame pickup="minecraft:nautilus_shell"/>
             </flow_panel>
 
-            <!-- enchanted golden apple manual override -->
-            <button name="toggle_egap" row="0" col="3" width="20" height="20" margin_top="5" margin_right="5" vertical_align="top" horizontal_align="right">
-                <picture/>
-            </button>
-
             <!-- nether pickup counts -->
             <flow_panel row="1" col="3">
                 <objective_frame pickup="minecraft:wither_skeleton_skull"/>
@@ -55,7 +50,7 @@
             </flow_panel>
 
             <!-- info panel -->
-            <leaderboard name="Leaderboard" row="0" col="4" rowspan="2"/>
+            <leaderboard name="Leaderboard" category="All Advancements" version="1.14" row="0" col="4" rowspan="2"/>
             <potion_group name="Potion Recipes" row="0" col="4" rowspan="2" padding="8,0,6,0"/>
         </grid>
 
