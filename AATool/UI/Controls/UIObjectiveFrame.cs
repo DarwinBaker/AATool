@@ -427,11 +427,11 @@ namespace AATool.UI.Controls
                     }
                     break;
                 case "flag":
-                    canvas.Draw("frame_flag_shading", this.frame.Bounds, ActiveTint * 0.5f);
                     if (this.IsActive)
                     {
                         Color faded = ColorHelper.Fade(ActiveTint, this.glow.Brightness);
                         canvas.Draw(this.flag, this.detailRectangle, this.IsActive ? ActiveTint : InactiveTint);
+                        canvas.Draw("frame_flag_shading", this.frame.Bounds, ActiveTint * 0.5f);
                         canvas.Draw("frame_modern_back_complete", this.frame.Bounds, faded);
                         canvas.Draw("frame_modern_border", this.frame.Bounds, ActiveTint);
                         canvas.Draw("frame_modern_border_complete", this.frame.Bounds, faded);
@@ -439,7 +439,7 @@ namespace AATool.UI.Controls
                     else
                     {
                         canvas.Draw("frame_modern_back", this.frame.Bounds, this.Root().FrameBackColor() * opacity);
-                        canvas.Draw("frame_modern_border", this.frame.Bounds, InactiveTint);
+                        canvas.Draw("frame_modern_border", this.frame.Bounds, InactiveIconTint);
                     }
                     break;
                 default: 
@@ -450,6 +450,10 @@ namespace AATool.UI.Controls
                         canvas.Draw("frame_modern_back_complete", this.frame.Bounds, faded);
                         canvas.Draw("frame_modern_border", this.frame.Bounds, this.Root().FrameBorderColor());
                         canvas.Draw("frame_modern_border_complete", this.frame.Bounds, faded);
+                    }
+                    else
+                    {
+                        canvas.Draw("frame_modern_border", this.frame.Bounds, InactiveIconTint);
                     }
                     break;
             }
