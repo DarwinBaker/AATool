@@ -165,6 +165,9 @@ namespace AATool.Winforms.Controls
                 bool isClient = sender is Control control && control.Text.ToLower() is "client";
                 this.networkSwitch.Text = isClient ? "Connect" : "Host";
                 this.autoServerIP.Visible = !isClient;
+
+                if (!isClient && this.autoServerIP.Checked && NetworkHelper.TryGetLocalIPAddress(out IPAddress address))
+                    this.ip.Text = address.ToString();
             }
             if (this.loaded)
                 this.UpdateEnabledStates();
@@ -177,7 +180,7 @@ namespace AATool.Winforms.Controls
                 if (sender is CheckBox box && box.Checked)
                 {
                     this.ip.Enabled = false;
-                    if (NetworkHelper.TryGetLocalIPAddress(out IPAddress address))
+                    if (Config.Net.IsServer && NetworkHelper.TryGetLocalIPAddress(out IPAddress address))
                         this.ip.Text = address.ToString();
                 }
                 else

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Utilities;
+using AATool.Winforms.Forms;
 using Microsoft.Xna.Framework;
 
 namespace AATool.Winforms.Controls
@@ -12,25 +13,10 @@ namespace AATool.Winforms.Controls
     public partial class COverlaySettings : UserControl
     {
         private bool loaded;
-        private readonly TextInfo textInfo;
 
         public COverlaySettings()
         {
             this.InitializeComponent();
-            this.textInfo = new CultureInfo("en-US", false).TextInfo;
-            this.PopulateFrameStyles();
-        }
-
-        private void PopulateFrameStyles()
-        {
-            this.frameStyle.Items.Clear();
-            this.frameStyle.Items.Add("Minecraft");
-            this.frameStyle.Items.Add("Custom Theme");
-            foreach (string theme in Config.MainConfig.Themes.Keys)
-                this.frameStyle.Items.Add(theme);
-            this.frameStyle.Items.Add("Eye Spy");
-            this.frameStyle.Items.Add("Geode");
-            this.frameStyle.Items.Add("None");
         }
 
         private void UpdateMonitorList()
@@ -125,6 +111,15 @@ namespace AATool.Winforms.Controls
                 using ColorDialog dialog = new () { Color = (sender as Control).BackColor};
                 if (dialog.ShowDialog() is DialogResult.OK)
                     (sender as Control).BackColor = dialog.Color; 
+            }
+            else if (sender == this.frameStyle)
+            {
+                using (var dialog = new FStyleDialog(true))
+                {
+                    dialog.ShowDialog();
+                    if (dialog.SelectedFrame is not null)
+                        this.frameStyle.Text = dialog.SelectedFrame;
+                }
             }
             this.SaveSettings();
         }

@@ -51,6 +51,7 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<bool> ShowCompletionGlow = new (true);
             [JsonProperty] public readonly Setting<bool> ShowAmbientGlow = new (true);
             [JsonProperty] public readonly Setting<bool> RainbowMode = new (false);
+            [JsonProperty] public readonly Setting<bool> CloseFramesOnSelection = new (true);
 
             [JsonProperty] public readonly Setting<string> Layout = new (MonitorSupportsRelaxed ? RelaxedLayout : CompactLayout);
 
@@ -84,7 +85,7 @@ namespace AATool.Configuration
             public bool UseVerticalStyling => this.Layout == VerticalLayout;
 
             [JsonIgnore]
-            public bool StyleChanged => this.FrameStyle.Changed
+            public bool AppearanceChanged => this.FrameStyle.Changed
                 || this.BorderColor.Changed
                 || this.BackColor.Changed
                 || this.TextColor.Changed

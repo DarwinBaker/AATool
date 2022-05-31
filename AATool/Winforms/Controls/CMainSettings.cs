@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Utilities;
+using AATool.Winforms.Forms;
 using Microsoft.Xna.Framework;
 
 namespace AATool.Winforms.Controls
@@ -28,7 +29,7 @@ namespace AATool.Winforms.Controls
             this.completionGlow.Checked = Config.Main.ShowCompletionGlow;
             this.ambientGlow.Checked    = Config.Main.ShowAmbientGlow;
             this.highRes.Checked        = Config.Main.DisplayScale > 1;
-            this.frameStyle.Text        = Config.Main.FrameStyle;
+            this.frameStyle.Text    = Config.Main.FrameStyle;
             this.progressBarStyle.Text  = Config.Main.ProgressBarStyle;
             this.refreshIcon.Text       = Config.Main.RefreshIcon;
             this.infoPanel.Text         = Config.Main.InfoPanel;
@@ -117,20 +118,31 @@ namespace AATool.Winforms.Controls
 
         private void OnClicked(object sender, EventArgs e)
         {
-            using (var dialog = new ColorDialog() { Color = (sender as Control).BackColor })
+            if (sender == this.frameStyle)
             {
-                if (dialog.ShowDialog() is DialogResult.OK)
+                using (var dialog = new FStyleDialog(false))
                 {
-                    (sender as Control).BackColor = dialog.Color;
+                    dialog.ShowDialog();
+                    if (dialog.SelectedFrame is not null)
+                        this.frameStyle.Text = dialog.SelectedFrame;
                     this.SaveSettings();
-                    if (sender == this.backColor ||
-                        sender == this.textColor ||
-                        sender == this.borderColor)
-                    {
-                        this.theme.SelectedItem = "Custom";
-                    }
                 }
             }
+            else
+            {
+                using (var dialog = new ColorDialog() { Color = (sender as Control).BackColor })
+                {
+                    if (dialog.ShowDialog() is DialogResult.OK)
+                    {
+                        (sender as Control).BackColor = dialog.Color;
+                        this.SaveSettings();
+                        if (sender == this.backColor || sender == this.textColor || sender == this.borderColor)
+                        {
+                            this.theme.SelectedItem = "Custom";
+                        }
+                    }
+                }
+            }  
         }
 
         private void OnCheckChanged(object sender, EventArgs e)

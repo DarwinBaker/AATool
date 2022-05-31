@@ -44,8 +44,6 @@ namespace AATool.Winforms.Controls
             this.showCounts = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.frameStyle = new System.Windows.Forms.ComboBox();
             this.backColor = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -66,6 +64,8 @@ namespace AATool.Winforms.Controls
             this.label15 = new System.Windows.Forms.Label();
             this.startupMonitor = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.frameStyle = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
             this.overlayGroupTheme.SuspendLayout();
             this.overlayGroupAppearance.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.overlayWidth)).BeginInit();
@@ -249,35 +249,9 @@ namespace AATool.Winforms.Controls
             this.label4.Location = new System.Drawing.Point(23, 91);
             this.label4.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(110, 13);
+            this.label4.Size = new System.Drawing.Size(113, 13);
             this.label4.TabIndex = 49;
-            this.label4.Text = "Custom Preset Colors:";
-            // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(21, 25);
-            this.label6.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(45, 13);
-            this.label6.TabIndex = 41;
-            this.label6.Text = "Presets:";
-            // 
-            // frameStyle
-            // 
-            this.frameStyle.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.frameStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.frameStyle.FormattingEnabled = true;
-            this.frameStyle.Location = new System.Drawing.Point(24, 41);
-            this.frameStyle.Name = "frameStyle";
-            this.frameStyle.Size = new System.Drawing.Size(112, 21);
-            this.frameStyle.TabIndex = 40;
-            this.frameStyle.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
+            this.label4.Text = "Custom Theme Colors:";
             // 
             // backColor
             // 
@@ -524,12 +498,12 @@ namespace AATool.Winforms.Controls
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.frameStyle);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.borderColor);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.frameStyle);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.backColor);
@@ -540,6 +514,29 @@ namespace AATool.Winforms.Controls
             this.groupBox1.TabIndex = 51;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Frame Styling";
+            // 
+            // frameStyle
+            // 
+            this.frameStyle.Location = new System.Drawing.Point(24, 41);
+            this.frameStyle.Name = "frameStyle";
+            this.frameStyle.Size = new System.Drawing.Size(112, 23);
+            this.frameStyle.TabIndex = 50;
+            this.frameStyle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.frameStyle.UseVisualStyleBackColor = true;
+            this.frameStyle.Click += new System.EventHandler(this.OnClicked);
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(21, 25);
+            this.label6.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(84, 13);
+            this.label6.TabIndex = 41;
+            this.label6.Text = "Selected Frame:";
             // 
             // COverlaySettings
             // 
@@ -586,8 +583,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown overlayWidth;
         private System.Windows.Forms.CheckBox igt;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox frameStyle;
         private System.Windows.Forms.CheckBox clarifyAmbiguous;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox pickupPosition;
@@ -607,5 +602,7 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.ComboBox startupMonitor;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button frameStyle;
+        private System.Windows.Forms.Label label6;
     }
 }

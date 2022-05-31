@@ -217,7 +217,7 @@ namespace AATool.UI.Screens
             if (Config.Overlay.Width.Changed)
                 this.settingsMenu?.UpdateOverlayWidth();
 
-            if (Config.Main.StyleChanged)
+            if (Config.Main.AppearanceChanged)
                 Invalidate();
 
             //escape to open settings

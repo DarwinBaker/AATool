@@ -31,6 +31,7 @@ namespace AATool.Winforms.Controls
         {
             this.notesEnabled = new System.Windows.Forms.CheckBox();
             this.mainGroupMain = new System.Windows.Forms.GroupBox();
+            this.hideCompletedCriteria = new System.Windows.Forms.CheckBox();
             this.highRes = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.infoPanel = new System.Windows.Forms.ComboBox();
@@ -55,19 +56,18 @@ namespace AATool.Winforms.Controls
             this.backColor = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.frameStyle = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.fpsCap = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.progressBarStyle = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.frameStyle = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.ambientGlow = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.hideCompletedCriteria = new System.Windows.Forms.CheckBox();
             this.mainGroupMain.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -103,6 +103,18 @@ namespace AATool.Winforms.Controls
             this.mainGroupMain.TabIndex = 25;
             this.mainGroupMain.TabStop = false;
             this.mainGroupMain.Text = "Layout";
+            // 
+            // hideCompletedCriteria
+            // 
+            this.hideCompletedCriteria.AutoSize = true;
+            this.hideCompletedCriteria.Location = new System.Drawing.Point(9, 119);
+            this.hideCompletedCriteria.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.hideCompletedCriteria.Name = "hideCompletedCriteria";
+            this.hideCompletedCriteria.Size = new System.Drawing.Size(136, 17);
+            this.hideCompletedCriteria.TabIndex = 39;
+            this.hideCompletedCriteria.Text = "Hide Completed Criteria";
+            this.hideCompletedCriteria.UseVisualStyleBackColor = true;
+            this.hideCompletedCriteria.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
             // highRes
             // 
@@ -367,13 +379,13 @@ namespace AATool.Winforms.Controls
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.frameStyle);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.fpsCap);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.progressBarStyle);
             this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.frameStyle);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.backColor);
             this.groupBox1.Controls.Add(this.label7);
@@ -391,6 +403,16 @@ namespace AATool.Winforms.Controls
             this.groupBox1.TabIndex = 27;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Appearance";
+            // 
+            // frameStyle
+            // 
+            this.frameStyle.Location = new System.Drawing.Point(135, 36);
+            this.frameStyle.Name = "frameStyle";
+            this.frameStyle.Size = new System.Drawing.Size(120, 23);
+            this.frameStyle.TabIndex = 42;
+            this.frameStyle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.frameStyle.UseVisualStyleBackColor = true;
+            this.frameStyle.Click += new System.EventHandler(this.OnClicked);
             // 
             // label5
             // 
@@ -464,23 +486,6 @@ namespace AATool.Winforms.Controls
             this.label6.TabIndex = 39;
             this.label6.Text = "Frame Style:";
             // 
-            // frameStyle
-            // 
-            this.frameStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.frameStyle.FormattingEnabled = true;
-            this.frameStyle.Items.AddRange(new object[] {
-            "Modern",
-            "Furnace",
-            "Geode",
-            "Eye Spy",
-            "Minecraft",
-            "None"});
-            this.frameStyle.Location = new System.Drawing.Point(135, 37);
-            this.frameStyle.Name = "frameStyle";
-            this.frameStyle.Size = new System.Drawing.Size(120, 21);
-            this.frameStyle.TabIndex = 38;
-            this.frameStyle.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
-            // 
             // label14
             // 
             this.label14.AutoSize = true;
@@ -540,18 +545,6 @@ namespace AATool.Winforms.Controls
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Startup Behavior";
             // 
-            // hideCompletedCriteria
-            // 
-            this.hideCompletedCriteria.AutoSize = true;
-            this.hideCompletedCriteria.Location = new System.Drawing.Point(9, 119);
-            this.hideCompletedCriteria.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
-            this.hideCompletedCriteria.Name = "hideCompletedCriteria";
-            this.hideCompletedCriteria.Size = new System.Drawing.Size(136, 17);
-            this.hideCompletedCriteria.TabIndex = 39;
-            this.hideCompletedCriteria.Text = "Hide Completed Criteria";
-            this.hideCompletedCriteria.UseVisualStyleBackColor = true;
-            this.hideCompletedCriteria.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
-            // 
             // CMainSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -601,7 +594,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox ambientGlow;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox frameStyle;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox progressBarStyle;
         private System.Windows.Forms.Label label3;
@@ -615,5 +607,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.ComboBox startupMonitor;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox hideCompletedCriteria;
+        private System.Windows.Forms.Button frameStyle;
     }
 }
