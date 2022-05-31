@@ -25,7 +25,7 @@
                 width="4 * 38" height="1 * 38"/>
 
             <block_group group="stone"
-                margin_left="4 * 38" margin_top="0"
+                margin_left="3 * 38" margin_top="0"
                 width="2 * 38" height="2 * 38"/>
 
             <block_group group="cobblestone"
@@ -38,15 +38,15 @@
                 width="7 * 38"  height="3 * 38"/>
 
             <block_group group="diorite"
-                margin_left="6 * 38" margin_top="0"
+                margin_left="5 * 38" margin_top="0"
                 width="4 * 38" height="2 * 38"/>
 
             <block_group group="granite"
-                margin_left="10 * 38" margin_top="0"
+                margin_left="9 * 38" margin_top="0"
                 width="4 * 38" height="2 * 38"/>
 
             <block_group group="andesite"
-                margin_left="14 * 38" margin_top="0"
+                margin_left="13 * 38" margin_top="0"
                 width="4 * 38" height="2 * 38"/>
 
             <block_group group="deepslate"
@@ -146,13 +146,13 @@
                 direction="toptobottom"/>
 
             <block_group group="redstone_components"
-                margin_left="17 * 38" margin_top="8 * 38"
-                width="1 * 38" height="3 * 38"
+                margin_left="16 * 38" margin_top="8 * 38"
+                width="2 * 38" height="3 * 38"
                 direction="toptobottom"/>
 
             <block_group group="stronghold"
                 margin_left="12 * 38" margin_top="8 * 38"
-                width="5 * 38" height="3 * 38"
+                width="4 * 38" height="3 * 38"
                 direction="toptobottom"/>
 
             <block_group group="end"
@@ -186,9 +186,18 @@
                 width="5 * 38" height="1 * 38"
                 direction="toptobottom"/>
 
-            <block_group group="warm_ocean"
-                margin_left="33 * 38" margin_top="13 * 38"
-                width="5 * 38" height="7 * 38"/>
+            <block_group group="coral"
+                margin_left="28 * 38" margin_top="12 * 38"
+                width="5 * 38" height="3 * 38"/>
+
+            <block_group group="ocean_misc"
+                margin_left="26 * 38" margin_top="12 * 38"
+                width="2 * 38" height="3 * 38"
+                direction="toptobottom"/>
+
+            <block_group group="dead_coral"
+                margin_left="33 * 38" margin_top="17 * 38"
+                width="5 * 38" height="3 * 38"/>
 
             <block_group group="banners"
                 margin_left="0" margin_top="14 * 38"
@@ -230,35 +239,79 @@
                 margin_left="6 * 38"  margin_top="4 * 38"
                 width="4 * 38" height="38"/>
 
-            <grid width="5 * 38" height="6 * 38" margin_left="33 * 38" margin_top="0 * 38"
-                horizontal_align="left" vertical_align="top" draw_mode="all">
+            <block_group group="redstone_dust"
+                margin_left="2 * 38" margin_top="10 * 38"
+                width="38"  height="38"/>
+
+            <block_group group="heads"
+                margin_left="33 * 38" margin_top="16 * 38"
+                width="5 * 38" height="38"/>
+
+            <grid width="5 * 38" height="14 * 38" horizontal_align="right" vertical_align="top" draw_mode="all">
                 <rows>
-                    <row height="7 * 38"/>
+                    <row height="57"/>
+                    <row height="171"/>
+                    <row height="5 * 38"/>
                     <row height="5 * 38"/>
                 </rows>
-                <flow_panel row="0" padding_left="28">
-                    <objective_frame pickup="minecraft:trident"/>
-                    <objective_frame pickup="minecraft:nautilus_shell"/>
-                    <objective_frame pickup="minecraft:wither_skeleton_skull"/>
-                    <objective_frame block="minecraft:creeper_head"/>
-                    <objective_frame block="minecraft:zombie_head"/>
-                    <objective_frame block="minecraft:skeleton_skull"/>
+
+                <panel row="0" col="0">
+                    <textblock text="All Blocks&#xA;World Records" font_size="24" vertical_align="top" margin_top="4"/>
+                </panel>
+
+                <panel row="1" col="0">
+                    <panel width="95" horizontal_align="left" draw_mode="childrenonly">
+                        <textblock text="1.18" font_size="24" vertical_align="top" margin_top="10"/>
+                        <textblock name="ab_wr_1.18_blocks" vertical_align="top" margin_top="35"/>
+                        <avatar name="ab_wr_1.18_avatar" margin_top="70" vertical_align="top"/>
+                        <panel width="64" height="2" vertical_align="top" margin_top="112" inner_corners="false"/>
+                        <textblock name="ab_wr_1.18_runner" vertical_align="top" margin_top="125"/>
+                        <textblock name="ab_wr_1.18_igt" vertical_align="top" margin_top="140"/>
+                        <textblock name="ab_wr_1.18_blockrate" vertical_align="top" margin_top="155"/>
+                    </panel>
+                    <panel width="95" horizontal_align="right" draw_mode="childrenonly">
+                        <textblock text="1.16" font_size="24" vertical_align="top" margin_top="10"/>
+                        <textblock name="ab_wr_1.16_blocks" vertical_align="top" margin_top="35"/>
+                        <avatar name="ab_wr_1.16_avatar" margin_top="70" vertical_align="top"/>
+                        <panel width="64" height="2" vertical_align="top" margin_top="112" inner_corners="false"/>
+                        <textblock name="ab_wr_1.16_runner" vertical_align="top" margin_top="125"/>
+                        <textblock name="ab_wr_1.16_igt" vertical_align="top" margin_top="140"/>
+                        <textblock name="ab_wr_1.16_blockrate" vertical_align="top" margin_top="155"/>
+                    </panel>
+                </panel>
+
+                <flow_panel row="2" cell_width="80" cell_height="56" padding_top="11" direction="toptobottom">
+                    <panel height="38" padding_left="16" draw_mode="childrenonly">
+                        <picture texture="ab_example_red" width="38" height="38" margin_right="32" horizontal_align="left"/>
+                        <textblock text="Left-click to bookmark unplaced blocks red" width="120" margin_left="48" padding_bottom="2" text_align="left" margin_right="32" horizontal_align="left"/>
+                    </panel>
+                    <panel height="38" padding_left="16" draw_mode="childrenonly">
+                        <picture texture="ab_example_gold" width="38" height="38" margin_right="32" horizontal_align="left"/>
+                        <textblock text="Once placed, blocks automatically turn gold" width="120" margin_left="48" padding_bottom="2" text_align="left" margin_right="32" horizontal_align="left"/>
+                    </panel>
+                    <panel height="38" padding_left="16" draw_mode="childrenonly">
+                        <picture texture="ab_example_green" width="38" height="38" margin_right="32" horizontal_align="left"/>
+                        <textblock text="Left-click to confirm blocks after placing them on your platform" width="120" margin_left="48" padding_bottom="2" text_align="left" margin_right="32" horizontal_align="left"/>
+                    </panel>
                 </flow_panel>
 
-                <panel row="1">
-                    <flow_panel padding_left="28" padding_top="30">
-                        <objective_frame block="minecraft:mycelium"/>
-                        <objective_frame block="minecraft:red_sand"/>
-                        <objective_frame block="minecraft:dragon_head"/>
-                    </flow_panel>
-                </panel>
+                <flow_panel row="3" cell_width="80" cell_height="90" padding_left="15">
+                    <objective_frame pickup="minecraft:trident"/>
+                    <objective_frame pickup="minecraft:wither_skeleton_skull"/>
+                    <objective_frame pickup="minecraft:nautilus_shell"/>
+                    <objective_frame pickup="minecraft:shulker_shell"/>
+                </flow_panel>
 
             </grid>
 
         </panel>
 
+        <!-- needed to load world record data -->
+        <leaderboard category="All Blocks" version="1.18"/>
+        <leaderboard category="All Blocks" version="1.16"/>
+
         <!-- status strip -->
-        <status_bar row="1" col="1" colspan="3" right="528"/>
+        <status_bar row="1" col="1" colspan="3" right="456"/>
 
         <!-- block hover tooltip -->
         <block_popup row="0" col="1"/>

@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
+using AATool.Data.Categories;
 using AATool.Net;
+using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,7 +26,7 @@ namespace AATool.Graphics
 
         private static readonly Dictionary<string, Sprite> AllSprites = new ();
         private static readonly Dictionary<string, AnimatedSprite> AnimatedSprites = new ();
-        private static readonly HashSet<string> LoadedTextureSets = new ();
+        private static readonly List<string> LoadedTextureSets = new ();
 
         private static SpriteBatch InternalBatch;
         private static int ActiveRowHeight = 0;
@@ -53,8 +56,11 @@ namespace AATool.Graphics
         public static void Update(Time time)
         {
             decimal animationTime = time.TotalFrames / 3;
-            foreach (AnimatedSprite sprite in AnimatedSprites.Values)
-                sprite.Animate(animationTime);
+            lock (AnimatedSprites)
+            {
+                foreach (AnimatedSprite sprite in AnimatedSprites.Values)
+                    sprite.Animate(animationTime);
+            }
         }
 
         public static void Initialize()
@@ -63,30 +69,33 @@ namespace AATool.Graphics
             Atlas = new RenderTarget2D(Main.Device, InitialSize, InitialSize, false,
                 SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 
-            //load textures required at launch
-            string globalSprites = Path.Combine(Paths.System.SpritesFolder, "global");
-            Stack<Texture2D> textures = GetTexturesRecursive(globalSprites);
-            Pack(textures.ToArray());
-            Dispose(textures);
-
-            //register individual white pixel for fast rendering of solid rectangles
-            if (TryGet("pixel", out Sprite pixel))
-                Pixel = pixel;
-
-            //get cached player colors
-            string avatarSprites = Path.Combine(globalSprites, "avatar_cache");
-            textures = GetTexturesRecursive(avatarSprites);
-            foreach (Texture2D texture in textures)
+            lock (LoadedTextureSets)
             {
-                string key = texture.Tag as string;
-                if (string.IsNullOrEmpty(key) || key.Length <= AvatarPrefix.Length)
-                    continue;
+                //load textures required at launch
+                string globalSprites = Path.Combine(Paths.System.SpritesFolder, "global");
+                Stack<Texture2D> textures = GetTexturesRecursive(globalSprites);
+                Pack(textures.ToArray());
+                Dispose(textures);
 
-                string identifier = key.Substring(AvatarPrefix.Length);
-                if (Uuid.TryParse(identifier, out Uuid id))
-                    Player.Cache(id, ColorHelper.GetAccent(texture));
-                else
-                    Player.Cache(identifier, ColorHelper.GetAccent(texture));
+                //register individual white pixel for fast rendering of solid rectangles
+                if (TryGet("pixel", out Sprite pixel))
+                    Pixel = pixel;
+
+                //get cached player colors
+                string avatarSprites = Path.Combine(globalSprites, "avatar_cache");
+                textures = GetTexturesRecursive(avatarSprites);
+                foreach (Texture2D texture in textures)
+                {
+                    string key = texture.Tag as string;
+                    if (string.IsNullOrEmpty(key) || key.Length <= AvatarPrefix.Length)
+                        continue;
+
+                    string identifier = key.Substring(AvatarPrefix.Length);
+                    if (Uuid.TryParse(identifier, out Uuid id))
+                        Player.Cache(id, ColorHelper.GetAccent(texture));
+                    else
+                        Player.Cache(identifier, ColorHelper.GetAccent(texture));
+                }
             }
         }
 
@@ -107,6 +116,18 @@ namespace AATool.Graphics
             }
         }
 
+        public static void Include(string textureSet)
+        {
+            new Thread(() => {
+
+                Require(textureSet);
+
+                if (textureSet is "blocks")
+                    AllBlocks.SpritesLoaded = true;
+
+            }).Start();
+        }
+
         private static bool TryReadTexture(string file, out Texture2D texture)
         {
             try
@@ -123,44 +144,48 @@ namespace AATool.Graphics
 
         public static void Pack(params Texture2D[] textures)
         {
-            //sort textures from largest to smallest, first by height then by width
-            IOrderedEnumerable<Texture2D> sorted = textures
+            lock (AllSprites) 
+            lock (AnimatedSprites)
+            {
+                //sort textures from largest to smallest, first by height then by width
+                IOrderedEnumerable<Texture2D> sorted = textures
                 .OrderBy(texture => -texture.Height)
                 .ThenBy(texture => -texture.Width);
 
-            if (sorted.FirstOrDefault()?.Height > ActiveRowHeight)
-            {
-                //start new row to save space
-                OffsetX = StartX;
-                OffsetY += ActiveRowHeight;
-                ActiveRowHeight = 0;
-            }
+                if (sorted.FirstOrDefault()?.Height > ActiveRowHeight)
+                {
+                    //start new row to save space
+                    OffsetX = StartX;
+                    OffsetY += ActiveRowHeight;
+                    ActiveRowHeight = 0;
+                }
 
-            foreach (Texture2D texture in sorted)
-            {
-                //strip away and parse metadata from filename
-                string key = Sprite.ParseId(texture.Tag.ToString(),
+                foreach (Texture2D texture in sorted)
+                {
+                    //strip away and parse metadata from filename
+                    string key = Sprite.ParseId(texture.Tag.ToString(),
                     out int padding,
                     out int frames,
                     out int columns,
                     out decimal speed);
 
-                //find (semi)optimal position in atlas unless already loaded
-                if (!AllSprites.ContainsKey(key) && Fit(texture, padding, out Rectangle bounds))
-                {
-                    //create new sprite to store metadata
-                    Sprite sprite = frames > 1
+                    //find (semi)optimal position in atlas unless already loaded
+                    if (!AllSprites.ContainsKey(key) && Fit(texture, padding, out Rectangle bounds))
+                    {
+                        //create new sprite to store metadata
+                        Sprite sprite = frames > 1
                         ? AnimatedSprites[key] = new AnimatedSprite(bounds, frames, columns, speed)
                         : new Sprite(bounds);
-                    AllSprites[key] = sprite;
+                        AllSprites[key] = sprite;
 
-                    //store new sprite in texture tag
-                    texture.Tag = sprite;
+                        //store new sprite in texture tag
+                        texture.Tag = sprite;
+                    }
                 }
-            }
 
-            //add new textures to the atlas
-            Render(textures);
+                //add new textures to the atlas
+                Render(textures);
+            }
         }
 
         private static void Render(params Texture2D[] textures)

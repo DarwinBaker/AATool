@@ -11,16 +11,9 @@ namespace AATool.Data.Categories
     public class AllBlocks : Category
     {
         public static readonly List<string> SupportedVersions = new () {
-            "1.16"
+            "1.18",
+            "1.16",
         };
-
-        public static readonly Dictionary<string, int> TotalBlocks = new () {
-            { "1.18", 747 },
-            { "1.16", 651 },
-        };
-
-        public static int GetTotalBlocksFor(string version) =>
-            TotalBlocks.TryGetValue(version ?? string.Empty, out int total) ? total : 0;
 
         public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
         public override IEnumerable<Objective> GetOverlayObjectives() => Tracker.Blocks.All.Values;

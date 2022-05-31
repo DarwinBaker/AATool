@@ -39,53 +39,26 @@ namespace AATool.Data.Objectives
         {
             this.ClearObjectives();
 
-            //load the blocks added in each past game version up to the current game version
-            foreach (string version in AllBlocks.SupportedVersions)
+            string blockFile = Path.Combine(Paths.System.ObjectiveFolder, "blocks.xml");
+            if (!XmlObject.TryGetDocument(blockFile, out XmlDocument document))
+                return;
+
+            //add block groups from this version
+            foreach (XmlNode groupNode in document.DocumentElement?.ChildNodes)
             {
-                string blockFile = Path.Combine(Paths.System.ObjectiveFolder, "blocks.xml");
-                if (!XmlObject.TryGetDocument(blockFile, out XmlDocument document))
+                var group = new List<Block>();
+                foreach (XmlNode blockNode in groupNode?.ChildNodes)
                 {
-                    //error reading a required block file 
-                    this.ClearObjectives();
-                    return;
+                    //skip spacer nodes
+                    if (blockNode.Name is "empty")
+                        continue;
+
+                    //add all blocks in group
+                    var block = new Block(blockNode);
+                    this.All[block.Id] = block;
+                    group.Add(block);
                 }
-
-                //add block groups from this version
-                foreach (XmlNode groupNode in document.DocumentElement?.ChildNodes)
-                {
-                    var group = new List<Block>();
-                    foreach (XmlNode blockNode in groupNode?.ChildNodes)
-                    {
-                        //skip spacer nodes
-                        if (blockNode.Name is "empty")
-                            continue;
-
-                        //remove block from past versions if mojang has since removed it from the game
-                        if (blockNode.Name is "remove")
-                        {
-                            string blockId = XmlObject.Attribute(blockNode, "block", string.Empty);
-                            string groupId = XmlObject.Attribute(blockNode, "group", string.Empty);
-                            if (this.TryGet(blockId, out Block removed))
-                            {
-                                this.All.Remove(blockId);
-                                if (this.TryGetGroup(groupId, out List<Block> removalGroup))
-                                    removalGroup.Remove(removed);
-                            }
-                        }
-                        else
-                        {
-                            //add all blocks in group
-                            var block = new Block(blockNode);
-                            this.All[block.Id] = block;
-                            group.Add(block);
-                        }
-                    }
-                    this.Groups[groupNode.Name] = group;
-                }
-
-                //skip blocks added in versions that came after the currently selected game version
-                if (version == Tracker.Category.CurrentVersion)
-                    return;
+                this.Groups[groupNode.Name] = group;
             }
         }
 

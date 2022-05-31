@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using AATool.Configuration;
 using AATool.Data.Categories;
@@ -27,6 +28,9 @@ namespace AATool.UI.Controls
             { FrameType.Challenge,  "frame_mc_challenge_incomplete"},
             { FrameType.Statistic,  "frame_mc_statistic_incomplete"},
         };
+        private static Color ActiveTint = Color.White;
+        private static Color InactiveTint = Color.Gray * 0.25f;
+        private static Color InactiveIconTint = ColorHelper.Fade(Color.DarkGray, 0.1f);
 
         public Objective Objective { get; private set; }
         public string ObjectiveId { get; private set; }
@@ -45,8 +49,11 @@ namespace AATool.UI.Controls
         private Rectangle detailRectangle;
         private Rectangle detailRectangleSmall;
         private int scale;
+        private string style;
+        private string flag;
         private string completeFrame;
         private string incompleteFrame;
+        private bool onMainScreen;
 
         public bool ObjectiveCompleted => this.Objective?.IsComplete() is true;
         public Point IconCenter => this.icon.Center;
@@ -153,15 +160,15 @@ namespace AATool.UI.Controls
             this.icon.SetTexture(this.Objective?.Icon);
             this.icon.SetLayer(Layer.Fore);
 
-            bool isMainScreen = screen is UIMainScreen mainScreen;
+            this.onMainScreen = screen is UIMainScreen mainScreen;
 
             //set up label
             if (this.label is not null)
             {
                 this.label.Margin = new Margin(0, 0, 26 * this.scale, 0);
 
-                int textSize = isMainScreen ? 12 : 24;
-                if (isMainScreen)
+                int textSize = this.onMainScreen ? 12 : 24;
+                if (this.onMainScreen)
                 {
                     this.label.FlexHeight = Config.Main.UseCompactStyling
                         ? new Size(textSize)
@@ -171,16 +178,16 @@ namespace AATool.UI.Controls
                 {
                     this.label.FlexHeight = new Size(textSize * 2);
                 }
-                if (isMainScreen)
+                if (this.onMainScreen)
                     this.label.SetFont("minecraft", 12);
                 else
                     this.label.SetFont("minecraft", textSize);
 
-                if (Tracker.Category is AllAchievements && isMainScreen)
+                if (Tracker.Category is AllAchievements && this.onMainScreen)
                     this.label.DrawBackground = true;
             }
 
-            if (isMainScreen && Config.Main.UseCompactStyling && Tracker.Category is not (SingleAdvancement or AllBlocks))
+            if (this.onMainScreen && Config.Main.UseCompactStyling && Tracker.Category is not (SingleAdvancement or AllBlocks))
             {
                 //make gap between frames slightly smaller in compact mode
                 this.FlexWidth  = new Size(66);
@@ -195,7 +202,7 @@ namespace AATool.UI.Controls
             }
 
             //add manual override checkbox
-            if (this.Objective is not null && this.Objective.CanBeManuallyChecked && isMainScreen)
+            if (this.Objective is not null && this.Objective.CanBeManuallyChecked && this.onMainScreen)
             {
                 Margin margin = this.Objective is Death
                     ? new Margin(0, -2, -10, 0)
@@ -216,7 +223,8 @@ namespace AATool.UI.Controls
                 this.manualCheck.OnClick += (this.Root() as UIMainScreen).Click;
                 this.AddControl(this.manualCheck);
             }
-            this.UpdateGlowBrightness(null); 
+            this.UpdateGlowBrightness(null);
+            this.UpdateAppearance(true);
         }
 
         public override void ResizeRecursive(Rectangle parent) 
@@ -247,14 +255,30 @@ namespace AATool.UI.Controls
                 this.frame.Height - 8 * this.scale);
         }
 
-        private void UpdateAppearance()
+        private void UpdateAppearance(bool forceUpdate = false)
         {
-            if (this.Root() is not UIOverlayScreen)
+            if (this.onMainScreen)
                 this.label?.SetTextColor(this.IsActive ? Config.Main.TextColor : Config.Main.TextColor.Value * 0.4f);
-            this.icon?.SetTint(this.IsActive ? Color.White : ColorHelper.Fade(Color.DarkGray, 0.1f));
+            this.icon?.SetTint(this.IsActive ? Color.White : InactiveIconTint);
 
-            if (this.Objective is Trident trident)
-                this.icon?.SetTexture(trident.Icon);
+            bool invalidated = this.onMainScreen 
+                ? Config.Main.AppearanceChanged 
+                : Config.Overlay.AppearanceChanged;
+
+            if (invalidated || forceUpdate)
+            {
+                this.style = this.onMainScreen ? Config.Main.FrameStyle : Config.Overlay.FrameStyle;
+                this.style = this.style.ToLower();
+                if (this.style.Contains("pride"))
+                {
+                    this.flag = $"frame_flag_{this.style.Split(' ').First()}";
+                    this.style = "flag";
+                }
+                else
+                {
+                    this.flag = string.Empty;
+                }
+            }
         }
 
         private void UpdateGlowBrightness(Time time)
@@ -268,32 +292,27 @@ namespace AATool.UI.Controls
                 this.glow.Collapse();
 
             float current = this.glow.Brightness;
-            float target = this.Root() is not UIOverlayScreen && Config.Main.FrameStyle == "Modern" 
-                ? 0.15f
-                : 0;
+            float target = this.onMainScreen && Config.Main.FrameStyle == "Modern" 
+                ? 0.15f : 0;
 
             if (this.Objective?.IsComplete() is true)
-            {
                 target = 1;
-            }
             else if (Tracker.Category is HalfPercent && this.Objective is Advancement adv && !adv.UsedInHalfPercent)
-            {
                 target = 0;
-            }
 
-            if (Config.Main.FrameStyle == "None")
+            if (this.style == "none")
                 target /= 1.25f;
 
             if (time is not null)
             {
-                if (Math.Abs(current - target) > 0.01f && this.Root() is UIMainScreen)
+                if (Math.Abs(current - target) > 0.01f && this.onMainScreen)
                     UIMainScreen.Invalidate();
                 float smoothed = MathHelper.Lerp(this.glow.Brightness, target, (float)(10 * time.Delta));
                 this.glow.LerpToBrightness(smoothed);
             }
             else
             {
-                if (Math.Abs(current - target) > 0.01f && this.Root() is UIMainScreen)
+                if (Math.Abs(current - target) > 0.01f && this.onMainScreen)
                     UIMainScreen.Invalidate();
                 this.glow.LerpToBrightness(target);
             }
@@ -354,76 +373,83 @@ namespace AATool.UI.Controls
         {
             bool overlay = this.Root() is UIOverlayScreen;
             float opacity = overlay ? 1 : (this.IsActive ? 0.7f : 0.1f);
-            string style = overlay ? Config.Overlay.FrameStyle : Config.Main.FrameStyle;
 
-            if (style is "Furnace" or "Blazed")
+            if (this.style is "furnace" or "blazed")
             {
                 Color tint = ColorHelper.Fade(Color.White, this.glow.Brightness / (overlay ? 2f : 3f));
                 canvas.Draw($"fire_flat", this.detailRectangle, tint, Layer.Glow);
             }
-            else if (overlay && style is "Eye Spy")
+            else if (overlay && this.style is "eye spy")
             {
                 Color tint = ColorHelper.Fade(Color.White, this.glow.Brightness / 2f);
                 canvas.Draw($"fire_flat", this.detailRectangleSmall, tint, Layer.Glow);
             }
-            if (this.SkipDraw || this.Objective is null || style is "None")
+            if (this.SkipDraw || this.Objective is null || this.style is "none")
                 return;
 
-            switch (style.ToLower())
+            switch (this.style)
             {
                 case "minecraft":
-                    canvas.Draw(this.incompleteFrame, this.frame.Bounds, this.IsActive ? Color.White : Color.Gray * 0.25f);
-                    canvas.Draw(this.completeFrame, this.frame.Bounds, ColorHelper.Fade(Color.White, this.glow.Brightness));
+                    canvas.Draw(this.incompleteFrame, this.frame.Bounds, this.IsActive ? ActiveTint : InactiveTint);
+                    canvas.Draw(this.completeFrame, this.frame.Bounds, ColorHelper.Fade(ActiveTint, this.glow.Brightness));
                     break;
                 case "furnace":
                 case "blazed":
                     canvas.Draw("frame_modern_back", this.frame.Bounds, this.Root().FrameBackColor() * opacity);
                     if (this.IsActive)
                     {
-                        Color brightness = ColorHelper.Fade(Color.White, this.glow.Brightness);
-                        canvas.Draw("frame_furnace_back_complete", this.frame.Bounds, brightness);
+                        Color faded = ColorHelper.Fade(ActiveTint, this.glow.Brightness);
+                        canvas.Draw("frame_furnace_back_complete", this.frame.Bounds, faded);
                         canvas.Draw("frame_modern_border", this.frame.Bounds, this.Root().FrameBorderColor());
-                        canvas.Draw("frame_modern_border_complete", this.frame.Bounds, brightness);
+                        canvas.Draw("frame_modern_border_complete", this.frame.Bounds, faded);
                     }
                     break;
                 case "geode":
-                    canvas.Draw("frame_geode_back", this.frame.Bounds, Color.White);
+                    canvas.Draw("frame_geode_back", this.frame.Bounds, ActiveTint);
                     if (this.IsActive)
                     {
-                        Color brightness = ColorHelper.Fade(Color.White, this.glow.Brightness);
-                        canvas.Draw("frame_geode_back_complete", this.frame.Bounds, brightness);
-                        canvas.Draw("frame_geode_border", this.frame.Bounds, Color.White);
-                        canvas.Draw("frame_geode_border_complete", this.frame.Bounds, brightness);
+                        Color faded = ColorHelper.Fade(ActiveTint, this.glow.Brightness);
+                        canvas.Draw("frame_geode_back_complete", this.frame.Bounds, faded);
+                        canvas.Draw("frame_geode_border", this.frame.Bounds, ActiveTint);
+                        canvas.Draw("frame_geode_border_complete", this.frame.Bounds, faded);
                     }
                     else
                     {
-                        canvas.Draw("frame_geode_border", this.frame.Bounds, Color.White * 0.75f);
+                        canvas.Draw("frame_geode_border", this.frame.Bounds, ActiveTint * 0.75f);
                     }
                     break;
                 case "eye spy":
-                    canvas.Draw("frame_eyespy", this.frame.Bounds, this.IsActive ? Color.White : Color.Gray * 0.25f);
+                    canvas.Draw("frame_eyespy", this.frame.Bounds, this.IsActive ? ActiveTint : InactiveTint);
                     if (this.IsActive)
                     {
-                        Color brightness = ColorHelper.Fade(Color.White, this.glow.Brightness);
-                        canvas.Draw("frame_eyespy_complete", this.frame.Bounds, brightness);
+                        Color faded = ColorHelper.Fade(Color.White, this.glow.Brightness);
+                        canvas.Draw("frame_eyespy_complete", this.frame.Bounds, faded);
                     }
                     break;
-                case "flex":
-                    canvas.Draw("frame_flex_incomplete", this.frame.Bounds, this.IsActive ? Color.White : Color.Gray * 0.25f);
-                    canvas.Draw("frame_flex_complete", this.frame.Bounds, ColorHelper.Fade(Color.White, this.glow.Brightness));
-                    break;
-                case "enchanted":
-                    canvas.Draw("frame_enchanted_incomplete", this.frame.Bounds, this.IsActive ? Color.White : Color.Gray * 0.25f);
-                    canvas.Draw("frame_enchanted_complete", this.frame.Bounds, ColorHelper.Fade(Color.White, this.glow.Brightness));
+                case "flag":
+                    canvas.Draw("frame_flag_shading", this.frame.Bounds, ActiveTint * 0.5f);
+                    if (this.IsActive)
+                    {
+                        Color faded = ColorHelper.Fade(ActiveTint, this.glow.Brightness);
+                        canvas.Draw(this.flag, this.detailRectangle, this.IsActive ? ActiveTint : InactiveTint);
+                        canvas.Draw("frame_modern_back_complete", this.frame.Bounds, faded);
+                        canvas.Draw("frame_modern_border", this.frame.Bounds, ActiveTint);
+                        canvas.Draw("frame_modern_border_complete", this.frame.Bounds, faded);
+                    }
+                    else
+                    {
+                        canvas.Draw("frame_modern_back", this.frame.Bounds, this.Root().FrameBackColor() * opacity);
+                        canvas.Draw("frame_modern_border", this.frame.Bounds, InactiveTint);
+                    }
                     break;
                 default: 
                     canvas.Draw("frame_modern_back", this.frame.Bounds, this.Root().FrameBackColor() * opacity);
                     if (this.IsActive)
                     {
-                        Color brightness = ColorHelper.Fade(Color.White, this.glow.Brightness);
-                        canvas.Draw("frame_modern_back_complete", this.frame.Bounds, brightness);
+                        Color faded = ColorHelper.Fade(Color.White, this.glow.Brightness);
+                        canvas.Draw("frame_modern_back_complete", this.frame.Bounds, faded);
                         canvas.Draw("frame_modern_border", this.frame.Bounds, this.Root().FrameBorderColor());
-                        canvas.Draw("frame_modern_border_complete", this.frame.Bounds, brightness);
+                        canvas.Draw("frame_modern_border_complete", this.frame.Bounds, faded);
                     }
                     break;
             }
@@ -448,26 +474,23 @@ namespace AATool.UI.Controls
                 Color fade = ColorHelper.Fade(Color.White, this.glow.Brightness);
                 if (!this.SkipDraw)
                 {
-                    switch (Config.Main.FrameStyle)
+                    switch (this.style)
                     {
-                        case "Minecraft":
+                        case "minecraft":
                             canvas.Draw(this.completeFrame + "_portrait", this.portraitRectangle, fade);
                             break;
-                        case "Modern":
+                        case "modern":
                             canvas.Draw("frame_modern_portrait", this.portraitRectangle, fade);
                             break;
-                        case "Furnace":
-                        case "Blazed":
+                        case "furnace":
+                        case "blazed":
                             canvas.Draw("frame_furnace_portrait", this.portraitRectangle, fade);
                             break;
-                        case "Geode":
+                        case "geode":
                             canvas.Draw("frame_geode_portrait", this.portraitRectangle, fade);
                             break;
-                        case "Eye Spy":
+                        case "eye spy":
                             canvas.Draw("frame_eyespy_portrait", this.portraitRectangle, fade);
-                            break;
-                        case "Flex":
-                            canvas.Draw("frame_flex_portrait", this.portraitRectangle, fade);
                             break;
                     }
                 }

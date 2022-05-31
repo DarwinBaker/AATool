@@ -55,6 +55,7 @@ namespace AATool
             public const string FontsFolder       = AssetsFolder  + "fonts/";
             public const string AvatarCacheFolder = SpritesFolder + "/global/avatar_cache";
             public const string CreditsFolder     = AssetsFolder  + "credits/";
+            public const string WinformsAssets    = SpritesFolder + "winforms/";
 
             public const string MainIcon = "assets/icons/aatool.ico";
             public const string UpdateIcon = "assets/icons/aaupdate.ico";
@@ -77,8 +78,12 @@ namespace AATool
             public static string LeaderboardFile(string fileName) => 
                 Path.Combine(LeaderboardsFolder, $"{fileName}.csv");
 
-            public static string BlockChecklistFile(string instance, string worldName) => 
-                Path.Combine(BlockChecklistsFolder, $"{instance}{worldName}.txt");
+            public static string BlockChecklistFile(int instance, string worldName)
+            {
+                return instance < 1
+                    ? Path.Combine(BlockChecklistsFolder, $"{worldName}.txt")
+                    : Path.Combine(BlockChecklistsFolder, $"instance_{instance}-{worldName}.txt");
+            }           
         }
 
         public static class Saves
@@ -124,10 +129,16 @@ namespace AATool
             public const string PatreonFull   = "https://www.patreon.com/_ctm";
             public const string PatreonShort  = "Patreon.com/_CTM";
 
-            public const string LeaderboardSpreadsheet = "107ijqjELTQQ29KW4phUmtvYFTX9-pfHsjb18TKoWACk";
-            public const string NicknameSpreadsheet = "1j2APgxS_En7em5lcVF2OWjEvsUY2DHVX4QvdVGhSR_o";
-            public const string PrimaryVersionBoard = "1706556435";
-            public const string OtherVersionsBoard = "1283472797";
+            public const string AASheet = "107ijqjELTQQ29KW4phUmtvYFTX9-pfHsjb18TKoWACk";
+            public const string AAPage16 = "1706556435";
+            public const string AAPageOthers = "1283472797";
+
+            public const string ABSheet = "1RnN6lE3yi5S_5PBuxMXdWNvN3HayP3054M3Qud_p9BU";
+            public const string ABPage18 = "1706556435";
+            public const string ABPage16 = "1572184167";
+
+            public const string NicknameSheet = "1j2APgxS_En7em5lcVF2OWjEvsUY2DHVX4QvdVGhSR_o";
+            public const string PrimaryAAHistory = "735237004";
 
             public static string GetUuidUrl(string mojangName) => 
                 $"https://api.mojang.com/users/profiles/minecraft/{mojangName}";

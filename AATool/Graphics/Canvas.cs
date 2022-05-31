@@ -112,7 +112,7 @@ namespace AATool.Graphics
             }
 
             //render ambient glow effect to viewport if enabled
-            if (Config.Main.ShowAmbientGlow && screen is not UIOverlayScreen)
+            if (Config.Main.ShowAmbientGlow && screen is not UIOverlayScreen && Tracker.Category is not AllBlocks)
                 this.Draw(AmbientGlowTexture, Main.Device.Viewport.Bounds, RainbowStrong * 0.5f, Layer.Glow);
 
             //render lighting and foreground/animated sprites

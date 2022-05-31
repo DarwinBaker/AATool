@@ -60,7 +60,6 @@ namespace AATool
 
         private FNotes notesWindow;
         private bool announceUpdate;
-        private Uuid playerOne;
 
         public Main()
         {
@@ -91,7 +90,7 @@ namespace AATool
             new UpdateRequest().EnqueueOnce();
 
             if (Config.Tracking.Filter == ProgressFilter.Solo)
-                Player.FetchIdentity(Config.Tracking.SoloFilterName);
+                Player.FetchIdentityAsync(Config.Tracking.SoloFilterName);
 
             //check build number of last aatool session
             Version.TryParse(Config.Tracking.LastSession, out Version lastSession);

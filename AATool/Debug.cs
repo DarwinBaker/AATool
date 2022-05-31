@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Management;
+using System.Text;
 
 namespace AATool
 {
     public static class Debug
     {
-        private static readonly Dictionary<string, Stopwatch> Watches = new ();
+        public static readonly Dictionary<string, Stopwatch> Watches = new ();
+        public static readonly Dictionary<string, StringBuilder> Logs = new ();
 
-        public static bool EnableTiming { get; set; } = false;
+        public static bool EnableTiming { get; set; } = true;
+
+        public static string GetLog(string section) => Logs.TryGetValue(section, out StringBuilder log) ? log.ToString() : string.Empty;
 
         public static void BeginTiming(string name)
         {
@@ -29,6 +33,13 @@ namespace AATool
 
             if (Watches.TryGetValue(name, out Stopwatch watch))
                 watch.Stop();
+        }
+
+
+        public static void Log(string section, string message)
+        {
+            if (Logs.TryGetValue(section, out StringBuilder log))
+                log.AppendLine(message);
         }
 
         public static void SaveReport(Exception exception)
