@@ -179,7 +179,7 @@ namespace AATool.UI.Screens
                     //add pickup counters
                     foreach (Pickup pickup in Tracker.Pickups.All.Values.Reverse())
                     {
-                        if (pickup.Id is not (ShulkerShell.ItemId or Mycelium.BlockId))
+                        if (pickup.Id is not (ShulkerShell.ItemId or Mycelium.BlockId or "minecraft:deepslate_emerald_ore"))
                             this.counts.AddControl(new UIObjectiveFrame(pickup, 3));
                     }
                 }

@@ -92,10 +92,10 @@ namespace AATool.UI.Controls
                 _ => this.Version,
             };
 
-            string title = Config.Main.ActiveTab != "tracker"
-                ? $"{this.Category}\n{version}"
-                : $"(Un)-Official {version}\n{Tracker.Category.Acronym} Leaderboard";
-
+            //string title = Config.Main.ActiveTab != "tracker"
+            //    ? $"{this.Category}\n{version}"
+            //    : $"(Un)-Official {version}\n{Tracker.Category.Acronym} Leaderboard";
+            string title = $"(Un)-Official {version}\n{Tracker.Category.Acronym} Leaderboard";
             this.title.SetText(title);
         }
 
