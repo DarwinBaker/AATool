@@ -84,7 +84,7 @@ namespace AATool.UI.Controls
                 DateTime estNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, Leaderboard.TimeZone);
                 int days = (int)(estNow - this.Run.Date).TotalDays;
                 int years = (int)Math.Round(days / 365f);
-                string age = "";
+                string age;
                 if (years < 1)
                 {
                     age = days switch {
@@ -103,8 +103,8 @@ namespace AATool.UI.Controls
             else
             {
                 this.face.SetEmptyLeaderboardSlot();
-                if (Config.Main.ActiveTab != "multiboard")
-                    this.First<UITextBlock>("igt").SetText($"__:__:__");
+                //if (Config.Main.ActiveTab != "multiboard")
+                this.First<UITextBlock>("igt").SetText($"__:__:__");
             }
             this.face.Glow();
             base.InitializeRecursive(screen);
