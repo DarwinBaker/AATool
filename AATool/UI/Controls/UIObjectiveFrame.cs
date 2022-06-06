@@ -431,7 +431,7 @@ namespace AATool.UI.Controls
                     {
                         Color faded = ColorHelper.Fade(ActiveTint, this.glow.Brightness);
                         canvas.Draw(this.flag, this.detailRectangle, this.IsActive ? ActiveTint : InactiveTint);
-                        canvas.Draw("frame_flag_shading", this.frame.Bounds, ActiveTint * 0.5f);
+                        canvas.Draw("frame_flag_shading", this.detailRectangle, ActiveTint * 0.5f);
                         canvas.Draw("frame_modern_back_complete", this.frame.Bounds, faded);
                         canvas.Draw("frame_modern_border", this.frame.Bounds, ActiveTint);
                         canvas.Draw("frame_modern_border_complete", this.frame.Bounds, faded);
