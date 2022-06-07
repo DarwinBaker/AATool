@@ -36,7 +36,7 @@
             <advancement_group group="adventure" row="0" col="4" end="minecraft:adventure/spyglass_at_dragon"/>
             <advancement_group group="adventure" row="1" col="4" start="minecraft:adventure/honey_block_slide" end="minecraft:husbandry/obtain_netherite_hoe"/>
             <advancement_group group="husbandry" row="1" col="1" colspan="3" end="minecraft:husbandry/allay_deliver_cake_to_note_block"/>
-            <advancement_group group="husbandry" row="0" col="3" start="minecraft:husbandry/leash_all_frog_variants"/>
+            <advancement_group group="husbandry" row="0" col="3" start="minecraft:husbandry/froglights"/>
 
             <!-- overworld pickup counts -->
             <flow_panel row="0" col="5">

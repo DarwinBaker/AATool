@@ -25,7 +25,7 @@
             <advancement_group group="adventure" end="minecraft:adventure/spyglass_at_dragon" width="6 * 66" height="3 * 68" margin_left="14 * 66" horizontal_align="left" vertical_align="top"/>
             <advancement_group group="adventure" start="minecraft:adventure/honey_block_slide" width="6 * 66" height="1 * 68" margin_left="14 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
             <advancement_group group="husbandry" end="minecraft:husbandry/allay_deliver_cake_to_note_block" width="10 * 66" height="2 * 68" margin_left="4 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
-            <advancement_group group="husbandry" start="minecraft:husbandry/leash_all_frog_variants" width="66" height="3 * 68" margin_left="13 * 66" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="husbandry" start="minecraft:husbandry/froglights" width="66" height="3 * 68" margin_left="13 * 66" horizontal_align="left" vertical_align="top"/>
         </panel>
 
         <!-- advancements with subcriteria -->

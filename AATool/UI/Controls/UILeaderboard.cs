@@ -119,7 +119,7 @@ namespace AATool.UI.Controls
                 //this.Root().First<UITextBlock>($"ab_wr_{this.Version}_blockrate")?.SetText($"{blocksPerHour} blocks/hr");
                 return;
             }
-            else if (Config.Main.ActiveTab == Config.RunnersTab)
+            else if (Config.Main.ActiveTab == Config.RunnersTab && false)
             {
                 UIFlowPanel list = this.Root().First<UIFlowPanel>("runner_list");
                 if (list is not null)
