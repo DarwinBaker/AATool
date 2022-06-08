@@ -107,7 +107,7 @@ namespace AATool.UI.Controls
 
         private void Populate(Leaderboard board)
         {
-            if (this.Category is "All Blocks" && board.Runs.Any())
+            if (this.Category is "All Blocks" && board.Runs.Any() && this.DrawMode is DrawMode.None)
             {
                 this.Root().First<UIAvatar>($"ab_wr_{this.Version}_avatar")?.SetPlayer(board.Runs[0].Runner);
                 this.Root().First<UIAvatar>($"ab_wr_{this.Version}_avatar")?.RegisterOnLeaderboard(board);
@@ -127,7 +127,7 @@ namespace AATool.UI.Controls
                     list.ClearControls();
                     for (int i = 0; i < board.Runs.Count; i++)
                     {
-                        var control = new UIPersonalBest(board) { FlexWidth = new (140), IsSmall = true };
+                        var control = new UIPersonalBest(board) { FlexWidth = new (150), IsSmall = true };
                         Run submission = board.Runs[i];
                         this.runs[submission.Runner] = control;
                         Player.FetchIdentityAsync(submission.Runner);
@@ -136,6 +136,7 @@ namespace AATool.UI.Controls
                         list.AddControl(control);
                     }
                 }
+                list.ReflowChildren();
                 return;
             }
 
