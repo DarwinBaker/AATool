@@ -314,8 +314,9 @@ namespace AATool.UI.Controls
             this.playerPanel.CellHeight = this.largePlayers
                 ? 16 * scale : 14 * scale;
 
-            this.noPlayerMessage.SetVisibility(Tracker.State.Players.Count is 0 && this.playerPanel.Height > 150);
-            this.singlePlayerMessage.SetVisibility(ids.Count is 1 && this.playerPanel.Height > 150);
+            bool noPlayers = Tracker.State.Players.Count is 0;
+            this.noPlayerMessage.SetVisibility(noPlayers && this.playerPanel.Height > 150);
+            this.singlePlayerMessage.SetVisibility(!noPlayers && ids.Count is 1 && this.playerPanel.Height > 150);
 
             int remainder = required is 1
                 ? this.playerPanel.Width - this.playerPanel.CellWidth
