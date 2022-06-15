@@ -1,19 +1,25 @@
 ﻿using System.Xml;
+using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Progress;
+using AATool.Net;
 
 namespace AATool.Data.Objectives.Pickups
 {
     class EGap : Pickup
     {
         public const string ItemId = "minecraft:enchanted_golden_apple";
-        private const string BalancedDiet = "minecraft:husbandry/balanced_diet";
-        private const string Overpowered = "achievement.overpowered";
-        private const string EnchantedGoldenApple = "enchanted_golden_apple";
+        public const string BalancedDiet = "minecraft:husbandry/balanced_diet";
+        public const string Overpowered = "achievement.overpowered";
+        public const string EnchantedGoldenApple = "enchanted_golden_apple";
+        public const string BannerRecipe = "minecraft:recipes/misc/mojang_banner_pattern";
 
+        public bool Looted { get; private set; }
         public bool Eaten { get; private set; }
 
         public EGap(XmlNode node) : base(node) { }
+
+        public override bool CompletedByAnyone() => base.CompletedByAnyone() || this.Looted;
 
         protected override void HandleCompletionOverrides()
         {
@@ -34,25 +40,35 @@ namespace AATool.Data.Objectives.Pickups
         public override void UpdateState(WorldState progress)
         {
             base.UpdateState(progress);
-            this.CanBeManuallyChecked = !(this.PickedUp > 0 || this.Eaten);
+            if (Config.Tracking.Filter == ProgressFilter.Combined)
+            {
+                this.Looted = progress.AnyoneHasGodApple;
+            }
+            else
+            {
+                Player.TryGetUuid(Config.Tracking.SoloFilterName, out Uuid player);
+                progress.Players.TryGetValue(player, out Contribution individual);
+                this.Looted = individual?.HasGodApple is true;
+            }
+            this.UpdateLongStatus();
         }
 
         protected override void UpdateLongStatus()
         {
             if (this.Eaten)
                 this.FullStatus = "God Apple Eaten";
-            else if (this.PickedUp > 0 || this.ManuallyChecked)
-                this.FullStatus = "Picked\0Up\nGod Apple";
+            else if (this.PickedUp > 0 || this.Looted)
+                this.FullStatus = "Obtained\nGod Apple";
             else
-                this.FullStatus = "Pick\0Up\nGod Apple";
+                this.FullStatus = "Obtain\nGod Apple";
         }
 
         protected override void UpdateShortStatus()
         {
             if (this.Eaten)
                 this.ShortStatus = "Eaten";
-            else if (this.ManuallyChecked)
-                this.ShortStatus = "Checked";
+            else if (this.PickedUp > 0 || this.Looted)
+                this.ShortStatus = "Obtained";
             else
                 base.UpdateShortStatus();
         }

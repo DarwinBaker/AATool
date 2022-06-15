@@ -1,6 +1,7 @@
 ﻿using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
+using AATool.Data.Objectives.Pickups;
 using AATool.Net;
 using AATool.Saves;
 using AATool.Utilities;
@@ -86,7 +87,9 @@ namespace AATool.Data.Progress
 
         [JsonProperty] public int GoldIngotsPickedUp    { get; private set; }
         [JsonProperty] public int GoldIngotsDropped     { get; private set; }
-        
+
+        [JsonProperty] public bool AnyoneHasGodApple    { get; private set; }
+
         public WorldState()
         {
             this.CompletedAdvancements = new ();
@@ -219,6 +222,15 @@ namespace AATool.Data.Progress
                         }
                     }
                 }
+            }
+
+            //detect god apple from chest using mojang banner recipe
+            this.AnyoneHasGodApple = false;
+            if (world.Advancements.TryGetAdvancementCompletions(EGap.BannerRecipe, 
+                out Dictionary<Uuid, DateTime> recipeHolders))
+            {
+                foreach (Uuid id in recipeHolders.Keys)
+                    this.Players[id].HasGodApple = this.AnyoneHasGodApple = true;
             }
         }
 

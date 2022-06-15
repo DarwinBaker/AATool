@@ -18,6 +18,9 @@ namespace AATool.Data.Progress
         [JsonProperty] public readonly Dictionary<string, int> ItemsDropped;
         [JsonProperty] public readonly HashSet<string> BlocksPlaced;
 
+        [JsonProperty] public bool HasGodApple;
+
+        [JsonIgnore]
         public int CompletedCount => this.Advancements.Count;
         
         [JsonConstructor]
