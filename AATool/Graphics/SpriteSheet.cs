@@ -188,6 +188,25 @@ namespace AATool.Graphics
             }
         }
 
+        public static void Replace(string key, Texture2D replacement)
+        {
+            if (TryGet(key, out Sprite existing))
+            {
+                lock (Atlas)
+                {
+                    //create spritebatch and prepare rendertarget
+                    Main.Device.SetRenderTarget(Atlas);
+                    InternalBatch.Begin();
+
+                    //draw over existing texture
+                    InternalBatch.Draw(replacement, existing.Source, Color.White);
+
+                    InternalBatch.End();
+                    Main.Device.SetRenderTarget(null);
+                }
+            }
+        }
+
         private static void Render(params Texture2D[] textures)
         {
             //make sure atlas texture is big enough to render to
