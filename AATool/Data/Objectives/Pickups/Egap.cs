@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Progress;
@@ -50,6 +51,11 @@ namespace AATool.Data.Objectives.Pickups
                 progress.Players.TryGetValue(player, out Contribution individual);
                 this.Looted = individual?.HasGodApple is true;
             }
+
+            if (Version.TryParse(Tracker.Category.CurrentMajorVersion, out Version current))
+            {
+                this.CanBeManuallyChecked = current <= new Version("1.12") && !(this.Looted || this.Eaten);
+            }      
             this.UpdateLongStatus();
         }
 
