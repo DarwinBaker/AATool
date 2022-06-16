@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using AATool.Configuration;
@@ -121,6 +122,7 @@ namespace AATool.UI.Controls
             {
                 //draw text wrapped and aligned in bounding box
                 int blockHeight = this.Font.MeasureString(this.WrappedText).ToPoint().Y;
+                int baseHeight = this.Font.MeasureString("A").ToPoint().Y;
                 float y = this.VerticalTextAlign switch
                 {
                     VerticalAlign.Center => this.Inner.Top + this.Margin.Top + (this.Inner.Height / 2) - (blockHeight / 2),
@@ -142,7 +144,7 @@ namespace AATool.UI.Controls
                     canvas.DrawString(this.Font, line, new Vector2(x, y), color, this.Layer);
                     
                     //next line
-                    y += lineSize.Y;
+                    y += Math.Min(lineSize.Y, baseHeight);
                 }
             }
         }
