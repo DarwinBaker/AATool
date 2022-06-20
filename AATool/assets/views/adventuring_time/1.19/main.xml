@@ -7,7 +7,7 @@
         </rows>
         <columns>
             <column width="0" collapsed="true"/>
-            <column width="900"/>
+            <column width="990"/>
         </columns>
 
         <grid row="0" col="1" drawmode="all">
@@ -20,6 +20,7 @@
                 <column width="5 * 90"/>
                 <column width="2 * 90"/>
                 <column width="3 * 90"/>
+                <column width="1 * 90"/>
             </columns>
 
             <!-- forest/plains -->
@@ -104,6 +105,12 @@
                 <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:deep_frozen_ocean"/>
                 <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:deep_lukewarm_ocean"/>
                 <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:beach"/>       
+            </flow_panel>
+
+            <!-- wild update -->
+            <flow_panel col="3" rowspan="3" cell_width="90">
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:mangrove_swamp"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:deep_dark"/>
             </flow_panel>
         </grid>
 

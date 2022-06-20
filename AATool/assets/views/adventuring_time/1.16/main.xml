@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <rows>
+            <row height="424"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="0" collapsed="true"/>
+            <column width="810"/>
+        </columns>
+
+        <grid row="0" col="1" drawmode="all">
+            <rows>
+                <row height="168"/>
+                <row height="88"/>
+                <row height="168"/>
+            </rows>
+            <columns>
+                <column width="4 * 90"/>
+                <column width="2 * 90"/>
+                <column width="3 * 90"/>
+            </columns>
+
+            <!-- forest/plains -->
+            <flow_panel row="0" col="0" cell_width="90">
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:plains"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:forest"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:birch_forest"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:dark_forest"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:river"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:wooded_hills"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:birch_forest_hills"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:swamp"/>
+            </flow_panel>
+
+            <!-- taiga -->
+            <flow_panel row="1" col="0" cell_width="90">
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:taiga"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:taiga_hills"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:giant_tree_taiga"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:giant_tree_taiga_hills"/>
+            </flow_panel>
+
+            <!-- snowy -->
+            <flow_panel row="2" col="0" cell_width="90">
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:snowy_taiga"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:snowy_taiga_hills"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:snowy_tundra"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:snowy_mountains"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:frozen_river"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:wooded_mountains"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:mountains"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:stone_shore"/>
+            </flow_panel>
+
+            <!-- dry -->
+            <flow_panel row="0" col="1" cell_width="90">
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:desert"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:desert_hills"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:savanna"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:savanna_plateau"/>
+            </flow_panel>
+
+            <!-- mushroom island -->
+            <flow_panel row="1" col="1" cell_width="90">
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:mushroom_fields"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:mushroom_field_shore"/>
+            </flow_panel>
+            
+            <panel row="0" col="2" rowspan="2" draw_mode="thisonly"></panel>
+
+            <!-- rare -->
+            <flow_panel row="0" col="2" rowspan="2" cell_width="90" draw_mode="childrenonly" direction="toptobottom">
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:badlands"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:badlands_plateau"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:wooded_badlands_plateau"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:jungle"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:jungle_edge"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:jungle_hills"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:bamboo_jungle"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:bamboo_jungle_hills"/>
+            </flow_panel>
+
+            <!-- ocean -->
+            <flow_panel row="2" col="1" colspan="2" cell_width="90" direction="toptobottom">
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:beach"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:snowy_beach"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:cold_ocean"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:deep_frozen_ocean" name="Deep&#160;Frozen&#160;Ocean"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:warm_ocean"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:deep_cold_ocean" name="Deep&#160;Cold&#160;Ocean"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:lukewarm_ocean"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:deep_lukewarm_ocean" name="Deep&#160;Lukewarm&#160;Ocean"/>
+            </flow_panel>
+        </grid>
+
+        <!-- status strip -->
+        <status_bar row="1" col="1" colspan="3" right="182"/>
+    </grid>
+</control>

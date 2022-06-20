@@ -8,7 +8,9 @@ namespace AATool.Data.Categories
         private const string Id = "minecraft:adventure/adventuring_time";
 
         public static readonly List<string> SupportedVersions = new () {
-            "1.18"
+            "1.19",
+            "1.18",
+            "1.16",
         };
 
         public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
