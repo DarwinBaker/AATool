@@ -14,11 +14,14 @@ namespace AATool
     {
         public static MouseState MouseNow  { get; private set; }
         public static MouseState MousePrev { get; private set; }
-        public static KeyboardState KeyboardCurrent  { get; private set; }
-        public static KeyboardState KeyboardPrevious { get; private set; }
+        public static KeyboardState KeyboardNow  { get; private set; }
+        public static KeyboardState KeyboardPrev { get; private set; }
 
-        private static Keys[] KeysNow;
-        private static Keys[] KeysPrev;
+        public static Keys[] KeysNow  { get; private set; }
+        public static Keys[] KeysPrev { get; private set; }
+
+        public static int ScrollNow  { get; private set; }
+        public static int ScrollPrev { get; private set; }
 
         public static bool LeftClicked => !LeftClicking && MousePrev.LeftButton is ButtonState.Pressed;
         public static bool LeftClicking => MouseNow.LeftButton is ButtonState.Pressed;
@@ -28,12 +31,19 @@ namespace AATool
         public static Point Cursor(UIScreen screen)
         {
             if (screen == Main.PrimaryScreen)
-                return MouseNow.Position / new Point(Config.Main.DisplayScale);
-
-            //normalize cursor position on secondary windows
-            return new Point(
-                MouseNow.Position.X + Main.PrimaryScreen.Form.Location.X - screen.Form.Location.X,
-                MouseNow.Position.Y + Main.PrimaryScreen.Form.Location.Y - screen.Form.Location.Y);
+            {
+                //normalize cursor position to primary window viewport
+                float ratioX = (float)screen.Width / screen.GraphicsDevice.Viewport.Width;
+                float ratioY = (float)screen.Height / screen.GraphicsDevice.Viewport.Height;
+                return new Point((int)(MouseNow.X * ratioX), (int)(MouseNow.Y * ratioY));
+            }
+            else
+            {
+                //normalize cursor position on secondary windows
+                return new Point(
+                    MouseNow.Position.X + Main.PrimaryScreen.Form.Location.X - screen.Form.Location.X,
+                    MouseNow.Position.Y + Main.PrimaryScreen.Form.Location.Y - screen.Form.Location.Y);
+            }
         }
 
         public static bool IsDown(Keys key) => KeysNow.Contains(key);
@@ -41,28 +51,34 @@ namespace AATool
         public static bool Ended(Keys key) => WasDown(key) && !IsDown(key);
         public static bool Started(Keys key) => IsDown(key) && !WasDown(key);
 
+        public static bool ScrolledUp() => ScrollNow > ScrollPrev;
+        public static bool ScrolledDown() => ScrollNow < ScrollPrev;
+
         public static void BeginUpdate(bool active)
         {
             if (active)
             {
                 MouseNow = Mouse.GetState();
-                KeyboardCurrent = Keyboard.GetState();
-                KeysNow = KeyboardCurrent.GetPressedKeys();
-                KeysPrev = KeyboardPrevious.GetPressedKeys();
+                KeyboardNow = Keyboard.GetState();
+                KeysNow = KeyboardNow.GetPressedKeys();
+                KeysPrev = KeyboardPrev.GetPressedKeys();
+                ScrollNow = MouseNow.ScrollWheelValue;
             }
             else
             {
                 MouseNow = default;
-                KeyboardCurrent = default;
+                KeyboardNow = default;
                 KeysNow = new Keys[0];
                 KeysPrev = new Keys[0];
+                ScrollNow = ScrollPrev;
             }
         }
 
         public static void EndUpdate()
         {
             MousePrev = MouseNow;
-            KeyboardPrevious = KeyboardCurrent;
+            KeyboardPrev = KeyboardNow;
+            ScrollPrev = ScrollNow;
         }
     }
 }
