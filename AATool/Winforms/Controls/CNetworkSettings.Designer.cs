@@ -233,16 +233,27 @@ namespace AATool.Winforms.Controls
             // 
             this.pronouns.FormattingEnabled = true;
             this.pronouns.Items.AddRange(new object[] {
+            "Ae/Aer",
+            "Any",
+            "E/Em",
+            "Fae/Faer",
             "He/Him",
+            "He/She",
+            "He/They",
+            "It/Its",
+            "Per/Per",
             "She/Her",
+            "She/They",
             "They/Them",
+            "Ve/Ver",
+            "Xe/Xem",
+            "Zie/Hir",
             "Write Your Own"});
             this.pronouns.Location = new System.Drawing.Point(217, 38);
             this.pronouns.Name = "pronouns";
             this.pronouns.Size = new System.Drawing.Size(86, 21);
             this.pronouns.TabIndex = 3;
-            this.pronouns.Text = "He/Him";
-            this.pronouns.SelectedIndexChanged += new System.EventHandler(this.OnTextChanged);
+            this.pronouns.TextChanged += new System.EventHandler(this.OnTextChanged);
             // 
             // label2
             // 

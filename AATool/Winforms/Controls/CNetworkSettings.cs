@@ -55,16 +55,19 @@ namespace AATool.Winforms.Controls
 
         private void SaveSettings()
         {
-            Config.Net.MinecraftName.Set(this.mojangName.Text);
-            Config.Net.PreferredName.Set(this.displayName.Text);
-            Config.Net.Pronouns.Set(this.pronouns.Text);
-            Config.Net.IP.Set(this.ip.Text);
-            if (int.TryParse(this.port.Text, out int portNumber))
-                Config.Net.Port.Set(portNumber);
-            Config.Net.Password.Set(this.password.Text);
-            Config.Net.IsServer.Set(this.networkType.Text.ToLower() is "server");
-            Config.Net.AutoServerIP.Set(this.autoServerIP.Checked);
-            Config.Net.Save();
+            if (this.loaded)
+            {
+                Config.Net.MinecraftName.Set(this.mojangName.Text);
+                Config.Net.PreferredName.Set(this.displayName.Text);
+                Config.Net.Pronouns.Set(this.pronouns.Text);
+                Config.Net.IP.Set(this.ip.Text);
+                if (int.TryParse(this.port.Text, out int portNumber))
+                    Config.Net.Port.Set(portNumber);
+                Config.Net.Password.Set(this.password.Text);
+                Config.Net.IsServer.Set(this.networkType.Text.ToLower() is "server");
+                Config.Net.AutoServerIP.Set(this.autoServerIP.Checked);
+                Config.Net.Save();
+            }
         }
 
         private void ToggleIP()
@@ -171,6 +174,7 @@ namespace AATool.Winforms.Controls
             }
             if (this.loaded)
                 this.UpdateEnabledStates();
+            this.SaveSettings();
         }
 
         private void OnCheckChanged(object sender, EventArgs e)
@@ -297,11 +301,12 @@ namespace AATool.Winforms.Controls
 
         private void OnTextChanged(object sender, EventArgs e)
         {
-            if (sender is ComboBox box && box.Text.ToLower() is "write your own")
+            if (sender == this.pronouns && this.pronouns.Text.ToLower() is "write your own")
             {
-                box.SelectedIndex = -1;
-                box.Text = "";
+                this.pronouns.SelectedIndex = -1;
+                this.pronouns.Text = "";
             }
+            this.SaveSettings();
         }
 
         private void OnLoad(object sender, EventArgs e) => Peer.BindController(this);
