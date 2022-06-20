@@ -57,8 +57,7 @@ namespace AATool.Net
                     if (string.IsNullOrEmpty(response))
                         return Uuid.Empty;
 
-                    string uuid = JObject.Parse(response)["id"].ToString();
-                    if (Uuid.TryParse(uuid, out id))
+                    if (Uuid.TryParse(response, out id))
                     {
                         Cache(id, name);
                         new AvatarRequest(id).EnqueueOnce();
@@ -85,14 +84,12 @@ namespace AATool.Net
 
         public static void Cache(Uuid id, Color color)
         {
-            if (!IdColorCache.ContainsKey(id))
-                IdColorCache[id] = color;
+            IdColorCache[id] = color;
         }
 
         public static void Cache(string name, Color color)
         {
-            if (!NameColorCache.ContainsKey(name))
-                NameColorCache[name] = color;
+            NameColorCache[name] = color;
         }
 
         public static void FetchIdentityAsync(Uuid id)
