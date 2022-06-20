@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
@@ -20,6 +21,7 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<bool> ClarifyAmbiguous = new (true);
 
             [JsonProperty] public readonly Setting<string> FrameStyle = new ("Minecraft");
+            [JsonProperty] public readonly Setting<string> PrideFrameList = new (string.Empty);
 
             [JsonProperty] public readonly Setting<int> Speed = new (2);
             [JsonProperty] public readonly Setting<int> Width = new (1920);
@@ -34,7 +36,7 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<int> StartupDisplay = new (1);
 
             [JsonIgnore]
-            public bool AppearanceChanged => this.Enabled.Changed 
+            public bool AppearanceChanged => this.Enabled.Changed
                 || this.FrameStyle.Changed
                 || this.CustomBackColor.Changed
                 || this.CustomBorderColor.Changed;
@@ -50,6 +52,8 @@ namespace AATool.Configuration
             private static Color Hex(string hex) =>
                 ColorHelper.TryGetHexColor(hex, out Color color) ? color : Color.White;
 
+            [JsonIgnore] private string[] prideStyles;
+            [JsonIgnore] private int styleIndex;
 
             public OverlayConfig()
             {
@@ -57,20 +61,49 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.ShowLabels);
                 this.RegisterSetting(this.ShowCriteria);
                 this.RegisterSetting(this.ShowPickups);
+
                 this.RegisterSetting(this.RightToLeft);
                 this.RegisterSetting(this.PickupsOpposite);
                 this.RegisterSetting(this.FrameStyle);
+                this.RegisterSetting(this.PrideFrameList);
+
                 this.RegisterSetting(this.Speed);
                 this.RegisterSetting(this.Width);
+
                 this.RegisterSetting(this.GreenScreen);
                 this.RegisterSetting(this.CustomTextColor);
                 this.RegisterSetting(this.CustomBackColor);
                 this.RegisterSetting(this.CustomBorderColor);
+
                 this.RegisterSetting(this.ShowIgt);
                 this.RegisterSetting(this.ClarifyAmbiguous);
+
                 this.RegisterSetting(this.StartupArrangement);
                 this.RegisterSetting(this.StartupDisplay);
                 this.RegisterSetting(this.LastWindowPosition);
+            }
+
+            public void SetPrideList(string csv)
+            {
+                this.PrideFrameList.Set(csv);
+                this.prideStyles = csv.Split(',');
+            }
+
+            public string GetActiveFrameStyle(string currentStyle)
+            {
+                this.prideStyles ??= this.PrideFrameList.Value.Split(',');
+                if (this.FrameStyle == "Multi-Pride" && this.prideStyles.Any())
+                {
+                    if (!string.IsNullOrEmpty(currentStyle) && this.prideStyles.Contains(currentStyle))
+                        return currentStyle;
+
+                    if (this.styleIndex >= this.prideStyles.Length)
+                        this.styleIndex = 0;
+                    string style = this.prideStyles[this.styleIndex];
+                    this.styleIndex++;
+                    return style;
+                }
+                return this.FrameStyle;
             }
 
             protected override void ApplyLegacySetting(string key, object value)

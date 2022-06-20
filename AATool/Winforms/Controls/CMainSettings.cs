@@ -123,8 +123,7 @@ namespace AATool.Winforms.Controls
                 using (var dialog = new FStyleDialog(false))
                 {
                     dialog.ShowDialog();
-                    if (dialog.SelectedFrame is not null)
-                        this.frameStyle.Text = dialog.SelectedFrame;
+                    this.frameStyle.Text = Config.Main.FrameStyle;
                     this.SaveSettings();
                 }
             }

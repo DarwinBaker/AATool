@@ -224,7 +224,9 @@ namespace AATool.UI.Controls
                 this.AddControl(this.manualCheck);
             }
             this.UpdateGlowBrightness(null);
-            this.UpdateAppearance(true);
+
+            if (!this.onMainScreen)
+                this.UpdateAppearance(true);
         }
 
         public override void ResizeRecursive(Rectangle parent) 
@@ -253,6 +255,9 @@ namespace AATool.UI.Controls
                 this.frame.Top + 4 * this.scale,
                 this.frame.Width - 8 * this.scale,
                 this.frame.Height - 8 * this.scale);
+
+            if (this.onMainScreen)
+                this.UpdateAppearance(true);
         }
 
         private void UpdateAppearance(bool forceUpdate = false)
@@ -262,12 +267,15 @@ namespace AATool.UI.Controls
             this.icon?.SetTint(this.IsActive ? Color.White : InactiveIconTint);
 
             bool invalidated = this.onMainScreen 
-                ? Config.Main.AppearanceChanged 
+                ? Config.Main.AppearanceChanged
                 : Config.Overlay.AppearanceChanged;
 
             if (invalidated || forceUpdate)
             {
-                this.style = this.onMainScreen ? Config.Main.FrameStyle : Config.Overlay.FrameStyle;
+                this.style = this.onMainScreen 
+                    ? Config.Main.GetActiveFrameStyle(this.Center.X, this.Center.Y) 
+                    : Config.Overlay.GetActiveFrameStyle(this.style);
+
                 this.style = this.style.ToLower();
                 if (this.style.Contains("pride"))
                 {

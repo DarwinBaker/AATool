@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using AATool.Data.Categories;
 using AATool.Utilities;
@@ -60,6 +61,7 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<bool> HideRenderCache = new (false);
 
             [JsonProperty] public readonly Setting<string> FrameStyle = new ("Modern");
+            [JsonProperty] public readonly Setting<string> PrideFrameList = new (string.Empty);
             [JsonProperty] public readonly Setting<string> ProgressBarStyle = new ("Modern");
             [JsonProperty] public readonly Setting<string> RefreshIcon = new ("Xp Orb");
             [JsonProperty] public readonly Setting<string> InfoPanel = new ("Leaderboard");
@@ -89,12 +91,15 @@ namespace AATool.Configuration
                 || this.BorderColor.Changed
                 || this.BackColor.Changed
                 || this.TextColor.Changed
-                || this.ProgressBarStyle.Changed;
+                || this.ProgressBarStyle.Changed
+                || this.PrideFrameList.Changed;
 
             [JsonIgnore]
             private static bool MonitorSupportsRelaxed =>
                 Screen.PrimaryScreen.Bounds.Width >= 1600
                 && Screen.PrimaryScreen.Bounds.Height >= 900;
+
+            [JsonIgnore] private string[] prideStyles;
 
             protected override string GetId() => "main";
             protected override string GetLegacyId() => "main";
@@ -120,6 +125,7 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.CacheDebugMode);
 
                 this.RegisterSetting(this.FrameStyle);
+                this.RegisterSetting(this.PrideFrameList);
                 this.RegisterSetting(this.ProgressBarStyle);
                 this.RegisterSetting(this.RefreshIcon);
                 this.RegisterSetting(this.InfoPanel);
@@ -131,6 +137,28 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.StartupArrangement);
                 this.RegisterSetting(this.StartupDisplay);
                 this.RegisterSetting(this.LastWindowPosition);
+            }
+
+            public void SetPrideList(string csv)
+            {
+                this.PrideFrameList.Set(csv);
+                this.prideStyles = csv.Split(',');
+            }
+
+            public string GetActiveFrameStyle(int x, int y)
+            {
+                int col = x / (this.Layout == CompactLayout ? 60 : 68);
+                int row = y / (this.Layout == CompactLayout ? 72 : 84);
+                this.prideStyles ??= this.PrideFrameList.Value.Split(',');
+                if (this.FrameStyle == "Multi-Pride" && this.prideStyles.Any())
+                {
+                    int index = (col + row) % this.prideStyles.Length;
+                    return this.prideStyles[index];
+                }
+                else
+                {
+                    return this.FrameStyle;
+                }
             }
 
             protected override void MigrateDepricatedConfigs()

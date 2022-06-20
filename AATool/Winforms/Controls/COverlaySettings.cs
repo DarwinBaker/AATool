@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Utilities;
@@ -117,8 +115,7 @@ namespace AATool.Winforms.Controls
                 using (var dialog = new FStyleDialog(true))
                 {
                     dialog.ShowDialog();
-                    if (dialog.SelectedFrame is not null)
-                        this.frameStyle.Text = dialog.SelectedFrame;
+                    this.frameStyle.Text = Config.Overlay.FrameStyle;
                 }
             }
             this.SaveSettings();
