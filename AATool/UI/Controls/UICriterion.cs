@@ -53,7 +53,7 @@ namespace AATool.UI.Controls
                 this.FlexWidth = new Size(95, SizeMode.Absolute);
 
             this.icon = this.First<UIPicture>("icon");
-            if (this.icon is not null)
+            if (this.icon is not null && this.criterion is not null)
             {
                 this.icon.SetTexture(this.criterion.Icon);
                 this.icon.FlexWidth  = new Size(this.imageSize, SizeMode.Absolute);
