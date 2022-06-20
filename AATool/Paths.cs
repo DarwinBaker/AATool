@@ -134,17 +134,18 @@ namespace AATool
             public const string AAPageOthers = "1283472797";
 
             public const string ABSheet = "1RnN6lE3yi5S_5PBuxMXdWNvN3HayP3054M3Qud_p9BU";
+            public const string ABPage19 = "__________";
             public const string ABPage18 = "1706556435";
             public const string ABPage16 = "1572184167";
 
             public const string NicknameSheet = "1j2APgxS_En7em5lcVF2OWjEvsUY2DHVX4QvdVGhSR_o";
             public const string PrimaryAAHistory = "735237004";
 
-            public static string GetUuidUrl(string mojangName) => 
-                $"https://api.mojang.com/users/profiles/minecraft/{mojangName}";
+            public static string GetUuidUrl(string name) => 
+                $"https://minecraft-api.com/api/uuid/{name}";
 
             public static string GetNameUrl(string uuid) => 
-                $"https://api.mojang.com/user/profiles/{uuid}/names";
+                $"https://minecraft-api.com/api/pseudo/{uuid.Replace("-", "")}";
 
             public static string GetAvatarUrl(string uuid, int size = 16) => 
                 $"https://crafatar.com/avatars/{uuid}?size={size}&overlay=true";

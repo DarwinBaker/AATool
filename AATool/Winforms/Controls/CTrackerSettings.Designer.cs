@@ -258,7 +258,7 @@ namespace AATool.Winforms.Controls
             this.groupBox3.Controls.Add(this.worldRemote);
             this.groupBox3.Location = new System.Drawing.Point(3, 90);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(107, 83);
+            this.groupBox3.Size = new System.Drawing.Size(107, 96);
             this.groupBox3.TabIndex = 29;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "World Type";
@@ -491,6 +491,7 @@ namespace AATool.Winforms.Controls
             this.category.Items.AddRange(new object[] {
             "All Advancements",
             "All Achievements",
+            "All Blocks",
             "Half Percent",
             "Adventuring Time",
             "Monsters Hunted",
@@ -559,16 +560,17 @@ namespace AATool.Winforms.Controls
             this.groupBox5.Controls.Add(this.filterSolo);
             this.groupBox5.Controls.Add(this.filterCombined);
             this.groupBox5.Controls.Add(this.filterSoloName);
-            this.groupBox5.Location = new System.Drawing.Point(3, 179);
+            this.groupBox5.Location = new System.Drawing.Point(3, 192);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(107, 125);
+            this.groupBox5.Size = new System.Drawing.Size(107, 112);
             this.groupBox5.TabIndex = 70;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Player Filtering";
             // 
             // soloAvatar
             // 
-            this.soloAvatar.Location = new System.Drawing.Point(86, 99);
+            this.soloAvatar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.soloAvatar.Location = new System.Drawing.Point(86, 86);
             this.soloAvatar.Name = "soloAvatar";
             this.soloAvatar.Size = new System.Drawing.Size(16, 16);
             this.soloAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -577,8 +579,9 @@ namespace AATool.Winforms.Controls
             // 
             // label10
             // 
+            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(4, 81);
+            this.label10.Location = new System.Drawing.Point(4, 68);
             this.label10.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(82, 13);
@@ -613,7 +616,8 @@ namespace AATool.Winforms.Controls
             // 
             // filterSoloName
             // 
-            this.filterSoloName.Location = new System.Drawing.Point(7, 97);
+            this.filterSoloName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.filterSoloName.Location = new System.Drawing.Point(7, 84);
             this.filterSoloName.Name = "filterSoloName";
             this.filterSoloName.Size = new System.Drawing.Size(76, 20);
             this.filterSoloName.TabIndex = 72;

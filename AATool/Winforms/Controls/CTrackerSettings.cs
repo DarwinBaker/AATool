@@ -291,7 +291,7 @@ namespace AATool.Winforms.Controls
                 try
                 {
                     //asynchronously pull player avatar from the internet
-                    string url = Paths.Web.GetAvatarUrl(id.ToString());
+                    string url = Paths.Web.GetAvatarUrl(id.String);
                     using HttpClient http = new ();
                     using HttpResponseMessage responce = await http.GetAsync(new Uri(url), cancelToken ?? CancellationToken.None);
                     using Stream stream = await responce.Content.ReadAsStreamAsync();
