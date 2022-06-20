@@ -49,7 +49,7 @@ namespace AATool.Data.Speedrunning
         public static string GetKey(string category, string version)
         {
             if (category is "All Blocks")
-                return version is "1.16" ? "leaderboard_all_blocks_1.16" : "leaderboard_all_blocks_1.18";
+                return $"leaderboard_all_blocks_{version}";
             return version is "1.16" ? "leaderboard_aa_primary" : "leaderboard_aa_others";
         }
 
@@ -117,6 +117,8 @@ namespace AATool.Data.Speedrunning
                 versions = new() { "1.16" };
             else if (pageId is Paths.Web.ABPage18)
                 versions = new() { "1.18" };
+            else if (pageId is Paths.Web.ABPage19)
+                versions = new() { "1.19" };
             else
                 versions = new () { "1.19", "1.18", "1.17", "1.15", "1.14", "1.13", "1.12", "1.11", "1.6" };
 
