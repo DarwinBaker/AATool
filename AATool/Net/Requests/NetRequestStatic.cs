@@ -14,6 +14,13 @@ namespace AATool.Net
         private static readonly HashSet<string> Submitted = new ();
         private static readonly Timer RequestDelay = new (Protocol.Requests.UpdateRate);
 
+        public static int CompletedCount => Completed.Count;
+        public static int TimedOutCount => TimedOut.Count;
+        public static int AbandonedCount => Abandoned.Count;
+        public static int PendingCount => Pending.Count;
+        public static int ActiveCount => Active.Count;
+        public static int SubmittedCount => Submitted.Count;
+
         private static void Enqueue(NetRequest request)
         {
             //add request to pending queue if unique

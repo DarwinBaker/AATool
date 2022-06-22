@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AATool.Utilities;
@@ -7,14 +8,18 @@ namespace AATool.Net
 {
     public abstract partial class NetRequest
     {
-        public const string DebugSection = "requests";
+        public const string Incoming = "->";
+        public const string Outgoing = "<-";
 
         protected string Url;
 
         private int failures;
+        private Stopwatch stopwatch;
         private readonly Timer cooldown;
 
         private bool IsOnCooldown => this.cooldown.IsRunning;
+
+        protected string ResponseTime => $"{this.stopwatch?.ElapsedMilliseconds ?? 0} ms";
 
         public NetRequest(string url)
         {
@@ -27,6 +32,14 @@ namespace AATool.Net
         public abstract Task<bool> DownloadAsync();
 
         private void Complete() => Completed.Add(this.Url);
+
+        protected void BeginTiming()
+        {
+            this.stopwatch = new Stopwatch();
+            this.stopwatch.Start();
+        }
+
+        protected void EndTiming() => this.stopwatch.Stop();
 
         private void UpdateCooldown(Time time)
         {
