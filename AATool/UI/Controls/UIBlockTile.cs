@@ -212,6 +212,8 @@ namespace AATool.UI.Controls
                     this.glowMain.SetTexture("sea_lantern_glow");
                 else if (this.BlockId is "minecraft:lantern" || this.BlockId.Contains("torch") || this.BlockId.Contains("campfire"))
                     this.glowMain.SetTexture("shroomlight_glow");
+                else if (this.BlockId.Contains("sculk"))
+                    this.glowMain.SetTexture("sculk_glow");
                 else
                     this.glowMain.SetTexture(this.BlockId.Replace("minecraft:", "") + "_glow");
                 this.icon.AddControl(this.glowMain);

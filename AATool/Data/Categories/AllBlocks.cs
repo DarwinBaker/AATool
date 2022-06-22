@@ -11,6 +11,7 @@ namespace AATool.Data.Categories
     public class AllBlocks : Category
     {
         public static readonly List<string> SupportedVersions = new () {
+            "1.19",
             "1.18",
             "1.16",
         };

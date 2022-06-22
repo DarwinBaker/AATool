@@ -17,7 +17,7 @@ namespace AATool.UI.Controls
         const int LinePadding = 64;
 
         private Timeline run;
-        private List<Advancement> sortedAdvancements;
+        private List<Objective> sortedObjectives;
         private List<(UIControl control, Objective objective, float currentX, float targetX)> items;
 
 
@@ -94,7 +94,7 @@ namespace AATool.UI.Controls
         private int GetNormalizedX(int index)
         {
             //int range = (int)Math.Ceiling(this.run.Events.Count / 2f);
-            int range = this.sortedAdvancements.Count;
+            int range = this.sortedObjectives.Count;
             float scaled = (float)index / range;
             return this.lineRectangle.Left + (int)((this.lineRectangle.Width - 64) * scaled);
         }
@@ -102,12 +102,12 @@ namespace AATool.UI.Controls
         public UITimeline() : base()
         {
             this.items = new ();
-            this.sortedAdvancements = new ();
+            this.sortedObjectives = new ();
         }
 
-        private static void Sort(IList<Advancement> list, out DateTime first, out DateTime last)
+        private static void Sort(IList<Objective> list, out DateTime first, out DateTime last)
         {
-            Advancement temp;
+            Objective temp;
             int minIndex;
             //sort advancements by order completed
             for (int i = 0; i < list.Count - 1; i++)
@@ -135,21 +135,30 @@ namespace AATool.UI.Controls
             if (Tracker.Advancements.Count is 0)
                 return;
 
-            this.sortedAdvancements = Tracker.Advancements.AllAdvancements.Values.ToList();
-            Sort(this.sortedAdvancements, out this.start, out this.end);
+            this.sortedObjectives.Clear();
+            foreach (Advancement advancement in Tracker.Advancements.AllAdvancements.Values)
+            { 
+                this.sortedObjectives.Add(advancement);
+                if (advancement.HasCriteria && advancement.Id is "minecraft:adventure/adventuring_time")
+                {
+                    foreach (Criterion criterion in advancement.Criteria.All.Values)
+                        this.sortedObjectives.Add(criterion);
+                }
+            }
+            Sort(this.sortedObjectives, out this.start, out this.end);
 
             //remove unimportant advancements
-            for (int i = this.sortedAdvancements.Count - 1; i > 0; i--)
+            for (int i = this.sortedObjectives.Count - 1; i > 0; i--)
             {
-                if (!important.Contains(this.sortedAdvancements[i].Id) || !this.sortedAdvancements[i].IsComplete())
-                    this.sortedAdvancements.RemoveAt(i);
+                //if (!important.Contains(this.sortedAdvancements[i].Id) || !this.sortedAdvancements[i].IsComplete())
+                //    this.sortedAdvancements.RemoveAt(i);
             }
 
-            for (int i = 0; i < this.sortedAdvancements.Count; i++)
-            { 
-                var picture = new UITimelineEvent(this.sortedAdvancements[i], this.start, i % 2 is 0);
+            for (int i = 0; i < this.sortedObjectives.Count; i++)
+            {
+                var picture = new UITimelineEvent(this.sortedObjectives[i], this.start, i % 2 is 0);
                 picture.InitializeRecursive(this.Root());
-                this.items.Add((picture, this.sortedAdvancements[i], 0, 0));
+                this.items.Add((picture, this.sortedObjectives[i], 0, 0));
                 this.AddControl(picture);
             }
         }
@@ -192,7 +201,7 @@ namespace AATool.UI.Controls
                 float nextX = MathHelper.Lerp(item.currentX, item.targetX, 6f * (float)time.Delta);
 
                 int x = (int)item.currentX;
-                int y = i % 2 is 0 ? 480 : 640;
+                int y = i % 2 is 0 ? 200 : 330;
                 item.control.MoveTo(new Point(x, y));
                 this.items[i] = (item.control, item.objective, nextX, item.targetX);
                 if (moved || Math.Abs(item.targetX - item.currentX) > 0.1f)

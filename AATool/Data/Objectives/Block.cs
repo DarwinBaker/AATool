@@ -15,6 +15,7 @@ namespace AATool.Data.Objectives
         public float LightLevel { get; private set; }
         public int PickupCount { get; private set; }
         public bool Obtained { get; private set; }
+        public string Help { get; private set; }
 
         public bool Glows => this.LightLevel > 0;
 
@@ -34,6 +35,7 @@ namespace AATool.Data.Objectives
             this.Id = $"minecraft:{node.Name}";
             this.DoubleHeight = XmlObject.Attribute(node, "double_height", false);
             this.LightLevel = XmlObject.Attribute(node, "light_level", 0f);
+            this.Help = XmlObject.Attribute(node, "help", string.Empty);
         }
 
         public override void UpdateState(WorldState progress)

@@ -92,9 +92,13 @@ namespace AATool.UI.Controls
                 _ => this.Version,
             };
 
-            //string title = Config.Main.ActiveTab != "tracker"
-            //    ? $"{this.Category}\n{version}"
-            //    : $"(Un)-Official {version}\n{Tracker.Category.Acronym} Leaderboard";
+            if (false)
+            {
+                //for multiboard
+                this.title.SetText($"{this.Category}\n{version}");
+                return;
+            }
+
             string title = $"(Un)-Official {version}\n{Tracker.Category.Acronym} Leaderboard";
             this.title.SetText(title);
         }
@@ -122,7 +126,7 @@ namespace AATool.UI.Controls
             else if (Config.Main.ActiveTab == Config.RunnersTab && false)
             {
                 UIFlowPanel list = this.Root().First<UIFlowPanel>("runner_list");
-                if (list is not null)
+                if (list is not null && list.Children.Count is 0)
                 {
                     list.ClearControls();
                     for (int i = 0; i < board.Runs.Count; i++)

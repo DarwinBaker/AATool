@@ -20,7 +20,7 @@ namespace AATool.Net
         public bool DesignationsChanged  { get; private set; }
         public DateTime NextRefresh { get; private set; }
 
-        private readonly Dictionary<string, string> recieved;
+        private readonly Dictionary<string, string> received;
         private readonly Queue<Message> sendQueue;
 
         private IPEndPoint endPoint;
@@ -29,7 +29,7 @@ namespace AATool.Net
         public Client() : base()
         {
             this.sendQueue = new ();
-            this.recieved  = new ();
+            this.received  = new ();
             this.IsConnecting = true;
         }
 
@@ -37,7 +37,7 @@ namespace AATool.Net
 
         public override bool Connected() => !this.IsConnecting && this.socket?.Connected is true && this.Accepted;
 
-        public bool TryGetData(string key, out string data) => this.recieved.TryGetValue(key, out data);
+        public bool TryGetData(string key, out string data) => this.received.TryGetValue(key, out data);
 
         public string GetLongStatusText()
         {
@@ -117,7 +117,7 @@ namespace AATool.Net
                 IAsyncResult ar = this.socket.BeginConnect(this.endPoint, this.ConnectCallback, this.socket);
 
                 //set a timeout for connection attempt
-                if (ar.AsyncWaitHandle.WaitOne(Protocol.Requests.TimeoutMs, true) && this.socket.Connected)
+                if (ar.AsyncWaitHandle.WaitOne(Protocol.Peers.ClientConnectMs, true) && this.socket.Connected)
                 {
                     //start recieving messages from server 
                     this.socket.BeginReceive(Buffer, 0, Protocol.BufferSize, SocketFlags.None, this.ReceiveCallback, null);
@@ -366,10 +366,10 @@ namespace AATool.Net
             else if (message.TryGetItem(0, out string jsonString))
             {
                 //deserialize progress
-                this.recieved[message.Header] = jsonString;
+                this.received[message.Header] = jsonString;
                 StateChanged = true;
             }
-            WriteToConsole($"Recieved {message.Header} from server.");
+            WriteToConsole($"Received {message.Header} from server.");
         }
     }
 }

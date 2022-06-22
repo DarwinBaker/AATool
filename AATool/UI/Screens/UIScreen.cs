@@ -49,7 +49,7 @@ namespace AATool.UI.Screens
             try
             {
                 this.Form.Icon = new System.Drawing.Icon(
-                Path.Combine(Paths.System.AssetsFolder, "icons", $"{name}.ico"));
+                    Path.Combine(Paths.System.AssetsFolder, "icons", $"{name}.ico"));
             }
             catch
             { 
@@ -81,10 +81,8 @@ namespace AATool.UI.Screens
         public override void MoveBy(Point point) =>
             this.Form.Location = new System.Drawing.Point(this.Form.Location.X + point.X, this.Form.Location.Y + point.Y);
 
-        public override void ScaleTo(Point point)
-        {
+        public override void ScaleTo(Point point) =>
             this.Form.ClientSize = new System.Drawing.Size(point.X, point.Y);
-        }
 
         public override void ResizeThis(Rectangle parent)
         {

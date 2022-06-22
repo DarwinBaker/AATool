@@ -267,6 +267,8 @@ namespace AATool
                 this.AppendTitle($"Tracking {players.Count} Players");
             else if (Player.TryGetName(Tracker.GetMainPlayer(), out string playerOne))
                 this.AppendTitle(playerOne);
+            else
+                this.AppendTitle(Config.Tracking.LastPlayer);
 
             //add fps cap to title
             if (Config.Main.FpsCap < 60)

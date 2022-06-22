@@ -7,12 +7,16 @@ namespace AATool.UI.Badges
     public static class Badge
     {
         //completed the first ever half-heart hardcore all advancements speedrun
-        private static readonly Uuid Elysaku = new ("b2fcb273-9886-4a9b-bd7f-e005816fb7b7");
+        private const string Elysaku = "b2fcb273-9886-4a9b-bd7f-e005816fb7b7";
         private const string ElysakuName = "elysaku";
 
         //completed 1000 any% RSG speedruns in a row without resetting
-        private static readonly Uuid Couriway = new ("994f9376-3f80-48bc-9e72-ee92f861911d");
+        private const string Couriway = "994f9376-3f80-48bc-9e72-ee92f861911d";
         private const string CouriwayName = "couriway";
+
+        //completed 999 any% RSG speedruns in a row without resetting FeelSstrongMan
+        private const string MoleyG = "994f9376-3f80-48bc-9e72-ee92f861911d";
+        private const string MoleyGName = "moleyg";
 
         public static bool TryGet(Uuid player, string name, int scale, string category, string version, out UIControl badge)
         {
@@ -25,15 +29,20 @@ namespace AATool.UI.Badges
                 //award wr badge if player holds the top time on the current leaderboard
                 badge = new RecordHolderBadge(2, rank);
             }
-            else if (player.String == Elysaku || name is ElysakuName)
+            else if (player.String is Elysaku || name is ElysakuName)
             {
                 //award elden's hhhaa badge
                 badge = new ImmortalBadge(scale);
             }
-            else if (player.String == Couriway || name is CouriwayName)
+            else if (player.String is Couriway || name is CouriwayName)
             {
-                //reward couri's 1000 seeds badge
+                //award couri's 1000 seeds badge
                 badge = new UnstoppableBadge(scale);
+            }
+            else if (player.String is MoleyG || name is MoleyGName)
+            {
+                //award moleyg's 999 seeds badge
+                badge = new HonorableBadge(scale);
             }
             else
             {
@@ -60,6 +69,11 @@ namespace AATool.UI.Badges
             {
                 //reward couri's 1000 seeds badge
                 badge = new UnstoppableBadge(scale);
+            }
+            else if (leaderboardName is MoleyGName)
+            {
+                //reward couri's 1000 seeds badge
+                badge = new HonorableBadge(scale);
             }
             else
             {

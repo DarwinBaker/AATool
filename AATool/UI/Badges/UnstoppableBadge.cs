@@ -46,7 +46,7 @@ namespace AATool.UI.Badges
             if (this.Scale < 3)
             {
                 this.glow.SetTexture("badge_couri_glow");
-                this.glow.SetRotationSpeed(200f);
+                this.glow.SetRotationSpeed(250f);
                 this.glow.SkipToBrightness(0.75f);
             }
         }

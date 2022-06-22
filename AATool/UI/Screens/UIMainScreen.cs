@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Data.Categories;
@@ -7,6 +8,7 @@ using AATool.Data.Objectives;
 using AATool.Data.Objectives.Pickups;
 using AATool.Graphics;
 using AATool.Net;
+using AATool.Net.Requests;
 using AATool.UI.Controls;
 using AATool.Utilities;
 using AATool.Winforms.Forms;
@@ -34,6 +36,13 @@ namespace AATool.UI.Screens
         private UIButton tabAAMultiboard;
         private UIButton tabABMultiboard;
         private UIButton tabRunners;
+        private UITextBlock debugLog;
+        private int logOffset;
+        private int logLines;
+        private int pendingRequests;
+        private int activeRequests;
+        private int completedRequests;
+        private int timedOutRequests;
         private bool needsLayoutRefresh;
         private readonly Utilities.Timer settingsCooldown;
 
@@ -98,31 +107,38 @@ namespace AATool.UI.Screens
 
         public override string GetCurrentView()
         {
-            //fullscreen multi-version leaderboards
-            if (Config.Main.ActiveTab == "multiboard_aa")
+            if (false)
             {
-                //return Path.Combine(Paths.System.ViewsFolder,
-                //    "leaderboards",
-                //    $"multiboard_aa.xml");
+                //fullscreen multi-version leaderboards
+                if (Config.Main.ActiveTab == "multiboard_aa")
+                {
+                    return Path.Combine(Paths.System.ViewsFolder,
+                        "leaderboards",
+                        $"multiboard_aa.xml");
+                }
+                else if (Config.Main.ActiveTab == "multiboard_ab")
+                {
+                    return Path.Combine(Paths.System.ViewsFolder,
+                        "leaderboards",
+                        $"multiboard_ab.xml");
+                }
+                else if (Config.Main.ActiveTab == "timeline")
+                {
+                    return Path.Combine(Paths.System.ViewsFolder,
+                        "leaderboards",
+                        $"timeline.xml");
+                }
+                else if (Config.Main.ActiveTab == "runners_1.16")
+                {
+                    return Path.Combine(Paths.System.ViewsFolder,
+                        "leaderboards",
+                        $"runners_1.16.xml");
+                }
+
+                return Path.Combine(Paths.System.ViewsFolder,
+                        "leaderboards",
+                        $"multiboard_aa.xml");
             }
-            else if (Config.Main.ActiveTab == "multiboard_ab")
-            {
-                //return Path.Combine(Paths.System.ViewsFolder,
-                //    "leaderboards",
-                //    $"multiboard_ab.xml");
-            }
-            else if (Config.Main.ActiveTab == "timeline")
-            {
-                //return Path.Combine(Paths.System.ViewsFolder,
-                //    "leaderboards",
-                //    $"timeline.xml");
-            }
-            //else if (Config.Main.ActiveTab == "runners_1.16")
-            //{
-                //return Path.Combine(Paths.System.ViewsFolder,
-                //    "leaderboards",
-                //    $"runners_1.16.xml");
-            //}
 
             //get proper view for current category and version
             string path = Path.Combine(Paths.System.ViewsFolder,
@@ -166,6 +182,8 @@ namespace AATool.UI.Screens
             this.popup = this.First<UIBlockPopup>();
             this.leaderboard = this.First<UILeaderboard>("Leaderboard");
             this.potions = this.First<UIPotionGroup>();
+            this.debugLog = this.First<UITextBlock>("debug_log");
+            this.logLines = -1;
             this.tabAAMultiboard = this.First<UIButton>("tab_multiboard_aa");
             if (this.tabAAMultiboard is not null)
                 this.tabAAMultiboard.OnClick += this.Click;
@@ -219,6 +237,61 @@ namespace AATool.UI.Screens
 
             if (Config.Main.AppearanceChanged)
                 Invalidate();
+
+            //update debug log if present
+            if (this.debugLog is not null)
+            {
+                var builder = new StringBuilder();
+                string log = Debug.GetLog(Debug.RequestSection);
+                if (!string.IsNullOrEmpty(log))
+                {
+                    string[] lines = Debug.GetLog(Debug.RequestSection).Split('\n');
+                    int oldOffset = this.logOffset;
+
+                    //scroll the log
+                    if (this.debugLog.Bounds.Contains(Input.Cursor(this)))
+                    {
+                        if (Input.ScrolledUp())
+                        {
+                            this.logOffset = MathHelper.Max(this.logOffset - 3, -(lines.Length - 15));
+                        }
+                        else if (Input.ScrolledDown())
+                        {
+                            this.logOffset = MathHelper.Min(this.logOffset + 3, 0);
+                        }
+                    }
+                    if (this.logLines != lines.Length)
+                        this.logOffset = 0;
+
+                    bool invalidated = this.logLines != lines.Length 
+                        || this.logOffset != oldOffset 
+                        || NetRequest.CompletedCount != this.completedRequests
+                        || NetRequest.PendingCount != this.pendingRequests
+                        || NetRequest.TimedOutCount != this.timedOutRequests
+                        || NetRequest.ActiveCount != this.activeRequests;
+            
+                    //update log text if lines changed
+                    if (invalidated)
+                    {
+                        this.completedRequests = NetRequest.CompletedCount;
+                        this.pendingRequests = NetRequest.PendingCount;
+                        this.timedOutRequests = NetRequest.TimedOutCount;
+                        this.activeRequests = NetRequest.ActiveCount;
+
+                        this.logLines = lines.Length;
+                        for (int i = Math.Max(lines.Length - 15 + this.logOffset, 0); i < lines.Length + this.logOffset; i++)
+                            builder.AppendLine(lines[i]);
+                        this.debugLog.SetText(builder.ToString().Trim());
+                        if (this.logOffset is 0)
+                        {
+                            string info = new ('-', 55);
+                            info += $" Completed: {NetRequest.CompletedCount}, Pending: {NetRequest.PendingCount},";
+                            info += $" Names: x{NameRequest.Downloads}, UUIDs: x{UuidRequest.Downloads}, Avatars: x{AvatarRequest.Downloads}";
+                            this.debugLog.Append(Environment.NewLine + info);
+                        }
+                    }
+                }
+            }
 
             //escape to open settings
             this.settingsCooldown.Update(time);
