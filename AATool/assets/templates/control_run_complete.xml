@@ -15,16 +15,19 @@
             <text_block name="stats_misc" font_size="24" padding="16,0,120,0" width="600" height="200" horizontal_align="left" text_align="left" vertical_align="top"/>
         </panel>
         <panel name="fadegroup_credits" draw_mode="childrenonly">
-            <picture name="ctm" layer="fore" width="90" height="90" margin_left="16" margin_top="86" horizontal_align="left" vertical_align="top">
-                
-            </picture>
+            <picture name="ctm" layer="fore" width="90" height="90" margin_left="16" margin_top="86" horizontal_align="left" vertical_align="top"/>
             <text_block name="version" font_size="36" padding_top="85" padding_left="125" h_text_align="left" v_text_align="top"/>
             <text_block name="creator" font_size="24" padding_top="122" padding_left="125" h_text_align="left" v_text_align="top"/>
             <text_block name="patreon" font_size="24" padding_top="150" padding_left="125" h_text_align="left" v_text_align="top"/>
  
             <!-- supporters -->
-            <text_block name="supporters_label" text="Supporters ----------------------------------------" font_size="24" padding_left="20" padding_top="182" h_text_align="left"/>
-            <flow_panel name="supporters" width="220" cell_width="180" cell_height="32" draw_mode="childrenonly" margin_left="20" padding_top="218" padding_bottom="32" direction="toptobottom" horizontal_align="left">
+            <text_block name="supporters_label" text="Thanks to all the donors who make this possible! ---------------------------------------------------------------------------" font_size="24" padding_left="20" padding_top="182" h_text_align="left"/>
+            <flow_panel name="supporters_netherite" width="400" cell_width="200" cell_height="32" draw_mode="childrenonly" margin_left="70" padding_top="242" padding_bottom="40" direction="lefttoright" horizontal_align="left">
+            </flow_panel>
+            <flow_panel name="supporters_diamond" width="400" cell_width="180" cell_height="32" draw_mode="childrenonly" margin_left="510" padding_top="242" padding_bottom="40" direction="lefttoright" horizontal_align="left">
+            </flow_panel>
+
+            <flow_panel name="supporters_gold" collapsed="true" width="400" cell_width="210" cell_height="32" draw_mode="childrenonly" margin_left="70" padding_top="240" padding_bottom="40" direction="toptobottom" horizontal_align="left">
             </flow_panel>
 
             <!-- beta testers -->
@@ -34,6 +37,8 @@
             <!-- special dedication -->
             <panel name="special_dedication" width="160" height="135" draw_mode="childrenonly" margin_right="25" margin_top="40" horizontal_align="right" vertical_align="top">
             </panel>
+
+            <picture name="donor_fade" texture="donor_cover" layer="fore" width="880" height="8" margin_right="20" margin_bottom="28" vertical_align="bottom"/>
         </panel>
 
         <!-- page switch timer bar -->

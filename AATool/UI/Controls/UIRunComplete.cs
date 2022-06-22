@@ -12,9 +12,16 @@ namespace AATool.UI.Controls
 {
     public class UIRunComplete : UIControl
     {
-        private const int PageHoldDuration = 15;
-        private const int PageFadeDuration = 1;
-        private const int PageFullDuration = PageHoldDuration + PageFadeDuration * 2;
+        private const float PageHoldDuration = 20;
+        private const float PageFadeDuration = 1;
+        private const float PageFullDuration = PageHoldDuration + (PageFadeDuration * 2);
+
+        private const float DonorsFadeHeight = 168;
+        private const float DonorsFadeSpeed = 4;
+        private const float DonorsFadeDuration = 0.75f;
+        private const float DonorDuration = PageHoldDuration - (DonorsFadeDuration * 3);
+        private const float LargeDonorsDuration = DonorDuration * 0.6f;
+        private const float SmallDonorsDuration = DonorDuration * 0.4f;
 
         private const float SlideSpeed = 4f;
         private const float FadeSpeed = 0.75f;
@@ -27,11 +34,23 @@ namespace AATool.UI.Controls
         private UIPicture ctm;
         private UIPicture bar;
         private Dictionary<string, UIControl> supporters;
+        private UIControl netheriteSupporters;
+        private UIControl diamondSupporters;
+        private UIControl goldSupporters;
+        private UIControl donorCover;
 
-        private Timer pageTimer;
+        private readonly Timer pageTimer = new ();
+        private readonly SequenceTimer donorsTimer = new (
+            LargeDonorsDuration,  //show netherite/diamond supporters
+            DonorsFadeDuration,   //fade out netherite/diamond supporters
+            DonorsFadeDuration,   //hold fade cover
+            DonorsFadeDuration,   //fade in gold supporters
+            SmallDonorsDuration); //show gold supporters
+
         private bool showCredits;
         private bool fadeOut;
         private float fade;
+        private float donorCoverHeight;
         private float glowRotation;
         private float currentX;
 
@@ -40,7 +59,6 @@ namespace AATool.UI.Controls
         public UIRunComplete()
         {
             this.BuildFromTemplate();
-            this.pageTimer = new Timer();
         }
 
         public override void InitializeThis(UIScreen screen)
@@ -63,13 +81,18 @@ namespace AATool.UI.Controls
             this.bar = this.First<UIPicture>("bar");
 
             //credits
+            this.donorCover = this.First("donor_fade");
+            this.netheriteSupporters = this.First("supporters_netherite");
+            this.diamondSupporters = this.First("supporters_diamond");
+            this.goldSupporters = this.First("supporters_gold");
             this.supporters = new () 
             {
-                { "supporters", this.First("supporters")},
+                { "supporter_netherite", this.netheriteSupporters },
+                { "supporter_diamond", this.diamondSupporters },
+                { "supporter_gold", this.goldSupporters },
                 { "beta testers", this.First("beta_testers")},
                 { "special dedication", this.First("special_dedication") }
             };
-            this.First<UITextBlock>("supporters_label")?.SetText("Supporters " + new string('-', 63));
         }
 
         protected override void UpdateThis(Time time)
@@ -161,7 +184,49 @@ namespace AATool.UI.Controls
                     this.FadeControlsRecursive(this.First("stats_mined"), fadeB);
                     break;
             }
+
+            this.UpdateDonorFade(time);
         }
+
+        private void UpdateDonorFade(Time time)
+        {
+            if (!this.showCredits)
+            {
+                if (this.donorsTimer.IsExpired)
+                    this.donorsTimer.StartFromBeginning();
+                return;
+            }
+
+            this.donorsTimer.Update(time);
+            if (this.donorsTimer.IsExpired && this.donorsTimer.Index < 4)
+                this.donorsTimer.Continue();
+            
+            switch (this.donorsTimer.Index)
+            {
+                case 0:
+                    this.netheriteSupporters.Expand();
+                    this.diamondSupporters.Expand();
+                    this.goldSupporters.Collapse();
+                    this.donorCover.Expand();
+                    this.donorCoverHeight = 0;
+                    break;
+                case 2:
+                    this.donorCoverHeight = MathHelper.Lerp(this.donorCoverHeight, DonorsFadeHeight, (float)(time.Delta * DonorsFadeSpeed));
+                    break;
+                case 3:
+                    this.netheriteSupporters.Collapse();
+                    this.diamondSupporters.Collapse();
+                    this.goldSupporters.Expand();
+                    this.donorCoverHeight = MathHelper.Lerp(this.donorCoverHeight, 0, (float)(time.Delta * DonorsFadeSpeed));
+                    break;
+                case 4:
+                    this.donorCover.Collapse();
+                    break;
+            }
+            this.donorCover.FlexHeight = new(this.donorCoverHeight);
+            this.donorCover.ResizeThis(this.donorCover.Parent.Inner);
+        }
+
         private void UpdatePageSwapBar()
         {
             double remaining = this.pageTimer.TimeLeft;
@@ -251,7 +316,7 @@ namespace AATool.UI.Controls
             foreach (KeyValuePair<string, UIControl> panel in this.supporters)
             {
                 panel.Value.ClearControls();
-                if (panel.Key is not "supporters")
+                if (!panel.Key.Contains("supporter"))
                 {
                     var header = new UITextBlock() {
                         FlexWidth  = new Size(400),
@@ -285,7 +350,7 @@ namespace AATool.UI.Controls
                         panel.Value.AddControl(churro);
                     }
                     else if (panel.Key is "special dedication")
-                    { 
+                    {
                         header.SetText("Dedicated to my lovely gf Wroxy");
                         var heart = new UIPicture() {
                             FlexWidth = new (36),
@@ -305,7 +370,7 @@ namespace AATool.UI.Controls
                 if (!donor)
                     continue;
 
-                UIControl panel = this.supporters["supporters"];
+                UIControl panel = this.supporters[person.Role];
                 var supporter = new UITextBlock() {
                     FlexWidth  = new Size(donor ? 180 : 220),
                     FlexHeight = new Size(32),

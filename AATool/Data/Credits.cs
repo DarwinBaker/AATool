@@ -17,16 +17,19 @@ namespace AATool.Data
             new ("supporter_netherite", "the_yuukster"),
             new ("supporter_netherite", "Toshio"),
             new ("supporter_netherite", "Feinberg"),
+            new ("supporter_netherite", "PeteZahHutt"),
+            new ("supporter_netherite", "Deadpool"),
+
             new ("supporter_diamond", "NiceTwice"),
             new ("supporter_diamond", "Cube1337x"),
             new ("supporter_diamond", "Nex"),
             new ("supporter_diamond", "HAPTlCx"),
             new ("supporter_diamond", "Soren"),
             new ("supporter_diamond", "macus"),
+
             new ("supporter_gold", "Antoine"),
             new ("supporter_gold", "TheSwordElf"),
             new ("supporter_gold", "MeisterMaki"),
-            new ("supporter_gold", "Deadpool"),
             new ("supporter_gold", "Infernalord"),
             new ("supporter_gold", "MoleyG"),
             new ("supporter_gold", "AutomattPL"),
@@ -37,6 +40,7 @@ namespace AATool.Data
             new ("supporter_gold", "Melissa"),
             new ("supporter_gold", "pneguin"),
             new ("supporter_gold", "Tomas"),
+            new ("supporter_gold", "Xerionix"),
         };
     }
 
