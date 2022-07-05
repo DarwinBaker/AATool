@@ -1,4 +1,4 @@
-﻿
+
 namespace AATool.Winforms.Controls
 {
     partial class CTrackerSettings
@@ -585,7 +585,7 @@ namespace AATool.Winforms.Controls
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(82, 13);
             this.label10.TabIndex = 75;
-            this.label10.Text = "Your MC Name:";
+            this.label10.Text = "Username / UUID:";
             // 
             // filterSolo
             // 

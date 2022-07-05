@@ -20,7 +20,7 @@ namespace AATool.Net
         private static readonly HashSet<string> NamesAlreadyRequested = new ();
         private static readonly HashSet<Uuid> IdentitiesAlreadyRequested = new ();
 
-        public static bool TryGetUuid(string name, out Uuid id) => IdCache.TryGetValue(name ?? "", out id);
+        public static bool TryGetUuid(string name, out Uuid id) => Uuid.TryParse(name, out id) || IdCache.TryGetValue(name ?? "", out id);
         public static bool TryGetName(Uuid id, out string name) => NameCache.TryGetValue(id, out name);
         public static bool TryGetColor(Uuid id, out Color color) => IdColorCache.TryGetValue(id, out color);
         public static bool TryGetColor(string name, out Color color) => NameColorCache.TryGetValue(name ?? "", out color);
