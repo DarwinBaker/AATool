@@ -25,11 +25,12 @@ namespace AATool.Winforms.Controls
             this.hideCompletedCriteria.Checked = Config.Main.HideCompletedCriteria;
             this.fpsCap.Text            = Config.Main.FpsCap.Value.ToString();
             this.viewMode.Text          = Main.TextInfo.ToTitleCase(Config.Main.Layout.Value);
-            this.showBasic.Checked      = Config.Main.ShowBasicAdvancements;
+            this.hideBasic.Checked      = !Config.Main.ShowBasicAdvancements;
+            this.showMyBadge.Checked    = Config.Main.ShowMyBadge;
             this.completionGlow.Checked = Config.Main.ShowCompletionGlow;
             this.ambientGlow.Checked    = Config.Main.ShowAmbientGlow;
             this.highRes.Checked        = Config.Main.DisplayScale > 1;
-            this.frameStyle.Text    = Config.Main.FrameStyle;
+            this.frameStyle.Text        = Config.Main.FrameStyle;
             this.progressBarStyle.Text  = Config.Main.ProgressBarStyle;
             this.refreshIcon.Text       = Config.Main.RefreshIcon;
             this.infoPanel.Text         = Config.Main.InfoPanel;
@@ -68,11 +69,12 @@ namespace AATool.Winforms.Controls
                 if (int.TryParse(this.fpsCap.Text, out int cap))
                     Config.Main.FpsCap.Set(cap);
 
-                Config.Main.ShowBasicAdvancements.Set(this.showBasic.Checked);
+                Config.Main.ShowBasicAdvancements.Set(!this.hideBasic.Checked);
                 Config.Main.HideCompletedAdvancements.Set(this.hideCompletedAdvancements.Checked);
                 Config.Main.HideCompletedCriteria.Set(this.hideCompletedCriteria.Checked);
                 Config.Main.ShowCompletionGlow.Set(this.completionGlow.Checked);
                 Config.Main.ShowAmbientGlow.Set(this.ambientGlow.Checked);
+                Config.Main.ShowMyBadge.Set(this.showMyBadge.Checked);
                 Config.Main.DisplayScale.Set(this.highRes.Checked ? 2 : 1);
                 Config.Main.Layout.Set(this.viewMode.Text.ToLower());
                 Config.Main.FrameStyle.Set(this.frameStyle.Text);

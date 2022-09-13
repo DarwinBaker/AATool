@@ -16,10 +16,13 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<bool> ShowCriteria = new (true);
             [JsonProperty] public readonly Setting<bool> ShowPickups  = new (true);
             [JsonProperty] public readonly Setting<bool> ShowIgt      = new (true);
+            [JsonProperty] public readonly Setting<bool> ShowLastRefresh = new (true);
             [JsonProperty] public readonly Setting<bool> RightToLeft  = new (false);
             [JsonProperty] public readonly Setting<bool> PickupsOpposite  = new (false);
+            [JsonProperty] public readonly Setting<bool> LastRefreshOpposite  = new (false);
             [JsonProperty] public readonly Setting<bool> ClarifyAmbiguous = new (true);
 
+            [JsonProperty] public readonly Setting<string> Position = new ("Minecraft");
             [JsonProperty] public readonly Setting<string> FrameStyle = new ("Minecraft");
             [JsonProperty] public readonly Setting<string> PrideFrameList = new (string.Empty);
 
@@ -43,8 +46,10 @@ namespace AATool.Configuration
 
             [JsonIgnore]
             public bool ArrangementChanged => this.Enabled.Changed
-                || this.RightToLeft.Changed 
-                || this.PickupsOpposite.Changed;
+                || this.RightToLeft.Changed
+                || this.PickupsOpposite.Changed
+                || this.ShowLastRefresh.Changed
+                || this.LastRefreshOpposite.Changed;
 
             protected override string GetId() => "overlay";
             protected override string GetLegacyId() => "overlay";
@@ -61,9 +66,11 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.ShowLabels);
                 this.RegisterSetting(this.ShowCriteria);
                 this.RegisterSetting(this.ShowPickups);
+                this.RegisterSetting(this.ShowLastRefresh);
 
                 this.RegisterSetting(this.RightToLeft);
                 this.RegisterSetting(this.PickupsOpposite);
+                this.RegisterSetting(this.LastRefreshOpposite);
                 this.RegisterSetting(this.FrameStyle);
                 this.RegisterSetting(this.PrideFrameList);
 

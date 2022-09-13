@@ -38,6 +38,7 @@ namespace AATool.Winforms.Controls
             this.label3 = new System.Windows.Forms.Label();
             this.hideRenderCache = new System.Windows.Forms.CheckBox();
             this.fastForward = new System.Windows.Forms.Button();
+            this.refreshLeaderboards = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cacheDebug
@@ -140,11 +141,22 @@ namespace AATool.Winforms.Controls
             this.fastForward.MouseLeave += new System.EventHandler(this.OnMouseLeave);
             this.fastForward.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnMouseUp);
             // 
+            // refreshLeaderboards
+            // 
+            this.refreshLeaderboards.Location = new System.Drawing.Point(12, 182);
+            this.refreshLeaderboards.Name = "refreshLeaderboards";
+            this.refreshLeaderboards.Size = new System.Drawing.Size(122, 23);
+            this.refreshLeaderboards.TabIndex = 42;
+            this.refreshLeaderboards.Text = "Refresh Leaderboards";
+            this.refreshLeaderboards.UseVisualStyleBackColor = true;
+            this.refreshLeaderboards.Click += new System.EventHandler(this.OnClicked);
+            // 
             // CDebugSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.refreshLeaderboards);
             this.Controls.Add(this.fastForward);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.hideRenderCache);
@@ -171,5 +183,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox hideRenderCache;
         private System.Windows.Forms.Button fastForward;
+        private System.Windows.Forms.Button refreshLeaderboards;
     }
 }

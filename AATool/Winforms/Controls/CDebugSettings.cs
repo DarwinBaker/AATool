@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
 using AATool.Configuration;
+using AATool.Data.Speedrunning;
 using AATool.Graphics;
+using AATool.Net;
+using AATool.Net.Requests;
+using AATool.UI.Screens;
 
 namespace AATool.Winforms.Controls
 {
@@ -38,6 +42,11 @@ namespace AATool.Winforms.Controls
         {
             if (sender == this.dumpAtlas)
                 SpriteSheet.DumpAtlas();
+            else if (sender == this.refreshLeaderboards)
+            {
+                Leaderboard.Refresh();
+                UIMainScreen.ForceLayoutRefresh();
+            }           
             this.SaveSettings();
         }
 

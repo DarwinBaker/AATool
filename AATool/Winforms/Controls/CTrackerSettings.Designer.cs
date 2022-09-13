@@ -77,6 +77,7 @@ namespace AATool.Winforms.Controls
             this.filterCombined = new System.Windows.Forms.RadioButton();
             this.filterSoloName = new System.Windows.Forms.TextBox();
             this.keyboardTimer = new System.Windows.Forms.Timer(this.components);
+            this.label12 = new System.Windows.Forms.Label();
             this.localGroup.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -583,9 +584,9 @@ namespace AATool.Winforms.Controls
             this.label10.Location = new System.Drawing.Point(4, 68);
             this.label10.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(82, 13);
+            this.label10.Size = new System.Drawing.Size(95, 13);
             this.label10.TabIndex = 75;
-            this.label10.Text = "Your MC Name:";
+            this.label10.Text = "Your Name/UUID:";
             // 
             // filterSolo
             // 
@@ -627,11 +628,24 @@ namespace AATool.Winforms.Controls
             this.keyboardTimer.Interval = 500;
             this.keyboardTimer.Tick += new System.EventHandler(this.OnTimerTick);
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label12.Location = new System.Drawing.Point(288, 40);
+            this.label12.Margin = new System.Windows.Forms.Padding(0, 0, 3, 6);
+            this.label12.Name = "label12";
+            this.label12.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.label12.Size = new System.Drawing.Size(239, 15);
+            this.label12.TabIndex = 71;
+            this.label12.Text = "🛈 You can open this window by pressing Escape";
+            // 
             // CTrackerSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
@@ -656,6 +670,7 @@ namespace AATool.Winforms.Controls
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.soloAvatar)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -707,5 +722,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Timer keyboardTimer;
         private System.Windows.Forms.PictureBox soloAvatar;
+        private System.Windows.Forms.Label label12;
     }
 }

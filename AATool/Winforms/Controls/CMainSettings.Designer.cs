@@ -39,7 +39,7 @@ namespace AATool.Winforms.Controls
             this.hideCompletedAdvancements = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.viewMode = new System.Windows.Forms.ComboBox();
-            this.showBasic = new System.Windows.Forms.CheckBox();
+            this.hideBasic = new System.Windows.Forms.CheckBox();
             this.label16 = new System.Windows.Forms.Label();
             this.startupMonitor = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -56,6 +56,7 @@ namespace AATool.Winforms.Controls
             this.backColor = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.showMyBadge = new System.Windows.Forms.CheckBox();
             this.frameStyle = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -96,7 +97,7 @@ namespace AATool.Winforms.Controls
             this.mainGroupMain.Controls.Add(this.hideCompletedAdvancements);
             this.mainGroupMain.Controls.Add(this.label1);
             this.mainGroupMain.Controls.Add(this.viewMode);
-            this.mainGroupMain.Controls.Add(this.showBasic);
+            this.mainGroupMain.Controls.Add(this.hideBasic);
             this.mainGroupMain.Location = new System.Drawing.Point(3, 3);
             this.mainGroupMain.Name = "mainGroupMain";
             this.mainGroupMain.Size = new System.Drawing.Size(263, 228);
@@ -198,17 +199,17 @@ namespace AATool.Winforms.Controls
             this.viewMode.TabIndex = 26;
             this.viewMode.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
             // 
-            // showBasic
+            // hideBasic
             // 
-            this.showBasic.AutoSize = true;
-            this.showBasic.Location = new System.Drawing.Point(9, 67);
-            this.showBasic.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
-            this.showBasic.Name = "showBasic";
-            this.showBasic.Size = new System.Drawing.Size(156, 17);
-            this.showBasic.TabIndex = 8;
-            this.showBasic.Text = "Show Basic Advancements";
-            this.showBasic.UseVisualStyleBackColor = true;
-            this.showBasic.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            this.hideBasic.AutoSize = true;
+            this.hideBasic.Location = new System.Drawing.Point(9, 67);
+            this.hideBasic.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.hideBasic.Name = "hideBasic";
+            this.hideBasic.Size = new System.Drawing.Size(198, 17);
+            this.hideBasic.TabIndex = 8;
+            this.hideBasic.Text = "Show Only Multi-Part Advancements";
+            this.hideBasic.UseVisualStyleBackColor = true;
+            this.hideBasic.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
             // label16
             // 
@@ -275,7 +276,7 @@ namespace AATool.Winforms.Controls
             "Xp Orb",
             "Compass",
             "Clock",
-            "Skulk Pulse"});
+            "Sculk Pulse"});
             this.refreshIcon.Location = new System.Drawing.Point(9, 82);
             this.refreshIcon.Name = "refreshIcon";
             this.refreshIcon.Size = new System.Drawing.Size(120, 21);
@@ -379,6 +380,7 @@ namespace AATool.Winforms.Controls
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.showMyBadge);
             this.groupBox1.Controls.Add(this.frameStyle);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label13);
@@ -403,6 +405,18 @@ namespace AATool.Winforms.Controls
             this.groupBox1.TabIndex = 27;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Appearance";
+            // 
+            // showMyBadge
+            // 
+            this.showMyBadge.AutoSize = true;
+            this.showMyBadge.Location = new System.Drawing.Point(135, 109);
+            this.showMyBadge.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.showMyBadge.Name = "showMyBadge";
+            this.showMyBadge.Size = new System.Drawing.Size(104, 17);
+            this.showMyBadge.TabIndex = 43;
+            this.showMyBadge.Text = "Show My Badge";
+            this.showMyBadge.UseVisualStyleBackColor = true;
+            this.showMyBadge.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
             // frameStyle
             // 
@@ -571,7 +585,7 @@ namespace AATool.Winforms.Controls
         #endregion
         private System.Windows.Forms.CheckBox notesEnabled;
         private System.Windows.Forms.GroupBox mainGroupMain;
-        private System.Windows.Forms.CheckBox showBasic;
+        private System.Windows.Forms.CheckBox hideBasic;
         private System.Windows.Forms.CheckBox completionGlow;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox theme;
@@ -608,5 +622,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox hideCompletedCriteria;
         private System.Windows.Forms.Button frameStyle;
+        private System.Windows.Forms.CheckBox showMyBadge;
     }
 }

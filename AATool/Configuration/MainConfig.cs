@@ -17,10 +17,6 @@ namespace AATool.Configuration
         public const string CompactLayout = "compact";
         public const string VerticalLayout = "vertical";
 
-        public const string TrackerTab = "tracker";
-        public const string MultiboardTab = "multiboard";
-        public const string RunnersTab = "runners_1.16";
-
         [JsonObject]
         public class MainConfig : Config
         {
@@ -44,13 +40,13 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<int> FpsCap = new (60);
             [JsonProperty] public readonly Setting<int> DisplayScale = new (1);
 
-            [JsonProperty] public readonly Setting<string> ActiveTab = new (MultiboardTab);
-
+            [JsonProperty] public readonly Setting<bool> AllowUserResizing = new (false);
             [JsonProperty] public readonly Setting<bool> HideCompletedAdvancements = new (false);
             [JsonProperty] public readonly Setting<bool> HideCompletedCriteria = new (false);
             [JsonProperty] public readonly Setting<bool> ShowBasicAdvancements = new (true);
             [JsonProperty] public readonly Setting<bool> ShowCompletionGlow = new (true);
             [JsonProperty] public readonly Setting<bool> ShowAmbientGlow = new (true);
+            [JsonProperty] public readonly Setting<bool> ShowMyBadge = new (true);
             [JsonProperty] public readonly Setting<bool> RainbowMode = new (false);
             [JsonProperty] public readonly Setting<bool> CloseFramesOnSelection = new (true);
 
@@ -106,10 +102,11 @@ namespace AATool.Configuration
 
             public MainConfig()
             {
-                this.RegisterSetting(this.ActiveTab);
                 this.RegisterSetting(this.Layout);
                 this.RegisterSetting(this.FpsCap);
                 this.RegisterSetting(this.DisplayScale);
+
+                this.RegisterSetting(this.AllowUserResizing);
 
                 this.RegisterSetting(this.HideCompletedAdvancements);
                 this.RegisterSetting(this.HideCompletedCriteria);
@@ -117,6 +114,7 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.ShowBasicAdvancements);
                 this.RegisterSetting(this.ShowCompletionGlow);
                 this.RegisterSetting(this.ShowAmbientGlow);
+                this.RegisterSetting(this.ShowMyBadge);
 
                 this.RegisterSetting(this.CompactMode);
                 this.RegisterSetting(this.RainbowMode);

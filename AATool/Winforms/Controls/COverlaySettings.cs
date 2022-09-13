@@ -10,6 +10,10 @@ namespace AATool.Winforms.Controls
 {
     public partial class COverlaySettings : UserControl
     {
+        const int LayoutNormal = 0;
+        const int LayoutOpposite = 1;
+        const int LayoutOff = 2;
+
         private bool loaded;
 
         public COverlaySettings()
@@ -31,13 +35,22 @@ namespace AATool.Winforms.Controls
             this.enabled.Checked      = Config.Overlay.Enabled;
             this.showText.Checked     = Config.Overlay.ShowLabels;
             this.showCriteria.Checked = Config.Overlay.ShowCriteria;
-            this.showCounts.Checked   = Config.Overlay.ShowPickups;
-            this.igt.Checked          = Config.Overlay.ShowIgt;
+            this.showIgt.Checked      = Config.Overlay.ShowIgt;
             this.frameStyle.Text      = Config.Overlay.FrameStyle;
             this.clarifyAmbiguous.Checked = Config.Overlay.ClarifyAmbiguous;
 
-            this.direction.SelectedIndex = Config.Overlay.RightToLeft ? 0 : 1;
-            this.pickupPosition.SelectedIndex = Config.Overlay.PickupsOpposite ? 1 : 0;
+            this.direction.SelectedIndex = Config.Overlay.RightToLeft ? LayoutNormal : LayoutOpposite;
+
+            if (Config.Overlay.ShowPickups)
+                this.pickupPosition.SelectedIndex = Config.Overlay.PickupsOpposite ? LayoutOpposite : LayoutNormal;
+            else
+                this.pickupPosition.SelectedIndex = LayoutOff;
+
+            if (Config.Overlay.ShowLastRefresh)
+                this.lastRefreshPosition.SelectedIndex = Config.Overlay.LastRefreshOpposite ? LayoutOpposite : LayoutNormal;
+            else
+                this.lastRefreshPosition.SelectedIndex = LayoutOff;
+
             this.overlayWidth.Value = Config.Overlay.Width;
             this.speed.Value = MathHelper.Clamp(Config.Overlay.Speed, this.speed.Minimum, this.speed.Maximum);
 
@@ -64,12 +77,14 @@ namespace AATool.Winforms.Controls
             Config.Overlay.Enabled.Set(this.enabled.Checked);
             Config.Overlay.ShowLabels.Set(this.showText.Checked);
             Config.Overlay.ShowCriteria.Set(this.showCriteria.Checked);
-            Config.Overlay.ShowPickups.Set(this.showCounts.Checked);
-            Config.Overlay.ShowIgt.Set(this.igt.Checked);
+            Config.Overlay.ShowIgt.Set(this.showIgt.Checked);
+            Config.Overlay.ShowPickups.Set(this.pickupPosition.SelectedIndex is not LayoutOff);
+            Config.Overlay.ShowLastRefresh.Set(this.lastRefreshPosition.SelectedIndex is not LayoutOff);
             Config.Overlay.ClarifyAmbiguous.Set(this.clarifyAmbiguous.Checked);
             Config.Overlay.Speed.Set(this.speed.Value);
-            Config.Overlay.RightToLeft.Set(this.direction.SelectedIndex is 0);
-            Config.Overlay.PickupsOpposite.Set(this.pickupPosition.SelectedIndex is 1);
+            Config.Overlay.RightToLeft.Set(this.direction.SelectedIndex is LayoutNormal);
+            Config.Overlay.PickupsOpposite.Set(this.pickupPosition.SelectedIndex is LayoutOpposite);
+            Config.Overlay.LastRefreshOpposite.Set(this.lastRefreshPosition.SelectedIndex is LayoutOpposite);
             Config.Overlay.FrameStyle.Set(this.frameStyle.Text);
             Config.Overlay.Width.Set((int)this.overlayWidth.Value);
             Config.Overlay.GreenScreen.Set(ColorHelper.ToXNA(this.greenscreenColor.BackColor));

@@ -276,9 +276,11 @@ namespace AATool.Winforms.Controls
 
         private async void TryUpdateSoloFilterAsync(CancellationToken? cancelToken = null)
         {
-            Uuid id = Uuid.Empty;
-            if (Player.ValidateName(this.filterSoloName.Text))
-                id = await Player.FetchUuidAsync(this.filterSoloName.Text);
+            if (!Uuid.TryParse(this.filterSoloName.Text, out Uuid id))
+            {
+                if (Player.ValidateName(this.filterSoloName.Text))
+                    id = await Player.FetchUuidAsync(this.filterSoloName.Text);
+            }
 
             if (id == Uuid.Empty)
             {
@@ -291,7 +293,7 @@ namespace AATool.Winforms.Controls
                 try
                 {
                     //asynchronously pull player avatar from the internet
-                    string url = Paths.Web.GetAvatarUrl(id.String);
+                    string url = Paths.Web.GetAvatarUrl(id.String, 16);
                     using HttpClient http = new ();
                     using HttpResponseMessage responce = await http.GetAsync(new Uri(url), cancelToken ?? CancellationToken.None);
                     using Stream stream = await responce.Content.ReadAsStreamAsync();

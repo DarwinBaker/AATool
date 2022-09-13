@@ -1,4 +1,5 @@
 ﻿using AATool.Data.Categories;
+using AATool.Net;
 using Newtonsoft.Json;
 
 namespace AATool.Configuration
