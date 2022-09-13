@@ -2,19 +2,85 @@
 <screen>
     <grid draw_mode="childrenonly">
         <rows>
+            <row height="20"/>
             <row height="20 * 38"/>
             <row height="42"/>
         </rows>
         <columns>
             <column width="160" collapsed="true"/>
+            <column width="20"/>
             <column width="38 * 38"/>
         </columns>
 
         <!-- co-op lobby -->
         <lobby row="0" col="0" rowspan="3"/>
 
+        <!-- vertical algebraic notation -->
+        <flow_panel row="1" col="1" border_thickness="20">
+            <text_block height="38" text="A" padding_top="13"/>
+            <text_block height="38" text="B" padding_top="13"/>
+            <text_block height="38" text="C" padding_top="13"/>
+            <text_block height="38" text="D" padding_top="13"/>
+            <text_block height="38" text="E" padding_top="13"/>
+            <text_block height="38" text="F" padding_top="13"/>
+            <text_block height="38" text="G" padding_top="13"/>
+            <text_block height="38" text="H" padding_top="13"/>
+            <text_block height="38" text="I" padding_top="13"/>
+            <text_block height="38" text="J" padding_top="13"/>
+            <text_block height="38" text="K" padding_top="13"/>
+            <text_block height="38" text="L" padding_top="13"/>
+            <text_block height="38" text="M" padding_top="13"/>
+            <text_block height="38" text="N" padding_top="13"/>
+            <text_block height="38" text="O" padding_top="13"/>
+            <text_block height="38" text="P" padding_top="13"/>
+            <text_block height="38" text="Q" padding_top="13"/>
+            <text_block height="38" text="R" padding_top="13"/>
+            <text_block height="38" text="S" padding_top="13"/>
+            <text_block height="38" text="T" padding_top="13"/>
+        </flow_panel>
+
+        <!-- horizontal algebraic notation -->
+        <flow_panel row="0" col="2" border_thickness="20">
+            <text_block width="38" text="1" padding_top="4"/>
+            <text_block width="38" text="2" padding_top="4"/>
+            <text_block width="38" text="3" padding_top="4"/>
+            <text_block width="38" text="4" padding_top="4"/>
+            <text_block width="38" text="5" padding_top="4"/>
+            <text_block width="38" text="6" padding_top="4"/>
+            <text_block width="38" text="7" padding_top="4"/>
+            <text_block width="38" text="8" padding_top="4"/>
+            <text_block width="38" text="9" padding_top="4"/>
+            <text_block width="38" text="10" padding_top="4"/>
+            <text_block width="38" text="11" padding_top="4"/>
+            <text_block width="38" text="12" padding_top="4"/>
+            <text_block width="38" text="13" padding_top="4"/>
+            <text_block width="38" text="14" padding_top="4"/>
+            <text_block width="38" text="15" padding_top="4"/>
+            <text_block width="38" text="16" padding_top="4"/>
+            <text_block width="38" text="17" padding_top="4"/>
+            <text_block width="38" text="18" padding_top="4"/>
+            <text_block width="38" text="19" padding_top="4"/>
+            <text_block width="38" text="20" padding_top="4"/>
+            <text_block width="38" text="21" padding_top="4"/>
+            <text_block width="38" text="22" padding_top="4"/>
+            <text_block width="38" text="23" padding_top="4"/>
+            <text_block width="38" text="24" padding_top="4"/>
+            <text_block width="38" text="25" padding_top="4"/>
+            <text_block width="38" text="26" padding_top="4"/>
+            <text_block width="38" text="27" padding_top="4"/>
+            <text_block width="38" text="28" padding_top="4"/>
+            <text_block width="38" text="29" padding_top="4"/>
+            <text_block width="38" text="30" padding_top="4"/>
+            <text_block width="38" text="31" padding_top="4"/>
+            <text_block width="38" text="32" padding_top="4"/>
+            <text_block width="38" text="33" padding_top="4"/>
+        </flow_panel>
+
+        <!-- top left corner -->
+        <panel row="0" col="1" border_thickness="10" inner_corners="false"/>
+
         <!-- blocks -->
-        <panel row="0" col="1" draw_mode="childrenonly">
+        <block_grid row="1" col="2" draw_mode="childrenonly">
 
             <block_group group="grass"
                 margin_left="0" margin_top="0"
@@ -155,10 +221,14 @@
                 width="4 * 38" height="3 * 38"
                 direction="toptobottom"/>
 
-            <block_group group="end"
+            <block_group group="end_misc"
                 margin_left="12 * 38" margin_top="11 * 38"
-                width="4 * 38" height="3 * 38"
+                width="4 * 38" height="1 * 38"
                 direction="toptobottom"/>
+
+            <block_group group="end_blocks"
+                margin_left="12 * 38" margin_top="12 * 38"
+                width="4 * 38" height="2 * 38"/>
 
             <block_group group="doors"
                 margin_left="10 * 38"  margin_top="6 * 38"
@@ -207,11 +277,11 @@
                 margin_left="0" margin_top="15 * 38"
                 width="16 * 38" height="38"/>
 
-            <block_group group="wool"
+            <block_group group="carpet"
                 margin_left="0" margin_top="16 * 38"
                 width="16 * 38" height="38"/>
 
-            <block_group group="carpet"
+            <block_group group="wool"
                 margin_left="0" margin_top="17 * 38"
                 width="16 * 38" height="38"/>
 
@@ -246,74 +316,51 @@
             <block_group group="heads"
                 margin_left="33 * 38" margin_top="16 * 38"
                 width="5 * 38" height="38"/>
+        </block_grid>
 
-            <grid width="5 * 38" height="14 * 38" horizontal_align="right" vertical_align="top" draw_mode="all">
-                <rows>
-                    <row height="57"/>
-                    <row height="171"/>
-                    <row height="5 * 38"/>
-                    <row height="5 * 38"/>
-                </rows>
+        <!-- right panel -->
+        <flow_panel row="0" col="2" rowspan="2" width="5 * 38" height="628" border_thickness="5" padding="5" direction="toptobottom" horizontal_align="right" vertical_align="top">
 
-                <panel row="0" col="0">
-                    <textblock text="All Blocks&#xA;World Records" font_size="24" vertical_align="top" margin_top="4"/>
-                </panel>
+            <panel height="58" padding="8">
+                <button name="show_help" global="true" text="Rules/Help   " font_size="24" border_thickness="3">
+                    <picture texture="help" width="26" height="26" horizontal_align="right" margin_right="8"/>
+                </button>
+            </panel>
 
-                <panel row="1" col="0">
-                    <panel width="95" horizontal_align="left" draw_mode="childrenonly">
-                        <textblock text="1.18" font_size="24" vertical_align="top" margin_top="10"/>
-                        <textblock name="ab_wr_1.18_blocks" vertical_align="top" margin_top="35"/>
-                        <avatar name="ab_wr_1.18_avatar" margin_top="70" vertical_align="top"/>
-                        <panel width="64" height="2" vertical_align="top" margin_top="112" inner_corners="false"/>
-                        <textblock name="ab_wr_1.18_runner" vertical_align="top" margin_top="125"/>
-                        <textblock name="ab_wr_1.18_igt" vertical_align="top" margin_top="140"/>
-                        <textblock name="ab_wr_1.18_blockrate" vertical_align="top" margin_top="155"/>
-                    </panel>
-                    <panel width="95" horizontal_align="right" draw_mode="childrenonly">
-                        <textblock text="1.16" font_size="24" vertical_align="top" margin_top="10"/>
-                        <textblock name="ab_wr_1.16_blocks" vertical_align="top" margin_top="35"/>
-                        <avatar name="ab_wr_1.16_avatar" margin_top="70" vertical_align="top"/>
-                        <panel width="64" height="2" vertical_align="top" margin_top="112" inner_corners="false"/>
-                        <textblock name="ab_wr_1.16_runner" vertical_align="top" margin_top="125"/>
-                        <textblock name="ab_wr_1.16_igt" vertical_align="top" margin_top="140"/>
-                        <textblock name="ab_wr_1.16_blockrate" vertical_align="top" margin_top="155"/>
-                    </panel>
-                </panel>
+            <panel height="33" padding_top="3" border_thickness="19" inner_corners="false">
+                <textblock text="Quick Find" font_size="24"/>
+            </panel>
 
-                <flow_panel row="2" cell_width="80" cell_height="56" padding_top="11" direction="toptobottom">
-                    <panel height="38" padding_left="16" draw_mode="childrenonly">
-                        <picture texture="ab_example_red" width="38" height="38" margin_right="32" horizontal_align="left"/>
-                        <textblock text="Left-click to bookmark unplaced blocks red" width="120" margin_left="48" padding_bottom="2" text_align="left" margin_right="32" horizontal_align="left"/>
-                    </panel>
-                    <panel height="38" padding_left="16" draw_mode="childrenonly">
-                        <picture texture="ab_example_gold" width="38" height="38" margin_right="32" horizontal_align="left"/>
-                        <textblock text="Once placed, blocks automatically turn gold" width="120" margin_left="48" padding_bottom="2" text_align="left" margin_right="32" horizontal_align="left"/>
-                    </panel>
-                    <panel height="38" padding_left="16" draw_mode="childrenonly">
-                        <picture texture="ab_example_green" width="38" height="38" margin_right="32" horizontal_align="left"/>
-                        <textblock text="Left-click to confirm blocks after placing them on your platform" width="120" margin_left="48" padding_bottom="2" text_align="left" margin_right="32" horizontal_align="left"/>
-                    </panel>
-                </flow_panel>
+            <panel height="38 * 2" padding="8">
+                <text_input name="block_search" clear="true" font_size="24" height="28" border_thickness="2" vertical_align="top" margin_top="1">
+                    <picture name="block_search_shortcut" layer="fore" texture="ctrl+f" width="64" height="24"/>
+                </text_input>
+                <textblock name="block_search_results" text="" font_size="24" height="23" vertical_align="bottom" margin_bottom="2"/>
+            </panel>
 
-                <flow_panel row="3" cell_width="80" cell_height="90" padding_left="15">
-                    <objective_frame pickup="minecraft:trident"/>
-                    <objective_frame pickup="minecraft:wither_skeleton_skull"/>
-                    <objective_frame pickup="minecraft:nautilus_shell"/>
-                    <objective_frame pickup="minecraft:shulker_shell"/>
-                </flow_panel>
+            <panel height="38" padding_top="5" border_thickness="19" inner_corners="false">
+                <textblock text="Items" font_size="24"/>
+            </panel>
 
-            </grid>
+            <flow_panel height="5 * 38" cell_width="80" cell_height="86" padding_left="10" padding_top="4">
+                <objective_frame pickup="minecraft:nautilus_shell"/>
+                <objective_frame pickup="minecraft:wither_skeleton_skull"/>
+                <objective_frame pickup="minecraft:trident"/>
+                <objective_frame pickup="minecraft:shulker_shell"/>
+            </flow_panel>
 
-        </panel>
+            <panel height="38" padding_top="5" border_thickness="19" inner_corners="false">
+                <textblock text="Leaderboard" font_size="24"/>
+            </panel>
 
-        <!-- needed to load world record data -->
-        <leaderboard category="All Blocks" version="1.18"/>
-        <leaderboard category="All Blocks" version="1.16"/>
+            <leaderboard rows="3" height="185" category="All Blocks" version="1.16" hide_button="true"/>
+
+        </flow_panel>
 
         <!-- status strip -->
-        <status_bar row="1" col="1" colspan="3" right="456"/>
+        <status_bar row="2" col="1" colspan="4" right="456"/>
 
         <!-- block hover tooltip -->
-        <block_popup row="0" col="1"/>
+        <block_popup row="1" col="2"/>
     </grid>
 </screen>

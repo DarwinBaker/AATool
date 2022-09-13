@@ -2,13 +2,38 @@
 <control>
     <grid drawmode="all">
         <rows>
-            <row height="60"/>
+            <row height="56"/>
             <row height="1*"/>
         </rows>
-        <panel>
-            <textblock name="title" font_size="24" horizontal_align="center" vertical_align="top" margin_top="6"/>
+        <panel row="0">
+            <panel padding="8" draw_mode="childrenonly">
+                <button name="show_multiboard" global="true" border_thickness="3" text="MCSR Community" font_size="24" padding_top="-1"/>
+            </panel>
+            <textblock collapsed="true" name="title" font_size="24" horizontal_align="center" vertical_align="top" margin_top="4"/>
         </panel>
-        <flow_panel name="pb_list" row="1" direction="toptobottom" padding_top="8"/>
-        <picture name="spinner" texture="syncing" layer="fore" width="32" height="32" row="1"/>
+        <flow_panel name="pb_list" row="1" padding_top="13"/>
+        <picture name="spinner" row="1" texture="syncing" layer="fore" width="32" height="32"/>
+
+        <flow_panel name="menu" row="1" height="18" margin_right="1" margin_top="1" draw_mode="childrenonly" direction="righttoleft" vertical_align="top" horizontal_align="right">
+            <button name="refresh" row="1" width="18" height="18">
+                <picture texture="leaderboard_refresh" layer="fore" width="16" height="16"/>
+            </button>
+            <button name="down" row="1" width="18" height="18">
+                <picture texture="leaderboard_down" width="16" height="16"/>
+            </button>
+            <button name="up" row="1" width="18" height="18">
+                <picture texture="leaderboard_up" width="16" height="16"/>
+            </button>
+            <button name="top" row="1" width="18" height="18">
+                <picture texture="leaderboard_top" layer="fore" width="16" height="16"/>
+            </button>
+            <button name="recenter" row="1" width="18" height="18">
+                <picture name="recenter_outline" texture="recenter_outline" layer="fore" width="12" height="12" label_tint="true">
+                    <picture name="recenter_avatar" layer="fore" width="8" height="8"/>
+                </picture>
+            </button>
+            <picture name="three_dots" texture="three_dots" label_tint="true" layer="fore" row="1" width="16" height="18" padding_top="2" horizontal_align="right" vertical_align="bottom" margin_right="2"/>
+        </flow_panel>
+
     </grid>
 </control>

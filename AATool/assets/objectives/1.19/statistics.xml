@@ -5,4 +5,6 @@
     <item id="minecraft:nautilus_shell"         target_count="8"    name="Shells"/>
     <item id="minecraft:wither_skeleton_skull"  target_count="3"    name="Skulls"                       icon="get_wither_skull"/>
     <item id="minecraft:ancient_debris"         target_count="20"   name="Debris"   estimate="true"     icon="obtain_ancient_debris"/>
+    <item id="minecraft:shulker_shell"          target_count="34"   name="Shulkers"                     icon="shulker_shell"/>
+    <item id="minecraft:deepslate_emerald_ore"  target_count="1"    name="Deepslate Emerald"            icon="deepslate_emerald_ore"/>
 </items>

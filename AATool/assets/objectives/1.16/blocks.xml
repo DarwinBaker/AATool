@@ -134,14 +134,14 @@
     </concrete>
     <crops>
         <cake name="Cake" icon="cake"/>
-        <wheat_seeds name="Wheat" icon="wheat"/>
-        <carrot name="Carrots" icon="carrots"/>
+        <wheat_seeds name="Wheat&#xA;Seeds" icon="wheat"/>
+        <carrot name="Carrot" icon="carrots"/>
         <hay_block name="Hay Bale" icon="hay_block"/>
-        <beetroot_seeds name="Beetroots" icon="beetroots"/>
-        <potato name="Potatoes" icon="potatoes"/>
+        <beetroot_seeds name="Beetroot&#xA;Seeds" icon="beetroots"/>
+        <potato name="Potato" icon="potatoes"/>
         <melon name="Melon" icon="melon"/>
-        <melon_seeds name="Melon Stem" icon="melon_stem"/>
-        <pumpkin_seeds name="Pumpkin Stem" icon="pumpkin_stem"/>
+        <melon_seeds name="Melon&#xA;Seeds" icon="melon_stem"/>
+        <pumpkin_seeds name="Pumpkin&#xA;Seeds" icon="pumpkin_stem"/>
         <pumpkin name="Pumpkin" icon="pumpkin"/>
         <carved_pumpkin name="Carved Pumpkin" icon="carved_pumpkin"/>
         <jack_o_lantern name="Jack O' Lantern" icon="jack_o_lantern" light_level="0.8"/>
@@ -170,20 +170,22 @@
         <crimson_door name="Crimson Door" icon="crimson_door" double_height="true"/>
         <warped_door name="Warped Door" icon="warped_door" double_height="true"/>
     </doors>
-    <end>
+    <end_misc>
         <end_stone name="End Stone" icon="end_stone"/>
-        <end_stone_brick_wall name="End Stone Brick Wall" icon="end_stone_brick_wall"/>
-        <purpur_pillar name="Purpur Pillar" icon="purpur_pillar"/>
         <dragon_egg name="Dragon Egg" icon="dragon_egg_block"/>
-        <end_stone_bricks name="End Stone Bricks" icon="end_stone_bricks"/>
-        <purpur_block name="Purpur Block" icon="purpur_block"/>
         <chorus_flower name="Chorus Flower" icon="chorus_flower"/>
-        <end_stone_brick_stairs name="End Stone Brick Stairs" icon="end_stone_brick_stairs"/>
-        <purpur_stairs name="Purpur Stairs" icon="purpur_stairs"/>
         <end_rod name="End Rod" icon="end_rod" light_level="0.5"/>
+    </end_misc>
+    <end_blocks>
+        <end_stone_bricks name="End Stone Bricks" icon="end_stone_bricks"/>
+        <end_stone_brick_stairs name="End Stone Brick Stairs" icon="end_stone_brick_stairs"/>
         <end_stone_brick_slab name="End Stone Brick Slab" icon="end_stone_brick_slab"/>
+        <end_stone_brick_wall name="End Stone Brick Wall" icon="end_stone_brick_wall"/>
+        <purpur_block name="Purpur Block" icon="purpur_block"/>
+        <purpur_stairs name="Purpur Stairs" icon="purpur_stairs"/>
         <purpur_slab name="Purpur Slab" icon="purpur_slab"/>
-    </end>
+        <purpur_pillar name="Purpur Pillar" icon="purpur_pillar"/>
+    </end_blocks>
     <flowers>
         <red_mushroom name="Red Mushroom" icon="red_mushroom"/>
         <brown_mushroom name="Brown Mushroom" icon="brown_mushroom"/>
@@ -354,20 +356,20 @@
         <red_nether_brick_wall name="Red&#xA;Nether&#160;Brick Wall" icon="red_nether_brick_wall"/>
     </nether_brick>
     <nether_foliage>
-        <crimson_roots name="Crimson Roots" icon="crimson_roots"/>
-        <warped_roots name="Warped Roots" icon="warped_roots"/>
-        <nether_sprouts name="Nether Sprouts" icon="nether_sprouts"/>
+        <crimson_roots name="Crimson&#xA;Roots" icon="crimson_roots"/>
+        <warped_roots name="Warped&#xA;Roots" icon="warped_roots"/>
+        <nether_sprouts name="Nether&#xA;Sprouts" icon="nether_sprouts"/>
     </nether_foliage>
     <nether_special>
         <netherite_block name="Block of Netherite" icon="netherite_block"/>
         <ancient_debris name="Ancient Debris" icon="ancient_debris"/>
         <lodestone name="Lodestone" icon="lodestone"/>
-        <nether_gold_ore name="Nether Gold Ore" icon="nether_gold_ore"/>
-        <nether_quartz_ore name="Nether Quartz Ore" icon="nether_quartz_ore"/>
-        <glowstone name="Glowstone" icon="glowstone" light_level="0.6"/>
+        <nether_gold_ore name="Nether&#xA;Gold Ore" icon="nether_gold_ore"/>
+        <nether_quartz_ore name="Nether&#xA;Quartz Ore" icon="nether_quartz_ore"/>
+        <glowstone name="Glowstone" icon="glowstone" light_level="0.9"/>
         <obsidian name="Obsidian" icon="obsidian"/> 
         <crying_obsidian name="Crying Obsidian" icon="crying_obsidian" light_level="0.5"/>
-        <respawn_anchor name="Respawn Anchor" icon="respawn_anchor" light_level="0.75"/>
+        <respawn_anchor name="Respawn Anchor" icon="respawn_anchor" light_level="0.5"/>
         <lava_bucket name="Lava" icon="lava" light_level="1"/>
         <magma_block name="Magma Block" icon="magma_block" light_level="0.7"/>
         <shroomlight name="Shroom Light" icon="shroomlight" light_level="0.75"/>
@@ -464,8 +466,8 @@
         <iron_door name="Iron Door" icon="iron_door" double_height="true"/>
         <string name="String" icon="string"/>
         <iron_trapdoor name="Iron Trapdoor" icon="iron_trapdoor"/>
-        <comparator name="Redstone Comparator" icon="comparator"/>
-        <repeater name="Redstone Repeater" icon="repeater"/>
+        <repeater name="Redstone&#xA;Repeater" icon="repeater"/>
+        <comparator name="Redstone&#xA;Comparator" icon="comparator"/>
     </redstone_components>
     <redstone_dust>
         <redstone name="Redstone Dust" icon="redstone_dust" light_level="0.5"/>
@@ -566,8 +568,8 @@
         <sticky_piston name="Sticky Piston" icon="sticky_piston"/>
         <hopper name="Hopper" icon="hopper"/>
         <chest name="Chest" icon="chest"/>
-        <trapped_chest name="Trapped Chest" icon="trapped_chest"/>
-        <ender_chest name="Ender Chest" icon="ender_chest_block"/>
+        <trapped_chest name="Trapped&#xA;Chest" icon="trapped_chest"/>
+        <ender_chest name="Ender&#xA;Chest" icon="ender_chest_block"/>
         <brewing_stand name="Brewing Stand" icon="brewing_stand"/>
         <bell name="Bell" icon="bell"/>
         <cauldron name="Cauldron" icon="cauldron"/>

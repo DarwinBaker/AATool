@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid name="all_versions">
+        <rows>
+            <row height="148"/>
+            <row height="40"/>
+            <row height="600"/>
+            <row height="40"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="1555"/>
+        </columns>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <!-- top panel -->
+        <flow_panel row="0" col="1" colspan="3" border_thickness="5" padding_top="5" draw_mode="childrenonly">
+
+            <!-- any% rsg 1.16 world record holder -->
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel width="150">
+                <textblock text="Any% RSG" font_size="24" vertical_align="top" margin_top="10" height="24"/>
+                <panel width="150" padding_top="27" horizontal_align="left" draw_mode="childrenonly">
+                    <avatar name="any%_rsg_avatar" vertical_align="top" margin_top="32"/>
+                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock name="any%_rsg_runner" vertical_align="top" margin_top="80" height="12"/>
+                    <textblock name="any%_rsg_time" vertical_align="top" margin_top="94" height="12"/>
+                </panel>
+            </panel>
+
+            <!-- any% ssg 1.16 world record holder -->
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel width="150">
+                <textblock text="Any% SSG" font_size="24" vertical_align="top" margin_top="10" height="24"/>
+                <panel width="150" padding_top="27" horizontal_align="left" draw_mode="childrenonly">
+                    <avatar name="any%_ssg_avatar" vertical_align="top" margin_top="32"/>
+                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock name="any%_ssg_runner" vertical_align="top" margin_top="80" height="12"/>
+                    <textblock name="any%_ssg_time" vertical_align="top" margin_top="94" height="12"/>
+                </panel>
+            </panel>
+
+            <!-- all blocks world records -->
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel width="305">
+                <textblock text="All Blocks World Records" font_size="24" vertical_align="top" margin_top="8" height="24"/>
+                <panel width="100" padding_top="30" horizontal_align="left" draw_mode="childrenonly">
+                    <textblock text="1.19" vertical_align="top" margin_top="8" height="12"/>
+                    <avatar name="ab_wr_1.19_avatar" vertical_align="top" margin_top="32"/>
+                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock name="ab_wr_1.19_runner" vertical_align="top" margin_top="80" height="12"/>
+                    <textblock name="ab_wr_1.19_igt" text="__:__:__" vertical_align="top" margin_top="94" height="12"/>
+                </panel>
+                <panel width="100" padding_top="30" horizontal_align="center" draw_mode="childrenonly">
+                    <textblock text="1.18" vertical_align="top" margin_top="8" height="12"/>
+                    <avatar name="ab_wr_1.18_avatar" vertical_align="top" margin_top="32"/>
+                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock name="ab_wr_1.18_runner" vertical_align="top" margin_top="80" height="12"/>
+                    <textblock name="ab_wr_1.18_igt" text="__:__:__" vertical_align="top" margin_top="94" height="12"/>
+                </panel>
+                <panel width="100" padding_top="30" horizontal_align="right" draw_mode="childrenonly">
+                    <textblock text="1.16" vertical_align="top" margin_top="8" height="12"/>
+                    <avatar name="ab_wr_1.16_avatar" vertical_align="top" margin_top="32"/>
+                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock name="ab_wr_1.16_runner" vertical_align="top" margin_top="80" height="12"/>
+                    <textblock name="ab_wr_1.16_igt" text="__:__:__" vertical_align="top" margin_top="94" height="12"/>
+                </panel>
+            </panel>
+
+            <!-- most aa world records -->
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel width="150">
+                <textblock text="Most AA WRs" font_size="24" vertical_align="top" margin_top="8" height="24"/>
+                <panel width="150" padding_top="27" horizontal_align="left" draw_mode="childrenonly">
+                    <avatar name="most_records_avatar" vertical_align="top" margin_top="32"/>
+                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock name="most_records_runner" vertical_align="top" margin_top="80" height="12"/>
+                    <textblock name="most_records_list" vertical_align="top" margin_top="94" height="12"/>
+                </panel>
+            </panel>
+
+            <!-- half heart hardcore aa world record -->
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel width="150">
+                <textblock text="Half Heart Hardcore AA" font_size="24" vertical_align="top" margin_top="2" height="48"/>
+                <panel padding_top="30" horizontal_align="left" draw_mode="childrenonly">
+                    <avatar player="Elysaku" vertical_align="top" margin_top="32"/>
+                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock text="Elysaku" vertical_align="top" margin_top="80" height="12"/>
+                    <textblock text="7:02:31 (1.16)" vertical_align="top" margin_top="94" height="12"/>
+                </panel>
+            </panel>
+
+            <!-- 1000 seeds challenge -->
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel width="225">
+                <textblock text="Thousand Seeds No-Reset Challenge" font_size="24" vertical_align="top" margin_top="2" height="48"/>
+                <panel width="110" padding_top="40" horizontal_align="left" draw_mode="childrenonly">
+                    <avatar player="994f9376-3f80-48bc-9e72-ee92f861911d" vertical_align="top" margin_top="32"/>
+                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock text="Couriway" vertical_align="top" margin_top="80" height="12"/>
+                    <textblock text="" vertical_align="top" margin_top="94" height="12"/>
+                </panel>
+                <panel width="110" padding_top="40" horizontal_align="right" draw_mode="childrenonly">
+                    <avatar player="fa1bec35-0585-46c9-8f92-79f8be7cf9bc" vertical_align="top" margin_top="32"/>
+                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock text="MoleyG" vertical_align="top" margin_top="80" height="12"/>
+                    <textblock text="" vertical_align="top" margin_top="94" height="12"/>
+                </panel>
+            </panel>
+
+            <!-- 100 hardcore challenge -->
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel width="180">
+                <textblock text="100 Deathless Hardcore Runs" font_size="24" vertical_align="top" margin_top="2" height="48"/>
+                <panel padding_top="27" horizontal_align="left" draw_mode="childrenonly">
+                    <panel width="36" height="36" vertical_align="top" margin_top="32" border_thickness="2">
+                        <avatar name="100hc_avatar" label_tint="true" empty="true"/>
+                    </panel>
+                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock text="Closest Attempts:" vertical_align="top" margin_top="80" height="12"/>
+                    <textblock text="72 by Elysaku, 69 by Couriway" vertical_align="top" margin_top="94" height="12"/>
+                </panel>
+            </panel>
+
+            <!-- main player -->
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel width="200">
+                <panel height="57" padding="8" vertical_align="top" draw_mode="childrenonly">
+                    <button name="show_tracker" text="Tracker     " global="true" font_size="24" padding_top="-3" border_thickness="3">
+                        <picture texture="block_grid" label_tint="true" width="43" height="27" horizontal_align="right" margin_right="8" margin_top="1"/>
+                    </button>
+                </panel>
+                <textblock collapsed="true" text="The AATool Team" font_size="24" vertical_align="top" margin_top="8"/>
+                <panel width="100" padding_top="40" horizontal_align="left" draw_mode="childrenonly">
+                    <avatar player="60bddec7-939c-4753-a898-cffa33134a4d" vertical_align="top" margin_top="32"/>
+                    <panel width="60" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock text="CTM" vertical_align="top" margin_top="80" height="12"/>
+                    <textblock text="" vertical_align="top" margin_top="94" height="12"/>
+                </panel>
+                <panel width="100" padding_top="40" horizontal_align="right" draw_mode="childrenonly">
+                    <avatar player="899c63ac-6590-46c0-b77c-4dae1543f707" vertical_align="top" margin_top="32"/>
+                    <panel width="60" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock text="Deadpool" vertical_align="top" margin_top="80" height="12"/>
+                    <textblock text="" vertical_align="top" margin_top="94" height="12"/>
+                </panel>
+            </panel>
+
+        </flow_panel>
+
+        <!-- aa leaderboard headers -->
+        <flow_panel row="1" col="1" padding="5" border_thickness="5">
+            <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="1.19 AA" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="1.18 AA" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="1.17 AA" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="1.16 AA" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="1.15 AA" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="1.14 AA" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="1.13 AA" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="1.12 AA" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="1.8-1.11 AACH" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="1.0-1.6 AACH" font_size="24"/>
+            </panel>
+            
+           
+            <text_block text="1.18" font_size="24" padding_top="2" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <text_block text="1.17" font_size="24" padding_top="2" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <text_block text="1.16" font_size="24" padding_top="2" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <text_block text="1.15" font_size="24" padding_top="2" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <text_block text="1.14" font_size="24" padding_top="2" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <text_block text="1.13" font_size="24" padding_top="2" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <text_block text="1.12" font_size="24" padding_top="2" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <text_block text="1.8-1.11" font_size="24" padding_top="2" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <text_block text="1.0-1.6" font_size="24" padding_top="2" width="150"/>
+        </flow_panel>
+
+        <!-- aa leaderboards -->
+        <flow_panel row="2" col="1" padding="5" border_thickness="5">
+            <leaderboard category="All Advancements" version="1.19" hide_button="true" small="true" col="1" rows="10" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="All Advancements" version="1.18" hide_button="true" small="true" col="1" rows="10" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="All Advancements" version="1.17" hide_button="true" small="true" col="2" rows="10" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="All Advancements" version="1.16" hide_button="true" small="true" col="3" rows="10" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="All Advancements" version="1.15" hide_button="true" small="true" col="4" rows="10" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="All Advancements" version="1.14" hide_button="true" small="true" col="5" rows="10" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="All Advancements" version="1.13" hide_button="true" small="true" col="6" rows="10" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="All Advancements" version="1.12" hide_button="true" small="true" col="7" rows="10" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="All Advancements" version="1.11" hide_button="true" small="true" col="8" rows="10" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="All Advancements" version="1.6" hide_button="true" small="true" col="9"  rows="10" width="150"/>
+        </flow_panel>
+
+        <!-- needed to load data -->
+        <leaderboard category="All Blocks" version="1.19" draw_mode="none"/>
+        <leaderboard category="All Blocks" version="1.18" draw_mode="none"/>
+        <leaderboard category="All Blocks" version="1.16" draw_mode="none"/>
+
+        <!-- status strip -->
+        <status_bar row="3" col="1" colspan="3" right="540"/>
+
+    </grid>
+
+</control>

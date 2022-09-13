@@ -106,7 +106,7 @@
         </flow_panel>
 
         <!-- leaderboard -->
-        <leaderboard name="Leaderboard" category="All Achievements" version="1.11" width="230" height="416" col="2" horizontal_align="right" vertical_align="top"/>
+        <leaderboard name="Leaderboard" category="All Advancements" version="1.11" width="230" height="416" col="2" horizontal_align="right" vertical_align="top"/>
 
         <!-- status strip -->
         <status_bar row="1" col="1" colspan="3" right="330"/>

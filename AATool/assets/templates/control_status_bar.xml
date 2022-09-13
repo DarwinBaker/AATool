@@ -19,11 +19,16 @@
 
     <!-- all blocks mode has a few extra controls -->
     <panel name="progress_blocks" margin_left="392" horizontal_align="left" collapsed="true">
-        <panel padding_left="114" >
+        <panel name="progress_panel" padding_left="184" >
             <text_block width="0.85*" height="12" vertical_align="bottom" margin_bottom="24"/>
             <progress_bar vertical_align="bottom" horizontal_align="left" margin="10,10,0,8"/>
         </panel>
-        <button name="manual_clear" text="Clear Highlighted" width="110" height="30" horizontal_align="left" margin_left="6"/>
+        <button name="clear_blocks_highlighted" width="86" height="30" horizontal_align="left" margin_left="6">
+            <picture texture="clear_highlighted_blocks" width="16" height="16" horizontal_align="left" margin_left="7"/>
+        </button>
+        <button name="clear_blocks_confirmed" width="86" height="30" horizontal_align="left" margin_left="98">
+            <picture texture="clear_confirmed_blocks" width="16" height="16" horizontal_align="left" margin_left="7"/>
+        </button>
     </panel>
 
     <!-- patreon -->

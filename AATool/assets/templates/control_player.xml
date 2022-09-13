@@ -10,11 +10,11 @@
             <column width="128"/>
         </columns>
 
-        <panel row="0" col="0" horizontal_align="left" vertical_align="top" square="true" border_thickness="2">
+        <panel row="0" col="0" horizontal_align="left" vertical_align="top" square="true" border_thickness="2" margin_left="6">
             <avatar scale="4"/>
         </panel>
-        <text_block name="label_name"     row="0" col="1" h_text_align="left" vertical_align="top" padding_left="5" margin_top="2"/>
-        <text_block name="label_pronouns" row="0" col="1" h_text_align="left" vertical_align="top" padding_left="5" margin_top="17"/>
+        <text_block name="label_name"     row="0" col="1" h_text_align="left" vertical_align="top" padding_left="14" margin_top="2"/>
+        <text_block name="label_pronouns" row="0" col="1" h_text_align="left" vertical_align="top" padding_left="14" margin_top="17"/>
 
         <!-- item counts -->
         <flow_carousel name="items" row="1" colspan="2" height="16" cell_width="40" direction="lefttoright" draw_mode="childrenonly" right_to_left="true" speed="30">

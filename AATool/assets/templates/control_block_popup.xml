@@ -5,6 +5,25 @@
     <panel name="arrow_left" draw_mode="none" width="32" height="64" horizontal_align="left"/>
     <panel name="arrow_right" draw_mode="none" width="32" height="64" horizontal_align="right"/>
     <panel name="window" draw_mode="childrenonly" height="160">
-        <text_block name="label" vertical_align="top" layer="fore" padding="30"/>
+        <text_block name="block_name" vertical_align="top" layer="fore" padding="30"/>
+        <text_block name="block_help" vertical_align="bottom" layer="fore" padding="30"/>
+        
+        <button layer="fore" width="78" height="24" name="selection_highlight" text="Highlight" vertical_align="top" margin_top="26">
+            <picture texture="highlight_blocks" layer="fore" width="16" height="16" horizontal_align="left" margin_left="4"/>
+        </button>
+
+        <button layer="fore" width="78" height="24" name="clear_highlighted" text="Clear" vertical_align="top" margin_top="54">
+            <picture texture="clear_highlighted_blocks" layer="fore" width="16" height="16" horizontal_align="left" margin_left="4"/>
+        </button>
+
+        <button layer="fore" width="78" height="24" name="selection_confirm" text="Confirm" vertical_align="top" margin_top="82">
+            <picture texture="confirm_blocks" layer="fore" width="16" height="16" horizontal_align="left" margin_left="4"/>
+        </button>
+
+        <button layer="fore" width="78" height="24" name="clear_confirmed" text="Clear" vertical_align="top" margin_top="110">
+            <picture texture="clear_confirmed_blocks" layer="fore" width="16" height="16" horizontal_align="left" margin_left="4"/>
+        </button>
+
+        <text_block name="algebraic_notation" vertical_align="top" layer="fore" padding_top="124"/>
     </panel>
 </control>

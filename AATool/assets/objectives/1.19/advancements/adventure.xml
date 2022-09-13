@@ -40,8 +40,8 @@
             <criterion id="minecraft:swamp"/>
             <criterion id="minecraft:mangrove_swamp"/>
             <criterion id="minecraft:taiga"/>
-            <criterion id="minecraft:old_growth_pine_taiga" name="Old Pine"/>
-            <criterion id="minecraft:old_growth_spruce_taiga" name="Old Spruce"/>
+            <criterion id="minecraft:old_growth_pine_taiga" name="Old Growth Pine"/>
+            <criterion id="minecraft:old_growth_spruce_taiga" name="Old Growth Spruce"/>
             <criterion id="minecraft:snowy_taiga"/>
             <criterion id="minecraft:grove"/>
 
@@ -127,6 +127,6 @@
             <criterion id="minecraft:ravager"/>
         </criteria>
     </advancement>
-    <advancement id="minecraft:adventure/avoid_vibration"  name="Sneak 100" icon="skulk_sensor"/>
-    <advancement id="minecraft:adventure/kill_mob_near_sculk_catalyst"  name="It Spreads" icon="skulk_catalyst" type="challenge"/>
+    <advancement id="minecraft:adventure/avoid_vibration"  name="Sneak 100" icon="sculk_sensor"/>
+    <advancement id="minecraft:adventure/kill_mob_near_sculk_catalyst"  name="It Spreads" icon="sculk_catalyst" type="challenge"/>
 </group>

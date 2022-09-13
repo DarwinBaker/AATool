@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <blocks>
     <amethyst_large>
-        <amethyst_block       name="Block of Amethyst"        icon="amethyst_block" light_level="0.4"/>
-        <amethyst_cluster     name="Amethyst Cluster"         icon="amethyst_cluster" light_level="0.4"/>
+        <amethyst_block       name="Block of Amethyst"        icon="amethyst_block" light_level="0.4" tags="geode"/>
+        <amethyst_cluster     name="Amethyst Cluster"         icon="amethyst_cluster" light_level="0.4" tags="geode"/>
     </amethyst_large>
     <amethyst_small>
-        <small_amethyst_bud   name="Small Amethyst&#xA;Bud"        icon="small_amethyst_bud" light_level="0.2"/>
-        <medium_amethyst_bud  name="Medium Amethyst&#xA;Bud"       icon="medium_amethyst_bud" light_level="0.3"/>
-        <large_amethyst_bud   name="Large Amethyst&#xA;Bud"        icon="large_amethyst_bud" light_level="0.4"/>
+        <small_amethyst_bud   name="Small Amethyst&#xA;Bud"        icon="small_amethyst_bud" light_level="0.2" tags="geode"/>
+        <medium_amethyst_bud  name="Medium Amethyst&#xA;Bud"       icon="medium_amethyst_bud" light_level="0.3" tags="geode"/>
+        <large_amethyst_bud   name="Large Amethyst&#xA;Bud"        icon="large_amethyst_bud" light_level="0.4" tags="geode"/>
     </amethyst_small>
     <andesite>
         <andesite name="Andesite" icon="andesite"/>
@@ -19,44 +19,44 @@
         <polished_andesite_slab name="Polished&#xA;Andesite&#xA;Slab" icon="polished_andesite_slab"/>
     </andesite>
     <banners>
-        <white_banner name="White&#xA;Banner" icon="white_banner"/>
-        <red_banner name="Red&#xA;Banner" icon="red_banner"/>
-        <orange_banner name="Orange&#xA;Banner" icon="orange_banner"/>
-        <yellow_banner name="Yellow&#xA;Banner" icon="yellow_banner"/>
-        <lime_banner name="Lime&#xA;Banner" icon="lime_banner"/>
-        <green_banner name="Green&#xA;Banner" icon="green_banner"/>
-        <cyan_banner name="Cyan&#xA;Banner" icon="cyan_banner"/>
-        <light_blue_banner name="Light Blue&#xA;Banner" icon="light_blue_banner"/>
-        <blue_banner name="Blue&#xA;Banner" icon="blue_banner"/>
-        <purple_banner name="Purple&#xA;Banner" icon="purple_banner"/>
-        <magenta_banner name="Magenta&#xA;Banner" icon="magenta_banner"/>
-        <pink_banner name="Pink&#xA;Banner" icon="pink_banner"/>
-        <brown_banner name="Brown&#xA;Banner" icon="brown_banner"/>
-        <light_gray_banner name="Light Gray&#xA;Banner" icon="light_gray_banner"/>
-        <gray_banner name="Gray&#xA;Banner" icon="gray_banner"/>
-        <black_banner name="Black&#xA;Banner" icon="black_banner"/>
+        <white_banner name="White&#xA;Banner" icon="white_banner" tags="wool"/>
+        <red_banner name="Red&#xA;Banner" icon="red_banner" tags="wool"/>
+        <orange_banner name="Orange&#xA;Banner" icon="orange_banner" tags="wool"/>
+        <yellow_banner name="Yellow&#xA;Banner" icon="yellow_banner" tags="wool"/>
+        <lime_banner name="Lime&#xA;Banner" icon="lime_banner" tags="wool"/>
+        <green_banner name="Green&#xA;Banner" icon="green_banner" tags="wool"/>
+        <cyan_banner name="Cyan&#xA;Banner" icon="cyan_banner" tags="wool"/>
+        <light_blue_banner name="Light Blue&#xA;Banner" icon="light_blue_banner" tags="wool"/>
+        <blue_banner name="Blue&#xA;Banner" icon="blue_banner" tags="wool"/>
+        <purple_banner name="Purple&#xA;Banner" icon="purple_banner" tags="wool"/>
+        <magenta_banner name="Magenta&#xA;Banner" icon="magenta_banner" tags="wool"/>
+        <pink_banner name="Pink&#xA;Banner" icon="pink_banner" tags="wool"/>
+        <brown_banner name="Brown&#xA;Banner" icon="brown_banner" tags="wool"/>
+        <light_gray_banner name="Light Gray&#xA;Banner" icon="light_gray_banner" tags="wool"/>
+        <gray_banner name="Gray&#xA;Banner" icon="gray_banner" tags="wool"/>
+        <black_banner name="Black&#xA;Banner" icon="black_banner" tags="wool"/>
     </banners>
     <beds>
-        <white_bed name="White Bed" icon="white_bed"/>
-        <red_bed name="Red Bed" icon="red_bed"/>
-        <orange_bed name="Orange Bed" icon="orange_bed"/>
-        <yellow_bed name="Yellow Bed" icon="yellow_bed"/>
-        <lime_bed name="Lime Bed" icon="lime_bed"/>
-        <green_bed name="Green Bed" icon="green_bed"/>
-        <cyan_bed name="Cyan Bed" icon="cyan_bed"/>
-        <light_blue_bed name="Light Blue&#xA;Bed" icon="light_blue_bed"/>
-        <blue_bed name="Blue Bed" icon="blue_bed"/>
-        <purple_bed name="Purple Bed" icon="purple_bed"/>
-        <magenta_bed name="Magenta Bed" icon="magenta_bed"/>
-        <pink_bed name="Pink Bed" icon="pink_bed"/>
-        <brown_bed name="Brown Bed" icon="brown_bed"/>
-        <light_gray_bed name="Light Gray&#xA;Bed" icon="light_gray_bed"/>
-        <gray_bed name="Gray Bed" icon="gray_bed"/>
-        <black_bed name="Black Bed" icon="black_bed"/>
+        <white_bed name="White Bed" icon="white_bed" tags="wool"/>
+        <red_bed name="Red Bed" icon="red_bed" tags="wool"/>
+        <orange_bed name="Orange Bed" icon="orange_bed" tags="wool"/>
+        <yellow_bed name="Yellow Bed" icon="yellow_bed" tags="wool"/>
+        <lime_bed name="Lime Bed" icon="lime_bed" tags="wool"/>
+        <green_bed name="Green Bed" icon="green_bed" tags="wool"/>
+        <cyan_bed name="Cyan Bed" icon="cyan_bed" tags="wool"/>
+        <light_blue_bed name="Light Blue&#xA;Bed" icon="light_blue_bed" tags="wool"/>
+        <blue_bed name="Blue Bed" icon="blue_bed" tags="wool"/>
+        <purple_bed name="Purple Bed" icon="purple_bed" tags="wool"/>
+        <magenta_bed name="Magenta Bed" icon="magenta_bed" tags="wool"/>
+        <pink_bed name="Pink Bed" icon="pink_bed" tags="wool"/>
+        <brown_bed name="Brown Bed" icon="brown_bed" tags="wool"/>
+        <light_gray_bed name="Light Gray&#xA;Bed" icon="light_gray_bed" tags="wool"/>
+        <gray_bed name="Gray Bed" icon="gray_bed" tags="wool"/>
+        <black_bed name="Black Bed" icon="black_bed" tags="wool"/>
     </beds>
     <blackstone>
         <blackstone name="Blackstone" icon="blackstone"/>
-        <gilded_blackstone name="Gilded Blackstone" icon="gilded_blackstone"/>
+        <gilded_blackstone name="Gilded Blackstone" icon="gilded_blackstone" tags="silktouch"/>
         <blackstone_stairs name="Blackstone Stairs" icon="blackstone_stairs"/>
         <blackstone_slab name="Blackstone Slab" icon="blackstone_slab"/>
         <blackstone_wall name="Blackstone Wall" icon="blackstone_wall"/>
@@ -78,41 +78,41 @@
         <brick_slab name="Brick Slab" icon="brick_slab"/>
     </bricks>
     <carpet>
-        <white_carpet name="White&#xA;Carpet" icon="white_carpet"/>
-        <red_carpet name="Red&#xA;Carpet" icon="red_carpet"/>
-        <orange_carpet name="Orange&#xA;Carpet" icon="orange_carpet"/>
-        <yellow_carpet name="Yellow&#xA;Carpet" icon="yellow_carpet"/>
-        <lime_carpet name="Lime&#xA;Carpet" icon="lime_carpet"/>
-        <green_carpet name="Green&#xA;Carpet" icon="green_carpet"/>
-        <cyan_carpet name="Cyan&#xA;Carpet" icon="cyan_carpet"/>
-        <light_blue_carpet name="Light Blue&#xA;Carpet" icon="light_blue_carpet"/>
-        <blue_carpet name="Blue&#xA;Carpet" icon="blue_carpet"/>
-        <purple_carpet name="Purple&#xA;Carpet" icon="purple_carpet"/>
-        <magenta_carpet name="Magenta&#xA;Carpet" icon="magenta_carpet"/>
-        <pink_carpet name="Pink&#xA;Carpet" icon="pink_carpet"/>
-        <brown_carpet name="Brown&#xA;Carpet" icon="brown_carpet"/>
-        <light_gray_carpet name="Light Gray&#xA;Carpet" icon="light_gray_carpet"/>
-        <gray_carpet name="Gray&#xA;Carpet" icon="gray_carpet"/>
-        <black_carpet name="Black&#xA;Carpet" icon="black_carpet"/>
+        <white_carpet name="White&#xA;Carpet" icon="white_carpet" tags="wool"/>
+        <red_carpet name="Red&#xA;Carpet" icon="red_carpet" tags="wool"/>
+        <orange_carpet name="Orange&#xA;Carpet" icon="orange_carpet" tags="wool"/>
+        <yellow_carpet name="Yellow&#xA;Carpet" icon="yellow_carpet" tags="wool"/>
+        <lime_carpet name="Lime&#xA;Carpet" icon="lime_carpet" tags="wool"/>
+        <green_carpet name="Green&#xA;Carpet" icon="green_carpet" tags="wool"/>
+        <cyan_carpet name="Cyan&#xA;Carpet" icon="cyan_carpet" tags="wool"/>
+        <light_blue_carpet name="Light Blue&#xA;Carpet" icon="light_blue_carpet" tags="wool"/>
+        <blue_carpet name="Blue&#xA;Carpet" icon="blue_carpet" tags="wool"/>
+        <purple_carpet name="Purple&#xA;Carpet" icon="purple_carpet" tags="wool"/>
+        <magenta_carpet name="Magenta&#xA;Carpet" icon="magenta_carpet" tags="wool"/>
+        <pink_carpet name="Pink&#xA;Carpet" icon="pink_carpet" tags="wool"/>
+        <brown_carpet name="Brown&#xA;Carpet" icon="brown_carpet" tags="wool"/>
+        <light_gray_carpet name="Light Gray&#xA;Carpet" icon="light_gray_carpet" tags="wool"/>
+        <gray_carpet name="Gray&#xA;Carpet" icon="gray_carpet" tags="wool"/>
+        <black_carpet name="Black&#xA;Carpet" icon="black_carpet" tags="wool"/>
     </carpet>
     <candles>
-        <candle              name="Candle"                 icon="candle"/>
-        <white_candle        name="White&#xA;Candle"           icon="white_candle"/>
-        <red_candle          name="Red&#xA;Candle"             icon="red_candle"/>
-        <orange_candle       name="Orange&#xA;Candle"          icon="orange_candle"/>
-        <yellow_candle       name="Yellow&#xA;Candle"          icon="yellow_candle"/>
-        <lime_candle         name="Lime&#xA;Candle"            icon="lime_candle"/>
-        <green_candle        name="Green&#xA;Candle"           icon="green_candle"/>
-        <cyan_candle         name="Cyan&#xA;Candle"            icon="cyan_candle"/>
-        <light_blue_candle   name="Light Blue&#xA;Candle"      icon="light_blue_candle"/>
-        <blue_candle         name="Blue&#xA;Candle"            icon="blue_candle"/>
-        <purple_candle       name="Purple&#xA;Candle"          icon="purple_candle"/>
-        <magenta_candle      name="Magenta&#xA;Candle"         icon="magenta_candle"/>
-        <pink_candle         name="Pink&#xA;Candle"            icon="pink_candle"/>
-        <brown_candle        name="Brown&#xA;Candle"           icon="brown_candle"/>
-        <light_gray_candle   name="Light Gray&#xA;Candle"      icon="light_gray_candle"/>
-        <gray_candle         name="Gray&#xA;Candle"            icon="gray_candle"/>
-        <black_candle        name="Black&#xA;Candle"           icon="black_candle"/>
+        <candle              name="Candle"                     icon="candle" tags="beewax beeswax"/>
+        <white_candle        name="White&#xA;Candle"           icon="white_candle" tags="beewax beeswax"/>
+        <red_candle          name="Red&#xA;Candle"             icon="red_candle" tags="beewax beeswax"/>
+        <orange_candle       name="Orange&#xA;Candle"          icon="orange_candle" tags="beewax beeswax"/>
+        <yellow_candle       name="Yellow&#xA;Candle"          icon="yellow_candle" tags="beewax beeswax"/>
+        <lime_candle         name="Lime&#xA;Candle"            icon="lime_candle" tags="beewax beeswax"/>
+        <green_candle        name="Green&#xA;Candle"           icon="green_candle" tags="beewax beeswax"/>
+        <cyan_candle         name="Cyan&#xA;Candle"            icon="cyan_candle" tags="beewax beeswax"/>
+        <light_blue_candle   name="Light Blue&#xA;Candle"      icon="light_blue_candle" tags="beewax beeswax"/>
+        <blue_candle         name="Blue&#xA;Candle"            icon="blue_candle" tags="beewax beeswax"/>
+        <purple_candle       name="Purple&#xA;Candle"          icon="purple_candle" tags="beewax beeswax"/>
+        <magenta_candle      name="Magenta&#xA;Candle"         icon="magenta_candle" tags="beewax beeswax"/>
+        <pink_candle         name="Pink&#xA;Candle"            icon="pink_candle" tags="beewax beeswax"/>
+        <brown_candle        name="Brown&#xA;Candle"           icon="brown_candle" tags="beewax beeswax"/>
+        <light_gray_candle   name="Light Gray&#xA;Candle"      icon="light_gray_candle" tags="beewax beeswax"/>
+        <gray_candle         name="Gray&#xA;Candle"            icon="gray_candle" tags="beewax beeswax"/>
+        <black_candle        name="Black&#xA;Candle"           icon="black_candle" tags="beewax beeswax"/>
     </candles>
     <cobblestone>
         <cobblestone name="Cobble" icon="cobblestone"/>
@@ -212,44 +212,48 @@
         <gravel name="Gravel" icon="gravel"/>
     </dirt>
     <doors>
+        <iron_door name="Iron Door" icon="iron_door" double_height="true"/>
         <oak_door name="Oak Door" icon="oak_door" double_height="true"/>
         <spruce_door name="Spruce Door" icon="spruce_door" double_height="true"/>
         <birch_door name="Birch Door" icon="birch_door" double_height="true"/>
         <jungle_door name="Jungle Door" icon="jungle_door" double_height="true"/>
         <acacia_door name="Acacia Door" icon="acacia_door" double_height="true"/>
         <dark_oak_door name="Dark Oak Door" icon="dark_oak_door" double_height="true"/>
+        <mangrove_door name="Mangrove Door" icon="mangrove_door" double_height="true"/>
         <crimson_door name="Crimson Door" icon="crimson_door" double_height="true"/>
         <warped_door name="Warped Door" icon="warped_door" double_height="true"/>
     </doors>
     <end_misc>
         <end_stone name="End Stone" icon="end_stone"/>
-        <dragon_egg name="Dragon Egg" icon="dragon_egg_block"/>
-        <chorus_flower name="Chorus Flower" icon="chorus_flower"/>
-        <end_rod name="End Rod" icon="end_rod" light_level="0.5"/>
+        <dragon_egg name="Dragon Egg" icon="dragon_egg_block" tags="ender"/>
+        <chorus_flower name="Chorus Flower" icon="chorus_flower" tags="end"/>
     </end_misc>
     <end_blocks>
-        <end_stone_bricks name="End Stone Bricks" icon="end_stone_bricks"/>
-        <end_stone_brick_stairs name="End Stone Brick Stairs" icon="end_stone_brick_stairs"/>
-        <end_stone_brick_slab name="End Stone Brick Slab" icon="end_stone_brick_slab"/>
-        <end_stone_brick_wall name="End Stone Brick Wall" icon="end_stone_brick_wall"/>
-        <purpur_block name="Purpur Block" icon="purpur_block"/>
-        <purpur_stairs name="Purpur Stairs" icon="purpur_stairs"/>
-        <purpur_slab name="Purpur Slab" icon="purpur_slab"/>
-        <purpur_pillar name="Purpur Pillar" icon="purpur_pillar"/>
+        <end_stone_bricks name="End Stone Bricks" icon="end_stone_bricks" tags="endcity"/>
+        <end_stone_brick_stairs name="End Stone Brick Stairs" icon="end_stone_brick_stairs" tags="endcity"/>
+        <end_stone_brick_slab name="End Stone Brick Slab" icon="end_stone_brick_slab" tags="endcity"/>
+        <end_stone_brick_wall name="End Stone Brick Wall" icon="end_stone_brick_wall" tags="endcity"/>
+        <purpur_block name="Purpur Block" icon="purpur_block" tags="endcity"/>
+        <purpur_stairs name="Purpur Stairs" icon="purpur_stairs" tags="endcity"/>
+        <purpur_slab name="Purpur Slab" icon="purpur_slab" tags="endcity"/>
+        <purpur_pillar name="Purpur Pillar" icon="purpur_pillar" tags="endcity"/>
     </end_blocks>
+    <end_rod>
+        <end_rod name="End Rod" icon="end_rod" light_level="0.5" tags="endcity"/>
+    </end_rod>
     <flowers>
-        <poppy name="Poppy" icon="poppy"/>
-        <dandelion name="Dandelion" icon="dandelion"/>
-        <blue_orchid name="Blue Orchid" icon="blue_orchid"/>
-        <cornflower name="Cornflower" icon="cornflower"/>
-        <allium name="Allium" icon="allium"/>
-        <oxeye_daisy name="Oxeye Daisy" icon="oxeye_daisy"/>
-        <lily_of_the_valley name="Lily of the Valley" icon="lily_of_the_valley"/>
-        <azure_bluet name="Azure Bluet" icon="azure_bluet"/>
-        <red_tulip name="Red Tulip" icon="red_tulip"/>
-        <orange_tulip name="Orange Tulip" icon="orange_tulip"/>
-        <pink_tulip name="Pink Tulip" icon="pink_tulip"/>
-        <white_tulip name="White Tulip" icon="white_tulip"/>
+        <poppy name="Poppy" icon="poppy" tags="flowers"/>
+        <dandelion name="Dandelion" icon="dandelion" tags="flowers"/>
+        <blue_orchid name="Blue Orchid" icon="blue_orchid" tags="flowers"/>
+        <cornflower name="Cornflower" icon="cornflower" tags="flowers"/>
+        <allium name="Allium" icon="allium" tags="flowers"/>
+        <oxeye_daisy name="Oxeye Daisy" icon="oxeye_daisy" tags="flowers"/>
+        <lily_of_the_valley name="Lily of the Valley" icon="lily_of_the_valley" tags="flowers"/>
+        <azure_bluet name="Azure Bluet" icon="azure_bluet" tags="flowers"/>
+        <red_tulip name="Red Tulip" icon="red_tulip" tags="flowers"/>
+        <orange_tulip name="Orange Tulip" icon="orange_tulip" tags="flowers"/>
+        <pink_tulip name="Pink Tulip" icon="pink_tulip" tags="flowers"/>
+        <white_tulip name="White Tulip" icon="white_tulip" tags="flowers"/>
     </flowers>
     <foliage>
         <oak_sapling name="Oak&#xA;Sapling" icon="oak_sapling"/>
@@ -264,13 +268,15 @@
         <acacia_leaves name="Acacia&#xA;Leaves" icon="acacia_leaves"/>
         <dark_oak_sapling name="Dark Oak&#xA;Sapling" icon="dark_oak_sapling"/>
         <dark_oak_leaves name="Dark Oak&#xA;Leaves" icon="dark_oak_leaves"/>
-        <crimson_fungus name="Crimson&#xA;Fungus" icon="crimson_fungus"/>
-        <nether_wart_block name="Nether Wart&#xA;Block" icon="nether_wart_block"/>
-        <warped_fungus name="Warped Fungus" icon="warped_fungus"/>
-        <warped_wart_block name="Warped Wart&#xA;Block" icon="warped_wart_block"/>
+        <mangrove_propagule name="Mangrove&#xA;Propagule" icon="mangrove_propagule" tags="sapling"/>
+        <mangrove_leaves name="Mangrove&#xA;Leaves" icon="mangrove_leaves"/>
+        <crimson_fungus name="Crimson&#xA;Fungus" icon="crimson_fungus" tags="mushrooms"/>
+        <nether_wart_block name="Nether Wart&#xA;Block" icon="nether_wart_block" tags="leaves"/>
+        <warped_fungus name="Warped Fungus" icon="warped_fungus" tags="mushrooms"/>
+        <warped_wart_block name="Warped Wart&#xA;Block" icon="warped_wart_block" tags="leaves"/>
     </foliage>
     <food>
-        <cocoa_beans name="Cocoa&#xA;Beans" icon="cocoa_beans"/>
+        <cocoa_beans name="Cocoa&#xA;Beans" icon="cocoa_beans" tags="jungle"/>
         <mushroom_stem name="Mushroom Stem" icon="mushroom_stem"/>
         <red_mushroom_block name="Red Mushroom Block" icon="red_mushroom_block"/>
         <brown_mushroom_block name="Brown Mushroom Block" icon="brown_mushroom_block"/>
@@ -343,15 +349,15 @@
     </granite>
     <grass>
         <grass_block name="Grass Block" icon="grass_block"/>
-        <podzol name="Podzol" icon="podzol"/>
-        <mycelium name="Mycelium" icon="mycelium"/>
+        <podzol name="Podzol" icon="podzol" tags="grass"/>
+        <mycelium name="Mycelium" icon="mycelium" tags="grass"/>
         <clay name="Clay" icon="clay"/>
     </grass>
     <wither_rose>
-        <wither_rose name="Wither Rose" icon="wither_rose"/>
+        <wither_rose name="Wither Rose" icon="wither_rose" tags="flowers"/>
     </wither_rose>
     <heads>
-        <dragon_head name="Dragon&#xA;Head" icon="dragon_head"/>
+        <dragon_head name="Dragon&#xA;Head" icon="dragon_head" tags="ender endcity"/>
         <creeper_head name="Creeper&#xA;Head" icon="creeper_head"/>
         <zombie_head name="Zombie&#xA;Head" icon="zombie_head"/>
         <skeleton_skull name="Skeleton&#xA;Skull" icon="skeleton_skull"/>
@@ -377,7 +383,7 @@
         <redstone_block name="Redstone&#xA;Block" icon="redstone_block" light_level="0.6"/>
         <gold_block name="Gold&#xA;Block" icon="gold_block"/>
         <iron_block name="Iron&#xA;Block" icon="iron_block"/>
-        <lightning_rod name="Lightning&#xA;Rod" icon="lightning_rod_block"/>
+        <lightning_rod name="Lightning&#xA;Rod" icon="lightning_rod_block" tags="copper"/>
         <coal_block name="Coal&#xA;Block" icon="coal_block"/>
         <diamond_ore name="Diamond&#xA;Ore" icon="diamond_ore"/>
         <emerald_ore name="Emerald&#xA;Ore" icon="emerald_ore"/>
@@ -405,7 +411,7 @@
         <pointed_dripstone name="Pointed Dripstone" icon="pointed_dripstone"/>
         <dripstone_block name="Dripstone Block" icon="dripstone_block"/>
         <tuff name="Tuff" icon="tuff"/>
-        <calcite name="Calcite" icon="calcite"/>
+        <calcite name="Calcite" icon="calcite" tags="geode"/>
     </minerals>
     <copper>
         <waxed_copper_block name="Waxed&#xA;Block of Copper" icon="copper_block"/>
@@ -414,27 +420,27 @@
         <waxed_cut_copper_slab name="Waxed&#xA;Cut&#160;Copper&#xA;Slab" icon="cut_copper_slab"/>
         <waxed_exposed_copper name="Waxed&#xA;Exposed&#xA;Copper" icon="exposed_copper"/>
         <waxed_exposed_cut_copper name="Waxed&#xA;Exposed Cut&#160;Copper" icon="exposed_cut"/>
-        <waxed_exposed_cut_copper_stairs name="Waxed&#xA;Exposed&#xA;Copper&#160;Stair" icon="exposed_stairs"/>
-        <waxed_exposed_cut_copper_slab name="Waxed&#xA;Exposed&#xA;Copper&#160;Slab" icon="exposed_slab"/>
+        <waxed_exposed_cut_copper_stairs name="Waxed&#xA;Exposed&#xA;Copper&#160;Stair" icon="exposed_stairs" tags="cut"/>
+        <waxed_exposed_cut_copper_slab name="Waxed&#xA;Exposed&#xA;Copper&#160;Slab" icon="exposed_slab" tags="cut"/>
         <waxed_weathered_copper name="Waxed&#xA;Weathered&#xA;Copper" icon="weathered_copper"/>
         <waxed_weathered_cut_copper name="Waxed&#xA;Weathered&#xA;Cut&#160;Copper" icon="weathered_cut"/>
-        <waxed_weathered_cut_copper_stairs name="Waxed&#xA;Weathered&#xA;Copper&#160;Stair" icon="weathered_stairs"/>
-        <waxed_weathered_cut_copper_slab name="Waxed&#xA;Weathered&#xA;Copper&#160;Slab" icon="weathered_slab"/>
+        <waxed_weathered_cut_copper_stairs name="Waxed&#xA;Weathered&#xA;Copper&#160;Stair" icon="weathered_stairs" tags="cut"/>
+        <waxed_weathered_cut_copper_slab name="Waxed&#xA;Weathered&#xA;Copper&#160;Slab" icon="weathered_slab" tags="cut"/>
         <waxed_oxidized_copper name="Waxed&#xA;Oxidized&#xA;Copper" icon="oxidized_copper"/>
         <waxed_oxidized_cut_copper name="Waxed&#xA;Oxidized Cut&#160;Copper" icon="oxidized_cut"/>
-        <waxed_oxidized_cut_copper_stairs name="Waxed&#xA;Oxidized&#xA;Copper&#160;Stair" icon="oxidized_stairs"/>
-        <waxed_oxidized_cut_copper_slab name="Waxed&#xA;Oxidized&#xA;Copper&#160;Slab" icon="oxidized_slab"/>
+        <waxed_oxidized_cut_copper_stairs name="Waxed&#xA;Oxidized&#xA;Copper&#160;Stair" icon="oxidized_stairs" tags="cut"/>
+        <waxed_oxidized_cut_copper_slab name="Waxed&#xA;Oxidized&#xA;Copper&#160;Slab" icon="oxidized_slab" tags="cut"/>
     </copper>
     <nether_basic>
         <netherrack name="Netherrack" icon="netherrack_block"/>
-        <crimson_nylium name="Crimson Nylium" icon="crimson_nylium"/>
-        <warped_nylium name="Warped Nylium" icon="warped_nylium"/>
+        <crimson_nylium name="Crimson Nylium" icon="crimson_nylium" tags="netherrack grass silktouch"/>
+        <warped_nylium name="Warped Nylium" icon="warped_nylium" tags="netherrack grass silktouch"/>
         <soul_sand name="Soul Sand" icon="soul_sand"/>
         <soul_soil name="Soul Soil" icon="soul_soil"/>
         <bone_block name="Bone Block" icon="bone_block"/>
         <basalt name="Basalt" icon="basalt"/>
         <polished_basalt name="Polished Basalt" icon="polished_basalt"/>
-        <smooth_basalt name="Smooth Basalt" icon="smooth_basalt"/>
+        <smooth_basalt name="Smooth Basalt" icon="smooth_basalt" tags="geode"/>
     </nether_basic>
     <nether_brick>
         <nether_bricks name="Nether&#xA;Bricks" icon="nether_bricks"/>
@@ -457,15 +463,15 @@
         <hanging_roots name="Hanging&#xA;Roots" icon="hanging_roots"/>
     </small_foliage>
     <nether_special>
-        <netherite_block name="Block of Netherite" icon="netherite_block"/>
-        <ancient_debris name="Ancient Debris" icon="ancient_debris"/>
-        <lodestone name="Lodestone" icon="lodestone"/>
-        <nether_gold_ore name="Nether&#xA;Gold Ore" icon="nether_gold_ore"/>
-        <nether_quartz_ore name="Nether&#xA;Quartz Ore" icon="nether_quartz_ore"/>
+        <netherite_block name="Block of Netherite" icon="netherite_block" tags="debris"/>
+        <ancient_debris name="Ancient Debris" icon="ancient_debris" tags="netherite"/>
+        <lodestone name="Lodestone" icon="lodestone" tags="netherite"/>
+        <nether_gold_ore name="Nether&#xA;Gold Ore" icon="nether_gold_ore" tags="silktouch"/>
+        <nether_quartz_ore name="Nether&#xA;Quartz Ore" icon="nether_quartz_ore" tags="silktouch"/>
         <glowstone name="Glowstone" icon="glowstone" light_level="0.9"/>
         <obsidian name="Obsidian" icon="obsidian"/>
         <crying_obsidian name="Crying Obsidian" icon="crying_obsidian" light_level="0.5"/>
-        <respawn_anchor name="Respawn Anchor" icon="respawn_anchor" light_level="0.5"/>
+        <respawn_anchor name="Respawn Anchor" icon="respawn_anchor" light_level="0.5" tags="cryingobsidian"/>
         <lava_bucket name="Lava" icon="lava" light_level="1"/>
         <magma_block name="Magma Block" icon="magma_block" light_level="0.7"/>
         <shroomlight name="Shroom Light" icon="shroomlight" light_level="0.75"/>
@@ -493,24 +499,24 @@
         <wet_sponge name="Wet Sponge" icon="wet_sponge"/>
         <dried_kelp_block name="Dried Kelp Block" icon="dried_kelp_block"/>
         <sea_pickle name="Sea Pickle" icon="sea_pickle"/>
-        <turtle_egg name="Turtle Egg" icon="turtle_egg"/>
+        <turtle_egg name="Turtle Egg" icon="turtle_egg" tags="silktouch"/>
     </ocean_misc>
     <coral>
-        <fire_coral_block name="Fire&#160;Coral Block" icon="fire_coral_block"/>
-        <horn_coral_block name="Horn&#160;Coral Block" icon="horn_coral_block"/>
-        <tube_coral_block name="Tube&#160;Coral Block" icon="tube_coral_block"/>
-        <bubble_coral_block name="Bubble&#160;Coral Block" icon="bubble_coral_block"/>
-        <brain_coral_block name="Brain&#160;Coral Block" icon="brain_coral_block"/>
-        <fire_coral name="Fire&#160;Coral" icon="fire_coral"/>
-        <horn_coral name="Horn&#160;Coral" icon="horn_coral"/>
-        <tube_coral name="Tube&#160;Coral" icon="tube_coral"/>
-        <bubble_coral name="Bubble&#160;Coral" icon="bubble_coral"/>
-        <brain_coral name="Brain&#160;Coral" icon="brain_coral"/>
-        <fire_coral_fan name="Fire&#160;Coral Fan" icon="fire_coral_fan"/>
-        <horn_coral_fan name="Horn&#160;Coral Fan" icon="horn_coral_fan"/>
-        <tube_coral_fan name="Tube&#160;Coral Fan" icon="tube_coral_fan"/>
-        <bubble_coral_fan name="Bubble&#160;Coral Fan" icon="bubble_coral_fan"/>
-        <brain_coral_fan name="Brain&#160;Coral Fan" icon="brain_coral_fan"/>
+        <fire_coral_block name="Fire&#160;Coral Block" icon="fire_coral_block" tags="silktouch"/>
+        <horn_coral_block name="Horn&#160;Coral Block" icon="horn_coral_block" tags="silktouch"/>
+        <tube_coral_block name="Tube&#160;Coral Block" icon="tube_coral_block" tags="silktouch"/>
+        <bubble_coral_block name="Bubble&#160;Coral Block" icon="bubble_coral_block" tags="silktouch"/>
+        <brain_coral_block name="Brain&#160;Coral Block" icon="brain_coral_block" tags="silktouch"/>
+        <fire_coral name="Fire&#160;Coral" icon="fire_coral" tags="silktouch"/>
+        <horn_coral name="Horn&#160;Coral" icon="horn_coral" tags="silktouch"/>
+        <tube_coral name="Tube&#160;Coral" icon="tube_coral" tags="silktouch"/>
+        <bubble_coral name="Bubble&#160;Coral" icon="bubble_coral" tags="silktouch"/>
+        <brain_coral name="Brain&#160;Coral" icon="brain_coral" tags="silktouch"/>
+        <fire_coral_fan name="Fire&#160;Coral Fan" icon="fire_coral_fan" tags="silktouch"/>
+        <horn_coral_fan name="Horn&#160;Coral Fan" icon="horn_coral_fan" tags="silktouch"/>
+        <tube_coral_fan name="Tube&#160;Coral Fan" icon="tube_coral_fan" tags="silktouch"/>
+        <bubble_coral_fan name="Bubble&#160;Coral Fan" icon="bubble_coral_fan" tags="silktouch"/>
+        <brain_coral_fan name="Brain&#160;Coral Fan" icon="brain_coral_fan" tags="silktouch"/>
     </coral>
     <dead_coral>
         <dead_fire_coral_block name="Dead Fire&#160;Coral Block" icon="dead_fire_coral_block"/>
@@ -599,7 +605,7 @@
     </sandstone>
     <shrubs>
         <grass name="Grass" icon="short_grass"/>
-        <fern name="Fern" icon="fern"/>
+        <fern name="Fern" icon="fern" tags="grass"/>
         <dead_bush name="Dead Bush" icon="dead_bush"/>
         <sweet_berries name="Sweet Berry Bush" icon="sweet_berry_bush"/>
     </shrubs>
@@ -623,42 +629,42 @@
         <shulker_box name="Shulker&#xA;Box" icon="shulker_box"/>
     </shulker_boxes>
     <snow>
-        <ice name="Ice" icon="ice"/>
-        <packed_ice name="Packed Ice" icon="packed_ice"/>
-        <blue_ice name="Blue Ice" icon="blue_ice"/>
+        <ice name="Ice" icon="ice" tags="snow"/>
+        <packed_ice name="Packed Ice" icon="packed_ice" tags="snow"/>
+        <blue_ice name="Blue Ice" icon="blue_ice" tags="snow"/>
         <snow_block name="Snow Block" icon="snow_block"/>
         <powder_snow_bucket name="Powder Snow" icon="powder_snow"/>
         <snow name="Snow" icon="snow"/>
     </snow>
     <specialized>
         <crafting_table name="Crafting Table" icon="crafting_table"/>
-        <fletching_table name="Fletching Table" icon="fletching_table"/>
-        <cartography_table name="Cartography Table" icon="cartography_table"/>
-        <smithing_table name="Smithing Table" icon="smithing_table"/>
-        <composter name="Composter" icon="composter"/>
-        <barrel name="Barrel" icon="barrel"/>
-        <lectern name="Lectern" icon="lectern_block"/>
+        <fletching_table name="Fletching Table" icon="fletching_table" tags="village"/>
+        <cartography_table name="Cartography Table" icon="cartography_table" tags="village"/>
+        <smithing_table name="Smithing Table" icon="smithing_table" tags="village"/>
+        <composter name="Composter" icon="composter" tags="village"/>
+        <barrel name="Barrel" icon="barrel" tags="village"/>
+        <lectern name="Lectern" icon="lectern_block" tags="village"/>
         <beehive name="Beehive" icon="beehive"/>
-        <honeycomb_block name="Honeycomb Block" icon="honeycomb_block"/>
+        <honeycomb_block name="Honeycomb Block" icon="honeycomb_block" tags="beewax beeswax"/>
         <tnt name="TNT" icon="tnt_block"/>
         <furnace name="Furnace" icon="furnace"/>
-        <blast_furnace name="Blast Furnace" icon="blast_furnace"/>
-        <smoker name="Smoker" icon="smoker"/>
-        <loom name="Loom" icon="loom"/>
-        <grindstone name="Grindstone" icon="grindstone"/>
-        <stonecutter name="Stone Cutter" icon="stone_cutter"/>
+        <blast_furnace name="Blast Furnace" icon="blast_furnace" tags="village"/>
+        <smoker name="Smoker" icon="smoker" tags="village"/>
+        <loom name="Loom" icon="loom" tags="village"/>
+        <grindstone name="Grindstone" icon="grindstone" tags="village"/>
+        <stonecutter name="Stone Cutter" icon="stone_cutter" tags="village"/>
         <bookshelf name="Bookshelf" icon="bookshelf"/>
         <bee_nest name="Bee Nest" icon="bee_nest"/>
-        <honey_block name="Honey Block" icon="honey_block"/>
+        <honey_block name="Honey Block" icon="honey_block" tags="bees"/>
         <target name="Target" icon="target"/>
         <dispenser name="Dispenser" icon="dispenser"/>
         <dropper name="Dropper" icon="dropper"/>
         <observer name="Observer" icon="observer"/>
-        <anvil name="Anvil" icon="anvil"/>
-        <chipped_anvil name="Chipped&#xA;Anvil" icon="chipped_anvil"/>
-        <damaged_anvil name="Damaged&#xA;Anvil" icon="damaged_anvil"/>
-        <enchanting_table name="Enchanting Table" icon="enchanting_table" light_level="0.7"/>
-        <beacon name="Beacon" icon="beacon_block" light_level="0.75"/>
+        <anvil name="Anvil" icon="anvil" tags="iron"/>
+        <chipped_anvil name="Chipped&#xA;Anvil" icon="chipped_anvil" tags="iron"/>
+        <damaged_anvil name="Damaged&#xA;Anvil" icon="damaged_anvil" tags="iron"/>
+        <enchanting_table name="Enchanting Table" icon="enchanting_table" tags="obsidian diamond book" light_level="0.7"/>
+        <beacon name="Beacon" icon="beacon_block" light_level="0.75" tags="obsidian wither"/>
         <slime_block name="Slime Block" icon="slime_block"/>
         <redstone_lamp name="Redstone Lamp" icon="redstone_lamp"/>
         <piston name="Piston" icon="piston"/>
@@ -666,10 +672,10 @@
         <hopper name="Hopper" icon="hopper"/>
         <chest name="Chest" icon="chest"/>
         <trapped_chest name="Trapped&#xA;Chest" icon="trapped_chest"/>
-        <ender_chest name="Ender&#xA;Chest" icon="ender_chest_block"/>
-        <brewing_stand name="Brewing Stand" icon="brewing_stand"/>
-        <bell name="Bell" icon="bell"/>
-        <cauldron name="Cauldron" icon="cauldron"/>
+        <ender_chest name="Ender&#xA;Chest" icon="ender_chest_block" tags="obsidian endcity"/>
+        <brewing_stand name="Brewing Stand" icon="brewing_stand" tags="village"/>
+        <bell name="Bell" icon="bell" tags="village"/>
+        <cauldron name="Cauldron" icon="cauldron" tags="village"/>
         <daylight_detector name="Daylight Detector" icon="daylight_detector"/>
     </specialized>
     <stone>
@@ -692,34 +698,33 @@
         <mossy_stone_brick_wall name="Mossy&#xA;Stone&#160;Brick&#xA;Wall" icon="mossy_stone_brick_wall"/>
         <cobweb name="Cobweb" icon="cobweb"/>
     </stronghold>
-    <iron_doors>
-        <iron_door name="Iron Door" icon="iron_door" double_height="true"/>
+    <iron_trapdoor>
         <iron_trapdoor name="Iron Trapdoor" icon="iron_trapdoor"/>
-    </iron_doors>
+    </iron_trapdoor>
     <lush>
-        <moss_block name="Moss Block" icon="moss_block"/>
-        <moss_carpet name="Moss Carpet" icon="moss_carpet"/>
-        <azalea_leaves name="Azalea Leaves" icon="azalea_leaves"/>
-        <azalea name="Azalea" icon="azalea"/>
-        <flowering_azalea_leaves name="Flowering Azalea Leaves" icon="flowering_azalea_leaves"/>
-        <flowering_azalea name="Flowering Azalea" icon="flowering_azalea"/>
+        <moss_block name="Moss Block" icon="moss_block" tags="lush"/>
+        <moss_carpet name="Moss Carpet" icon="moss_carpet" tags="lush"/>
+        <azalea_leaves name="Azalea Leaves" icon="azalea_leaves" tags="lush"/>
+        <azalea name="Azalea" icon="azalea" tags="lush"/>
+        <flowering_azalea_leaves name="Flowering Azalea Leaves" icon="flowering_azalea_leaves" tags="lush"/>
+        <flowering_azalea name="Flowering Azalea" icon="flowering_azalea" tags="lush"/>
     </lush>
     <tall_plants>
-        <tall_grass name="Tall Grass" icon="tall_grass" double_height="true"/>
-        <large_fern name="Large Fern" icon="large_fern" double_height="true"/>
+        <tall_grass name="Tall Grass" icon="tall_grass" double_height="true" tags="village"/>
+        <large_fern name="Large Fern" icon="large_fern" double_height="true" tags="village"/>
         <sugar_cane name="Sugarcane" icon="sugarcane_tall" double_height="true"/>
         <cactus name="Cactus" icon="cactus_tall" double_height="true"/>
-        <bamboo name="Bamboo" icon="bamboo_tall" double_height="true"/>
-        <rose_bush name="Rose Bush" icon="rose_bush" double_height="true"/>
-        <peony name="Peony" icon="peony" double_height="true"/>
-        <lilac name="Lilac" icon="lilac" double_height="true"/>
+        <bamboo name="Bamboo" icon="bamboo_tall" double_height="true" tags="jungle"/>
+        <rose_bush name="Rose Bush" icon="rose_bush" double_height="true" tags="flower"/>
+        <peony name="Peony" icon="peony" double_height="true" tags="flower"/>
+        <lilac name="Lilac" icon="lilac" double_height="true" tags="flower"/>
         <sunflower name="Sunflower" icon="sunflower" double_height="true"/>
-        <small_dripleaf name="Small Dripleaf" icon="small_dripleaf" double_height="true"/>
-        <big_dripleaf name="Big Dripleaf" icon="big_dripleaf" double_height="true"/>
-        <glow_berries name="Cave Vines" icon="cave_vines" double_height="true" light_level="0.7"/>
+        <small_dripleaf name="Small Dripleaf" icon="small_dripleaf" tags="lush" double_height="true"/>
+        <big_dripleaf name="Big Dripleaf" icon="big_dripleaf" double_height="true" tags="lush"/>
+        <glow_berries name="Cave Vines" icon="cave_vines" double_height="true" tags="lush" light_level="0.7"/>
     </tall_plants>
     <spore_blossom>
-        <spore_blossom name="Spore Blossom" icon="spore_blossom"/>
+        <spore_blossom name="Spore Blossom" icon="spore_blossom" tags="lush"/>
     </spore_blossom>
     <terracotta>
         <terracotta name="Terracotta" icon="terracotta_block"/>
@@ -824,6 +829,19 @@
         <dark_oak_pressure_plate name="Dark Oak&#xA;Pressure Plate" icon="dark_oak_pressure_plate"/>
         <dark_oak_button name="Dark Oak&#xA;Button" icon="dark_oak_button"/>
         <dark_oak_sign name="Dark Oak&#xA;Sign" icon="dark_oak_sign"/>
+        <mangrove_log name="Mangrove&#xA;Log" icon="mangrove_log"/>
+        <mangrove_wood name="Mangrove&#xA;Wood" icon="mangrove_wood"/>
+        <stripped_mangrove_log name="Stripped&#xA;Mangrove Log" icon="stripped_mangrove_log"/>
+        <stripped_mangrove_wood name="Stripped&#xA;Mangrove Wood" icon="stripped_mangrove_wood"/>
+        <mangrove_planks name="Mangrove&#xA;Planks" icon="mangrove_planks"/>
+        <mangrove_stairs name="Mangrove&#xA;Stairs" icon="mangrove_stairs"/>
+        <mangrove_slab name="Mangrove&#xA;Slab" icon="mangrove_slab"/>
+        <mangrove_fence name="Mangrove&#xA;Fence" icon="mangrove_fence"/>
+        <mangrove_fence_gate name="Mangrove&#xA;Fence Gate" icon="mangrove_fence_gate"/>
+        <mangrove_trapdoor name="Mangrove Trapdoor" icon="mangrove_trapdoor"/>
+        <mangrove_pressure_plate name="Mangrove&#xA;Pressure Plate" icon="mangrove_pressure_plate"/>
+        <mangrove_button name="Mangrove&#xA;Button" icon="mangrove_button"/>
+        <mangrove_sign name="Mangrove&#xA;Sign" icon="mangrove_sign"/>
         <crimson_stem name="Crimson&#xA;Stem" icon="crimson_stem"/>
         <crimson_hyphae name="Crimson&#xA;Hyphae" icon="crimson_hyphae"/>
         <stripped_crimson_stem name="Stripped&#xA;Crimson Stem" icon="stripped_crimson_stem"/>
@@ -869,4 +887,26 @@
         <gray_wool name="Gray&#xA;Wool" icon="gray_wool"/>
         <black_wool name="Black&#xA;Wool" icon="black_wool"/>
     </wool>
+    <deep_dark>
+        <sculk name="Sculk" icon="sculk" light_level="0.6"/>
+        <sculk_catalyst name="Sculk&#xA;Catalyst" icon="sculk_catalyst_block" light_level="0.6"/>
+        <sculk_shrieker name="Sculk&#xA;Shrieker" icon="sculk_shrieker" light_level="0.6"/>
+        <sculk_sensor name="Sculk&#xA;Sensor" icon="sculk_sensor_block" light_level="0.5"/>
+        <sculk_vein name="Sculk&#xA;Vein" icon="sculk_vein" light_level="0.5"/>
+    </deep_dark>end
+    <mud>
+        <mud_bricks name="Mud Bricks" icon="mud_bricks"/>
+        <mud_brick_stairs name="Mud Brick Stairs" icon="mud_brick_stairs"/>
+        <mud_brick_slab name="Mud Brick Slab" icon="mud_brick_slab"/>
+        <mud_brick_wall name="Mud Brick Wall" icon="mud_brick_wall"/>
+        <packed_mud name="Packed Mud" icon="packed_mud"/>
+        <mud name="Mud" icon="mud"/>
+        <muddy_mangrove_roots name="Muddy Mangrove Roots" icon="muddy_mangrove_roots"/>
+        <mangrove_roots name="Mangrove Roots" icon="mangrove_roots"/>
+    </mud>
+    <froglights>
+        <verdant_froglight name="Verdant&#xA;Froglight" icon="verdant_froglight" light_level="0.6"/>
+        <ochre_froglight name="Ochre&#xA;Froglight" icon="ochre_froglight" light_level="0.6"/>
+        <pearlescent_froglight name="Pearlescent&#xA;Froglight" icon="pearlescent_froglight" light_level="0.6"/>
+    </froglights>
 </blocks>

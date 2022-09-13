@@ -13,9 +13,16 @@
         <panel row="0" col="0" horizontal_align="left" vertical_align="top" square="true" border_thickness="2" margin_left="6">
             <avatar scale="4"/>
         </panel>
+        
+        <!-- 
+        <picture collapsed="true" name="generic_badge" layer="fore" width="35" height="15" row="0" col="0" vertical_align="top" padding_left="-3" margin_top="-7">
+            <text_block name="place" layer="fore" h_text_align="left" padding_left="5" padding_top="1"/>
+        </picture> 
+        -->
+
         <text_block name="name" row="0" col="1" h_text_align="left" vertical_align="top" padding_left="14" margin_top="2"/>
         <text_block name="igt" row="0" col="1" h_text_align="left" vertical_align="top" padding_left="14" margin_top="17"/>
-        
+
         <text_block name="date" row="0" col="1" h_text_align="right" vertical_align="top" padding_right="14" margin_top="2"/>
         <text_block name="age" row="0" col="1" h_text_align="right" vertical_align="top" padding_right="14" margin_top="17"/>
     </grid>
