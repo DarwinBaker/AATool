@@ -126,6 +126,7 @@
     <Compile Include="Data\Objectives\Pickup.cs" />
     <Compile Include="Data\Objectives\PickupManifest.cs" />
     <Compile Include="Data\Objectives\Objective.cs" />
+    <Compile Include="Data\Objectives\Pickups\DeepslateEmerald.cs" />
     <Compile Include="Data\Objectives\Pickups\Mycelium.cs" />
     <Compile Include="Data\Objectives\Pickups\GoldBlocks.cs" />
     <Compile Include="Data\Objectives\Pickups\AncientDebris.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Net\Lobby.cs" />
     <Compile Include="Net\OpenTracker.cs" />
     <Compile Include="Net\PeerStatic.cs" />
+    <Compile Include="Net\Requests\AnyRsgRequest.cs" />
     <Compile Include="Net\Requests\UuidRequest.cs" />
     <Compile Include="Net\Requests\SpreadsheetRequest.cs" />
     <Compile Include="Net\Requests\UpdateRequest.cs" />
@@ -188,14 +190,24 @@
     <Compile Include="Net\Server.cs" />
     <Compile Include="Tracker.cs" />
     <Compile Include="UI\Badges\Badge.cs" />
-    <Compile Include="UI\Badges\HonorableBadge.cs" />
-    <Compile Include="UI\Badges\RecordHolderBadge.cs" />
-    <Compile Include="UI\Badges\UnstoppableBadge.cs" />
-    <Compile Include="UI\Badges\ImmortalBadge.cs" />
+    <Compile Include="UI\Badges\HundredHardcoreBadge.cs" />
+    <Compile Include="UI\Badges\MostRecordsBadge.cs" />
+    <Compile Include="UI\Badges\DeveloperBadge.cs" />
+    <Compile Include="UI\Badges\SquareBadge.cs" />
+    <Compile Include="UI\Badges\ModBadge.cs" />
+    <Compile Include="UI\Badges\VipBadge.cs" />
+    <Compile Include="UI\Badges\ThousandSeedsBadge.cs" />
+    <Compile Include="UI\Badges\DoubleHardcoreBadge.cs" />
+    <Compile Include="UI\Badges\RankBadge.cs" />
+    <Compile Include="UI\Badges\HundredThousandBadge.cs" />
+    <Compile Include="UI\Badges\HalfHeartHardcoreBadge.cs" />
     <Compile Include="UI\Controls\UIAchievementTree.cs" />
+    <Compile Include="UI\Controls\UIBlockGrid.cs" />
     <Compile Include="UI\Controls\UIBlockGroup.cs" />
     <Compile Include="UI\Controls\UIBlockPopup.cs" />
     <Compile Include="UI\Controls\UIBlockTile.cs" />
+    <Compile Include="UI\Controls\UICarouselCover.cs" />
+    <Compile Include="UI\Controls\UITextInput.cs" />
     <Compile Include="UI\Controls\UIObjectiveFrame.cs" />
     <Compile Include="UI\Controls\UIGlowEffect.cs" />
     <Compile Include="UI\Controls\UITimelineEvent.cs" />
@@ -447,6 +459,102 @@
     <Content Include="assets\objectives\1.19\statistics.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\ab_guide\all_infested_blocks%246x6x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_nylium%242x2x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_blocks_example_1.16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_buckets_1.16%242x2x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_leaf_blocks_1.16%246x6x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_ore_blocks_1.16%245x5x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\nether_ores%242x2x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\blockstate_variants%248x8x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\blockstate_variants_1.16%245x5x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\bastion_loot_table_1.16.5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\bastion_loot_icons.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\ab_example_drag.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_seeds%247x7x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\ancient_debris_chart.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_crops%247x7x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\cake_item.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\deepslate_coal_chart.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\deepslate_emerald_chart.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\bedrock^48 - Copy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\boat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\ab_example_zoom.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\kelp_item.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\minecart.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\item_frame_block.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\glow_item_frame_block.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\netherite_ingot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\netherite_scrap.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\small_paintings%247x7x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_soul_campfire.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\string_item.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\void^48%24105x35.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_buckets%243x3x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\blocks\amethyst\amethyst_block^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -504,7 +612,7 @@
     <Content Include="assets\sprites\blocks\animated\end_crystal^32%24119x17.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\animated\end_crystal^48%24119x30.png">
+    <Content Include="assets\sprites\blocks\animated\end_crystal^48%24119x30x0.75.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\animated\kelp^48%2420.png">
@@ -528,13 +636,10 @@
     <Content Include="assets\sprites\blocks\animated\magma_block^48%2424.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\animated\nether_portal^32%2432.png">
+    <Content Include="assets\sprites\blocks\animated\nether_portal_block%2432.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\animated\nether_portal^48%2432.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\blocks\animated\respawn_anchor^32%2431.png">
+    <Content Include="assets\sprites\blocks\animated\respawn_anchor^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\animated\respawn_anchor^48%2431.png">
@@ -1653,9 +1758,6 @@
     <Content Include="assets\sprites\blocks\glow\end_crystal_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\glow\glowstone_glow.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="assets\sprites\blocks\glow\glowstone_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1701,6 +1803,153 @@
     <Content Include="assets\sprites\blocks\glow\shroomlight_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\ab_guide\all_ore_blocks%2416x16x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_frogs%243x3x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_froglights%243x3x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_grass_blocks%243x3x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_heads%243x3x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\copper_spacing_lines.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\copper_spacing_blocks%244x4x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_copper_blocks%244x4x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\charged_creeper%24200x42.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\frog_temperate.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\frog_cold.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_blocks_example.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_activator_rail.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_beehive.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_blast_furnace.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\frog_warm.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\village_savanna.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\village_taiga.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_cake.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_cauldron.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_comparator.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_conduit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_daylight_detector.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_detector_rail.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_dispenser.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_dropper.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_hopper.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_lectern.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_lightning_rod.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_observer.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_packed_mud.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_piston.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_grindstone.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\amethyst_crystals%244x4x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_leaf_blocks%247x7x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\mushroom_blocks%243x3x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\living_coral%2415x15x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_pot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_powered_rail.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_redstone_lamp.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_repeater.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_scaffolding.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_sea_lantern.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_snow_layer.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_stone_cutter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_target_block.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_tinted_glass.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_trapped_chest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\recipe_tripwire_hook.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\blocks\lush\azalea^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1735,6 +1984,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\lush\moss_carpet^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\mangrove\mangrove_door^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\mangrove\mangrove_door^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\mangrove\mangrove_sign^32.png">
@@ -1875,6 +2130,21 @@
     <Content Include="assets\sprites\blocks\minerals\tuff^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\blocks\misc\armor_stand^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\misc\armor_stand^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\misc\chain^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\end_portal_frames%242x2x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\misc\ladder^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\blocks\misc\ochre_froglight^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1938,6 +2208,12 @@
     <Content Include="assets\sprites\blocks\plants\acacia_sapling^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\blocks\plants\allium^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\plants\azure_bluet^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\blocks\plants\big_dripleaf^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1947,10 +2223,22 @@
     <Content Include="assets\sprites\blocks\plants\birch_sapling^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\blocks\plants\blue_orchid^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\blocks\plants\brown_mushroom^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\ab_guide\cave_vines_small.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\plants\cornflower^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\blocks\plants\crimson_fungus^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\plants\dandelion^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\plants\dark_oak_sapling^32.png">
@@ -1959,10 +2247,28 @@
     <Content Include="assets\sprites\blocks\plants\jungle_sapling^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\blocks\plants\lily_of_the_valley^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\blocks\plants\oak_sapling^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\blocks\plants\orange_tulip^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\plants\oxeye_daisy^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\plants\pink_tulip^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\plants\poppy^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\blocks\plants\red_mushroom^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\plants\red_tulip^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\plants\small_dripleaf^32.png">
@@ -1981,6 +2287,24 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\plants\warped_fungus^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\plants\white_tulip^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\plants\wither_rose^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\redstone\activator_rail^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\redstone\detector_rail^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\redstone\powered_rail^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\redstone\rail^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\sculk\sculk_sensor_block^32%2496x24x1.25.png">
@@ -2013,49 +2337,109 @@
     <Content Include="assets\sprites\blocks\sculk\sculk_vein^48%2464.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_moleyg_1k.png">
+    <Content Include="assets\sprites\ab_guide\bedrock^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_moleyg_1k_text.png">
+    <Content Include="assets\sprites\ab_guide\bedrock^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\chorus_plant^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\chorus_plant^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\technical_blocks%245x5x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_tilled_blocks%243x3x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\fire^32%2432x16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\fire^48%2432x16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\reinforced_deepslate^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\reinforced_deepslate^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\spawner^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\spawner^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\ui\block_clear_confirm_tall.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\ui\block_clear_confirm.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\badge_dev.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\badge_mod.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\badge_most_records.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\badge_vip.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\badge_rank_medium.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\badge_rank_small.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\badge_hhhaa_text.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\badge_100hc_text.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\badge_100hc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\badge_1k_moleyg.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\badge_rank_large.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\badges\badge_version_wr.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\block_tile_red.png">
+    <Content Include="assets\sprites\blocks\ui\block_tile_red.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\block_tile_tall_red.png">
+    <Content Include="assets\sprites\blocks\ui\block_tile_tall_red.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\block_tile_tall_green.png">
+    <Content Include="assets\sprites\blocks\ui\block_tile_tall_green.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\block_tile_tall_gold.png">
+    <Content Include="assets\sprites\blocks\ui\block_tile_tall_gold.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\popup_block_arrow_bottom_border.png">
+    <Content Include="assets\sprites\blocks\ui\popup_block_arrow_bottom_border.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\popup_block_arrow_bottom_glow~1.png">
+    <Content Include="assets\sprites\blocks\ui\popup_block_arrow_bottom_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\popup_block_arrow_top_border.png">
+    <Content Include="assets\sprites\blocks\ui\popup_block_arrow_top_border.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\popup_block_arrow_top_glow~1.png">
+    <Content Include="assets\sprites\blocks\ui\popup_block_arrow_top_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\popup_block_large_glow~1.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\popup_block_large_back.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\popup_block_large_border.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\popup_block_glow~1.png">
+    <Content Include="assets\sprites\blocks\ui\popup_block_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\heads\creeper_head^32.png">
@@ -2265,7 +2649,7 @@
     <Content Include="assets\sprites\blocks\misc\brick_wall^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\misc\chain.png">
+    <Content Include="assets\sprites\blocks\misc\chain^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\misc\chiseled_quartz_block^32.png">
@@ -2331,13 +2715,22 @@
     <Content Include="assets\sprites\blocks\misc\trident_and_heads^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\ab_example_red.png">
+    <Content Include="assets\sprites\blocks\ui\ab_example_red.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\ab_example_green.png">
+    <Content Include="assets\sprites\blocks\ui\ab_example_green.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\ab_example_gold.png">
+    <Content Include="assets\sprites\blocks\ui\ab_example_gold.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\popup_badge_back.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\popup_badge_border.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\popup_badge_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\frames\flags\frame_flag_demigirl.png">
@@ -2406,7 +2799,79 @@
     <Content Include="assets\sprites\global\gui\frames\flags\frame_flag_transgender.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\gui\icons\confirm_blocks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\highlight_blocks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\clear_highlighted_blocks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\ctrl+f.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\gui\icons\donor_cover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\block_grid.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\leaderboard_recenter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\clear_confirmed_blocks.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\recenter_outline.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\leaderboard_up.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\leaderboard_down.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\minus.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\leaderboard_refresh.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\three_dots%243x3x4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\plus.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\leaderboard_top.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\text_cursor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\help.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\barrier.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\cocoa_beans_item.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\enchanted_trident%24825.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\water_bucket.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\wither_skull^16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\redstone.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\shears.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\items\shell_and_conduit^48.png">
@@ -2916,12 +3381,6 @@
     <Content Include="assets\sprites\blocks\ocean\horn_coral_fan^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\ocean\lily_pad^32.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\blocks\ocean\lily_pad^48.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="assets\sprites\blocks\ocean\prismarine^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -3057,16 +3516,16 @@
     <Content Include="assets\sprites\blocks\plants\acacia_sapling^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\plants\allium.png">
+    <Content Include="assets\sprites\blocks\plants\allium^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\plants\azure_bluet.png">
+    <Content Include="assets\sprites\blocks\plants\azure_bluet^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\plants\birch_sapling^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\plants\blue_orchid.png">
+    <Content Include="assets\sprites\blocks\plants\blue_orchid^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\plants\brown_mushroom^48.png">
@@ -3084,7 +3543,7 @@
     <Content Include="assets\sprites\blocks\plants\cave_vines^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\plants\cornflower.png">
+    <Content Include="assets\sprites\blocks\plants\cornflower^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\plants\crimson_fungus^48.png">
@@ -3096,7 +3555,7 @@
     <Content Include="assets\sprites\blocks\plants\crimson_roots^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\plants\dandelion.png">
+    <Content Include="assets\sprites\blocks\plants\dandelion^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\plants\dark_oak_sapling^48.png">
@@ -3129,7 +3588,7 @@
     <Content Include="assets\sprites\blocks\plants\jungle_sapling^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\plants\lily_of_the_valley.png">
+    <Content Include="assets\sprites\blocks\plants\lily_of_the_valley^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\plants\lily_pad^32.png">
@@ -3153,16 +3612,16 @@
     <Content Include="assets\sprites\blocks\plants\oak_sapling^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\plants\orange_tulip.png">
+    <Content Include="assets\sprites\blocks\plants\orange_tulip^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\plants\oxeye_daisy.png">
+    <Content Include="assets\sprites\blocks\plants\oxeye_daisy^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\plants\pink_tulip.png">
+    <Content Include="assets\sprites\blocks\plants\pink_tulip^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\plants\poppy.png">
+    <Content Include="assets\sprites\blocks\plants\poppy^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\plants\red_mushroom^48.png">
@@ -3174,7 +3633,7 @@
     <Content Include="assets\sprites\blocks\plants\red_mushroom_block^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\plants\red_tulip.png">
+    <Content Include="assets\sprites\blocks\plants\red_tulip^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\plants\short_grass^32.png">
@@ -3219,13 +3678,13 @@
     <Content Include="assets\sprites\blocks\plants\weeping_vines^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\plants\white_tulip.png">
+    <Content Include="assets\sprites\blocks\plants\white_tulip^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\plants\wither_rose.png">
+    <Content Include="assets\sprites\blocks\plants\wither_rose^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\redstone\activator_rail.png">
+    <Content Include="assets\sprites\blocks\redstone\activator_rail^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\redstone\blackstone_button^32.png">
@@ -3252,7 +3711,7 @@
     <Content Include="assets\sprites\blocks\redstone\daylight_detector^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\redstone\detector_rail.png">
+    <Content Include="assets\sprites\blocks\redstone\detector_rail^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\redstone\heavy_plate^32.png">
@@ -3285,10 +3744,10 @@
     <Content Include="assets\sprites\blocks\redstone\light_plate^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\redstone\powered_rail.png">
+    <Content Include="assets\sprites\blocks\redstone\powered_rail^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\redstone\rail.png">
+    <Content Include="assets\sprites\blocks\redstone\rail^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\redstone\redstone_dust^32.png">
@@ -3333,70 +3792,70 @@
     <Content Include="assets\sprites\blocks\redstone\tripwire_hook^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\chiseled_stone_bricks^32.png">
+    <Content Include="assets\sprites\blocks\stronghold\chiseled_stone_bricks^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\chiseled_stone_bricks^48.png">
+    <Content Include="assets\sprites\blocks\stronghold\chiseled_stone_bricks^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\cracked_stone_bricks^32.png">
+    <Content Include="assets\sprites\blocks\stronghold\cracked_stone_bricks^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\cracked_stone_bricks^48.png">
+    <Content Include="assets\sprites\blocks\stronghold\cracked_stone_bricks^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\iron_bars^32.png">
+    <Content Include="assets\sprites\blocks\stronghold\iron_bars^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\iron_bars^48.png">
+    <Content Include="assets\sprites\blocks\stronghold\iron_bars^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\mossy_stone_bricks^32.png">
+    <Content Include="assets\sprites\blocks\stronghold\mossy_stone_bricks^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\mossy_stone_bricks^48.png">
+    <Content Include="assets\sprites\blocks\stronghold\mossy_stone_bricks^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\mossy_stone_brick_slab^32.png">
+    <Content Include="assets\sprites\blocks\stronghold\mossy_stone_brick_slab^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\mossy_stone_brick_slab^48.png">
+    <Content Include="assets\sprites\blocks\stronghold\mossy_stone_brick_slab^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\mossy_stone_brick_stairs^32.png">
+    <Content Include="assets\sprites\blocks\stronghold\mossy_stone_brick_stairs^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\mossy_stone_brick_stairs^48.png">
+    <Content Include="assets\sprites\blocks\stronghold\mossy_stone_brick_stairs^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\mossy_stone_brick_wall^32.png">
+    <Content Include="assets\sprites\blocks\stronghold\mossy_stone_brick_wall^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\mossy_stone_brick_wall^48.png">
+    <Content Include="assets\sprites\blocks\stronghold\mossy_stone_brick_wall^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\stone_bricks^32.png">
+    <Content Include="assets\sprites\blocks\stronghold\stone_bricks^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\stone_bricks^48.png">
+    <Content Include="assets\sprites\blocks\stronghold\stone_bricks^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\stone_brick_slab^32.png">
+    <Content Include="assets\sprites\blocks\stronghold\stone_brick_slab^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\stone_brick_slab^48.png">
+    <Content Include="assets\sprites\blocks\stronghold\stone_brick_slab^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\stone_brick_stairs^32.png">
+    <Content Include="assets\sprites\blocks\stronghold\stone_brick_stairs^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\stone_brick_stairs^48.png">
+    <Content Include="assets\sprites\blocks\stronghold\stone_brick_stairs^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\stone_brick_wall^32.png">
+    <Content Include="assets\sprites\blocks\stronghold\stone_brick_wall^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\strong\stone_brick_wall^48.png">
+    <Content Include="assets\sprites\blocks\stronghold\stone_brick_wall^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\plants\bamboo_tall^32.png">
@@ -4191,12 +4650,6 @@
     <Content Include="assets\sprites\blocks\wood\dark_oak_fence_gate^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\misc\filled_end_portal_frame^32.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\blocks\misc\filled_end_portal_frame^48.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="assets\sprites\blocks\misc\flower_pot^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -4293,7 +4746,7 @@
     <Content Include="assets\sprites\blocks\wood\jungle_fence_gate^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\misc\ladder.png">
+    <Content Include="assets\sprites\blocks\misc\ladder^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\misc\lantern^32.png">
@@ -5415,22 +5868,22 @@
     <Content Include="assets\sprites\deaths\wither_skeleton_skull^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\advancements\adventure\skulk_catalyst^16.png">
+    <Content Include="assets\sprites\global\advancements\adventure\sculk_catalyst^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\advancements\adventure\skulk_sensor^16%2416.png">
+    <Content Include="assets\sprites\global\advancements\adventure\sculk_sensor^16%2416.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\advancements\adventure\skulk_catalyst^32.png">
+    <Content Include="assets\sprites\global\advancements\adventure\sculk_catalyst^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\advancements\adventure\skulk_sensor^32%2416x16x1.5.png">
+    <Content Include="assets\sprites\global\advancements\adventure\sculk_sensor^32%2416x16x1.5.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\advancements\adventure\skulk_catalyst^48.png">
+    <Content Include="assets\sprites\global\advancements\adventure\sculk_catalyst^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\advancements\adventure\skulk_sensor^48%2416.png">
+    <Content Include="assets\sprites\global\advancements\adventure\sculk_sensor^48%2416.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\advancements\husbandry\cookie.png">
@@ -5457,52 +5910,25 @@
     <Content Include="assets\sprites\global\advancements\husbandry\tadpole_in_a_bucket.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_couri_100hc_text.png">
+    <Content Include="assets\sprites\global\badges\badge_1k_text.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_couri_100hc.png">
+    <Content Include="assets\sprites\global\badges\badge_rank_2_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_couri_1k_text.png">
+    <Content Include="assets\sprites\global\badges\badge_rank_3_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_pb_2_glow~1.png">
+    <Content Include="assets\sprites\global\badges\badge_rank_2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_pb_4.png">
+    <Content Include="assets\sprites\global\badges\badge_rank_3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_pb_5.png">
+    <Content Include="assets\sprites\global\badges\badge_rank_1_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_pb_6.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\badges\badge_pb_7.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\badges\badge_pb_8.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\badges\badge_pb_9.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\badges\badge_pb_10.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\badges\badge_pb_3_glow~1.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\badges\badge_pb_2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\badges\badge_pb_3.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\badges\badge_pb_1_glow~1.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\badges\badge_pb_1.png">
+    <Content Include="assets\sprites\global\badges\badge_rank_1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\criteria\animals\frog.png">
@@ -5517,31 +5943,22 @@
     <Content Include="assets\sprites\global\glow\patreon_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\block_tile_gold.png">
+    <Content Include="assets\sprites\blocks\ui\block_tile_gold.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\block_tile_green.png">
+    <Content Include="assets\sprites\blocks\ui\block_tile_green.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\popup_block_arrow.png">
+    <Content Include="assets\sprites\blocks\ui\popup_block_arrow_bottom_back.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\popup_block_arrow_bottom_back.png">
+    <Content Include="assets\sprites\blocks\ui\popup_block_arrow_top_back.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\popup_block_arrow_left.png">
+    <Content Include="assets\sprites\blocks\ui\popup_block_back.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\popup_block_arrow_right.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\popup_block_arrow_top_back.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\popup_block_back.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\gui\all_blocks\popup_block_border.png">
+    <Content Include="assets\sprites\blocks\ui\popup_block_border.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\frames\furnace\fire_flat%2496x32x0.5.png">
@@ -5619,7 +6036,7 @@
     <Content Include="assets\sprites\global\gui\icons\unclaimed_slot.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\icons\skulk_pulse%247.png">
+    <Content Include="assets\sprites\global\gui\icons\sculk_pulse%247.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\icons\shiny_heart.png">
@@ -5931,10 +6348,22 @@
     <Content Include="assets\views\all_advancements\1.19\main_vertical.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\views\all_blocks\1.16\help.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\views\all_blocks\1.16\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\all_blocks\1.16\overlay.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\all_blocks\1.18\help.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\all_blocks\1.19\help.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\all_blocks\1.19\main_backup.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\all_blocks\1.19\main.xml">
@@ -5958,16 +6387,16 @@
     <Content Include="assets\views\all_deaths\overlay.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\views\leaderboards\multiboard_aa.xml">
+    <Content Include="assets\views\other\multiboard.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\views\leaderboards\timeline.xml">
+    <Content Include="assets\views\other\timeline.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\views\leaderboards\runners_1.16.xml">
+    <Content Include="assets\views\other\runners_aa_1.16.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\views\leaderboards\primary_version.xml">
+    <Content Include="assets\views\other\primary_version.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\half_percent\1.16\main_compact.xml">
@@ -5994,7 +6423,7 @@
     <Content Include="assets\objectives\1.14\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_couri_1k.png">
+    <Content Include="assets\sprites\global\badges\badge_1k_couriway.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\badges\badge_hhh_down^10.png">
@@ -6006,7 +6435,7 @@
     <Content Include="assets\sprites\global\badges\badge_hhh_down^30.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_couri_glow~1.png">
+    <Content Include="assets\sprites\global\badges\badge_large_gold_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\badges\badge_hhh_glow~1.png">
@@ -6889,7 +7318,7 @@
     <Content Include="assets\sprites\global\items\netherite_sword.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\items\poppy.png">
+    <Content Include="assets\sprites\global\items\flower.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\items\rockets.png">
@@ -7864,13 +8293,13 @@
     <Content Include="assets\sprites\global\gui\icons\enchantment_table_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\icons\enchantment_table_closing%2412.png">
+    <Content Include="assets\sprites\global\gui\icons\enchantment_table_closing%2416.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\icons\enchantment_table_opening%2412.png">
+    <Content Include="assets\sprites\global\gui\icons\enchantment_table_opening%2416.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\icons\enchantment_table_reading%24124.png">
+    <Content Include="assets\sprites\global\gui\icons\enchantment_table_reading%24120.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\progress_bars\experience\bar_experience_active_left.png">
@@ -8255,9 +8684,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\supporters\supporter_emerald.png" />
-    <Content Include="assets\views\leaderboards\multiboard_ab.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="assets\views\overview\relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -8329,7 +8755,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="assets\sprites\blocks\unobtainable\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

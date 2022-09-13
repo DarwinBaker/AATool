@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace AATool.Utilities
 {
     public class Timer
@@ -9,6 +11,8 @@ namespace AATool.Utilities
 
         public bool IsExpired => this.TimeLeft <= 0;
         public bool IsRunning => this.TimeLeft > 0;
+
+        public double Normalized => this.Duration > 0 ? Math.Max(this.TimeLeft, 0) / this.Duration : 0;
 
         public Timer() { }
 

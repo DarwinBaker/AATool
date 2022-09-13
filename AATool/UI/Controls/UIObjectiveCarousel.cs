@@ -2,6 +2,7 @@
 using AATool.Data;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
+using AATool.Net;
 using AATool.UI.Screens;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ namespace AATool.UI.Controls
     {  
         protected override void UpdateThis(Time time)
         {
-            if (Tracker.Invalidated || Config.Overlay.Enabled.Changed)
+            if (Tracker.Invalidated || Peer.StateChanged || Tracker.MainPlayerChanged || Config.Tracking.FilterChanged || Config.Overlay.Enabled.Changed)
                 this.RefreshSourceList();
 
             if (Tracker.ObjectivesChanged)
@@ -35,13 +36,19 @@ namespace AATool.UI.Controls
             this.Fill();
 
             //remove existing overlay advancements that have since been completed
-            if (Tracker.ProgressChanged || Tracker.MainPlayerChanged)
+            if (Tracker.ProgressChanged || Peer.StateChanged || Tracker.MainPlayerChanged || Config.Tracking.FilterChanged)
             {
                 for (int i = this.Children.Count - 1; i >= 0; i--)
                 {
                     if ((this.Children[i] as UIObjectiveFrame).Objective?.IsComplete() is true)
-                        this.Children.RemoveAt(i);
+                    {
+                        var cover = new UICarouselCover();
+                        this.Children[i].AddControl(cover);
+                        cover.InitializeThis(this.Root());
+                    }
+                    //this.Children.RemoveAt(i);
                 }
+                
             }
             base.UpdateThis(time);
         }

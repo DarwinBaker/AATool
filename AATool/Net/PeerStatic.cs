@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Windows.Forms;
@@ -98,9 +99,17 @@ namespace AATool.Net
                     WriteToConsole("Getting UUID from Mojang...");
                     UpdateControls("Getting UUID...", false, false);
                     id = await Player.FetchUuidAsync(Config.Net.MinecraftName);
-                }               
-                Instance = new T();
-                Instance.Start(ipAddress, portNumber, id);
+                }
+                try
+                {
+                    Instance = new T();
+                    Instance.Start(ipAddress, portNumber, id);
+                }
+                catch (Exception e)
+                {
+                    WriteToConsole("Failed to initialize. Try again.");
+                    UpdateControls(typeof(T) == typeof(Client) ? "Connect" : "Host", true, true);
+                }       
 
             }) { IsBackground = true }.Start();
         }

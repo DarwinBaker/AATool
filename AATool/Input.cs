@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AATool.Configuration;
+﻿using System.Linq;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -12,6 +7,8 @@ namespace AATool
 {
     public static class Input
     {
+        public static bool IsActive { get; private set; }
+
         public static MouseState MouseNow  { get; private set; }
         public static MouseState MousePrev { get; private set; }
         public static KeyboardState KeyboardNow  { get; private set; }
@@ -22,11 +19,14 @@ namespace AATool
 
         public static int ScrollNow  { get; private set; }
         public static int ScrollPrev { get; private set; }
+        public static bool CapsLock { get; private set; }
 
-        public static bool LeftClicked => !LeftClicking && MousePrev.LeftButton is ButtonState.Pressed;
-        public static bool LeftClicking => MouseNow.LeftButton is ButtonState.Pressed;
-        public static bool RightClicked => !RightClicking && MousePrev.RightButton is ButtonState.Pressed;
-        public static bool RightClicking => MouseNow.RightButton is ButtonState.Pressed;
+        public static bool LeftClicking => IsActive && MouseNow.LeftButton is ButtonState.Pressed;
+        public static bool LeftClicked => IsActive && !LeftClicking && MousePrev.LeftButton is ButtonState.Pressed;
+        public static bool LeftClickStarted => IsActive && LeftClicking && MousePrev.LeftButton is ButtonState.Released;
+        public static bool RightClicking => IsActive && MouseNow.RightButton is ButtonState.Pressed;
+        public static bool RightClicked => IsActive && !RightClicking && MousePrev.RightButton is ButtonState.Pressed;
+        public static bool RightClickStarted => IsActive && RightClicking && MousePrev.RightButton is ButtonState.Released;
 
         public static Point Cursor(UIScreen screen)
         {
@@ -46,31 +46,38 @@ namespace AATool
             }
         }
 
-        public static bool IsDown(Keys key) => KeysNow.Contains(key);
-        public static bool WasDown(Keys key) => KeysPrev.Contains(key);
-        public static bool Ended(Keys key) => WasDown(key) && !IsDown(key);
-        public static bool Started(Keys key) => IsDown(key) && !WasDown(key);
+        public static bool IsDown(Keys key) => IsActive && KeysNow.Contains(key);
+        public static bool WasDown(Keys key) => IsActive && KeysPrev.Contains(key);
+        public static bool Ended(Keys key) => IsActive && (WasDown(key) && !IsDown(key));
+        public static bool Started(Keys key) => IsActive && (IsDown(key) && !WasDown(key));
 
         public static bool ScrolledUp() => ScrollNow > ScrollPrev;
         public static bool ScrolledDown() => ScrollNow < ScrollPrev;
 
+        public static void SupressClicks()
+        {
+            MouseNow = default;
+            MousePrev = default;
+        }
+
         public static void BeginUpdate(bool active)
         {
+            IsActive = active;
+            MouseNow = Mouse.GetState();
+            ScrollNow = MouseNow.ScrollWheelValue;
             if (active)
             {
-                MouseNow = Mouse.GetState();
                 KeyboardNow = Keyboard.GetState();
                 KeysNow = KeyboardNow.GetPressedKeys();
                 KeysPrev = KeyboardPrev.GetPressedKeys();
-                ScrollNow = MouseNow.ScrollWheelValue;
+                
+                CapsLock = KeyboardNow.CapsLock;
             }
             else
             {
-                MouseNow = default;
                 KeyboardNow = default;
                 KeysNow = new Keys[0];
                 KeysPrev = new Keys[0];
-                ScrollNow = ScrollPrev;
             }
         }
 
@@ -79,6 +86,40 @@ namespace AATool
             MousePrev = MouseNow;
             KeyboardPrev = KeyboardNow;
             ScrollPrev = ScrollNow;
+        }
+
+        public static string GetKeyText(Keys key, bool shift = false)
+        {
+            string keyString = key.ToString();
+            if (keyString.Length == 1 && keyString[0] >= 'A' && keyString[0] <= 'Z')
+                return shift ? keyString : keyString.ToLower();
+            if (keyString.Length == 2 && keyString[1] >= '0' && keyString[1] <= '9')
+                return keyString[1].ToString();
+            if (keyString.Length == 7 && keyString[6] >= '0' && keyString[6] <= '9')
+                return keyString[6].ToString();
+
+            return key switch {
+                Keys.Space => " ",
+                Keys.Multiply => "*",
+                Keys.Add => "+",
+                Keys.Separator => "-",
+                Keys.Subtract => "-",
+                Keys.Decimal => ".",
+                Keys.Divide => "/",
+                Keys.OemSemicolon => shift ? ":" : ";",
+                Keys.OemPlus => shift ? "+" : "=",
+                Keys.OemComma => shift ? "<" : ",",
+                Keys.OemMinus => shift ? "_" : "-",
+                Keys.OemPeriod => shift ? ">" : ".",
+                Keys.OemQuestion => shift ? "?" : "/",
+                Keys.OemTilde => shift ? "~" : "`",
+                Keys.OemOpenBrackets => shift ? "{" : "[",
+                Keys.OemPipe => shift ? "|" : "\\",
+                Keys.OemCloseBrackets => shift ? "}" : "]",
+                Keys.OemQuotes => shift ? "\"" : "'",
+                Keys.OemBackslash => "\\",
+                _ => string.Empty
+            };
         }
     }
 }

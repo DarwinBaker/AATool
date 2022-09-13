@@ -36,6 +36,7 @@ namespace AATool.UI.Controls
             this.First<UITextBlock>("label_pronouns").SetText(this.Player.Pronouns);
 
             this.flow = this.First<UIFlowCarousel>("items");
+            this.flow.SetSpeed(20f);
             this.itemCounts = new Dictionary<string, UITextBlock>();
             foreach (string item in Tracker.Pickups.All.Keys)
             {

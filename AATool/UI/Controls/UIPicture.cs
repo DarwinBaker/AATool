@@ -11,6 +11,8 @@ namespace AATool.UI.Controls
         public Color Tint     { get; private set; }
         public float Rotation { get; private set; }
 
+        private bool labelTint;
+
         public void SetTexture(string texture)
         {
             if (this.Texture != texture && this.Layer is Layer.Main && this.Root() is UIMainScreen)
@@ -45,6 +47,13 @@ namespace AATool.UI.Controls
             this.SetTexture(texture);
         }
 
+        public override void InitializeThis(UIScreen screen)
+        {
+            base.InitializeThis(screen);
+            if (this.labelTint && screen is UIMainScreen mainScreen)
+                mainScreen.RegisterLabelTint(this);
+        }
+
         public override void DrawThis(Canvas canvas)
         {
             if (this.SkipDraw)
@@ -61,6 +70,7 @@ namespace AATool.UI.Controls
             base.ReadNode(node);
             this.Texture = Attribute(node, "texture", this.Texture ?? string.Empty);
             this.Tint = Attribute(node, "tint", this.Tint);
+            this.labelTint = Attribute(node, "label_tint", false);
         }
     }
 }

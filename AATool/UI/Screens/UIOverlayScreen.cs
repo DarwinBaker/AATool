@@ -39,7 +39,9 @@ namespace AATool.UI.Screens
         private readonly SequenceTimer pickupTimer;
 
         private UITextBlock text;
+        private UITextBlock lastRefresh;
         private UITextBlock status;
+
         private UICarousel advancements;
         private UICarousel criteria;
         private UIFlowPanel counts;
@@ -158,6 +160,13 @@ namespace AATool.UI.Screens
             };
             this.AddControl(this.text);
 
+            this.lastRefresh = new UITextBlock("minecraft", 24) {
+                Padding             = new Margin(16, 16, 8, 0),
+                VerticalTextAlign   = VerticalAlign.Top,
+            };
+            this.lastRefresh.SetVisibility(Config.Overlay.ShowLastRefresh);
+            this.AddControl(this.lastRefresh);
+
             //initialize main objective carousel
             this.advancements = this.First<UICarousel>("advancements");
             this.advancements?.SetScrollDirection(Config.Overlay.RightToLeft);
@@ -196,7 +205,7 @@ namespace AATool.UI.Screens
 	
 	            this.counts.AddControl(this.status);
             }
-
+            this.UpdateDirection();
             this.UpdateSpeed();
         }
 
@@ -226,6 +235,7 @@ namespace AATool.UI.Screens
             this.text?.SetText(this.PrepareHeaderText(time));
             //text next to pickup counts
             this.status?.SetText(this.PrepareStatusText());
+            this.lastRefresh?.SetText(Tracker.GetLastRefresh(time));
         }
 
         private void UpdateTheme()
@@ -253,6 +263,13 @@ namespace AATool.UI.Screens
                 this.counts.FlowDirection = Config.Overlay.RightToLeft ^ Config.Overlay.PickupsOpposite
                     ? FlowDirection.RightToLeft
                     : FlowDirection.LeftToRight;
+            }
+
+            if (this.lastRefresh is not null)
+            {
+                this.lastRefresh.HorizontalTextAlign = Config.Overlay.RightToLeft ^ Config.Overlay.LastRefreshOpposite
+                    ? HorizontalAlign.Right
+                    : HorizontalAlign.Left;
             }
 
             if (this.status is not null)
@@ -339,16 +356,18 @@ namespace AATool.UI.Screens
             if (Tracker.Category.IsComplete())
             {
                 this.carouselPanel?.Collapse();  
+                this.lastRefresh?.Collapse();
                 if (this.runCompletePanel?.IsCollapsed is true)
                 {
                     this.runCompletePanel.Expand();
                     this.runCompletePanel.First<UIRunComplete>()?.Show();
-                }         
+                }
             }
             else
             {
                 this.carouselPanel?.Expand();
                 this.runCompletePanel?.Collapse();
+                this.lastRefresh?.SetVisibility(Config.Overlay.ShowLastRefresh);
             }
 
             //update criteria visibility

@@ -360,6 +360,7 @@ namespace AATool.Net
                 if (Tracker.Category is AllBlocks ab)
                 {
                     ab.ClearHighlighted();
+                    ab.ClearConfirmed();
                     ab.ApplyChecklist(list?.Split('\n'));
                 }
             }

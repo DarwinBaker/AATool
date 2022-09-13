@@ -16,12 +16,14 @@ namespace AATool.UI.Controls
         public ControlState State { get; private set; }
         public UITextBlock TextBlock { get; private set; }
 
-        public bool UseCustomColor;
-        public bool ShowBorder;
+        public bool UseCustomColor { get; set; }
+        public bool ShowBorder { get; set; }
 
         public void SetText(string text) => this.TextBlock?.SetText(text);
         public void SetTextColor(Color color) => this.TextBlock?.SetTextColor(color);
         private void SetState(ControlState newState) => this.State = newState;
+
+        private bool globalButton;
 
         public UIButton()
         {
@@ -34,6 +36,9 @@ namespace AATool.UI.Controls
         public override void InitializeThis(UIScreen screen)
         {
             this.TextBlock.FlexHeight = new Size(13, SizeMode.Absolute);
+
+            if (this.globalButton)
+                this.OnClick += this.Root().Click;
         }
 
         protected override void UpdateThis(Time time)
@@ -118,6 +123,7 @@ namespace AATool.UI.Controls
 			this.TextBlock.SetLayer(this.Layer);
 
             this.BorderThickness = Attribute(node, "border_thickness", 2);
+            this.globalButton = Attribute(node, "global", false);
         }
     }
 }

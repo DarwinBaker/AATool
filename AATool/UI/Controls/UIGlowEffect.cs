@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace AATool.UI.Controls
 {
-    class UIGlowEffect : UIPicture
+    public class UIGlowEffect : UIPicture
     {
         public float Brightness { get; set; }
         public float Scale { get; set; }
@@ -65,6 +65,7 @@ namespace AATool.UI.Controls
             base.ReadNode(node);
             this.LerpToBrightness(Attribute(node, "brightness", 1f));
             this.Scale = Attribute(node, "scale", 1f);
+            this.rotationFactor = Attribute(node, "rotation_speed", 400f);
         }
     }
 }

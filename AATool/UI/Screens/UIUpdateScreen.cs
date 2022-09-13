@@ -154,12 +154,12 @@ namespace AATool.UI.Screens
                 //update text
                 if (Main.IsModded)
                 {
-                    this.Form.Text = $"You are running {Main.FullTitle}";
+                    this.Form.Text = $"You are running {Main.ShortTitle}";
                     this.hasLatestLabel?.SetText("You're on an unofficial build");
                 }
                 if (Main.IsBeta)
                 {
-                    this.Form.Text = $"You are running {Main.FullTitle}";
+                    this.Form.Text = $"You are running {Main.ShortTitle}";
                     this.hasLatestLabel?.SetText("You're ahead of the latest release!");
                 }
                 else if (Main.Version > UpdateRequest.LatestVersion)

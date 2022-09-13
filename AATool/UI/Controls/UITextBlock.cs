@@ -12,9 +12,9 @@ namespace AATool.UI.Controls
 {
     public class UITextBlock : UIControl
     {
-        public DynamicSpriteFont Font    { get; private set; }
-        public string WrappedText        { get; private set; }
-        public Rectangle TextBounds      { get; private set; }
+        public DynamicSpriteFont Font    { get; protected set; }
+        public string WrappedText        { get; protected set; }
+        public Rectangle TextBounds      { get; protected set; }
 
         public Color TextColor                      { get; set; }
         public HorizontalAlign HorizontalTextAlign  { get; set; }
@@ -28,12 +28,12 @@ namespace AATool.UI.Controls
         public void SetFont(string font, int size)  => this.Font = FontSet.Get(font, size);
         public void SetTextColor(Color color)
         {
-            if (this.TextColor != color && this.Root() is UIMainScreen)
+            if (this.TextColor != color && this.Root() is UIMainScreen && this.Layer is Layer.Main)
                 UIMainScreen.Invalidate();
             this.TextColor = color;
         }
 
-        private string rawValue;
+        protected string rawValue;
 
         public UITextBlock() : this("minecraft", 12) { }
         public UITextBlock(string font, int scale)
@@ -63,7 +63,7 @@ namespace AATool.UI.Controls
             }
         }
 
-        public void SetText(string text) 
+        public virtual void SetText(string text) 
         {
             if (text != this.rawValue)
             {

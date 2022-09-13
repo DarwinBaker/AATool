@@ -28,7 +28,15 @@ namespace AATool.UI.Controls
         public UIEnchantmentTable()
         {
             this.SetLayer(Layer.Fore);
-            this.SetTexture(Closed);
+            if (Tracker.IsWorking)
+            {
+                this.SetTexture(Reading);
+                this.glowWidth = 1;
+            }
+            else
+            {
+                this.SetTexture(Closed);
+            }
 
             if (SpriteSheet.TryGet(Opening, out Sprite sprite) && sprite is AnimatedSprite openAnimation)
                 this.open = openAnimation;
@@ -108,8 +116,8 @@ namespace AATool.UI.Controls
                 this.glowRotation = 0;
 
             this.glowWidth = this.Texture is Reading or Opening
-                ? (float)Math.Min(this.glowWidth + (time.Delta * 2.2), 1)
-                : (float)Math.Max(this.glowWidth - (time.Delta * 2), 0);
+                ? (float)Math.Min(this.glowWidth + (time.Delta * 1.2), 1)
+                : (float)Math.Max(this.glowWidth - (time.Delta * 1.3), 0);
         }
 
         public override void DrawThis(Canvas canvas)

@@ -343,6 +343,7 @@ namespace AATool.UI.Controls
                             FlexWidth = new (40),
                             FlexHeight = new (40),
                             Margin = new (0, 40, 0, -4),
+                            Padding = new Margin(4, 4, 8, 0),
                             HorizontalAlign = HorizontalAlign.Right,
                             VerticalAlign = VerticalAlign.Bottom,
                         };

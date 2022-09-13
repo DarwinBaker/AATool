@@ -26,18 +26,18 @@ namespace AATool.UI.Controls
             if (this.innerCorners)
             {
                 canvas.DrawRectangle(this.Bounds,
-                Config.Main.BackColor,
-                Config.Main.BorderColor,
-                this.BorderThickness,
-                this.Layer);
+                    Config.Main.BackColor,
+                    Config.Main.BorderColor,
+                    this.BorderThickness,
+                    this.Layer);
             }
             else
             {
                 canvas.DrawRectangle(this.Bounds,
-                Config.Main.BorderColor, 
-                null, 
-                0,
-                this.Layer);
+                    Config.Main.BorderColor, 
+                    null, 
+                    0,
+                    this.Layer);
             }
         }
 

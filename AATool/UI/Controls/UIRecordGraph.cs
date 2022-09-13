@@ -21,7 +21,8 @@ namespace AATool.UI.Controls
         private bool upToDate;
 
         public bool LiveHistoryAvailable => SpreadsheetRequest.DownloadedPages.Contains((Paths.Web.AASheet, Paths.Web.PrimaryAAHistory));
-
+        
+        /*
         public override void InitializeRecursive(UIScreen screen)
         {
             base.InitializeRecursive(screen);
@@ -32,8 +33,8 @@ namespace AATool.UI.Controls
 
             if (!this.LiveHistoryAvailable)
             {
-                new SpreadsheetRequest(Paths.Web.AASheet, Paths.Web.PrimaryAAHistory).EnqueueOnce();
-                new SpreadsheetRequest(Paths.Web.NicknameSheet).EnqueueOnce();
+                //new SpreadsheetRequest(Paths.Web.AASheet, Paths.Web.PrimaryAAHistory).EnqueueOnce();
+                //new SpreadsheetRequest(Paths.Web.NicknameSheet).EnqueueOnce();
             }
         }
 
@@ -51,6 +52,7 @@ namespace AATool.UI.Controls
             this.records.Clear();
         }
 
+        
         private void Populate(LeaderboardSheet history)
         {
             //WIP
@@ -60,7 +62,7 @@ namespace AATool.UI.Controls
             TimeSpan wr = TimeSpan.MaxValue;
             while (valid)
             {
-                valid = Run.TryParse(history, row, out Run run);
+                //valid = Run.TryParse(history, row, out Run run);
                 if (valid && run.InGameTime < wr)
                 {
                     wr = run.InGameTime;
@@ -69,5 +71,6 @@ namespace AATool.UI.Controls
                 row++;
             }
         }
+        */
     }
 }

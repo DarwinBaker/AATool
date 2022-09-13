@@ -23,6 +23,7 @@ namespace AATool.UI.Controls
         private float iconTarget;
         private float textTarget;
 
+        public Criterion Objective => this.criterion;
         public bool HideFromOverlay => (this.criterion?.Owner?.IsComplete() is true) || this.CriterionCompleted;
         public bool CriterionCompleted => this.criterion?.CompletedByDesignated() is true;
 
@@ -42,6 +43,7 @@ namespace AATool.UI.Controls
             {
                 this.FlexWidth  = new Size(68, SizeMode.Absolute);
                 this.FlexHeight = new Size(68, SizeMode.Absolute);
+                this.Padding = new Margin(0, 20, 0, 20);
             }
         }
 

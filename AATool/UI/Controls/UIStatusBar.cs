@@ -20,7 +20,6 @@ namespace AATool.UI.Controls
         //settings panel
         private UIControl settings;
         private UIButton settingsButton;
-        private UIButton manualClearButton;
 
         //status panel
         private UIControl status;
@@ -43,8 +42,14 @@ namespace AATool.UI.Controls
         private readonly Timer refreshTimer;
         private int rightPanelWidth;
 
+        //all blocks stuff
+        private UIBlockGrid blockGrid;
+        private UIButton clearHighlighted;
+        private UIButton clearConfirmed;
+        private UIPicture clearHighlightedIcon;
+        private UIPicture clearConfirmedIcon;
 
-        public UIStatusBar() 
+        public UIStatusBar()
         {
             this.refreshTimer = new Timer(ConsoleHoldTime);
             this.BuildFromTemplate();
@@ -56,7 +61,7 @@ namespace AATool.UI.Controls
             this.settings = this.First("settings");
             this.settingsButton = this.settings.First<UIButton>();
             if (this.settingsButton is not null)
-                this.settingsButton.OnClick += this.OnClick;
+                this.settingsButton.OnClick += this.Click;
 
             //status panel
             this.status      = this.First("status");
@@ -83,7 +88,7 @@ namespace AATool.UI.Controls
                 {
                     this.patreonButton.UseCustomColor = true;
                     this.patreonButton.SetTextColor(Color.Black);
-                    this.patreonButton.OnClick += this.OnClick;
+                    this.patreonButton.OnClick += this.Click;
                 }
                 else
                 {
@@ -100,14 +105,33 @@ namespace AATool.UI.Controls
                 this.strider?.Collapse();
                 this.striderGlow?.Collapse();
             }
-                
 
-            if (Tracker.Category is AllBlocks)
+            this.Root().TryGetFirst(out this.blockGrid);
+            if (this.TryGetFirst(out this.clearHighlighted, "clear_blocks_highlighted"))
             {
-                //all blocks controls
-                this.manualClearButton = this.progress.First<UIButton>("manual_clear");
-                if (this.manualClearButton is not null)
-                    this.manualClearButton.OnClick += this.OnClick;
+                this.clearHighlightedIcon = this.clearHighlighted.First<UIPicture>();
+                this.clearHighlighted.First<UITextBlock>().HorizontalTextAlign = HorizontalAlign.Left;
+                this.clearHighlighted.First<UITextBlock>().Padding = new Margin(28, 0, 0, 0);
+                if (UIMainScreen.ActiveTab is UIMainScreen.TrackerTab)
+                {
+                    this.clearHighlighted.OnClick += this.Click;
+                }
+                else
+                {
+                    this.clearHighlighted.Collapse();
+                    if (this.TryGetFirst(out UIControl panel, "progress_panel"))
+                        panel.Padding = new Margin(0, 0, 0, 0);
+                }
+            }
+            if (this.TryGetFirst(out this.clearConfirmed, "clear_blocks_confirmed"))
+            {
+                this.clearConfirmedIcon = this.clearConfirmed.First<UIPicture>();
+                this.clearConfirmed.First<UITextBlock>().HorizontalTextAlign = HorizontalAlign.Left;
+                this.clearConfirmed.First<UITextBlock>().Padding = new Margin(28, 0, 0, 0);
+                if (UIMainScreen.ActiveTab is UIMainScreen.TrackerTab)
+                    this.clearConfirmed.OnClick += this.Click;
+                else
+                    this.clearConfirmed.Collapse();
             }
         }
 
@@ -126,11 +150,11 @@ namespace AATool.UI.Controls
                 this.donateMessage.Collapse();
             }
 
-            this.progress.FlexWidth = new Size(parent.Width 
-                - (this.settings.FlexWidth 
-                + this.status.FlexWidth 
+            this.progress.FlexWidth = new Size(parent.Width
+                - (this.settings.FlexWidth
+                + this.status.FlexWidth
                 + this.rightPanelWidth));
-            
+
             this.progressBar.SkipToValue(Tracker.Category.GetCompletionRatio());
             base.ResizeRecursive(parent);
         }
@@ -142,7 +166,7 @@ namespace AATool.UI.Controls
                 this.readIcon.UpdateState(true);
             else
                 this.readIcon.UpdateState(Tracker.IsWorking);
-            
+
             this.refreshTimer.Update(time);
             if (this.refreshTimer.IsExpired)
             {
@@ -163,15 +187,64 @@ namespace AATool.UI.Controls
                 progress += $"    -    {Tracker.GetFullIgt()} IGT";
 
             string days = Tracker.GetDaysAndHours();
-            if (this.progressBar.Width > 420 && !string.IsNullOrEmpty(days))
+            if (this.progressBar.Width > 425 && !string.IsNullOrEmpty(days))
                 progress += $"    -    {days}";
-
 
             this.progressLabel.SetText(progress);
             this.progressBar.StartLerpToValue(Tracker.Category.GetCompletionRatio());
 
+            if (this.patreonButton is not null)
+            {
+                this.patreonButton.BackColor = Canvas.RainbowFast;
+                this.patreonButton.BorderColor = ColorHelper.Blend(Canvas.RainbowFast, Color.Black, 0.6f);
+            }
             this.patreonGlow.SetTint(Canvas.RainbowFast);
             this.striderGlow.SetTint(Canvas.RainbowFast);
+
+            if (Tracker.Category is AllBlocks ab)
+                this.UpdateAllBlocksButtons(ab);
+        }
+
+        private void UpdateAllBlocksButtons(AllBlocks ab)
+        {
+            if (this.blockGrid is null)
+                return;
+
+            bool disableClearHighlighted = this.blockGrid.SelectionMade || ab.BlocksHighlightedCount < 1;
+            bool disableClearConfirmed = this.blockGrid.SelectionMade || ab.BlocksConfirmedCount < 1;
+            if (this.clearHighlighted.Enabled == disableClearHighlighted)
+            {
+                this.clearHighlighted.Enabled ^= true;
+                if (this.clearHighlighted.Enabled)
+                {
+                    this.clearHighlightedIcon?.SetTint(Color.White);
+                }
+                else
+                {
+                    this.clearHighlighted?.SetText($"");
+                    this.clearHighlightedIcon?.SetTint(ColorHelper.Fade(Color.White, 0.05f));
+                }
+            }
+
+            if (this.clearConfirmed.Enabled == disableClearConfirmed)
+            {
+                this.clearConfirmed.Enabled ^= true;
+                if (this.clearConfirmed.Enabled)
+                {
+                    this.clearConfirmedIcon?.SetTint(Color.White);
+                }
+                else
+                {
+                    this.clearConfirmed?.SetText($"");
+                    this.clearConfirmedIcon?.SetTint(ColorHelper.Fade(Color.White, 0.05f));
+                }
+            }
+
+            if (this.clearHighlighted.Enabled)
+                this.clearHighlighted?.SetText($"Clear {ab.BlocksHighlightedCount}");
+
+            if (this.clearConfirmed.Enabled)
+                this.clearConfirmed?.SetText($"Clear {ab.BlocksConfirmedCount}");
         }
 
         private string GetLabelText()
@@ -185,16 +258,7 @@ namespace AATool.UI.Controls
             return Tracker.GetStatusText();
         }
 
-        public override void DrawThis(Canvas canvas)
-        {
-            if (this.patreonButton is not null)
-            {
-                this.patreonButton.BackColor = Canvas.RainbowFast;
-                this.patreonButton.BorderColor = ColorHelper.Blend(Canvas.RainbowFast, Color.Black, 0.6f);
-            }
-        }
-
-        private void OnClick(UIControl sender)
+        private void Click(UIControl sender)
         {
             if (sender == this.settingsButton)
             {
@@ -205,18 +269,58 @@ namespace AATool.UI.Controls
             {
                 Process.Start(Paths.Web.PatreonFull);
             }
-            else if (sender == this.manualClearButton && Tracker.Category is AllBlocks ab)
+            else if (!string.IsNullOrEmpty(sender.Name) && sender.Name.StartsWith("clear_blocks_") && Tracker.Category is AllBlocks ab)
             {
-                var result = System.Windows.Forms.MessageBox.Show("You are about to clear all currently checked (glowing green) blocks. You will have to manually re-check them all. Are you sure you want to perform this action?",
-                    "Clear Manually Checked Blocks",
+                if (sender.Name is "clear_blocks_highlighted")
+                {
+                    int count = 0;
+                    if (this.blockGrid?.SelectionMade is true)
+                    {
+                        foreach (UIBlockTile tile in this.blockGrid.SelectedBlocks)
+                        {
+                            if (tile.Block.Highlighted && !tile.Block.IsComplete())
+                                count++;
+                        }
+                    }
+                    else
+                    {
+                        count = ab.CountHighlightedBlocks();
+                    }
+                    
+                    if (count < 1)
+                        return;
+
+                    System.Windows.Forms.DialogResult result = System.Windows.Forms.MessageBox.Show(
+                    "You are about to clear all currently highlighted (red) blocks. Are you sure you want to perform this action?",
+                    $"Clear {count} highlighted blocks",
                     System.Windows.Forms.MessageBoxButtons.OKCancel,
                     System.Windows.Forms.MessageBoxIcon.Warning);
 
-                if (result is System.Windows.Forms.DialogResult.OK)
-                {
-                    ab.ClearHighlighted();
-                    ab.SaveChecklist();
+                    if (result is System.Windows.Forms.DialogResult.OK)
+                    {
+                        ab.ClearHighlighted();
+                        ab.SaveChecklist();
+                    }
                 }
+                else if (sender.Name is "clear_blocks_confirmed")
+                {
+                    int count = ab.CountConfirmedBlocks();
+                    if (count < 1)
+                        return;
+
+                    System.Windows.Forms.DialogResult result = System.Windows.Forms.MessageBox.Show(
+                    "You are about to clear all currently confirmed (green) blocks. You'll have to manually re-confirm them all after making sure they've been placed at your central location. Are you sure you want to perform this action?",
+                    $"Clear {count} confirmed blocks",
+                    System.Windows.Forms.MessageBoxButtons.OKCancel,
+                    System.Windows.Forms.MessageBoxIcon.Warning);
+
+                    if (result is System.Windows.Forms.DialogResult.OK)
+                    {
+                        ab.ClearConfirmed();
+                        ab.SaveChecklist();
+                    }
+                }
+
             }
         }
 

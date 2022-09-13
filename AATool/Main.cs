@@ -16,6 +16,8 @@ using AATool.Saves;
 using AATool.Net.Requests;
 using Microsoft.Xna.Framework.Graphics;
 using System.Globalization;
+using AATool.UI.Badges;
+using AATool.Data.Speedrunning;
 
 namespace AATool
 {
@@ -81,10 +83,11 @@ namespace AATool
         protected override void Initialize()
         {
             //load assets
+            Canvas.Initialize();
             SpriteSheet.Initialize();
             Tracker.Initialize();
-            Canvas.Initialize();
             FontSet.Initialize();
+            Leaderboard.Initialize();
 
             //check for updates in the background
             new UpdateRequest().EnqueueOnce();

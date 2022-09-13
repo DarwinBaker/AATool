@@ -29,6 +29,18 @@ namespace AATool.UI.Controls
             this.DrawMode         = DrawMode.ChildrenOnly;
         }
 
+        public void SetRowHeight(int row, Size height)
+        {
+            if (row >= 0 && row < this.Rows.Count)
+                this.Rows[row] = height;
+        }
+
+        public void SetColWidth(int col, Size width)
+        {
+            if (col >= 0 && col < this.Columns.Count)
+                this.Columns[col] = width;
+        }
+
         public int GetExpandedWidth()
         {
             int total = 0;
@@ -219,9 +231,16 @@ namespace AATool.UI.Controls
             if (this.SkipDraw)
                 return;
 
-            base.DrawThis(canvas);
-            foreach (Rectangle cell in this.CellRectangles)
-                canvas.DrawRectangle(cell, Config.Main.BackColor, Config.Main.BorderColor, 1);
+            if (this.FlipColors)
+            {
+                foreach (Rectangle cell in this.CellRectangles)
+                    canvas.DrawRectangle(cell, Config.Main.BorderColor, Config.Main.BackColor, 1);
+            }
+            else
+            {
+                foreach (Rectangle cell in this.CellRectangles)
+                    canvas.DrawRectangle(cell, Config.Main.BackColor, Config.Main.BorderColor, 1);
+            }
         }
 
         public override void DrawDebugRecursive(Canvas canvas)

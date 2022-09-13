@@ -263,7 +263,13 @@ namespace AATool.UI.Controls
         private void UpdateAppearance(bool forceUpdate = false)
         {
             if (this.onMainScreen)
+            {
                 this.label?.SetTextColor(this.IsActive ? Config.Main.TextColor : Config.Main.TextColor.Value * 0.4f);
+            }
+            else
+            {
+                this.label?.SetVisibility(this.Objective is Pickup || !this.ObjectiveCompleted);
+            }
             this.icon?.SetTint(this.IsActive ? Color.White : InactiveIconTint);
 
             bool invalidated = this.onMainScreen 
@@ -364,13 +370,14 @@ namespace AATool.UI.Controls
             this.UpdateManualCheckbox();
 
             //pickups have labels that change over time and need to be refreshed
-            if (this.Objective is Pickup)
+            if (this.Objective is Pickup || Tracker.Invalidated || Config.Tracking.FilterChanged)
             {
                 bool fullSize = !Config.Main.UseCompactStyling && Tracker.Category is AllAdvancements or AllAchievements or AllBlocks;
                 if (fullSize || this.Root() is UIOverlayScreen)
                     this.label?.SetText(this.Objective?.GetFullCaption());
                 else
                     this.label?.SetText(this.Objective?.GetShortCaption());
+                this.icon.SetTexture(this.Objective.Icon);
             }
 
             //uncomment for making preview images easily
@@ -506,8 +513,9 @@ namespace AATool.UI.Controls
                             break;
                     }
                 }
-                canvas.Draw($"avatar-{this.Objective.FirstCompletion.who}",
-                    this.avatarRectangle, fade, Layer.Fore);
+
+                if (this.onMainScreen)
+                    canvas.Draw($"avatar-{this.Objective.FirstCompletion.who}", this.avatarRectangle, fade, Layer.Fore);
             }
         }
 

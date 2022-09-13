@@ -21,12 +21,18 @@ namespace AATool.UI.Controls
             {
                 this.RefreshSourceList();
 
+                
                 //remove existing overlay items that have since been completed
                 for (int i = this.Children.Count - 1; i >= 0; i--)
                 {
                     if ((this.Children[i] as UICriterion).HideFromOverlay)
-                        this.Children.RemoveAt(i);
-                }
+                    {
+                        var cover = new UICarouselCover();
+                        this.Children[i].AddControl(cover);
+                        cover.InitializeThis(this.Root());
+                    }
+                        //this.Children.RemoveAt(i);
+                } 
             }
 
             base.UpdateThis(time);
@@ -107,12 +113,7 @@ namespace AATool.UI.Controls
             if (Config.Overlay.ClarifyAmbiguous.Changed)
             {
                 foreach (UIControl criterion in this.Children)
-                {
-                    if (Config.Overlay.ClarifyAmbiguous)
-                        criterion.First("clarifying_icon")?.Expand();
-                    else
-                        criterion.First("clarifying_icon")?.Collapse();
-                }
+                    criterion.First("clarifying_icon")?.SetVisibility(Config.Overlay.ClarifyAmbiguous);
             }
         }
     }

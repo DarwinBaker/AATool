@@ -95,6 +95,8 @@ namespace AATool.UI.Controls
 
             if (this.advancement is not null)
                 this.bar.SkipToValue(this.criteriaGroup.NumberCompletedBy(this.advancement.GetDesignatedPlayer()));
+
+            this.UpdateProgress();
         }
 
         private void PopulateCriteria()

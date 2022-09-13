@@ -47,6 +47,9 @@ namespace AATool.UI.Controls
             int y = this.Inner.Top;
             foreach (UIControl child in this.Children)
             {
+                if (child.IsCollapsed)
+                    continue;
+
                 int width  = Math.Max(this.CellWidth, child.Width + child.Margin.Horizontal);
                 int height = Math.Max(this.CellHeight, child.Height + child.Margin.Vertical);
 
@@ -76,6 +79,9 @@ namespace AATool.UI.Controls
             int x = this.Inner.Left;
             foreach (UIControl child in this.Children)
             {
+                if (child.IsCollapsed)
+                    continue;
+
                 int width  = Math.Max(this.CellWidth, child.Width + child.Margin.Horizontal);
                 int height = Math.Max(this.CellHeight, child.Height + child.Margin.Vertical);
 

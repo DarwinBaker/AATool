@@ -58,6 +58,7 @@ namespace AATool.UI.Controls
         public int ColumnSpan   { get; set; } = 1;
         public bool IsSquare    { get; set; } = false;
         public bool IsCollapsed { get; private set; } = false;
+        public bool FlipColors  { get; private set; } = false;
 
         public List<UIControl> Children { get; protected set; }
         public UIControl Parent { get; protected set; }
@@ -295,6 +296,12 @@ namespace AATool.UI.Controls
             return null;
         }
 
+        public bool TryGetFirst<T>(out T control, string name = null) where T : UIControl
+        {
+            control = this.First<T>(name);
+            return control is not null;
+        }
+
         public void GetTreeRecursive(List<UIControl> children)
         {
             children.Add(this);
@@ -324,8 +331,8 @@ namespace AATool.UI.Controls
 
             if (this.DrawMode is DrawMode.All || this.DrawMode is DrawMode.ChildrenOnly)
             {
-                foreach (UIControl control in this.Children)
-                    control.DrawRecursive(canvas);
+                for (int i = 0; i < this.Children.Count; i++)
+                    this.Children[i].DrawRecursive(canvas);
             }
         }
 
@@ -374,8 +381,9 @@ namespace AATool.UI.Controls
             this.DrawMode        = Attribute(node, "draw_mode",        this.DrawMode);
             this.VerticalAlign   = Attribute(node, "vertical_align",   this.VerticalAlign);
             this.HorizontalAlign = Attribute(node, "horizontal_align", this.HorizontalAlign);
-			
-			this.SetLayer(Attribute(node, "layer", this.Layer));
+			this.FlipColors      = Attribute(node, "flip", false);
+
+            this.SetLayer(Attribute(node, "layer", this.Layer));
 
             //margin
             if (node.Attributes["margin"] is not null)

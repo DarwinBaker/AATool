@@ -27,6 +27,7 @@ namespace AATool.Utilities
         public static string SavesPath { get; private set; } = string.Empty;
         public static string LogFile { get; private set; } = string.Empty;
         public static int Number { get; private set; } = -1;
+        public static int LastActiveId { get; private set; } = -1;
 
         public static bool HasNumber => Number > 0;
         public static bool Watching => Config.Tracking.WatchActiveInstance;
@@ -35,7 +36,6 @@ namespace AATool.Utilities
 
         private static string LatestLogContents;
         private static string LatestGameVersion;
-        private static int LastActiveInstance;
         private static DateTime LastLogWriteTimeUtc;
         private static int LogStart;
 
@@ -52,7 +52,7 @@ namespace AATool.Utilities
                 if (!TryGetActive(out Process instance))
                     return;
 
-                if (instance.Id != LastActiveInstance)
+                if (instance.Id != LastActiveId)
                 {
                     Debug.BeginTiming("read_instance");
 
@@ -71,7 +71,7 @@ namespace AATool.Utilities
                     UpdateInstanceNumber(dotMinecraft?.FullName);
 
                     //prepare for next check
-                    LastActiveInstance = instance.Id;
+                    LastActiveId = instance.Id;
 
                     Debug.EndTiming("read_instance");
                 }

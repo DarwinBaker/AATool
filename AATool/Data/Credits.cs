@@ -19,7 +19,7 @@ namespace AATool.Data
             new ("supporter_netherite", "Feinberg"),
             new ("supporter_netherite", "PeteZahHutt"),
             new ("supporter_netherite", "Deadpool"),
-
+            
             new ("supporter_diamond", "NiceTwice"),
             new ("supporter_diamond", "Cube1337x"),
             new ("supporter_diamond", "Nex"),
