@@ -57,7 +57,7 @@ namespace AATool.Net.Requests
 
             if (Uuid.TryParse(response, out Uuid id))
             {
-                Debug.Log(Debug.RequestSection, $"{Incoming} Received UUID {response} for \"{this.name}\" in {this.ResponseTime}");
+                Debug.Log(Debug.RequestSection, $"{Incoming} Received UUID for \"{this.name}\" ({response}) in {this.ResponseTime}");
 
                 Player.Cache(id, this.name);
                 if (this.requestAvatar)
@@ -66,7 +66,7 @@ namespace AATool.Net.Requests
             }
             else
             {
-                Debug.Log(Debug.RequestSection, $"{Incoming} Received invalid UUID: {response} for \"{this.name}\" in {this.ResponseTime}");
+                Debug.Log(Debug.RequestSection, $"{Incoming} Received invalid UUID for \"{this.name}\" ({response}) in {this.ResponseTime}");
             }
             return false;
         }

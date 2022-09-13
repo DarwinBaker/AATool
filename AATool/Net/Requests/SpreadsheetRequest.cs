@@ -13,9 +13,11 @@ namespace AATool.Net.Requests
         public static HashSet<(string sheetId, string pageId)> DownloadedPages = new ();
         private readonly string sheet;
         private readonly string page;
+        private readonly string name;
 
-        public SpreadsheetRequest(string sheet, string page = "0") : base (Paths.Web.GetSpreadsheetUrl(sheet, page))
+        public SpreadsheetRequest(string name, string sheet, string page = "0") : base (Paths.Web.GetSpreadsheetUrl(sheet, page))
         {
+            this.name = name;
             this.sheet = sheet;
             this.page = page;
         }
@@ -23,7 +25,7 @@ namespace AATool.Net.Requests
         public override async Task<bool> DownloadAsync()
         {
             //logging
-            Debug.Log(Debug.RequestSection, $"{Outgoing} Requested spreadsheet {this.sheet}:{this.page}");
+            Debug.Log(Debug.RequestSection, $"{Outgoing} Requested spreadsheet for {this.name}");
             this.BeginTiming();
             Downloads++;
 
@@ -70,7 +72,7 @@ namespace AATool.Net.Requests
             }
             else
             {
-                Debug.Log(Debug.RequestSection, $"{Incoming} Received leaderboard spreadsheet {this.sheet}:{this.page} in {this.ResponseTime}");
+                Debug.Log(Debug.RequestSection, $"{Incoming} Received spreadsheet {this.name} in {this.ResponseTime}");
                 return Leaderboard.SyncRecords(this.sheet, this.page, csv);
             }
         }

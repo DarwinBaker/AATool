@@ -1,7 +1,9 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using AATool.Configuration;
 using AATool.Data.Speedrunning;
 using AATool.Net;
+using AATool.Net.Requests;
 using AATool.UI.Badges;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
@@ -16,7 +18,7 @@ namespace AATool.UI.Controls
 
         private Leaderboard owner;
         private UIPicture face;
-        private UIControl badge;
+        private Badge badge;
         private UIGlowEffect glow;
         private UITextBlock name;
         private float nameOpacity;
@@ -53,6 +55,8 @@ namespace AATool.UI.Controls
             {
                 this.Player = player;
                 this.RefreshBadge();
+                if (this.Player != Uuid.Empty)
+                    Net.Player.FetchIdentityAsync(this.Player);
             }
             this.face.SetTexture($"avatar-{this.Player.String}");
         }
@@ -71,6 +75,19 @@ namespace AATool.UI.Controls
             this.glow = this.First<UIGlowEffect>();
             this.name = this.First<UITextBlock>();
             this.nameOpacity = 0;
+            if (!string.IsNullOrEmpty(this.offlineName))
+            {
+                if (Uuid.TryParse(this.offlineName, out Uuid uuid))
+                {
+                    this.offlineName = string.Empty;
+                    this.SetPlayer(uuid);
+                    new AvatarRequest(uuid.String).EnqueueOnce();
+                }
+                else
+                {
+                    this.SetPlayer(this.offlineName);
+                }
+            }
             base.InitializeRecursive(screen);
         } 
 
@@ -90,7 +107,10 @@ namespace AATool.UI.Controls
                 this.cacheChecked = true;
                 if (Leaderboard.IsLiveAvailable(category, version))
                     this.liveChecked = true;
-            } 
+            }
+
+            if (Config.Main.ShowMyBadge.Changed)
+                this.badge?.SetVisibility(this.RegisteredOnLeaderboard || Config.Main.ShowMyBadge || this.Player != Tracker.GetMainPlayer());
         }
 
         private void UpdateGlowEffect()
@@ -110,7 +130,7 @@ namespace AATool.UI.Controls
             }
             else
             {
-                this.glow.LerpToBrightness(0);
+                //this.glow.LerpToBrightness(0);
             }   
         }
 
@@ -143,6 +163,19 @@ namespace AATool.UI.Controls
             this.name.SetTextColor(Config.Main.TextColor.Value * this.nameOpacity);
         }
 
+        public void SetBadge(Badge badge)
+        {
+            this.RemoveControl(this.badge);
+            if (this.Width >= 32 && badge is not null)
+            {
+                this.badge = badge;
+                this.AddControl(this.badge);
+                this.badge.ResizeRecursive(this.Inner);
+            }
+            this.cacheChecked = true;
+            this.liveChecked = true;
+        }
+
         public void RefreshBadge()
         {
             string category = this.RegisteredOnLeaderboard ? this.owner.Category : Leaderboard.Current.category;
@@ -152,16 +185,30 @@ namespace AATool.UI.Controls
 
         public void RefreshBadge(string category, string version)
         {
+            if (this.emptyLeaderboardSlot && this.badge is not null)
+                return;
+
+            if (this.emptyLeaderboardSlot && this.Tag is int rank)
+            {
+                this.badge = Badge.GetEmptyRank(rank, category, version);
+                this.AddControl(this.badge);
+                this.badge.ResizeRecursive(this.Inner);
+                return;
+            }
+
             string playerName = Leaderboard.GetNickName(this.offlineName ?? string.Empty);
             if (string.IsNullOrEmpty(playerName))
                 Net.Player.TryGetName(this.Player, out playerName);
 
             this.RemoveControl(this.badge);
-            if (this.Width >= 32 && Badge.TryGet(this.Player, playerName, 2, category, version, out this.badge))
+            if (this.Width >= 32 && Badge.TryGet(this.Player, playerName, this.RegisteredOnLeaderboard, category, version, out this.badge))
             {
                 this.AddControl(this.badge);
+                if (this.Parent?.Parent?.Parent is UIPersonalBest pb)
+                    this.First<RankBadge>()?.SetSubHour((int)Math.Ceiling(pb.Run.InGameTime.TotalHours));
                 this.badge.ResizeRecursive(this.Inner);
             }
+            this.badge?.SetVisibility(this.RegisteredOnLeaderboard || Config.Main.ShowMyBadge || this.Player != Tracker.GetMainPlayer());
         }
 
         public override void ResizeThis(Rectangle parent)
@@ -178,6 +225,9 @@ namespace AATool.UI.Controls
         {
             base.ReadNode(node);
             this.Scale = Attribute(node, "scale", 4);
+            this.offlineName = Attribute(node, "player", string.Empty);
+            if (Attribute(node, "empty", false))
+                this.SetEmptyLeaderboardSlot();
         }
     }
 }

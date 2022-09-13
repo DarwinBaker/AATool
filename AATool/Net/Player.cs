@@ -11,18 +11,18 @@ namespace AATool.Net
 {
     public static class Player
     {
-        private static readonly Dictionary<string, Uuid> IdCache = new ();
-        private static readonly Dictionary<Uuid, string> NameCache = new ();
+        public static readonly Dictionary<string, Uuid> IdCache = new ();
+        public static readonly Dictionary<Uuid, string> NameCache = new ();
 
-        private static readonly Dictionary<Uuid, Color> IdColorCache = new ();
-        private static readonly Dictionary<string, Color> NameColorCache = new ();
+        public static readonly Dictionary<Uuid, Color> IdColorCache = new ();
+        public static readonly Dictionary<string, Color> NameColorCache = new ();
 
-        private static readonly HashSet<string> NamesAlreadyRequested = new ();
-        private static readonly HashSet<Uuid> IdentitiesAlreadyRequested = new ();
+        public static readonly HashSet<string> NamesAlreadyRequested = new ();
+        public static readonly HashSet<Uuid> IdentitiesAlreadyRequested = new ();
 
-        public static bool TryGetUuid(string name, out Uuid id) => IdCache.TryGetValue(name ?? "", out id);
+        public static bool TryGetUuid(string name, out Uuid id) => Uuid.TryParse(name, out id) || IdCache.TryGetValue(name ?? "", out id);
         public static bool TryGetName(Uuid id, out string name) => NameCache.TryGetValue(id, out name);
-        public static bool TryGetColor(Uuid id, out Color color) => IdColorCache.TryGetValue(id, out color);
+        public static bool TryGetColor(Uuid id, out Color color) => id != Uuid.Empty & IdColorCache.TryGetValue(id, out color);
         public static bool TryGetColor(string name, out Color color) => NameColorCache.TryGetValue(name ?? "", out color);
 
         public static bool ValidateName(string name)
@@ -106,7 +106,7 @@ namespace AATool.Net
         {
             if (NamesAlreadyRequested.Contains(name))
                 return;
-            
+
             NamesAlreadyRequested.Add(name);
             new UuidRequest(name, true).EnqueueOnce();
         }

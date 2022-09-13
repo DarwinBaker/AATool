@@ -8,22 +8,25 @@ namespace AATool.Net
     {
         [JsonIgnore]
         public static readonly Uuid Empty = new (Guid.Empty);
-        
+
         [JsonProperty] public readonly string String;
-        
+        [JsonProperty] public readonly string ShortString;
+
         [JsonIgnore] private readonly Guid innerID;
  
         [JsonConstructor]
         public Uuid(string stringForm)
         {
-            this.String = stringForm;
-            Guid.TryParse(stringForm, out this.innerID);
+            this.String = stringForm ?? string.Empty;
+            this.ShortString = this.String?.Replace("-", "");
+            Guid.TryParse(this.String, out this.innerID);
         }
 
         private Uuid(Guid id)
         {
             this.innerID = id;
             this.String = id.ToString();
+            this.ShortString = this.String?.Replace("-", "");
         }
 
         public static bool operator == (Uuid a, Uuid b) => 

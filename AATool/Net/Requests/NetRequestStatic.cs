@@ -21,6 +21,12 @@ namespace AATool.Net
         public static int ActiveCount => Active.Count;
         public static int SubmittedCount => Submitted.Count;
 
+        public static void ClearHistory()
+        {
+            Submitted.Clear();
+            Completed.Clear();
+        }
+
         private static void Enqueue(NetRequest request)
         {
             //add request to pending queue if unique

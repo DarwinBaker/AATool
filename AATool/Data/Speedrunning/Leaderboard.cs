@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using AATool.Net;
+using AATool.Net.Requests;
+using AATool.UI.Badges;
 
 namespace AATool.Data.Speedrunning
 {
@@ -9,13 +13,27 @@ namespace AATool.Data.Speedrunning
         private static readonly Dictionary<(string category, string version), Leaderboard> AllBoards = new ();
         private static readonly HashSet<(string category, string version)> LiveBoards = new ();
         private static readonly HashSet<string> RequestedIdentities = new ();
+
         private static Dictionary<string, string> NickNames = new ();
         private static Dictionary<string, string> RealNames = new ();
+        private static Dictionary<string, Uuid> Identities = new ();
 
+        public static List<Run> ListOfMostRecords { get; private set; } = new();
+        public static string RunnerWithMostWorldRecords { get; private set; } = string.Empty;
         public static LeaderboardSheet History { get; private set; }
 
-        public static readonly TimeZoneInfo TimeZone = TimeZoneInfo
-            .FindSystemTimeZoneById("Eastern Standard Time");
+        public static string RsgRunner { get; private set; }
+        public static TimeSpan RsgInGameTime { get; private set; }
+        public static TimeSpan RsgRealTime { get; private set; }
+
+        public static string SsgRunner { get; private set; }
+        public static TimeSpan SsgInGameTime { get; private set; }
+        public static TimeSpan SsgRealTime { get; private set; }
+
+
+        public static readonly TimeZoneInfo TimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+
+        public static readonly string[] AAVersions = { "1.19", "1.18", "1.17", "1.16", "1.15", "1.14", "1.13", "1.12", "1.11", "1.6" };
 
         public string Category { get; private set; }
         public string Version { get; private set; }
@@ -29,8 +47,35 @@ namespace AATool.Data.Speedrunning
 
         public static bool NickNamesLoaded { get; private set; }
         public static (string category, string version) Current => (Tracker.Category.Name, Tracker.Category.CurrentMajorVersion);
-        public static bool IsLiveAvailable(string cateogy, string version) => LiveBoards.Contains((cateogy, version));
+        public static bool IsLiveAvailable(string category, string version) => LiveBoards.Contains((category, version));
         public static bool IdentityAlreadyRequested(string name) => RequestedIdentities.Contains(name);
+
+        public static void Initialize()
+        {
+            foreach (string version in AAVersions)
+                TryLoadCached("All Advancements", version, out _);
+            TryLoadCachedAnyPercent(true, "1.16", out _);
+            TryLoadCachedAnyPercent(false, "1.16", out _);
+            UpdateMostWorldRecords();
+        }
+
+        public static void Refresh(string category = null, string version = null)
+        {
+            NetRequest.ClearHistory();
+            Player.IdentitiesAlreadyRequested.Clear();
+            Player.NamesAlreadyRequested.Clear();
+            SpreadsheetRequest.DownloadedPages.Clear();
+            Badge.HoverTimer.Reset();
+            NickNamesLoaded = false;
+            if (category is null)
+            {
+                LiveBoards.Clear();
+            }
+            else
+            {
+                LiveBoards.Remove((category, version));
+            }
+        }
 
         public static string GuidanceHeader(string cateogy, string version)
         {
@@ -40,11 +85,19 @@ namespace AATool.Data.Speedrunning
                 : $"{version} rsg";
         }
 
-        public static string GetRealName(string runner) =>
-            !string.IsNullOrEmpty(runner) && RealNames.TryGetValue(runner.ToLower(), out string real) ? real : runner;
+        public static bool TryGetIdentity(string runner, out Uuid uuid)
+        {
+            uuid = Uuid.Empty;
+            if (!string.IsNullOrEmpty(runner))
+                Identities.TryGetValue(runner.ToLower(), out uuid);
+            return uuid != Uuid.Empty;
+        }
 
-        public static string GetNickName(string runner) =>
-            !string.IsNullOrEmpty(runner) && NickNames.TryGetValue(runner.ToLower(), out string nick) ? nick : runner;
+        public static string GetRealName(string runner, string fallback = null) =>
+            !string.IsNullOrEmpty(runner) && RealNames.TryGetValue(runner.ToLower(), out string real) ? real : fallback ?? runner;
+
+        public static string GetNickName(string runner, string fallback = null) =>
+            !string.IsNullOrEmpty(runner) && NickNames.TryGetValue(runner.ToLower(), out string nick) ? nick : fallback ?? runner;
 
         public static string GetKey(string category, string version)
         {
@@ -62,10 +115,11 @@ namespace AATool.Data.Speedrunning
             {
                 for (int i = 2; i < this.sheet.Rows.Length; i++)
                 {
-                    if (Run.TryParse(this.sheet, i, out Run pb))
+                    if (Run.TryParse(this.sheet, i, this.Version, out Run pb))
                     {
+                        int rank = i - 1;
                         this.Runs.Add(pb);
-                        this.Ranks[pb.Runner.ToLower()] = i - 1;
+                        this.Ranks[pb.Runner.ToLower()] = rank;
                     }
                 }
             }
@@ -80,23 +134,58 @@ namespace AATool.Data.Speedrunning
 
         public static bool TryGetRank(string runner, string category, string version, out int rank)
         {
-            if (!string.IsNullOrEmpty(runner))
-            {
-                if (AllBoards.TryGetValue((category, version), out Leaderboard board) && board is not null)
-                {
-                    lock (board.Ranks)
-                    {
-                        //try player's real ingame name
-                        if (board.Ranks.TryGetValue(GetRealName(runner).ToLower(), out rank))
-                            return true;
-                        //try player's preferred leaderboard nickname
-                        if (board.Ranks.TryGetValue(GetNickName(runner).ToLower(), out rank))
-                            return true;
-                    }
-                }
-            }
             rank = 0;
-            return false;
+            if (string.IsNullOrEmpty(runner))
+                return false;
+
+            if (!AllBoards.TryGetValue((category, version), out Leaderboard board) || board is null)
+                return false;
+
+            lock (board.Ranks)
+            {
+                board.Ranks.TryGetValue(GetRealName(runner).ToLower(), out int ignRank);
+                board.Ranks.TryGetValue(GetNickName(runner).ToLower(), out int nickRank);
+
+                if (ignRank > 0 && nickRank > 0)
+                    rank = Math.Min(ignRank, nickRank);
+                else if (ignRank + nickRank > 0)
+                    rank = Math.Max(ignRank, nickRank);
+            }
+            return rank is not int.MaxValue;
+        }
+
+        public static bool TryGetRank(Uuid runner, string category, string version, out int rank)
+        {
+            rank = 0;
+            if (runner == Uuid.Empty)
+                return false;
+
+            if (!AllBoards.TryGetValue((category, version), out Leaderboard board) || board is null)
+                return false;
+
+            lock (board.Ranks)
+            {
+                board.Ranks.TryGetValue(GetRealName(runner.String).ToLower(), out int ignRank);
+                board.Ranks.TryGetValue(GetNickName(runner.String).ToLower(), out int nickRank);
+
+                if (ignRank > 0 && nickRank > 0)
+                    rank = Math.Min(ignRank, nickRank);
+                else if (ignRank + nickRank > 0)
+                    rank = Math.Max(ignRank, nickRank);
+            }
+            return rank is not int.MaxValue;
+        }
+
+        public static bool TryGetWorldRecord(string category, string version, out Run wr)
+        {
+            wr = null;
+            if (string.IsNullOrEmpty(category) || string.IsNullOrEmpty(version))
+                return false;
+            if (!AllBoards.TryGetValue((category, version), out Leaderboard board) || board is null)
+                return false;
+            if (board.Runs.Any())
+                wr = board.Runs[0];
+            return wr is not null;
         }
 
         public static bool SyncRecords(string sheetId, string pageId, string csv)
@@ -131,6 +220,7 @@ namespace AATool.Data.Speedrunning
                     LiveBoards.Add((category, version));
                 }
             }
+            UpdateMostWorldRecords();
             sheet?.SaveToCache();
             return sheet is not null;
         }
@@ -146,33 +236,82 @@ namespace AATool.Data.Speedrunning
         {
             if (NicknameSheet.TryParse(csv, out NicknameSheet sheet))
             {
-                sheet.GetMappings(out RealNames, out NickNames);
+                sheet.GetMappings(out RealNames, out NickNames, out Identities);
                 NickNamesLoaded = true;
                 sheet.SaveToCache();
             }
             return NickNamesLoaded;
         }
 
-        public bool TryGetRank(string runner, out string place)
+        public static bool SyncAnyPercentRecord(string jsonString, bool rsg)
         {
-            place = string.Empty;
-            if (!this.Ranks.TryGetValue(runner.ToLower(), out int ranking) || ranking < 1)
-                return false;
-
-            if (ranking % 100 is 11 or 12 or 13)
+            try
             {
-                place = ranking + "th";
+                dynamic data = Newtonsoft.Json.JsonConvert.DeserializeObject(jsonString);
+                string runner = data["data"]["players"]["data"][0]["names"]["international"].Value;
+                new AvatarRequest(runner).EnqueueOnce();
+
+                string inGameString = data["data"]["runs"][0]["run"]["times"]["ingame_t"].Value.ToString();
+                if (!double.TryParse(inGameString, out double inGameSeconds))
+                    return false;
+                string realTimeString = data["data"]["runs"][0]["run"]["times"]["realtime_t"].Value.ToString();
+                if (!double.TryParse(realTimeString, out double realTimeSeconds))
+                    return false;
+
+                var igt = TimeSpan.FromSeconds(inGameSeconds);
+                var rta = TimeSpan.FromSeconds(realTimeSeconds);
+
+                if (rsg)
+                {
+                    RsgRunner = runner;
+                    RsgInGameTime = igt;
+                    RsgRealTime = rta;
+                }
+                else
+                {
+                    SsgRunner = runner;
+                    SsgInGameTime = igt;
+                    SsgRealTime = rta;
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static string GetPlace(int rank)
+        {
+            if (rank % 100 is 11 or 12 or 13)
+            {
+                return rank + "th";
             }
             else
             {
-                place = (ranking % 10) switch {
-                    1 => ranking + "st",
-                    2 => ranking + "nd",
-                    3 => ranking + "rd",
-                    _ => ranking + "th",
+                return (rank % 10) switch {
+                    1 => rank + "st",
+                    2 => rank + "nd",
+                    3 => rank + "rd",
+                    _ => rank + "th",
                 };
             }
-            return true;
+        }
+
+        public static void SaveAnyPercentRecordToCache(string jsonString, bool rsg)
+        {
+            try
+            {
+                //cache leaderboard so it loads instantly next launch
+                //overwrite to keep leaderboard up to date
+                Directory.CreateDirectory(Paths.System.LeaderboardsFolder);
+                string path = Paths.System.AnyPercentRecordFile(rsg, "1.16");
+                File.WriteAllText(path, jsonString);
+            }
+            catch
+            {
+                //couldn't save file. ignore and move on
+            }
         }
 
         private static bool TryLoadCached(string category, string version, out Leaderboard leaderboard)
@@ -204,7 +343,7 @@ namespace AATool.Data.Speedrunning
                 {
                     string csv = File.ReadAllText(namesFile);
                     if (NicknameSheet.TryParse(csv, out NicknameSheet sheet))
-                        sheet.GetMappings(out RealNames, out NickNames);
+                        sheet.GetMappings(out RealNames, out NickNames, out Identities);
                 }
                 catch
                 {
@@ -212,6 +351,65 @@ namespace AATool.Data.Speedrunning
                 }
             }
             return leaderboard is not null;
+        }
+
+        private static bool TryLoadCachedAnyPercent(bool rsg, string version, out string jsonString)
+        {
+            jsonString = string.Empty;
+            string leaderboardFile = Paths.System.AnyPercentRecordFile(rsg, version);
+            if (File.Exists(leaderboardFile))
+            {
+                try
+                {
+                    jsonString = File.ReadAllText(leaderboardFile);
+                    SyncAnyPercentRecord(jsonString, rsg);
+                }
+                catch
+                {
+                    //couldn't read cached leaderboard, move on 
+                }
+            }
+            return jsonString is not null;
+        }
+
+        private static void UpdateMostWorldRecords()
+        {
+            Dictionary<string, List<Run>> recordHolders = new ();
+            foreach (string version in AAVersions)
+            {
+                if (!TryGetWorldRecord("All Advancements", version, out Run wr))
+                    return;
+
+                if (!recordHolders.TryGetValue(wr.Runner, out List<Run> records))
+                    recordHolders[wr.Runner] = records = new List<Run>();
+                records.Add(wr);
+            }
+            Version mostLatestVersion = default;
+            int mostRecordsCount = 0;
+            foreach (KeyValuePair<string, List<Run>> recordHolder in recordHolders)
+            {
+                bool foundNew = recordHolder.Value.Count > mostRecordsCount
+                    || (recordHolder.Value.Count == mostRecordsCount && recordHolder.Value.LastOrDefault().GameVersion > mostLatestVersion);
+
+                if (foundNew)
+                {
+                    mostRecordsCount = recordHolder.Value.Count;
+                    RunnerWithMostWorldRecords = recordHolder.Value.LastOrDefault().Runner;
+                    mostLatestVersion = recordHolder.Value.LastOrDefault().GameVersion;
+                }
+            }
+            ListOfMostRecords.Clear();
+            foreach (Run run in recordHolders[RunnerWithMostWorldRecords])
+                ListOfMostRecords.Add(run);
+
+            /*
+            UIAvatar avatar = this.Root().First<UIAvatar>("most_records_avatar");
+            avatar?.SetPlayer(mostRecordsName);
+            //avatar?.RegisterOnLeaderboard(this.board);
+            //avatar?.RefreshBadge();
+            this.Root().First<UITextBlock>("most_records_runner")?.SetText(mostRecordsName);
+            this.Root().First<UITextBlock>("most_records_list")?.SetText(mostRecordsList);
+            */
         }
     }
 }
