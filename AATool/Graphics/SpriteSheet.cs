@@ -19,13 +19,16 @@ namespace AATool.Graphics
         const string AvatarPrefix = "avatar-";
         const int MaximumSize = 4096;
         const int InitialSize = 2048;
-        const int ExpansionIncrement = 256;
+        const int ExpansionIncrement = 64;
 
         public static RenderTarget2D Atlas { get; private set; }
         public static Sprite Pixel { get; private set; }
+        public static bool Loading { get; private set; }
 
         private static readonly Dictionary<string, Sprite> AllSprites = new ();
         private static readonly Dictionary<string, AnimatedSprite> AnimatedSprites = new ();
+        private static readonly Queue<string> RequestedAsyncTextureSets = new ();
+        private static readonly Queue<string> RequestedTextureSets = new ();
         private static readonly List<string> LoadedTextureSets = new ();
 
         private static SpriteBatch InternalBatch;
@@ -33,6 +36,7 @@ namespace AATool.Graphics
         private static int OffsetX = 0;
         private static int OffsetY = 0;
         private static int StartX = 0;
+        private static bool IsBusy;
 
         private static int Width => StartX is 0 ? InitialSize : MaximumSize;
 
@@ -55,6 +59,22 @@ namespace AATool.Graphics
 
         public static void Update(Time time)
         {
+            //handle async asset loading
+            if (!IsBusy)
+            {
+                if (RequestedTextureSets.Any())
+                {
+                    string textureSet = RequestedTextureSets.Dequeue();
+                    Load(textureSet);
+                }
+                else if (RequestedAsyncTextureSets.Any())
+                {
+                    string textureSet = RequestedAsyncTextureSets.Dequeue();
+                    LoadAsync(textureSet);
+                }
+            }
+
+            //update animations
             decimal animationTime = time.TotalFrames / 3;
             lock (AnimatedSprites)
             {
@@ -68,7 +88,9 @@ namespace AATool.Graphics
             InternalBatch = new SpriteBatch(Main.Device);
             Atlas = new RenderTarget2D(Main.Device, InitialSize, InitialSize, false,
                 SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
-
+            
+            //prevent interruption
+            IsBusy = true;
             lock (LoadedTextureSets)
             {
                 //load textures required at launch
@@ -97,13 +119,29 @@ namespace AATool.Graphics
                         Player.Cache(identifier, ColorHelper.GetAccent(texture));
                 }
             }
+
+            //allow next set to be loaded
+            IsBusy = false;
         }
 
         public static void Require(string textureSet)
         {
-            //check if set has already been loaded
-            if (LoadedTextureSets.Contains(textureSet))
+            if (LoadedTextureSets.Contains(textureSet) || RequestedAsyncTextureSets.Contains(textureSet))
                 return;
+            RequestedAsyncTextureSets.Enqueue(textureSet);
+        }
+
+        public static void Request(string textureSet)
+        {
+            if (LoadedTextureSets.Contains(textureSet) || RequestedAsyncTextureSets.Contains(textureSet))
+                return;
+            RequestedAsyncTextureSets.Enqueue(textureSet);
+        }
+
+        private static void Load(string textureSet)
+        {
+            //prevent interruption
+            IsBusy = true;
 
             //get all textures in specified folder and add to atlas in order of descending height
             string path = Path.Combine(Paths.System.SpritesFolder, textureSet);
@@ -114,17 +152,22 @@ namespace AATool.Graphics
                 LoadedTextureSets.Add(textureSet);
                 Dispose(textures);
             }
+
+            //allow next set to be loaded
+            IsBusy = false;
         }
 
-        public static void Include(string textureSet)
+        private static void LoadAsync(string textureSet)
         {
             new Thread(() => {
-
-                Require(textureSet);
-
-                if (textureSet is "blocks")
-                    AllBlocks.SpritesLoaded = true;
-
+                lock (LoadedTextureSets)
+                {
+                    Load(textureSet);
+                    if (textureSet is AllBlocks.MainTextureSet)
+                        AllBlocks.MainSpritesLoaded = true;
+                    if (textureSet is AllBlocks.HelpTextureSet)
+                        AllBlocks.MainSpritesLoaded = true;
+                }
             }).Start();
         }
 
@@ -144,6 +187,7 @@ namespace AATool.Graphics
 
         public static void Pack(params Texture2D[] textures)
         {
+            Loading = true;
             lock (AllSprites) 
             lock (AnimatedSprites)
             {
@@ -185,6 +229,7 @@ namespace AATool.Graphics
 
                 //add new textures to the atlas
                 Render(textures);
+                Loading = false;
             }
         }
 
@@ -228,6 +273,7 @@ namespace AATool.Graphics
 
                 InternalBatch.End();
                 Main.Device.SetRenderTarget(null);
+                UIMainScreen.Invalidate();
             }
         }
 
@@ -315,7 +361,7 @@ namespace AATool.Graphics
                 RenderTarget2D oldAtlas = Atlas;
 
                 //create new render target of required size
-                Atlas = new RenderTarget2D(Main.Device, Width, newHeight, false,
+                Atlas = new RenderTarget2D(Main.Device, Width, Math.Max(newHeight, InitialSize), false,
                     SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 
                 //re-add old render target contents to new one

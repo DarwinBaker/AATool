@@ -11,42 +11,90 @@ using Microsoft.Xna.Framework;
 
 namespace AATool.UI.Controls
 {
-    class UIBlockTile : UIButton
+    public class UIBlockTile : UIButton
     {
+        public const int Dimension = 38;
+        public const int IconDimension = 32;
         private const float FadeFast = 10f;
         private const float FadeSlow = 5f;
 
+        public static readonly Timer ClickConfirmationTimer = new (5, false);
+        public static UIBlockTile AwaitingConfirmation { get; set; }
+
         public string BlockId { get; set; }
+        public bool IsActive { get; set; } = true;
 
         public Block Block;
+        
 
+        private UIBlockGrid blockGrid;
         private UIPicture icon;
         private UIGlowEffect glowMain;
         private bool spriteLoaded;
         private bool wasHighlighted;
         private bool wasPlaced;
         private string highlightTexture;
+        private string searchTerms;
         private float opacityHighlight;
         private float opacityPlaced;
         private float opacityBlock;
         private int scale;
 
+        private string gridColumn;
+        private string gridRow;
+
+        public string AlgebraicNotation => $"{this.gridRow.ToUpper()}{this.gridColumn}";
+
         private bool IsAnimated => SpriteSheet.IsAnimated(this.Block.Icon + Sprite.ResolutionFlag + (16 * this.scale));
 
         private string PlacedTexture => this.Block.DoubleHeight ? "block_tile_tall_gold" : "block_tile_gold";
+
+        public bool SatisfiesSearch(string query)
+        {
+            if (int.TryParse(query, out _))
+                return query == this.gridColumn;
+            return this.searchTerms.Contains(query);
+        }
+
+        public Point GetGridCoordinates() => new ((this.X - 20) / Dimension, (this.Y - 20) / Dimension);
 
         public UIBlockTile()
         {
             this.BuildFromTemplate();
             this.scale = 2;
             this.BorderThickness = 1;
-            this.opacityBlock = AllBlocks.SpritesLoaded ? 1 : 0;
+            this.opacityBlock = AllBlocks.MainSpritesLoaded ? 1 : 0;
         }
 
         public UIBlockTile(int scale = 2) : this()
         {
             this.scale = scale;
-            this.opacityBlock = AllBlocks.SpritesLoaded ? 1 : 0;
+            this.opacityBlock = AllBlocks.MainSpritesLoaded ? 1 : 0;
+        }
+
+        public void SetActiveState(bool isActive) => this.IsActive = isActive;
+
+        public bool TryToggleHighlight()
+        {
+            if (this.Block.IsComplete() && this.Block.Highlighted)
+            {
+                if (AwaitingConfirmation == this && ClickConfirmationTimer.IsRunning)
+                {
+                    this.Block.ToggleHighlight();
+                    AwaitingConfirmation = null;
+                }
+                else
+                {
+                    AwaitingConfirmation = this;
+                    ClickConfirmationTimer.Reset();
+                    return false;
+                }
+            }
+            else
+            {
+                this.Block.ToggleHighlight();
+            }
+            return true;
         }
 
         public override void InitializeThis(UIScreen screen)
@@ -55,7 +103,9 @@ namespace AATool.UI.Controls
             Tracker.TryGetBlock(this.BlockId, out this.Block);
 
             this.Name = this.Block.Id;
+
             //this.popup = this.First<UIPopup>();
+            this.blockGrid = this.Root().First<UIBlockGrid>();
             this.icon = this.First<UIPicture>();
             if (this.IsAnimated)
                 this.icon.SetLayer(Layer.Fore);
@@ -63,7 +113,17 @@ namespace AATool.UI.Controls
             this.opacityPlaced = this.Block.HasBeenPlaced ? 1 : 0;
             this.opacityHighlight = this.Block.Highlighted ? 1 : 0;
 
+            this.icon.FlexWidth = new (48);
+            this.icon.FlexHeight = new (48);
             this.Style();
+        }
+
+        public override void ResizeThis(Rectangle parent)
+        {
+            base.ResizeThis(parent);
+            this.UpdateSearchTerms();
+            if (this.Parent?.Parent is not UIBlockPopup)
+                this.blockGrid.RegisterBlockTile(this);
         }
 
         protected override void UpdateThis(Time time)
@@ -77,17 +137,27 @@ namespace AATool.UI.Controls
             this.UpdateTextures();
         }
 
+        private void UpdateSearchTerms()
+        {
+            Point coordinates = this.GetGridCoordinates();
+            this.gridRow = ((char)('a' + coordinates.Y)).ToString();
+            this.gridColumn = (coordinates.X + 1).ToString();
+            string compactedBlockName = this.Block.Name.Replace(" ", "").Replace("\n", "").ToLower();
+            this.searchTerms = $"{compactedBlockName} {this.Block.SearchTags}" +
+                $" {this.gridRow}{this.gridColumn} {this.gridColumn}{this.gridRow}";
+        }
+
         private void UpdateIconOpacity(Time time)
         {
-            float target = Tracker.IsWorking || Peer.IsClient ? 1 : 0.5f;
+            float target = (Tracker.IsWorking || Peer.IsClient) && this.IsActive ? 1 : 0.3f;
             if (this.opacityBlock != target)
             {
-                this.opacityBlock = MathHelper.Lerp(this.opacityBlock, AllBlocks.SpritesLoaded ? target : 0, (float)(5 * time.Delta));
+                this.opacityBlock = MathHelper.Lerp(this.opacityBlock, AllBlocks.MainSpritesLoaded ? target : 0, (float)(5 * time.Delta));
                 if (this.opacityBlock > 0.99)
                     this.opacityBlock = 1;
 
                 this.icon.SetTint(ColorHelper.Fade(Color.White, this.opacityBlock));
-                if (!this.spriteLoaded && AllBlocks.SpritesLoaded && this.IsAnimated)
+                if (!this.spriteLoaded && AllBlocks.MainSpritesLoaded && this.IsAnimated)
                 {
                     this.spriteLoaded = true;
                     this.icon.SetLayer(Layer.Fore);
@@ -142,7 +212,11 @@ namespace AATool.UI.Controls
         }
 
         public override void DrawThis(Canvas canvas) 
-        { 
+        {
+            //inactive deselected state
+            if (!this.IsActive)
+                canvas.DrawRectangle(this.Bounds, ColorHelper.Fade(Color.Black, 0.7f), null, 0, Layer.Fore);
+
             if (this.SkipDraw)
                 return;
             
@@ -176,8 +250,8 @@ namespace AATool.UI.Controls
 
             if (this.Parent?.Parent is not UIBlockPopup) 
             {
-                this.FlexWidth = new (38);
-                this.FlexHeight = new (38);
+                this.FlexWidth = new (Dimension);
+                this.FlexHeight = new (Dimension);
             }
             else
             {
@@ -214,6 +288,8 @@ namespace AATool.UI.Controls
                     this.glowMain.SetTexture("shroomlight_glow");
                 else if (this.BlockId.Contains("sculk"))
                     this.glowMain.SetTexture("sculk_glow");
+                else if (this.BlockId is "minecraft:respawn_anchor")
+                    this.glowMain.SetTexture("crying_obsidian_glow");
                 else
                     this.glowMain.SetTexture(this.BlockId.Replace("minecraft:", "") + "_glow");
                 this.icon.AddControl(this.glowMain);

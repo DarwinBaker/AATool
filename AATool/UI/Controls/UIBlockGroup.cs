@@ -5,6 +5,7 @@ using AATool.Graphics;
 using AATool.Net;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -17,8 +18,11 @@ namespace AATool.UI.Controls
         public string EndId { get; private set; }
 
         private readonly HashSet<string> excluded = new ();
-        private List<UIBlockTile> tiles = new ();
+        private readonly List<UIBlockTile> tiles = new ();
+
         private List<Block> blocks;
+
+        private UIBlockGrid blockGrid;
         private UIBlockPopup popup;
 
         public UIBlockGroup()
@@ -29,8 +33,8 @@ namespace AATool.UI.Controls
 
         public override void InitializeThis(UIScreen screen)
         {
+            this.blockGrid = this.Root().First<UIBlockGrid>();
             this.popup = screen.First<UIBlockPopup>();
-
             this.Populate();
         }
 
@@ -61,8 +65,8 @@ namespace AATool.UI.Controls
                 {
                     //add empty spacer
                     this.AddControl(new UIPanel() {
-                        FlexWidth = new Size(38),
-                        FlexHeight = new Size(38),
+                        FlexWidth = new Size(UIBlockTile.Dimension),
+                        FlexHeight = new Size(UIBlockTile.Dimension),
                         DrawMode = DrawMode.None,
                     });
                 }
@@ -71,39 +75,40 @@ namespace AATool.UI.Controls
 
         public override void DrawThis(Canvas canvas)
         {
-            if (this.SkipDraw)
-                return;
-
-            canvas.DrawRectangle(this.Bounds,
-                Config.Main.BorderColor,
-                Config.Main.BorderColor,
-                this.BorderThickness,
-                this.Layer);
+            
         }
 
         protected override void UpdateThis(Time time)
         {
-            //optimization to skip unnecessary hover checks
             Point cursor = Input.Cursor(this.Root());
-            if (!this.Bounds.Contains(cursor))
+
+            //optimization, skip almost all unnecessary block hover checks
+            if (!this.Bounds.Contains(cursor) || !this.Root().Form.Focused)
                 return;
 
             foreach (UIBlockTile tile in this.tiles)
             {
-                if (tile.Bounds.Contains(cursor))
-                {
-                    if (Input.LeftClicked && (Tracker.IsWorking || Peer.IsClient))
-                    {
-                        tile.Block.ToggleHighlight();
-                        (Tracker.Category as AllBlocks)?.SaveChecklist();
-                    }
-                        
-                    if (Input.RightClicked)
-                        this.popup.SetSource(tile);  
+                //check for hovered block
+                if (!tile.Bounds.Contains(cursor))
+                    continue;
 
-                    //found hovered block. don't need to check any more
-                    break;
+                if (Input.LeftClicked && (Tracker.IsWorking || Peer.IsClient))
+                {
+                    //toggle highlight of single block
+                    if (this.blockGrid.SelectionMade || this.blockGrid.WasSelectionMade || !tile.IsActive || UIMainScreen.SettingsJustClosed)
+                        return;
+
+                    if (tile.TryToggleHighlight())
+                        (Tracker.Category as AllBlocks)?.SaveChecklist();
                 }
+                else if ((Input.RightClicking || Input.RightClicked) && this.blockGrid.Selection == default)
+                {
+                    //show the block details popup
+                    this.popup.SetSource(tile);
+                }
+
+                //optimization, found hovered block. don't need to check any more
+                return;
             }
         }
 

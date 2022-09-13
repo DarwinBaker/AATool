@@ -13,7 +13,7 @@ namespace AATool.UI.Screens
 {
     public abstract class UIScreen : UIControl
     {
-        public SwapChainRenderTarget Target { get; protected set; }
+        public SwapChainRenderTarget Target    { get; protected set; }
         public Form Form                       { get; private set; }
         public Main Main                       { get; private set; }
         public GameWindow Window               { get; private set; }
@@ -61,6 +61,8 @@ namespace AATool.UI.Screens
         public abstract void ReloadView();
         protected abstract void ConstrainWindow();
 
+        public virtual void Click(UIControl sender) { }
+
         public virtual void Dispose()
         {
             this.Target?.Dispose();
@@ -92,11 +94,14 @@ namespace AATool.UI.Screens
 
         public override void DrawRecursive(Canvas canvas)
         {
-            this.Canvas.BeginDraw(this);
-            base.DrawRecursive(this.Canvas);
-            if (Config.Main.LayoutDebugMode)
-                this.DrawDebugRecursive(this.Canvas);
-            this.Canvas.EndDraw(this);
+            if (!SpriteSheet.Loading)
+            {
+                this.Canvas.BeginDraw(this);
+                base.DrawRecursive(this.Canvas);
+                if (Config.Main.LayoutDebugMode)
+                    this.DrawDebugRecursive(this.Canvas);
+                this.Canvas.EndDraw(this);
+            }
         }
 
         public override void DrawDebugRecursive(Canvas canvas)

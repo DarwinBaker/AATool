@@ -1,5 +1,6 @@
 ﻿using AATool.Configuration;
 using AATool.Data.Categories;
+using AATool.Net;
 using AATool.UI.Screens;
 using AATool.Utilities;
 using System;
@@ -83,7 +84,14 @@ namespace AATool
                 return instance < 1
                     ? Path.Combine(BlockChecklistsFolder, $"{worldName}.txt")
                     : Path.Combine(BlockChecklistsFolder, $"instance_{instance}-{worldName}.txt");
-            }           
+            }
+
+            public static string AnyPercentRecordFile(bool rsg, string version)
+            {
+                return rsg
+                    ? Path.Combine(LeaderboardsFolder, $"any_percent_wr_rsg_{version}.txt")
+                    : Path.Combine(LeaderboardsFolder, $"any_percent_wr_ssg_{version}.txt");
+            }
         }
 
         public static class Saves
@@ -134,12 +142,15 @@ namespace AATool
             public const string AAPageOthers = "1283472797";
 
             public const string ABSheet = "1RnN6lE3yi5S_5PBuxMXdWNvN3HayP3054M3Qud_p9BU";
-            public const string ABPage19 = "__________";
+            public const string ABPage19 = "1912774860";
             public const string ABPage18 = "1706556435";
             public const string ABPage16 = "1572184167";
 
             public const string NicknameSheet = "1j2APgxS_En7em5lcVF2OWjEvsUY2DHVX4QvdVGhSR_o";
             public const string PrimaryAAHistory = "735237004";
+            
+            public const string AnyRsgRecord = "https://www.speedrun.com/api/v1/leaderboards/j1npme6p/category/mkeyl926?top=1&embed=players&var-jlzkwql2=mln68v0q&var-r8rg67rn=21d4zvp1";
+            public const string AnySsgRecord = "https://www.speedrun.com/api/v1/leaderboards/j1npme6p/category/mkeyl926?top=1&embed=players&var-jlzkwql2=mln68v0q&var-r8rg67rn=klrzpjo1";
 
             public static string GetUuidUrl(string name) => 
                 $"https://minecraft-api.com/api/uuid/{name}";
@@ -147,11 +158,19 @@ namespace AATool
             public static string GetNameUrl(string uuid) => 
                 $"https://minecraft-api.com/api/pseudo/{uuid.Replace("-", "")}";
 
-            public static string GetAvatarUrl(string uuid, int size = 16) => 
+            public static string GetAvatarUrlFallback(Uuid uuid, int size) =>
                 $"https://crafatar.com/avatars/{uuid}?size={size}&overlay=true";
+
+            public static string GetAvatarUrl(Uuid uuid, int size) =>
+                $"https://minotar.net/helm/{uuid.ShortString}/{size}";
+
+            public static string GetAvatarUrl(string name, int size) =>
+                $"https://minotar.net/helm/{name.Trim()}/{size}";
 
             public static string GetSpreadsheetUrl(string sheet, string page) =>
                 $"https://docs.google.com/spreadsheets/d/{sheet}/export?gid={page}&format=csv";
+
+            public static string GetAnyPercentRecordUrl(bool rsg) => rsg ? AnyRsgRecord : AnySsgRecord;
         }
     }
 }

@@ -10,6 +10,9 @@ namespace AATool.Data.Categories
 {
     public class AllBlocks : Category
     {
+        public const string MainTextureSet = "blocks";
+        public const string HelpTextureSet = "ab_guide";
+
         public static readonly List<string> SupportedVersions = new () {
             "1.19",
             "1.18",
@@ -29,7 +32,11 @@ namespace AATool.Data.Categories
                 : $"{base.GetStatus()} ({Tracker.Blocks.ObtainedCount} Obtained)";
         }
 
-        public static bool SpritesLoaded { get; set; }
+        public static bool MainSpritesLoaded { get; set; }
+        public static bool HelpSpritesLoaded { get; set; }
+
+        public int BlocksHighlightedCount { get; set; }
+        public int BlocksConfirmedCount { get; set; }
 
         public AllBlocks() : base()
         {
@@ -38,7 +45,8 @@ namespace AATool.Data.Categories
             this.Objective = "Blocks";
             this.Action    = "Placed";
 
-            SpriteSheet.Include("blocks");
+            SpriteSheet.Request(MainTextureSet);
+            SpriteSheet.Request(HelpTextureSet);
         }
 
         public override void LoadObjectives()
@@ -50,7 +58,19 @@ namespace AATool.Data.Categories
         public void ClearHighlighted()
         {
             foreach (Block block in Tracker.Blocks.All.Values)
-                block.Highlighted = false;
+            {
+                if (!block.IsComplete())
+                    block.Highlighted = false;
+            }
+        }
+
+        public void ClearConfirmed()
+        {
+            foreach (Block block in Tracker.Blocks.All.Values)
+            {
+                if (block.IsComplete())
+                    block.Highlighted = false;
+            }  
         }
 
         public override void Update()
@@ -58,6 +78,7 @@ namespace AATool.Data.Categories
             if (Tracker.SavesFolderChanged || Tracker.WorldChanged)
             {
                 this.ClearHighlighted();
+                this.ClearConfirmed();
                 this.TryLoadChecklist();
             }
         }
@@ -73,28 +94,26 @@ namespace AATool.Data.Categories
             return builder.ToString();
         }
 
-        public void TryLoadChecklist()
+        public int CountHighlightedBlocks()
         {
-            if (!Tracker.IsWorking || Peer.IsClient)
-                return;
-            string path = Paths.System.BlockChecklistFile(ActiveInstance.Number, Tracker.WorldName);
-            if (!File.Exists(path))
-                return;
-
-            try
+            int counter = 0;
+            foreach (Block block in Tracker.Blocks.All.Values)
             {
-                string[] lines = File.ReadAllLines(path);
-                this.ApplyChecklist(lines);
-                foreach (string id in lines)
-                {
-                    if (Tracker.TryGetBlock(id, out Block block))
-                        block.Highlighted = true;
-                }
+                if (!block.IsComplete() && block.Highlighted)
+                    counter++;
             }
-            catch
-            {
+            return counter;
+        }
 
+        public int CountConfirmedBlocks()
+        {
+            int counter = 0;
+            foreach (Block block in Tracker.Blocks.All.Values)
+            {
+                if (block.IsComplete() && block.Highlighted)
+                    counter++;
             }
+            return counter;
         }
 
         public void ApplyChecklist(string[] lines)
@@ -112,6 +131,9 @@ namespace AATool.Data.Categories
         {
             if (!Tracker.IsWorking || Peer.IsClient)
                 return;
+
+            this.BlocksHighlightedCount = 0;
+            this.BlocksConfirmedCount = 0;
             string path = Paths.System.BlockChecklistFile(ActiveInstance.Number, Tracker.WorldName);
             try
             {
@@ -121,7 +143,15 @@ namespace AATool.Data.Categories
                     foreach (Block block in Tracker.Blocks.All.Values)
                     {
                         if (block.Highlighted)
+                        { 
                             file.WriteLine(block.Id);
+
+                            //update counts
+                            if (block.IsComplete())
+                                this.BlocksConfirmedCount++;
+                            else
+                                this.BlocksHighlightedCount++;
+                        }
                     }
                 }
             }
@@ -129,6 +159,48 @@ namespace AATool.Data.Categories
             {
 
             }
+        }
+
+        private void TryLoadChecklist()
+        {
+            this.BlocksHighlightedCount = 0;
+            this.BlocksConfirmedCount = 0;
+            if (!Tracker.IsWorking || Peer.IsClient)
+                return;
+            string path = Paths.System.BlockChecklistFile(ActiveInstance.Number, Tracker.WorldName);
+            if (!File.Exists(path))
+                return;
+
+            try
+            {
+                string[] lines = File.ReadAllLines(path);
+                this.ApplyChecklist(lines);
+
+                foreach (string id in lines)
+                {
+                    //update counts
+                    if (Tracker.TryGetBlock(id, out Block block))
+                    {
+                        block.Highlighted = true;
+                        if (block.IsComplete())
+                            this.BlocksConfirmedCount++;
+                        else
+                            this.BlocksHighlightedCount++;
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void ExportBlockList()
+        {
+            var list = new StringBuilder();
+            foreach (KeyValuePair<string, Block> block in Tracker.Blocks.All)
+                list.AppendLine($"{block.Value.Name.Replace("\n", " ")}");
+            File.WriteAllText($"all_required_blocks_{Tracker.Category.CurrentMajorVersion}.txt", list.ToString());
         }
     }
 }

@@ -13,7 +13,7 @@ namespace AATool.Graphics
         private readonly int singleWidth;
         private readonly int singleHeight;
 
-        public int CurrentFrame { get; private set; }
+        public int CurrentFrame { get; private set; } = -1;
 
         public AnimatedSprite(Rectangle source, int frames, int columns, decimal speed) : base(source)
         {
@@ -27,10 +27,10 @@ namespace AATool.Graphics
 
         public void Animate(decimal animationTime)
         {
-            decimal scaled = animationTime / this.speed;
-            decimal loops = Math.Floor(scaled / this.Frames);
-            int wrapped = (int)(scaled - (loops * this.Frames));
-            if (wrapped != this.CurrentFrame)
+            decimal scaledTime = animationTime / this.speed;
+            decimal loops = Math.Floor(scaledTime / this.Frames);
+            int wrapped = (int)(scaledTime - (loops * this.Frames));
+            if (this.CurrentFrame != wrapped)
             {
                 //convert wrapped frame index to x,y offset
                 this.CurrentFrame = wrapped;

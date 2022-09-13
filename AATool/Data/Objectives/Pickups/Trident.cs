@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using AATool.Data.Categories;
 
 namespace AATool.Data.Objectives.Pickups
@@ -9,6 +10,8 @@ namespace AATool.Data.Objectives.Pickups
         private const string VVF = "minecraft:adventure/very_very_frightening";
         private const string Surge = "minecraft:adventure/lightning_rod_with_villager_no_fire";
 
+        private static readonly Version AncientCitySkeletonSkulls = new ("1.19");
+
         private bool vvfDone;
         private bool surgeDone;
         private bool surgeAdded;
@@ -16,7 +19,6 @@ namespace AATool.Data.Objectives.Pickups
         private bool zombieHead;
         private bool creeperHead;
         private bool skeletonSkull;
-        private int headsObtained;
 
         public Trident(XmlNode node) : base(node) { }
 
@@ -24,25 +26,29 @@ namespace AATool.Data.Objectives.Pickups
         {
             if (Tracker.Category is AllBlocks)
             {
-                this.headsObtained = 0;
+                this.zombieHead = false;
+                this.creeperHead = false;
+                this.skeletonSkull = false;
 
                 //check if all heads requiring charged creepers have been obtained
-                Tracker.TryGetBlock("minecraft:zombie_head", out Block zombie);
-                this.zombieHead = zombie?.CompletedByAnyone() is true;
-                if (this.zombieHead) 
-                    this.headsObtained++;
+                if (Tracker.TryGetBlock("minecraft:zombie_head", out Block zombie))
+                    this.zombieHead = zombie.CompletedByAnyone() || zombie.PickedUpByAnyone();
 
-                Tracker.TryGetBlock("minecraft:creeper_head", out Block creeper);
-                this.creeperHead = creeper?.CompletedByAnyone() is true;
-                if (this.creeperHead)
-                    this.headsObtained++;
+                if (Tracker.TryGetBlock("minecraft:creeper_head", out Block creeper))
+                    this.creeperHead = creeper.CompletedByAnyone() || creeper.PickedUpByAnyone();
 
-                Tracker.TryGetBlock("minecraft:skeleton_skull", out Block skeleton);
-                this.skeletonSkull = skeleton?.CompletedByAnyone() is true;
-                if (this.skeletonSkull)
-                    this.headsObtained++;
+                if (Tracker.TryGetBlock("minecraft:skeleton_skull", out Block skeleton))
+                    this.skeletonSkull = skeleton.CompletedByAnyone() || skeleton.PickedUpByAnyone();
 
-                this.CompletionOverride = this.zombieHead && this.creeperHead && this.skeletonSkull;
+                if (Version.TryParse(Tracker.Category.CurrentVersion, out Version current) && current >= AncientCitySkeletonSkulls)
+                {
+                    //post-1.19, skeleton skulls are available in ancient city and no longer require thunder
+                    this.CompletionOverride = this.zombieHead && this.creeperHead;
+                }
+                else
+                {
+                    this.CompletionOverride = this.zombieHead && this.creeperHead && this.skeletonSkull;
+                }
             }
             else
             {
@@ -62,40 +68,45 @@ namespace AATool.Data.Objectives.Pickups
         {
             //override status with current state of thunder
             this.FullStatus = Tracker.Category is AllBlocks 
-                ? this.BlocksStatus() 
-                : this.AdvancementsStatus();
+                ? this.GetStatusAB() 
+                : this.GetStatusAA();
         }
 
-        private string AdvancementsStatus()
+        private string GetStatusAA()
         {
             string status;
             if (this.CompletionOverride)
             {
+                this.Icon = "enchanted_trident";
                 status = "Done With Thunder";
-            }
-            else if (this.vvfDone == this.surgeDone || !this.surgeAdded)
-            {
-                //not done with either, see if we still need trident too
-                status = this.PickedUp > 0
-                    ? "Awaiting Thunder"
-                    : "Obtain Trident";
             }
             else
             {
-                //only one of the two thunder-related advancements are complete
-                status = this.vvfDone
-                    ? "Surge Prot Incomplete"
-                    : "VVF Incomplete";
+                this.Icon = "trident";
+                if (this.vvfDone == this.surgeDone || !this.surgeAdded)
+                {
+                    //not done with either, see if we still need trident too
+                    status = this.PickedUp > 0
+                        ? "Awaiting Thunder"
+                        : "Obtain Trident";
+                }
+                else
+                {
+                    //only one of the two thunder-related advancements are complete
+                    status = this.vvfDone
+                        ? "Surge Prot Incomplete"
+                        : "VVF Incomplete";
+                }
             }
             return status;
         }
 
-        private string BlocksStatus()
+        private string GetStatusAB()
         {
             string status;
             if (this.CompletionOverride)
             {
-                this.Icon = "trident_and_heads";
+                this.Icon = "enchanted_trident";
                 status = "Done With Thunder";
             }
             else

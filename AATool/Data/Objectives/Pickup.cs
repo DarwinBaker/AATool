@@ -112,6 +112,7 @@ namespace AATool.Data.Objectives
                 EGap.ItemId => new EGap(node),
                 ShulkerShell.ItemId => new ShulkerShell(node),
                 Mycelium.BlockId => new Mycelium(node),
+                DeepslateEmerald.BlockId => new DeepslateEmerald(node),
                 _ => new Pickup(node)
             };
         }

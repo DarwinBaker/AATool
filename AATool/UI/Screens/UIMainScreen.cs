@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using AATool.Configuration;
@@ -9,6 +12,7 @@ using AATool.Data.Objectives.Pickups;
 using AATool.Graphics;
 using AATool.Net;
 using AATool.Net.Requests;
+using AATool.UI.Badges;
 using AATool.UI.Controls;
 using AATool.Utilities;
 using AATool.Winforms.Forms;
@@ -19,33 +23,46 @@ namespace AATool.UI.Screens
 {
     public class UIMainScreen : UIScreen
     {
+        public const string TrackerTab = "tracker";
+        public const string HelpTab = "help";
+        public const string MultiboardTab = "multiboard";
+        public const string RunnersTab = "runners_1.16";
+
+
+        public static string ActiveTab { get; private set; } = TrackerTab;
         public static RenderTarget2D RenderCache { get; private set; }
         public static bool Invalidated { get; private set; }
         public static bool RefreshingCache { get; set; }
+        public static bool NeedsLayoutRefresh { get; private set; }
+
         public static bool Invalidate() => Invalidated = true;
 
-        private FSettings settingsMenu;
+        public static void ForceLayoutRefresh() => NeedsLayoutRefresh = true;
+
+        public static FSettings Settings;
+        public static bool SettingsJustClosed => SettingsCooldown.IsRunning;
+
+        private static readonly Utilities.Timer SettingsCooldown = new (0.25f);
+
         private UIGrid grid;
         private UILobby lobby;
         private UIStatusBar status;
-        private UIBlockPopup popup;
         private UILeaderboard leaderboard;
         private UIPotionGroup potions;
-        private UIButton resetDeaths;
-
-        private UIButton tabAAMultiboard;
-        private UIButton tabABMultiboard;
-        private UIButton tabRunners;
         private UITextBlock debugLog;
+        private UIBlockGrid blockGrid;
+        private UITextBlock largeStatus;
+
+        private readonly List<UIPicture> labelTintedIcons = new ();
+
         private int logOffset;
         private int logLines;
         private int pendingRequests;
         private int activeRequests;
         private int completedRequests;
         private int timedOutRequests;
-        private bool needsLayoutRefresh;
-        private readonly Utilities.Timer settingsCooldown;
 
+        public bool DimScreen => this.blockGrid?.DimScreen is true;
         public override Color FrameBackColor() => Config.Main.BackColor;
         public override Color FrameBorderColor() => Config.Main.BorderColor;
 
@@ -54,21 +71,26 @@ namespace AATool.UI.Screens
             //set window title
             this.Form.Text = Main.FullTitle;
             this.Form.FormClosing += this.OnClosing;
-            this.settingsCooldown = new Utilities.Timer(0.25f);
+        }
+
+        public void RegisterLabelTint(UIPicture control)
+        {
+            if (!this.labelTintedIcons.Contains(control))
+                this.labelTintedIcons.Add(control);
         }
 
         public void CloseSettingsMenu()
         {
             //prevent settings from re-opening immediately if escape is used to close the window
-            this.settingsCooldown.Reset();
+            SettingsCooldown.Reset();
         }
 
         public void OpenSettingsMenu()
         {
-            if (this.settingsMenu is null || this.settingsMenu.IsDisposed)
+            if (Settings is null || Settings.IsDisposed)
             {
-                this.settingsMenu = new FSettings();
-                this.settingsMenu.Show(this.Form);
+                Settings = new FSettings();
+                Settings.Show(this.Form);
             }
         }
 
@@ -107,99 +129,59 @@ namespace AATool.UI.Screens
 
         public override string GetCurrentView()
         {
-            if (false)
-            {
-                //fullscreen multi-version leaderboards
-                if (Config.Main.ActiveTab == "multiboard_aa")
-                {
-                    return Path.Combine(Paths.System.ViewsFolder,
-                        "leaderboards",
-                        $"multiboard_aa.xml");
-                }
-                else if (Config.Main.ActiveTab == "multiboard_ab")
-                {
-                    return Path.Combine(Paths.System.ViewsFolder,
-                        "leaderboards",
-                        $"multiboard_ab.xml");
-                }
-                else if (Config.Main.ActiveTab == "timeline")
-                {
-                    return Path.Combine(Paths.System.ViewsFolder,
-                        "leaderboards",
-                        $"timeline.xml");
-                }
-                else if (Config.Main.ActiveTab == "runners_1.16")
-                {
-                    return Path.Combine(Paths.System.ViewsFolder,
-                        "leaderboards",
-                        $"runners_1.16.xml");
-                }
+            string view = Tracker.Category.ViewName;
+            string version = Tracker.Category.CurrentMajorVersion ?? Tracker.Category.CurrentVersion;
 
-                return Path.Combine(Paths.System.ViewsFolder,
-                        "leaderboards",
-                        $"multiboard_aa.xml");
-            }
+            if (ActiveTab is HelpTab)
+                return Path.Combine(Paths.System.ViewsFolder, view, version, $"help.xml");
 
-            //get proper view for current category and version
-            string path = Path.Combine(Paths.System.ViewsFolder,
-                Tracker.Category.ViewName,
-                Tracker.Category.CurrentMajorVersion ?? Tracker.Category.CurrentVersion,
-                "main.xml");
+            if (ActiveTab is not TrackerTab)
+                return Path.Combine(Paths.System.ViewsFolder, "other", $"{ActiveTab}.xml");
 
-            //check for conditional variant if needed
+            string path = Path.Combine(Paths.System.ViewsFolder, view, version, "main.xml");
+
+            //check for conditional layout variant if needed
             if (!File.Exists(path))
-            {
-                path = Path.Combine(Paths.System.ViewsFolder,
-                    Tracker.Category.ViewName,
-                    Tracker.Category.CurrentMajorVersion ?? Tracker.Category.CurrentVersion,
-                    $"main_{Config.Main.Layout.Value}.xml");
-            }
+                path = Path.Combine(Paths.System.ViewsFolder, view, version, $"main_{Config.Main.Layout.Value}.xml");
+
             return path;
         }
 
         public override void ReloadView()
         {
             Peer.UnbindController(this.status);
+
             this.Children.Clear();
+            this.labelTintedIcons.Clear();
             if (this.TryLoadXml(this.GetCurrentView()))
             {
                 base.InitializeRecursive(this);
                 this.ResizeRecursive(this.Bounds);
                 this.SetIcon(Tracker.Category.ViewName);
+                foreach (UIPicture picture in this.labelTintedIcons)
+                    picture.SetTint(Config.Main.TextColor);
+                //this.Positioned = false;
             }
             else
             {
                 this.ShowErrorScreen();
             }
-            this.needsLayoutRefresh = false;
+            NeedsLayoutRefresh = false;
         }
 
         public override void InitializeThis(UIScreen screen)
         {
-            this.grid   = this.First<UIGrid>();
-            this.lobby  = this.First<UILobby>();
-            this.status = this.First<UIStatusBar>();
-            this.popup = this.First<UIBlockPopup>();
-            this.leaderboard = this.First<UILeaderboard>("Leaderboard");
-            this.potions = this.First<UIPotionGroup>();
-            this.debugLog = this.First<UITextBlock>("debug_log");
-            this.logLines = -1;
-            this.tabAAMultiboard = this.First<UIButton>("tab_multiboard_aa");
-            if (this.tabAAMultiboard is not null)
-                this.tabAAMultiboard.OnClick += this.Click;
-            this.tabABMultiboard = this.First<UIButton>("tab_multiboard_ab");
-            if (this.tabABMultiboard is not null)
-                this.tabABMultiboard.OnClick += this.Click;
-            this.tabRunners = this.First<UIButton>("tab_runners");
-            if (this.tabRunners is not null)
-                this.tabRunners.OnClick += this.Click;
+            this.TryGetFirst(out this.grid);
+            this.TryGetFirst(out this.lobby);
+            this.TryGetFirst(out this.status);
+            this.TryGetFirst(out this.leaderboard, "Leaderboard");
+            this.TryGetFirst(out this.potions);
+            this.TryGetFirst(out this.debugLog, "debug_log");
+            this.TryGetFirst(out this.blockGrid);
+            this.TryGetFirst(out this.largeStatus, "large_status");
 
-            this.resetDeaths = this.First<UIButton>("reset");
-            if (this.resetDeaths is not null)
-            {
-                this.resetDeaths.TextBlock.SetFont("minecraft", 24);
-                this.resetDeaths.OnClick += this.Click;
-            }            
+            this.logLines = -1;
+
             Peer.BindController(this.status);
         }
 
@@ -212,91 +194,60 @@ namespace AATool.UI.Screens
                 this.potions?.Collapse();
             }
             this.First(Config.Main.InfoPanel)?.Expand();
+
+            if (ActiveTab is MultiboardTab)
+            {
+                //this.First<UIPicture>("main_player_avatar")?.SetTexture(Tracker.GetMainPlayer().ToString().Replace("-", ""));
+                this.Root().First<UIAvatar>("100hc_avatar")?.SetBadge(new HundredHardcoreBadge());
+            }
+        }
+
+        private void UpdateShortcuts()
+        {
+            //escape to open settings
+            if (Input.Started(Microsoft.Xna.Framework.Input.Keys.Escape))
+            {
+                if (this.blockGrid?.IsSearching is true)
+                    return;
+                if (SettingsCooldown.IsExpired)
+                    this.OpenSettingsMenu();
+            }
         }
 
         public override void UpdateRecursive(Time time)
         {
             base.UpdateRecursive(time);
-            this.popup?.Finalize(time);
+            //this needs to be done after everything else
+            this.blockGrid?.Finalize(time);
         }
 
         protected override void UpdateThis(Time time)
         {
+            if (Tracker.ObjectivesChanged)
+                ActiveTab = TrackerTab;
+            SettingsCooldown.Update(time);
+
             //update game version
-            if (Tracker.ObjectivesChanged || Config.Main.Layout.Changed || Config.Main.ActiveTab.Changed || this.needsLayoutRefresh)
+            if (Tracker.ObjectivesChanged || Config.Main.Layout.Changed || NeedsLayoutRefresh)
                 this.ReloadView();
-            
+
             this.UpdateCollapsedStates();
+            this.UpdateShortcuts();
 
             //keep settings menu version up to date
             if (Tracker.ObjectivesChanged || Peer.StateChanged)
-                this.settingsMenu?.InvalidateSettings();
+                Settings?.InvalidateSettings();
 
             if (Config.Overlay.Width.Changed)
-                this.settingsMenu?.UpdateOverlayWidth();
+                Settings?.UpdateOverlayWidth();
 
             if (Config.Main.AppearanceChanged)
-                Invalidate();
-
-            //update debug log if present
-            if (this.debugLog is not null)
             {
-                var builder = new StringBuilder();
-                string log = Debug.GetLog(Debug.RequestSection);
-                if (!string.IsNullOrEmpty(log))
-                {
-                    string[] lines = Debug.GetLog(Debug.RequestSection).Split('\n');
-                    int oldOffset = this.logOffset;
-
-                    //scroll the log
-                    if (this.debugLog.Bounds.Contains(Input.Cursor(this)))
-                    {
-                        if (Input.ScrolledUp())
-                        {
-                            this.logOffset = MathHelper.Max(this.logOffset - 3, -(lines.Length - 15));
-                        }
-                        else if (Input.ScrolledDown())
-                        {
-                            this.logOffset = MathHelper.Min(this.logOffset + 3, 0);
-                        }
-                    }
-                    if (this.logLines != lines.Length)
-                        this.logOffset = 0;
-
-                    bool invalidated = this.logLines != lines.Length 
-                        || this.logOffset != oldOffset 
-                        || NetRequest.CompletedCount != this.completedRequests
-                        || NetRequest.PendingCount != this.pendingRequests
-                        || NetRequest.TimedOutCount != this.timedOutRequests
-                        || NetRequest.ActiveCount != this.activeRequests;
-            
-                    //update log text if lines changed
-                    if (invalidated)
-                    {
-                        this.completedRequests = NetRequest.CompletedCount;
-                        this.pendingRequests = NetRequest.PendingCount;
-                        this.timedOutRequests = NetRequest.TimedOutCount;
-                        this.activeRequests = NetRequest.ActiveCount;
-
-                        this.logLines = lines.Length;
-                        for (int i = Math.Max(lines.Length - 15 + this.logOffset, 0); i < lines.Length + this.logOffset; i++)
-                            builder.AppendLine(lines[i]);
-                        this.debugLog.SetText(builder.ToString().Trim());
-                        if (this.logOffset is 0)
-                        {
-                            string info = new ('-', 55);
-                            info += $" Completed: {NetRequest.CompletedCount}, Pending: {NetRequest.PendingCount},";
-                            info += $" Names: x{NameRequest.Downloads}, UUIDs: x{UuidRequest.Downloads}, Avatars: x{AvatarRequest.Downloads}";
-                            this.debugLog.Append(Environment.NewLine + info);
-                        }
-                    }
-                }
+                foreach (UIPicture icon in this.labelTintedIcons)
+                    icon.SetTint(Config.Main.TextColor);
+                Invalidate();
             }
-
-            //escape to open settings
-            this.settingsCooldown.Update(time);
-            if (Input.Started(Microsoft.Xna.Framework.Input.Keys.Escape) && this.settingsCooldown.IsExpired)
-                this.OpenSettingsMenu();
+            this.UpdateLog();
 
             //enforce window size
             this.ConstrainWindow();
@@ -331,9 +282,25 @@ namespace AATool.UI.Screens
             }
         }
 
-        public void Click(UIControl sender)
+        public override void Click(UIControl sender)
         {
-            if (sender == this.resetDeaths)
+            if (sender.Name == "show_settings")
+            {
+                this.OpenSettingsMenu();
+            }
+            else if (sender.Name == "clear_deaths")
+            {
+                ActiveInstance.SetLogStart();
+                foreach (Death death in Tracker.Deaths.All.Values)
+                    death.Clear();
+            }
+            else if (sender.Name == "clear_deaths")
+            {
+                ActiveInstance.SetLogStart();
+                foreach (Death death in Tracker.Deaths.All.Values)
+                    death.Clear();
+            }
+            else if (sender.Name == "clear_deaths")
             {
                 ActiveInstance.SetLogStart();
                 foreach (Death death in Tracker.Deaths.All.Values)
@@ -341,7 +308,7 @@ namespace AATool.UI.Screens
             }
             else if (sender.Name is "manual_check")
             {
-                string id = sender.Tag?.ToString() ?? "";
+                string id = sender.Tag?.ToString() ?? string.Empty;
                 if (Tracker.TryGetPickup(id, out Pickup pickup))
                     pickup.ToggleManualCheck();
                 else if (Tracker.TryGetBlock(id, out Block block))
@@ -349,23 +316,76 @@ namespace AATool.UI.Screens
                 else if (Tracker.TryGetDeath(id, out Death death))
                     death.ToggleManualCheck();
             }
-            else if (sender == this.tabAAMultiboard)
+            else if (sender.Name.StartsWith("show_"))
             {
-                Config.Main.ActiveTab.Set("multiboard_aa");
-                Config.Main.Save();
-                this.needsLayoutRefresh = true;
+                ActiveTab = sender.Name.Replace("show_", "");
+                if (ActiveTab == MultiboardTab)
+                {
+                    new AnyPercentRecordRequest(true).EnqueueOnce();
+                    new AnyPercentRecordRequest(false).EnqueueOnce();
+                }
+                ForceLayoutRefresh();
             }
-            else if (sender == this.tabABMultiboard)
+            else if (sender.Name.StartsWith("https://"))
             {
-                Config.Main.ActiveTab.Set("multiboard_ab");
-                Config.Main.Save();
-                this.needsLayoutRefresh = true;
+                Process.Start(sender.Name);
             }
-            else if (sender == this.tabRunners)
+        }
+
+        private void UpdateLog()
+        {
+            if (this.debugLog is null)
+                return;
+
+            var builder = new StringBuilder();
+            string log = Debug.GetLog(Debug.RequestSection);
+            if (string.IsNullOrEmpty(log))
+                return;
+
+            string[] lines = Debug.GetLog(Debug.RequestSection).Split('\n');
+            int oldOffset = this.logOffset;
+
+            //scroll the log
+            if (this.debugLog.Bounds.Contains(Input.Cursor(this)))
             {
-                Config.Main.ActiveTab.Set("runners_1.16");
-                Config.Main.Save();
-                this.needsLayoutRefresh = true;
+                if (Input.ScrolledUp())
+                {
+                    this.logOffset = MathHelper.Max(this.logOffset - 3, -(lines.Length - 15));
+                }
+                else if (Input.ScrolledDown())
+                {
+                    this.logOffset = MathHelper.Min(this.logOffset + 3, 0);
+                }
+            }
+            if (this.logLines != lines.Length)
+                this.logOffset = 0;
+
+            bool invalidated = this.logLines != lines.Length
+                || this.logOffset != oldOffset
+                || NetRequest.CompletedCount != this.completedRequests
+                || NetRequest.PendingCount != this.pendingRequests
+                || NetRequest.TimedOutCount != this.timedOutRequests
+                || NetRequest.ActiveCount != this.activeRequests;
+
+            //update log text if lines changed
+            if (invalidated)
+            {
+                this.completedRequests = NetRequest.CompletedCount;
+                this.pendingRequests = NetRequest.PendingCount;
+                this.timedOutRequests = NetRequest.TimedOutCount;
+                this.activeRequests = NetRequest.ActiveCount;
+
+                this.logLines = lines.Length;
+                for (int i = Math.Max(lines.Length - 15 + this.logOffset, 0); i < lines.Length + this.logOffset; i++)
+                    builder.AppendLine(lines[i]);
+                this.debugLog.SetText(builder.ToString().Trim());
+                if (this.logOffset is 0)
+                {
+                    string info = new ('-', 55);
+                    info += $" Completed: {NetRequest.CompletedCount}, Pending: {NetRequest.PendingCount},";
+                    info += $" Names: x{NameRequest.Downloads}, UUIDs: x{UuidRequest.Downloads}, Avatars: x{AvatarRequest.Downloads}";
+                    this.debugLog.Append(Environment.NewLine + info);
+                }
             }
         }
 
@@ -388,24 +408,20 @@ namespace AATool.UI.Screens
             this.AddControl(label);
 
             var settings = new UIButton() {
+                Name = "show_settings",
                 FlexWidth = new Size(200),
                 FlexHeight = new Size(75),
                 VerticalAlign = VerticalAlign.Top,
                 Margin = new Margin(0, 0, 300, 0),
                 BorderThickness = 4,
             };
-            settings.OnClick += this.OnSettingsClick;
+            settings.OnClick += this.Click;
             settings.TextBlock.SetFont("minecraft", 36);
             settings.SetText("Settings");
             this.AddControl(settings);
 
             this.InitializeRecursive(this);
             this.ResizeRecursive(this.Bounds);
-        }
-
-        private void OnSettingsClick(UIControl sender)
-        {
-            this.OpenSettingsMenu();
         }
 
         private void UpdateCollapsedStates()
@@ -455,7 +471,7 @@ namespace AATool.UI.Screens
         public override void Prepare()
         {
             base.Prepare();
-            this.GraphicsDevice.Clear(Tracker.Category is AllBlocks ? Config.Main.BorderColor : Config.Main.BackColor);
+            this.GraphicsDevice.Clear(Config.Main.BackColor);
         }
 
         public override void Present() 
@@ -471,7 +487,7 @@ namespace AATool.UI.Screens
             var border = new Color((int)(back.R / 1.25f), (int)(back.G / 1.25f), (int)(back.B / 1.25f), 255);
             if (Config.Main.RainbowMode)
             {
-                this.settingsMenu?.UpdateRainbow(back);
+                Settings?.UpdateRainbow(back);
                 Config.Main.BackColor.Set(back);
                 Config.Main.BorderColor.Set(border);
                 Config.Main.TextColor.Set(Color.Black);

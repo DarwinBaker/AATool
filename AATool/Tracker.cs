@@ -15,8 +15,6 @@ namespace AATool
 {
     public static class Tracker
     {
-        private const double RefreshInterval = 1.0;
-
         public static readonly AdvancementManifest Advancements = new ();
         public static readonly AchievementManifest Achievements = new ();
         public static readonly PickupManifest Pickups = new ();
@@ -90,6 +88,19 @@ namespace AATool
                 : $"{seconds} seconds";
         }
 
+        public static string GetLastRefresh(Time time)
+        {
+            int seconds = (int)Math.Max(time.TotalSeconds - LastRefresh, 0);
+            if (seconds < 1)
+                return "Refreshing Now";
+            else if (seconds == 1)
+                return $"Refreshed 1 second ago";
+            else
+                return $"Refreshed {GetEstimateString(seconds).Replace("& ", "")} ago";
+        }
+
+        private static readonly FileSystemWatcher Watcher = new ();
+
         private static WorldFolder World;
         private static Timer RefreshTimer;
         private static TimeSpan LastInGameTime;
@@ -97,6 +108,9 @@ namespace AATool
         private static string PreviousSavesPath;
         private static string PreviousWorldPath;
         private static string LastServerMessage;
+        private static int PreviousActiveId = -1;
+        private static bool FileSystemEventRaised;
+        private static double LastRefresh;
 
         public static void InvalidateDesignations()
         {
@@ -124,17 +138,15 @@ namespace AATool
 
         public static Uuid GetMainPlayer()
         {
+            Uuid mainPlayer;
             if (Config.Tracking.Filter == ProgressFilter.Solo)
-            {
-                if (PreviousMainPlayer == Uuid.Empty & Player.TryGetUuid(Config.Tracking.SoloFilterName, out Uuid player))
-                    MainPlayerChanged = true;
-                PreviousMainPlayer = player;
-                return player;
-            }
+                Player.TryGetUuid(Config.Tracking.SoloFilterName, out mainPlayer);
             else
-            {
-                return State.Players.Keys.FirstOrDefault();
-            }
+                mainPlayer = State.Players.Keys.FirstOrDefault();
+
+            MainPlayerChanged |= mainPlayer != PreviousMainPlayer;
+            Config.Tracking.LastPlayer.Set(mainPlayer);
+            return PreviousMainPlayer = mainPlayer;
         }
 
         public static HashSet<Uuid> GetAllPlayers()
@@ -162,9 +174,22 @@ namespace AATool
             World = new WorldFolder();
             State = new WorldState();
             RefreshTimer = new Timer();
+
+            Watcher.Created += FileSystemChanged;
+            Watcher.Deleted += FileSystemChanged;
+            Watcher.Changed += FileSystemChanged;
+            Watcher.Deleted += FileSystemChanged;
+
+            MainPlayerChanged = true;
+
             string lastVersion = Config.Tracking.GameVersion;
             TrySetCategory(Config.Tracking.GameCategory);
             TrySetVersion(lastVersion);
+        }
+
+        private static void FileSystemChanged(object sender, FileSystemEventArgs e)
+        {
+            FileSystemEventRaised = true;
         }
 
         public static string GetStatusText()
@@ -251,16 +276,19 @@ namespace AATool
         public static void Update(Time time)
         {
             RefreshTimer.Update(time);
-            if (RefreshTimer.IsExpired || ObjectivesChanged || Config.Tracking.SourceChanged)
+            if (Client.TryGet(out Client client))
             {
-                UpdateCurrentWorld();
-
-                if (Client.TryGet(out Client client))
-                    ParseCoOpProgress(client);
-                else
-                    ReadLocalFiles();
-
-                RefreshTimer.SetAndStart(RefreshInterval);
+                ParseCoOpProgress(time, client);
+            }
+            else
+            {
+                bool needsRefresh = FileSystemEventRaised || ObjectivesChanged || Config.Tracking.SourceChanged
+                    || (ActiveInstance.Watching && PreviousActiveId != ActiveInstance.LastActiveId);
+                if (needsRefresh)
+                {
+                    UpdateCurrentWorld();
+                    ReadLocalFiles(time);
+                }
             }
             Category.Update();
         }
@@ -373,7 +401,11 @@ namespace AATool
                 }
 
                 if (latestWorld.FullName != World.FullName)
+                {
                     World.SetPath(latestWorld);
+                    Watcher.Path = latestWorld.Parent?.FullName;
+                    Watcher.EnableRaisingEvents = true;
+                }
 
                 LastError = null;
             }
@@ -393,7 +425,7 @@ namespace AATool
             }
         }
 
-        private static void ParseCoOpProgress(Client client)
+        private static void ParseCoOpProgress(Time time, Client client)
         {
             //update world from co-op server
             if (client is null || !client.TryGetData(Protocol.Headers.Progress, out string jsonString))
@@ -417,10 +449,12 @@ namespace AATool
 
                 if (Config.Tracking.BroadcastProgress)
                     OpenTracker.BroadcastProgress();
+
+                LastRefresh = time.TotalSeconds;
             }
         }
 
-        private static void ReadLocalFiles()
+        private static void ReadLocalFiles(Time time)
         {
             //reload objective manifests if game version has changed
             if (ObjectivesChanged)
@@ -446,6 +480,8 @@ namespace AATool
                 //broadcast progress to opentracker
                 if (Config.Tracking.BroadcastProgress)
                     OpenTracker.BroadcastProgress();
+
+                LastRefresh = time.TotalSeconds;
             }
         }
 

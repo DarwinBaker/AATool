@@ -33,6 +33,7 @@ namespace AATool.Graphics
 
         public static Color RainbowFast { get; private set; }
         public static Color RainbowLight { get; private set; }
+        public static Color RainbowMedium { get; private set; }
         public static Color RainbowStrong { get; private set; }
 
         public static int GlobalDrawCalls { get; private set; }
@@ -49,6 +50,8 @@ namespace AATool.Graphics
             //fade rainbow to next color
             RainbowFast = ColorHelper.FromHSV(time.TotalFrames % 360, 0.5, 1.0);
             RainbowLight = ColorHelper.FromHSV(time.TotalFrames / 4 % 360, 0.33, 1.0);
+            RainbowMedium = ColorHelper.FromHSV(time.TotalFrames / 4 % 360, 0.5, 1.0);
+            RainbowStrong = ColorHelper.FromHSV(time.TotalFrames / 16 % 360, 1.0, 1.0);
             RainbowStrong = ColorHelper.FromHSV(time.TotalFrames / 16 % 360, 1.0, 1.0);
         }
 
@@ -82,13 +85,23 @@ namespace AATool.Graphics
         public void EndDraw(UIScreen screen)
         {
             bool scaled = Config.Main.DisplayScale > 1;
-            if (screen is UIMainScreen)
+            if (screen is UIMainScreen mainScreen)
             {
                 if (UIMainScreen.RefreshingCache)
                 {
                     //clear and re-render the cache texture
                     Main.Device.SetRenderTarget(UIMainScreen.RenderCache);
-                    Main.Device.Clear(Tracker.Category is AllBlocks ? Config.Main.BorderColor : Config.Main.BackColor);
+
+                    //set background color
+                    if (Tracker.Category is AllBlocks || UIMainScreen.ActiveTab != UIMainScreen.TrackerTab)
+                    {
+                        Color backBufferColor = mainScreen.DimScreen ? Config.Main.BackColor.Value * 0.305f : Config.Main.BorderColor;
+                        Main.Device.Clear(backBufferColor);
+                    }
+                    else
+                    {
+                        Main.Device.Clear(Config.Main.BackColor);
+                    }
                     BatchOf(Layer.Main).End();
                 }
 
@@ -102,7 +115,7 @@ namespace AATool.Graphics
                 
                 InternalBatch.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp);
                 if (!Config.Main.HideRenderCache)
-                    InternalBatch.Draw(UIMainScreen.RenderCache, Main.Device.Viewport.Bounds, Color.White);
+                    InternalBatch.Draw(UIMainScreen.RenderCache, screen.Bounds, Color.White);
                 InternalBatch.End();
             }
             else
