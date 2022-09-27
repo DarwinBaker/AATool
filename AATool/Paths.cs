@@ -150,7 +150,7 @@ namespace AATool
             public const string PrimaryAAHistory = "735237004";
             
             public const string AnyRsgRecord = "https://www.speedrun.com/api/v1/leaderboards/j1npme6p/category/mkeyl926?top=1&embed=players&var-jlzkwql2=mln68v0q&var-r8rg67rn=21d4zvp1";
-            public const string AnySsgRecord = "https://www.speedrun.com/api/v1/leaderboards/j1npme6p/category/mkeyl926?top=1&embed=players&var-jlzkwql2=mln68v0q&var-r8rg67rn=klrzpjo1";
+            public const string AnySsgRecord = "https://www.speedrun.com/api/v1/leaderboards/j1npme6p/category/mkeyl926?top=1&embed=players&var-wl33kewl=4qye4731&var-r8rg67rn=klrzpjo1";
 
             public static string GetUuidUrl(string name) => 
                 $"https://minecraft-api.com/api/uuid/{name}";
