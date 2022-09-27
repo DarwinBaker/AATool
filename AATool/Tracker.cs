@@ -282,13 +282,18 @@ namespace AATool
             }
             else
             {
-                bool needsRefresh = FileSystemEventRaised || ObjectivesChanged || Config.Tracking.SourceChanged
+                bool needsRefresh = FileSystemEventRaised 
+                    || ObjectivesChanged 
+                    || Config.Tracking.SourceChanged
                     || (ActiveInstance.Watching && PreviousActiveId != ActiveInstance.LastActiveId);
+
                 if (needsRefresh)
                 {
                     UpdateCurrentWorld();
                     ReadLocalFiles(time);
                 }
+                PreviousActiveId = ActiveInstance.LastActiveId;
+                FileSystemEventRaised = false;
             }
             Category.Update();
         }
