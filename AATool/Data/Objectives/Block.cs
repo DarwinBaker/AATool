@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using AATool.Configuration;
 using AATool.Data.Progress;
 using AATool.Net;
 using AATool.Utilities;
@@ -29,6 +30,11 @@ namespace AATool.Data.Objectives
         public bool PickedUpByAnyone() => this.PickupCount > 0;
 
         public void ToggleHighlight() => this.Highlighted ^= true;
+
+        public override bool IsComplete()
+        {
+            return this.CompletedByAnyone();
+        }
 
         public Block(XmlNode node) : base (node)
         {

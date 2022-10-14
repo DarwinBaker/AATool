@@ -20,6 +20,8 @@ namespace AATool.Winforms.Forms
 
         public void InvalidateSettings() => this.tracker.InvalidateSettings();
         public void UpdateOverlayWidth() => this.overlay.UpdateWidth();
+        public void UpdateBadgeList() => this.main.UpdateBadgeList();
+        public void UpdateFrameList() => this.main.UpdateFrameList();
         public void UpdateRainbow(Color color) => this.main.UpdateRainbow(color);
 
         private void OnActivated(object sender, EventArgs e)
@@ -58,6 +60,7 @@ namespace AATool.Winforms.Forms
 
                 if (confirmation == DialogResult.Yes)
                 {
+                    Tracker.TrySetCategory("All Advancements");
                     Config.ResetAllToDefaults();
                     this.LoadSettings();
                 }

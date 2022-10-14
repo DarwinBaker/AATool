@@ -36,6 +36,7 @@ namespace AATool.UI.Controls
             { typeof(UICriterion),          Color.Magenta },
             { typeof(UIEnchantmentTable),   Color.Lime },
             { typeof(UIProgressBar),        Color.Magenta },
+            { typeof(UIAllayTrack),         Color.Magenta },
             { typeof(UIBlockGroup),         Color.Red },
         };
 

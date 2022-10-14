@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control width="600" height="470" layer="fore">
+    <grid layer="fore">
+        <rows>
+            <row height="0"/>
+            <row height="1*"/>
+            <row height="90"/>
+        </rows>
+        <columns>
+            <column width="0.3*"/>
+            <column width="0.4*"/>
+            <column width="0.3*"/>
+        </columns>
+
+        <panel row="1" col="0" colspan="3" layer="fore" border_thickness="2">
+            <textblock layer="fore" text="Welcome To All Blocks!!!" font_size="36" vertical_align="top" margin_top="20" height="24"/>
+            <text_block layer="fore" name="message" padding_top="76"/>
+
+            <allay_track width="450" height="50" layer="fore" vertical_align="bottom" margin_bottom="140"/>
+
+            <picture texture="block_heap_left" width="120" height="200" horizontal_align="left" vertical_align="bottom" margin_bottom="30" margin_left="2" layer="fore"/>
+            <picture texture="campfire" width="32" height="32" horizontal_align="left" vertical_align="bottom" margin_bottom="138" margin_left="5" layer="fore"/>
+
+            <picture texture="block_heap_right" width="120" height="210" horizontal_align="right" vertical_align="bottom" margin_bottom="30" margin_right="2" layer="fore"/>
+            <picture texture="enchantment_table_reading" width="36" height="36" horizontal_align="right" vertical_align="bottom" margin_bottom="107" margin_right="40" layer="fore"/>
+            <picture texture="sculk_shrieker" width="32" height="32" horizontal_align="right" vertical_align="bottom" margin_bottom="129" margin_right="4" layer="fore"/>
+
+            <panel width="300" padding_top="30" draw_mode="childrenonly" vertical_align="bottom" height="270">
+                <!-- gold -->
+                <panel name="panel_gold" width="100" padding_top="100" horizontal_align="left" draw_mode="childrenonly">
+                    <textblock text="1.19" vertical_align="top" margin_top="8" height="12"/>
+                    <picture collapsed="true" layer="fore" texture="player_frame_diamond" width="38" height="38" vertical_align="top">
+                        <picture layer="fore" texture="supporter_gold" width="32" height="32"/>
+                    </picture>
+                    <panel width="38" height="38" vertical_align="top" margin_top="40">
+                        <glow_effect texture="player_frame_gold_glow" layer="fore" scale="0.75"/>
+                        <picture texture="player_frame_gold" layer="fore">
+                            <avatar name="main_player_gold" show_frame="false"/>
+                        </picture>
+                    </panel>
+
+                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock layer="fore" text="Gold&#xA;Supporter" vertical_align="top" margin_top="85" height="12"/>
+                    <textblock layer="fore" name="price_gold" text="$5" vertical_align="top" margin_top="115" height="12"/>
+                </panel>
+
+                <!-- diamond -->
+                <panel name="panel_diamond" width="100" padding_top="100" horizontal_align="center" draw_mode="childrenonly">
+                    <textblock text="1.18" vertical_align="top" margin_top="8" height="12"/>
+                    <panel width="38" height="38" vertical_align="top" margin_top="40">
+                        <glow_effect texture="player_frame_diamond_glow" layer="fore" scale="0.75"/>
+                        <picture texture="player_frame_diamond" layer="fore">
+                            <picture texture="glint" layer="fore" tint="200,200,200,200"/>
+                            <avatar name="main_player_diamond" show_frame="false"/>
+                        </picture>
+                    </panel>
+                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock layer="fore" text="Diamond&#xA;Supporter" vertical_align="top" margin_top="85" height="12"/>
+                    <textblock layer="fore" name="price_diamond" text="$15" vertical_align="top" margin_top="115" height="12"/>
+                </panel>
+
+                <!-- netherite -->
+                <panel name="panel_netherite" width="100" padding_top="100" horizontal_align="right" draw_mode="childrenonly">
+                    <textblock text="1.16" vertical_align="top" margin_top="8" height="12"/>
+                    <panel width="38" height="38" vertical_align="top" margin_top="40">
+                        <glow_effect texture="player_frame_netherite_glow" layer="fore" scale="0.75"/>
+                        <picture texture="player_frame_netherite" layer="fore">
+                            <picture texture="glint" layer="fore" tint="200,200,200,200"/>
+                            <avatar name="main_player_netherite" show_frame="false"/>
+                        </picture>
+                    </panel>
+                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock layer="fore" text="Netherite&#xA;Supporter" vertical_align="top" margin_top="85" height="12"/>
+                    <textblock layer="fore" name="price_netherite" text="$50" vertical_align="top" margin_top="115" height="12"/>
+                </panel>
+            </panel>
+        </panel>
+
+        <!-- button rows -->
+        <panel name="panel_buttons_promote" layer="fore" row="2" colspan="3" draw_mode="all" vertical_align="bottom" border_thickness="2" >
+            <panel width="0.8*" draw_mode="childrenonly">
+                <button name="button_patreon" layer="fore" text="    Join The Patreon!" width="0.4*" height="46" border_thickness="3" margin_left="10" horizontal_align="left">
+                    <panel width="32" height="32" margin_left="10" border_thickness="3" horizontal_align="left">
+                        <glow_effect texture="player_frame_gold_glow" layer="fore" scale="0.64" brightness="0.8"/>
+                        <picture name="enchanted_trident" texture="enchanted_trident" layer="fore" />
+                    </panel>
+                </button>
+                <button name="button_close" layer="fore" text="   Not Now, Thanks!" width="0.4*" height="46" border_thickness="3" margin_right="10" horizontal_align="right">
+                    <picture texture="xqcl" layer="fore" width="32" height="32" horizontal_align="left" margin_left="10"/>
+                </button>
+            </panel>
+        </panel>
+        <panel name="panel_buttons_thanks" layer="fore" row="2" colspan="3" draw_mode="all" vertical_align="bottom" border_thickness="2" >
+            <button name="button_thanks" layer="fore" text="   Dismiss" width="150" height="46" border_thickness="3">
+                <picture texture="xqcl" layer="fore" width="32" height="32" horizontal_align="left" margin_left="10"/>
+            </button>
+            <text_block layer="fore" horizontal_align="right" margin_right="12" padding_top="32" width="200" text="If you wish to view this screen again you may do so from the guide page :)"/>
+        </panel>
+
+    </grid>
+</control>

@@ -34,9 +34,13 @@ namespace AATool.UI.Controls
         private readonly Dictionary<(int row, int col), UIBlockTile> blockTiles = new ();
 
         private UIBlockPopup popup;
+        private UIBlockMessage message;
         private UITextInput searchInput;
         private UITextBlock searchResults;
         private UIControl searchShortcut;
+        private UIPanel loadingPanel;
+        private UIPanel errorPanel;
+        private UITextBlock errorMessage;
 
         private int blockTileRows;
         private int blockTileColumns;
@@ -44,6 +48,7 @@ namespace AATool.UI.Controls
         private bool clearedSelection;
 
         public bool IsSearching => this.searchInput.State is ControlState.Pressed;
+        public bool IsActive => !this.message.IsPopupVisible;
 
         public void RegisterBlockTile(UIBlockTile block)
         {
@@ -64,17 +69,29 @@ namespace AATool.UI.Controls
         public override void InitializeThis(UIScreen screen)
         {
             this.popup = this.Root().First<UIBlockPopup>();
+            this.message = this.Root().First<UIBlockMessage>();
             this.searchInput = this.Root().First<UITextInput>("block_search");
             if (this.searchInput is not null)
                 this.searchInput.OnTextChanged += this.BlockSearchTextChanged;
             this.searchResults = this.Root().First<UITextBlock>("block_search_results");
             this.searchShortcut = this.Root().First("block_search_shortcut");
+            this.loadingPanel = this.Root().First<UIPanel>("blocks_loading");
+            this.errorPanel = this.Root().First<UIPanel>("blocks_error");
+            this.errorMessage = this.errorPanel?.First<UITextBlock>();
         }
 
         protected override void UpdateThis(Time time)
         {
+            if (!this.IsActive)
+                return;
+
             this.UpdateShortcuts();
             this.UpdateSelection();
+
+            this.loadingPanel?.SetVisibility(!AllBlocks.MainSpritesLoaded);
+            this.errorPanel?.SetVisibility(!Tracker.IsWorking);
+            if (!Tracker.IsWorking)
+                this.errorMessage?.SetText(Tracker.GetStatusText());
 
             bool wasDim = this.DimScreen;
             this.DimScreen = this.MakingSelection || this.SelectionMade || this.Searching;
@@ -116,7 +133,7 @@ namespace AATool.UI.Controls
         private void UpdateSelection()
         {
             //this function is huge and complicated for many important reasons
-            //and now that it works we are going to hope we don't need to touch it again
+            //now that it works we're going to hope we don't need to touch it again
             if (Tracker.Category is not AllBlocks || UIMainScreen.ActiveTab is not UIMainScreen.TrackerTab)
                 return;
 

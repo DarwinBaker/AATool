@@ -5,9 +5,9 @@ namespace AATool.Utilities
 {
     public class Timer
     {
-        public double Duration { get; private set; }
-        public double TimeLeft { get; private set; }
-        public double TimeElapsed { get; private set; }
+        public double Duration { get; set; }
+        public double TimeLeft { get; set; }
+        public double TimeElapsed { get; set; }
 
         public bool IsExpired => this.TimeLeft <= 0;
         public bool IsRunning => this.TimeLeft > 0;

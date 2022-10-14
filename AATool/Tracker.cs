@@ -144,8 +144,15 @@ namespace AATool
             else
                 mainPlayer = State.Players.Keys.FirstOrDefault();
 
+            if (mainPlayer == Uuid.Empty)
+            {
+                if (Config.Tracking.LastUuid != Uuid.Empty)
+                    mainPlayer = Config.Tracking.LastUuid;
+                else
+                    Player.TryGetUuid(Config.Tracking.LastPlayer, out mainPlayer);
+            }
+
             MainPlayerChanged |= mainPlayer != PreviousMainPlayer;
-            Config.Tracking.LastPlayer.Set(mainPlayer);
             return PreviousMainPlayer = mainPlayer;
         }
 

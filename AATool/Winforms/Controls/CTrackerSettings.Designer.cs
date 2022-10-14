@@ -492,6 +492,7 @@ namespace AATool.Winforms.Controls
             this.category.Items.AddRange(new object[] {
             "All Advancements",
             "All Achievements",
+            "All Blocks",
             "Half Percent",
             "Adventuring Time",
             "Monsters Hunted",

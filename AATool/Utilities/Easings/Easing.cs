@@ -25,28 +25,28 @@ namespace AATool.Utilities.Easings
 
         private float scaledTime;
 
-        public float In()    => Function.In(scaledTime);
-        public float Out()   => Function.Out(scaledTime);
-        public float InOut() => Function.InOut(scaledTime);
+        public float In()    => this.Function.In(scaledTime);
+        public float Out()   => this.Function.Out(scaledTime);
+        public float InOut() => this.Function.InOut(scaledTime);
 
         public Easing(Ease function, double duration, bool startNow = false, bool repeats = false) : base(duration, startNow)
         {
-            Function = Functions[function];
-            Repeats = repeats;
+            this.Function = Functions[function];
+            this.Repeats = repeats;
         }
 
         public void Play(Ease function)
         {
-            Function = Functions[function];
-            Reset();
+            this.Function = Functions[function];
+            this.Reset();
         }
 
         public override void Update(Time time)
         {
             base.Update(time);
-            if (IsExpired && Repeats)
-                Reset();
-            scaledTime = (float)Math.Min(TimeElapsed / Duration, 1);
+            if (this.IsExpired &&this.Repeats)
+                this.Reset();
+            this.scaledTime = (float)Math.Min(this.TimeElapsed / this.Duration, 1);
         }
     }
 }

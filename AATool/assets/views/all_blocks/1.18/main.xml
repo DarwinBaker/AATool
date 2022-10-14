@@ -438,5 +438,11 @@
 
         <!-- block hover tooltip -->
         <block_popup row="0" col="1"/>
+
+        <!-- loading panel -->
+        <panel name="blocks_loading" row="1" col="2" layer="fore" width="192" height="116" border_thickness="3">
+            <textblock layer="fore" text="Loading Assets" font_size="24" vertical_align="top" margin_top="20"/>
+            <picture layer="fore" texture="syncing" width="32" height="32" margin_bottom="20" vertical_align="bottom"/>
+        </panel>
     </grid>
 </screen>

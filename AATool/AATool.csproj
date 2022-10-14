@@ -195,6 +195,7 @@
     <Compile Include="UI\Badges\DeveloperBadge.cs" />
     <Compile Include="UI\Badges\SquareBadge.cs" />
     <Compile Include="UI\Badges\ModBadge.cs" />
+    <Compile Include="UI\Badges\SupporterBadge.cs" />
     <Compile Include="UI\Badges\VipBadge.cs" />
     <Compile Include="UI\Badges\ThousandSeedsBadge.cs" />
     <Compile Include="UI\Badges\DoubleHardcoreBadge.cs" />
@@ -202,8 +203,10 @@
     <Compile Include="UI\Badges\HundredThousandBadge.cs" />
     <Compile Include="UI\Badges\HalfHeartHardcoreBadge.cs" />
     <Compile Include="UI\Controls\UIAchievementTree.cs" />
+    <Compile Include="UI\Controls\UIAllayTrack.cs" />
     <Compile Include="UI\Controls\UIBlockGrid.cs" />
     <Compile Include="UI\Controls\UIBlockGroup.cs" />
+    <Compile Include="UI\Controls\UIBlockMessage.cs" />
     <Compile Include="UI\Controls\UIBlockPopup.cs" />
     <Compile Include="UI\Controls\UIBlockTile.cs" />
     <Compile Include="UI\Controls\UICarouselCover.cs" />
@@ -481,9 +484,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\ab_guide\blockstate_variants%248x8x30.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\ab_guide\blockstate_variants_1.16%245x5x30.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\ab_guide\bastion_loot_table_1.16.5.png">
@@ -2136,6 +2136,9 @@
     <Content Include="assets\sprites\blocks\misc\armor_stand^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\blocks\misc\chain^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\blocks\misc\chain^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -2203,6 +2206,30 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\mud\packed_mud^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\other\xqcl.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\other\block_heap_right.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\other\block_heap_left.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\other\allay_plate.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\other\player_frame_diamond_glow~1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\other\player_frame_netherite_glow~1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\other\player_frame_gold_glow~1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\other\allay_fly%24100x25.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\plants\acacia_sapling^32.png">
@@ -2379,40 +2406,121 @@
     <Content Include="assets\sprites\blocks\ui\block_clear_confirm.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_dev.png">
+    <Content Include="assets\sprites\global\badges\glow\badge_rank_netherite_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_mod.png">
+    <Content Include="assets\sprites\global\badges\glow\badge_rank_diamond_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_most_records.png">
+    <Content Include="assets\sprites\global\badges\player_frames\player_frame_netherite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_vip.png">
+    <Content Include="assets\sprites\global\badges\player_frames\player_frame_diamond.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_rank_medium.png">
+    <Content Include="assets\sprites\global\badges\player_frames\player_frame_gold.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_rank_small.png">
+    <Content Include="assets\sprites\global\badges\popups\popup_badge_gold.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_hhhaa_text.png">
+    <Content Include="assets\sprites\global\badges\popups\popup_badge_diamond.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_100hc_text.png">
+    <Content Include="assets\sprites\global\badges\popups\popup_badge_netherite_gild.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_100hc.png">
+    <Content Include="assets\sprites\global\badges\popups\popup_badge_netherite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_1k_moleyg.png">
+    <Content Include="assets\sprites\global\badges\ranks_netherite\large_netherite_gild.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_rank_large.png">
+    <Content Include="assets\sprites\global\badges\ranks_netherite\badge_rank_large_netherite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_version_wr.png">
+    <Content Include="assets\sprites\global\badges\ranks_netherite\medium_netherite_gild.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\ranks_netherite\badge_rank_medium_netherite.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\ranks_netherite\small_netherite_gild.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\ranks_netherite\badge_rank_small_netherite.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\ranks_diamond\badge_rank_large_diamond.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\ranks_diamond\badge_rank_medium_diamond.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\ranks_diamond\badge_rank_small_diamond.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\ranks_gold\badge_rank_large_gold.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\ranks_gold\badge_rank_medium_gold.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\ranks_gold\badge_rank_small_gold.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\supporter\badge_supporter_diamond_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\supporter\badge_supporter_netherite_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\supporter\badge_supporter_netherite.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\supporter\badge_supporter_diamond.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\glow\glint%24825.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\supporter\badge_supporter_gold.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\unique\badge_dev.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\unique\badge_mod.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\legendary\badge_most_records.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\unique\badge_vip.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\ranks_normal\badge_rank_medium.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\ranks_normal\badge_rank_small.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\legendary\badge_hhhaa_text.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\legendary\badge_100hc_text.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\legendary\badge_100hc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\legendary\badge_1k_moleyg.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\ranks_normal\badge_rank_large.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\legendary\badge_version_wr.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\ui\block_tile_red.png">
@@ -2649,9 +2757,6 @@
     <Content Include="assets\sprites\blocks\misc\brick_wall^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\misc\chain^32.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="assets\sprites\blocks\misc\chiseled_quartz_block^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -2724,13 +2829,10 @@
     <Content Include="assets\sprites\blocks\ui\ab_example_gold.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\popup_badge_back.png">
+    <Content Include="assets\sprites\global\badges\popups\popup_badge_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\popup_badge_border.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\global\badges\popup_badge_glow~1.png">
+    <Content Include="assets\sprites\global\glow\glow_ambient_fore~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\frames\flags\frame_flag_demigirl.png">
@@ -5910,25 +6012,25 @@
     <Content Include="assets\sprites\global\advancements\husbandry\tadpole_in_a_bucket.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_1k_text.png">
+    <Content Include="assets\sprites\global\badges\legendary\badge_1k_text.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_rank_2_glow~1.png">
+    <Content Include="assets\sprites\global\badges\glow\badge_rank_2_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_rank_3_glow~1.png">
+    <Content Include="assets\sprites\global\badges\glow\badge_rank_3_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_rank_2.png">
+    <Content Include="assets\sprites\global\badges\top_3\badge_rank_2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_rank_3.png">
+    <Content Include="assets\sprites\global\badges\top_3\badge_rank_3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_rank_1_glow~1.png">
+    <Content Include="assets\sprites\global\badges\glow\badge_rank_1_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_rank_1.png">
+    <Content Include="assets\sprites\global\badges\top_3\badge_rank_1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\criteria\animals\frog.png">
@@ -6309,6 +6411,9 @@
     <Content Include="assets\sprites\winforms\frames_overlay\Pride Flags\Transgender Pride.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\templates\control_block_message.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\templates\control_block_popup.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -6361,9 +6466,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\all_blocks\1.19\help.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\views\all_blocks\1.19\main_backup.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\all_blocks\1.19\main.xml">
@@ -6423,31 +6525,31 @@
     <Content Include="assets\objectives\1.14\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_1k_couriway.png">
+    <Content Include="assets\sprites\global\badges\legendary\badge_1k_couriway.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_hhh_down^10.png">
+    <Content Include="assets\sprites\global\badges\legendary\badge_hhh_down^10.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_hhh_down^20.png">
+    <Content Include="assets\sprites\global\badges\legendary\badge_hhh_down^20.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_hhh_down^30.png">
+    <Content Include="assets\sprites\global\badges\legendary\badge_hhh_down^30.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_large_gold_glow~1.png">
+    <Content Include="assets\sprites\global\badges\legendary\badge_large_gold_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_hhh_glow~1.png">
+    <Content Include="assets\sprites\global\badges\legendary\badge_hhh_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_hhh_up^10.png">
+    <Content Include="assets\sprites\global\badges\legendary\badge_hhh_up^10.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_hhh_up^20.png">
+    <Content Include="assets\sprites\global\badges\legendary\badge_hhh_up^20.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\badge_hhh_up^30.png">
+    <Content Include="assets\sprites\global\badges\legendary\badge_hhh_up^30.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\criteria\biomes\1.18\dripstone_caves.png">

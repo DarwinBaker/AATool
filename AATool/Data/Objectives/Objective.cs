@@ -49,7 +49,7 @@ namespace AATool.Data.Objectives
         public abstract string GetFullCaption();
         public abstract string GetShortCaption();
 
-        public bool IsComplete()
+        public virtual bool IsComplete()
         {
             return Config.Tracking.Filter == ProgressFilter.Combined || Peer.IsRunning
                 ? this.CompletedByAnyone()

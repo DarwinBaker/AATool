@@ -119,11 +119,17 @@ namespace AATool.UI.Screens
                 Config.Main.Save();
             }
 
-            //remember last main player
-            if (Player.TryGetName(Tracker.GetMainPlayer(), out string name))
+            Uuid mainPlayer = Tracker.GetMainPlayer();
+            if (mainPlayer != Uuid.Empty)
             {
-                Config.Tracking.LastPlayer.Set(name);
-                Config.Tracking.Save();
+                Config.Tracking.LastUuid.Set(mainPlayer);
+
+                //remember last main player
+                if (Player.TryGetName(mainPlayer, out string name))
+                {
+                    Config.Tracking.LastPlayer.Set(name);
+                    Config.Tracking.Save();
+                }
             }
         }
 
@@ -140,9 +146,10 @@ namespace AATool.UI.Screens
 
             string path = Path.Combine(Paths.System.ViewsFolder, view, version, "main.xml");
 
+            string layout = string.IsNullOrEmpty(Config.Main.Layout.Value) ? Config.Main.Layout.Default : Config.Main.Layout.Value;
             //check for conditional layout variant if needed
             if (!File.Exists(path))
-                path = Path.Combine(Paths.System.ViewsFolder, view, version, $"main_{Config.Main.Layout.Value}.xml");
+                path = Path.Combine(Paths.System.ViewsFolder, view, version, $"main_{layout}.xml");
 
             return path;
         }
@@ -181,6 +188,9 @@ namespace AATool.UI.Screens
             this.TryGetFirst(out this.largeStatus, "large_status");
 
             this.logLines = -1;
+
+            if (Tracker.Category is AllBlocks)
+                this.AddControl(new UIBlockMessage());
 
             Peer.BindController(this.status);
         }
@@ -241,6 +251,13 @@ namespace AATool.UI.Screens
             if (Config.Overlay.Width.Changed)
                 Settings?.UpdateOverlayWidth();
 
+            _= Tracker.GetMainPlayer();
+            if (Tracker.MainPlayerChanged)
+            {
+                Settings?.UpdateBadgeList();
+                Settings?.UpdateFrameList();
+            }
+
             if (Config.Main.AppearanceChanged)
             {
                 foreach (UIPicture icon in this.labelTintedIcons)
@@ -287,6 +304,10 @@ namespace AATool.UI.Screens
             if (sender.Name == "show_settings")
             {
                 this.OpenSettingsMenu();
+            }
+            else if (sender.Name == "show_all_blocks_welcome")
+            {
+                this.First<UIBlockMessage>()?.Show();
             }
             else if (sender.Name == "clear_deaths")
             {

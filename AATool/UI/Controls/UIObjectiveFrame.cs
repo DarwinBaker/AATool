@@ -300,7 +300,7 @@ namespace AATool.UI.Controls
             if (this.glow is null)
                 return;
 
-            if (Config.Main.ShowCompletionGlow && this.Root() is not UIOverlayScreen)
+            if (this.Root() is not UIOverlayScreen)
                 this.glow.Expand();
             else
                 this.glow.Collapse();

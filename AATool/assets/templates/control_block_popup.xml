@@ -7,7 +7,7 @@
     <panel name="window" draw_mode="childrenonly" height="160">
         <text_block name="block_name" vertical_align="top" layer="fore" padding="30"/>
         <text_block name="block_help" vertical_align="bottom" layer="fore" padding="30"/>
-        
+
         <button layer="fore" width="78" height="24" name="selection_highlight" text="Highlight" vertical_align="top" margin_top="26">
             <picture texture="highlight_blocks" layer="fore" width="16" height="16" horizontal_align="left" margin_left="4"/>
         </button>

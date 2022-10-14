@@ -208,7 +208,8 @@ namespace AATool.Graphics
                     rotation, 
                     sprite.Origin, 
                     scale ?? Vector2.One, 
-                    SpriteEffects.None, 0);
+                    SpriteEffects.None, 
+                    0);
                          
                 GlobalDrawCalls++;
                 this.ScreenDrawCalls++;

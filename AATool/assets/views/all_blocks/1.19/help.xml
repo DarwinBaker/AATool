@@ -25,8 +25,8 @@
                     text_align="left" v_text_align="top" padding_top="30" padding_left="8"/>
                 <textblock text="In addition to these requirements, runs are verified using the general game rules specified by the MCSR moderators"
                     text_align="left" v_text_align="top" padding_top="210" padding_left="8"/>
-                <button name="https://docs.google.com/document/d/1A7NtP7LegD7SYjho54gQDSlJkYZlofndjw2COu00yMU" global="true" width="120" height="19" vertical_align="bottom" margin_bottom="208" text="Detailed MCSR Rules"/>
-                <picture texture="all_blocks_example" width="320" height="200" vertical_align="bottom"/>
+                <button name="https://docs.google.com/document/d/1A7NtP7LegD7SYjho54gQDSlJkYZlofndjw2COu00yMU" global="true" width="120" height="19" vertical_align="bottom" margin_bottom="204" text="Detailed MCSR Rules"/>
+                <picture texture="all_blocks_example" width="320" height="192" vertical_align="bottom"/>
             </panel>
 
             <!-- using the tracker -->
@@ -285,7 +285,9 @@
                 <panel height="58" padding_bottom="6">
                     <picture texture="all_buckets" layer="fore" width="32" height="32" horizontal_align="left" vertical_align="bottom" margin_left="6"/>
                     <picture texture="water" layer="fore" width="32" height="32" horizontal_align="right" vertical_align="bottom" margin_right="2" margin_bottom="0"/>
-                    <picture texture="lava" layer="fore" width="32" height="32" horizontal_align="right" vertical_align="bottom" margin_right="30" margin_bottom="0"/>
+                    <picture texture="lava" layer="fore" width="32" height="32" horizontal_align="right" vertical_align="bottom" margin_right="30" margin_bottom="0">
+                        <glow_effect texture="magma_block_glow" brightness="0.8" layer="glow" scale="1.0"/>
+                    </picture>
                     <picture texture="powder_snow" width="32" height="32" horizontal_align="right" vertical_align="bottom" margin_right="16" margin_bottom="8" />
                     <textblock text="Buckets" horizontal_align="right" margin_right="20" vertical_align="top" margin_top="5"/>
                 </panel>
@@ -297,11 +299,11 @@
             </flow_panel>
 
             <!-- obscure crafting recipes -->
-            <flow_panel width="5 * 38" margin_right="5" margin_top="128" direction="toptobottom" horizontal_align="right" vertical_align="top" draw_mode="childrenonly">
-                <panel height="36" vertical_align="top">
-                    <textblock text="Misc. Recipes" font_size="24" padding_top="5"/>
+            <flow_panel width="5 * 38" margin_right="5" margin_top="118" direction="toptobottom" horizontal_align="right" vertical_align="top" draw_mode="childrenonly">
+                <panel height="41" vertical_align="top">
+                    <textblock text="Misc. Recipes" font_size="24" padding_top="7"/>
                 </panel>
-                <panel height="145" margin_top="0" vertical_align="top">
+                <panel height="147" margin_top="0" vertical_align="top">
                     <panel width="63" horizontal_align="left">
                         <textblock text="Observer" vertical_align="top" margin_top="6"/>
                         <picture texture="observer" width="48" height="48" vertical_align="top" margin_top="28"/>
@@ -319,7 +321,7 @@
                     </panel>
                 </panel>
 
-                <panel height="145" margin_top="0" vertical_align="top">
+                <panel height="147" margin_top="0" vertical_align="top">
                     <panel width="63" horizontal_align="left">
                         <textblock text="Hopper" vertical_align="top" margin_top="6"/>
                         <picture texture="hopper" width="48" height="48" vertical_align="top" margin_top="28"/>
@@ -337,7 +339,7 @@
                     </panel>
                 </panel>
 
-                <panel height="145" margin_top="0" vertical_align="top">
+                <panel height="147" margin_top="0" vertical_align="top">
                     <panel width="63" horizontal_align="left">
                         <textblock text="Cake" vertical_align="top" margin_top="6"/>
                         <picture texture="cake" width="48" height="48" vertical_align="top" margin_top="28"/>
@@ -473,15 +475,15 @@
                         </picture>
                         <textblock text="Sculk&#xA;Vein" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <!-- ice -->
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="ice" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Ice" vertical_align="top" margin_top="60"/>
-                    </panel>
                     <!-- amethyst -->
                     <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="amethyst_crystals" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
                         <textblock text="Amethyst Crystals" vertical_align="top" margin_top="60"/>
+                    </panel>
+                    <!-- ice -->
+                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                        <picture texture="ice" width="48" height="48" vertical_align="top" margin_top="8"/>
+                        <textblock text="Ice" vertical_align="top" margin_top="60"/>
                     </panel>
                     <!-- coral -->
                     <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
@@ -631,7 +633,7 @@
             <!-- more blocks you don't need -->
             <panel margin_left="550" margin_top="712" width="800" height="178" horizontal_align="left" vertical_align="top">
                 <panel height="50" vertical_align="top">
-                    <textblock text="More Excluded Blocks/Entities/Variants" font_size="24" padding_top="12"/>
+                    <textblock text="More Excluded Blocks &amp; Entities" font_size="24" padding_top="12"/>
                     <picture texture="barrier" width="32" height="32" horizontal_align="left" margin_left="12"/>
                     <picture texture="barrier" width="32" height="32" horizontal_align="right" margin_right="12"/>
                 </panel>
@@ -668,7 +670,7 @@
                     </panel>
                     <panel width="70" height="90" vertical_align="bottom" horizontal_align="right">
                         <picture texture="blockstate_variants" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
-                        <textblock text="Blockstate Variants" vertical_align="top" margin_top="60"/>
+                        <textblock text="Alternate Variants" vertical_align="top" margin_top="60"/>
                     </panel>
                     <panel width="70" height="90" vertical_align="bottom" horizontal_align="right">
                         <picture texture="all_copper_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
@@ -697,9 +699,12 @@
 
         </panel>
 
-        <panel row="0" col="2" rowspan="2" width="200" height="68" padding="13" border_thickness="6" horizontal_align="right" vertical_align="top">
-            <button name="show_tracker" global="true" text="Tracker     " font_size="24" padding_top="-2" border_thickness="3">
+        <panel row="0" col="2" rowspan="2" width="200" height="118" padding="13" border_thickness="6" horizontal_align="right" vertical_align="top">
+            <button name="show_tracker" global="true" text="Tracker     " font_size="24" height="42" padding_top="-3" border_thickness="3" vertical_align="top">
                 <picture texture="block_grid" label_tint="true" width="43" height="27" horizontal_align="right" margin_right="8"/>
+            </button>
+            <button name="show_all_blocks_welcome" global="true" text="View Welcome" font_size="24" height="42" padding_top="-3" border_thickness="3" vertical_align="top" margin_top="49">
+                <picture texture="blk_grid" label_tint="true" width="43" height="27" horizontal_align="right" margin_right="8"/>
             </button>
         </panel>
 

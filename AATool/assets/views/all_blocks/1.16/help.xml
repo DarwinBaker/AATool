@@ -54,7 +54,7 @@
                         <textblock text="Hold right-click to see a larger view of a block, as well as its name." width="150" margin_left="48" padding_bottom="2" text_align="left" margin_right="32" horizontal_align="left"/>
                     </panel>
                 </flow_panel>
-                <textblock width="300" v_text_align="bottom" padding_bottom="40" text="Building this tracker took an insane amount of work! If you enjoy it please consider supporting me on Patreon ♥"/>
+                <textblock width="300" v_text_align="bottom" padding_bottom="40" text="Building this tracker took an insane amount of work! If you enjoy it please consider supporting me on Patreon!"/>
                 <button name="https://patreon.com/_ctm" global="true" width="150" height="30" vertical_align="bottom" text="Visit the AATool Patreon"/>
             </panel>
 
@@ -226,7 +226,9 @@
                 </panel>
                 <panel height="59" padding_bottom="6">
                     <picture texture="lava_bucket" width="32" height="32" horizontal_align="left" vertical_align="bottom" margin_left="12"/>
-                    <picture texture="lava" layer="fore" width="32" height="32" horizontal_align="right" vertical_align="bottom" margin_right="12"/>
+                    <picture texture="lava" layer="fore" width="32" height="32" horizontal_align="right" vertical_align="bottom" margin_right="12">
+                        <glow_effect texture="magma_block_glow" brightness="0.8" layer="glow" scale="1.0"/>
+                    </picture>
                     <textblock text="Lava" vertical_align="top" margin_top="5"/>p
                 </panel>
                 <panel height="59" padding_bottom="6">
@@ -237,12 +239,12 @@
             </flow_panel>
 
             <!-- obscure crafting recipes -->
-            <flow_panel width="5 * 38" margin_right="5" margin_top="148" direction="toptobottom" horizontal_align="right" vertical_align="top" draw_mode="childrenonly">
-                <panel height="50" vertical_align="top">
+            <flow_panel width="5 * 38" margin_right="5" margin_top="118" direction="toptobottom" horizontal_align="right" vertical_align="top" draw_mode="childrenonly">
+                <panel height="49" vertical_align="top">
                     <textblock text="Misc. Recipes" font_size="24" padding_top="12"/>
                 </panel>
 
-                <panel height="145" margin_top="0" vertical_align="top">
+                <panel height="146" margin_top="0" vertical_align="top">
                     <panel width="63" horizontal_align="left">
                         <textblock text="Hopper" vertical_align="top" margin_top="6"/>
                         <picture texture="hopper" width="48" height="48" vertical_align="top" margin_top="28"/>
@@ -260,7 +262,7 @@
                     </panel>
                 </panel>
 
-                <panel height="147" margin_top="0" vertical_align="top">
+                <panel height="149" margin_top="0" vertical_align="top">
                     <panel width="63" horizontal_align="left">
                         <textblock text="Cake" vertical_align="top" margin_top="6"/>
                         <picture texture="cake" width="48" height="48" vertical_align="top" margin_top="28"/>
@@ -278,7 +280,7 @@
                     </panel>
                 </panel>
 
-                <panel height="145" margin_top="0" vertical_align="top">
+                <panel height="148" margin_top="0" vertical_align="top">
                     <panel width="63" horizontal_align="left">
                         <textblock text="Repeater" vertical_align="top" margin_top="6"/>
                         <picture texture="repeater" width="48" height="48" vertical_align="top" margin_top="28"/>
@@ -296,20 +298,20 @@
                     </panel>
                 </panel>
 
-                <panel height="140" margin_top="0" vertical_align="top">
+                <panel height="165" margin_top="0" vertical_align="top">
                     <panel width="63" horizontal_align="left">
-                        <textblock text="Powered&#xA;Rail" vertical_align="top" margin_top="6"/>
-                        <picture texture="powered_rail" width="48" height="48" vertical_align="top" margin_top="28"/>
+                        <textblock text="Powered&#xA;Rail" vertical_align="top" margin_top="10"/>
+                        <picture texture="powered_rail" width="48" height="48" vertical_align="top" margin_top="45"/>
                         <picture texture="recipe_powered_rail" width="54" height="54" vertical_align="bottom" margin_bottom="5" margin_left="5" horizontal_align="left"/>
                     </panel>
                     <panel width="64">
-                        <textblock text="Activator&#xA;Rail" vertical_align="top" margin_top="6"/>
-                        <picture texture="activator_rail" width="48" height="48" vertical_align="top" margin_top="28"/>
+                        <textblock text="Activator&#xA;Rail" vertical_align="top" margin_top="10"/>
+                        <picture texture="activator_rail" width="48" height="48" vertical_align="top" margin_top="45"/>
                         <picture texture="recipe_activator_rail" width="54" height="54" vertical_align="bottom" margin_bottom="5" margin_left="5" horizontal_align="left"/>
                     </panel>
                     <panel width="63" horizontal_align="right">
-                        <textblock text="Detector&#xA;Rail" vertical_align="top" margin_top="6"/>
-                        <picture texture="detector_rail" width="48" height="48" vertical_align="top" margin_top="28"/>
+                        <textblock text="Detector&#xA;Rail" vertical_align="top" margin_top="10"/>
+                        <picture texture="detector_rail" width="48" height="48" vertical_align="top" margin_top="45"/>
                         <picture texture="recipe_detector_rail" width="54" height="54" vertical_align="bottom" margin_bottom="5" margin_left="5" horizontal_align="left"/>
                     </panel>
                 </panel>
@@ -428,10 +430,10 @@
             <!-- blocks you don't need -->
             <panel margin_left="5" margin_top="585" width="1080 + 179" height="190" horizontal_align="left" vertical_align="top">
                 <panel height="50" vertical_align="top">
-                    <textblock text="Excluded Blocks" font_size="24" padding_top="6"/>
-                    <textblock text="These blocks are NOT required to complete the 1.16 All Blocks category for various reasons" vertical_align="top" margin_top="31"/>
+                    <textblock text="Excluded Blocks &amp; Entities" font_size="24" padding_top="12"/>
                     <picture texture="barrier" width="32" height="32" horizontal_align="left" margin_left="12"/>
                     <picture texture="barrier" width="32" height="32" horizontal_align="right" margin_right="12"/>
+                    <textblock text="You only need the base variant of blocks with multiple states.&#xA;(for example, you need 'Furnace' but not 'Lit Furnace')&#xA;                 |" width="330" margin_right="60" horizontal_align="right" vertical_align="top" margin_top="8"/>
                 </panel>
                 <flow_panel height="105" vertical_align="top" margin_top="50">
                     <panel width="60" vertical_align="bottom" horizontal_align="right" padding_top="10" draw_mode="childrenonly">
@@ -484,7 +486,7 @@
                         <picture texture="void" width="48" height="48" layer="fore" vertical_align="top" margin_top="8">
                             <glow_effect texture="sculk_glow" brightness="1" layer="glow" scale="1.3"/>
                         </picture>
-                        <textblock text="End Portal&#xA;&amp; Gateway" vertical_align="top" margin_top="60" draw_mode="childrenonly"/>
+                        <textblock text="End Portal&#xA;&amp; Gateway" vertical_align="top" margin_top="60"/>
                     </panel>
                     <panel width="59" vertical_align="bottom" horizontal_align="right" padding_top="10" draw_mode="childrenonly">
                         <picture texture="technical_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="8">
@@ -522,7 +524,7 @@
                     </panel>
                     <panel width="66" vertical_align="bottom" horizontal_align="right" padding_top="10">
                         <picture texture="blockstate_variants" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
-                        <textblock text="Blockstate&#xA;Variants" vertical_align="top" margin_top="60"/>
+                        <textblock text="Alternate&#xA;Variants" vertical_align="top" margin_top="60"/>
                     </panel>
                     <panel width="160" height="92" vertical_align="bottom" horizontal_align="right" padding_top="10">
                         <picture texture="lily_pad" width="48" height="48" vertical_align="top" margin_top="8"/>
@@ -546,9 +548,12 @@
             </panel>
         </panel>
 
-        <panel row="0" col="2" rowspan="2" width="200" height="148" padding="13" border_thickness="6" horizontal_align="right" vertical_align="top">
-            <button name="show_tracker" global="true" text="Tracker     " font_size="24" height="42" padding_top="-2" border_thickness="3" vertical_align="top">
+        <panel row="0" col="2" rowspan="2" width="200" height="118" padding="13" border_thickness="6" horizontal_align="right" vertical_align="top">
+            <button name="show_tracker" global="true" text="Tracker     " font_size="24" height="42" padding_top="-3" border_thickness="3" vertical_align="top">
                 <picture texture="block_grid" label_tint="true" width="43" height="27" horizontal_align="right" margin_right="8"/>
+            </button>
+            <button name="show_all_blocks_welcome" global="true" text="View Welcome" font_size="24" height="42" padding_top="-3" border_thickness="3" vertical_align="top" margin_top="49">
+                <picture texture="blk_grid" label_tint="true" width="43" height="27" horizontal_align="right" margin_right="8"/>
             </button>
         </panel>
 

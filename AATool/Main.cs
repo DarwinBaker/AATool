@@ -18,6 +18,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Globalization;
 using AATool.UI.Badges;
 using AATool.Data.Speedrunning;
+using System.Runtime;
 
 namespace AATool
 {
@@ -89,11 +90,16 @@ namespace AATool
             FontSet.Initialize();
             Leaderboard.Initialize();
 
-            //check for updates in the background
-            new UpdateRequest().EnqueueOnce();
+            //get last player's identity
+            if (!string.IsNullOrEmpty(Config.Tracking.LastPlayer))
+                Player.FetchIdentityAsync(Config.Tracking.LastPlayer);
 
+            //get solo player's identity
             if (Config.Tracking.Filter == ProgressFilter.Solo)
                 Player.FetchIdentityAsync(Config.Tracking.SoloFilterName);
+
+            //check for updates
+            new UpdateRequest().EnqueueOnce();
 
             //check build number of last aatool session
             Version.TryParse(Config.Tracking.LastSession, out Version lastSession);

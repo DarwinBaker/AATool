@@ -15,10 +15,13 @@ namespace AATool.Data.Objectives
         public int PlacedCount { get; private set; }
         public int Count => this.All.Count;
 
+        public List<Block> AllBlocksList;
+
         public BlockManifest()
         {
             this.All = new();
             this.Groups = new();
+            this.AllBlocksList = new();
         }
 
         public bool TryGet(string id, out Block block) =>
@@ -33,6 +36,7 @@ namespace AATool.Data.Objectives
             this.All.Clear();
             this.PlacedCount = 0;
             this.ObtainedCount = 0;
+            this.AllBlocksList.Clear();
         }
 
         public void RefreshObjectives()
@@ -56,6 +60,7 @@ namespace AATool.Data.Objectives
                     //add all blocks in group
                     var block = new Block(blockNode);
                     this.All[block.Id] = block;
+                    this.AllBlocksList.Add(block);
                     group.Add(block);
                 }
                 this.Groups[groupNode.Name] = group;

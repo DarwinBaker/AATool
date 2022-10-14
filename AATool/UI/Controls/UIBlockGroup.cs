@@ -80,6 +80,9 @@ namespace AATool.UI.Controls
 
         protected override void UpdateThis(Time time)
         {
+            if (!this.blockGrid.IsActive)
+                return;
+
             Point cursor = Input.Cursor(this.Root());
 
             //optimization, skip almost all unnecessary block hover checks
