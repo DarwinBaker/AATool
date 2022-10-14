@@ -1,46 +1,21 @@
 ﻿using System;
-using System.Linq;
 using AATool.Configuration;
+using AATool.Data;
+using AATool.Data.Categories;
 using AATool.Data.Speedrunning;
 using AATool.Graphics;
 using AATool.Net;
-using AATool.Net.Requests;
 using AATool.UI.Controls;
 using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
+using Renci.SshNet;
+using SharpDX.Win32;
 
 namespace AATool.UI.Badges
 {
     public class Badge : UIControl
     {
-        //creator of aatool
-        protected const string Developer = "60bddec7-939c-4753-a898-cffa33134a4d";
-        protected const string DeveloperName = "_ctm";
-
-        //completed the first ever half-heart hardcore all advancements speedrun
-        protected const string Elysaku = "b2fcb273-9886-4a9b-bd7f-e005816fb7b7";
-        protected const string ElysakuName = "elysaku";
-
-        //completed 1000 any% RSG speedruns in a row without resetting
-        protected const string Couriway = "994f9376-3f80-48bc-9e72-ee92f861911d";
-        protected const string CouriwayName = "couriway";
-
-        //completed 999 any% RSG speedruns in a row without resetting FeelsStrongMan
-        protected const string MoleyG = "fa1bec35-0585-46c9-8f92-79f8be7cf9bc";
-        protected const string MoleyGName = "moleyg";
-
-        //manages the aa community leaderboards
-        protected const string Deadpool = "899c63ac-6590-46c0-b77c-4dae1543f707";
-
-        //the best minecraft songs ever feelsstrongman
-        protected const string CaptainSparklez = "5f820c39-5883-4392-b174-3125ac05e38c";
-        protected const string CaptainSparklezName = "captainsparklez";
-
-        //the founding father of all advancements
-        protected const string Illumina = "46405168-e9ce-40a0-99a4-0b989a912c77";
-        protected const string IlluminaName = "illumina";
-
         protected const string PopupGlow = "popup_badge_glow";
         protected const double HoverDelay = 0.1;
 
@@ -50,6 +25,8 @@ namespace AATool.UI.Badges
   
         public static bool TryGet(Uuid uuid, string name, bool onLeaderboard, string category, string version, out Badge badge)
         {
+            //yes this is spaghetti code, i do not care
+
             bool multiboard = UIMainScreen.ActiveTab == UIMainScreen.MultiboardTab;
 
             badge = null;
@@ -60,26 +37,38 @@ namespace AATool.UI.Badges
                 uuid = new Uuid(uuid.String);
             }
 
+            Uuid mainPlayer = Tracker.GetMainPlayer();
+            _= Player.TryGetName(mainPlayer, out string mainName);
+            bool isMainPlayer = uuid == mainPlayer || (!string.IsNullOrEmpty(name) && name.ToLower() == mainName?.ToLower());
+            
+            if (isMainPlayer && !onLeaderboard && Config.Main.PreferredPlayerBadge == "None")
+                return false;
+
             Leaderboard.TryGetRank(name, category, version, out int rank);
             if (rank is 1)
                 badge = new RankBadge(rank, category, version, true);
 
+            bool supporterOverride = isMainPlayer && Config.Main.PreferredPlayerBadge.Value is "Gold" or "Diamond" or "Netherite";
+
             //legendary badges
-            if (badge is null && !onLeaderboard)
+            if (badge is null && !onLeaderboard && !supporterOverride)
                 TryGiveLegendaryBadge(uuid, name, ref badge);
 
             //unique badges
-            if (badge is null && !onLeaderboard)
+            if (badge is null && !onLeaderboard && !supporterOverride)
                 TryGiveUniqueBadge(uuid, ref badge);
 
             //vip badges
-            if (badge is null && !onLeaderboard)
+            if (badge is null && !onLeaderboard && !supporterOverride)
                 TryGiveVipBadge(uuid, name, ref badge);
 
             //normal rank badges
             if (badge is null)
                 TryGiveRankBadge(uuid, name, category, version, rank, ref badge);
-            
+
+            if (badge is null)
+                TryGiveSupporterBadge(uuid, name, ref badge);
+
             return badge is not null;
         }
 
@@ -101,9 +90,9 @@ namespace AATool.UI.Badges
             {
                 string player = uuid != Uuid.Empty ? uuid.String : name;
                 badge = player switch {
-                    Elysaku or ElysakuName => new HalfHeartHardcoreBadge(),
-                    Couriway or CouriwayName => new ThousandSeedsBadge(CouriwayName),
-                    MoleyG or MoleyGName => new ThousandSeedsBadge(MoleyGName),
+                    Credits.Elysaku or Credits.ElysakuName => new HalfHeartHardcoreBadge(),
+                    Credits.Couriway or Credits.CouriwayName => new ThousandSeedsBadge(Credits.CouriwayName),
+                    Credits.MoleyG or Credits.MoleyGName => new ThousandSeedsBadge(Credits.MoleyGName),
                     _ => null
                 };
             }
@@ -111,28 +100,118 @@ namespace AATool.UI.Badges
 
         private static void TryGiveUniqueBadge(Uuid uuid, ref Badge badge)
         {
-            badge = uuid.String switch {
-                Developer => new DeveloperBadge(),
-                Deadpool => new ModBadge("Leaderboard Manager\n& Community Legend"),
-                _ => null
-            };
+            if (uuid.String is Credits.Ctm)
+            {
+                if (Config.Main.PreferredPlayerBadge == "Moderator")
+                    badge = new ModBadge("Moderator Badge");
+                else if (Config.Main.PreferredPlayerBadge == "VIP")
+                    badge = new VipBadge("VIP Badge");
+                else
+                    badge = new DeveloperBadge();
+            }
+            else if (uuid.String is Credits.Deadpool)
+            {
+                if (Config.Main.PreferredPlayerBadge == "VIP")
+                    badge = new VipBadge("VIP Badge");
+                else
+                    badge = new ModBadge("Leaderboard Manager\n& Community Legend");
+            }
         }
 
         private static void TryGiveVipBadge(Uuid uuid, string name, ref Badge badge)
         {
             string player = uuid != Uuid.Empty ? uuid.String : name;
             badge = player switch {
-                CaptainSparklez or CaptainSparklezName => new VipBadge("Your vids have brought us\nso much joy, thank you ♥"),
-                Illumina or IlluminaName => new VipBadge("Your first AA run was the\n beginning of everything ♥"),
+                Credits.CaptainSparklez or Credits.CaptainSparklezName => new VipBadge("Your vids have brought us\nso much joy, thank you ♥"),
+                Credits.Illumina or Credits.IlluminaName => new VipBadge("Your first AA run was the\n beginning of everything ♥"),
                 _ => null
             };
         }
 
         private static void TryGiveRankBadge(Uuid uuid, string name, string category, string version, int rank, ref Badge badge)
         {
+            Uuid mainPlayer = Tracker.GetMainPlayer();
+            _= Player.TryGetName(mainPlayer, out string mainName);
+
+            string variant = null;
+            if (Credits.TryGet(uuid, out Credit supporter) || Credits.TryGet(name, out supporter))
+            {
+                if (supporter.Role is Credits.NetheriteTier)
+                {
+                    if (uuid != mainPlayer && name.ToLower() != mainName?.ToLower())
+                        variant = "netherite";
+                    else if (Config.Main.PreferredPlayerBadge == "Basic Rank")
+                        variant = null;
+                    else if (Config.Main.PreferredPlayerBadge == "Gold")
+                        variant = "gold";
+                    else if (Config.Main.PreferredPlayerBadge == "Diamond")
+                        variant = "diamond";
+                    else
+                        variant = "netherite";
+                }
+                else if (supporter.Role is Credits.DiamondTier)
+                {
+                    if (uuid != mainPlayer && name.ToLower() != mainName?.ToLower())
+                        variant = "diamond";
+                    else if (Config.Main.PreferredPlayerBadge == "Basic Rank")
+                        variant = null;
+                    else if (Config.Main.PreferredPlayerBadge == "Gold")
+                        variant = "gold";
+                    else
+                        variant = "diamond";
+                }
+                else if (supporter.Role is Credits.GoldTier)
+                {
+                    if (uuid != mainPlayer && name.ToLower() != mainName?.ToLower())
+                        variant = "gold";
+                    else if (Config.Main.PreferredPlayerBadge == "Basic Rank")
+                        variant = null;
+                    else
+                        variant = "gold";
+                }
+            }
             if (badge is null && rank is > 0)
-                badge = new RankBadge(rank, category, version, true, null);
+                badge = new RankBadge(rank, category, version, true, variant);
         }
+
+        private static void TryGiveSupporterBadge(Uuid uuid, string name, ref Badge badge)
+        {
+            string role = null;
+            if (Credits.TryGet(uuid, out Credit supporter) || Credits.TryGet(name, out supporter))
+            {
+                if (supporter.Role is Credits.NetheriteTier or Credits.Developer)
+                {
+                    if (Config.Main.PreferredPlayerBadge == "Basic Rank")
+                        role = null;
+                    else if (Config.Main.PreferredPlayerBadge == "Gold")
+                        role = Credits.GoldTier;
+                    else if (Config.Main.PreferredPlayerBadge == "Diamond")
+                        role = Credits.DiamondTier;
+                    else
+                        role = Credits.NetheriteTier;
+                }
+                else if (supporter.Role is Credits.DiamondTier)
+                {
+                    if (Config.Main.PreferredPlayerBadge == "Basic Rank")
+                        role = null;
+                    else if (Config.Main.PreferredPlayerBadge == "Gold")
+                        role = Credits.GoldTier;
+                    else
+                        role = Credits.DiamondTier;
+                }
+                else if (supporter.Role is Credits.GoldTier)
+                {
+                    if (Config.Main.PreferredPlayerBadge == "Basic Rank")
+                        role = null;
+                    else
+                        role = Credits.GoldTier;
+                }
+            }
+            if (badge is null && !string.IsNullOrEmpty(role))
+                badge = new SupporterBadge(role);
+        }
+
+        public virtual string GetListName => "Default";
 
         protected readonly UITextBlock Description;
         protected readonly UIGlowEffect Glow;

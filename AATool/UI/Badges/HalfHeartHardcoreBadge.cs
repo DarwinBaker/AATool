@@ -9,6 +9,8 @@ namespace AATool.UI.Badges
         private const string HeartDown = "badge_hhh_down";
         private const string HeartGlow = "badge_hhh_glow";
 
+        public override string GetListName => "Half Heart Hardcore";
+
         public HalfHeartHardcoreBadge()
         {
             this.FlexWidth = new (20);

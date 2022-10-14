@@ -15,8 +15,6 @@ namespace AATool.UI.Controls
 
         private bool isMainWindow;
 
-
-
         public UIGlowEffect()
         {
             this.Layer = Layer.Glow;
@@ -34,7 +32,6 @@ namespace AATool.UI.Controls
 
         public override void InitializeRecursive(UIScreen screen)
         {
-            this.Layer = Layer.Glow;
             this.isMainWindow = screen is UIMainScreen;
             this.displayBrightness = this.Brightness;
         }
@@ -57,7 +54,7 @@ namespace AATool.UI.Controls
                 this.Rotation, 
                 new Vector2(this.Scale), 
                 this.Tint * this.displayBrightness, 
-                Layer.Glow);
+                this.Layer);
         }
 
         public override void ReadNode(XmlNode node)
@@ -66,6 +63,7 @@ namespace AATool.UI.Controls
             this.LerpToBrightness(Attribute(node, "brightness", 1f));
             this.Scale = Attribute(node, "scale", 1f);
             this.rotationFactor = Attribute(node, "rotation_speed", 400f);
+            this.Layer = Attribute(node, "layer", Layer.Glow);
         }
     }
 }

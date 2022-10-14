@@ -1,47 +1,120 @@
 ﻿using System.Collections.Generic;
+using AATool.Net;
+using AATool.Winforms.Controls;
 
 namespace AATool.Data
 {
     public static class Credits
     {
+        public const string Developer = "developer";
+        public const string Dedication = "special dedication";
+        public const string BetaTester = "beta testers";
+
+        public const string GoldTier = "supporter_gold";
+        public const string DiamondTier = "supporter_diamond";
+        public const string NetheriteTier = "supporter_netherite";
+
+        //creator of aatool
+        public const string Ctm = "60bddec7-939c-4753-a898-cffa33134a4d";
+        public const string CtmName = "_ctm";
+
+        //completed the first ever half-heart hardcore all advancements speedrun
+        public const string Elysaku = "b2fcb273-9886-4a9b-bd7f-e005816fb7b7";
+        public const string ElysakuName = "elysaku";
+
+        //completed 1000 any% RSG speedruns in a row without resetting
+        public const string Couriway = "994f9376-3f80-48bc-9e72-ee92f861911d";
+        public const string CouriwayName = "couriway";
+
+        //completed 999 any% RSG speedruns in a row without resetting FeelsStrongMan
+        public const string MoleyG = "fa1bec35-0585-46c9-8f92-79f8be7cf9bc";
+        public const string MoleyGName = "moleyg";
+
+        //manages the aa community leaderboards
+        public const string Deadpool = "899c63ac-6590-46c0-b77c-4dae1543f707";
+        public const string DeadpoolName = "marvelord";
+
+        //the best minecraft songs ever feelsstrongman
+        public const string CaptainSparklez = "5f820c39-5883-4392-b174-3125ac05e38c";
+        public const string CaptainSparklezName = "captainsparklez";
+
+        //the founding father of all advancements
+        public const string Illumina = "46405168-e9ce-40a0-99a4-0b989a912c77";
+        public const string IlluminaName = "illumina";
+
+        private static bool Initialized = false;
+
+        private static Dictionary<string, Credit> ByName = new Dictionary<string, Credit>();
+        private static Dictionary<Uuid, Credit> ByUuid = new Dictionary<Uuid, Credit>();
+
         public static readonly HashSet<Credit> All = new ()
         {
-            new ("developer", "CTM", "https://www.patreon.com/_ctm"),
-            new ("special dedication", "Wroxy"),
+            new (Developer, "CTM", new Uuid("60bddec7-939c-4753-a898-cffa33134a4d"), "https://www.patreon.com/_ctm"),
+            new (Dedication, "Wroxy"),
 
-            new ("beta testers", "Elysaku", "https://www.twitch.tv/elysaku"),
-            new ("beta testers", "Churro :3", "https://www.instagram.com/theelysaku/"),
+            new (BetaTester, "Elysaku", new Uuid("b2fcb273-9886-4a9b-bd7f-e005816fb7b7"), "https://www.twitch.tv/elysaku"),
+            new (BetaTester, "Churro :3", "https://www.instagram.com/theelysaku/"),
 
-            new ("supporter_netherite", "greasyw00t"),
-            new ("supporter_netherite", "MathoX"),
-            new ("supporter_netherite", "the_yuukster"),
-            new ("supporter_netherite", "Toshio"),
-            new ("supporter_netherite", "Feinberg"),
-            new ("supporter_netherite", "PeteZahHutt"),
-            new ("supporter_netherite", "Deadpool"),
-            
-            new ("supporter_diamond", "NiceTwice"),
-            new ("supporter_diamond", "Cube1337x"),
-            new ("supporter_diamond", "Nex"),
-            new ("supporter_diamond", "HAPTlCx"),
-            new ("supporter_diamond", "Soren"),
-            new ("supporter_diamond", "macus"),
+            new (NetheriteTier, "greasyw00t"),
+            new (NetheriteTier, "MathoX",       new Uuid("4c8b46f2-df0c-4417-9bc3-12a025fcca85")),
+            new (NetheriteTier, "the_yuukster", new Uuid("5b7fbb82-62df-4f0f-993a-e2747c2c5530")),
+            new (NetheriteTier, "Toshio",       new Uuid("71c35984-2091-4b64-9601-6e7145c9dffe")),
+            new (NetheriteTier, "Feinberg",     new Uuid("9a8e24df-4c85-49d6-96a6-951da84fa5c4")),
+            new (NetheriteTier, "PeteZahHutt",  new Uuid("7ac3c39f-23d5-472a-a7c9-24798265fa15")),
+            new (NetheriteTier, "Deadpool",     new Uuid("899c63ac-6590-46c0-b77c-4dae1543f707")),
+            new (NetheriteTier, "merpmerp"),
 
-            new ("supporter_gold", "Antoine"),
-            new ("supporter_gold", "TheSwordElf"),
-            new ("supporter_gold", "MeisterMaki"),
-            new ("supporter_gold", "Infernalord"),
-            new ("supporter_gold", "MoleyG"),
-            new ("supporter_gold", "AutomattPL"),
-            new ("supporter_gold", "T_Wagz"),
-            new ("supporter_gold", "Colin_Henry"),
-            new ("supporter_gold", "NotValik"),
-            new ("supporter_gold", "Switch"),
-            new ("supporter_gold", "Melissa"),
-            new ("supporter_gold", "pneguin"),
-            new ("supporter_gold", "Tomas"),
-            new ("supporter_gold", "Xerionix"),
+            new (DiamondTier, "NiceTwice",  new Uuid("e43dad54-4b24-4da9-b690-a12fdc8626dc")),
+            new (DiamondTier, "Cube1337x",  new Uuid("1ae14cb9-6a2f-4357-a71e-fac6f7012b59")),
+            new (DiamondTier, "Nex"),
+            new (DiamondTier, "HAPTlCx",    new Uuid("b7860d3b-e24e-4f75-a0c7-5697ef592a80")),
+            new (DiamondTier, "Soren"),
+            new (DiamondTier, "macus",      new Uuid("3dc2aa2d-add0-48c0-8e8f-52042d978585")),
+
+            new (GoldTier, "Antoine",       new Uuid("6350caba-e20b-4097-a384-931b76dca501")),
+            new (GoldTier, "TheSwordElf"),
+            new (GoldTier, "MeisterMaki",   new Uuid("fd21bbc7-c59c-41f7-ba86-5fa68dcd41bf")),
+            new (GoldTier, "Infernalord",   new Uuid("fbea5a5f-6fbb-478b-af1d-f433df4903ed")),
+            new (GoldTier, "MoleyG",        new Uuid("fa1bec35-0585-46c9-8f92-79f8be7cf9bc")),
+            new (GoldTier, "AutomattPL",    new Uuid("fa61606e-8131-484c-8dee-506d1ff9a8dc")),
+            new (GoldTier, "T_Wagz",        new Uuid("1351bf1c-84df-408d-9499-f67c45abb3e2")),
+            new (GoldTier, "Colin_Henry",   new Uuid("c32aefa5-ea67-479e-bee6-13174ceb2769")),
+            new (GoldTier, "NotValik"),
+            new (GoldTier, "Switch",        new Uuid("b24da04f-8a72-4f28-a7cc-b8cbdfa57991")),
+            new (GoldTier, "Melissa",       new Uuid("2482ebed-44c7-4a95-81f0-853ef3a55928")),
+            new (GoldTier, "pneguin"),
+            new (GoldTier, "Tomas"),
+            new (GoldTier, "Xerionix",      new Uuid("2e0a64c0-bf62-4e41-91b4-be1d39d10324")),
         };
+
+        private static void InitializeLookups()
+        {
+            if (Initialized)
+                return;
+
+            foreach (Credit credit in All)
+            {
+                ByName[credit.Name.ToLower()] = credit;
+                ByUuid[credit.Uuid] = credit;
+            }
+            Initialized = true;
+        }
+
+        public static bool TryGet(Uuid player, out Credit credit)
+        {
+            InitializeLookups();
+            return ByUuid.TryGetValue(player, out credit);
+        }
+
+        public static bool TryGet(string name, out Credit credit)
+        {
+            credit = default;
+            if (string.IsNullOrEmpty(name))
+                return false;
+
+            InitializeLookups();
+            return ByName.TryGetValue(name.ToLower(), out credit);
+        }
     }
 
     public struct Credit
@@ -49,11 +122,21 @@ namespace AATool.Data
         public string Name;
         public string Role;
         public string Link;
+        public Uuid Uuid;
 
-        public Credit(string role, string name, string link = "")
+        public Credit(string role, string name, Uuid? uuid = null, string link = "")
         {
             this.Name = name;
             this.Role = role;
+            this.Uuid = uuid ?? Uuid.Empty;
+            this.Link = link;
+        }
+
+        public Credit(string role, string name, string link)
+        {
+            this.Name = name;
+            this.Role = role;
+            this.Uuid = Uuid.Empty;
             this.Link = link;
         }
     }

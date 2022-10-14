@@ -4,6 +4,8 @@ namespace AATool.UI.Badges
 {
     class DeveloperBadge : SquareBadge
     {
+        public override string GetListName => "Developer";
+
         public DeveloperBadge() : base()
         {
             this.BackTexture = "badge_dev";

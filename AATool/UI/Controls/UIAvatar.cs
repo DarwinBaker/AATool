@@ -1,17 +1,26 @@
 ﻿using System;
 using System.Xml;
 using AATool.Configuration;
+using AATool.Data;
 using AATool.Data.Speedrunning;
+using AATool.Graphics;
 using AATool.Net;
 using AATool.Net.Requests;
 using AATool.UI.Badges;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
+using SharpDX.Win32;
 
 namespace AATool.UI.Controls
 {
     class UIAvatar : UIPicture
     {
+        private static readonly Color GlintColor = new (200, 200, 200, 200);
+
+        private const string GoldFrameTexture = "player_frame_gold";
+        private const string DiamondFrameTexture = "player_frame_diamond";
+        private const string NetheriteFrameTexture = "player_frame_netherite";
+
         public Uuid Player { get; private set; }
         public bool ShowName { get; set; }
         public int Scale { get; set; }
@@ -26,6 +35,12 @@ namespace AATool.UI.Controls
         private bool emptyLeaderboardSlot;
         private bool liveChecked;
         private string offlineName;
+        private Rectangle frameRectangle;
+        private string frameTexture;
+        private bool showFrame;
+        private bool frameGlint;
+
+        public Badge Badge => this.badge;
 
         public void Glow() => this.glow.SkipToBrightness(this.Scale / 4f);
 
@@ -57,6 +72,8 @@ namespace AATool.UI.Controls
                 this.RefreshBadge();
                 if (this.Player != Uuid.Empty)
                     Net.Player.FetchIdentityAsync(this.Player);
+                if (Credits.TryGet(player, out Credit supporter))
+                    this.SetFrame(supporter.Role);
             }
             this.face.SetTexture($"avatar-{this.Player.String}");
         }
@@ -65,6 +82,67 @@ namespace AATool.UI.Controls
         {
             this.offlineName = name;
             this.face.SetTexture($"avatar-{Leaderboard.GetRealName(name ?? string.Empty).ToLower()}");
+
+            string realName = Leaderboard.GetRealName(name ?? string.Empty).ToLower();
+            string nickName = Leaderboard.GetNickName(name ?? string.Empty).ToLower();
+            if (Credits.TryGet(realName, out Credit supporter) || Credits.TryGet(nickName, out supporter))
+                this.SetFrame(supporter.Role);
+        }
+
+        private void SetFrame(string role)
+        {
+            bool isMainPlayer = this.Player == Tracker.GetMainPlayer();
+            if (role is Credits.NetheriteTier or Credits.Developer or Credits.BetaTester)
+            {
+                if (isMainPlayer && Config.Main.PreferredPlayerFrame == "Gold")
+                    this.SetGoldFrame();
+                else if (isMainPlayer && Config.Main.PreferredPlayerFrame == "Diamond")
+                    this.SetDiamondFrame();
+                else if (isMainPlayer && (Config.Main.PreferredPlayerFrame == "Netherite" || (role is Credits.NetheriteTier && Config.Main.PreferredPlayerFrame == "Default")))
+                    this.SetNetheriteFrame();
+                else
+                    this.SetNoFrame();
+            }
+            else if (role is Credits.DiamondTier)
+            {
+                if (isMainPlayer && Config.Main.PreferredPlayerFrame == "Gold")
+                    this.SetGoldFrame();
+                else if (isMainPlayer && Config.Main.PreferredPlayerFrame == "None")
+                    this.SetNoFrame();
+                else
+                    this.SetDiamondFrame();
+            }
+            else if(role is Credits.GoldTier)
+            {
+                if (isMainPlayer && Config.Main.PreferredPlayerFrame == "None")
+                    this.SetNoFrame();
+                else
+                    this.SetGoldFrame();
+            }
+        }
+
+        private void SetNoFrame()
+        {
+            this.frameTexture = string.Empty;
+            this.frameGlint = false;
+        }
+
+        private void SetGoldFrame()
+        {
+            this.frameTexture = GoldFrameTexture;
+            this.frameGlint = false;
+        }
+
+        private void SetDiamondFrame()
+        {
+            this.frameTexture = DiamondFrameTexture;
+            this.frameGlint = true;
+        }
+
+        private void SetNetheriteFrame()
+        {
+            this.frameTexture = NetheriteFrameTexture;
+            this.frameGlint = true;
         }
 
         public void RegisterOnLeaderboard(Leaderboard board) => this.owner = board;
@@ -88,6 +166,7 @@ namespace AATool.UI.Controls
                     this.SetPlayer(this.offlineName);
                 }
             }
+            this.showFrame &= UIMainScreen.ActiveTab is not UIMainScreen.MultiboardTab;
             base.InitializeRecursive(screen);
         } 
 
@@ -101,9 +180,12 @@ namespace AATool.UI.Controls
 
             bool invalidated = !this.cacheChecked && Leaderboard.TryGet(category, version, out _);
             invalidated |= !this.liveChecked && Leaderboard.IsLiveAvailable(category, version);
+            invalidated |= Config.Main.PreferredPlayerBadge.Changed;
+            invalidated |= Config.Main.PreferredPlayerFrame.Changed;
             if (invalidated)
             {
                 this.RefreshBadge(category, version);
+                this.RefreshFrame();
                 this.cacheChecked = true;
                 if (Leaderboard.IsLiveAvailable(category, version))
                     this.liveChecked = true;
@@ -122,11 +204,33 @@ namespace AATool.UI.Controls
                 return;
             }
 
+            if (!this.RegisteredOnLeaderboard && this.showFrame)
+            {
+                if (this.frameTexture is GoldFrameTexture)
+                {
+                    this.glow.LerpToBrightness(this.Scale / 4f);
+                    this.glow.SetTint(Color.Gold);
+                    return;
+                }
+                else if (this.frameTexture is DiamondFrameTexture)
+                {
+                    this.glow.LerpToBrightness(this.Scale / 4f);
+                    this.glow.SetTint(Color.CornflowerBlue);
+                    return;
+                }
+                else if (this.frameTexture is NetheriteFrameTexture)
+                {
+                    this.glow.LerpToBrightness(this.Scale / 4f);
+                    this.glow.SetTint(Color.Violet);
+                    return;
+                }
+            }
+
             if (Net.Player.TryGetColor(this.Player, out Color accent) 
                 || Net.Player.TryGetColor(this.offlineName?.ToLower(), out accent))
             { 
-                this.glow.SetTint(accent);
                 this.glow.LerpToBrightness(this.Scale / 4f);
+                this.glow.SetTint(accent);
             }
             else
             {
@@ -176,6 +280,12 @@ namespace AATool.UI.Controls
             this.liveChecked = true;
         }
 
+        public void RefreshFrame()
+        {
+            if (Credits.TryGet(this.Player, out Credit supporter) || Credits.TryGet(this.offlineName, out supporter))
+                this.SetFrame(supporter.Role);
+        }
+
         public void RefreshBadge()
         {
             string category = this.RegisteredOnLeaderboard ? this.owner.Category : Leaderboard.Current.category;
@@ -219,6 +329,25 @@ namespace AATool.UI.Controls
 
             if (this.Width < 32)
                 this.badge?.Collapse();
+
+            const int FrameThickness = 3;
+            this.frameRectangle = new Rectangle(
+                this.Left - FrameThickness,
+                this.Top - FrameThickness,
+                this.Width + (FrameThickness * 2),
+                this.Height + (FrameThickness * 2));
+        }
+
+        public override void DrawThis(Canvas canvas)
+        {
+            base.DrawThis(canvas);
+
+            if (this.showFrame && !string.IsNullOrEmpty(this.frameTexture) && !this.RegisteredOnLeaderboard)
+            {
+                canvas.Draw(this.frameTexture, this.frameRectangle, Color.White, Layer.Fore);
+                if (this.frameGlint)
+                    canvas.Draw("glint", this.frameRectangle, GlintColor, Layer.Fore);
+            }
         }
 
         public override void ReadNode(XmlNode node)
@@ -228,6 +357,7 @@ namespace AATool.UI.Controls
             this.offlineName = Attribute(node, "player", string.Empty);
             if (Attribute(node, "empty", false))
                 this.SetEmptyLeaderboardSlot();
+            this.showFrame = Attribute(node, "show_frame", true);
         }
     }
 }

@@ -2,6 +2,8 @@
 {
     class HundredHardcoreBadge : Badge
     {
+        public override string GetListName => "100 Hardcore";
+
         public HundredHardcoreBadge() : base()
         {
             this.BackTexture = "badge_100hc";

@@ -18,6 +18,9 @@ namespace AATool.Data.Speedrunning
         private static Dictionary<string, string> RealNames = new ();
         private static Dictionary<string, Uuid> Identities = new ();
 
+        private static HashSet<string> AllRunnerNames = new ();
+        private static HashSet<Uuid> AllRunners = new ();
+
         public static List<Run> ListOfMostRecords { get; private set; } = new();
         public static string RunnerWithMostWorldRecords { get; private set; } = string.Empty;
         public static LeaderboardSheet History { get; private set; }
@@ -49,6 +52,7 @@ namespace AATool.Data.Speedrunning
         public static (string category, string version) Current => (Tracker.Category.Name, Tracker.Category.CurrentMajorVersion);
         public static bool IsLiveAvailable(string category, string version) => LiveBoards.Contains((category, version));
         public static bool IdentityAlreadyRequested(string name) => RequestedIdentities.Contains(name);
+        public static bool IsRunner(Uuid player, string name = null) => AllRunners.Contains(player) || AllRunnerNames.Contains(name);
 
         public static void Initialize()
         {
@@ -120,6 +124,12 @@ namespace AATool.Data.Speedrunning
                         int rank = i - 1;
                         this.Runs.Add(pb);
                         this.Ranks[pb.Runner.ToLower()] = rank;
+
+                        string realName = GetRealName(pb.Runner);
+                        _= AllRunnerNames.Add(realName);
+                        _= AllRunnerNames.Add(pb.Runner);
+                        if (Player.TryGetUuid(realName, out Uuid id))
+                            _= AllRunners.Add(id);
                     }
                 }
             }

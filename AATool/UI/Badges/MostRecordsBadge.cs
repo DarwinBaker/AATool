@@ -6,6 +6,8 @@ namespace AATool.UI.Badges
 {
     class MostRecordsBadge : Badge
     {
+        public override string GetListName => "Most AA Records";
+
         public MostRecordsBadge()
         {
             this.FlexWidth = new (32);

@@ -23,7 +23,7 @@
             <panel width="150">
                 <textblock text="Any% RSG" font_size="24" vertical_align="top" margin_top="10" height="24"/>
                 <panel width="150" padding_top="27" horizontal_align="left" draw_mode="childrenonly">
-                    <avatar name="any%_rsg_avatar" vertical_align="top" margin_top="32"/>
+                    <avatar name="any%_rsg_avatar" show_frame="false" vertical_align="top" margin_top="32"/>
                     <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
                     <textblock name="any%_rsg_runner" vertical_align="top" margin_top="80" height="12"/>
                     <textblock name="any%_rsg_time" vertical_align="top" margin_top="94" height="12"/>
@@ -35,7 +35,7 @@
             <panel width="150">
                 <textblock text="Any% SSG" font_size="24" vertical_align="top" margin_top="10" height="24"/>
                 <panel width="150" padding_top="27" horizontal_align="left" draw_mode="childrenonly">
-                    <avatar name="any%_ssg_avatar" vertical_align="top" margin_top="32"/>
+                    <avatar name="any%_ssg_avatar" show_frame="false" vertical_align="top" margin_top="32"/>
                     <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
                     <textblock name="any%_ssg_runner" vertical_align="top" margin_top="80" height="12"/>
                     <textblock name="any%_ssg_time" vertical_align="top" margin_top="94" height="12"/>
@@ -48,21 +48,21 @@
                 <textblock text="All Blocks World Records" font_size="24" vertical_align="top" margin_top="8" height="24"/>
                 <panel width="100" padding_top="30" horizontal_align="left" draw_mode="childrenonly">
                     <textblock text="1.19" vertical_align="top" margin_top="8" height="12"/>
-                    <avatar name="ab_wr_1.19_avatar" vertical_align="top" margin_top="32"/>
+                    <avatar name="ab_wr_1.19_avatar" show_frame="false" vertical_align="top" margin_top="32"/>
                     <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
                     <textblock name="ab_wr_1.19_runner" vertical_align="top" margin_top="80" height="12"/>
                     <textblock name="ab_wr_1.19_igt" text="__:__:__" vertical_align="top" margin_top="94" height="12"/>
                 </panel>
                 <panel width="100" padding_top="30" horizontal_align="center" draw_mode="childrenonly">
                     <textblock text="1.18" vertical_align="top" margin_top="8" height="12"/>
-                    <avatar name="ab_wr_1.18_avatar" vertical_align="top" margin_top="32"/>
+                    <avatar name="ab_wr_1.18_avatar" show_frame="false" vertical_align="top" margin_top="32"/>
                     <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
                     <textblock name="ab_wr_1.18_runner" vertical_align="top" margin_top="80" height="12"/>
                     <textblock name="ab_wr_1.18_igt" text="__:__:__" vertical_align="top" margin_top="94" height="12"/>
                 </panel>
                 <panel width="100" padding_top="30" horizontal_align="right" draw_mode="childrenonly">
                     <textblock text="1.16" vertical_align="top" margin_top="8" height="12"/>
-                    <avatar name="ab_wr_1.16_avatar" vertical_align="top" margin_top="32"/>
+                    <avatar name="ab_wr_1.16_avatar" show_frame="false" vertical_align="top" margin_top="32"/>
                     <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
                     <textblock name="ab_wr_1.16_runner" vertical_align="top" margin_top="80" height="12"/>
                     <textblock name="ab_wr_1.16_igt" text="__:__:__" vertical_align="top" margin_top="94" height="12"/>
@@ -74,7 +74,7 @@
             <panel width="150">
                 <textblock text="Most AA WRs" font_size="24" vertical_align="top" margin_top="8" height="24"/>
                 <panel width="150" padding_top="27" horizontal_align="left" draw_mode="childrenonly">
-                    <avatar name="most_records_avatar" vertical_align="top" margin_top="32"/>
+                    <avatar name="most_records_avatar" show_frame="false" vertical_align="top" margin_top="32"/>
                     <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
                     <textblock name="most_records_runner" vertical_align="top" margin_top="80" height="12"/>
                     <textblock name="most_records_list" vertical_align="top" margin_top="94" height="12"/>
@@ -86,7 +86,7 @@
             <panel width="150">
                 <textblock text="Half Heart Hardcore AA" font_size="24" vertical_align="top" margin_top="2" height="48"/>
                 <panel padding_top="30" horizontal_align="left" draw_mode="childrenonly">
-                    <avatar player="Elysaku" vertical_align="top" margin_top="32"/>
+                    <avatar player="Elysaku" show_frame="false" vertical_align="top" margin_top="32"/>
                     <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
                     <textblock text="Elysaku" vertical_align="top" margin_top="80" height="12"/>
                     <textblock text="7:02:31 (1.16)" vertical_align="top" margin_top="94" height="12"/>
@@ -98,13 +98,13 @@
             <panel width="225">
                 <textblock text="Thousand Seeds No-Reset Challenge" font_size="24" vertical_align="top" margin_top="2" height="48"/>
                 <panel width="110" padding_top="40" horizontal_align="left" draw_mode="childrenonly">
-                    <avatar player="994f9376-3f80-48bc-9e72-ee92f861911d" vertical_align="top" margin_top="32"/>
+                    <avatar player="994f9376-3f80-48bc-9e72-ee92f861911d" show_frame="false" vertical_align="top" margin_top="32"/>
                     <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
                     <textblock text="Couriway" vertical_align="top" margin_top="80" height="12"/>
                     <textblock text="" vertical_align="top" margin_top="94" height="12"/>
                 </panel>
                 <panel width="110" padding_top="40" horizontal_align="right" draw_mode="childrenonly">
-                    <avatar player="fa1bec35-0585-46c9-8f92-79f8be7cf9bc" vertical_align="top" margin_top="32"/>
+                    <avatar player="fa1bec35-0585-46c9-8f92-79f8be7cf9bc" show_frame="false" vertical_align="top" margin_top="32"/>
                     <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
                     <textblock text="MoleyG" vertical_align="top" margin_top="80" height="12"/>
                     <textblock text="" vertical_align="top" margin_top="94" height="12"/>
@@ -117,7 +117,7 @@
                 <textblock text="100 Deathless Hardcore Runs" font_size="24" vertical_align="top" margin_top="2" height="48"/>
                 <panel padding_top="27" horizontal_align="left" draw_mode="childrenonly">
                     <panel width="36" height="36" vertical_align="top" margin_top="32" border_thickness="2">
-                        <avatar name="100hc_avatar" label_tint="true" empty="true"/>
+                        <avatar name="100hc_avatar" show_frame="false" label_tint="true" empty="true"/>
                     </panel>
                     <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
                     <textblock text="Closest Attempts:" vertical_align="top" margin_top="80" height="12"/>
@@ -135,13 +135,13 @@
                 </panel>
                 <textblock collapsed="true" text="The AATool Team" font_size="24" vertical_align="top" margin_top="8"/>
                 <panel width="100" padding_top="40" horizontal_align="left" draw_mode="childrenonly">
-                    <avatar player="60bddec7-939c-4753-a898-cffa33134a4d" vertical_align="top" margin_top="32"/>
+                    <avatar player="60bddec7-939c-4753-a898-cffa33134a4d" show_frame="false" vertical_align="top" margin_top="32"/>
                     <panel width="60" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
                     <textblock text="CTM" vertical_align="top" margin_top="80" height="12"/>
                     <textblock text="" vertical_align="top" margin_top="94" height="12"/>
                 </panel>
                 <panel width="100" padding_top="40" horizontal_align="right" draw_mode="childrenonly">
-                    <avatar player="899c63ac-6590-46c0-b77c-4dae1543f707" vertical_align="top" margin_top="32"/>
+                    <avatar player="899c63ac-6590-46c0-b77c-4dae1543f707" show_frame="false" vertical_align="top" margin_top="32"/>
                     <panel width="60" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
                     <textblock text="Deadpool" vertical_align="top" margin_top="80" height="12"/>
                     <textblock text="" vertical_align="top" margin_top="94" height="12"/>

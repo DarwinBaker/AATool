@@ -62,6 +62,9 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<string> RefreshIcon = new ("Xp Orb");
             [JsonProperty] public readonly Setting<string> InfoPanel = new ("Leaderboard");
 
+            [JsonProperty] public readonly Setting<string> PreferredPlayerBadge = new ("Default");
+            [JsonProperty] public readonly Setting<string> PreferredPlayerFrame = new ("Default");
+
             [JsonProperty] public readonly Setting<Color> BackColor = new (Hex("36393F"));
             [JsonProperty] public readonly Setting<Color> TextColor = new (Hex("DCDDDE"));
             [JsonProperty] public readonly Setting<Color> BorderColor = new (Hex("4E5156"));
@@ -127,6 +130,9 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.ProgressBarStyle);
                 this.RegisterSetting(this.RefreshIcon);
                 this.RegisterSetting(this.InfoPanel);
+
+                this.RegisterSetting(this.PreferredPlayerBadge);
+                this.RegisterSetting(this.PreferredPlayerFrame);
 
                 this.RegisterSetting(this.BackColor);
                 this.RegisterSetting(this.TextColor);

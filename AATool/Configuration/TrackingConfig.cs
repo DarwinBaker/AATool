@@ -1,4 +1,5 @@
-﻿using AATool.Data.Categories;
+﻿using System;
+using AATool.Data.Categories;
 using AATool.Net;
 using Newtonsoft.Json;
 
@@ -12,6 +13,7 @@ namespace AATool.Configuration
         {
             [JsonProperty] public readonly Setting<string> LastSession = new (string.Empty);
             [JsonProperty] public readonly Setting<string> LastPlayer = new (string.Empty);
+            [JsonProperty] public readonly Setting<Uuid> LastUuid = new (Uuid.Empty);
 
             [JsonProperty] public readonly Setting<string> GameCategory = new ("All Advancements");
             [JsonProperty] public readonly Setting<string> GameVersion = new ("1.16");
@@ -29,6 +31,8 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<bool> BroadcastProgress = new (false);
             [JsonProperty] public readonly Setting<string> OpenTrackerKey = new (string.Empty);
             [JsonProperty] public readonly Setting<string> OpenTrackerUrl = new (string.Empty);
+
+            [JsonProperty] public readonly Setting<DateTime> LastOpenedAllBlocks = new (default);
 
             [JsonIgnore]
             public bool WatchActiveInstance => !this.UseSftp 
@@ -66,6 +70,8 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.BroadcastProgress);
                 this.RegisterSetting(this.OpenTrackerKey);
                 this.RegisterSetting(this.OpenTrackerUrl);
+
+                this.RegisterSetting(this.LastOpenedAllBlocks);
             }
 
             protected override void ApplyLegacySetting(string key, object value)

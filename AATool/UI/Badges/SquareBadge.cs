@@ -1,6 +1,6 @@
 ﻿namespace AATool.UI.Badges
 {
-    abstract class SquareBadge : Badge
+    public abstract class SquareBadge : Badge
     {
         public SquareBadge() : base()
         {
