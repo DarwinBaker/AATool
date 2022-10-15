@@ -153,6 +153,8 @@ namespace AATool
             }
 
             MainPlayerChanged |= mainPlayer != PreviousMainPlayer;
+            Config.Tracking.LastPlayer.Set(mainPlayer);
+            Config.Tracking.LastUuid.Set(mainPlayer);
             return PreviousMainPlayer = mainPlayer;
         }
 
