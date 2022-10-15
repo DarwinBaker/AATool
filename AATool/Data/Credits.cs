@@ -69,7 +69,7 @@ namespace AATool.Data
             new (DiamondTier, "Nex"),
             new (DiamondTier, "HAPTlCx",    new Uuid("b7860d3b-e24e-4f75-a0c7-5697ef592a80")),
             new (DiamondTier, "Soren"),
-            new (DiamondTier, "macus",      new Uuid("3dc2aa2d-add0-48c0-8e8f-52042d978585")),
+            new (DiamondTier, "macus",      new Uuid("d0193deb-f13c-449d-9a48-5a0ed38528d8")),
 
             new (GoldTier, "Antoine",       new Uuid("6350caba-e20b-4097-a384-931b76dca501")),
             new (GoldTier, "TheSwordElf"),
