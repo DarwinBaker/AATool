@@ -377,7 +377,7 @@ namespace AATool.UI.Controls
                     this.label?.SetText(this.Objective?.GetFullCaption());
                 else
                     this.label?.SetText(this.Objective?.GetShortCaption());
-                this.icon.SetTexture(this.Objective.Icon);
+                this.icon?.SetTexture(this.Objective?.Icon);
             }
 
             //uncomment for making preview images easily
