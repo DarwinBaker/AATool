@@ -52,7 +52,7 @@ namespace AATool.Data.Categories
         public override void LoadObjectives()
         {
             Tracker.Blocks.RefreshObjectives();
-            Tracker.Pickups.RefreshObjectives();
+            Tracker.ComplexObjectives.RefreshObjectives();
         }
 
         public void ClearHighlighted()

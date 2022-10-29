@@ -166,7 +166,7 @@ namespace AATool.Graphics
                     if (textureSet is AllBlocks.MainTextureSet)
                         AllBlocks.MainSpritesLoaded = true;
                     if (textureSet is AllBlocks.HelpTextureSet)
-                        AllBlocks.MainSpritesLoaded = true;
+                        AllBlocks.HelpSpritesLoaded = true;
                 }
             }).Start();
         }

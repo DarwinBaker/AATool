@@ -1,13 +1,11 @@
-﻿using AATool.Configuration;
+﻿using System.Collections.Generic;
+using System.Xml;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
 using AATool.Graphics;
 using AATool.Net;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
-using System.Xml;
 
 namespace AATool.UI.Controls
 {

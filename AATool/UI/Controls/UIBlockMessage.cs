@@ -10,7 +10,6 @@ using AATool.UI.Badges;
 using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace AATool.UI.Controls
 {
@@ -65,7 +64,10 @@ namespace AATool.UI.Controls
             $"Thank you so much, {playerName}\nfor supporting AATool!\n \n" +
             $"You helped make this awesome update possible!\nPlease enjoy your gold badge, player frame,\nand your name in the tracker's credits ♥";
 
-        public bool IsPopupVisible => this.Shown && this.delayTimer.IsExpired && AllBlocks.MainSpritesLoaded;
+        public bool IsPopupVisible => this.Shown 
+            && this.delayTimer.IsExpired 
+            && AllBlocks.MainSpritesLoaded 
+            && AllBlocks.HelpSpritesLoaded;
 
         public UIBlockMessage()
         {
@@ -114,7 +116,7 @@ namespace AATool.UI.Controls
         private void OnClick(UIControl sender)
         {
             Config.Tracking.LastOpenedAllBlocks.Set(DateTime.Now);
-            Config.Tracking.Save();
+            Config.Tracking.TrySave();
             if (sender == this.patreonButton)
             {
                 Process.Start(Paths.Web.PatreonFull);

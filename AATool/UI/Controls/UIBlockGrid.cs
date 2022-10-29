@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AATool.Configuration;
 using AATool.Data.Categories;
-using AATool.Data.Objectives;
 using AATool.Graphics;
 using AATool.UI.Screens;
-using AATool.Utilities;
 using Microsoft.Xna.Framework;
 
 namespace AATool.UI.Controls

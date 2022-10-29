@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml;
+﻿using System.Xml;
 using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
