@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
-using AATool.Data.Objectives.Pickups;
+using AATool.Data.Objectives.Complex;
 using AATool.Graphics;
 using AATool.Net;
 using AATool.Net.Requests;
@@ -116,7 +116,7 @@ namespace AATool.UI.Screens
             if (Config.Main.StartupArrangement == WindowSnap.Remember)
             {
                 Config.Main.LastWindowPosition.Set(new Point(this.Form.Location.X, this.Form.Location.Y));
-                Config.Main.Save();
+                Config.Main.TrySave();
             }
 
             Uuid mainPlayer = Tracker.GetMainPlayer();
@@ -128,7 +128,7 @@ namespace AATool.UI.Screens
                 if (Player.TryGetName(mainPlayer, out string name))
                 {
                     Config.Tracking.LastPlayer.Set(name);
-                    Config.Tracking.Save();
+                    Config.Tracking.TrySave();
                 }
             }
         }
@@ -330,7 +330,7 @@ namespace AATool.UI.Screens
             else if (sender.Name is "manual_check")
             {
                 string id = sender.Tag?.ToString() ?? string.Empty;
-                if (Tracker.TryGetPickup(id, out Pickup pickup))
+                if (Tracker.TryGetComplexObjective(id, out ComplexObjective pickup))
                     pickup.ToggleManualCheck();
                 else if (Tracker.TryGetBlock(id, out Block block))
                     block.ToggleManualCheck();

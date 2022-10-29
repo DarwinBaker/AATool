@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Data;
@@ -93,10 +94,10 @@ namespace AATool.Winforms.Controls
                 if (Enum.TryParse(this.startupPosition.Text, out WindowSnap position))
                     Config.Main.StartupArrangement.Set(position);
 
-                Config.Main.Save();
+                Config.Main.TrySave();
 
                 Config.Notes.Enabled.Set(this.notesEnabled.Checked);
-                Config.Notes.Save();
+                Config.Notes.TrySave();
             }
         }
 
@@ -126,7 +127,12 @@ namespace AATool.Winforms.Controls
 
             if (Credits.TryGet(mainPlayer, out Credit supporter) || Credits.TryGet(name, out supporter))
             {
-                if (supporter.Role is Credits.Developer || supporter.Uuid.String == Credits.Deadpool)
+                if (supporter.Role is Credits.Developer)
+                {
+                    this.playerBadge.Items.Add("Developer");
+                }
+
+                if (supporter.Role is Credits.Developer || supporter.Uuids.Contains(Credits.Deadpool))
                 {
                     this.playerBadge.Items.Add("Moderator");
                     this.playerBadge.Items.Add("VIP");

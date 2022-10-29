@@ -57,7 +57,7 @@ namespace AATool.Winforms.Forms
             {
                 Config.Tracking.OpenTrackerUrl.Set(this.url.Text);
             }
-            Config.Tracking.Save();
+            Config.Tracking.TrySave();
         }
     }
 }

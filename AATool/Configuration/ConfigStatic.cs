@@ -43,7 +43,7 @@ namespace AATool.Configuration
         public static void SaveAll()
         {
             foreach (Config config in All)
-                config.Save();
+                config.TrySave();
         }
 
         public static void ResetAllToDefaults()
@@ -59,7 +59,7 @@ namespace AATool.Configuration
                 config.ClearFlags();
         }
 
-        public static void Save(Config config)
+        public static bool TrySave(Config config)
         {
             try
             {
@@ -70,9 +70,13 @@ namespace AATool.Configuration
                     new JsonSerializer {
                         Formatting = Newtonsoft.Json.Formatting.Indented
                     }.Serialize(stream, config);
+                    return true;
                 }
             }
-            catch { }
+            catch 
+            { 
+            }
+            return false;
         }
 
         private static void Load<T>() where T : Config, new()
@@ -102,7 +106,7 @@ namespace AATool.Configuration
                         config.ApplyAllLegacySettings(document);
                 }
                 //overwrite missing/corrupt config file
-                Save(config);
+                _= TrySave(config);
             }
             finally
             {

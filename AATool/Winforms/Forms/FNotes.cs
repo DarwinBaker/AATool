@@ -87,14 +87,14 @@ namespace AATool.Winforms.Forms
             {
                 this.TopMost = this.alwaysOnTop.Checked;
                 Config.Notes.AlwaysOnTop.Set(this.alwaysOnTop.Checked);
-                Config.Notes.Save();
+                Config.Notes.TrySave();
             }
         }
 
         private void OnClosed(object sender, FormClosedEventArgs e)
         {
             Config.Notes.Enabled.Set(false);
-            Config.Notes.Save();
+            Config.Notes.TrySave();
         }
 
         private void OnTick(object sender, EventArgs e)
@@ -151,7 +151,7 @@ namespace AATool.Winforms.Forms
         {
             Config.Notes.Width.Set(this.Width);
             Config.Notes.Height.Set(this.Height);
-            Config.Notes.Save();
+            Config.Notes.TrySave();
         }
     }
 }

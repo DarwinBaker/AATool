@@ -66,7 +66,7 @@ namespace AATool.Winforms.Controls
                 Config.Net.Password.Set(this.password.Text);
                 Config.Net.IsServer.Set(this.networkType.Text.ToLower() is "server");
                 Config.Net.AutoServerIP.Set(this.autoServerIP.Checked);
-                Config.Net.Save();
+                Config.Net.TrySave();
             }
         }
 

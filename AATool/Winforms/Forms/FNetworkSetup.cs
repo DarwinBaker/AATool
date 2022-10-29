@@ -230,7 +230,7 @@ namespace AATool.Winforms.Forms
             Config.Net.MinecraftName.Set(this.mojangName.Text);
             Config.Net.PreferredName.Set(this.displayName.Text);
             Config.Net.Pronouns.Set(this.pronouns.Text);
-            Config.Net.Save();
+            Config.Net.TrySave();
         }
 
         private void UpdateAutoIP()

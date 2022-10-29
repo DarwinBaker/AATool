@@ -44,7 +44,6 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<bool> HideCompletedAdvancements = new (false);
             [JsonProperty] public readonly Setting<bool> HideCompletedCriteria = new (false);
             [JsonProperty] public readonly Setting<bool> ShowBasicAdvancements = new (true);
-            [JsonProperty] public readonly Setting<bool> ShowCompletionGlow = new (true);
             [JsonProperty] public readonly Setting<bool> ShowAmbientGlow = new (true);
             [JsonProperty] public readonly Setting<bool> ShowMyBadge = new (true);
             [JsonProperty] public readonly Setting<bool> RainbowMode = new (false);
@@ -55,6 +54,7 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<bool> LayoutDebugMode = new (false);
             [JsonProperty] public readonly Setting<bool> CacheDebugMode = new (false);
             [JsonProperty] public readonly Setting<bool> HideRenderCache = new (false);
+            [JsonProperty] public readonly Setting<bool> HideGlowEffects = new (false);
 
             [JsonProperty] public readonly Setting<string> FrameStyle = new ("Modern");
             [JsonProperty] public readonly Setting<string> PrideFrameList = new (string.Empty);
@@ -115,7 +115,6 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.HideCompletedCriteria);
 
                 this.RegisterSetting(this.ShowBasicAdvancements);
-                this.RegisterSetting(this.ShowCompletionGlow);
                 this.RegisterSetting(this.ShowAmbientGlow);
                 this.RegisterSetting(this.ShowMyBadge);
 
@@ -124,6 +123,7 @@ namespace AATool.Configuration
 
                 this.RegisterSetting(this.LayoutDebugMode);
                 this.RegisterSetting(this.CacheDebugMode);
+                this.RegisterSetting(this.HideGlowEffects);
 
                 this.RegisterSetting(this.FrameStyle);
                 this.RegisterSetting(this.PrideFrameList);
@@ -173,7 +173,7 @@ namespace AATool.Configuration
                 {
                     this.Layout.Set(CompactLayout);
                     this.CompactMode.Set(false);
-                    this.Save();
+                    this.TrySave();
                 }
             }
 

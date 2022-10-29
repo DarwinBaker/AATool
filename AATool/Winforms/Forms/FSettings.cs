@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Net;
 using AATool.Net.Requests;
+using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 
 namespace AATool.Winforms.Forms
@@ -61,8 +62,10 @@ namespace AATool.Winforms.Forms
                 if (confirmation == DialogResult.Yes)
                 {
                     Tracker.TrySetCategory("All Advancements");
+                    Tracker.TrySetVersion("1.16");
                     Config.ResetAllToDefaults();
                     this.LoadSettings();
+                    UIMainScreen.ForceLayoutRefresh();
                 }
             }
             else if (sender == this.update)

@@ -11,7 +11,7 @@ namespace AATool.Configuration
         [JsonIgnore] private string FileName => $"config_{this.GetId()}.json";
         [JsonIgnore] private string LegacyFileName => $"{this.GetLegacyId()}.xml";
 
-        public void Save() => Save(this);
+        public bool TrySave() => TrySave(this);
 
         public void RegisterSetting(ISetting setting)
         {
@@ -25,7 +25,7 @@ namespace AATool.Configuration
         protected virtual void ApplyLegacySetting(string key, object value) { }
         protected virtual void MigrateDepricatedConfigs() { }
 
-        protected void ApplyDefaultValues()
+        protected virtual void ApplyDefaultValues()
         {
             foreach (ISetting setting in this.settings)
                 setting.ApplyDefault();

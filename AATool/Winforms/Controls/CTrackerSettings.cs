@@ -100,7 +100,7 @@ namespace AATool.Winforms.Controls
                 Config.Tracking.UseSftp.Set(this.worldRemote.Checked);
                 Config.Tracking.AutoDetectVersion.Set(this.autoVersion.Checked);
                 Config.Tracking.BroadcastProgress.Set(this.enableOpenTracker.Checked);
-                Config.Tracking.Save();
+                Config.Tracking.TrySave();
 
                 if (int.TryParse(this.sftpPort.Text, out int port))
                     Config.Sftp.Port.Set(port);
@@ -109,7 +109,7 @@ namespace AATool.Winforms.Controls
                 Config.Sftp.Username.Set(this.sftpUser.Text);
                 Config.Sftp.Password.Set(this.sftpPass.Text);
                 Config.Sftp.ServerRoot.Set(this.sftpRoot.Text);
-                Config.Sftp.Save();
+                Config.Sftp.TrySave();
             }
         }
 

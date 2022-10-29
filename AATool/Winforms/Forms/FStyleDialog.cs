@@ -142,13 +142,13 @@ namespace AATool.Winforms.Forms
             {
                 Config.Overlay.FrameStyle.Set(this.style);
                 Config.Overlay.SetPrideList(prideFlags);
-                Config.Overlay.Save();
+                Config.Overlay.TrySave();
             }
             else
             {
                 Config.Main.FrameStyle.Set(this.style);
                 Config.Main.SetPrideList(prideFlags);
-                Config.Main.Save();
+                Config.Main.TrySave();
             }
         }
 
@@ -265,7 +265,7 @@ namespace AATool.Winforms.Forms
             if (sender == this.closeOnSelect)
             {
                 Config.Main.CloseFramesOnSelection.Set(this.closeOnSelect.Checked);
-                Config.Main.Save();
+                Config.Main.TrySave();
             }
             else if (sender is CheckBox flagCheckBox && flagCheckBox.Tag is string style)
             {
