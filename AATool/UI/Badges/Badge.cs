@@ -136,6 +136,7 @@ namespace AATool.UI.Badges
             string variant = null;
             if (Credits.TryGet(uuid, out Credit supporter) || Credits.TryGet(name, out supporter))
             {
+                name ??= string.Empty;
                 if (supporter.Role is Credits.NetheriteTier)
                 {
                     if (uuid != mainPlayer && name.ToLower() != mainName?.ToLower())
