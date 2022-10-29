@@ -38,6 +38,8 @@ namespace AATool.UI.Controls
             { typeof(UIProgressBar),        Color.Magenta },
             { typeof(UIAllayTrack),         Color.Magenta },
             { typeof(UIBlockGroup),         Color.Red },
+            { typeof(UIPinnedRow),          Color.Magenta },
+            { typeof(UIPinnedObjectiveFrame), Color.Orange },
         };
 
         private UIScreen rootScreen;

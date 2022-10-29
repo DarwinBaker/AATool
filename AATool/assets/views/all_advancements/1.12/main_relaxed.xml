@@ -38,13 +38,15 @@
 
             <text_block row="0" col="2" width="120" height="40" horizontal_align="right" vertical_align="bottom" h_text_align="left" margin_right="10" margin_bottom="40" text="Note: Due to the way pre-1.13 Minecraft IDs work, God Apple must be manually checked until eaten."/>
 
-            <!-- pickup counters -->
-            <panel row="0" col="3" vertical_align="top">
-                <objective_frame pickup="minecraft:enchanted_golden_apple" vertical_align="top"/>
-            </panel>
+            <!-- overworld pickup counts -->
+            <flow_panel row="0" col="3">
+                <objective_frame complex="Egap"/>
+            </flow_panel>
+
+            <!-- nether pickup counts -->
             <flow_panel row="1" col="3">
-                <objective_frame pickup="minecraft.skull"/>
-                <objective_frame pickup="minecraft.gold_block"/>
+                <objective_frame complex="WitherSkulls"/>
+                <objective_frame complex="GoldBlocks"/>
             </flow_panel>
 
             <!-- info panel -->

@@ -36,7 +36,8 @@ namespace AATool.Winforms.Controls
             this.greenscreenColor = new System.Windows.Forms.Button();
             this.textColor = new System.Windows.Forms.Button();
             this.overlayGroupAppearance = new System.Windows.Forms.GroupBox();
-            this.obsHelpLink = new System.Windows.Forms.LinkLabel();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.showIgt = new System.Windows.Forms.CheckBox();
             this.showText = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -45,6 +46,7 @@ namespace AATool.Winforms.Controls
             this.lastRefreshPosition = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pickupPosition = new System.Windows.Forms.ComboBox();
+            this.obsHelpLink = new System.Windows.Forms.LinkLabel();
             this.label4 = new System.Windows.Forms.Label();
             this.backColor = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -55,7 +57,6 @@ namespace AATool.Winforms.Controls
             this.overlayWidth = new System.Windows.Forms.NumericUpDown();
             this.overlayGroupBehavior = new System.Windows.Forms.GroupBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.enabled = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -69,8 +70,6 @@ namespace AATool.Winforms.Controls
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.frameStyle = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
             this.overlayGroupTheme.SuspendLayout();
             this.overlayGroupAppearance.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.overlayWidth)).BeginInit();
@@ -166,17 +165,27 @@ namespace AATool.Winforms.Controls
             this.overlayGroupAppearance.TabStop = false;
             this.overlayGroupAppearance.Text = "Layout";
             // 
-            // obsHelpLink
+            // label14
             // 
-            this.obsHelpLink.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.obsHelpLink.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.obsHelpLink.Location = new System.Drawing.Point(3, 179);
-            this.obsHelpLink.Name = "obsHelpLink";
-            this.obsHelpLink.Size = new System.Drawing.Size(124, 44);
-            this.obsHelpLink.TabIndex = 48;
-            this.obsHelpLink.TabStop = true;
-            this.obsHelpLink.Text = "Click here for a guide if you need help setting up your overlay!";
-            this.obsHelpLink.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label14.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label14.Location = new System.Drawing.Point(84, 130);
+            this.label14.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(95, 40);
+            this.label14.TabIndex = 54;
+            this.label14.Text = "🛈 Shells, Skulls, Trident etc.";
+            // 
+            // label13
+            // 
+            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label13.ForeColor = System.Drawing.SystemColors.WindowFrame;
+            this.label13.Location = new System.Drawing.Point(84, 177);
+            this.label13.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(95, 40);
+            this.label13.TabIndex = 53;
+            this.label13.Text = "🛈 Says how long it\'s been since the tracker refreshed";
             // 
             // showIgt
             // 
@@ -269,6 +278,18 @@ namespace AATool.Winforms.Controls
             this.pickupPosition.Size = new System.Drawing.Size(75, 21);
             this.pickupPosition.TabIndex = 29;
             this.pickupPosition.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
+            // 
+            // obsHelpLink
+            // 
+            this.obsHelpLink.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.obsHelpLink.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.obsHelpLink.Location = new System.Drawing.Point(3, 179);
+            this.obsHelpLink.Name = "obsHelpLink";
+            this.obsHelpLink.Size = new System.Drawing.Size(124, 44);
+            this.obsHelpLink.TabIndex = 48;
+            this.obsHelpLink.TabStop = true;
+            this.obsHelpLink.Text = "Click here for a guide if you need help setting up your overlay!";
+            this.obsHelpLink.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label4
             // 
@@ -370,7 +391,6 @@ namespace AATool.Winforms.Controls
             // overlayGroupBehavior
             // 
             this.overlayGroupBehavior.Controls.Add(this.label12);
-            this.overlayGroupBehavior.Controls.Add(this.button1);
             this.overlayGroupBehavior.Controls.Add(this.label2);
             this.overlayGroupBehavior.Controls.Add(this.enabled);
             this.overlayGroupBehavior.Controls.Add(this.label5);
@@ -387,24 +407,13 @@ namespace AATool.Winforms.Controls
             // 
             this.label12.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.label12.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label12.Location = new System.Drawing.Point(3, 125);
+            this.label12.Location = new System.Drawing.Point(3, 130);
             this.label12.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(194, 47);
+            this.label12.Size = new System.Drawing.Size(194, 42);
             this.label12.TabIndex = 52;
-            this.label12.Text = "🛈 Previously know as the \"Pickups\" row, this will soon be customizable, with mor" +
-    "e objective options than ever!";
-            // 
-            // button1
-            // 
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(6, 99);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(122, 23);
-            this.button1.TabIndex = 51;
-            this.button1.Text = "Edit Pinned Objectives";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.UseVisualStyleBackColor = true;
+            this.label12.Text = "🛈 You can edit the objectives shown on the bottom row of the overlay by simply c" +
+    "licking and dragging them!";
             // 
             // label2
             // 
@@ -430,7 +439,7 @@ namespace AATool.Winforms.Controls
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(142, 45);
+            this.label5.Location = new System.Drawing.Point(8, 91);
             this.label5.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(41, 13);
@@ -455,11 +464,12 @@ namespace AATool.Winforms.Controls
             this.speed.AutoSize = false;
             this.speed.BackColor = System.Drawing.SystemColors.Window;
             this.speed.LargeChange = 1;
-            this.speed.Location = new System.Drawing.Point(129, 59);
-            this.speed.Maximum = 4;
+            this.speed.Location = new System.Drawing.Point(6, 104);
+            this.speed.Maximum = 16;
             this.speed.Name = "speed";
-            this.speed.Size = new System.Drawing.Size(67, 23);
+            this.speed.Size = new System.Drawing.Size(188, 23);
             this.speed.TabIndex = 25;
+            this.speed.TickFrequency = 2;
             this.speed.Value = 2;
             this.speed.ValueChanged += new System.EventHandler(this.OnValueChanged);
             // 
@@ -567,28 +577,6 @@ namespace AATool.Winforms.Controls
             this.label6.TabIndex = 41;
             this.label6.Text = "Objective Frames:";
             // 
-            // label13
-            // 
-            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label13.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label13.Location = new System.Drawing.Point(84, 177);
-            this.label13.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(95, 40);
-            this.label13.TabIndex = 53;
-            this.label13.Text = "🛈 Says how long it\'s been since the tracker refreshed";
-            // 
-            // label14
-            // 
-            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label14.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label14.Location = new System.Drawing.Point(84, 130);
-            this.label14.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(95, 40);
-            this.label14.TabIndex = 54;
-            this.label14.Text = "🛈 Shells, Skulls, Trident etc.";
-            // 
             // COverlaySettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -655,7 +643,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox lastRefreshPosition;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.LinkLabel obsHelpLink;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;

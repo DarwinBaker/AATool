@@ -68,7 +68,6 @@ namespace AATool
             public static string ObjectiveFolder => Path.Combine(ObjectivesFolder, Config.Tracking.GameVersion);
             public static string AdvancementsFolder => Path.Combine(ObjectiveFolder, "advancements/");
             public static string AchievementsFile => Path.Combine(ObjectiveFolder, "achievements.xml");
-            public static string StatisticsFile => Path.Combine(ObjectiveFolder, "statistics.xml");
             public static string DeathMessagesFile => Path.Combine(ObjectiveFolder, "deaths.xml");
             public static string PotionsFile => Path.Combine(ObjectiveFolder, "potions.xml");
 

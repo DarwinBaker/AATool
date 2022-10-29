@@ -40,11 +40,11 @@
 
         <!-- pickup counters -->
         <panel row="0" col="2" height="136" vertical_align="top">
-            <objective_frame pickup="minecraft:enchanted_golden_apple" horizontal_align="left" margin_left="1" vertical_align="top"/>
+            <objective_frame complex="Egap" horizontal_align="left" margin_left="1" vertical_align="top"/>
         </panel>
         <flow_panel row="0" col="2" height="212" vertical_align="bottom" cell_width="68" cell_height="68" direction="toptobottom">
-            <objective_frame pickup="minecraft.skull"/>
-            <objective_frame pickup="minecraft.gold_block"/>
+            <objective_frame complex="WitherSkulls"/>
+            <objective_frame complex="GoldBlocks"/>
         </flow_panel>
 
         <!-- status strip -->

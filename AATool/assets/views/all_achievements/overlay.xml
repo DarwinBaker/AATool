@@ -11,9 +11,7 @@
         <!-- advancement carousel -->
         <objective_carousel name="advancements"/>
 
-        <!-- item count display (trident, shells, skulls etc.) -->
-        <panel draw_mode="children_only" height="152" vertical_align="bottom">
-            <flow_panel name="counts" cell_height="102" draw_mode="children_only"/>
-        </panel>
+        <!-- pinned objectives -->
+        <pinned_row/>
     </panel>
 </control>

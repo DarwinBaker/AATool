@@ -26,6 +26,8 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<string> FrameStyle = new ("Minecraft");
             [JsonProperty] public readonly Setting<string> PrideFrameList = new (string.Empty);
 
+            [JsonProperty] public readonly Setting<PinnedObjectiveSet> PinnedObjectiveList = new (new PinnedObjectiveSet());
+
             [JsonProperty] public readonly Setting<int> Speed = new (2);
             [JsonProperty] public readonly Setting<int> Width = new (1920);
 
@@ -74,6 +76,8 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.FrameStyle);
                 this.RegisterSetting(this.PrideFrameList);
 
+                this.RegisterSetting(this.PinnedObjectiveList);
+
                 this.RegisterSetting(this.Speed);
                 this.RegisterSetting(this.Width);
 
@@ -88,6 +92,12 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.StartupArrangement);
                 this.RegisterSetting(this.StartupDisplay);
                 this.RegisterSetting(this.LastWindowPosition);
+            }
+
+            protected override void ApplyDefaultValues()
+            { 
+                base.ApplyDefaultValues();
+                this.PinnedObjectiveList.Set(new PinnedObjectiveSet());
             }
 
             public void SetPrideList(string csv)

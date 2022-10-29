@@ -39,11 +39,11 @@
 
         <!-- item count display (trident, shells, skulls etc.) -->
         <flow_panel name="counts" col="2" cell_width="68" cell_height="68" direction="toptobottom">
-            <objective_frame pickup="minecraft:enchanted_golden_apple"/>
-            <objective_frame pickup="minecraft:trident"/>
-            <objective_frame pickup="minecraft:nautilus_shell"/>
-            <objective_frame pickup="minecraft:wither_skeleton_skull"/>
-            <objective_frame pickup="minecraft:ancient_debris"/>
+            <objective_frame complex="Egap"/>
+            <objective_frame complex="Trident"/>
+            <objective_frame complex="NautilusShells"/>
+            <objective_frame complex="WitherSkulls"/>
+            <objective_frame complex="AncientDebris"/>
         </flow_panel>
 
         <!-- status strip -->

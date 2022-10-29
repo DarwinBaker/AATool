@@ -98,11 +98,11 @@
 
         <!-- pickup counters -->
         <panel col="2" width="100" height="180" horizontal_align="left" vertical_align="top" padding_top="50">
-            <objective_frame pickup="minecraft:enchanted_golden_apple" vertical_align="top"/>
+            <objective_frame complex="Egap" vertical_align="top"/>
         </panel>
         <flow_panel name="counts" col="2" width="100" height="236" cell_height="100" padding_left="16" margin_top="180" padding_top="15" horizontal_align="left" vertical_align="top">
-            <objective_frame pickup="minecraft.skull"/>
-            <objective_frame pickup="minecraft.gold_block"/>
+            <objective_frame complex="WitherSkulls"/>
+            <objective_frame complex="GoldBlocks"/>
         </flow_panel>
 
         <!-- leaderboard -->

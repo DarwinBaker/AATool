@@ -96,12 +96,12 @@
         <!-- item count display (trident, shells, skulls etc.) -->
         <panel name="counts" col="2" width="224" height="240" horizontal_align="left" vertical_align="top">
             <panel width="112" horizontal_align="left" padding_top="16">
-                <objective_frame pickup="minecraft:enchanted_golden_apple" vertical_align="top" margin_top="30"/>
+                <objective_frame complex="Egap" vertical_align="top" margin_top="30"/>
                 <text_block col="1" padding="10,10,130,0" text="Note: Due to the way pre-1.13 Minecraft IDs work, God Apple must be manually checked until eaten."/>
             </panel>
             <flow_panel width="112" horizontal_align="right" padding_top="16" padding_left="23">
-                <objective_frame pickup="minecraft.skull"/>
-                <objective_frame pickup="minecraft.gold_block" margin_top="40"/>
+                <objective_frame complex="WitherSkulls"/>
+                <objective_frame complex="GoldBlocks" margin_top="40"/>
             </flow_panel>
         </panel>
 

@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
-using AATool.Data.Objectives.Pickups;
+using AATool.Data.Objectives.Complex;
 using AATool.Net;
 using AATool.Net.Requests;
 using AATool.Saves;
@@ -13,6 +14,7 @@ using AATool.UI.Controls;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace AATool.UI.Screens
 {
@@ -44,7 +46,8 @@ namespace AATool.UI.Screens
 
         private UICarousel advancements;
         private UICarousel criteria;
-        private UIFlowPanel counts;
+        private UIPinnedRow pinned;
+        private UIObjectiveTray tray;
         private UIControl runCompletePanel;
         private UIControl carouselPanel;
         private bool isResizing;
@@ -52,8 +55,12 @@ namespace AATool.UI.Screens
         private Color frameBorderColor;
         private float titleY;
 
+        private Utilities.Timer savingPinnedTimer = new (0.5, false);
+
         public override Color FrameBackColor() => this.frameBackColor;
         public override Color FrameBorderColor() => this.frameBorderColor;
+
+        public void PinnedObjectivesSaved() => this.savingPinnedTimer.Reset();
 
         public UIOverlayScreen(Main main) : base(main, GameWindow.Create(main, 360, 360))
         {
@@ -96,9 +103,7 @@ namespace AATool.UI.Screens
 
         public override string GetCurrentView()
         {
-            return Tracker.Category is AllBlocks
-                ? Path.Combine(Paths.System.ViewsFolder, Tracker.Category.ViewName, Tracker.Category.CurrentMajorVersion, "overlay.xml")
-                : Path.Combine(Paths.System.ViewsFolder, Tracker.Category.ViewName, "overlay.xml");
+            return Path.Combine(Paths.System.ViewsFolder, Tracker.Category.ViewName, "overlay.xml");
         }
 
         public override void ReloadView()
@@ -154,6 +159,7 @@ namespace AATool.UI.Screens
             this.carouselPanel = this.First("panel_carousel");
 
             this.text = new UITextBlock("minecraft", 24) {
+                FlexHeight = new (42),
                 Padding             = new Margin(16, 16, 8, 0),
                 HorizontalTextAlign = HorizontalAlign.Center,
                 VerticalTextAlign   = VerticalAlign.Top
@@ -175,38 +181,43 @@ namespace AATool.UI.Screens
             this.criteria = this.First<UICarousel>("criteria");
             this.criteria?.SetScrollDirection(Config.Overlay.RightToLeft);
 
-            //initialize item counters
-            this.counts = this.First<UIFlowPanel>("counts");
-            if (this.counts is not null)
+            //initialize pinned objectives
+            this.pinned = this.First<UIPinnedRow>();
+            if (this.pinned is not null)
             {
-                this.counts.FlowDirection = Config.Overlay.RightToLeft
-                    ? FlowDirection.RightToLeft
-                    : FlowDirection.LeftToRight;
-
-                if (Tracker.Category is not (AllBlocks or AllDeaths))
-                {
-                    //add pickup counters
-                    foreach (Pickup pickup in Tracker.Pickups.All.Values.Reverse())
-                    {
-                        if (pickup.Id is not (ShulkerShell.ItemId or Mycelium.BlockId or "minecraft:deepslate_emerald_ore"))
-                            this.counts.AddControl(new UIObjectiveFrame(pickup, 3));
-                    }
-                }
-
                 //status label
                 this.status = new UITextBlock("minecraft", 24) {
-	                FlexWidth = new Size(180),
-	                FlexHeight = new Size(72),
-	                VerticalTextAlign = VerticalAlign.Center
-	            };
-	            this.status.HorizontalTextAlign = Config.Overlay.RightToLeft
-	                ? HorizontalAlign.Right
-	                : HorizontalAlign.Left;
-	
-	            this.counts.AddControl(this.status);
+                    FlexWidth = new Size(180),
+                    FlexHeight = new Size(72),
+                    VerticalTextAlign = VerticalAlign.Bottom
+                };
+                this.status.HorizontalTextAlign = Config.Overlay.RightToLeft
+                    ? HorizontalAlign.Right
+                    : HorizontalAlign.Left;
+                this.pinned.SetStatusLabel(this.status);
+                this.status.ParentTo(this);
+                this.AddControl(this.pinned);
+
+                this.tray = new UIObjectiveTray(this.pinned);
+                this.AddControl(this.tray);
             }
+
             this.UpdateDirection();
             this.UpdateSpeed();
+        }
+
+        public void ShowObjectiveTray()
+        {
+            this.pinned?.Collapse();
+            this.tray?.Populate();
+            this.tray?.Expand();
+            this.tray?.ResizeRecursive(this.Bounds);
+        }
+
+        public void HideObjectiveTray()
+        {
+            this.pinned?.Expand();
+            this.tray?.Collapse();
         }
 
         protected override void UpdateThis(Time time)
@@ -221,7 +232,7 @@ namespace AATool.UI.Screens
                 this.ReloadView();
 
             this.ConstrainWindow();
-            this.UpdateContentVisibility();
+            this.UpdateContentVisibility(time);
             this.UpdateCarouselLocations();
             this.UpdateSpeed();
 
@@ -235,7 +246,13 @@ namespace AATool.UI.Screens
             this.text?.SetText(this.PrepareHeaderText(time));
             //text next to pickup counts
             this.status?.SetText(this.PrepareStatusText());
-            this.lastRefresh?.SetText(Tracker.GetLastRefresh(time));
+
+            //corner refresh text
+            this.savingPinnedTimer.Update(time);
+            if (this.savingPinnedTimer.IsRunning)
+                this.lastRefresh?.SetText("Saved Overlay Layout");
+            else
+                this.lastRefresh?.SetText(Tracker.GetLastRefresh(time));
         }
 
         private void UpdateTheme()
@@ -258,11 +275,11 @@ namespace AATool.UI.Screens
             this.advancements?.SetScrollDirection(Config.Overlay.RightToLeft);
             this.criteria?.SetScrollDirection(Config.Overlay.RightToLeft);
 
-            if (this.counts is not null)
+            if (this.pinned is not null)
             {
-                this.counts.FlowDirection = Config.Overlay.RightToLeft ^ Config.Overlay.PickupsOpposite
-                    ? FlowDirection.RightToLeft
-                    : FlowDirection.LeftToRight;
+                this.pinned.HorizontalAlign = Config.Overlay.RightToLeft ^ Config.Overlay.PickupsOpposite
+                    ? HorizontalAlign.Right
+                    : HorizontalAlign.Left;
             }
 
             if (this.lastRefresh is not null)
@@ -345,19 +362,25 @@ namespace AATool.UI.Screens
             int advancement = this.advancements is null || this.advancements.IsCollapsed 
                 ? 0 : Config.Overlay.ShowLabels ? 160 : 110;
 
-            this.criteria?.MoveTo(new Point(0, HeaderHeight));
-            this.advancements?.MoveTo(new Point(0, HeaderHeight + criteria));
-            this.counts?.MoveTo(new Point(this.counts.X, HeaderHeight + criteria + advancement));
+            if (this.criteria?.Top != HeaderHeight)
+                this.criteria?.MoveTo(new Point(0, HeaderHeight));
+
+            if (this.advancements.Top != HeaderHeight + criteria)
+                this.advancements?.MoveTo(new Point(0, HeaderHeight + criteria));
+
+            if (this.pinned?.Top != HeaderHeight + criteria + advancement)
+                this.pinned?.MoveTo(new Point(this.pinned.X, HeaderHeight + criteria + advancement));
         }
 
-        private void UpdateContentVisibility()
+        private void UpdateContentVisibility(Time time)
         {
             //handle completion screen popup
             if (Tracker.Category.IsComplete())
             {
                 this.carouselPanel?.Collapse();  
                 this.lastRefresh?.Collapse();
-                if (this.runCompletePanel?.IsCollapsed is true)
+                this.pinned?.Collapse();
+                if (this.runCompletePanel?.IsCollapsed is true || Tracker.WorldChanged)
                 {
                     this.runCompletePanel.Expand();
                     this.runCompletePanel.First<UIRunComplete>()?.Show();
@@ -366,27 +389,30 @@ namespace AATool.UI.Screens
             else
             {
                 this.carouselPanel?.Expand();
+                this.pinned?.Expand();
                 this.runCompletePanel?.Collapse();
                 this.lastRefresh?.SetVisibility(Config.Overlay.ShowLastRefresh);
-            }
 
-            //update criteria visibility
-            this.criteria?.SetVisibility(Config.Overlay.ShowCriteria);
+                //update criteria visibility
+                this.criteria?.SetVisibility(Config.Overlay.ShowCriteria);
 
-            //update item count visibility
-            if (this.counts is not null)
-            {
-                this.counts.SetVisibility(Config.Overlay.ShowPickups);
-                foreach (UIControl control in this.counts.Children)
+                //update item count visibility
+
+                if (this.pinned is not null && (this.tray is null || this.tray.IsCollapsed))
                 {
-                    if (control.IsCollapsed == Config.Overlay.ShowPickups)
+                    this.pinned.SetVisibility(Config.Overlay.ShowPickups);
+                    if (this.pinned.IsCollapsed == Config.Overlay.ShowPickups)
                     {
                         if (Config.Overlay.ShowPickups)
-                            control.Expand();
+                            this.pinned.Expand();
                         else
-                            control.Collapse();
-                        this.counts.ReflowChildren();
+                            this.pinned.Collapse();
+
+                        this.pinned.RefreshList();
                     }
+
+                    if (this.pinned.IsCollapsed)
+                        this.pinned.PositionStatusLabel(time);
                 }
             }
         }
@@ -394,7 +420,7 @@ namespace AATool.UI.Screens
         private void RememberWindowPosition()
         {
             Config.Overlay.LastWindowPosition.Set(new Point(this.Form.Location.X, this.Form.Location.Y));
-            Config.Overlay.Save();
+            Config.Overlay.TrySave();
         }
 
         private void OnResizeBegin(object sender, EventArgs e)
@@ -419,7 +445,7 @@ namespace AATool.UI.Screens
             this.advancements?.Continue();
             this.criteria?.Continue();
             Config.Overlay.Width.Set(this.Form.ClientSize.Width);
-            Config.Overlay.Save();
+            Config.Overlay.TrySave();
         }
 
         private void OnClosing(object sender, FormClosingEventArgs e)

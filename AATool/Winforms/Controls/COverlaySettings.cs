@@ -96,7 +96,7 @@ namespace AATool.Winforms.Controls
             if (Enum.TryParse(this.startupPosition.Text, out WindowSnap position))
                 Config.Overlay.StartupArrangement.Set(position);
 
-            Config.Overlay.Save();
+            Config.Overlay.TrySave();
         }
 
         private void OnClicked(object sender, EventArgs e)

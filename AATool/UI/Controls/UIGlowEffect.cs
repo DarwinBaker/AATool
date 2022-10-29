@@ -48,6 +48,9 @@ namespace AATool.UI.Controls
 
         public override void DrawThis(Canvas canvas)
         {
+            if (this.IsCollapsed)
+                return;
+
             canvas.Draw(
                 this.Texture, 
                 this.Inner.Center.ToVector2(), 

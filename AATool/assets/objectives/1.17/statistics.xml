@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<items>
-    <item id="minecraft:enchanted_golden_apple" target_count="1"    name="Pick&#160;Up God&#160;Apple"/>
-    <item id="minecraft:trident"                target_count="1"    name="Obtain Trident"               icon="very_very_frightening"/>
-    <item id="minecraft:nautilus_shell"         target_count="8"    name="Shells"/>
-    <item id="minecraft:wither_skeleton_skull"  target_count="3"    name="Skulls"                       icon="get_wither_skull"/>
-    <item id="minecraft:ancient_debris"         target_count="20"   name="Debris"   estimate="true"     icon="obtain_ancient_debris"/>
-</items>

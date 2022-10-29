@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <flow_panel layer="fore" padding_top="75" padding_left="8" cell_width="140" cell_height="150" draw_mode="childrenonly">
+    </flow_panel>
+    <textblock name="header" text="Select an objective to pin it to the overlay!" layer="fore" font_size="36" vertical_align="top" h_text_align="left" height="20" margin_top="20" padding_left="180"/>
+    <button layer="fore" name="cancel" border_thickness="4" font_size="36" text="Cancel" margin_left="8" margin_top="8" padding_top="-7" width="140" height="64" vertical_align="top" horizontal_align="left"/>
+</control>

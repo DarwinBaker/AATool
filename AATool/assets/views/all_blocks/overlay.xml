@@ -5,13 +5,10 @@
         <run_complete/>
     </panel>
     <panel name="panel_carousel" draw_mode="children_only" collapsed="true">
-        <!-- criteria carousel -->
-        <criteria_carousel name="criteria"/>
-
-        <!-- advancement carousel -->
+        <!-- block carousel -->
         <objective_carousel name="advancements"/>
 
         <!-- pinned objectives -->
         <pinned_row/>
-    </panel>  
+    </panel>
 </control>
