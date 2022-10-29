@@ -24,6 +24,7 @@ namespace AATool.Winforms.Controls
             this.layoutDebug.Checked = Config.Main.LayoutDebugMode;
             this.cacheDebug.Checked = Config.Main.CacheDebugMode;
             this.hideRenderCache.Checked = Config.Main.HideRenderCache;
+            this.hideLighting.Checked = Config.Main.HideGlowEffects;
             this.loaded = true;
         }
 
@@ -34,7 +35,8 @@ namespace AATool.Winforms.Controls
                 Config.Main.LayoutDebugMode.Set(this.layoutDebug.Checked);
                 Config.Main.CacheDebugMode.Set(this.cacheDebug.Checked);
                 Config.Main.HideRenderCache.Set(this.hideRenderCache.Checked);
-                Config.Main.Save();
+                Config.Main.HideGlowEffects.Set(this.hideLighting.Checked);
+                Config.Main.TrySave();
             }
         }
 

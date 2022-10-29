@@ -71,7 +71,8 @@ namespace AATool.Graphics
             //lighting layer
             BatchOf(Layer.Glow).Begin(SpriteSortMode.Deferred, 
                 BlendState.Additive, 
-                SamplerState.AnisotropicClamp);
+                SamplerState.AnisotropicClamp, 
+                transformMatrix:Config.Main.HideGlowEffects ? new() : null);
 
             //foreground and animated sprites layer
             BatchOf(Layer.Fore).Begin(SpriteSortMode.Deferred, 

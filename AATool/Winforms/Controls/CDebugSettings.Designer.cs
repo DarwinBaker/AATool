@@ -39,6 +39,7 @@ namespace AATool.Winforms.Controls
             this.hideRenderCache = new System.Windows.Forms.CheckBox();
             this.fastForward = new System.Windows.Forms.Button();
             this.refreshLeaderboards = new System.Windows.Forms.Button();
+            this.hideLighting = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // cacheDebug
@@ -151,11 +152,23 @@ namespace AATool.Winforms.Controls
             this.refreshLeaderboards.UseVisualStyleBackColor = true;
             this.refreshLeaderboards.Click += new System.EventHandler(this.OnClicked);
             // 
+            // hideLighting
+            // 
+            this.hideLighting.AutoSize = true;
+            this.hideLighting.Location = new System.Drawing.Point(12, 150);
+            this.hideLighting.Name = "hideLighting";
+            this.hideLighting.Size = new System.Drawing.Size(167, 17);
+            this.hideLighting.TabIndex = 43;
+            this.hideLighting.Text = "Hide All Lighting/Glow Effects";
+            this.hideLighting.UseVisualStyleBackColor = true;
+            this.hideLighting.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            // 
             // CDebugSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.hideLighting);
             this.Controls.Add(this.refreshLeaderboards);
             this.Controls.Add(this.fastForward);
             this.Controls.Add(this.label3);
@@ -184,5 +197,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.CheckBox hideRenderCache;
         private System.Windows.Forms.Button fastForward;
         private System.Windows.Forms.Button refreshLeaderboards;
+        private System.Windows.Forms.CheckBox hideLighting;
     }
 }
