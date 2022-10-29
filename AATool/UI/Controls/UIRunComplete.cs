@@ -290,22 +290,22 @@ namespace AATool.UI.Controls
             */
 
             this.First<UITextBlock>("flown").SetText(space      + state.KilometersFlown);
-            this.First<UITextBlock>("bread").SetText(space      + state.BreadEaten.ToString());
-            this.First<UITextBlock>("enchants").SetText(space   + state.ItemsEnchanted.ToString());
-            this.First<UITextBlock>("pearls").SetText(space     + state.EnderPearlsThrown.ToString());
-            this.First<UITextBlock>("temples").SetText(space    + state.TemplesRaided);
+            this.First<UITextBlock>("bread").SetText(space      + state.TimesUsed("minecraft:bread"));
+            this.First<UITextBlock>("enchants").SetText(space   + state.ItemsEnchanted);
+            this.First<UITextBlock>("pearls").SetText(space     + state.TimesUsed("minecraft:ender_pearl"));
+            this.First<UITextBlock>("temples").SetText(space    + state.TimesMined("minecraft:tnt") / 9);
 
-            this.First<UITextBlock>("creepers").SetText(space   + state.CreepersKilled.ToString());
-            this.First<UITextBlock>("drowned").SetText(space    + state.DrownedKilled.ToString());
-            this.First<UITextBlock>("withers").SetText(space    + state.WitherSkeletonsKilled.ToString());
-            this.First<UITextBlock>("fish").SetText(space       + state.FishCollected.ToString());
-            this.First<UITextBlock>("phantoms").SetText(space   + state.PhantomsKilled.ToString());
+            this.First<UITextBlock>("creepers").SetText(space   + state.TimesKilled("minecraft:creeper"));
+            this.First<UITextBlock>("drowned").SetText(space    + state.TimesKilled("minecraft:drowned"));
+            this.First<UITextBlock>("withers").SetText(space    + state.TimesKilled("minecraft:wither_skeleton"));
+            this.First<UITextBlock>("fish").SetText(space       + state.TimesKilled("minecraft:cod") + state.TimesKilled("minecraft:salmon"));
+            this.First<UITextBlock>("phantoms").SetText(space   + state.TimesKilled("minecraft:phantom"));
 
-            this.First<UITextBlock>("lecterns").SetText(space   + state.LecternsMined.ToString());
-            this.First<UITextBlock>("sugarcane").SetText(space  + state.SugarcaneCollected.ToString());
-            this.First<UITextBlock>("netherrack").SetText(space + state.NetherrackMined.ToString());
-            this.First<UITextBlock>("gold_blocks").SetText(space    + state.GoldMined.ToString());
-            this.First<UITextBlock>("ender_chests").SetText(space   + state.EnderChestsMined.ToString());
+            this.First<UITextBlock>("lecterns").SetText(space   + state.TimesMined("minecraft:lectern"));
+            this.First<UITextBlock>("sugarcane").SetText(space  + state.TimesPickedUp("minecraft:sugarcane"));
+            this.First<UITextBlock>("netherrack").SetText(space + state.TimesMined("minecraft:netherrack"));
+            this.First<UITextBlock>("gold_blocks").SetText(space    + state.TimesMined("minecraft:gold_blocks"));
+            this.First<UITextBlock>("ender_chests").SetText(space   + state.TimesMined("minecraft:ender_chest"));
 
             this.PopulateSupporterLists();
             this.Expand();

@@ -21,8 +21,7 @@ namespace AATool.UI.Controls
             {
                 this.RefreshSourceList();
 
-                
-                //remove existing overlay items that have since been completed
+                //cover overlay items that have since been completed
                 for (int i = this.Children.Count - 1; i >= 0; i--)
                 {
                     if ((this.Children[i] as UICriterion).HideFromOverlay)
@@ -31,7 +30,6 @@ namespace AATool.UI.Controls
                         this.Children[i].AddControl(cover);
                         cover.InitializeThis(this.Root());
                     }
-                        //this.Children.RemoveAt(i);
                 } 
             }
 
@@ -45,6 +43,7 @@ namespace AATool.UI.Controls
             //populate source list with all criteria
             this.SourceList.Clear();
             this.SourceList.AddRange(Tracker.RemainingCriteria.Values);
+
         }
 
         protected override void Fill()

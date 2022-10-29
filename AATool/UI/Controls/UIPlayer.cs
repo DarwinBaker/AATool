@@ -38,7 +38,7 @@ namespace AATool.UI.Controls
             this.flow = this.First<UIFlowCarousel>("items");
             this.flow.SetSpeed(20f);
             this.itemCounts = new Dictionary<string, UITextBlock>();
-            foreach (string item in Tracker.Pickups.All.Keys)
+            foreach (string item in Tracker.ComplexObjectives.AllByName.Keys)
             {
                 if (this.First(item) is UITextBlock label)
                     this.itemCounts[item] = label;
@@ -57,7 +57,7 @@ namespace AATool.UI.Controls
             {
                 foreach (KeyValuePair<string, UITextBlock> label in this.itemCounts)
                 {
-                    int count = contribution.ItemCount(label.Key);
+                    int count = contribution.PickupCounts.TryGetValue(label.Key, out int val) ? val : 0;
                     label.Value.SetText($"    x{count}");
                     if (count > 0)
                     {

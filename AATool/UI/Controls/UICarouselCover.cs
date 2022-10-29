@@ -43,13 +43,16 @@ namespace AATool.UI.Controls
             this.speed = 5f;
             //this.bottomPadding = this.objective is Criterion ? 0 : this.bottomPadding;
             this.bottomPadding = 0;
-            this.waitTime = this.objective is Criterion ? 0.5f : 0.5f;
+            this.waitTime = this.objective is Criterion ? 0.6f : 0.6f;
             this.waitRemaining = this.waitTime;
         }
 
         protected override void UpdateThis(Time time)
         {
-            this.isComplete = this.objective.IsComplete();
+            this.isComplete = this.objective is Criterion criterion 
+                ? criterion.CompletedByDesignated()
+                : this.objective.IsComplete();
+
             if (this.isComplete)
             {
                 this.targetHeight = this.target.Height + this.bottomPadding;
