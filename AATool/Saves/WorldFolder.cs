@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using AATool.Configuration;
 using AATool.Data.Categories;
@@ -39,13 +40,6 @@ namespace AATool.Saves
                 ? this.Achievements
                 : this.Advancements;
             return new HashSet<Uuid>(folder.Players.Keys);
-        }
-
-        public WorldState GetState()
-        {
-            var state = new WorldState();
-            state.Sync(this);
-            return state;
         }
 
         public void Invalidate() =>  this.Invalidated = true;
@@ -108,6 +102,21 @@ namespace AATool.Saves
             this.Invalidated = false;
 
             return this.ProgressChanged || this.PathChanged;
+        }
+
+        public WorldState GetState()
+        {
+            var state = new WorldState();
+
+            //sync progress from local world
+            if (Tracker.Category is AllAchievements)
+                this.Achievements.Update(state);
+            else
+                this.Advancements.Update(state);
+
+            //sync statistics from local world
+            this.Statistics.Update(state);
+            return state;
         }
     }
 }

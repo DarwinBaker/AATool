@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using AATool.Configuration;
@@ -17,12 +18,12 @@ namespace AATool
     {
         public static readonly AdvancementManifest Advancements = new ();
         public static readonly AchievementManifest Achievements = new ();
-        public static readonly PickupManifest Pickups = new ();
+        public static readonly ComplexObjectiveManifest ComplexObjectives = new ();
         public static readonly BlockManifest Blocks = new ();
         public static readonly DeathManifest Deaths = new ();
 
         public static Category Category { get; private set; }
-        public static WorldState State  { get; private set; }
+        public static WorldState State { get; private set; } = new();
         public static Exception LastError { get; private set; }
         public static bool DesignationsChanged { get; private set; }
         public static bool MainPlayerChanged { get; private set; }
@@ -45,8 +46,8 @@ namespace AATool
             World.ProgressChanged || World.PathChanged || World.Invalidated || CoOpStateChanged;
 
         public static bool IsWorking => LastError is null;
-        public static string CurrentCategory => Category.Name;
-        public static string CurrentVersion => Category.CurrentVersion;
+        public static string CurrentCategory => Category?.Name;
+        public static string CurrentVersion => Category?.CurrentVersion;
 
         public static AdvancementManifest CurrentAdvancementSet => Category is not AllAchievements
             ? Advancements
@@ -99,7 +100,9 @@ namespace AATool
                 return $"Refreshed {GetEstimateString(seconds).Replace("& ", "")} ago";
         }
 
-        private static readonly FileSystemWatcher Watcher = new ();
+        private static readonly FileSystemWatcher WorldWatcher = new ();
+        private static readonly FileSystemWatcher AdvancementsWatcher = new ();
+        private static readonly FileSystemWatcher StatisticsWatcher = new ();
 
         private static WorldFolder World;
         private static Timer RefreshTimer;
@@ -127,8 +130,8 @@ namespace AATool
         public static bool TryGetAdvancementGroup(string id, out HashSet<Advancement> group) =>
             Advancements.TryGet(id, out group);
 
-        public static bool TryGetPickup(string id, out Pickup item) =>
-            Pickups.TryGet(id, out item);
+        public static bool TryGetComplexObjective(string typeName, out ComplexObjective item) =>
+            ComplexObjectives.TryGet(typeName, out item);
 
         public static bool TryGetBlock(string id, out Block block) =>
             Blocks.TryGet(id, out block);
@@ -183,10 +186,20 @@ namespace AATool
             State = new WorldState();
             RefreshTimer = new Timer();
 
-            Watcher.Created += FileSystemChanged;
-            Watcher.Deleted += FileSystemChanged;
-            Watcher.Changed += FileSystemChanged;
-            Watcher.Deleted += FileSystemChanged;
+            WorldWatcher.Created += FileSystemChanged;
+            WorldWatcher.Deleted += FileSystemChanged;
+            WorldWatcher.Changed += FileSystemChanged;
+            WorldWatcher.Deleted += FileSystemChanged;
+
+            AdvancementsWatcher.Created += FileSystemChanged;
+            AdvancementsWatcher.Deleted += FileSystemChanged;
+            AdvancementsWatcher.Changed += FileSystemChanged;
+            AdvancementsWatcher.Deleted += FileSystemChanged;
+
+            StatisticsWatcher.Created += FileSystemChanged;
+            StatisticsWatcher.Deleted += FileSystemChanged;
+            StatisticsWatcher.Changed += FileSystemChanged;
+            StatisticsWatcher.Deleted += FileSystemChanged;
 
             MainPlayerChanged = true;
 
@@ -244,7 +257,7 @@ namespace AATool
                 //save change to config
                 Config.Tracking.GameCategory.Set(Category.Name);
                 Config.Tracking.GameVersion.Set(Category.CurrentVersion);
-                Config.Tracking.Save();
+                Config.Tracking.TrySave();
                 Category.LoadObjectives();
                 return true;
             }
@@ -255,7 +268,7 @@ namespace AATool
                     //fallback to all advancements
                     Category = new AllAdvancements();
                     Config.Tracking.GameCategory.Set(Category.Name);
-                    Config.Tracking.Save();
+                    Config.Tracking.TrySave();
                     Category.LoadObjectives();
                 }
                 return false;
@@ -301,9 +314,30 @@ namespace AATool
                     ReadLocalFiles(time);
                 }
                 PreviousActiveId = ActiveInstance.LastActiveId;
-                FileSystemEventRaised = false;
+                UpdateFileSystemWatchers();
             }
             Category.Update();
+        }
+
+        private static void UpdateFileSystemWatchers()
+        {
+            if (!string.IsNullOrEmpty(World.FullName))
+            {
+                string advancements = Path.Combine(World.FullName, "advancements\\");
+                if (!AdvancementsWatcher.EnableRaisingEvents && Directory.Exists(advancements))
+                {
+                    AdvancementsWatcher.Path = advancements;
+                    AdvancementsWatcher.EnableRaisingEvents = true;
+                }
+
+                string statistics = Path.Combine(World.FullName, "stats\\");
+                if (!StatisticsWatcher.EnableRaisingEvents && Directory.Exists(statistics))
+                {
+                    StatisticsWatcher.Path = statistics;
+                    StatisticsWatcher.EnableRaisingEvents = true;
+                }
+            }
+            FileSystemEventRaised = false;
         }
 
         private static void UpdateCurrentWorld()
@@ -416,8 +450,10 @@ namespace AATool
                 if (latestWorld.FullName != World.FullName)
                 {
                     World.SetPath(latestWorld);
-                    Watcher.Path = latestWorld.Parent?.FullName;
-                    Watcher.EnableRaisingEvents = true;
+                    WorldWatcher.Path = latestWorld.Parent?.FullName;
+                    WorldWatcher.EnableRaisingEvents = true;
+                    AdvancementsWatcher.EnableRaisingEvents = false;
+                    StatisticsWatcher.EnableRaisingEvents = false;
                 }
 
                 LastError = null;
@@ -506,16 +542,28 @@ namespace AATool
                 int before = State.DeathMessages.Count;
                 State.SyncDeathMessages();
                 if (State.DeathMessages.Count != before)
-                    Deaths.SetState(State);
+                    Deaths.UpdateState(State);
             }
         }
 
-        private static void SetState(WorldState state)
+        private static void SetState(WorldState world)
         {
-            Advancements.SetState(state);
-            Achievements.SetState(state);
-            Blocks.SetState(state);
-            Pickups.SetState(state);
+            ProgressState activeState;
+            if (Config.Tracking.Filter == ProgressFilter.Combined || Peer.IsRunning)
+            {
+                activeState = world;
+            }
+            else
+            {
+                Player.TryGetUuid(Config.Tracking.SoloFilterName, out Uuid player);
+                world.Players.TryGetValue(player, out Contribution individual);
+                activeState = individual;
+            }
+
+            Advancements.UpdateState(activeState);
+            Achievements.UpdateState(activeState);
+            Blocks.UpdateState(activeState);
+            ComplexObjectives.UpdateState(activeState);
         }
     }
 }

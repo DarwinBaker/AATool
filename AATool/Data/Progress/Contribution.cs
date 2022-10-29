@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
+using AATool.Data.Objectives;
 using AATool.Net;
 using Newtonsoft.Json;
 
@@ -9,44 +9,23 @@ namespace AATool.Data.Progress
 {
     [TypeConverter(typeof(Contribution))]
     [JsonObject]
-    public class Contribution
+    public class Contribution : ProgressState
     {
-        [JsonProperty] public readonly Uuid PlayerId;
-        [JsonProperty] public readonly Dictionary<string, DateTime> Advancements;
-        [JsonProperty] public readonly HashSet<(string adv, string crit)> Criteria;
-        [JsonProperty] public readonly Dictionary<string, int> ItemCounts;
-        [JsonProperty] public readonly Dictionary<string, int> ItemsDropped;
-        [JsonProperty] public readonly HashSet<string> BlocksPlaced;
+        [JsonProperty] public readonly Uuid Player;
 
-        [JsonProperty] public bool HasGodApple;
-
-        [JsonIgnore]
-        public int CompletedCount => this.Advancements.Count;
-        
         [JsonConstructor]
-        public Contribution(Uuid playerId,
-            Dictionary<string, DateTime> Advancements, 
-            HashSet<(string, string)> Criteria,
-            Dictionary<string, int> ItemCounts,
-            Dictionary<string, int> ItemsDropped,
-            HashSet<string> BlocksPlaced)
+        public Contribution(Uuid Player,
+            Dictionary<string, Completion> Advancements,
+            Dictionary<(string, string), Completion> Criteria,
+            Dictionary<string, Completion> Recipes) 
+            : base(Advancements, Criteria, Recipes)
         {
-            this.PlayerId      = playerId;
-            this.Advancements  = Advancements;
-            this.Criteria      = Criteria;
-            this.ItemCounts    = ItemCounts;
-            this.ItemsDropped    = ItemsDropped;
-            this.BlocksPlaced  = BlocksPlaced;
+            this.Player = Player;
         }
 
-        public Contribution(Uuid playerId)
+        public Contribution(Uuid Player) : base()
         {
-            this.PlayerId     = playerId;
-            this.Advancements = new ();
-            this.Criteria     = new ();
-            this.ItemCounts   = new ();
-            this.ItemsDropped = new();
-            this.BlocksPlaced = new ();
+            this.Player = Player;
         }
 
         public static Contribution FromJsonString(string jsonString) =>
@@ -55,31 +34,31 @@ namespace AATool.Data.Progress
         public string ToJsonString() => 
             JsonConvert.SerializeObject(this);
 
-        public bool IncludesAdvancement(string id) => 
-            this.Advancements.ContainsKey(id);
-
-        public bool IncludesBlock(string id) =>
-            this.BlocksPlaced.Contains(id);
-
-        public bool IncludesCriterion(string advancement, string criterion) => 
-            this.Criteria.Contains((advancement, criterion));
-
-        public int ItemCount(string item) => 
-            this.ItemCounts.TryGetValue(item, out int val) ? val : 0;
-
-        public void AddAdvancement(string advancement, DateTime whenFirstCompleted) =>
-            this.Advancements.Add(advancement, whenFirstCompleted);
-
-        public void AddCriterion(string advancement, string criterion) => 
-            this.Criteria.Add((advancement, criterion));
-
-        public void AddItemCount(string item, int count) =>
-            this.ItemCounts[item] = count;
-
-        public void AddDropCount(string item, int count) =>
-            this.ItemsDropped[item] = count;
-
-        public void AddBlock(string block) =>
-            this.BlocksPlaced.Add(block);
+        public override HashSet<Completion> CompletionsOf(IObjective objective)
+        {
+            //compile a list of all players who have completed this objective
+            var completionists = new HashSet<Completion>();
+            if (objective is Advancement advancement)
+            {
+                if (this.Advancements.TryGetValue(advancement.Id, out Completion completion))
+                    completionists.Add(completion);
+            }
+            else if (objective is Criterion criterion)
+            {
+                if (this.Criteria.TryGetValue((criterion.OwnerId, criterion.Id), out Completion completion))
+                    completionists.Add(completion);
+            }
+            else if (objective is Block block)
+            {
+                if (this.WasUsed(block.Id))
+                    completionists.Add(new Completion(this.Player, default));
+            }
+            else if (objective is Death death)
+            {
+                if (this.DeathMessages.Contains(death.Id))
+                    completionists.Add(new Completion(this.Player, default));
+            }
+            return completionists;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using AATool.Net;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 
@@ -6,17 +7,22 @@ namespace AATool.Saves
 {
     public class JsonStream
     {
-        private DateTime lastWriteTime;
+        public readonly Uuid Player;
+        public readonly string FullName;
+
+        public DateTime LastWriteTime { get; private set; }
+
         private dynamic jsonData;
         private bool isAlive;
 
-        protected readonly string FullName;
-
         public dynamic this[string key] => this.jsonData?[key];
 
-        public JsonStream(string fullName)
+        public override string ToString() => this.jsonData?.ToString() ?? string.Empty;
+
+        public JsonStream(string fullName, Uuid player)
         {
             this.FullName = fullName;
+            this.Player = player;
         }
 
         private void Close(StreamReader reader) => reader?.Close();
@@ -65,9 +71,9 @@ namespace AATool.Saves
         {
             if (this.TryGetLastWriteTime(out DateTime latestWriteTime))
             {
-                if (this.lastWriteTime != latestWriteTime)
+                if (this.LastWriteTime != latestWriteTime)
                 {
-                    this.lastWriteTime = latestWriteTime;
+                    this.LastWriteTime = latestWriteTime;
                     return true;
                 }
             }

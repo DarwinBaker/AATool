@@ -45,7 +45,7 @@ namespace AATool.Data.Progress
 
         private void UpdatePickups(WorldState state)
         {
-            foreach (KeyValuePair<string, int> latest in state.PickupTotals)
+            foreach (KeyValuePair<string, int> latest in state.PickupCounts)
             {
                 this.currentPickups.TryGetValue(latest.Key, out int current);
                 int difference = current - latest.Value;

@@ -60,7 +60,7 @@ namespace AATool.Data.Categories
                     ? $"{number.Major}.{number.Minor}"
                     : this.CurrentVersion;
                 Config.Tracking.GameVersion.Set(this.CurrentVersion);
-                Config.Tracking.Save();
+                Config.Tracking.TrySave();
                 return true;
             }
             return false;

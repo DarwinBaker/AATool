@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security;
 using AATool.Configuration;
+using AATool.Data.Progress;
 using AATool.Net;
 using AATool.Net.Requests;
 
@@ -56,6 +57,18 @@ namespace AATool.Saves
 
             return modified;
         }
+
+        public void Update(WorldState state)
+        {
+            foreach (KeyValuePair<Uuid, JsonStream> player in this.Players)
+            {
+                if (!state.Players.TryGetValue(player.Key, out Contribution contribution))
+                    state.Players[player.Key] = contribution = new Contribution(player.Key);
+                this.Update(player.Value, state, contribution);
+            }
+        }
+
+        protected abstract void Update(JsonStream json, WorldState state, Contribution contribution);
 
         private Dictionary<Uuid, FileInfo> GetPlayerJsons()
         {
@@ -114,7 +127,7 @@ namespace AATool.Saves
                     if (this.Players.ContainsKey(file.Key))
                         continue;
 
-                    var stream = new JsonStream(file.Value.FullName);
+                    var stream = new JsonStream(file.Value.FullName, file.Key);
                     this.Players[file.Key] = stream;
                     modified = true;
                 }

@@ -19,8 +19,7 @@ namespace AATool.Data.Objectives
         public override string GetFullCaption() => this.Name;
         public override string GetShortCaption() => this.ShortName;
 
-        public override bool CompletedByAnyone() => 
-            this.FirstCompletion.who != Uuid.Empty || this.ManuallyChecked;
+        public override bool IsComplete() => base.IsComplete() || this.ManuallyChecked;
 
         public Death(XmlNode node) : base (node)
         {

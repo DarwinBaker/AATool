@@ -93,7 +93,7 @@ namespace AATool.Data.Objectives
             }
         }
 
-        public void SetState(WorldState progress)
+        public void UpdateState(ProgressState progress)
         {
             this.RemainingAdvancements.Clear();
             this.CombinedCompletedCount = 0;

@@ -63,16 +63,16 @@ namespace AATool.Data.Objectives
             foreach (Criterion criterion in this.All.Values)
             {
                 criterion.UpdateState(progress);
-                foreach (Uuid player in criterion.Completions.Keys)
+                foreach (Completion completion in criterion.Completions)
                 {
-                    this.Progress.TryGetValue(player, out int current);
-                    this.Progress[player] = current + 1;
+                    this.Progress.TryGetValue(completion.Player, out int current);
+                    this.Progress[completion.Player] = current + 1;
                 }
             }
             this.FindPlayerWithMost(progress);
         }
 
-        private void FindPlayerWithMost(WorldState progress)
+        public void FindPlayerWithMost(WorldState progress)
         {
             if (!this.Any)
                 return;

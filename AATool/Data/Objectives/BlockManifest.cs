@@ -67,7 +67,7 @@ namespace AATool.Data.Objectives
             }
         }
 
-        public void SetState(WorldState progress)
+        public void UpdateState(ProgressState progress)
         {
             foreach (Block block in this.All.Values)
                 block.UpdateState(progress);

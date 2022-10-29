@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AATool.Data;
 using AATool.Data.Objectives;
+using AATool.Data.Progress;
 using AATool.Net;
+using AATool.UI.Controls;
 
 namespace AATool.Saves
 {
@@ -16,8 +19,30 @@ namespace AATool.Saves
                 return value > 0;
             return false;
         }
+        
+        private HashSet<(string adv, string crit)> GetCompletedCriteria(Advancement advancement, JsonStream json)
+        {
+            HashSet<(string, string)> completed = new ();
+            dynamic criteriaList = json?[advancement.Id]?["progress"];
+            if (criteriaList is not null)
+            {
+                //advancement has criteria. add them
+                foreach (string line in criteriaList.ToString().Split('\n'))
+                {
+                    string[] tokens = line.Trim().Split('"');
+                    if (tokens.Length > 1)
+                    {
+                        string criterion = tokens[1];
+                        if (advancement.Criteria.Contains(criterion))
+                            completed.Add((advancement.Id, criterion));
+                    }
+                }
+            }
+            return completed;
+        }
 
-        public bool TryGetAchievementCompletionFor(string achievement, out List<Uuid> players)
+        /*
+        private bool TryGetAchievementCompletionFor(string achievement, out List<Uuid> players)
         {
             bool completed = false;
             players = new ();
@@ -40,26 +65,28 @@ namespace AATool.Saves
                 completions[json.Key] = this.GetCompletedCriteria(advancement, json.Value);
             return completions;
         }
+        */
 
-        private HashSet<(string, string)> GetCompletedCriteria(Advancement advancement, JsonStream json)
+        protected override void Update(JsonStream json, WorldState state, Contribution contribution)
         {
-            HashSet<(string, string)> completed = new ();
-            dynamic criteriaList = json?[advancement.Id]?["progress"];
-            if (criteriaList is not null)
+            foreach (Achievement achievement in Tracker.Achievements.AllAdvancements.Values.Cast<Achievement>())
             {
-                //advancement has criteria. add them
-                foreach (string line in criteriaList.ToString().Split('\n'))
+                if (IsCompleted(achievement.Id, json))
                 {
-                    string[] tokens = line.Trim().Split('"');
-                    if (tokens.Length > 1)
+                    state.Advancements.Add(achievement.Id, new Completion(json.Player, default));
+                    contribution.Advancements.Add(achievement.Id, new Completion(json.Player, default));
+                }
+
+                if (achievement.HasCriteria)
+                {
+                    foreach ((string adv, string crit) criterion in this.GetCompletedCriteria(achievement, json))
                     {
-                        string criterion = tokens[1];
-                        if (advancement.Criteria.Contains(criterion))
-                            completed.Add((advancement.Id, criterion));
+                        state.Criteria.Add(criterion, new Completion(json.Player, default));
+                        contribution.Criteria.Add((criterion.adv, criterion.crit), 
+                            new Completion(json.Player, default));
                     }
                 }
             }
-            return completed;
         }
     }
 }

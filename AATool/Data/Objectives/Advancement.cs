@@ -87,10 +87,10 @@ namespace AATool.Data.Objectives
                 : Tracker.GetMainPlayer();
         }
 
-        public override void UpdateState(WorldState progress)
+        public override void UpdateState(ProgressState progress)
         {
             base.UpdateState(progress);
-            this.Criteria.UpdateStates(progress);
+            this.Criteria.UpdateStates(Tracker.State);
 
             if (!this.HasCriteria)
                 return;

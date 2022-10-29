@@ -27,7 +27,7 @@ namespace AATool.Data.Categories
         public override void LoadObjectives()
         {
             Tracker.Achievements.RefreshObjectives();
-            Tracker.Pickups.RefreshObjectives();
+            Tracker.ComplexObjectives.RefreshObjectives();
         }
     }
 }

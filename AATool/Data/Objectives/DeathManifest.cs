@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
-using AATool.Data.Objectives.Pickups;
+using AATool.Data.Objectives.Complex;
 using AATool.Data.Progress;
 using AATool.Utilities;
 
@@ -36,7 +36,7 @@ namespace AATool.Data.Objectives
             }
         }
 
-        public void SetState(WorldState progress)
+        public void UpdateState(ProgressState progress)
         {
             foreach (Death death in this.All.Values)
                 death.UpdateState(progress);
@@ -49,7 +49,7 @@ namespace AATool.Data.Objectives
             foreach (Death death in this.All.Values)
             {
                 //update completion count
-                if (death.CompletedByAnyone())
+                if (death.IsComplete())
                     this.TotalExperienced++;
             }
         }

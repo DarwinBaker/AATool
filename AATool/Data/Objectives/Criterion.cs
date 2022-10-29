@@ -35,10 +35,5 @@ namespace AATool.Data.Objectives
             if (string.IsNullOrEmpty(this.Icon))
                 this.Icon = implicitName.ToLower().Replace(' ', '_');
         }
-
-        public override void UpdateState(WorldState progress)
-        {
-            base.UpdateState(progress);
-        }
     }
 }

@@ -27,7 +27,7 @@ namespace AATool.Data.Objectives
         public string GetFullCaption();
         public string GetShortCaption();
 
-        public void UpdateState(WorldState state);
+        public void UpdateState(ProgressState state);
     }
 
     public abstract class Objective : IObjective
@@ -41,34 +41,13 @@ namespace AATool.Data.Objectives
         public bool CompletionOverride { get; protected set; }
         public bool ManuallyChecked { get; set; }
 
-        public Dictionary<Uuid, DateTime> Completions { get; protected set; }
-        public (Uuid who, DateTime when) FirstCompletion { get; protected set; }
+        public HashSet<Completion> Completions { get; protected set; }
+        public Completion FirstCompletion { get; protected set; }
 
         public readonly FrameType Frame;
 
         public abstract string GetFullCaption();
         public abstract string GetShortCaption();
-
-        public virtual bool IsComplete()
-        {
-            return Config.Tracking.Filter == ProgressFilter.Combined || Peer.IsRunning
-                ? this.CompletedByAnyone()
-                : this.CompletedBySoloPlayer();
-        }
-
-        public virtual bool CompletedByAnyone() => this.Completions.Any();
-
-        public virtual bool CompletedBy(Uuid player) => this.Completions.ContainsKey(player);
-
-        public virtual bool CompletedBySoloPlayer() =>
-            Player.TryGetUuid(Config.Tracking.SoloFilterName, out Uuid player) ? this.CompletedBy(player) : false;
-
-        public Uuid FirstToComplete() => this.FirstCompletion.who;
-
-        public DateTime WhenFirstCompleted() => this.FirstCompletion.when;
-
-        public DateTime WhenCompletedBy(Uuid player) =>
-           this.Completions.TryGetValue(player, out DateTime completed) ? completed : default;
 
         public string GetId() => this.Id;
         public string GetIcon() => this.Icon;
@@ -78,21 +57,25 @@ namespace AATool.Data.Objectives
         public virtual void ToggleManualCheck()
         {
             this.ManuallyChecked ^= true;
-            this.UpdateState(Tracker.State);
-        }
 
-        protected virtual void HandleCompletionOverrides()
-        {
-            this.CompletionOverride = this.ManuallyChecked;
+            ProgressState progress;
+            if (Config.Tracking.Filter == ProgressFilter.Combined || Peer.IsRunning)
+            {
+                progress = Tracker.State;
+            }
+            else
+            {
+                Player.TryGetUuid(Config.Tracking.SoloFilterName, out Uuid player);
+                Tracker.State.Players.TryGetValue(player, out Contribution individual);
+                progress = individual;
+            }
+            this.UpdateState(progress);
         }
 
         public Objective() { }
 
-        public Objective(XmlNode node)
+        public Objective(XmlNode node = null)
         {
-            if (node is null)
-                throw new ArgumentNullException("Objective source cannot be null.");
-
             this.Completions = new ();
 
             //parse properties from xml
@@ -106,7 +89,7 @@ namespace AATool.Data.Objectives
             if (string.IsNullOrEmpty(this.Icon))
                 this.Icon = this.Id.Split('/').LastOrDefault() ?? string.Empty;
 
-            if (this is Pickup)
+            if (this is ComplexObjective)
             {
                 this.Frame = FrameType.Statistic;
             }
@@ -120,14 +103,52 @@ namespace AATool.Data.Objectives
             }
         }
 
-        public virtual void UpdateState(WorldState progress) 
+        public virtual bool IsComplete() => this.Completions.Any() || this.CompletionOverride;
+        
+        //public virtual bool CompletedBySoloPlayer() =>
+        //    Player.TryGetUuid(Config.Tracking.SoloFilterName, out Uuid player) ? this.CompletedBy(player) : false;
+
+        public Uuid FirstToComplete() => this.FirstCompletion.Player;
+        public DateTime WhenFirstCompleted() => this.FirstCompletion.Timestamp;
+
+        public virtual bool CompletedByAnyone() => this.Completions.Any();
+
+        public bool CompletedBy(Uuid player)
+        {
+            foreach (Completion completion in this.Completions)
+            {
+                if (player == completion.Player)
+                    return true;
+            }
+            return false;
+        }
+
+        public DateTime WhenCompletedBy(Uuid player)
+        {
+            foreach (Completion completion in this.Completions)
+            {
+                if (player == completion.Player)
+                    return completion.Timestamp;
+            }
+            return default;
+        }
+
+        public virtual void UpdateState(ProgressState progress) 
         {
             if (Tracker.WorldChanged || Tracker.SavesFolderChanged || !Tracker.IsWorking)
                 this.ManuallyChecked = false;
 
-            this.Completions = progress.CompletionsOf(this);
-            KeyValuePair<Uuid, DateTime> first = this.Completions.OrderBy(e => e.Value).FirstOrDefault();
-            this.FirstCompletion = (first.Key, first.Value);
+            if (progress is not null)
+            {
+                this.Completions = progress.CompletionsOf(this);
+                Completion first = this.Completions.OrderBy(e => e.Timestamp).FirstOrDefault();
+                this.FirstCompletion = first;
+            }
+            else
+            {
+                this.Completions.Clear();
+                this.FirstCompletion = default;
+            }
         }
     }
 }

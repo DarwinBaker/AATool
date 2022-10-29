@@ -14,7 +14,7 @@ namespace AATool.Data.Objectives
         public bool Highlighted { get; set; }
         public bool DoubleHeight { get; private set; }
         public float LightLevel { get; private set; }
-        public int PickupCount { get; private set; }
+        public bool PickedUp { get; private set; }
         public bool Obtained { get; private set; }
         public string SearchTags { get; private set; }
 
@@ -23,11 +23,9 @@ namespace AATool.Data.Objectives
         public override string GetFullCaption() => this.Name;
         public override string GetShortCaption() => this.ShortName;
 
-        public bool HasBeenPlaced => this.FirstCompletion.who != Uuid.Empty;
+        public bool HasBeenPlaced => !this.FirstCompletion.IsEmpty;
 
         public override bool CompletedByAnyone() => this.HasBeenPlaced || this.ManuallyChecked;
-
-        public bool PickedUpByAnyone() => this.PickupCount > 0;
 
         public void ToggleHighlight() => this.Highlighted ^= true;
 
@@ -44,15 +42,23 @@ namespace AATool.Data.Objectives
             this.SearchTags = XmlObject.Attribute(node, "tags", string.Empty);
         }
 
-        public override void UpdateState(WorldState progress)
+        public override void UpdateState(ProgressState progress)
         {
-            this.PickupCount = progress.PickedUp(this.Id);
-            Dictionary<Uuid, DateTime> placers = progress.CompletionsOf(this);
+            if (progress is null)
+            {
+                this.FirstCompletion = default;
+                this.PickedUp = false;
+                this.Obtained = false;
+                return;
+            }
+
+            this.PickedUp = progress.WasPickedUp(this.Id);
+            HashSet<Completion> placers = progress.CompletionsOf(this);
             if (placers.Any())
             {
-                if (this.FirstCompletion.who == Uuid.Empty)
+                if (this.FirstCompletion.IsEmpty)
                 { 
-                    this.FirstCompletion = (placers.First().Key, default);
+                    this.FirstCompletion = placers.First();
                     this.Highlighted = false;
                 }
             }
@@ -60,7 +66,7 @@ namespace AATool.Data.Objectives
             {
                 this.FirstCompletion = default;
             }
-            this.Obtained = this.PickedUpByAnyone() || this.HasBeenPlaced;
+            this.Obtained = this.PickedUp || this.HasBeenPlaced;
         }
     }
 }

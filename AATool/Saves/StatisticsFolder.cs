@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using AATool.Data.Categories;
+using AATool.Data.Objectives;
+using System.Linq;
+using AATool.Data.Progress;
 using AATool.Net;
+using Microsoft.Xna.Framework;
 
 namespace AATool.Saves
 {
@@ -8,234 +13,123 @@ namespace AATool.Saves
     {
         private const double TicksPerSecond = 20.0;
 
-        public TimeSpan GetInGameTime()
+        public TimeSpan GetInGameTime(JsonStream json)
         {
-            long mostTicks = 0;
-            foreach (JsonStream json in this.Players.Values)
-            {
-                if (json is null)
-                    continue;
+            if (json is null)
+                return TimeSpan.Zero;
 
-                //1.17+
-                long ticks = json["stats"]?["minecraft:custom"]?["minecraft:play_time"]?.Value ?? 0;
+            //1.17+
+            long ticks = json["stats"]?["minecraft:custom"]?["minecraft:play_time"]?.Value ?? 0;
 
-                //1.12 - 1.16
-                if (ticks is 0)
-                    ticks = json["stats"]?["minecraft:custom"]?["minecraft:play_one_minute"]?.Value ?? 0;
+            //1.12 - 1.16
+            if (ticks is 0)
+                ticks = json["stats"]?["minecraft:custom"]?["minecraft:play_one_minute"]?.Value ?? 0;
 
-                //pre-1.12
-                if (ticks is 0)
-                    ticks = json["stat.playOneMinute"]?.Value ?? 0;
+            //pre-1.12
+            if (ticks is 0)
+                ticks = json["stat.playOneMinute"]?.Value ?? 0;
 
-                if (ticks > mostTicks)
-                    mostTicks = ticks;
-            }
-            return TimeSpan.FromSeconds(mostTicks / TicksPerSecond);
+            return TimeSpan.FromSeconds(ticks / TicksPerSecond);
         }
 
-        public bool TryGetUseCount(string id, out List<Uuid> players)
+        public int GetKilometersFlown(JsonStream json)
         {
-            players = new ();
-            foreach (KeyValuePair<Uuid, JsonStream> json in this.Players)
-            {
-                int count = (int)(json.Value
-                    ?["stats"]
-                    ?["minecraft:used"]
-                    ?[id]
-                    ?.Value ?? 0);
-
-                if (count > 0)
-                    players.Add(json.Key);
-            }
-            return players.Count > 0;
+            double cm = (int)(json?["stats"]?["minecraft:custom"]?["minecraft:aviate_one_cm"]?.Value ?? 0);
+            return (int)Math.Round(cm / 100 / 1000);
         }
 
-        public int GetTotalJumps()
+        public int GetCustomStat(JsonStream json, string name) => 
+            (int)(json?["stats"]?["minecraft:custom"]?[name]?.Value ?? 0);
+
+        protected override void Update(JsonStream json, WorldState state, Contribution contribution)
         {
-            int total = 0;
-            foreach (JsonStream json in this.Players.Values)
-            {
-                total += (int)(json
-                    ?["stats"]
-                    ?["minecraft:custom"]
-                    ?["minecraft:jump"]
-                    ?.Value ?? 0);
-            }
-            return total;
+            this.UpdateGlobalStats(json, state);
+            this.UpdateCounts("minecraft:picked_up", "pickup", json, state.PickupCounts, contribution.PickupCounts);
+            this.UpdateCounts("minecraft:dropped", "drop", json, state.DropCounts, contribution.DropCounts);
+            this.UpdateCounts("minecraft:mined", "mineBlock", json, state.MineCounts, contribution.MineCounts);
+            this.UpdateCounts("minecraft:crafted", string.Empty, json, state.CraftCounts, contribution.CraftCounts);
+            this.UpdateCounts("minecraft:used", "useItem", json, state.UseCounts, contribution.UseCounts);
+            this.UpdateCounts("minecraft:killed", "killEntity", json, state.KillCounts, contribution.KillCounts);
         }
 
-        public int GetTotalSleeps()
+        private void UpdateGlobalStats(JsonStream json, WorldState state)
         {
-            int total = 0;
-            foreach (JsonStream json in this.Players.Values)
-            {
-                total += (int)(json
-                    ?["stats"]
-                    ?["minecraft:custom"]
-                    ?["minecraft:sleep_in_bed"]
-                    ?.Value ?? 0);
-            }
-            return total;
+            //use longest igt of all applicable players
+            TimeSpan igt = this.GetInGameTime(json);
+            if (igt > state.InGameTime)
+                state.InGameTime = igt;
+
+            state.KilometersFlown += this.GetKilometersFlown(json);
+            state.ItemsEnchanted += this.GetCustomStat(json, "minecraft:enchant_item");
+            state.SaveAndQuits += this.GetCustomStat(json, "minecraft:leave_game");
+            state.DamageDealt += this.GetCustomStat(json, "minecraft:damage_dealt");
+            state.DamageTaken += this.GetCustomStat(json, "minecraft:damage_taken");
+            state.Sleeps += this.GetCustomStat(json, "minecraft:sleep_in_bed");
+            state.Deaths += this.GetCustomStat(json, "minecraft:deaths");
+            state.Jumps += this.GetCustomStat(json, "minecraft:jump");
         }
 
-        public int GetTotalDamageTaken()
+        private void UpdateCounts(string modernKey, string oldKey, JsonStream json,
+            Dictionary<string, int> globalCounts, Dictionary<string, int> playerCounts)
         {
-            int total = 0;
-            foreach (JsonStream json in this.Players.Values)
+            dynamic modernCounts = json?["stats"]?[modernKey];
+            if (modernCounts is not null)
             {
-                total += (int)(json
-                    ?["stats"]
-                    ?["minecraft:custom"]
-                    ?["minecraft:damage_taken"]
-                    ?.Value ?? 0);
+                //count how many of each item this player has picked up
+                foreach (dynamic pickup in modernCounts)
+                {
+                    if (pickup.Name is not string name)
+                        continue;
+                    if (!int.TryParse(pickup.Value?.ToString(), out int count))
+                        continue;
+
+                    globalCounts.TryGetValue(name, out int total);
+                    globalCounts[name] = total + count;
+                    playerCounts.TryGetValue(name, out int current);
+                    playerCounts[name] = current + count;
+                }
             }
-            return total;
-        }
-
-        public int GetTotalDamageDealt()
-        {
-            int total = 0;
-            foreach (JsonStream json in this.Players.Values)
+            else if (!string.IsNullOrEmpty(oldKey))
             {
-                total += (int)(json
-                    ?["stats"]
-                    ?["minecraft:custom"]
-                    ?["minecraft:damage_dealt"]
-                    ?.Value ?? 0);
-            }
-            return total;
-        }
-
-        public int GetTotalKilometersFlown()
-        {
-            double cm = 0;
-            foreach (JsonStream json in this.Players.Values)
-            {
-                cm += (int)(json
-                    ?["stats"]
-                    ?["minecraft:custom"]
-                    ?["minecraft:aviate_one_cm"]
-                    ?.Value ?? 0);
-            }
-            return (int)Math.Round(cm / 1000 / 1000);
-        }
-
-        public int GetTotalDeaths()
-        {
-            int total = 0;
-            foreach (JsonStream json in this.Players.Values)
-            {
-                total += (int)(json
-                    ?["stats"]
-                    ?["minecraft:custom"]
-                    ?["minecraft:deaths"]
-                    ?.Value ?? 0);
-            }
-            return total;
-        }
-
-        public int GetTotalSaveAndQuits()
-        {
-            int total = 0;
-            foreach (JsonStream json in this.Players.Values)
-            {
-                total += (int)(json?["stats"]
-                    ?["minecraft:custom"]
-                    ?["	minecraft:leave_game"]
-                    ?.Value ?? 0);
-            }
-            return total;
-        }
-
-        public int KillsOf(string mob)
-        {
-            int total = 0;
-            foreach (JsonStream json in this.Players.Values)
-            {
-                total += (int)(json?["stats"]
-                    ?["minecraft:killed"]
-                    ?["minecraft:" + mob]
-                    ?.Value ?? 0);
-            }
-            return total;
-        }
-
-        public int TimesUsed(string id)
-        {
-            int total = 0;
-            foreach (JsonStream json in this.Players.Values)
-            {
-                total += (int)(json?["stats"]
-                    ?["minecraft:used"]
-                    ?["minecraft:" + id]
-                    ?.Value ?? 0);
-            }
-            return total;
-        }
-
-        public int TimesMined(string block)
-        {
-            int total = 0;
-            foreach (JsonStream json in this.Players.Values)
-            {
-                total += (int)(json?["stats"]
-                    ?["minecraft:mined"]
-                    ?["minecraft:" + block]
-                    ?.Value ?? 0);
-            }
-            return total;
-        }
-
-        public int TimesPickedUp(string item, out Dictionary<Uuid, int> playerItemCounts)
-        {
-            //count how many of this item everybody has picked up
-            int total = 0;
-            playerItemCounts = new Dictionary<Uuid, int>();
-            foreach (KeyValuePair<Uuid, JsonStream> json in this.Players)
-            {
-                int count = 0;
-                count = (int)(json.Value?["stats"]?["minecraft:picked_up"]?[item]?.Value ?? 0);
-
                 //handle pre-1.12 formatting
-                if (count is 0)
-                    count = (int)(json.Value?["stat.pickup." + item]?.Value ?? 0);
-
-                playerItemCounts[json.Key] = count;
-                total += count;
+                Dictionary<string, int> oldVersionCounts = this.GetOldVersionCounts(oldKey, json.ToString());
+                foreach (KeyValuePair<string, int> pickup in oldVersionCounts)
+                {
+                    globalCounts.TryGetValue(pickup.Key, out int total);
+                    globalCounts[pickup.Key] = total + pickup.Value;
+                    playerCounts.TryGetValue(pickup.Key, out int current);
+                    playerCounts[pickup.Key] = current + pickup.Value;
+                }
             }
-            return total;
         }
 
-        public int TimesDropped(string item, out Dictionary<Uuid, int> playerItemCounts)
+        private Dictionary<string, int> GetOldVersionCounts(string group, string json)
         {
-            //count how many of this item everybody has picked up
-            int total = 0;
-            playerItemCounts = new Dictionary<Uuid, int>();
-            foreach (KeyValuePair<Uuid, JsonStream> json in this.Players)
+            var list = new Dictionary<string, int>();
+            string prefix = $"stat.{group}.";
+            string jsonContent = json.ToString();
+            int index = 0;
+            int pickupNameStart;
+            do
             {
-                int count = 0;
-                count = (int)(json.Value?["stats"]?["minecraft:dropped"]?[item]?.Value ?? 0);
+                pickupNameStart = jsonContent.IndexOf(prefix, index);
+                if (pickupNameStart > -1)
+                {
+                    int valueStart = jsonContent.IndexOf("\":", pickupNameStart);
+                    int valueEnd = jsonContent.IndexOf(",", pickupNameStart);
+                    int valueLength = valueEnd - valueStart - 2;
 
-                //handle pre-1.12 formatting
-                if (count is 0)
-                    count = (int)(json.Value?["stat.drop." + item]?.Value ?? 0);
-
-                playerItemCounts[json.Key] = count;
-                total += count;
+                    if (valueLength > 0)
+                    {
+                        string name = jsonContent.Substring(pickupNameStart + prefix.Length, valueStart - pickupNameStart - prefix.Length);
+                        if (int.TryParse(jsonContent.Substring(valueStart + 2, valueLength), out int count))
+                            list[name] = count;
+                    }
+                    index = valueEnd;
+                }
             }
-            return total;
-        }
-
-        public int GetItemsEnchanted()
-        {
-            int total = 0;
-            foreach (JsonStream json in this.Players.Values)
-            {
-                total += (int)(json?["stats"]?["minecraft:custom"]
-                    ?["minecraft:enchant_item"]
-                    ?.Value ?? 0);
-            }
-            return total;
-        }
+            while (pickupNameStart > -1);
+            return list;
+        } 
     }
 }

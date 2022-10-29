@@ -36,7 +36,7 @@ namespace AATool.Data.Categories
         public override void LoadObjectives()
         {
             Tracker.Advancements.RefreshObjectives();
-            Tracker.Pickups.RefreshObjectives();
+            Tracker.ComplexObjectives.RefreshObjectives();
         }
     }
 }
