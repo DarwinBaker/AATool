@@ -323,7 +323,7 @@
 
             <panel height="58" padding="8">
                 <button name="show_help" global="true" text="Rules/Help   " font_size="24" border_thickness="3">
-                    <picture texture="help" width="26" height="26" horizontal_align="right" margin_right="8"/>
+                    <picture texture="help" label_tint="true" width="26" height="26" horizontal_align="right" margin_right="8"/>
                 </button>
             </panel>
 
@@ -343,10 +343,10 @@
             </panel>
 
             <flow_panel height="5 * 38" cell_width="80" cell_height="86" padding_left="10" padding_top="4">
-                <objective_frame pickup="minecraft:nautilus_shell"/>
-                <objective_frame pickup="minecraft:wither_skeleton_skull"/>
-                <objective_frame pickup="minecraft:trident"/>
-                <objective_frame pickup="minecraft:shulker_shell"/>
+                <objective_frame complex="NautilusShells"/>
+                <objective_frame complex="WitherSkulls"/>
+                <objective_frame complex="Trident"/>
+                <objective_frame complex="ShulkerShells"/>
             </flow_panel>
 
             <panel height="38" padding_top="5" border_thickness="19" inner_corners="false">

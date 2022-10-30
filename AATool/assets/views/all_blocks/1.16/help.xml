@@ -21,7 +21,7 @@
             <!-- category rules -->
             <panel padding="20,20,16,16" margin_left="5" margin_top="5" width="350" height="415" horizontal_align="left" vertical_align="top">
                 <textblock text="Speedrun Category Rules" font_size="24" vertical_align="top"/>
-                <textblock text="Obtain in your inventory then place all blocks in one area.&#xA; &#xA;1 --- All required blocks (or their equivalent item form) must enter your inventory during the run.&#xA; &#xA;2 --- All required blocks must be placed in the same general area. You cannot place blocks down randomly as you travel, you must manage your inventory and bring them back to a central location of your choosing for placing.&#xA; &#xA;3 --- All required blocks must exist in the world at the same time at the end of the run. For example, you can't re-dye the same shulker box repeatedly, you must have all 17 of them placed on the ground at the same time.&#xA; &#xA;" 
+                <textblock text="Obtain in your inventory then place all blocks in one area.&#xA; &#xA;1 --- All required blocks (or their equivalent item form) must enter your inventory during the run.&#xA; &#xA;2 --- All required blocks must be placed in the same general area. You cannot place blocks down randomly as you travel, you must manage your inventory and bring them back to a central location of your choosing for placing.&#xA; &#xA;3 --- All required blocks must exist in the world at the same time at the end of the run. For example, you can't re-dye the same shulker box repeatedly, you must have&#xA;all 17 of them placed on the ground at the same time.&#xA; &#xA;" 
                     text_align="left" v_text_align="top" padding_top="30" padding_left="8"/>
                 <textblock text="In addition to these requirements, runs are verified using the general game rules specified by the MCSR moderators"
                     text_align="left" v_text_align="top" padding_top="210" padding_left="8"/>
@@ -51,7 +51,7 @@
                     </panel>
                     <panel height="38" draw_mode="childrenonly">
                         <picture texture="ab_example_zoom" label_tint="true" width="38" height="38" margin_right="32" horizontal_align="left"/>
-                        <textblock text="Hold right-click to see a larger view of a block, as well as its name." width="150" margin_left="48" padding_bottom="2" text_align="left" margin_right="32" horizontal_align="left"/>
+                        <textblock text="Hold right-click to see a close up view of a block,&#xA;as well as its name." width="150" margin_left="48" padding_bottom="2" text_align="left" margin_right="32" horizontal_align="left"/>
                     </panel>
                 </flow_panel>
                 <textblock width="300" v_text_align="bottom" padding_bottom="40" text="Building this tracker took an insane amount of work! If you enjoy it please consider supporting me on Patreon!"/>
@@ -66,7 +66,7 @@
                     <picture texture="charged_creeper" width="48" height="48" layer="fore" horizontal_align="right" margin_right="20" vertical_align="top" margin_top="4"/>
                 </panel>
                 <panel height="167" vertical_align="bottom" padding_left="10" padding_right="10">
-                    <textblock text="Mobs drop their heads when killed by the explosion from a charged creeper. A single charged creeper cannot yield more than one head.&#xA; &#xA;Creepers become charged when struck by lightning. The optimal way to obtain mob heads is to strike creepers with a channeling trident, then trap them in boats to immobilize them and prevent them from de-spawning." text_align="left" v_text_align="top" padding_top="8"/>
+                    <textblock text="Creepers become charged when struck by a channeling trident during a thunderstorm and will cause zombies, skeletons, or creepers killed by their explosion to drop a mob head. One explosion can't drop more than one head.&#xA; &#xA;If you're in a desert or another biome with no rain the charged creepers may burn to death if you don't extinguish them with water." text_align="left" v_text_align="top" padding_top="10"/>
                 </panel>
             </panel>
 
@@ -110,8 +110,8 @@
                     </panel>
                 </panel>
                 <panel width="170" height="122" vertical_align="bottom" horizontal_align="left">
-                    <textblock text="Optimal Depth: Y=14 to Y=18&#xA;(0.042% chance)" padding_top="30"/>
-                    <textblock text="Mining on chunk borders&#xA;slightly improves odds." padding_top="65"/>
+                    <textblock text="Optimal Depth: Y=14 to Y=18&#xA;(0.042% chance)" padding_top="10"/>
+                    <textblock h_text_align="left" text="Digging long, straight tunnels and detonating TNT is by far the fastest method to expose ancient debris. Strip mining with an insta-break pick is also faster than bed mining." padding_top="40" padding_left="10" padding_right="10"/>
                 </panel>
                 <grid width="170" horizontal_align="right" draw_mode="all">
                     <rows>
