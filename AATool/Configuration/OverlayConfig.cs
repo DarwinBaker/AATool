@@ -15,7 +15,7 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<bool> ShowLabels   = new (true);
             [JsonProperty] public readonly Setting<bool> ShowCriteria = new (true);
             [JsonProperty] public readonly Setting<bool> ShowPickups  = new (true);
-            [JsonProperty] public readonly Setting<bool> ShowIgt      = new (true);
+            [JsonProperty] public readonly Setting<bool> ShowIgt      = new (false);
             [JsonProperty] public readonly Setting<bool> ShowLastRefresh = new (true);
             [JsonProperty] public readonly Setting<bool> RightToLeft  = new (false);
             [JsonProperty] public readonly Setting<bool> PickupsOpposite  = new (false);
