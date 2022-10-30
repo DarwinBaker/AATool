@@ -219,7 +219,8 @@ namespace AATool.UI.Screens
             {
                 if (this.blockGrid?.IsSearching is true)
                     return;
-                if (SettingsCooldown.IsExpired)
+
+                if (this.HasFocus && SettingsCooldown.IsExpired)
                     this.OpenSettingsMenu();
             }
         }

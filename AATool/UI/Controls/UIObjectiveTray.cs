@@ -7,6 +7,7 @@ using AATool.Data.Objectives;
 using AATool.Graphics;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace AATool.UI.Controls
 {
@@ -160,6 +161,9 @@ namespace AATool.UI.Controls
                     button.BorderColor = Color.Transparent;
                 }   
             }
+
+            if (Input.Started(Keys.Escape) && this.Root().HasFocus)
+                (this.Root() as UIOverlayScreen).HideObjectiveTray();
         }
 
         public override void DrawThis(Canvas canvas)
@@ -168,9 +172,7 @@ namespace AATool.UI.Controls
                 canvas.DrawRectangle(this.Root().Bounds, Config.Overlay.GreenScreen, null, 0, Layer.Fore);
 
             if (Config.Overlay.FrameStyle == "Minecraft")
-            {
                 canvas.Draw("overlay_cancel", this.cancel.Bounds, Color.White, Layer.Fore);
-            }
         }
     }
 }
