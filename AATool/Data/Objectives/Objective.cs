@@ -11,21 +11,21 @@ namespace AATool.Data.Objectives
 {
     public interface IObjective
     {
-        public bool CompletedByAnyone();
+        public bool CompletedByAnyone { get; }
         public bool CompletedBy(Uuid player);
 
-        public Uuid FirstToComplete();
+        public Uuid FirstToComplete { get; }
 
-        public DateTime WhenFirstCompleted();
+        public DateTime WhenFirstCompleted { get; }
         public DateTime WhenCompletedBy(Uuid player);
 
-        public string GetId();
-        public string GetName();
-        public string GetShortName();
-        public string GetIcon();
+        public string Id { get; }
+        public string Name { get; }
+        public string ShortName { get; }
+        public string Icon { get; }
 
-        public string GetFullCaption();
-        public string GetShortCaption();
+        public string FullStatus { get; }
+        public string TinyStatus { get; }
 
         public void UpdateState(ProgressState state);
     }
@@ -37,22 +37,16 @@ namespace AATool.Data.Objectives
         public string Name      { get; protected set; }
         public string ShortName { get; protected set; }
 
+        public abstract string FullStatus { get; }
+        public abstract string TinyStatus { get; }
+
         public bool CanBeManuallyChecked { get; protected set; }
         public bool CompletionOverride { get; protected set; }
         public bool ManuallyChecked { get; set; }
 
         public HashSet<Completion> Completions { get; protected set; }
         public Completion FirstCompletion { get; protected set; }
-
-        public readonly FrameType Frame;
-
-        public abstract string GetFullCaption();
-        public abstract string GetShortCaption();
-
-        public string GetId() => this.Id;
-        public string GetIcon() => this.Icon;
-        public string GetName() => this.Name;
-        public string GetShortName() => this.ShortName;
+        public FrameType Frame { get; protected set; }
 
         public virtual void ToggleManualCheck()
         {
@@ -78,6 +72,9 @@ namespace AATool.Data.Objectives
         {
             this.Completions = new ();
 
+            if (node is null)
+                return;
+
             //parse properties from xml
             this.Id = XmlObject.Attribute(node, "id", string.Empty);
             this.Name = XmlObject.Attribute(node, "name", string.Empty);
@@ -89,18 +86,11 @@ namespace AATool.Data.Objectives
             if (string.IsNullOrEmpty(this.Icon))
                 this.Icon = this.Id.Split('/').LastOrDefault() ?? string.Empty;
 
-            if (this is ComplexObjective)
-            {
-                this.Frame = FrameType.Statistic;
-            }
-            else
-            {
-                //parse frame
-                string frame = XmlObject.Attribute(node, "type", FrameType.Normal.ToString());
-                frame = XmlObject.Attribute(node, "frame", frame);
-                if (Enum.TryParse(frame, true, out FrameType parsed))
-                    this.Frame = parsed;
-            }
+            //parse frame
+            string frame = XmlObject.Attribute(node, "type", FrameType.Normal.ToString());
+            frame = XmlObject.Attribute(node, "frame", frame);
+            if (Enum.TryParse(frame, true, out FrameType parsed))
+                this.Frame = parsed;
         }
 
         public virtual bool IsComplete() => this.Completions.Any() || this.CompletionOverride;
@@ -108,10 +98,10 @@ namespace AATool.Data.Objectives
         //public virtual bool CompletedBySoloPlayer() =>
         //    Player.TryGetUuid(Config.Tracking.SoloFilterName, out Uuid player) ? this.CompletedBy(player) : false;
 
-        public Uuid FirstToComplete() => this.FirstCompletion.Player;
-        public DateTime WhenFirstCompleted() => this.FirstCompletion.Timestamp;
+        public Uuid FirstToComplete => this.FirstCompletion.Player;
+        public DateTime WhenFirstCompleted => this.FirstCompletion.Timestamp;
 
-        public virtual bool CompletedByAnyone() => this.Completions.Any();
+        public virtual bool CompletedByAnyone => this.Completions.Any();
 
         public bool CompletedBy(Uuid player)
         {

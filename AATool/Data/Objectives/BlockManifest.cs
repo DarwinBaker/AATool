@@ -81,7 +81,7 @@ namespace AATool.Data.Objectives
             foreach (Block block in this.All.Values)
             {
                 //update completion count
-                if (block.CompletedByAnyone())
+                if (block.CompletedByAnyone)
                     this.PlacedCount++;
                 if (block.Obtained)
                     this.ObtainedCount++;

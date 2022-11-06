@@ -6,12 +6,8 @@ using AATool.Net;
 
 namespace AATool.Data.Objectives.Complex
 {
-    class ShulkerShells : ComplexObjective
+    class ShulkerShells : ComplexPickupObjective
     {
-        public const string ItemId = "minecraft:shulker_shell";
-
-        public const int Required = 34;
-
         public static readonly string[] AllBoxVariants = new [] {
             "minecraft:white_shulker_box",
             "minecraft:red_shulker_box",
@@ -32,39 +28,25 @@ namespace AATool.Data.Objectives.Complex
             "minecraft:shulker_box",
         };
 
-        public int EstimatedObtained { get; private set; }
+        public ShulkerShells() : base("minecraft:shulker_shell")
+        { 
+        }
 
         private bool allShulkerVariantsPlaced;
 
-        public ShulkerShells() : base() 
-        {
-            this.Name = "ShulkerShells";
-            this.Icon = "shulker_shell";
-        }
+        public override int Required => 34;
 
         protected override void UpdateAdvancedState(ProgressState progress)
         {
-            if (Tracker.Category is AllBlocks)
-            {
-                this.EstimatedObtained = progress.TimesPickedUp(ItemId)
-                    - progress.TimesDropped(ItemId)
-                    - progress.TimesUsed(ItemId);
-                this.EstimatedObtained = Math.Max(0, this.EstimatedObtained);
-            }
-
-            if (Tracker.Category is not AllBlocks)
-            {
-                this.CompletionOverride = false;
-                return;
-            }
-            this.CompletionOverride = this.allShulkerVariantsPlaced = this.AllBoxesPlaced(progress);
+            base.UpdateAdvancedState(progress);
+            this.CompletionOverride |= this.allShulkerVariantsPlaced = this.EveryBlockPlaced(progress);
         }
 
-        private bool AllBoxesPlaced(ProgressState progress)
+        private bool EveryBlockPlaced(ProgressState progress)
         {
-            foreach (string sulkerBoxVariant in AllBoxVariants)
+            foreach (string block in AllBoxVariants)
             {
-                if (!progress.WasUsed(sulkerBoxVariant))
+                if (!progress.WasUsed(block))
                     return false; 
             }
             return true;
@@ -72,23 +54,26 @@ namespace AATool.Data.Objectives.Complex
 
         protected override void ClearAdvancedState()
         {
-            this.EstimatedObtained = 0;
+            base.ClearAdvancedState();
             this.allShulkerVariantsPlaced = false;
-        }
-
-        protected override string GetShortStatus()
-        { 
-            return $"{this.EstimatedObtained}\0/\0{Required}";
         }
 
         protected override string GetLongStatus()
         {
             if (this.allShulkerVariantsPlaced)
                 return "All Boxes Placed";
-            else if (this.EstimatedObtained >= Required || this.ManuallyChecked)
+
+            if (this.ManuallyChecked)
                 return "Finished Collecting";
-            else
-                return $"Shulkers\n{this.EstimatedObtained}\0/\0{Required}";
+            
+            return $"Shulkers\n{this.Obtained}\0/\0{this.Required}";
+        }
+
+        protected override string GetCurrentIcon()
+        {
+            return this.allShulkerVariantsPlaced
+                ? "shulker_box"
+                : "shulker_shell";
         }
     }
 }

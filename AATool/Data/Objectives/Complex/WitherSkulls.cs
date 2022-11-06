@@ -20,7 +20,7 @@ namespace AATool.Data.Objectives.Complex
 
         private static readonly Version BlockIdChanged = new ("1.13");
 
-        private static bool ModernId => !Version.TryParse(Tracker.CurrentVersion, out Version current)
+        private static bool UseModernId => !Version.TryParse(Tracker.CurrentVersion, out Version current)
             || current >= BlockIdChanged;
 
         public int EstimatedObtained { get; private set; }
@@ -39,13 +39,11 @@ namespace AATool.Data.Objectives.Complex
         public WitherSkulls() : base() 
         {
             this.Name = "WitherSkulls";
-            this.Icon = "get_wither_skull";
-
         }
 
         protected override void UpdateAdvancedState(ProgressState progress)
         {
-            string itemId = ModernId ? ItemId : LegacyItemId;
+            string itemId = UseModernId ? ItemId : LegacyItemId;
 
             this.EstimatedObtained = progress.TimesPickedUp(itemId)
                 - progress.TimesDropped(itemId)
@@ -104,6 +102,14 @@ namespace AATool.Data.Objectives.Complex
             return this.witherKilled 
                 ? "Wither\0Has\nBeen\0Killed" 
                 : $"Skulls\n{this.EstimatedObtained}\0/\0{this.Required}";
+        }
+
+        protected override string GetCurrentIcon()
+        {
+            if (Tracker.Category is AllBlocks && this.beaconPlaced && this.rosePlaced)
+                return "skull_and_beacon";
+
+            return "get_wither_skull";
         }
     }
 }

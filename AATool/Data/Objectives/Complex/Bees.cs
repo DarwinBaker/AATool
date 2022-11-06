@@ -93,7 +93,6 @@ namespace AATool.Data.Objectives.Complex
         public Bees() : base() 
         {
             this.Name = "Bees";
-            this.Icon = "bee_nest_pickup";
         }
 
         private bool CopperAndCandlesAdded => Version.TryParse(Tracker.Category.CurrentVersion,
@@ -133,8 +132,6 @@ namespace AATool.Data.Objectives.Complex
             this.BuildRemainingObjectiveList();
 
             this.CompletionOverride = this.doneWithBees = !this.remainingObjectives.Any();
-
-            this.Icon = this.CompletionOverride ? "bee_nest_full_pickup" : "bee_nest_pickup";
         }
 
         private void BuildRemainingObjectiveList()
@@ -147,9 +144,9 @@ namespace AATool.Data.Objectives.Complex
                     this.remainingObjectives.Add("Still\0Needs\nHoney\0Block");
                 if (!this.honeycombBlockPlaced)
                     this.remainingObjectives.Add("Still\0Needs\nHoneycomb");
-                if (this.CopperAndCandlesAdded && !this.allWaxedCopperPlaced)
-                    this.remainingObjectives.Add("Still\0Needs\nCandles");
                 if (this.CopperAndCandlesAdded && !this.allCandlesPlaced)
+                    this.remainingObjectives.Add("Still\0Needs\nCandles");
+                if (this.CopperAndCandlesAdded && !this.allWaxedCopperPlaced)
                     this.remainingObjectives.Add("Still\0Needs\nWaxed\0Copper");
             }
             else
@@ -209,14 +206,10 @@ namespace AATool.Data.Objectives.Complex
             this.allWaxedCopperPlaced = false;
 
             this.doneWithBees = false;
-
-            this.Icon = "bee_nest_pickup";
         }
 
         protected override string GetShortStatus()
-        {
-            return this.estimatedCount.ToString();
-        }
+            => this.estimatedCount.ToString();
 
         protected override string GetLongStatus()
         {
@@ -230,6 +223,13 @@ namespace AATool.Data.Objectives.Complex
             return this.estimatedPlaced > 0 
                 ? $"{this.estimatedPlaced}\0{name}\nPlaced" 
                 : $"{this.estimatedCount}\0{name}\nCollected";
+        }
+
+        protected override string GetCurrentIcon()
+        {
+            return this.CompletionOverride 
+                ? "bee_nest_full_pickup" 
+                : "bee_nest_pickup";
         }
     }
 }

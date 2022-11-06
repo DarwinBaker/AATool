@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using AATool.Configuration;
 using AATool.Data.Progress;
-using AATool.Net;
 using AATool.Utilities;
 
 namespace AATool.Data.Objectives
@@ -20,19 +17,16 @@ namespace AATool.Data.Objectives
 
         public bool Glows => this.LightLevel > 0;
 
-        public override string GetFullCaption() => this.Name;
-        public override string GetShortCaption() => this.ShortName;
+        public override string FullStatus => this.Name;
+        public override string TinyStatus => this.Name;
 
         public bool HasBeenPlaced => !this.FirstCompletion.IsEmpty;
 
-        public override bool CompletedByAnyone() => this.HasBeenPlaced || this.ManuallyChecked;
+        public override bool CompletedByAnyone => this.HasBeenPlaced || this.ManuallyChecked;
 
         public void ToggleHighlight() => this.Highlighted ^= true;
 
-        public override bool IsComplete()
-        {
-            return this.CompletedByAnyone();
-        }
+        public override bool IsComplete() => this.CompletedByAnyone;
 
         public Block(XmlNode node) : base (node)
         {

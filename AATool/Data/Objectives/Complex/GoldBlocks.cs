@@ -21,24 +21,16 @@ namespace AATool.Data.Objectives.Complex
         private static readonly Version BlockIdChanged = new ("1.13");
         private static readonly Version TextureChanged = new ("1.12");
 
-        private static bool ModernId => !Version.TryParse(Tracker.CurrentVersion, out Version current)
+        private static bool UseModernId => !Version.TryParse(Tracker.CurrentVersion, out Version current)
             || current >= BlockIdChanged;
-        private static bool ModernTexture => !Version.TryParse(Tracker.CurrentVersion, out Version current)
+        private static bool UseModernTexture => !Version.TryParse(Tracker.CurrentVersion, out Version current)
             || current >= TextureChanged;
-
-        public GoldBlocks() : base()
-        {
-            this.Name = "GoldBlocks";
-            this.RefreshIcon();
-        }
 
         private bool fullBeaconComplete;
         private int estimatedBlocks;
 
         protected override void UpdateAdvancedState(ProgressState progress)
         {
-            this.RefreshIcon();
-
             this.UpdatePreciseGoldEstimate(progress);
 
             this.fullBeaconComplete = Tracker.Category is AllAchievements
@@ -55,9 +47,9 @@ namespace AATool.Data.Objectives.Complex
             int ingots = progress.TimesPickedUp(GoldIngotId);
             ingots -= progress.TimesDropped(GoldIngotId);
             //account for blocks
-            ingots += progress.TimesPickedUp(ModernId ? ItemId : LegacyItemId) * 9;
-            ingots -= progress.TimesDropped(ModernId ? ItemId : LegacyItemId) * 9;
-            ingots -= progress.TimesUsed(ModernId ? ItemId : LegacyItemId) * 9;
+            ingots += progress.TimesPickedUp(UseModernId ? ItemId : LegacyItemId) * 9;
+            ingots -= progress.TimesDropped(UseModernId ? ItemId : LegacyItemId) * 9;
+            ingots -= progress.TimesUsed(UseModernId ? ItemId : LegacyItemId) * 9;
             //account for crafting of armor/tools
             ingots -= progress.TimesCrafted("minecraft:golden_pickaxe") * 3;
             ingots -= progress.TimesCrafted("minecraft:golden_helmet") * 5;
@@ -79,33 +71,23 @@ namespace AATool.Data.Objectives.Complex
         }
 
         protected override string GetShortStatus()
-        {
-            return $"{this.estimatedBlocks}\0/\0{Required}";
-        }
+            => $"{this.estimatedBlocks}\0/\0{Required}";
 
         protected override string GetLongStatus()
         {
             if (this.fullBeaconComplete)
                 return "Full\0Beacon\nConstructed";
 
-            if (this.estimatedBlocks >= Required)
-            {
+            if (this.estimatedBlocks >= Required)   
                 return $"Gold\0Done\n{this.estimatedBlocks}\0/\0{Required}";
-            }
-            else if (this.estimatedBlocks > 0)
-            {
+            
+            if (this.estimatedBlocks > 0)
                 return $"Gold\0Estimate\n{this.estimatedBlocks}\0/\0{Required}";
-            }
-            else
-            {
-                return $"Gold\0Blocks\n0\0/\0{Required}";
-            }
-                
+            
+            return $"Gold\0Blocks\n0\0/\0{Required}";  
         }
 
-        private void RefreshIcon()
-        {
-            this.Icon = ModernTexture ? "gold_blocks" : "gold_block_1.12";
-        }
+        protected override string GetCurrentIcon() => 
+            UseModernTexture ? "gold_blocks" : "gold_block_1.12";
     }
 }

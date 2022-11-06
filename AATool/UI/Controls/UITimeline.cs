@@ -85,7 +85,7 @@ namespace AATool.UI.Controls
 
         private int GetRelativeX(Objective objective)
         {
-            long eventTime = objective.WhenFirstCompleted().Ticks;
+            long eventTime = objective.WhenFirstCompleted.Ticks;
             long range = (this.end.Ticks - this.start.Ticks);
             float scaled = (float)(eventTime - this.start.Ticks) / range;
             return this.lineRectangle.Left + (int)((this.lineRectangle.Width - 64) * scaled);
@@ -115,7 +115,7 @@ namespace AATool.UI.Controls
                 minIndex = i;
                 for (int j = i + 1; j < list.Count; j++)
                 {
-                    if (list[j].WhenFirstCompleted() < list[minIndex].WhenFirstCompleted())
+                    if (list[j].WhenFirstCompleted < list[minIndex].WhenFirstCompleted)
                         minIndex = j;
                 }
 
@@ -126,8 +126,8 @@ namespace AATool.UI.Controls
                     list[minIndex] = temp;
                 }
             }
-            first = list.FirstOrDefault()?.WhenFirstCompleted() ?? default;
-            last = list.LastOrDefault()?.WhenFirstCompleted() ?? default;
+            first = list.FirstOrDefault()?.WhenFirstCompleted ?? default;
+            last = list.LastOrDefault()?.WhenFirstCompleted ?? default;
         }
 
         public override void InitializeThis(UIScreen screen)

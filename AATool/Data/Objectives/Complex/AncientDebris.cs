@@ -34,13 +34,6 @@ namespace AATool.Data.Objectives.Complex
         private bool craftedNetheriteBlock;
         private bool placedNetheriteBlock;
 
-        public AncientDebris() : base() 
-        {
-            this.Name = "AncientDebris";
-            this.Id = AncientDebrisId;
-            this.RefreshIcon();
-        }
-
         protected override void UpdateAdvancedState(ProgressState progress)
         {
             this.EstimatedDebris = progress.TimesPickedUp(AncientDebrisId)
@@ -80,8 +73,6 @@ namespace AATool.Data.Objectives.Complex
             this.CanBeManuallyChecked = !this.CompletionOverride;
             if (this.ManuallyChecked)
                 this.CompletionOverride = true;
-
-            this.RefreshIcon();
         }
 
         protected override void ClearAdvancedState()
@@ -100,34 +91,31 @@ namespace AATool.Data.Objectives.Complex
             this.placedNetheriteBlock = false;
         }
 
-        protected override string GetShortStatus() => this.EstimatedDebris.ToString();
+        protected override string GetShortStatus() => 
+            this.EstimatedDebris.ToString();
 
         protected override string GetLongStatus()
         {
             if (this.allNetheriteAdvancementsComplete)
                 return "Done\0With\nNetherite";
-            else if (this.placedNetheriteBlock)
-                return "Netherite\0Placed";
-            else if (this.EstimatedDebris >= Required || this.ManuallyChecked)
+
+            if (this.placedNetheriteBlock)
+                return "Netherite\nPlaced";
+
+            if (this.EstimatedDebris >= Required || this.ManuallyChecked)
                 return "All\0Debris\nCollected";
-            else
-                return $"Debris:\0{this.EstimatedDebris}\nTNT:\0{Math.Max(this.EstimatedTnt, 0)}";
+            
+            return $"Debris:\0{this.EstimatedDebris}\nTNT:\0{Math.Max(this.EstimatedTnt, 0)}";
         }
 
-        private void RefreshIcon()
+        protected override string GetCurrentIcon()
         {
             if (Tracker.Category is AllBlocks)
-            {
-                this.Icon = "netherite_block";
-            }
-            else if (this.CompletionOverride)
-            {
-                this.Icon = "supporter_netherite";
-            }
-            else
-            {
-                this.Icon = "obtain_ancient_debris";
-            }
+                return "netherite_block";
+
+            return this.CompletionOverride 
+                ? "supporter_netherite" 
+                : "obtain_ancient_debris";
         }
     }
 }

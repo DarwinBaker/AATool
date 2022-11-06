@@ -380,6 +380,7 @@ namespace AATool.UI.Screens
                 this.carouselPanel?.Collapse();  
                 this.lastRefresh?.Collapse();
                 this.pinned?.Collapse();
+                this.status?.Collapse();
                 if (this.runCompletePanel?.IsCollapsed is true || Tracker.WorldChanged)
                 {
                     this.runCompletePanel.Expand();
@@ -389,9 +390,10 @@ namespace AATool.UI.Screens
             else
             {
                 this.carouselPanel?.Expand();
-                this.pinned?.Expand();
-                this.runCompletePanel?.Collapse();
                 this.lastRefresh?.SetVisibility(Config.Overlay.ShowLastRefresh);
+                this.pinned?.Expand();
+                this.status?.Expand();
+                this.runCompletePanel?.Collapse();
 
                 //update criteria visibility
                 this.criteria?.SetVisibility(Config.Overlay.ShowCriteria);

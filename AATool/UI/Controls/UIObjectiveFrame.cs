@@ -377,9 +377,9 @@ namespace AATool.UI.Controls
             {
                 bool fullSize = !Config.Main.UseCompactStyling && Tracker.Category is AllAdvancements or AllAchievements or AllBlocks;
                 if (fullSize || this.Root() is UIOverlayScreen)
-                    this.Label?.SetText(this.Objective?.GetFullCaption());
+                    this.Label?.SetText(this.Objective?.FullStatus);
                 else
-                    this.Label?.SetText(this.Objective?.GetShortCaption());
+                    this.Label?.SetText(this.Objective?.TinyStatus);
                 this.Icon?.SetTexture(this.Objective?.Icon);
             }
 

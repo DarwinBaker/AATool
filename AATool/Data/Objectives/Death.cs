@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Xml;
-using AATool.Data.Progress;
-using AATool.Net;
 using AATool.Utilities;
 
 namespace AATool.Data.Objectives
@@ -16,8 +13,8 @@ namespace AATool.Data.Objectives
 
         public IEnumerable<string> Messages { get; internal set; }
 
-        public override string GetFullCaption() => this.Name;
-        public override string GetShortCaption() => this.ShortName;
+        public override string FullStatus => this.Name;
+        public override string TinyStatus => this.ShortName;
 
         public override bool IsComplete() => base.IsComplete() || this.ManuallyChecked;
 

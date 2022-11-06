@@ -9,7 +9,7 @@ using AATool.Utilities;
 namespace AATool.Data.Objectives
 {
     public abstract class ComplexObjective : Objective
-    {   
+    {
         //static dictionary to hold all control types for dynamic instantiation
         public static readonly Dictionary<string, Type> Types = (
             from t in Assembly.GetExecutingAssembly().GetTypes()
@@ -30,28 +30,26 @@ namespace AATool.Data.Objectives
         }
 
         private string fullStatus;
-        private string shortStatus;
+        private string tinyStatus;
 
-        public sealed override string GetFullCaption() => this.fullStatus;
-        public sealed override string GetShortCaption() => this.shortStatus;
+        public override string FullStatus => this.fullStatus;
+        public override string TinyStatus => this.tinyStatus;
 
-        public ComplexObjective(XmlNode node = null) : base(node)
+        public ComplexObjective() : base(null)
         {
-            this.Id = XmlObject.Attribute(node, "id", string.Empty);
-            this.Name = XmlObject.Attribute(node, "name", string.Empty);
+            this.Name = this.GetType().Name;
+            this.Frame = FrameType.Statistic;
 
-            this.Icon = XmlObject.Attribute(node, "icon", string.Empty);
-            if (string.IsNullOrEmpty(this.Icon))
-                this.Icon = this.Id.Split(':').LastOrDefault();
-
-            this.fullStatus = this.GetLongStatus();
-            this.shortStatus = this.GetShortStatus();
+            this.ClearAdvancedState();
+            this.RefreshStatus();
         }
 
         protected abstract string GetLongStatus();
         protected abstract string GetShortStatus();
         protected abstract void UpdateAdvancedState(ProgressState progress);
         protected abstract void ClearAdvancedState();
+
+        protected virtual string GetCurrentIcon() => this.Icon;
 
         public sealed override void UpdateState(ProgressState progress)
         {
@@ -67,9 +65,14 @@ namespace AATool.Data.Objectives
                 this.ClearAdvancedState();
                 this.CompletionOverride = this.ManuallyChecked;
             }
+            this.RefreshStatus();
+        }
 
+        public void RefreshStatus()
+        {
             this.fullStatus = this.GetLongStatus();
-            this.shortStatus = this.GetShortStatus();
+            this.tinyStatus = this.GetShortStatus();
+            this.Icon = this.GetCurrentIcon();
         }
     }
 }

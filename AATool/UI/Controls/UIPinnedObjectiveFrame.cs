@@ -1,6 +1,6 @@
-﻿
-using AATool.Configuration;
+﻿using AATool.Configuration;
 using AATool.Data.Objectives;
+using AATool.Data.Objectives.Complex;
 using AATool.Graphics;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
@@ -12,7 +12,8 @@ namespace AATool.UI.Controls
         public bool Hovering { get; set; }
         public bool HoveringUnpin { get; set; }
 
-        private  UIPinnedRow container;
+        private UIPinnedRow container;
+        private UIPicture foregroundIcon;
 
         private const int SelectionPaddingTop = 5;
         private const int SelectionPaddingBottom = 30;
@@ -39,6 +40,11 @@ namespace AATool.UI.Controls
         public override void InitializeRecursive(UIScreen screen)
         {
             base.InitializeRecursive(screen);
+            this.foregroundIcon = new UIPicture() {
+                FlexWidth = new (16 * this.Scale),
+                FlexHeight = new (16 * this.Scale),
+            };
+            this.Frame.AddControl(this.foregroundIcon);
             this.Layer = Layer.Fore;
         }
 
@@ -77,6 +83,14 @@ namespace AATool.UI.Controls
             this.UpdateLabelColor();
 
             base.UpdateThis(time);
+
+            if (Tracker.ProgressChanged && this.Objective is Trident trident)
+            {
+                if (trident.EnchantedForegroundLayer)
+                    this.foregroundIcon.SetTexture("enchanted_trident");
+                else
+                    this.foregroundIcon.SetTexture("trident");
+            }
         }
 
         private void UpdateLabelColor()
@@ -103,13 +117,9 @@ namespace AATool.UI.Controls
             if (this.container.IsDragging(this))
             {
                 if (Input.LeftClicking)
-                {
                     this.container.ContinueDrag(this, cursor, time);
-                }
                 else
-                {
                     this.container.StopDragging(this);
-                }
             }
 
             this.HoveringUnpin = this.unpinBounds.Contains(cursor);
@@ -121,18 +131,10 @@ namespace AATool.UI.Controls
         { 
             base.DrawThis(canvas);
             if ((this.Hovering && !this.container.Dragging) || this.container.IsDragging(this))
-            {
-                int offsetY = this.container.Dragging ? 0 : 8;
-
-                var topArrow = new Rectangle(
-                    this.selectBounds.Center.X - 16,
-                    this.selectBounds.Top - offsetY, 
-                    32, 16);
-                canvas.Draw("overlay_arrow_top", topArrow, this.textColor);
-            }
+                this.DrawTopArrow(canvas);
 
             if (this.container.IsDragging(this))
-                this.DrawDragBounds(canvas);
+                this.DrawBottomArrow(canvas);
         }
 
         public override void DrawRecursive(Canvas canvas)
@@ -141,6 +143,7 @@ namespace AATool.UI.Controls
             {
                 this.DrawThis(canvas);
                 this.Icon.DrawRecursive(canvas);
+                this.foregroundIcon.DrawRecursive(canvas);
                 if (!this.container.Dragging)
                 { 
                     this.Label.DrawRecursive(canvas);
@@ -162,22 +165,23 @@ namespace AATool.UI.Controls
             canvas.Draw("unpin", this.unpinBounds, Color.White, Layer.Fore);
         }
 
-        private void DrawDragBounds(Canvas canvas)
+        private void DrawTopArrow(Canvas canvas)
         {
-            var top = new Rectangle(this.selectBounds.Center.X - 48, this.selectBounds.Top, 96, 8);
-            //canvas.Draw("overlay_drag_top", top, Config.Overlay.CustomTextColor, Layer.Fore);
-            
-            var bottom = new Rectangle(this.selectBounds.Center.X - 48, this.selectBounds.Bottom - 8, 96, 8);
-            //canvas.Draw("overlay_drag_bottom", bottom, Config.Overlay.CustomTextColor, Layer.Fore);
+            int offsetY = this.container.Dragging ? 0 : 8;
+            var topArrow = new Rectangle(
+                    this.selectBounds.Center.X - 16,
+                    this.selectBounds.Top - offsetY,
+                    32, 16);
+            canvas.Draw("overlay_arrow_top", topArrow, this.textColor);
+        }
 
+        private void DrawBottomArrow(Canvas canvas)
+        {
             var bottomArrow = new Rectangle(
                     this.selectBounds.Center.X - 16,
                     this.selectBounds.Top + 96,
                     32, 16);
             canvas.Draw("overlay_arrow_bottom", bottomArrow, this.textColor);
-
-            //canvas.DrawRectangle(left, Color.White, null, 0, Layer.Fore);
-            //canvas.Draw("overlay_drag_bottom", right, Color.White, Layer.Fore);
         }
 
         public void LerpToIndex(int i, float amount)
@@ -196,9 +200,7 @@ namespace AATool.UI.Controls
 
             this.PreciseCenterX = (int)MathHelper.Lerp(this.PreciseCenterX, targetX, amount);
             if (this.X != (int)this.PreciseCenterX)
-            {
                 this.MoveTo(new Point((int)this.PreciseCenterX, this.Parent.Top));
-            }
         }
     }
 }

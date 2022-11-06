@@ -8,7 +8,6 @@ namespace AATool.Data.Objectives.Complex
 {
     public class Trident : ComplexObjective
     {
-        public const string ItemId = "minecraft:trident";
         private const string VVF = "minecraft:adventure/very_very_frightening";
         private const string Surge = "minecraft:adventure/lightning_rod_with_villager_no_fire";
 
@@ -25,45 +24,53 @@ namespace AATool.Data.Objectives.Complex
         private bool creeperHead;
         private bool skeletonSkull;
 
-        public Trident() : base() 
-        {
-            this.Name = "Trident";
-            this.Icon = "trident";
+        private bool doneWithHeads;
+
+        public bool EnchantedForegroundLayer => this.doneWithHeads;
+
+        public Trident()
+        { 
+            this.Id = "minecraft:trident";
         }
 
         protected override void UpdateAdvancedState(ProgressState progress)
         {
-            this.obtained = progress.WasPickedUp(ItemId);
+            this.CompletionOverride = this.obtained = progress.WasPickedUp(this.Id);
 
             if (Tracker.Category is AllBlocks)
             {
+                //post-1.19, skeleton skulls are available in ancient city and no longer require thunder
+                bool ancientCitiesExist = Version.TryParse(Tracker.Category.CurrentVersion, out Version current)
+                    && current >= AncientCitySkeletonSkulls;
+
                 this.zombieHead = progress.WasUsed("minecraft:zombie_head")
                     || progress.WasPickedUp("minecraft:zombie_head");
+
                 this.creeperHead = progress.WasUsed("minecraft:creeper_head")
                     || progress.WasPickedUp("minecraft:creeper_head");
-                this.skeletonSkull = progress.WasUsed("minecraft:skeleton_skull")
-                    || progress.WasPickedUp("minecraft:skeleton_skull");
 
-                this.CompletionOverride = this.zombieHead && this.creeperHead;
-                //post-1.19, skeleton skulls are available in ancient city and no longer require thunder
-                if (Version.TryParse(Tracker.Category.CurrentVersion, out Version current) && current < AncientCitySkeletonSkulls)
-                    this.CompletionOverride &= this.skeletonSkull;
+                this.skeletonSkull = progress.WasUsed("minecraft:skeleton_skull")
+                    || progress.WasPickedUp("minecraft:skeleton_skull") || ancientCitiesExist;
+
+                this.doneWithHeads = this.zombieHead && this.creeperHead && this.skeletonSkull;
+                this.CompletionOverride |= this.doneWithHeads;
             }
             else
             {
                 //get advancements requiring thunder
                 this.vvfDone = progress.AdvancementCompleted(VVF);
                 this.surgeDone = progress.AdvancementCompleted(Surge);
-                this.ignoreSurge = Version.TryParse(Tracker.Category.CurrentVersion, out Version current) && current < SurgeProtectorAdded;
+                this.ignoreSurge = Version.TryParse(Tracker.Category.CurrentVersion, out Version current) 
+                    && current < SurgeProtectorAdded;
 
                 if (this.ignoreSurge)
                 {
                     //ignore surge protector, not in the game yet (pre-1.17)
-                    this.CompletionOverride = this.obtained || this.vvfDone;
+                    this.CompletionOverride |= this.vvfDone;
                 }
                 else
                 {
-                    this.CompletionOverride = this.obtained || this.vvfDone && this.surgeDone;
+                    this.CompletionOverride |= this.vvfDone && this.surgeDone;
                 }
             }
         }
@@ -90,51 +97,48 @@ namespace AATool.Data.Objectives.Complex
 
         private string GetStatusAA()
         {
-            string status;
             if (this.vvfDone && (this.surgeDone || this.ignoreSurge))
+                return "Done\0With\nThunder";
+
+            if (this.vvfDone == this.surgeDone || this.ignoreSurge)
             {
-                this.Icon = "enchanted_trident";
-                status = "Done\0With\nThunder";
+                //not done with either, see if we still need trident too
+                return this.obtained
+                    ? "Awaiting\nThunder"
+                    : "Obtain\nTrident";
             }
-            else
-            {
-                this.Icon = "trident";
-                if (this.vvfDone == this.surgeDone || this.ignoreSurge)
-                {
-                    //not done with either, see if we still need trident too
-                    status = this.obtained
-                        ? "Awaiting\nThunder"
-                        : "Obtain\nTrident";
-                }
-                else
-                {
-                    //only one of the two thunder-related advancements are complete
-                    status = this.vvfDone
-                        ? "Surge\0Prot\nIncomplete"
-                        : "VVF\nIncomplete";
-                }
-            }
-            return status;
+
+            //only one of the two thunder-related advancements are complete
+            return this.vvfDone
+                ? "Surge\0Prot\nIncomplete"
+                : "VVF\nIncomplete";
         }
 
         protected override string GetShortStatus() => this.obtained ? "Obtained" : "0";
 
         private string GetStatusAB()
         {
-            string status;
             if (this.CompletionOverride)
+                return "Done\0With\nThunder";
+
+            return this.obtained
+                ? "Awaiting\nThunder"
+                : "Obtain\nTrident";
+        }
+
+        protected override string GetCurrentIcon()
+        {
+            if (Tracker.Category is AllBlocks)
             {
-                this.Icon = "enchanted_trident";
-                status = "Done\0With\nThunder";
+                return this.doneWithHeads
+                    ? "trident_and_heads"
+                    : "trident";
             }
-            else
-            {
-                this.Icon = "trident";
-                status = this.obtained
-                    ? "Awaiting\nThunder"
-                    : "Obtain\nTrident";
-            }
-            return status;
+
+            if (this.vvfDone && (this.surgeDone || this.ignoreSurge))
+                return "enchanted_trident";
+
+            return "trident";
         }
     }
 }

@@ -29,7 +29,7 @@ namespace AATool.UI.Controls
             this.top = top;
             if (this.objective is not null)
             {
-                TimeSpan igt = objective.WhenFirstCompleted().Subtract(this.start);
+                TimeSpan igt = objective.WhenFirstCompleted.Subtract(this.start);
                 this.timestamp = igt.TotalDays > 1
                     ? $"{(int)igt.TotalHours}:{igt:mm':'ss}"
                     : igt.ToString("hh':'mm':'ss");

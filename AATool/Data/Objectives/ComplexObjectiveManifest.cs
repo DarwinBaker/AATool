@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AATool.Data.Progress;
 
 namespace AATool.Data.Objectives
@@ -21,17 +22,17 @@ namespace AATool.Data.Objectives
         public void RefreshObjectives()
         {
             this.ClearObjectives();
-            foreach (string typeName in ComplexObjective.Types.Keys)
+            foreach (string type in ComplexObjective.Types.Keys)
             {
-                if (ComplexObjective.TryCreateInstance(typeName, out ComplexObjective objective))
-                    this.AllByName.Add(typeName, objective);
+                if (ComplexObjective.TryCreateInstance(type, out ComplexObjective objective))
+                    this.AllByName.Add(type, objective);
             }
         }
 
         public void UpdateState(ProgressState progress)
         {
-            foreach (ComplexObjective itemCount in this.AllByName.Values)
-                itemCount.UpdateState(progress);
+            foreach (ComplexObjective objective in this.AllByName.Values)
+                objective.UpdateState(progress);
         }
     }
 }

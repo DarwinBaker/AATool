@@ -18,10 +18,10 @@ namespace AATool.Data.Objectives
         public readonly bool HiddenWhenCompact;
         public readonly bool UsedInHalfPercent;
 
-        public bool HasCriteria => this.Criteria.Any;
+        public override string FullStatus => this.Name;
+        public override string TinyStatus => this.ShortName;
 
-        public override string GetFullCaption() => this.Name;
-        public override string GetShortCaption() => this.ShortName;
+        public bool HasCriteria => this.Criteria.Any;
 
         public Advancement(XmlNode node) : base(node)
         {

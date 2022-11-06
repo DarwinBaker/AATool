@@ -39,18 +39,12 @@ namespace AATool.Data.Objectives.Complex
 
         protected readonly HashSet<string> RemainingIds = new ();
 
-        public Biomes() : base()
-        {
-            this.Name = "Biomes";
-            this.RefreshIcon();
-        }
-
         public override string AdvancementId => "minecraft:adventure/adventuring_time";
         public override string Criterion => "Biome";
         public override string Action => "Visit";
         public override string PastAction => "Visited";
-        protected override string ModernTexture => "adventuring_time";
-        protected override string OldTexture => "adventuring_time_1.12";
+        protected override string ModernBaseTexture => "adventuring_time";
+        protected override string OldBaseTexture => "adventuring_time_1.12";
 
         protected override void UpdateAdvancedState(ProgressState progress)
         {
@@ -59,7 +53,6 @@ namespace AATool.Data.Objectives.Complex
             this.onlyMushroomLeft = this.OnlyGroupRemaining(MushroomBiomes, 2);
             this.onlyBadlandsLeft = this.OnlyGroupRemaining(BadlandsBiomes, 3);
             this.onlyBambooLeft = this.OnlyGroupRemaining(BambooBiomes, 2);
-            this.RefreshIcon();
         }
 
         protected override void BuildRemainingCriteriaList(CriteriaSet criteria)
@@ -122,10 +115,8 @@ namespace AATool.Data.Objectives.Complex
                 .Replace(" ", "\0");
         }
 
-        protected override string GetShortStatus()
-        {
-            return $"{this.CurrentCriteria} / {this.RemainingCriteria}";
-        }
+        protected override string GetShortStatus() =>
+            $"{this.CurrentCriteria} / {this.RemainingCriteria}";
 
         protected override string GetLongStatus()
         {
@@ -150,24 +141,33 @@ namespace AATool.Data.Objectives.Complex
         protected override string LongStatusLast() =>
             $"Last Biome:\n{FormatBiomeName(this.RemainingCriteria.First())}";
 
-        protected override void RefreshIcon()
+        protected override string GetCurrentIcon()
         {
-            if (!UseModernTexture)
-                this.Icon = this.OldTexture;
-            else if (this.CompletionOverride || this.RemainingCriteria.Count is 0)
-                this.Icon = "enchanted_diamond_boots";
-            else if (this.OnLastCriterion)
-                this.Icon = this.LastCriterionIcon;
-            else if (this.onlyMegaTaigaLeft)
-                this.Icon = "giant_tree_taiga";
-            else if (this.onlyMushroomLeft)
-                this.Icon = "mushroom_fields";
-            else if (this.onlyBadlandsLeft)
-                this.Icon = "badlands";
-            else if (this.onlyBambooLeft)
-                this.Icon = "bamboo_jungle";
+            if (this.UseModernTexture)
+            {
+                if (this.CompletionOverride || this.AllCriteriaCompleted)
+                    return "enchanted_diamond_boots";
+
+                if (this.OnLastCriterion)
+                    return this.LastCriterionIcon;
+
+                if (this.onlyMegaTaigaLeft)
+                    return "giant_tree_taiga";
+                if (this.onlyMushroomLeft)
+                    return "mushroom_fields";
+                if (this.onlyBadlandsLeft)
+                    return "badlands";
+                if (this.onlyBambooLeft)
+                    return "bamboo_jungle";
+
+                return this.ModernBaseTexture;
+            }
             else
-                this.Icon = this.ModernTexture;
+            {
+                return this.OnLastCriterion
+                    ? this.LastCriterionIcon
+                    : this.OldBaseTexture;
+            }
         }
     }
 }

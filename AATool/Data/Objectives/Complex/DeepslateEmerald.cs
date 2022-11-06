@@ -9,7 +9,6 @@ namespace AATool.Data.Objectives.Complex
 
         public DeepslateEmerald() : base() 
         {
-            this.Name = "DeepslateEmerald";
             this.Icon = "deepslate_emerald_ore";
         }
 
@@ -29,19 +28,17 @@ namespace AATool.Data.Objectives.Complex
             this.placed = false;
         }
 
-        protected override string GetShortStatus()
-        {
-            return "Deepslate Emerald";
-        }
+        protected override string GetShortStatus() => "Deepslate Emerald";
 
         protected override string GetLongStatus()
         {
             if (this.placed)
-                return "DS Emerald Placed";
-            if (this.obtained)
-                return "DS Emerald Obtained";
+                return "DS\0Emerald\nPlaced";
 
-            return "Deepslate Emerald";
+            if (this.obtained)
+                return "DS\0Emerald\nObtained";
+
+            return "Deepslate\nEmerald";
         }
     }
 }

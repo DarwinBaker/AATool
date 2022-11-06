@@ -3,17 +3,17 @@ using AATool.Data.Progress;
 
 namespace AATool.Data.Objectives.Complex
 {
-    public class Mycelium : ComplexObjective
+    public class RedSand : ComplexObjective
     {
-        public const string BlockId = "minecraft:mycelium";
-
-        public Mycelium() : base() 
-        {
-            this.Icon = "mycelium";
-        }
+        public const string BlockId = "minecraft:red_sand";
 
         private bool obtained;
         private bool placed;
+
+        public RedSand() : base() 
+        {
+            this.Icon = "red_sand";
+        }
 
         protected override void UpdateAdvancedState(ProgressState progress)
         {
@@ -24,26 +24,19 @@ namespace AATool.Data.Objectives.Complex
 
         protected override void ClearAdvancedState()
         {
-            this.obtained = false;
-            this.placed = false;
         }
 
-        protected override string GetShortStatus()
-        {
-            if (this.placed)
-                return "Placed";
-            if (this.obtained)
-                return "Obtained";         
-            return "0";
-        }
+        protected override string GetShortStatus() => "Red\0Sand";
 
         protected override string GetLongStatus()
         {
             if (this.placed)
-                return "Mycelium\nPlaced";
+                return "Red\0Sand\nPlaced";
+
             if (this.obtained)
-                return "Mycelium\nObtained";       
-            return "Obtain\nMycelium";
+                return "Obtained\nRed\0Sand";
+
+            return "Obtain\nRed\0Sand";
         }
     }
 }

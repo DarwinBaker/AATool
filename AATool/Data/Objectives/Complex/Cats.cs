@@ -10,7 +10,6 @@ namespace AATool.Data.Objectives.Complex
 
         public Cats() : base()
         {
-            this.Name = "Cats";
             this.Icon = "complete_catalogue";
         }
 
@@ -18,8 +17,8 @@ namespace AATool.Data.Objectives.Complex
         public override string Criterion => "Cat";
         public override string Action => "Tame";
         public override string PastAction => "Tamed";
-        protected override string ModernTexture => "complete_catalogue";
-        protected override string OldTexture => "complete_catalogue";
+        protected override string ModernBaseTexture => "complete_catalogue";
+        protected override string OldBaseTexture => "complete_catalogue";
         
         private bool catalogueComplete;
         private bool breedCats;

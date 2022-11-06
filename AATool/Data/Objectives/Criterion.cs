@@ -1,9 +1,7 @@
-﻿using AATool.Data.Progress;
+﻿using System.Linq;
+using System.Xml;
 using AATool.Net;
 using AATool.Utilities;
-using System.Globalization;
-using System.Linq;
-using System.Xml;
 
 namespace AATool.Data.Objectives
 {
@@ -15,8 +13,9 @@ namespace AATool.Data.Objectives
         public string OwnerId => this.Owner.Id;
 
         public bool CompletedByDesignated() => this.CompletedBy(this.DesignatedPlayer);
-        public override string GetFullCaption() => this.Name;
-        public override string GetShortCaption() => this.ShortName;
+
+        public override string FullStatus => this.Name;
+        public override string TinyStatus => this.ShortName;
 
         public Criterion(XmlNode node, Advancement advancement) : base (node)
         {

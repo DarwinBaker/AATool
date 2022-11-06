@@ -17,12 +17,12 @@ namespace AATool.Configuration
         };
 
         public static readonly List<string> AllAB = new (){
-            "EGap", "Trident", "NautilusShells", "ShulkerShells", "WitherSkulls",
-            "AncientDebris", "Bees", "Mycelium", "DeepslateEmerald"
+            "Trident", "NautilusShells", "ShulkerShells", "WitherSkulls",
+            "AncientDebris", "DeepslateEmerald", "SculkBlocks", "Mycelium", "RedSand", "Bees",
         };
 
         public static readonly List<string> AllAACH = new (){
-            "EGap", "WitherSkulls", "GoldBlocks", "Biomes"
+            "EGap", "WitherSkulls", "GoldBlocks", "Biomes",
         };
 
         public static List<string> GetAllAvailable()
@@ -37,6 +37,8 @@ namespace AATool.Configuration
 
             if (Version.TryParse(Tracker.CurrentVersion, out Version current))
             {
+                if (current < new Version("1.19"))
+                    available.Remove("SculkBlocks");
                 if (current < new Version("1.17"))
                     available.Remove("DeepslateEmerald");
                 if (current < new Version("1.16"))
@@ -63,6 +65,9 @@ namespace AATool.Configuration
             { "All Advancements 1.17", new () {
                 "AncientDebris", "WitherSkulls", "NautilusShells", "Trident", "EGap",
             }},
+            { "All Advancements 1.16.5", new () {
+                "AncientDebris", "WitherSkulls", "NautilusShells", "Trident", "EGap",
+            }},
             { "All Advancements 1.16", new () {
                 "AncientDebris", "WitherSkulls", "NautilusShells", "Trident", "EGap",
             }},
@@ -76,24 +81,24 @@ namespace AATool.Configuration
                 "GoldBlocks", "WitherSkulls", "NautilusShells", "Trident", "EGap",
             }},
             { "All Advancements 1.12", new () {
-                "Biomes", "GoldBlocks", "WitherSkulls", "EGap",
-            }},
-            { "All Blocks 1.19", new () {
-                "AncientDebris", "DeepslateEmerald", "WitherSkulls", "ShulkerShells", "NautilusShells", "Trident", "EGap",
-            }},
-            { "All Blocks 1.18", new () {
-                "AncientDebris", "DeepslateEmerald", "WitherSkulls", "ShulkerShells", "NautilusShells", "Trident", "EGap",
-            }},
-            { "All Blocks 1.16", new () {
-                "AncientDebris", "Mycelium", "WitherSkulls", "ShulkerShells", "NautilusShells", "Trident", "EGap",
+                "GoldBlocks", "WitherSkulls", "Monsters", "Biomes", "EGap",
             }},
             { "All Achievements 1.11", new () {
-                "Biomes", "GoldBlocks", "WitherSkulls", "EGap",
+                "GoldBlocks", "WitherSkulls", "Biomes", "EGap",
+            }},
+            { "All Blocks 1.19", new () {
+                "AncientDebris", "DeepslateEmerald", "WitherSkulls", "ShulkerShells", "NautilusShells", "Trident",
+            }},
+            { "All Blocks 1.18", new () {
+                "AncientDebris", "DeepslateEmerald", "WitherSkulls", "ShulkerShells", "NautilusShells", "Trident",
+            }},
+            { "All Blocks 1.16", new () {
+                "AncientDebris", "Mycelium", "WitherSkulls", "ShulkerShells", "NautilusShells", "Trident",
             }},
         };
 
         public bool TryGetCurrentList(out List<string> list) =>
-            this.TryGetCurrentList(Tracker.Category.Name, Tracker.Category.CurrentMajorVersion, out list);
+            this.TryGetCurrentList(Tracker.Category.Name, Tracker.Category.CurrentVersion, out list);
 
         public bool TryGetCurrentList(string category, string version, out List<string> list) =>
             this.Pinned.TryGetValue($"{category} {version}", out list);
@@ -102,13 +107,12 @@ namespace AATool.Configuration
         {
             var names = new List<string>();
             foreach (UIPinnedObjectiveFrame frame in frames)
-                names.Add(frame.Objective.GetName());
+                names.Add(frame.Objective.Name);
 
             List<string> previous = this.Pinned[$"{Tracker.Category.Name} {Tracker.CurrentVersion}"];
             if (!names.SequenceEqual(previous))
             {
                 this.Pinned[$"{Tracker.Category.Name} {Tracker.CurrentVersion}"] = names;
-                //Config.Overlay.PinnedObjectiveList.InvokeChange();
                 return true;
             }
             return false; 

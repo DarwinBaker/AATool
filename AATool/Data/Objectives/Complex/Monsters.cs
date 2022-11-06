@@ -33,8 +33,8 @@ namespace AATool.Data.Objectives.Complex
         public override string Criterion => "Mob";
         public override string Action => "Kill";
         public override string PastAction => "Killed";
-        protected override string ModernTexture => "kill_all_mobs";
-        protected override string OldTexture => "kill_all_mobs_1.12";
+        protected override string ModernBaseTexture => "kill_all_mobs";
+        protected override string OldBaseTexture => "kill_all_mobs_1.12";
 
         protected override void UpdateAdvancedState(ProgressState progress)
         {
@@ -97,18 +97,27 @@ namespace AATool.Data.Objectives.Complex
         protected override string LongStatusNormal() =>
             $"Mobs\0Killed\n{this.CurrentCriteria}\0/\0{this.RequiredCriteria}";
 
-        protected override void RefreshIcon()
+        protected override string GetCurrentIcon()
         {
-            if (!UseModernTexture)
-                this.Icon = this.OldTexture;
-            else if (this.CompletionOverride || this.RemainingCriteria.Count is 0)
-                this.Icon = "enchanted_diamond_sword";
-            else if (this.OnLastCriterion)
-                this.Icon = this.LastCriterionIcon;
-            else if (this.OnlyRaidMobsLeft || this.OnlyRaidMobsPlusOneLeft)
-                this.Icon = "enchanted_diamond_sword";
+            if (this.UseModernTexture)
+            {
+                if (this.CompletionOverride || this.AllCriteriaCompleted)
+                    return "enchanted_diamond_sword";
+
+                if (this.OnLastCriterion)
+                    return this.LastCriterionIcon;
+
+                if (this.OnlyRaidMobsLeft || this.OnlyRaidMobsPlusOneLeft)
+                    return "enchanted_diamond_sword";
+
+                return this.ModernBaseTexture;
+            }
             else
-                this.Icon = this.ModernTexture;
+            {
+                return this.OnLastCriterion
+                    ? this.LastCriterionIcon
+                    : this.OldBaseTexture;
+            }
         }
     }
 }

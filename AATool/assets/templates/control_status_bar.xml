@@ -37,7 +37,7 @@
         <picture name="strider" texture="strider_walking" width="32" height="32" horizontal_align="right" margin_right="178" layer="fore">
             <glow_effect name="strider_glow" texture="player_glow" brightness="0.5"/>
         </picture>
-        <button text="♥ Support me on Patreon ♥" layer="fore" width="170" height="29" horizontal_align="right" margin_right="6">
+        <button text="♥  Check out the Patreon!  ♥" layer="fore" width="170" height="29" horizontal_align="right" margin_right="6">
             <picture name="rainbow_glow" texture="patreon_glow" layer="glow" brightness="0.5" padding="-20"/>
         </button>
     </panel>

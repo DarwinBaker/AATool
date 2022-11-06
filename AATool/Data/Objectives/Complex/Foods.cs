@@ -17,18 +17,12 @@ namespace AATool.Data.Objectives.Complex
 
         private bool onlyHdwghRemaining;
 
-        public Foods() : base()
-        {
-            this.Name = "Foods";
-            this.RefreshIcon();
-        }
-
         public override string AdvancementId => "minecraft:husbandry/balanced_diet";
         public override string Criterion => "Food";
         public override string Action => "Eat";
         public override string PastAction => "Eaten";
-        protected override string ModernTexture => "balanced_diet";
-        protected override string OldTexture => "balanced_diet_1.12";
+        protected override string ModernBaseTexture => "balanced_diet";
+        protected override string OldBaseTexture => "balanced_diet_1.12";
 
         protected override void UpdateAdvancedState(ProgressState progress)
         {
@@ -45,7 +39,6 @@ namespace AATool.Data.Objectives.Complex
                         this.onlyHdwghRemaining = false;
                 }
             }
-            this.RefreshIcon();
         }
 
         protected override void ClearAdvancedState()
@@ -62,7 +55,7 @@ namespace AATool.Data.Objectives.Complex
             if (this.onlyHdwghRemaining)
                 return "Awaiting\nHDWGH";
 
-            if (this.RemainingCriteria.Count is 1)
+            if (this.OnLastCriterion)
                 return $"Last\0Food:\n{this.RemainingCriteria.First()}";
 
             return $"Food\0Eaten\n{this.CurrentCriteria}\0/\0{this.RequiredCriteria}";

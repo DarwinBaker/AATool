@@ -106,7 +106,7 @@ namespace AATool
             if (lastSession is null || lastSession < Version.Parse("1.3.2"))
                 this.announceUpdate = true;
             Config.Tracking.LastSession.Set(Version.ToString());
-            Config.Tracking.Save();
+            Config.Tracking.TrySave();
 
             this.UpdateTitle();
 
