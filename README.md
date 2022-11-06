@@ -2,16 +2,17 @@
 # Setup Guide ➔ [Watch Here!](https://www.youtube.com/watch?v=Oc9Uw9M_Yho)
 
 ![](info/preview_main.png)
+![](info/preview_all_blocks.png)
 ![](info/preview_overlay.gif)
 
 ## What is AATool?
-AATool is a light-weight, standalone program for tracking Minecraft advancement completion progress! Its clean, yet visually appealing design makes it perfect for professional speedrunners, casual players, and hardcore completionists alike!
+AATool is a standalone program capable of tracking the advancements, statistics, and blocks of one or more players, either on a local world or on a server over the internet. Multiple players can even network their trackers together into a co-op lobby for coordinated multi-player speedruns. It supports all version of Minecraft from 1.19 all the way back to 1.11. Several different speedrun categories are supported, each with their own specially designed interface, including All Advancements, All Blocks, Half Percent, All Deaths, and more. The tracker itself is highly customizable, and countless hours have gone into designing it to be both very pleasing to look at, and as legible/intuitive as possible.
 
-It also includes the totally customizable stream overlay that you have likely seen if you've watched [Elysaku's Stream](https://www.twitch.tv/elysaku). Big thanks to him for beta testing this feature! [For a guide on how to set this up yourself, click here!](info/obs.md)
+AATool is used by countless professional speedrunners. It includes a built-in leaderboard system complete with up-to-date world records, player ranks & badges, and a whole community tab dedicated to the most skilled Minecraft players in the world and the incredible challenges they have accomplished! 
 
-AATool even supports automatic synchronization of multiplayer worlds, and allows you to view the progress of individual players!
+It also includes the customizable overlay view that you have likely seen if you've watched any All Advancements runs. [For a guide on how to set this up yourself, click here!](info/obs.md)
 
-_As of February 2022, the AATool project now contains over 14,000 lines of code!_ 🎉
+_As of October 2022, the AATool project now contains over 28,000 lines of code!_ 🎉
 
 ## Want to Contribute?
 If you find this tool helpful or enjoy watching someone else who does, consider supporting me on [Patreon](https://www.patreon.com/_ctm) or making a [PayPal](https://www.paypal.com/donate?hosted_button_id=EN29468P8CY24) donation! This is of course completely optional and this program is and always will be completely free for everyone's use! Also, anyone who donates will have their name added to the tool's credits!
@@ -21,7 +22,7 @@ Experience a crash? AATool will automatically write a crash log text file in the
 
 
 ## How It Works
-Due to its unintrusive nature, the tracker only refreshes whenever Minecraft saves. This can be when it autosaves every 5 minutes, but **a save can also be manually triggered by simply pausing and unpausing the game**. Think of *Escape* like a split key for the tracker. (Note that this doesn't work if the game is open to LAN, as the Minecraft server won't pause or save when you press escape) When Minecraft saves it writes all of your advancement progress and stats to JSON files. This program then reads those files and displays their info in a nicely orginized view. The only privilege given to the tracker is `FileAccess.Read`, and `FileShare.ReadWrite | FileShare.Delete` is used while parsing the file so as not to inturrupt Minecraft if it happens to save during a refresh. AATool also comes with an automatic update system, so once you have it up and running you never have to download anything again!
+Due to its unintrusive nature, the tracker only refreshes whenever Minecraft saves. This can be when it autosaves every 5 minutes, but **a save can also be manually triggered by simply pausing and unpausing the game**. Think of *Escape* like a split key for the tracker. (Note that this doesn't work if the game is open to LAN, as the Minecraft server won't pause or save when you press escape) When Minecraft saves it writes all of your advancement progress and stats to JSON files. This program then reads those files and displays their info in a nicely orginized view. The only privilege given to the tracker is `FileAccess.Read`, and `FileShare.ReadWrite | FileShare.Delete` is used while parsing the file so as not to interrupt Minecraft if it happens to save during a refresh. AATool also comes with an automatic update system, so once you have it up and running you never have to download anything again!
 
 
 ## Speedrun Legality
