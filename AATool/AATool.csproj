@@ -83,6 +83,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="assets\objectives\1.15\blocks.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\objectives\1.16\blocks.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -92,6 +95,7 @@
     <Compile Include="Configuration\ConfigObject.cs" />
     <Compile Include="Configuration\ConfigStatic.cs" />
     <Compile Include="Configuration\MainConfig.cs" />
+    <Compile Include="Configuration\PinnedObjectiveSet.cs" />
     <Compile Include="Configuration\SftpConfig.cs" />
     <Compile Include="Configuration\NetworkConfig.cs" />
     <Compile Include="Configuration\NotesConfig.cs" />
@@ -112,6 +116,16 @@
     <Compile Include="Data\Categories\SingleAdvancement.cs" />
     <Compile Include="Data\Cell.cs" />
     <Compile Include="Data\Credits.cs" />
+    <Compile Include="Data\Objectives\ComplexCriteriaObjective.cs" />
+    <Compile Include="Data\Objectives\Complex\Animals.cs" />
+    <Compile Include="Data\Objectives\Complex\Monsters.cs" />
+    <Compile Include="Data\Objectives\Complex\Foods.cs" />
+    <Compile Include="Data\Objectives\Complex\Biomes.cs" />
+    <Compile Include="Data\Objectives\Complex\Cats.cs" />
+    <Compile Include="Data\Objectives\Complex\Bees.cs" />
+    <Compile Include="Data\Objectives\ComplexPickupObjective.cs" />
+    <Compile Include="Data\Objectives\Complex\RedSand.cs" />
+    <Compile Include="Data\Objectives\Complex\SculkBlocks.cs" />
     <Compile Include="Data\Objectives\DeathManifest.cs" />
     <Compile Include="Data\Objectives\Death.cs" />
     <Compile Include="Data\Objectives\CriteriaSet.cs" />
@@ -123,18 +137,20 @@
     <Compile Include="Data\Objectives\Block.cs" />
     <Compile Include="Data\Objectives\BlockManifest.cs" />
     <Compile Include="Data\Objectives\IManifest.cs" />
-    <Compile Include="Data\Objectives\Pickup.cs" />
-    <Compile Include="Data\Objectives\PickupManifest.cs" />
+    <Compile Include="Data\Objectives\ComplexObjective.cs" />
+    <Compile Include="Data\Objectives\ComplexObjectiveManifest.cs" />
     <Compile Include="Data\Objectives\Objective.cs" />
-    <Compile Include="Data\Objectives\Pickups\DeepslateEmerald.cs" />
-    <Compile Include="Data\Objectives\Pickups\Mycelium.cs" />
-    <Compile Include="Data\Objectives\Pickups\GoldBlocks.cs" />
-    <Compile Include="Data\Objectives\Pickups\AncientDebris.cs" />
-    <Compile Include="Data\Objectives\Pickups\ShulkerShell.cs" />
-    <Compile Include="Data\Objectives\Pickups\NautilusShell.cs" />
-    <Compile Include="Data\Objectives\Pickups\Egap.cs" />
-    <Compile Include="Data\Objectives\Pickups\Trident.cs" />
-    <Compile Include="Data\Objectives\Pickups\WitherSkull.cs" />
+    <Compile Include="Data\Objectives\Complex\DeepslateEmerald.cs" />
+    <Compile Include="Data\Objectives\Complex\Mycelium.cs" />
+    <Compile Include="Data\Objectives\Complex\GoldBlocks.cs" />
+    <Compile Include="Data\Objectives\Complex\AncientDebris.cs" />
+    <Compile Include="Data\Objectives\Complex\ShulkerShells.cs" />
+    <Compile Include="Data\Objectives\Complex\NautilusShells.cs" />
+    <Compile Include="Data\Objectives\Complex\EGap.cs" />
+    <Compile Include="Data\Objectives\Complex\Trident.cs" />
+    <Compile Include="Data\Objectives\Complex\WitherSkulls.cs" />
+    <Compile Include="Data\Progress\Completion.cs" />
+    <Compile Include="Data\Progress\ProgressState.cs" />
     <Compile Include="Data\Speedrunning\NicknameSheet.cs" />
     <Compile Include="Data\Speedrunning\Run.cs" />
     <Compile Include="Data\Speedrunning\Leaderboard.cs" />
@@ -210,6 +226,9 @@
     <Compile Include="UI\Controls\UIBlockPopup.cs" />
     <Compile Include="UI\Controls\UIBlockTile.cs" />
     <Compile Include="UI\Controls\UICarouselCover.cs" />
+    <Compile Include="UI\Controls\UIObjectiveTray.cs" />
+    <Compile Include="UI\Controls\UIPinnedObjectiveFrame.cs" />
+    <Compile Include="UI\Controls\UIPinnedRow.cs" />
     <Compile Include="UI\Controls\UITextInput.cs" />
     <Compile Include="UI\Controls\UIObjectiveFrame.cs" />
     <Compile Include="UI\Controls\UIGlowEffect.cs" />
@@ -457,9 +476,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\objectives\1.19\potions.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\objectives\1.19\statistics.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\ab_guide\all_infested_blocks%246x6x30.png">
@@ -2208,28 +2224,28 @@
     <Content Include="assets\sprites\blocks\mud\packed_mud^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\other\xqcl.png">
+    <Content Include="assets\sprites\ab_guide\welcome\xqcl.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\other\block_heap_right.png">
+    <Content Include="assets\sprites\ab_guide\welcome\block_heap_right.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\other\block_heap_left.png">
+    <Content Include="assets\sprites\ab_guide\welcome\block_heap_left.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\other\allay_plate.png">
+    <Content Include="assets\sprites\ab_guide\welcome\allay_plate.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\other\player_frame_diamond_glow~1.png">
+    <Content Include="assets\sprites\ab_guide\welcome\player_frame_diamond_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\other\player_frame_netherite_glow~1.png">
+    <Content Include="assets\sprites\ab_guide\welcome\player_frame_netherite_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\other\player_frame_gold_glow~1.png">
+    <Content Include="assets\sprites\ab_guide\welcome\player_frame_gold_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\other\allay_fly%24100x25.png">
+    <Content Include="assets\sprites\ab_guide\welcome\allay_fly%24100x25.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\plants\acacia_sapling^32.png">
@@ -2898,6 +2914,24 @@
     <Content Include="assets\sprites\global\gui\frames\flags\frame_flag_transgender.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\gui\icons\overlay_pin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\overlay_cancel.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\pin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\unpin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\overlay_arrow_bottom.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\overlay_arrow_top.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\gui\icons\confirm_blocks.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -2955,7 +2989,16 @@
     <Content Include="assets\sprites\global\items\barrier.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\items\bee_nest_full_pickup.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\bee_nest_pickup.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\items\cocoa_beans_item.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\enchanted_diamond_boots%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\items\enchanted_trident%24825.png">
@@ -6420,6 +6463,12 @@
     <Content Include="assets\templates\control_leaderboard.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\templates\control_objective_tray.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_pinned_objective_frame.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\templates\control_timeline_event.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -6450,13 +6499,19 @@
     <Content Include="assets\views\all_advancements\1.19\main_vertical.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\views\all_blocks\1.15\help.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\all_blocks\1.15\main.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\views\all_blocks\1.16\help.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\all_blocks\1.16\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\views\all_blocks\1.16\overlay.xml">
+    <Content Include="assets\views\all_blocks\overlay.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\all_blocks\1.18\help.xml">
@@ -6468,13 +6523,7 @@
     <Content Include="assets\views\all_blocks\1.19\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\views\all_blocks\1.19\overlay.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="assets\views\all_blocks\1.18\main.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\views\all_blocks\1.18\overlay.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\all_deaths\1.16\main.xml">
@@ -6664,9 +6713,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\objectives\1.11\potions.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\objectives\1.11\statistics.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\objectives\1.12\advancements\adventure.xml">
@@ -7041,9 +7087,6 @@
     <Content Include="assets\objectives\1.18\potions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\objectives\1.18\statistics.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="assets\templates\control_objective_frame.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -7062,28 +7105,7 @@
     <Content Include="assets\objectives\1.17\potions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\objectives\1.17\statistics.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="assets\objectives\1.12\potions.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\objectives\1.13\statistics.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\objectives\1.12\statistics.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\objectives\1.14\statistics.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\objectives\1.15\statistics.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\objectives\1.16.5\statistics.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\objectives\1.16\statistics.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\achievements\bookcase^32.png">
@@ -7399,7 +7421,7 @@
     <Content Include="assets\sprites\global\items\enchanted_elytra%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\items\enchanted_diamond_pickaxe%24825.png">
+    <Content Include="assets\sprites\global\items\enchanted_diamond_pickaxe%24256.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\items\iron_axe.png">
@@ -7432,7 +7454,7 @@
     <Content Include="assets\sprites\global\items\trident.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\items\enchanted_diamond_axe%24825.png">
+    <Content Include="assets\sprites\global\items\enchanted_diamond_axe%24256.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\potions\enchantment_potion%24825.png">
@@ -8398,7 +8420,7 @@
     <Content Include="assets\sprites\global\gui\icons\enchantment_table_opening%2416.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\icons\enchantment_table_reading%24120.png">
+    <Content Include="assets\sprites\global\gui\icons\enchantment_table_reading%24120x14.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\progress_bars\experience\bar_experience_active_left.png">
@@ -8689,7 +8711,7 @@
     <Content Include="assets\sprites\global\advancements\nether\ride_strider.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\advancements\nether\summon_wither%24825.png">
+    <Content Include="assets\sprites\global\advancements\nether\summon_wither%24256.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\advancements\nether\uneasy_alliance.png">
