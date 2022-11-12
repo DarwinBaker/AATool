@@ -38,7 +38,7 @@ namespace AATool.Saves
             return (int)Math.Round(cm / 100 / 1000);
         }
 
-        public int GetCustomStat(JsonStream json, string name) => 
+        public int GetCustomStat(JsonStream json, string name) =>
             (int)(json?["stats"]?["minecraft:custom"]?[name]?.Value ?? 0);
 
         protected override void Update(JsonStream json, WorldState state, Contribution contribution)
@@ -112,6 +112,9 @@ namespace AATool.Saves
             int pickupNameStart;
             do
             {
+                if (index < 0)
+                    break;
+
                 pickupNameStart = jsonContent.IndexOf(prefix, index);
                 if (pickupNameStart > -1)
                 {
@@ -125,7 +128,7 @@ namespace AATool.Saves
                         if (int.TryParse(jsonContent.Substring(valueStart + 2, valueLength), out int count))
                             list[name] = count;
                     }
-                    index = valueEnd;
+                    index = valueEnd; 
                 }
             }
             while (pickupNameStart > -1);
