@@ -27,12 +27,9 @@ namespace AATool.Data.Objectives.Complex
 
         private bool fullBeaconComplete;
 
-        private bool roseObtained;
         private bool rosePlaced;
-        private bool beaconCrafted;
         private bool beaconPlaced;
         private bool witherKilled;
-        private bool skullsPlaced;
 
         public int Required => Tracker.Category is AllBlocks ? 4 : 3;
 
@@ -54,14 +51,10 @@ namespace AATool.Data.Objectives.Complex
                 ? progress.AdvancementCompleted(LegacyBeaconator)
                 : progress.AdvancementCompleted(Beaconator);
 
-            this.skullsPlaced = progress.WasUsed(itemId);
-
             //check wither rose status
-            this.roseObtained = progress.WasPickedUp(WitherRose);
             this.rosePlaced = progress.WasUsed(WitherRose);
 
             //check beacon status
-            this.beaconCrafted = progress.WasCrafted(Beacon);
             this.beaconPlaced = progress.WasUsed(Beacon);
 
             //check beacon status
@@ -69,12 +62,12 @@ namespace AATool.Data.Objectives.Complex
 
             if (Tracker.Category is AllBlocks)
             {
-                this.CompletionOverride = this.EstimatedObtained >= this.Required || this.skullsPlaced
+                this.CompletionOverride = this.EstimatedObtained >= this.Required
                     || this.witherKilled || this.rosePlaced || this.beaconPlaced;
             }
             else
             {
-                this.CompletionOverride = this.EstimatedObtained >= this.Required || this.skullsPlaced
+                this.CompletionOverride = this.EstimatedObtained >= this.Required
                     || this.fullBeaconComplete || this.witherKilled;
             }
         }
@@ -82,9 +75,7 @@ namespace AATool.Data.Objectives.Complex
         protected override void ClearAdvancedState()
         {
             this.EstimatedObtained = 0;
-            this.roseObtained = false;
             this.rosePlaced = false;
-            this.beaconCrafted = false;
             this.beaconPlaced = false;
             this.witherKilled = false;
         }
