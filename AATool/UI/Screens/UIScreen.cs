@@ -112,25 +112,32 @@ namespace AATool.UI.Screens
 
         protected void PositionWindow(WindowSnap snap, int monitor, Point lastPosition)
         {
-            int monitorCount = Screen.AllScreens.Length;
-            int displayIndex = MathHelper.Clamp(monitor - 1, 0, monitorCount);
-            System.Drawing.Rectangle desktop = Screen.AllScreens[displayIndex].WorkingArea;
+            try
+            {
+                int monitorCount = Screen.AllScreens.Length;
+                int displayIndex = MathHelper.Clamp(monitor - 1, 0, monitorCount);
+                System.Drawing.Rectangle desktop = Screen.AllScreens[displayIndex].WorkingArea;
 
-            System.Drawing.Point point = snap switch {
-                WindowSnap.Remember => new (lastPosition.X, lastPosition.Y),
-                WindowSnap.Centered => new (desktop.X + ((desktop.Width  - this.Form.Width)  / 2), (desktop.Height - this.Form.Height) / 2),
-                WindowSnap.TopLeft => new (desktop.Left, desktop.Top),
-                WindowSnap.TopRight => new (desktop.Right - this.Form.Width, desktop.Top),
-                WindowSnap.BottomLeft => new(desktop.Left, desktop.Bottom - this.Form.Height),
-                WindowSnap.BottomRight => new(desktop.Right - this.Form.Width, desktop.Bottom - this.Form.Height),
-                _ => this.Form.Location
-            };
+                System.Drawing.Point point = snap switch {
+                    WindowSnap.Remember => new (lastPosition.X, lastPosition.Y),
+                    WindowSnap.Centered => new (desktop.X + ((desktop.Width  - this.Form.Width)  / 2), (desktop.Height - this.Form.Height) / 2),
+                    WindowSnap.TopLeft => new (desktop.Left, desktop.Top),
+                    WindowSnap.TopRight => new (desktop.Right - this.Form.Width, desktop.Top),
+                    WindowSnap.BottomLeft => new(desktop.Left, desktop.Bottom - this.Form.Height),
+                    WindowSnap.BottomRight => new(desktop.Right - this.Form.Width, desktop.Bottom - this.Form.Height),
+                    _ => this.Form.Location
+                };
 
-            this.Form.Location = point;
+                this.Form.Location = point;
 
-            //make sure window is visible on screen
-            if (!Screen.AllScreens.Any(screen => screen.WorkingArea.IntersectsWith(this.Form.Bounds)))
-                this.Form.Location = new(desktop.X + ((desktop.Width  - this.Form.Width)  / 2), (desktop.Height - this.Form.Height) / 2);
+                //make sure window is visible on screen
+                if (!Screen.AllScreens.Any(screen => screen.WorkingArea.IntersectsWith(this.Form.Bounds)))
+                    this.Form.Location = new(desktop.X + ((desktop.Width  - this.Form.Width)  / 2), (desktop.Height - this.Form.Height) / 2);
+            }
+            catch (Exception)
+            {
+
+            }
         }
     }
 }
