@@ -53,9 +53,13 @@ namespace AATool.Data.Objectives
                 var group = new List<Block>();
                 foreach (XmlNode blockNode in groupNode?.ChildNodes)
                 {
-                    //skip spacer nodes
+                    //add spacer
                     if (blockNode.Name is "empty")
+                    {
+                        group.Add(null);
                         continue;
+                    }
+                        
 
                     //add all blocks in group
                     var block = new Block(blockNode);
