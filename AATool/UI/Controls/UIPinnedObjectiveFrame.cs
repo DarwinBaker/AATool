@@ -84,7 +84,7 @@ namespace AATool.UI.Controls
 
             base.UpdateThis(time);
 
-            if (Tracker.ProgressChanged && this.Objective is Trident trident)
+            if (this.Objective is Trident trident)
             {
                 if (trident.EnchantedForegroundLayer)
                     this.foregroundIcon.SetTexture("enchanted_trident");

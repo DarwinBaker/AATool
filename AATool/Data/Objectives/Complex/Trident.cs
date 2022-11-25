@@ -118,7 +118,7 @@ namespace AATool.Data.Objectives.Complex
 
         private string GetStatusAB()
         {
-            if (this.CompletionOverride)
+            if (this.doneWithHeads)
                 return "Done\0With\nThunder";
 
             return this.obtained
