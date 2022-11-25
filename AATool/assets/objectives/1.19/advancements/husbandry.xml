@@ -102,7 +102,7 @@
     <advancement id="minecraft:husbandry/obtain_netherite_hoe" name="Serious Dedication" short_name="Dedication" type="challenge"/>
 
     <advancement id="minecraft:husbandry/allay_deliver_item_to_player"      name="You've Got a Friend in Me"    short_name="A Friend" icon="cookie"/>
-    <advancement id="minecraft:husbandry/allay_deliver_cake_to_note_block"  name="Birthday Song"    short_name="Birthday" icon="birthday" type="challenge"/>
+    <advancement id="minecraft:husbandry/allay_deliver_cake_to_note_block"  name="Birthday Song"    short_name="Birthday" icon="birthday"/>
 
     <advancement id="minecraft:husbandry/froglights"            name="Our&#160;Powers Combined!"       short_name="Froglights" type="challenge"/>
     <advancement id="minecraft:husbandry/leash_all_frog_variants"   name="Squad Hops Into Town"   short_name="The Squad" icon="tame_an_animal"/>
