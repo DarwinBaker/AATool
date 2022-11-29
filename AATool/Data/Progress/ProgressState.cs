@@ -1,50 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using AATool.Data.Objectives;
-using Newtonsoft.Json;
 
 namespace AATool.Data.Progress
 {
-    [TypeConverter(typeof(ProgressState))]
-    [JsonObject]
     public abstract class ProgressState
     {
-        [JsonProperty] public Dictionary<string, Completion> Advancements { get; set; }
-        [JsonProperty] public Dictionary<string, Completion> Recipes { get; set; }
-        [JsonProperty] public Dictionary<(string adv, string crit), Completion> Criteria { get; set; }
-        [JsonProperty] public HashSet<string> DeathMessages { get; set; }
+        public Dictionary<string, Completion> Advancements { get; set; }
+        public Dictionary<string, Completion> Criteria { get; set; }
+        public Dictionary<string, Completion> Recipes { get; set; }
+        public HashSet<string> DeathMessages { get; set; }
 
-        [JsonProperty] public Dictionary<string, int> PickupCounts { get; set; }
-        [JsonProperty] public Dictionary<string, int> DropCounts   { get; set; }
-        [JsonProperty] public Dictionary<string, int> MineCounts   { get; set; }
-        [JsonProperty] public Dictionary<string, int> CraftCounts  { get; set; }
-        [JsonProperty] public Dictionary<string, int> UseCounts    { get; set; }
-        [JsonProperty] public Dictionary<string, int> KillCounts   { get; set; }
+        public Dictionary<string, int> PickupCounts { get; set; }
+        public Dictionary<string, int> DropCounts   { get; set; }
+        public Dictionary<string, int> MineCounts   { get; set; }
+        public Dictionary<string, int> CraftCounts  { get; set; }
+        public Dictionary<string, int> UseCounts    { get; set; }
+        public Dictionary<string, int> KillCounts   { get; set; }
 
-        [JsonProperty] public TimeSpan InGameTime { get; set; }
+        public TimeSpan InGameTime { get; set; }
 
-        [JsonProperty] public double KilometersFlown { get; set; }
+        public double KilometersFlown { get; set; }
 
-        [JsonProperty] public bool ObtainedGodApple { get; set; }
+        public bool ObtainedGodApple { get; set; }
 
-        [JsonProperty] public int Deaths { get; set; }
-        [JsonProperty] public int DamageTaken { get; set; }
-        [JsonProperty] public int DamageDealt { get; set; }
-        [JsonProperty] public int Jumps { get; set; }
-        [JsonProperty] public int Sleeps { get; set; }
-        [JsonProperty] public int SaveAndQuits { get; set; }
-        [JsonProperty] public int ItemsEnchanted { get; set; }
-
-        [JsonConstructor]
-        public ProgressState(Dictionary<string, Completion> Advancements,
-            Dictionary<(string, string), Completion> Criteria,
-            Dictionary<string, Completion> Recipes)
-        {
-            this.Advancements = Advancements;
-            this.Criteria = Criteria;
-            this.Recipes = Recipes;
-        }
+        public int Deaths { get; set; }
+        public int DamageTaken { get; set; }
+        public int DamageDealt { get; set; }
+        public int Jumps { get; set; }
+        public int Sleeps { get; set; }
+        public int SaveAndQuits { get; set; }
+        public int ItemsEnchanted { get; set; }
 
         public ProgressState()
         {
@@ -59,13 +45,14 @@ namespace AATool.Data.Progress
             this.UseCounts = new ();
             this.KillCounts = new ();
         }
+
         public abstract HashSet<Completion> CompletionsOf(IObjective objective);
 
         public bool AdvancementCompleted(string id) =>
             this.Advancements.ContainsKey(id);
 
         public bool CriterionCompleted(string advancement, string criterion) =>
-            this.Criteria.ContainsKey((advancement, criterion));
+            this.Criteria.ContainsKey(Criterion.Key(advancement, criterion));
 
         public bool WasPickedUp(string name) =>
             this.PickupCounts.ContainsKey(name);

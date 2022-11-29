@@ -1,18 +1,16 @@
 ﻿using System;
 using AATool.Net;
-using Newtonsoft.Json;
 
 namespace AATool.Data.Progress
 {
-    [JsonObject]
     public struct Completion
     {
         public static readonly Completion Empty = new (Uuid.Empty, default);
 
-        [JsonProperty] public Uuid Player;
-        [JsonProperty] public DateTime Timestamp;
+        public Uuid Player;
+        public DateTime Timestamp;
 
-        [JsonIgnore] public bool IsEmpty => this.Player == Uuid.Empty;
+        public bool IsEmpty => this.Player == Uuid.Empty;
 
         public Completion(Uuid player, DateTime timestamp)
         {

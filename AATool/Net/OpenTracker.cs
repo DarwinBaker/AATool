@@ -43,7 +43,7 @@ namespace AATool.Net
             try
             {
                 string aaKey = AAKey.Strip(Config.Tracking.OpenTrackerKey);
-                var content = new StringContent(aaKey + Tracker.State.ToJsonString());
+                var content = new StringContent(aaKey);// + Tracker.State.ToJsonString());
                 HttpResponseMessage response = await Client.PostAsync(Config.Tracking.OpenTrackerUrl, content);
                 string message = await response.Content.ReadAsStringAsync();
                 WatchUrl = message;

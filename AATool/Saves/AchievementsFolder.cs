@@ -20,9 +20,9 @@ namespace AATool.Saves
             return false;
         }
         
-        private HashSet<(string adv, string crit)> GetCompletedCriteria(Advancement advancement, JsonStream json)
+        private HashSet<string> GetCompletedCriteria(Advancement advancement, JsonStream json)
         {
-            HashSet<(string, string)> completed = new ();
+            HashSet<string> completed = new ();
             dynamic criteriaList = json?[advancement.Id]?["progress"];
             if (criteriaList is not null)
             {
@@ -34,7 +34,7 @@ namespace AATool.Saves
                     {
                         string criterion = tokens[1];
                         if (advancement.Criteria.Contains(criterion))
-                            completed.Add((advancement.Id, criterion));
+                            completed.Add(Criterion.Key(advancement.Id, criterion));
                     }
                 }
             }
@@ -79,10 +79,10 @@ namespace AATool.Saves
 
                 if (achievement.HasCriteria)
                 {
-                    foreach ((string adv, string crit) criterion in this.GetCompletedCriteria(achievement, json))
+                    foreach (string criterion in this.GetCompletedCriteria(achievement, json))
                     {
                         state.Criteria.Add(criterion, new Completion(json.Player, default));
-                        contribution.Criteria.Add((criterion.adv, criterion.crit), 
+                        contribution.Criteria.Add(criterion, 
                             new Completion(json.Player, default));
                     }
                 }

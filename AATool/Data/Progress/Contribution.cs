@@ -1,38 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using AATool.Data.Objectives;
 using AATool.Net;
-using Newtonsoft.Json;
 
 namespace AATool.Data.Progress
 {
-    [TypeConverter(typeof(Contribution))]
-    [JsonObject]
     public class Contribution : ProgressState
     {
-        [JsonProperty] public readonly Uuid Player;
-
-        [JsonConstructor]
-        public Contribution(Uuid Player,
-            Dictionary<string, Completion> Advancements,
-            Dictionary<(string, string), Completion> Criteria,
-            Dictionary<string, Completion> Recipes) 
-            : base(Advancements, Criteria, Recipes)
-        {
-            this.Player = Player;
-        }
+        public readonly Uuid Player;
 
         public Contribution(Uuid Player) : base()
         {
             this.Player = Player;
         }
 
-        public static Contribution FromJsonString(string jsonString) =>
-            JsonConvert.DeserializeObject<Contribution>(jsonString);
+        public Contribution(NetworkContribution network) : this(network.UUID)
+        {
+            this.Player = network.UUID;
+            this.InGameTime = network.InGameTime;
+            this.ObtainedGodApple = network.ObtainedGodApple;
 
-        public string ToJsonString() => 
-            JsonConvert.SerializeObject(this);
+            //add advancements
+            foreach (KeyValuePair<string, DateTime> advancement in network.Advancements)
+                this.Advancements[advancement.Key] = new Completion(this.Player, advancement.Value);
+            //add criteria
+            foreach (string criterion in network.Criteria)
+                this.Criteria[criterion] = default;
+            //add stats
+            foreach (KeyValuePair<string, int> stat in network.PickupCounts)
+                this.PickupCounts[stat.Key] = stat.Value;
+            foreach (KeyValuePair<string, int> stat in network.DropCounts)
+                this.DropCounts[stat.Key] = stat.Value;
+            foreach (KeyValuePair<string, int> stat in network.MineCounts)
+                this.MineCounts[stat.Key] = stat.Value;
+            foreach (KeyValuePair<string, int> stat in network.CraftCounts)
+                this.CraftCounts[stat.Key] = stat.Value;
+            foreach (KeyValuePair<string, int> stat in network.UseCounts)
+                this.UseCounts[stat.Key] = stat.Value;
+            foreach (KeyValuePair<string, int> stat in network.KillCounts)
+                this.KillCounts[stat.Key] = stat.Value;
+        }
 
         public override HashSet<Completion> CompletionsOf(IObjective objective)
         {
@@ -45,7 +52,7 @@ namespace AATool.Data.Progress
             }
             else if (objective is Criterion criterion)
             {
-                if (this.Criteria.TryGetValue((criterion.OwnerId, criterion.Id), out Completion completion))
+                if (this.Criteria.TryGetValue(Criterion.Key(criterion.OwnerId, criterion.Id), out Completion completion))
                     completionists.Add(completion);
             }
             else if (objective is Block block)

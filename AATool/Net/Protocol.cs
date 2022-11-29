@@ -4,9 +4,9 @@ namespace AATool.Net
 {
     public static class Protocol
     {
-        public static readonly Version Version = new ("7.0");
+        public static readonly Version Version = new ("8.0");
 
-        public const int BufferSize = 8192;
+        public const int BufferSize = 1024 * 1000;
         public const char CommandPrefix = '/';
         public const char DataPrefix = '$';
         public const char TokenDelimiter = '\n';

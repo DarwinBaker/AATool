@@ -12,7 +12,7 @@ namespace AATool.Saves
     {
         private class AdvancementCompletion
         {
-            public readonly Dictionary<(string adv, string crit), DateTime> CriteriaTimestamps;
+            public readonly Dictionary<string, DateTime> CriteriaTimestamps;
             public readonly Uuid Player;
             public readonly string Id;
             public readonly bool AdvancementDone;
@@ -24,13 +24,13 @@ namespace AATool.Saves
                 this.Id = advancement;
                 this.Player = json.Player;
                 this.Timestamp = DateTime.MinValue;
-                this.CriteriaTimestamps = new Dictionary<(string adv, string crit), DateTime>();
+                this.CriteriaTimestamps = new Dictionary<string, DateTime>();
                 this.AdvancementDone = token?["done"] == true;
             }
 
             public void AddCriterion(string adv, string crit, DateTime completed)
             {
-                this.CriteriaTimestamps[(adv, crit)] = completed;
+                this.CriteriaTimestamps[Criterion.Key(adv, crit)] = completed;
                 if (completed > this.Timestamp)
                     this.Timestamp = completed;
             }
@@ -111,7 +111,7 @@ namespace AATool.Saves
 
         private void UpdateCriteria(AdvancementCompletion advancement, WorldState state, Contribution contribution)
         {
-            foreach (KeyValuePair<(string adv, string crit), DateTime> criterion in advancement.CriteriaTimestamps)
+            foreach (KeyValuePair<string, DateTime> criterion in advancement.CriteriaTimestamps)
             {
                 //update individual player progress
                 var completion = new Completion(advancement.Player, criterion.Value);

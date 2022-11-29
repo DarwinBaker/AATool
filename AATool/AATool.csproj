@@ -150,6 +150,8 @@
     <Compile Include="Data\Objectives\Complex\Trident.cs" />
     <Compile Include="Data\Objectives\Complex\WitherSkulls.cs" />
     <Compile Include="Data\Progress\Completion.cs" />
+    <Compile Include="Data\Progress\NetworkContribution.cs" />
+    <Compile Include="Data\Progress\NetworkState.cs" />
     <Compile Include="Data\Progress\ProgressState.cs" />
     <Compile Include="Data\Speedrunning\NicknameSheet.cs" />
     <Compile Include="Data\Speedrunning\Run.cs" />
@@ -478,6 +480,27 @@
     <Content Include="assets\objectives\1.19\potions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\objectives\1.20 Snapshot\advancements\adventure.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\objectives\1.20 Snapshot\advancements\end.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\objectives\1.20 Snapshot\advancements\husbandry.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\objectives\1.20 Snapshot\advancements\minecraft.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\objectives\1.20 Snapshot\advancements\nether.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\objectives\1.20 Snapshot\blocks.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\objectives\1.20 Snapshot\potions.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\ab_guide\all_infested_blocks%246x6x30.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -683,6 +706,102 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\animated\water^48%24198x29.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_fence^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_fence^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_fence_gate^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_fence_gate^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_block^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_block^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_button^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_button^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_door^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_door^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_mosaic^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_mosaic^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_mosaic_slab^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_mosaic_slab^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_mosaic_stairs^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_mosaic_stairs^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_planks^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_planks^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_pressure_plate^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_pressure_plate^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_slab^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_slab^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_stairs^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_stairs^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_trapdoor^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_trapdoor^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\chiseled_bookshelf^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\chiseled_bookshelf^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\chiseled_bookshelf_full^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\chiseled_bookshelf_full^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\stripped_bamboo_block^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\stripped_bamboo_block^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\banners\black_banner^32.png">
@@ -1966,6 +2085,78 @@
     <Content Include="assets\sprites\ab_guide\recipe_tripwire_hook.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\bamboo_hanging_sign^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\acacia_hanging_sign^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\bamboo_hanging_sign^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\acacia_hanging_sign^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\birch_hanging_sign^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\birch_hanging_sign^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\crimson_hanging_sign^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\crimson_hanging_sign^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\dark_oak_hanging_sign^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\dark_oak_hanging_sign^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\jungle_hanging_sign^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\jungle_hanging_sign^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\mangrove_hanging_sign^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\mangrove_hanging_sign^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\oak_hanging_sign^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\oak_hanging_sign^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_sign^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\bamboo\bamboo_sign^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\spruce_hanging_sign^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\spruce_hanging_sign^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\warped_hanging_sign^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\hanging_signs\warped_hanging_sign^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\heads\piglin_head^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\heads\piglin_head^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\blocks\lush\azalea^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -2263,6 +2454,12 @@
     <Content Include="assets\sprites\blocks\plants\big_dripleaf^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\blocks\plants\bamboo_sapling^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\plants\bamboo_sapling^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\blocks\plants\birch_sapling^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -2495,6 +2692,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\badges\supporter\badge_supporter_diamond.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\animals\camel.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\mobs\vex_1.19.3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\glow\glint%24825.png">
@@ -6490,6 +6693,15 @@
     <Content Include="assets\views\all_advancements\1.16\main_vertical.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\views\all_advancements\1.20 Snapshot\main_compact.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\all_advancements\1.20 Snapshot\main_relaxed.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\all_advancements\1.20 Snapshot\main_vertical.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\views\all_advancements\1.19\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -6509,6 +6721,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\all_blocks\1.16\main.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\all_blocks\1.20 Snapshot\help.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\all_blocks\1.20 Snapshot\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\all_blocks\overlay.xml">
@@ -8876,9 +9094,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="assets\sprites\blocks\unobtainable\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

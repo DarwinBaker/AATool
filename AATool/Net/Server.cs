@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using AATool.Configuration;
 using AATool.Data.Categories;
+using AATool.Data.Progress;
 using AATool.Net.Requests;
 using AATool.Saves;
 
@@ -88,7 +89,7 @@ namespace AATool.Net
 
         public void SendProgress(Socket client = null)
         {
-            string jsonString = Tracker.State.ToJsonString();
+            string jsonString = new NetworkState(Tracker.State).ToJsonString();
             var message = Message.Progress(jsonString);
 
             //send lobby state to client(s)

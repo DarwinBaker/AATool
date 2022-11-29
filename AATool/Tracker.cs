@@ -230,6 +230,9 @@ namespace AATool
         
         public static bool TrySetCategory(string category)
         {
+            if (string.IsNullOrEmpty(category))
+                return false;
+
             //check if category is the same
             if (Category is not null && category == Category.Name)
                 return false;
@@ -477,18 +480,19 @@ namespace AATool
         private static void ParseCoOpProgress(Time time, Client client)
         {
             //update world from co-op server
-            if (client is null || !client.TryGetData(Protocol.Headers.Progress, out string jsonString))
+            if (client is null || !client.TryGetData(Protocol.Headers.Progress, out string progress))
                 return;
 
-            if (LastServerMessage != jsonString)
+            if (LastServerMessage != progress)
             {
                 CoOpStateChanged = true;
-                LastServerMessage = jsonString;
-                State = WorldState.FromJsonString(jsonString);
+                LastServerMessage = progress;
+                var networkState = NetworkState.FromJsonString(progress);
+                State = new WorldState(networkState);
 
                 //sync category and version with host
-                TrySetCategory(State.GameCategory);
-                TrySetVersion(State.GameVersion);
+                TrySetCategory(networkState.GameCategory);
+                TrySetVersion(networkState.GameVersion);
 
                 //reload objectives if game version has changed
                 if (ObjectivesChanged)

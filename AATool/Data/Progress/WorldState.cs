@@ -1,68 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using AATool.Data.Objectives;
 using AATool.Net;
 using AATool.Utilities;
-using Newtonsoft.Json;
 
 namespace AATool.Data.Progress
 {
-    [TypeConverter(typeof(WorldState))]
-    [JsonObject]
     public class WorldState : ProgressState
     {
         public static readonly WorldState Empty = new ();
 
-        [JsonProperty] public Dictionary<Uuid, Contribution> Players { get; set; }
+        public Dictionary<Uuid, Contribution> Players { get; set; }
 
-        [JsonProperty] public string GameCategory { get; set; }
-        [JsonProperty] public string GameVersion { get; set; }
-
-        public WorldState()
+        public WorldState() : base()
         {
-            this.Advancements = new ();
-            this.Criteria = new ();
-            this.DeathMessages = new ();
             this.Players = new ();
         }
 
-        public string ToJsonString()
+        public WorldState(NetworkState state) : this()
         {
-            //store current category and version data then serialize
-            this.GameCategory = Tracker.CurrentCategory;
-            this.GameVersion = Tracker.CurrentVersion;
-            return JsonConvert.SerializeObject(this);
+            //copy co-op state
+            foreach (NetworkContribution player in state.Players)
+            {
+                //individual progress
+                var contribution = new Contribution(player);
+                this.Players[new Uuid(player.UUID.String)] = contribution;
+
+                //combined advancements
+                foreach (KeyValuePair<string, Completion> advancement in contribution.Advancements)
+                {
+                    if (!this.Advancements.TryGetValue(advancement.Key, out Completion first) || advancement.Value.Before(first.Timestamp))
+                        this.Advancements[advancement.Key] = advancement.Value;
+                }
+
+                //combined criteria
+                foreach (KeyValuePair<string, Completion> criterion in contribution.Criteria)
+                {
+                    if (!this.Criteria.TryGetValue(criterion.Key, out Completion first) || criterion.Value.Before(first.Timestamp))
+                        this.Criteria[criterion.Key] = criterion.Value;
+                }
+
+                //combined stats
+                this.CopyStats(player.PickupCounts, this.PickupCounts);
+                this.CopyStats(player.DropCounts,   this.DropCounts);
+                this.CopyStats(player.MineCounts,   this.MineCounts);
+                this.CopyStats(player.CraftCounts,  this.CraftCounts);
+                this.CopyStats(player.UseCounts,    this.UseCounts);
+                this.CopyStats(player.KillCounts,   this.KillCounts);
+
+                //enchanted golden apple
+                this.ObtainedGodApple |= contribution.ObtainedGodApple;
+
+                //ingame time
+                if (contribution.InGameTime > this.InGameTime)
+                    this.InGameTime = contribution.InGameTime;
+            }
         }
 
-        public static WorldState FromJsonString(string jsonString)
+        private void CopyStats(Dictionary<string, int> source, Dictionary<string, int> destination)
         {
-            try
+            foreach (KeyValuePair<string, int> statistic in source)
             {
-                //deserialize progress
-                dynamic json = JsonConvert.DeserializeObject<WorldState>(jsonString);
-                WorldState state = JsonConvert.DeserializeObject<WorldState>(jsonString);
-
-                //clone complex data structures
-                state.Advancements = json.CompletedAdvancements;
-                state.Criteria = json.CompletedCriteria;
-                state.Players = json.Players;
-                state.PickupCounts = json.PickedUp;
-                state.DropCounts = json.Dropped;
-                state.MineCounts = json.Mined;
-                state.CraftCounts = json.Crafted;
-                state.UseCounts = json.Used;
-                state.KillCounts = json.Killed;
-
-                //make sure everyone's names and avatars are loaded
-                foreach (KeyValuePair<Uuid, Contribution> contribution in state.Players)
-                    Player.FetchIdentityAsync(contribution.Key);
-                return state;
-            }
-            catch
-            {
-                //error deserializing world state
-                return new WorldState();
+                _= destination.TryGetValue(statistic.Key, out int existing);
+                destination[statistic.Key] = existing + statistic.Value;
             }
         }
 
@@ -82,7 +81,7 @@ namespace AATool.Data.Progress
             {
                 foreach (KeyValuePair<Uuid, Contribution> player in this.Players)
                 {
-                    if (player.Value.Criteria.TryGetValue((criterion.Owner.Id, criterion.Id), out Completion completion))
+                    if (player.Value.Criteria.TryGetValue(Criterion.Key(criterion.Owner.Id, criterion.Id), out Completion completion))
                         completionists.Add(completion);
                 }
             }
@@ -90,7 +89,7 @@ namespace AATool.Data.Progress
             {
                 foreach (KeyValuePair<Uuid, Contribution> player in this.Players)
                 {
-                    if (player.Value.UseCounts.ContainsKey(block.Id))
+                    if (player.Value.UseCounts.ContainsKey(block.Id) is true)
                         completionists.Add(new Completion(player.Key, default));
                 }
             }
@@ -104,18 +103,18 @@ namespace AATool.Data.Progress
 
         public void SyncDeathMessages()
         {
-            if (ActiveInstance.TryGetLog(out string log) && Player.TryGetName(Tracker.GetMainPlayer(), out string name))
+            if (!ActiveInstance.TryGetLog(out string log) || !Player.TryGetName(Tracker.GetMainPlayer(), out string name))
+                return;
+
+            log = log.ToLower();
+            foreach (Death death in Tracker.Deaths.All.Values)
             {
-                log = log.ToLower();
-                foreach (Death death in Tracker.Deaths.All.Values)
+                foreach (string message in death.Messages)
                 {
-                    foreach (string message in death.Messages)
+                    if (log.Contains($"[server thread/info]: {name.ToLower()} {message}"))
                     {
-                        if (log.Contains($"[server thread/info]: {name.ToLower()} {message}"))
-                        {
-                            this.DeathMessages.Add(death.Id);
-                            break;
-                        }
+                        this.DeathMessages.Add(death.Id);
+                        break;
                     }
                 }
             }

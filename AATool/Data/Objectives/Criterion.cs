@@ -7,6 +7,8 @@ namespace AATool.Data.Objectives
 {
     public class Criterion : Objective
     {
+        public static string Key(string advancement, string criterion) => $"{advancement} {criterion}";
+
         public readonly Advancement Owner;
         
         public Uuid DesignatedPlayer => this.Owner.DesignatedPlayer;

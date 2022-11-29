@@ -6,8 +6,7 @@ namespace AATool.Net
     [JsonObject]
     public readonly struct Uuid
     {
-        [JsonIgnore]
-        public static readonly Uuid Empty = new (Guid.Empty);
+        [JsonIgnore] public static readonly Uuid Empty = new (Guid.Empty);
 
         [JsonProperty] public readonly string String;
         [JsonProperty] public readonly string ShortString;

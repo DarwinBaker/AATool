@@ -47,7 +47,7 @@ namespace AATool.Winforms.Controls
 
             this.startupPosition.Text = Config.Main.StartupArrangement.Value.ToString();
             this.UpdateMonitorList();
-            this.startupMonitor.SelectedIndex = MathHelper.Clamp(Config.Main.StartupDisplay - 1, 0, this.startupMonitor.Items.Count);
+            this.startupMonitor.SelectedIndex = MathHelper.Clamp(Config.Main.StartupDisplay - 1, 0, this.startupMonitor.Items.Count - 1);
             this.startupMonitor.Enabled = this.startupPosition.Text != "Remember";
 
             //colors
