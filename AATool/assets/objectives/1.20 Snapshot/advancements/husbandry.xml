@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Husbandry">
+    <advancement id="minecraft:husbandry/root"                    name="Husbandry"                        icon="husbandry"/>
+    <advancement id="minecraft:husbandry/plant_seed"              name="A Seedy Place"                    short_name="Seedy Place"/>
+    <advancement id="minecraft:husbandry/breed_an_animal"         name="The Parrots and the Bats"         short_name="Parrots"/>
+    <advancement id="minecraft:husbandry/tame_an_animal"          name="Best Friends Forever"             short_name="BFF's"/>
+    <advancement id="minecraft:husbandry/fishy_business"          name="Fishy Business"                   short_name="Fishy Biz"/>
+    <advancement id="minecraft:husbandry/tactical_fishing"        name="Tactical Fishing"                 short_name="Tactical"/>
+    <advancement id="minecraft:husbandry/axolotl_in_a_bucket"     name="The Cutest Predator"              short_name="Predator"/>
+    <advancement id="minecraft:husbandry/kill_axolotl_target"     name="Healing&#160;Power of Friendship"      short_name="Friendship"/>
+    <advancement id="minecraft:husbandry/make_a_sign_glow"        name="Glow and Behold!"                 short_name="Behold!"/>
+    <advancement id="minecraft:husbandry/silk_touch_nest"         name="Total Beelocation"                short_name="Beelocation"/>
+    <advancement id="minecraft:husbandry/safely_harvest_honey"    name="Bee Our Guest"                    short_name="Our Guest"/>
+    <advancement id="minecraft:husbandry/wax_on"                  name="Wax On"/>
+    <advancement id="minecraft:husbandry/wax_off"                 name="Wax Off"/>
+    <advancement id="minecraft:husbandry/ride_a_boat_with_a_goat" name="Whatever Floats&#160;Your&#160;Goat!" short_name="Goat Boat"/>
+    <advancement id="minecraft:husbandry/bred_all_animals" name="Two by Two" type="challenge">
+        <criteria goal="Animals Bred">
+            <criterion id="minecraft:pig"/>
+            <criterion id="minecraft:sheep"/>
+            <criterion id="minecraft:chicken"/>
+            <criterion id="minecraft:cow"/>
+            <criterion id="minecraft:mooshroom"/>
+            <criterion id="minecraft:cat"/>
+            <criterion id="minecraft:ocelot"/>
+            <criterion id="minecraft:wolf"/>
+            <criterion id="minecraft:fox"/>
+            <criterion id="minecraft:rabbit"/>
+            <criterion id="minecraft:bee"/>
+            <criterion id="minecraft:horse"/>
+            <criterion id="minecraft:donkey"/>
+            <criterion id="minecraft:mule"/>
+            <criterion id="minecraft:camel"/>
+            <criterion id="minecraft:llama"/>
+            <criterion id="minecraft:goat"/>
+            <criterion id="minecraft:panda"/>
+            <criterion id="minecraft:turtle"/>
+            <criterion id="minecraft:axolotl"/>
+            <criterion id="minecraft:frog"/>
+            <criterion id="minecraft:strider"/>
+            <criterion id="minecraft:hoglin"/>
+        </criteria>
+    </advancement>
+    <advancement id="minecraft:husbandry/balanced_diet" name="A Balanced Diet" short_name="ABD" type="challenge">
+        <criteria goal="Foods Eaten">
+            <criterion id="bread"/>
+            <criterion id="cooked_porkchop"        name="Porkchop"/>
+            <criterion id="porkchop"               name="Raw Porkchop"/>
+            <criterion id="cooked_beef"            name="Beef"/>
+            <criterion id="beef"                   name="Raw Beef"/>
+            <criterion id="cooked_chicken"         name="Chicken"/>
+            <criterion id="chicken"                name="Raw Chicken"  icon="raw_chicken"/>
+            <criterion id="cooked_mutton"          name="Mutton"/>
+            <criterion id="mutton"                 name="Raw Mutton"/>
+            <criterion id="cooked_rabbit"          name="Rabbit"/>
+            <criterion id="rabbit"                 name="Raw Rabbit"   icon="raw_rabbit"/>
+            <criterion id="cooked_cod"             name="Cod"/>
+            <criterion id="cod"                    name="Raw Cod"/>
+            <criterion id="tropical_fish"/>
+            <criterion id="cooked_salmon"          name="Salmon"/>
+            <criterion id="salmon"                 name="Raw Salmon"/>
+            <criterion id="pufferfish"/>
+            <criterion id="cookie"/>
+            <criterion id="pumpkin_pie"/>
+            <criterion id="apple"/>
+            <criterion id="golden_apple"/>
+            <criterion id="enchanted_golden_apple" name="God Apple"/>
+            <criterion id="golden_carrot"/>
+            <criterion id="carrot"/>
+            <criterion id="melon_slice"/>
+            <criterion id="baked_potato"/>
+            <criterion id="potato"/>
+            <criterion id="poisonous_potato"       name="Poison Potato"/>
+            <criterion id="beetroot"/>
+            <criterion id="sweet_berries"/>
+            <criterion id="glow_berries"/>
+            <criterion id="chorus_fruit"/>
+            <criterion id="mushroom_stew"          name="Shroom Stew"/>
+            <criterion id="suspicious_stew"        name="Sus Stew"/>
+            <criterion id="rabbit_stew"/>
+            <criterion id="beetroot_soup"          name="Beet Soup"/>
+            <criterion id="dried_kelp"/>
+            <criterion id="honey_bottle"/>
+            <criterion id="rotten_flesh"/>
+            <criterion id="spider_eye"/>
+        </criteria>
+    </advancement>
+    <advancement id="minecraft:husbandry/complete_catalogue" name="A Complete Catalogue" short_name="Catalogue" type="challenge">
+        <criteria goal="Cats">
+            <criterion id="minecraft:jellie"            name="Jellie"     icon="jellie"/>
+            <criterion id="minecraft:calico"            name="Calico"     icon="calico"/>
+            <criterion id="minecraft:red"               name="Red"        icon="red"/>
+            <criterion id="minecraft:black"             name="Tuxedo"     icon="tuxedo"/>
+            <criterion id="minecraft:white"             name="White"      icon="white"/>
+            <criterion id="minecraft:ragdoll"           name="Ragdoll"    icon="ragdoll"/>
+            <criterion id="minecraft:british_shorthair" name="British"    icon="british_shorthair"/>
+            <criterion id="minecraft:tabby"             name="Tabby"      icon="tabby"/>
+            <criterion id="minecraft:all_black"         name="Black"      icon="black"/>
+            <criterion id="minecraft:persian"           name="Persian"    icon="persian"/>
+            <criterion id="minecraft:siamese"           name="Siamese"    icon="siamese"/>
+        </criteria>
+    </advancement>
+    <advancement id="minecraft:husbandry/obtain_netherite_hoe" name="Serious Dedication" short_name="Dedication" type="challenge"/>
+
+    <advancement id="minecraft:husbandry/allay_deliver_item_to_player"      name="You've Got a Friend in Me"    short_name="A Friend" icon="cookie"/>
+    <advancement id="minecraft:husbandry/allay_deliver_cake_to_note_block"  name="Birthday Song"    short_name="Birthday" icon="birthday"/>
+
+    <advancement id="minecraft:husbandry/froglights"            name="Our&#160;Powers Combined!"       short_name="Froglights" type="challenge"/>
+    <advancement id="minecraft:husbandry/leash_all_frog_variants"   name="Squad Hops Into Town"   short_name="The Squad" icon="tame_an_animal"/>
+    <advancement id="minecraft:husbandry/tadpole_in_a_bucket"   name="Bukkit Bukkit"        short_name="Bukkit"/>
+</group>

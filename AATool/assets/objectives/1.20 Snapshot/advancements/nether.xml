@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Nether">
+    <advancement id="minecraft:nether/return_to_sender"         name="Return to Sender"           short_name="Sender" type="challenge"/>
+    <advancement id="minecraft:nether/use_lodestone"            name="Country&#160;Lode, Take Me Home"               short_name="Lode Home"/>
+    <advancement id="minecraft:nether/charge_respawn_anchor"    name='Not Quite "Nine" Lives'     short_name='"Nine" Lives'/>
+    <advancement id="minecraft:nether/obtain_crying_obsidian"   name="Who's Cutting Onions?"     short_name="Onions?"/>
+    <advancement id="minecraft:nether/loot_bastion"             name="War Pigs"/>
+    <advancement id="minecraft:nether/find_bastion"             name="Those Were the Days"        short_name="The Days"/>
+    <advancement id="minecraft:nether/find_fortress"            name="A Terrible Fortress"        short_name="Fortress"/>
+    <advancement id="minecraft:nether/root"                     name="Nether"                     icon="nether"/>
+    
+    <advancement id="minecraft:nether/uneasy_alliance"          name="Uneasy Alliance"            short_name="Uneasy" type="challenge"/>
+    <advancement id="minecraft:nether/fast_travel"              name="Subspace Bubble"       short_name="Subspace"   type="challenge"/>
+    <advancement id="minecraft:nether/brew_potion"              name="Local Brewery"              short_name="Brewery"/>
+    <advancement id="minecraft:nether/obtain_blaze_rod"         name="Into Fire"/>
+    <advancement id="minecraft:nether/distract_piglin"          name="Oh Shiny"/>
+    <advancement id="minecraft:nether/obtain_ancient_debris"    name="Hidden in the&#160;Depths"       short_name="The Depths"/>
+    <advancement id="minecraft:nether/explore_nether"           name="Hot Tourist Destinations"   short_name="Hot Tourist" type="challenge">
+        <criteria goal="Visited">
+            <criterion id="minecraft:nether_wastes"     short_name="Wastes"     type="challenge"/>
+            <criterion id="minecraft:crimson_forest"    short_name="Crimson"    type="challenge"/>
+            <criterion id="minecraft:warped_forest"     short_name="Warped"     type="challenge"/>
+            <criterion id="minecraft:basalt_deltas"     short_name="Basalt"     type="challenge"/>
+            <criterion id="minecraft:soul_sand_valley"  short_name="Soul Sand"  type="challenge"/>
+        </criteria>
+    </advancement>
+    <advancement id="minecraft:nether/netherite_armor"      name="Cover Me in&#160;Debris"    short_name="In Debris"    type="challenge"/>
+    
+    <advancement id="minecraft:nether/all_effects"          name="How Did We Get Here?"    short_name="HDWGH?"     type="challenge"/>
+    <advancement id="minecraft:nether/all_potions"          name="A Furious Cocktail"      short_name="Cocktail"   type="challenge"/>
+    <advancement id="minecraft:nether/create_full_beacon"   name="Beaconator"              short_name="Beaconator" icon="beacon" type="goal"/>
+    <advancement id="minecraft:nether/create_beacon"        name="Bring Home the Beacon"   short_name="Beacon"     icon="beacon"/>
+    <advancement id="minecraft:nether/summon_wither"        name="Withering Heights"       short_name="Withering"/>
+    <advancement id="minecraft:nether/get_wither_skull"     name="Spooky&#160;Scary Skeleton" short_name="Spooky"/>
+    <advancement id="minecraft:nether/ride_strider_in_overworld_lava"  name="Feels Like Home"  short_name="Like Home" icon="ride_strider"/>
+    <advancement id="minecraft:nether/ride_strider"         name="This Boat Has Legs"      short_name="This Boat"/>
+</group>

@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <rows>
+            <row height="416"/>
+            <row height="370"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="23 * 68"/>
+            <column width="68"/>
+        </columns>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <!-- basic advancements -->
+        <grid row="0" col="1" drawmode="all">
+            <rows>
+                <row height="248"/>
+                <row height="168"/>
+            </rows>
+            <columns>
+                <column width="4 * 68"/>
+                <column width="68"/>
+                <column width="8 * 68"/>
+                <column width="68"/>
+                <column width="6 * 68"/>
+                <column width="68"/>
+                <column width="3 * 68"/>
+            </columns>
+            <advancement_group group="minecraft" row="0" col="0" colspan="2" exclude="minecraft:story/root"/>
+            <advancement_group group="nether"    row="0" col="2" direction="righttoleft"/>
+            <advancement_group group="end"       row="1" col="0" exclude="minecraft:end/root"/>
+            <advancement_group group="adventure" row="0" col="4" end="minecraft:adventure/spyglass_at_dragon"/>
+            <advancement_group group="adventure" row="1" col="4" start="minecraft:adventure/honey_block_slide" end="minecraft:husbandry/obtain_netherite_hoe"/>
+            <advancement_group group="husbandry" row="1" col="1" colspan="3" end="minecraft:husbandry/allay_deliver_cake_to_note_block"/>
+            <advancement_group group="husbandry" row="0" col="3" start="minecraft:husbandry/froglights"/>
+
+            <!-- overworld pickup counts -->
+            <flow_panel row="0" col="5">
+                <objective_frame complex="Egap"/>
+                <objective_frame complex="Trident"/>
+                <objective_frame complex="NautilusShells"/>
+            </flow_panel>
+
+            <!-- nether pickup counts -->
+            <flow_panel row="1" col="5">
+                <objective_frame complex="WitherSkulls"/>
+                <objective_frame complex="AncientDebris"/>
+            </flow_panel>
+
+            <!-- info panel -->
+            <leaderboard name="Leaderboard" category="All Advancements" version="1.19" row="0" col="6" rowspan="2"/>
+            <potion_group name="Potion Recipes" row="0" col="6" rowspan="2" padding="8,0,6,0"/>
+        </grid>
+
+        <!-- advancements with subcriteria -->
+        <flow_panel row="1" col="1" colspan="2">
+            <criteria_group width="496" advancement="minecraft:adventure/adventuring_time" cell_width="122"/>
+            <criteria_group width="320" advancement="minecraft:adventure/kill_all_mobs"/>
+            <criteria_group width="5 * 68" advancement="minecraft:husbandry/balanced_diet" cell_width="112"/>
+            <criteria_group width="3 * 68" advancement="minecraft:husbandry/bred_all_animals"/>
+            <criteria_group width="2 * 68" advancement="minecraft:husbandry/complete_catalogue"/>
+            <criteria_group width="2 * 68" advancement="minecraft:nether/explore_nether"/>
+        </flow_panel>
+
+        <!-- status strip -->
+        <status_bar row="2" col="1" colspan="3" right="476"/>
+    </grid>
+</control>

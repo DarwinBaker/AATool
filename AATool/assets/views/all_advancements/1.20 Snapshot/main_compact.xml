@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid drawmode="all">
+        <rows>
+            <row height="348"/>
+            <row height="310"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="20 * 66"/>
+            <column width="66"/>
+        </columns>
+
+        <panel col="1"></panel>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <!-- basic advancements -->
+        <panel row="0" col="1" drawmode="all" padding_bottom="4">
+            <advancement_group group="minecraft" exclude="minecraft:story/root" width="5 * 66" height="3 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="nether"    width="8 * 66" height="3 * 68" margin_left="5 * 66" horizontal_align="left" vertical_align="top" direction="righttoleft"/>
+            <advancement_group group="end"       exclude="minecraft:end/root" width="4 * 66" height="2 * 68" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="adventure" end="minecraft:adventure/spyglass_at_dragon" width="6 * 66" height="3 * 68" margin_left="14 * 66" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="adventure" start="minecraft:adventure/honey_block_slide" width="6 * 66" height="1 * 68" margin_left="14 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="husbandry" end="minecraft:husbandry/allay_deliver_cake_to_note_block" width="10 * 66" height="2 * 68" margin_left="4 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="husbandry" start="minecraft:husbandry/froglights" width="66" height="3 * 68" margin_left="13 * 66" horizontal_align="left" vertical_align="top"/>
+        </panel>
+
+        <!-- advancements with subcriteria -->
+        <flow_panel row="1" col="1" colspan="2" drawmode="all">
+            <criteria_group width="464" advancement="minecraft:adventure/adventuring_time" cell_width="110"/>
+            <criteria_group width="276" advancement="minecraft:adventure/kill_all_mobs"/>
+            <criteria_group width="306" advancement="minecraft:husbandry/balanced_diet" cell_width="100"/>
+            <criteria_group width="166" advancement="minecraft:husbandry/bred_all_animals"/>
+            <criteria_group width="87" advancement="minecraft:husbandry/complete_catalogue"/>
+            <criteria_group width="87" advancement="minecraft:nether/explore_nether"/>
+        </flow_panel>
+
+        <!-- item count display (trident, shells, skulls etc.) -->
+        <flow_panel name="counts" col="2" cell_width="68" cell_height="68" direction="toptobottom">
+            <objective_frame complex="Egap"/>
+            <objective_frame complex="Trident"/>
+            <objective_frame complex="NautilusShells"/>
+            <objective_frame complex="WitherSkulls"/>
+            <objective_frame complex="AncientDebris"/>
+        </flow_panel>
+
+        <!-- status strip -->
+        <status_bar row="2" col="1" colspan="3" right="462"/> 
+    </grid>
+</control>

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <rows>
+            <row height="746"/>
+            <row height="310"/>
+            <row height="268"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="11 * 68"/>
+            <column width="3 * 68"/>
+        </columns>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="5"/>
+
+        <!-- basic advancements -->
+        <grid row="0" col="1" drawmode="all">
+            <rows>
+                <row height="248"/>
+                <row height="168"/>
+                <row height="330"/>
+            </rows>
+            <columns>
+                <column width="4 * 68"/>
+                <column width="1 * 68"/>
+                <column width="4 * 68"/>
+                <column width="68"/>
+                <column width="68"/>
+                <column width="68"/>
+                <column width="68"/>
+                <column width="68"/>
+            </columns>
+
+            <advancement_group group="minecraft" row="0" col="0" colspan="2" exclude="minecraft:story/root"/>
+            <advancement_group group="nether"    row="0" col="2" colspan="2" end="minecraft:nether/distract_piglin"/>
+            <advancement_group group="nether"    draw_mode="childrenonly" width="2 * 68" height="68" margin_left="8 * 68" margin_top="160"  start="minecraft:nether/ride_strider_in_overworld_lava" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="nether"    row="1" col="2" colspan="2" start="minecraft:nether/obtain_ancient_debris" end="minecraft:nether/get_wither_skull"/>
+            <advancement_group group="end"       row="1" col="0" colspan="2" exclude="minecraft:end/root"/>
+            <advancement_group group="husbandry" row="2" col="0" colspan="2" end="minecraft:husbandry/allay_deliver_cake_to_note_block"/>
+            <advancement_group group="adventure" row="2" col="2" colspan="3" end="minecraft:adventure/spyglass_at_dragon"/>
+            <advancement_group group="adventure" row="2" col="5" colspan="3" start="minecraft:adventure/honey_block_slide"/>
+            <advancement_group group="husbandry" draw_mode="childrenonly" width="3 * 68" height="68" margin_left="5 * 68" margin_top="656" start="minecraft:husbandry/froglights" direction="righttoleft"/>
+
+            <!-- overworld pickup counts -->
+            <flow_panel row="0" col="4" rowspan="2" direction="toptobottom">
+                <objective_frame complex="Egap"/>
+                <objective_frame complex="Trident"/>
+                <objective_frame complex="NautilusShells"/>
+                <objective_frame complex="WitherSkulls"/>
+                <objective_frame complex="AncientDebris"/>
+            </flow_panel>
+
+            <!-- info panel -->
+            <leaderboard name="Leaderboard" category="All Advancements" version="1.19" row="0" col="5" rowspan="2" colspan="3"/>
+            <potion_group name="Potion Recipes" row="0" col="5" rowspan="2" colspan="3" padding="8,0,6,0"/>
+        </grid>
+
+        <!-- advancements with subcriteria -->
+        <flow_panel row="1" col="1" colspan="2">
+            <criteria_group width="580" advancement="minecraft:adventure/adventuring_time" cell_width="140"/>
+            <criteria_group width="371" advancement="minecraft:adventure/kill_all_mobs" cell_width="120"/>
+        </flow_panel>
+        <flow_panel row="2" col="1" colspan="2">
+            <criteria_group width="7 * 68" height="268" advancement="minecraft:husbandry/balanced_diet" cell_width="118"/>
+            <criteria_group width="3 * 68" height="268" cell_width="78" advancement="minecraft:husbandry/bred_all_animals"/>
+            <panel width="4 * 68" height="268">
+                <criteria_group height="142" cell_width="90" advancement="minecraft:husbandry/complete_catalogue" vertical_align="top"/>
+                <criteria_group height="126" cell_width="120" advancement="minecraft:nether/explore_nether" vertical_align="bottom"/>
+            </panel>
+        </flow_panel>
+
+        <!-- status strip -->
+        <status_bar row="3" col="1" colspan="3" right="182"/>
+    </grid>
+</control>
