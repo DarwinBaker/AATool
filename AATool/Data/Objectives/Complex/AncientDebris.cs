@@ -113,7 +113,7 @@ namespace AATool.Data.Objectives.Complex
             if (Tracker.Category is AllBlocks)
                 return "netherite_block";
 
-            return this.CompletionOverride 
+            return this.allNetheriteAdvancementsComplete
                 ? "supporter_netherite" 
                 : "obtain_ancient_debris";
         }
