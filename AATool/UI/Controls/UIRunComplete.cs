@@ -293,12 +293,12 @@ namespace AATool.UI.Controls
             this.First<UITextBlock>("bread").SetText(space      + state.TimesUsed("minecraft:bread"));
             this.First<UITextBlock>("enchants").SetText(space   + state.ItemsEnchanted);
             this.First<UITextBlock>("pearls").SetText(space     + state.TimesUsed("minecraft:ender_pearl"));
-            this.First<UITextBlock>("temples").SetText(space    + state.TimesMined("minecraft:tnt") / 9);
+            this.First<UITextBlock>("temples").SetText(space    + (state.TimesMined("minecraft:tnt") / 9));
 
             this.First<UITextBlock>("creepers").SetText(space   + state.TimesKilled("minecraft:creeper"));
             this.First<UITextBlock>("drowned").SetText(space    + state.TimesKilled("minecraft:drowned"));
             this.First<UITextBlock>("withers").SetText(space    + state.TimesKilled("minecraft:wither_skeleton"));
-            this.First<UITextBlock>("fish").SetText(space       + state.TimesKilled("minecraft:cod") + state.TimesKilled("minecraft:salmon"));
+            this.First<UITextBlock>("fish").SetText(space       + (state.TimesKilled("minecraft:cod") + state.TimesKilled("minecraft:salmon")));
             this.First<UITextBlock>("phantoms").SetText(space   + state.TimesKilled("minecraft:phantom"));
 
             this.First<UITextBlock>("lecterns").SetText(space   + state.TimesMined("minecraft:lectern"));
