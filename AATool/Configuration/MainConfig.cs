@@ -16,6 +16,13 @@ namespace AATool.Configuration
         public const string RelaxedLayout = "relaxed";
         public const string CompactLayout = "compact";
         public const string VerticalLayout = "vertical";
+        public const string OptimizedLayout = "optimized";
+
+        public const string AutoSwitchPanel = "Auto-Switch";
+        public const string RunOverviewPanel = "Run Overview";
+        public const string LeaderboardPanel = "Leaderboard";
+        public const string BrewingPanel = "Potion Recipes";
+        
 
         [JsonObject]
         public class MainConfig : Config
@@ -72,18 +79,21 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<WindowSnap> StartupArrangement = new (WindowSnap.Centered);
             [JsonProperty] public readonly Setting<Point> LastWindowPosition = new (Point.Zero);
             [JsonProperty] public readonly Setting<int> StartupDisplay = new (1);
+            [JsonProperty] public readonly Setting<bool> AlwaysOnTop = new (false);
 
             //deprecated (now used to migrate preference from pre-1.4.5.0)
             [JsonProperty] public readonly Setting<bool> CompactMode = new (false);
 
             [JsonIgnore]
-            public bool UseRelaxedStyling => this.Layout != CompactLayout;
+            public bool UseCompactStyling => (this.Layout.Value is CompactLayout || this.UseOptimizedLayout)
+                && Tracker.Category is not AllBlocks;
 
             [JsonIgnore]
-            public bool UseCompactStyling => this.Layout == CompactLayout  && Tracker.Category is not AllBlocks;
+            public bool UseVerticalStyling => this.Layout.Value is VerticalLayout;
 
             [JsonIgnore]
-            public bool UseVerticalStyling => this.Layout == VerticalLayout;
+            public bool UseOptimizedLayout => this.Layout.Value is OptimizedLayout
+                && Tracker.Category?.GetType() == typeof(AllAdvancements);
 
             [JsonIgnore]
             public bool AppearanceChanged => this.FrameStyle.Changed
@@ -141,6 +151,7 @@ namespace AATool.Configuration
                 this.RegisterSetting(this.StartupArrangement);
                 this.RegisterSetting(this.StartupDisplay);
                 this.RegisterSetting(this.LastWindowPosition);
+                this.RegisterSetting(this.AlwaysOnTop);
             }
 
             public void SetPrideList(string csv)
@@ -167,6 +178,18 @@ namespace AATool.Configuration
 
             protected override void MigrateDepricatedConfigs()
             {
+                //prevent some settings from being blank
+                if (string.IsNullOrWhiteSpace(this.Layout))
+                    this.Layout.ApplyDefault();
+                if (string.IsNullOrWhiteSpace(this.FrameStyle))
+                    this.FrameStyle.ApplyDefault();
+                if (string.IsNullOrWhiteSpace(this.ProgressBarStyle))
+                    this.ProgressBarStyle.ApplyDefault();
+                if (string.IsNullOrWhiteSpace(this.InfoPanel))
+                    this.InfoPanel.ApplyDefault();
+                if (string.IsNullOrWhiteSpace(this.RefreshIcon))
+                    this.RefreshIcon.ApplyDefault();
+
                 //migrate relaxed vs compact preference from pre-1.4.5.0 installation
                 if (Version.TryParse(Tracking.LastSession, out Version last)
                     && last < VerticalMonitorUpdate && this.CompactMode)

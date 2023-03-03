@@ -6,7 +6,7 @@ using AATool.Net;
 
 namespace AATool.Data.Objectives.Complex
 {
-    class ShulkerShells : ComplexPickupObjective
+    class ShulkerShells : Pickup
     {
         public static readonly string[] AllBoxVariants = new [] {
             "minecraft:white_shulker_box",

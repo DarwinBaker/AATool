@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 using AATool.Configuration;
 using AATool.Data.Speedrunning;
@@ -48,7 +50,11 @@ namespace AATool.Winforms.Controls
             {
                 Leaderboard.Refresh();
                 UIMainScreen.ForceLayoutRefresh();
-            }           
+            }
+            else if (sender == this.openFolder)
+            {
+                Process.Start(Directory.GetParent(Application.ExecutablePath).FullName);
+            }
             this.SaveSettings();
         }
 

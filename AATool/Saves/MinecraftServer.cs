@@ -278,10 +278,10 @@ namespace AATool.Saves
                 //download server properties
                 string path = Path.Combine(Config.Sftp.ServerRoot, "server.properties");
                 string[] properties = sftp.ReadAllText(path).Split('\n');
-                if (TryGetProperty(properties, "level-name", out string word))
-                    WorldName = word;
+                if (TryGetProperty(properties, "level-name", out string world))
+                    WorldName = world.TrimEnd();
                 if (TryGetProperty(properties, "motd", out string message))
-                    MessageOfTheDay = message;
+                    MessageOfTheDay = message.TrimEnd();
                 return true;
             }
             catch (Exception exception)
@@ -304,7 +304,7 @@ namespace AATool.Saves
         private static bool TryGetWorldSaveTime(SftpClient sftp, out DateTime lastWorldSave, int failures = 0)
         {
             SetState(SyncState.LastAutoSave);
-            string remote = Path.Combine(Config.Sftp.ServerRoot, $"{WorldName}/level.dat");
+            string remote = Path.Combine(Config.Sftp.ServerRoot, WorldName, "level.dat");
             lastWorldSave = default;
 
             try
@@ -346,7 +346,7 @@ namespace AATool.Saves
             SmoothDownloadPercent = 0;
 
             string localPath = Path.Combine(Paths.System.SftpWorldsFolder, WorldName, name);
-            string remotePath = Path.Combine(Config.Sftp.ServerRoot, $"{WorldName}/{name}");
+            string remotePath = Path.Combine(Config.Sftp.ServerRoot, WorldName, name);
             try
             {
                 //make sure directory exists

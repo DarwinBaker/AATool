@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Progress;
 using AATool.Net;
@@ -21,18 +22,17 @@ namespace AATool.Data.Objectives.Complex
 
         public const int Required = 37;
 
+        public bool AllNetheriteAdvancementsComplete { get; private set; }
         public int EstimatedDebris { get; private set; }
         public int EstimatedTnt { get; private set; }
 
-        private bool completedHiddenInTheDepths;
-        private bool completedCountryLode;
-        private bool completedSeriousDedication;
-        private bool completedCoverMeInDebris;
+        protected bool CompletedHiddenInTheDepths;
+        protected bool CompletedCountryLode;
+        protected bool CompletedSeriousDedication;
+        protected bool CompletedCoverMeInDebris;
 
-        private bool allNetheriteAdvancementsComplete;
-        
-        private bool craftedNetheriteBlock;
-        private bool placedNetheriteBlock;
+        protected bool CraftedNetheriteBlock;
+        protected bool PlacedNetheriteBlock;
 
         protected override void UpdateAdvancedState(ProgressState progress)
         {
@@ -49,24 +49,24 @@ namespace AATool.Data.Objectives.Complex
             if (Tracker.Category is AllBlocks)
             {
                 //ignore count if netherite block has been placed
-                this.craftedNetheriteBlock = progress.WasCrafted(NetheriteBlock);
-                this.placedNetheriteBlock = progress.WasUsed(NetheriteBlock);
-                this.CompletionOverride = this.placedNetheriteBlock;
+                this.CraftedNetheriteBlock = progress.WasCrafted(NetheriteBlock);
+                this.PlacedNetheriteBlock = progress.WasUsed(NetheriteBlock);
+                this.CompletionOverride = this.PlacedNetheriteBlock;
             }
             else
             {
                 //ignore count if all netherite related advancements are done
-                this.completedHiddenInTheDepths = progress.AdvancementCompleted(ObtainDebris);
-                this.completedCountryLode = progress.AdvancementCompleted(UseLodestone);
-                this.completedSeriousDedication = progress.AdvancementCompleted(NetheriteHoe);
-                this.completedCoverMeInDebris = progress.AdvancementCompleted(NetheriteArmor);
+                this.CompletedHiddenInTheDepths = progress.AdvancementCompleted(ObtainDebris);
+                this.CompletedCountryLode = progress.AdvancementCompleted(UseLodestone);
+                this.CompletedSeriousDedication = progress.AdvancementCompleted(NetheriteHoe);
+                this.CompletedCoverMeInDebris = progress.AdvancementCompleted(NetheriteArmor);
 
-                this.allNetheriteAdvancementsComplete = this.completedHiddenInTheDepths
-                    && this.completedCountryLode
-                    && this.completedSeriousDedication
-                    && this.completedCoverMeInDebris;
+                this.AllNetheriteAdvancementsComplete = this.CompletedHiddenInTheDepths
+                    && this.CompletedCountryLode
+                    && this.CompletedSeriousDedication
+                    && this.CompletedCoverMeInDebris;
 
-                this.CompletionOverride = this.allNetheriteAdvancementsComplete
+                this.CompletionOverride = this.AllNetheriteAdvancementsComplete
                     || this.EstimatedDebris >= Required;
             }
 
@@ -80,26 +80,35 @@ namespace AATool.Data.Objectives.Complex
             this.EstimatedDebris = 0;
             this.EstimatedTnt = 0;
 
-            this.completedHiddenInTheDepths = false;
-            this.completedCountryLode = false;
-            this.completedSeriousDedication = false;
-            this.completedCoverMeInDebris = false;
+            this.CompletedHiddenInTheDepths = false;
+            this.CompletedCountryLode = false;
+            this.CompletedSeriousDedication = false;
+            this.CompletedCoverMeInDebris = false;
 
-            this.allNetheriteAdvancementsComplete = false;
+            this.AllNetheriteAdvancementsComplete = false;
 
-            this.craftedNetheriteBlock = false;
-            this.placedNetheriteBlock = false;
+            this.CraftedNetheriteBlock = false;
+            this.PlacedNetheriteBlock = false;
         }
 
-        protected override string GetShortStatus() => 
-            this.EstimatedDebris.ToString();
+        protected override string GetShortStatus()
+        {
+            if (this.AllNetheriteAdvancementsComplete)
+                return "Done";
+
+            if (this.ManuallyChecked)
+                return "Collected";
+
+            return $"Debris: {this.EstimatedDebris}";
+        }
+            
 
         protected override string GetLongStatus()
         {
-            if (this.allNetheriteAdvancementsComplete)
+            if (this.AllNetheriteAdvancementsComplete)
                 return "Done\0With\nNetherite";
 
-            if (this.placedNetheriteBlock)
+            if (this.PlacedNetheriteBlock)
                 return "Netherite\nPlaced";
 
             if (this.EstimatedDebris >= Required || this.ManuallyChecked)
@@ -113,7 +122,10 @@ namespace AATool.Data.Objectives.Complex
             if (Tracker.Category is AllBlocks)
                 return "netherite_block";
 
-            return this.allNetheriteAdvancementsComplete
+            if (Config.Main.UseOptimizedLayout)
+                return "obtain_ancient_debris";
+
+            return this.AllNetheriteAdvancementsComplete
                 ? "supporter_netherite" 
                 : "obtain_ancient_debris";
         }

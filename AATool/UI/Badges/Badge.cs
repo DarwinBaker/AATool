@@ -50,6 +50,7 @@ namespace AATool.UI.Badges
 
             bool supporterOverride = isMainPlayer && Config.Main.PreferredPlayerBadge.Value is "Gold" or "Diamond" or "Netherite";
 
+
             //legendary badges
             if (badge is null && !onLeaderboard && !supporterOverride)
                 TryGiveLegendaryBadge(uuid, name, ref badge);

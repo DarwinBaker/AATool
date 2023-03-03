@@ -112,7 +112,7 @@ namespace AATool.Data.Objectives
                     && Peer.TryGetLobby(out Lobby lobby) 
                     && lobby.Designations.TryGetValue(this.Id, out Uuid player))
                 {
-                    this.DesignatedPlayer = player;
+                    this.DesignatedPlayer = new Uuid(player.String);
                 }
             }
             else

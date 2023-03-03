@@ -104,6 +104,7 @@ namespace AATool.Data.Objectives.Complex
                 - progress.TimesDropped(BlockId)
                 - progress.TimesUsed(BlockId);
 
+            this.estimatedCount = Math.Max(this.estimatedCount, 0);
             this.estimatedPlaced = progress.TimesUsed(BlockId);
 
             if (Tracker.Category is AllBlocks)
@@ -209,7 +210,7 @@ namespace AATool.Data.Objectives.Complex
         }
 
         protected override string GetShortStatus()
-            => this.estimatedCount.ToString();
+            => this.doneWithBees ? "Done" : $"Hives:\0{this.estimatedCount}";
 
         protected override string GetLongStatus()
         {
@@ -219,7 +220,11 @@ namespace AATool.Data.Objectives.Complex
             if (this.remainingObjectives.Count is 1)
                 return $"{this.remainingObjectives[0]}";
 
-            string name = this.estimatedCount is 1 ? "Hive" : "Hives";
+            int count = this.estimatedPlaced > 0 
+                ? this.estimatedPlaced 
+                : this.estimatedCount;
+            string name = count is 1 ? "Hive" : "Hives";
+
             return this.estimatedPlaced > 0 
                 ? $"{this.estimatedPlaced}\0{name}\nPlaced" 
                 : $"{this.estimatedCount}\0{name}\nCollected";

@@ -23,7 +23,7 @@ namespace AATool.Data.Progress
             {
                 //individual progress
                 var contribution = new Contribution(player);
-                this.Players[new Uuid(player.UUID.String)] = contribution;
+                this.Players[contribution.Player] = contribution;
 
                 //combined advancements
                 foreach (KeyValuePair<string, Completion> advancement in contribution.Advancements)
@@ -40,20 +40,22 @@ namespace AATool.Data.Progress
                 }
 
                 //combined stats
-                this.CopyStats(player.PickupCounts, this.PickupCounts);
-                this.CopyStats(player.DropCounts,   this.DropCounts);
-                this.CopyStats(player.MineCounts,   this.MineCounts);
-                this.CopyStats(player.CraftCounts,  this.CraftCounts);
-                this.CopyStats(player.UseCounts,    this.UseCounts);
-                this.CopyStats(player.KillCounts,   this.KillCounts);
+                this.CopyStats(player.Pickup, this.PickupCounts);
+                this.CopyStats(player.Drop, this.DropCounts);
+                this.CopyStats(player.Mine, this.MineCounts);
+                this.CopyStats(player.Craft, this.CraftCounts);
+                this.CopyStats(player.Use, this.UseCounts);
+                this.CopyStats(player.Kill, this.KillCounts);
 
                 //enchanted golden apple
                 this.ObtainedGodApple |= contribution.ObtainedGodApple;
-
-                //ingame time
-                if (contribution.InGameTime > this.InGameTime)
-                    this.InGameTime = contribution.InGameTime;
+                //lapis
+                this.ObtainedLapis |= contribution.ObtainedLapis;
             }
+
+            this.InGameTime = state.InGameTime;
+            this.KilometersFlown = state.KilometersFlown;
+            this.ItemsEnchanted = state.ItemsEnchanted;
         }
 
         private void CopyStats(Dictionary<string, int> source, Dictionary<string, int> destination)

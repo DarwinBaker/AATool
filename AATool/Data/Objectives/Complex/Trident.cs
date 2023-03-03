@@ -114,7 +114,12 @@ namespace AATool.Data.Objectives.Complex
                 : "VVF\nIncomplete";
         }
 
-        protected override string GetShortStatus() => this.obtained ? "Obtained" : "0";
+        protected override string GetShortStatus()
+        {
+            if (this.vvfDone && (this.surgeDone || this.ignoreSurge))
+                return "Done";
+            return this.obtained ? "Obtained" : "Trident";
+        }
 
         private string GetStatusAB()
         {

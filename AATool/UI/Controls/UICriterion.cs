@@ -1,20 +1,19 @@
-﻿using AATool.Configuration;
+﻿using System.Xml;
+using AATool.Configuration;
 using AATool.Data.Objectives;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
+using static AATool.Configuration.Config;
 
 namespace AATool.UI.Controls
 {
-    class UICriterion : UIControl
+    class UICriterion : UIObjectiveControl
     {
-        public string AdvancementID { get; set; }
-        public string CriterionID   { get; set; }
         public bool IsStatic        { get; set; }
 
         private readonly int scale;
         private readonly int imageSize;
-        
-        private Criterion criterion;
+
         private UIPicture icon;
         private UITextBlock label;
 
@@ -23,11 +22,9 @@ namespace AATool.UI.Controls
         private float iconTarget;
         private float textTarget;
 
-        public Criterion Objective => this.criterion;
-        public bool HideFromOverlay => (this.criterion?.Owner?.IsComplete() is true) || this.CriterionCompleted;
-        public bool CriterionCompleted => this.criterion?.CompletedByDesignated() is true;
+        public bool HideFromOverlay => this.Objective is Criterion crit && (crit.Owner.IsComplete() || crit.CompletedByDesignated());
 
-        public UICriterion() 
+        public UICriterion() : base()
         {
             this.BuildFromTemplate(); 
             this.imageSize = 16;
@@ -49,15 +46,17 @@ namespace AATool.UI.Controls
 
         public override void InitializeRecursive(UIScreen screen)
         {
-            Tracker.TryGetCriterion(this.AdvancementID, this.CriterionID, out this.criterion);
+            if (this.Objective is null)
+                this.AutoSetObjective();
+
 
             if (Config.Main.UseCompactStyling && this.scale is 1)
                 this.FlexWidth = new Size(95, SizeMode.Absolute);
 
             this.icon = this.First<UIPicture>("icon");
-            if (this.icon is not null && this.criterion is not null)
+            if (this.icon is not null && this.Objective is not null)
             {
-                this.icon.SetTexture(this.criterion.Icon);
+                this.icon.SetTexture(this.Objective?.Icon);
                 this.icon.FlexWidth  = new Size(this.imageSize, SizeMode.Absolute);
                 this.icon.FlexHeight = new Size(this.imageSize, SizeMode.Absolute);
             }
@@ -65,10 +64,10 @@ namespace AATool.UI.Controls
             this.label = this.First<UITextBlock>("label");
             if (this.scale is 1)
             { 
-                if (Config.Main.UseCompactStyling)
-                    this.label?.SetText(this.criterion.ShortName);
+                if (Config.Main.UseCompactStyling && !Config.Main.UseOptimizedLayout)
+                    this.label?.SetText(this.Objective?.TinyStatus);
                 else
-                    this.label?.SetText(this.criterion.Name);
+                    this.label?.SetText(this.Objective?.FullStatus);
             }    
             else
             {
@@ -77,7 +76,7 @@ namespace AATool.UI.Controls
 
             if (!this.IsStatic)
             {
-                bool completed = this.CriterionCompleted;
+                bool completed = this.ObjectiveCompleted;
                 if (Config.Main.HideCompletedCriteria)
                 {
                     this.iconBrightness = completed ? 0 : 1f;
@@ -93,11 +92,19 @@ namespace AATool.UI.Controls
         }
 
         protected override void UpdateThis(Time time)
-        {
+        { 
             if (this.IsStatic)
                 return;
 
-            bool completed = this.CriterionCompleted;
+            if ((Tracker.Invalidated || Tracker.DesignationsChanged) && this.scale is 1)
+            {
+                if (Config.Main.UseCompactStyling && !Config.Main.UseOptimizedLayout)
+                    this.label?.SetText(this.Objective?.TinyStatus);
+                else
+                    this.label?.SetText(this.Objective?.FullStatus);
+            }
+
+            bool completed = this.ObjectiveCompleted;
             if (Config.Main.HideCompletedCriteria)
             {
                 this.iconTarget = completed ? 0 : 1f;
@@ -110,8 +117,8 @@ namespace AATool.UI.Controls
             }
 
             bool visible = !(completed && Config.Main.HideCompletedCriteria);
-            this.icon.SetVisibility(visible);
-            this.label.SetVisibility(visible);
+            this.icon?.SetVisibility(visible);
+            this.label?.SetVisibility(visible);
 
             this.iconBrightness = MathHelper.Lerp(this.iconBrightness, this.iconTarget, (float)(10 * time.Delta));
             this.icon?.SetTint(Color.White * this.iconBrightness);

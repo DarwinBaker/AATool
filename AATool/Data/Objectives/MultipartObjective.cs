@@ -5,7 +5,7 @@ using AATool.Data.Progress;
 
 namespace AATool.Data.Objectives
 {
-    public abstract class ComplexCriteriaObjective : ComplexObjective
+    public abstract class MultipartObjective : ComplexObjective
     {
         private static readonly Version VillageAndPillageUpdate = new ("1.14");
 
@@ -79,7 +79,7 @@ namespace AATool.Data.Objectives
         }
 
         protected override string GetShortStatus() => 
-            $"{this.CurrentCriteria} / {this.RemainingCriteria}";
+            $"{this.CurrentCriteria} / {this.RequiredCriteria}";
 
         protected void UpdateRequired()
         { 

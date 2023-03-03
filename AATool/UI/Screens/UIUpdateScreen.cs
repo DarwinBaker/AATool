@@ -45,6 +45,7 @@ namespace AATool.UI.Screens
             int y = Main.PrimaryScreen.Form.Top + (Main.PrimaryScreen.Form.ClientSize.Height / 2) - (this.Window.ClientBounds.Height / 2);
             this.Form.Location = new System.Drawing.Point(x, y);
             this.Form.Icon = new System.Drawing.Icon(Paths.System.UpdateIcon);
+            this.Form.TopMost = Config.Main.AlwaysOnTop;
             this.Form.Show();
         }
 
@@ -232,6 +233,9 @@ namespace AATool.UI.Screens
             //make sure certain icons match text color
             foreach (UIPicture picture in this.textTinted)
                 picture.SetTint(Config.Main.TextColor);
+
+            if (Config.Main.AlwaysOnTop.Changed)
+                this.Form.TopMost = Config.Main.AlwaysOnTop;
 
             base.UpdateThis(time);
         }

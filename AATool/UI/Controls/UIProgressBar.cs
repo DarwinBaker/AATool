@@ -222,7 +222,7 @@ namespace AATool.UI.Controls
             canvas.DrawRectangle(this.Inner, Config.Main.BackColor.Value * 0.5f);
 
             //empty foreground
-            Color tint = this.style is "modern" ? Config.Main.BorderColor : Color.White;
+            Color tint = this.style is "modern" or "" ? Config.Main.BorderColor : Color.White;
             canvas.Draw($"bar_{this.style}_inactive_left", this.emptyLeft, tint);
             canvas.Draw($"bar_{this.style}_inactive_middle", this.emptyMiddle, tint);
             canvas.Draw($"bar_{this.style}_inactive_right", this.emptyRight, tint);

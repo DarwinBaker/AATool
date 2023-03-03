@@ -212,7 +212,6 @@
         <gravel name="Gravel" icon="gravel"/>
     </dirt>
     <doors>
-        <iron_door name="Iron Door" icon="iron_door" double_height="true"/>
         <oak_door name="Oak Door" icon="oak_door" double_height="true"/>
         <spruce_door name="Spruce Door" icon="spruce_door" double_height="true"/>
         <birch_door name="Birch Door" icon="birch_door" double_height="true"/>
@@ -228,6 +227,7 @@
         <end_stone name="End Stone" icon="end_stone"/>
         <dragon_egg name="Dragon Egg" icon="dragon_egg_block" tags="ender"/>
         <chorus_flower name="Chorus Flower" icon="chorus_flower" tags="end"/>
+        <end_rod name="End Rod" icon="end_rod" light_level="0.5" tags="endcity"/>
     </end_misc>
     <end_blocks>
         <end_stone_bricks name="End Stone Bricks" icon="end_stone_bricks" tags="endcity"/>
@@ -239,9 +239,6 @@
         <purpur_slab name="Purpur Slab" icon="purpur_slab" tags="endcity"/>
         <purpur_pillar name="Purpur Pillar" icon="purpur_pillar" tags="endcity"/>
     </end_blocks>
-    <end_rod>
-        <end_rod name="End Rod" icon="end_rod" light_level="0.5" tags="endcity"/>
-    </end_rod>
     <flowers>
         <poppy name="Poppy" icon="poppy" tags="flowers"/>
         <dandelion name="Dandelion" icon="dandelion" tags="flowers"/>
@@ -269,14 +266,16 @@
         <acacia_leaves name="Acacia&#xA;Leaves" icon="acacia_leaves"/>
         <dark_oak_sapling name="Dark Oak&#xA;Sapling" icon="dark_oak_sapling"/>
         <dark_oak_leaves name="Dark Oak&#xA;Leaves" icon="dark_oak_leaves"/>
-        <mangrove_propagule name="Mangrove&#xA;Propagule" icon="mangrove_propagule" tags="sapling"/>
-        <mangrove_leaves name="Mangrove&#xA;Leaves" icon="mangrove_leaves"/>
-        <bamboo name="Bamboo" icon="bamboo_sapling" tags="jungle"/>
-        <bamboo_block name="Block of&#xA;Bamboo" icon="bamboo_block"/>
         <crimson_fungus name="Crimson&#xA;Fungus" icon="crimson_fungus" tags="mushrooms"/>
         <nether_wart_block name="Nether Wart&#xA;Block" icon="nether_wart_block" tags="leaves"/>
         <warped_fungus name="Warped Fungus" icon="warped_fungus" tags="mushrooms"/>
         <warped_wart_block name="Warped Wart&#xA;Block" icon="warped_wart_block" tags="leaves"/>
+        <cherry_sapling name="Cherry&#xA;Sapling" icon="cherry_sapling"/>
+        <cherry_leaves name="Cherry&#xA;Leaves" icon="cherry_leaves"/>
+        <mangrove_propagule name="Mangrove&#xA;Propagule" icon="mangrove_propagule" tags="sapling"/>
+        <mangrove_leaves name="Mangrove&#xA;Leaves" icon="mangrove_leaves"/>
+        <bamboo name="Bamboo" icon="bamboo_sapling" tags="jungle"/>
+        <bamboo_block name="Block of&#xA;Bamboo" icon="bamboo_block"/>
     </foliage>
     <food>
         <cocoa_beans name="Cocoa&#xA;Beans" icon="cocoa_beans" tags="jungle"/>
@@ -592,7 +591,7 @@
         <red_sandstone_stairs name="Red Sandstone Stairs" icon="red_sandstone_stairs"/>
         <red_sandstone_slab name="Red Sandstone Slab" icon="red_sandstone_slab"/>
         <chiseled_red_sandstone name="Chiseled Red Sandstone" icon="chiseled_red_sandstone"/>
-        <empty/>
+        <decorated_pot name="Decorated Pot" icon="decorated_pot"/>
         <cut_red_sandstone_slab name="Cut Red Sandstone Slab" icon="cut_red_sandstone_slab"/>
         <smooth_red_sandstone name="Smooth Red Sandstone" icon="smooth_red_sandstone"/>
         <smooth_red_sandstone_stairs name="Smooth Red Sandstone Stairs" icon="smooth_red_sandstone_stairs"/>
@@ -606,7 +605,7 @@
         <sandstone_stairs name="Sandstone Stairs" icon="sandstone_stairs"/>
         <sandstone_slab name="Sandstone Slab" icon="sandstone_slab"/>
         <chiseled_sandstone name="Chiseled Sandstone" icon="chiseled_sandstone"/>
-        <empty/>
+        <suspicious_sand name="Suspicious Sand" icon="suspicious_sand"/>
         <cut_sandstone_slab name="Cut Sandstone Slab" icon="cut_sandstone_slab"/>
         <smooth_sandstone name="Smooth Sandstone" icon="smooth_sandstone"/>
         <smooth_sandstone_stairs name="Smooth Sandstone Stairs" icon="smooth_sandstone_stairs"/>
@@ -618,6 +617,13 @@
         <dead_bush name="Dead Bush" icon="dead_bush"/>
         <sweet_berries name="Sweet Berry Bush" icon="sweet_berry_bush"/>
     </shrubs>
+    <torchflowers>
+        <torchflower_seeds name="Torchflower Seeds" icon="torchflower_seeds"/>
+        <torchflower name="Torchflower" icon="torchflower"/>
+    </torchflowers>
+    <petals>
+        <pink_petals name="Pink Petals" icon="pink_petals"/>
+    </petals>
     <shulker_boxes>
         <white_shulker_box name="White&#xA;Shulker&#xA;Box" icon="white_shulker_box"/>
         <red_shulker_box name="Red&#xA;Shulker&#xA;Box" icon="red_shulker_box"/>
@@ -677,7 +683,7 @@
         <cauldron name="Cauldron" icon="cauldron" tags="village"/>
         <enchanting_table name="Enchanting Table" icon="enchanting_table" tags="obsidian diamond book" light_level="0.7"/>
         <beacon name="Beacon" icon="beacon_block" light_level="0.75" tags="obsidian wither"/>
-        <honey_block name="Honey Block" icon="honey_block" tags="bees"/>
+        <honey_block name="Honey Block" icon="honey_block_new" tags="bees"/>
         <redstone_lamp name="Redstone Lamp" icon="redstone_lamp"/>
         <piston name="Piston" icon="piston"/>
         <sticky_piston name="Sticky Piston" icon="sticky_piston"/>
@@ -688,7 +694,7 @@
         <brewing_stand name="Brewing Stand" icon="brewing_stand" tags="village"/>
         <bell name="Bell" icon="bell" tags="village"/>
         <flower_pot name="Flower Pot" icon="flower_pot"/>
-        <slime_block name="Slime Block" icon="slime_block"/>
+        <slime_block name="Slime Block" icon="slime_block_new"/>
         <daylight_detector name="Daylight Detector" icon="daylight_detector"/>
     </specialized>
     <stone>
@@ -711,9 +717,10 @@
         <mossy_stone_brick_wall name="Mossy&#xA;Stone&#160;Brick&#xA;Wall" icon="mossy_stone_brick_wall"/>
         <cobweb name="Cobweb" icon="cobweb"/>
     </stronghold>
-    <iron_trapdoor>
+    <iron_doors>
+        <iron_door name="Iron Door" icon="iron_door" double_height="true"/>
         <iron_trapdoor name="Iron Trapdoor" icon="iron_trapdoor"/>
-    </iron_trapdoor>
+    </iron_doors>
     <lush>
         <moss_block name="Moss Block" icon="moss_block" tags="lush"/>
         <moss_carpet name="Moss Carpet" icon="moss_carpet" tags="lush"/>
@@ -847,34 +854,7 @@
         <dark_oak_button name="Dark Oak&#xA;Button" icon="dark_oak_button"/>
         <dark_oak_sign name="Dark Oak&#xA;Sign" icon="dark_oak_sign"/>
         <dark_oak_hanging_sign name="Dark Oak&#xA;Hanging&#xA;Sign" icon="dark_oak_hanging_sign"/>
-        <mangrove_log name="Mangrove&#xA;Log" icon="mangrove_log"/>
-        <mangrove_wood name="Mangrove&#xA;Wood" icon="mangrove_wood"/>
-        <stripped_mangrove_log name="Stripped&#xA;Mangrove Log" icon="stripped_mangrove_log"/>
-        <stripped_mangrove_wood name="Stripped&#xA;Mangrove Wood" icon="stripped_mangrove_wood"/>
-        <mangrove_planks name="Mangrove&#xA;Planks" icon="mangrove_planks"/>
-        <mangrove_stairs name="Mangrove&#xA;Stairs" icon="mangrove_stairs"/>
-        <mangrove_slab name="Mangrove&#xA;Slab" icon="mangrove_slab"/>
-        <mangrove_fence name="Mangrove&#xA;Fence" icon="mangrove_fence"/>
-        <mangrove_fence_gate name="Mangrove&#xA;Fence Gate" icon="mangrove_fence_gate"/>
-        <mangrove_trapdoor name="Mangrove Trapdoor" icon="mangrove_trapdoor"/>
-        <mangrove_pressure_plate name="Mangrove&#xA;Pressure Plate" icon="mangrove_pressure_plate"/>
-        <mangrove_button name="Mangrove&#xA;Button" icon="mangrove_button"/>
-        <mangrove_sign name="Mangrove&#xA;Sign" icon="mangrove_sign"/>
-        <mangrove_hanging_sign name="Mangrove&#xA;Hanging&#xA;Sign" icon="mangrove_hanging_sign"/>
-        <stripped_bamboo_block name="Stripped&#xA;Bamboo Block" icon="stripped_bamboo_block"/>
-        <bamboo_mosaic name="Bamboo&#xA;Mosaic" icon="bamboo_mosaic"/>
-        <bamboo_mosaic_stairs name="Bamboo&#xA;Mosaic Stairs" icon="bamboo_mosaic_stairs"/>
-        <bamboo_mosaic_slab name="Bamboo&#xA;Mosaic Slab" icon="bamboo_mosaic_slab"/>
-        <bamboo_planks name="Bamboo&#xA;Planks" icon="bamboo_planks"/>
-        <bamboo_stairs name="Bamboo&#xA;Stairs" icon="bamboo_stairs"/>
-        <bamboo_slab name="Bamboo&#xA;Slab" icon="bamboo_slab"/>
-        <bamboo_fence name="Bamboo&#xA;Fence" icon="bamboo_fence"/>
-        <bamboo_fence_gate name="Bamboo&#xA;Fence Gate" icon="bamboo_fence_gate"/>
-        <bamboo_trapdoor name="Bamboo Trapdoor" icon="bamboo_trapdoor"/>
-        <bamboo_pressure_plate name="Bamboo&#xA;Pressure Plate" icon="bamboo_pressure_plate"/>
-        <bamboo_button name="Bamboo&#xA;Button" icon="bamboo_button"/>
-        <bamboo_sign name="Bamboo&#xA;Sign" icon="bamboo_sign"/>
-        <bamboo_hanging_sign name="Bamboo&#xA;Hanging&#xA;Sign" icon="bamboo_hanging_sign"/>
+
         <crimson_stem name="Crimson&#xA;Stem" icon="crimson_stem"/>
         <crimson_hyphae name="Crimson&#xA;Hyphae" icon="crimson_hyphae"/>
         <stripped_crimson_stem name="Stripped&#xA;Crimson Stem" icon="stripped_crimson_stem"/>
@@ -903,6 +883,51 @@
         <warped_button name="Warped&#xA;Button" icon="warped_button"/>
         <warped_sign name="Warped&#xA;Sign" icon="warped_sign"/>
         <warped_hanging_sign name="Warped&#xA;Hanging&#xA;Sign" icon="warped_hanging_sign"/>
+
+        <cherry_log name="Cherry&#xA;Log" icon="cherry_log"/>
+        <cherry_wood name="Cherry&#xA;Wood" icon="cherry_wood"/>
+        <stripped_cherry_log name="Stripped&#xA;Cherry Log" icon="stripped_cherry_log"/>
+        <stripped_cherry_wood name="Stripped&#xA;Cherry Wood" icon="stripped_cherry_wood"/>
+        <cherry_planks name="Cherry&#xA;Planks" icon="cherry_planks"/>
+        <cherry_stairs name="Cherry&#xA;Stairs" icon="cherry_stairs"/>
+        <cherry_slab name="Cherry&#xA;Slab" icon="cherry_slab"/>
+        <cherry_fence name="Cherry&#xA;Fence" icon="cherry_fence"/>
+        <cherry_fence_gate name="Cherry&#xA;Fence Gate" icon="cherry_fence_gate"/>
+        <cherry_trapdoor name="Cherry Trapdoor" icon="cherry_trapdoor"/>
+        <cherry_pressure_plate name="Cherry&#xA;Pressure Plate" icon="cherry_pressure_plate"/>
+        <cherry_button name="Cherry&#xA;Button" icon="cherry_button"/>
+        <cherry_sign name="Cherry&#xA;Sign" icon="cherry_sign"/>
+        <cherry_hanging_sign name="Cherry&#xA;Hanging&#xA;Sign" icon="cherry_hanging_sign"/>
+
+        <mangrove_log name="Mangrove&#xA;Log" icon="mangrove_log"/>
+        <mangrove_wood name="Mangrove&#xA;Wood" icon="mangrove_wood"/>
+        <stripped_mangrove_log name="Stripped&#xA;Mangrove Log" icon="stripped_mangrove_log"/>
+        <stripped_mangrove_wood name="Stripped&#xA;Mangrove Wood" icon="stripped_mangrove_wood"/>
+        <mangrove_planks name="Mangrove&#xA;Planks" icon="mangrove_planks"/>
+        <mangrove_stairs name="Mangrove&#xA;Stairs" icon="mangrove_stairs"/>
+        <mangrove_slab name="Mangrove&#xA;Slab" icon="mangrove_slab"/>
+        <mangrove_fence name="Mangrove&#xA;Fence" icon="mangrove_fence"/>
+        <mangrove_fence_gate name="Mangrove&#xA;Fence Gate" icon="mangrove_fence_gate"/>
+        <mangrove_trapdoor name="Mangrove Trapdoor" icon="mangrove_trapdoor"/>
+        <mangrove_pressure_plate name="Mangrove&#xA;Pressure Plate" icon="mangrove_pressure_plate"/>
+        <mangrove_button name="Mangrove&#xA;Button" icon="mangrove_button"/>
+        <mangrove_sign name="Mangrove&#xA;Sign" icon="mangrove_sign"/>
+        <mangrove_hanging_sign name="Mangrove&#xA;Hanging&#xA;Sign" icon="mangrove_hanging_sign"/>
+
+        <stripped_bamboo_block name="Stripped&#xA;Bamboo Block" icon="stripped_bamboo_block"/>
+        <bamboo_mosaic name="Bamboo&#xA;Mosaic" icon="bamboo_mosaic"/>
+        <bamboo_mosaic_stairs name="Bamboo&#xA;Mosaic Stairs" icon="bamboo_mosaic_stairs"/>
+        <bamboo_mosaic_slab name="Bamboo&#xA;Mosaic Slab" icon="bamboo_mosaic_slab"/>
+        <bamboo_planks name="Bamboo&#xA;Planks" icon="bamboo_planks"/>
+        <bamboo_stairs name="Bamboo&#xA;Stairs" icon="bamboo_stairs"/>
+        <bamboo_slab name="Bamboo&#xA;Slab" icon="bamboo_slab"/>
+        <bamboo_fence name="Bamboo&#xA;Fence" icon="bamboo_fence"/>
+        <bamboo_fence_gate name="Bamboo&#xA;Fence Gate" icon="bamboo_fence_gate"/>
+        <bamboo_trapdoor name="Bamboo Trapdoor" icon="bamboo_trapdoor"/>
+        <bamboo_pressure_plate name="Bamboo&#xA;Pressure Plate" icon="bamboo_pressure_plate"/>
+        <bamboo_button name="Bamboo&#xA;Button" icon="bamboo_button"/>
+        <bamboo_sign name="Bamboo&#xA;Sign" icon="bamboo_sign"/>
+        <bamboo_hanging_sign name="Bamboo&#xA;Hanging&#xA;Sign" icon="bamboo_hanging_sign"/>
     </wood>
     <wool>
         <white_wool name="White&#xA;Wool" icon="white_wool"/>
@@ -928,7 +953,7 @@
         <sculk_shrieker name="Sculk&#xA;Shrieker" icon="sculk_shrieker" light_level="0.6"/>
         <sculk_sensor name="Sculk&#xA;Sensor" icon="sculk_sensor_block" light_level="0.5"/>
         <sculk_vein name="Sculk&#xA;Vein" icon="sculk_vein" light_level="0.5"/>
-    </deep_dark>end
+    </deep_dark>
     <mud>
         <mud_bricks name="Mud Bricks" icon="mud_bricks"/>
         <mud_brick_stairs name="Mud Brick Stairs" icon="mud_brick_stairs"/>

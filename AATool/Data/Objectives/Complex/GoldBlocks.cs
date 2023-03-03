@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Progress;
 using AATool.Net;
@@ -39,9 +40,13 @@ namespace AATool.Data.Objectives.Complex
 
             this.CompletionOverride = this.estimatedBlocks >= Required
                 || this.fullBeaconComplete || this.ManuallyChecked;
+
+            this.CanBeManuallyChecked = this.estimatedBlocks < Required && !this.fullBeaconComplete;
+            if (this.ManuallyChecked)
+                this.CompletionOverride = true;
         }
 
-        private void UpdatePreciseGoldEstimate(ProgressState progress)
+        public static int GetPreciseEstimate(ProgressState progress)
         {
             //account for ingots
             int ingots = progress.TimesPickedUp(GoldIngotId);
@@ -61,7 +66,12 @@ namespace AATool.Data.Objectives.Complex
             ingots -= progress.TimesCrafted("minecraft:golden_apple") * 8;
 
             int blocks = (int)Math.Round(ingots / 9f, MidpointRounding.AwayFromZero);
-            this.estimatedBlocks = Math.Max(0, blocks);
+            return Math.Max(0, blocks);
+        }
+
+        private void UpdatePreciseGoldEstimate(ProgressState progress)
+        {
+            this.estimatedBlocks = GetPreciseEstimate(progress);
         }
 
         protected override void ClearAdvancedState()
@@ -71,19 +81,29 @@ namespace AATool.Data.Objectives.Complex
         }
 
         protected override string GetShortStatus()
-            => $"{this.estimatedBlocks}\0/\0{Required}";
+        {
+            if (this.fullBeaconComplete)
+                return "Done";
+
+            return this.ManuallyChecked 
+                ? "Collected" 
+                : $"{this.estimatedBlocks}\0/\0{Required}";
+        }
 
         protected override string GetLongStatus()
         {
             if (this.fullBeaconComplete)
                 return "Full\0Beacon\nConstructed";
 
+            if (this.ManuallyChecked)
+                return $"All\0Gold\nCollected";
+
             if (this.estimatedBlocks >= Required)   
                 return $"Gold\0Done\n{this.estimatedBlocks}\0/\0{Required}";
             
             if (this.estimatedBlocks > 0)
                 return $"Gold\0Estimate\n{this.estimatedBlocks}\0/\0{Required}";
-            
+
             return $"Gold\0Blocks\n0\0/\0{Required}";  
         }
 

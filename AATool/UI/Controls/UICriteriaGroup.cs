@@ -57,7 +57,7 @@ namespace AATool.UI.Controls
             if (this.advancement is not null)
             {
                 this.criteriaGroup = this.advancement.Criteria;
-                this.criteriaPanel.Padding = Config.Main.UseCompactStyling 
+                this.criteriaPanel.Padding = Config.Main.UseCompactStyling && !Config.Main.UseOptimizedLayout
                     ? new Margin(8, 8, 8, 16) 
                     : new Margin(8, 8, 8, 40);
 
@@ -80,7 +80,7 @@ namespace AATool.UI.Controls
             }
 
             //set up in compact mode
-            if (Config.Main.UseCompactStyling)
+            if (Config.Main.UseCompactStyling && !Config.Main.UseOptimizedLayout)
             {
                 //this.First("advancement_space").Collapse();
                 this.label.Margin = new Margin(8, 0, 0, 6);
@@ -110,10 +110,9 @@ namespace AATool.UI.Controls
             foreach (KeyValuePair<string, Criterion> criterion in this.advancement.Criteria.All)
             {
                 var crit = new UICriterion {
-                    AdvancementID = this.advancementName,
-                    CriterionID   = criterion.Key,
                     HorizontalAlign = HorizontalAlign.Left,
                 };
+                crit.SetObjective(criterion.Value);
                 if (Config.Main.UseVerticalStyling && this.cellWidth is not 0)
                 {
                     crit.FlexWidth = new (this.cellWidth);
@@ -178,6 +177,9 @@ namespace AATool.UI.Controls
 
         private void UpdateProgress()
         {
+            if (this.advancement is null)
+                return;
+
             Uuid designated = this.advancement.GetDesignatedPlayer();
             string text = $"{this.criteriaGroup.NumberCompletedBy(designated)} / {this.criteriaGroup.Count}";
             if (this.Width >= 120)
@@ -202,7 +204,7 @@ namespace AATool.UI.Controls
             this.noPlayerMessage.Collapse();
             this.First("criteria").Expand();
             this.objectiveFrame?.Expand();
-            if (!Config.Main.UseCompactStyling)
+            if (!Config.Main.UseCompactStyling || Config.Main.UseOptimizedLayout)
                 this.bar.Expand();
         }
 

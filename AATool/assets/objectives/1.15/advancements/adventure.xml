@@ -7,7 +7,7 @@
 
     <advancement id="minecraft:adventure/arbalistic"            name="Arbalistic"               type="challenge"/>
     <advancement id="minecraft:adventure/two_birds_one_arrow"   name="Two Birds, One Arrow"     short_name="Two Birds" type="challenge"/>
-    <advancement id="minecraft:adventure/trade"                 name="What a Deal!"/>
+    <advancement id="minecraft:adventure/trade"                 name="What a Deal!" short_name="What a Deal"/>
     <advancement id="minecraft:adventure/sleep_in_bed"          name="Sweet Dreams"             short_name="Dreams"/>
     
     <advancement id="minecraft:adventure/sniper_duel"           name="Sniper Duel"              type="challenge"/>
@@ -17,7 +17,7 @@
     
     <advancement id="minecraft:adventure/very_very_frightening" name="Very Very Frightening"    short_name="VVF"/>
     <advancement id="minecraft:adventure/throw_trident"         name="A Throwaway Joke"         short_name="ATJ"/>
-    <advancement id="minecraft:adventure/hero_of_the_village"   name="Hero of the Village"      short_name="Hero" icon="pillager_banner" type="challenge"/>
+    <advancement id="minecraft:adventure/hero_of_the_village"   name="Hero of the Village"      short_name="Hero OTV" icon="pillager_banner" type="challenge"/>
     <advancement id="minecraft:adventure/voluntary_exile"       name="Voluntary Exile"          short_name="Exile" icon="pillager_banner"/>
     
     <advancement id="minecraft:adventure/kill_all_mobs" name="Monsters Hunted" short_name="Monsters" type="challenge">

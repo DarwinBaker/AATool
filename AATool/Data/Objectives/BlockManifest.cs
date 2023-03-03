@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml;
-using AATool.Data.Categories;
 using AATool.Data.Progress;
 using AATool.Utilities;
 
@@ -59,7 +58,6 @@ namespace AATool.Data.Objectives
                         group.Add(null);
                         continue;
                     }
-                        
 
                     //add all blocks in group
                     var block = new Block(blockNode);
@@ -89,6 +87,16 @@ namespace AATool.Data.Objectives
                     this.PlacedCount++;
                 if (block.Obtained)
                     this.ObtainedCount++;
+            }
+        }
+
+        private void ExportIdList()
+        {
+            string path = $"required_blocks_{Tracker.Category.CurrentVersion}";
+            using (StreamWriter export = File.CreateText(path))
+            {
+                foreach (string id in this.All.Keys)
+                    export.WriteLine(id);
             }
         }
     }

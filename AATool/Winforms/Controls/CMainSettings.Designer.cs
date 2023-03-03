@@ -31,6 +31,8 @@ namespace AATool.Winforms.Controls
         {
             this.notesEnabled = new System.Windows.Forms.CheckBox();
             this.mainGroupMain = new System.Windows.Forms.GroupBox();
+            this.alwaysOnTop = new System.Windows.Forms.CheckBox();
+            this.configureAutoSwitch = new System.Windows.Forms.Button();
             this.hideCompletedCriteria = new System.Windows.Forms.CheckBox();
             this.highRes = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -78,16 +80,19 @@ namespace AATool.Winforms.Controls
             // notesEnabled
             // 
             this.notesEnabled.AutoSize = true;
-            this.notesEnabled.Location = new System.Drawing.Point(9, 171);
+            this.notesEnabled.Location = new System.Drawing.Point(8, 190);
+            this.notesEnabled.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.notesEnabled.Name = "notesEnabled";
-            this.notesEnabled.Size = new System.Drawing.Size(132, 17);
+            this.notesEnabled.Size = new System.Drawing.Size(126, 17);
             this.notesEnabled.TabIndex = 27;
-            this.notesEnabled.Text = "Enable Notes Window";
+            this.notesEnabled.Text = "Show Notes Window";
             this.notesEnabled.UseVisualStyleBackColor = true;
             this.notesEnabled.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
             // mainGroupMain
             // 
+            this.mainGroupMain.Controls.Add(this.alwaysOnTop);
+            this.mainGroupMain.Controls.Add(this.configureAutoSwitch);
             this.mainGroupMain.Controls.Add(this.hideCompletedCriteria);
             this.mainGroupMain.Controls.Add(this.highRes);
             this.mainGroupMain.Controls.Add(this.label3);
@@ -105,11 +110,33 @@ namespace AATool.Winforms.Controls
             this.mainGroupMain.TabStop = false;
             this.mainGroupMain.Text = "Layout";
             // 
+            // alwaysOnTop
+            // 
+            this.alwaysOnTop.AutoSize = true;
+            this.alwaysOnTop.Location = new System.Drawing.Point(8, 165);
+            this.alwaysOnTop.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
+            this.alwaysOnTop.Name = "alwaysOnTop";
+            this.alwaysOnTop.Size = new System.Drawing.Size(98, 17);
+            this.alwaysOnTop.TabIndex = 42;
+            this.alwaysOnTop.Text = "Always On Top";
+            this.alwaysOnTop.UseVisualStyleBackColor = true;
+            this.alwaysOnTop.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            // 
+            // configureAutoSwitch
+            // 
+            this.configureAutoSwitch.Location = new System.Drawing.Point(191, 37);
+            this.configureAutoSwitch.Name = "configureAutoSwitch";
+            this.configureAutoSwitch.Size = new System.Drawing.Size(66, 22);
+            this.configureAutoSwitch.TabIndex = 41;
+            this.configureAutoSwitch.Text = "Configure";
+            this.configureAutoSwitch.UseVisualStyleBackColor = true;
+            this.configureAutoSwitch.Visible = false;
+            // 
             // hideCompletedCriteria
             // 
             this.hideCompletedCriteria.AutoSize = true;
-            this.hideCompletedCriteria.Location = new System.Drawing.Point(9, 119);
-            this.hideCompletedCriteria.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.hideCompletedCriteria.Location = new System.Drawing.Point(9, 115);
+            this.hideCompletedCriteria.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.hideCompletedCriteria.Name = "hideCompletedCriteria";
             this.hideCompletedCriteria.Size = new System.Drawing.Size(136, 17);
             this.hideCompletedCriteria.TabIndex = 39;
@@ -120,8 +147,8 @@ namespace AATool.Winforms.Controls
             // highRes
             // 
             this.highRes.AutoSize = true;
-            this.highRes.Location = new System.Drawing.Point(9, 145);
-            this.highRes.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.highRes.Location = new System.Drawing.Point(8, 140);
+            this.highRes.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.highRes.Name = "highRes";
             this.highRes.Size = new System.Drawing.Size(133, 17);
             this.highRes.TabIndex = 38;
@@ -132,12 +159,12 @@ namespace AATool.Winforms.Controls
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(118, 22);
+            this.label3.Location = new System.Drawing.Point(82, 22);
             this.label3.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.Size = new System.Drawing.Size(88, 13);
             this.label3.TabIndex = 37;
-            this.label3.Text = "Info Panel:";
+            this.label3.Text = "Info Panel Mode:";
             // 
             // infoPanel
             // 
@@ -146,9 +173,9 @@ namespace AATool.Winforms.Controls
             this.infoPanel.Items.AddRange(new object[] {
             "Leaderboard",
             "Potion Recipes"});
-            this.infoPanel.Location = new System.Drawing.Point(121, 38);
+            this.infoPanel.Location = new System.Drawing.Point(85, 38);
             this.infoPanel.Name = "infoPanel";
-            this.infoPanel.Size = new System.Drawing.Size(136, 21);
+            this.infoPanel.Size = new System.Drawing.Size(100, 21);
             this.infoPanel.TabIndex = 36;
             this.infoPanel.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
             // 
@@ -156,7 +183,7 @@ namespace AATool.Winforms.Controls
             // 
             this.label12.AutoSize = true;
             this.label12.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label12.Location = new System.Drawing.Point(5, 191);
+            this.label12.Location = new System.Drawing.Point(4, 208);
             this.label12.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(221, 13);
@@ -166,8 +193,8 @@ namespace AATool.Winforms.Controls
             // hideCompletedAdvancements
             // 
             this.hideCompletedAdvancements.AutoSize = true;
-            this.hideCompletedAdvancements.Location = new System.Drawing.Point(9, 93);
-            this.hideCompletedAdvancements.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.hideCompletedAdvancements.Location = new System.Drawing.Point(9, 90);
+            this.hideCompletedAdvancements.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.hideCompletedAdvancements.Name = "hideCompletedAdvancements";
             this.hideCompletedAdvancements.Size = new System.Drawing.Size(175, 17);
             this.hideCompletedAdvancements.TabIndex = 32;
@@ -192,18 +219,19 @@ namespace AATool.Winforms.Controls
             this.viewMode.Items.AddRange(new object[] {
             "Relaxed",
             "Compact",
+            "Optimized",
             "Vertical"});
             this.viewMode.Location = new System.Drawing.Point(9, 38);
             this.viewMode.Name = "viewMode";
-            this.viewMode.Size = new System.Drawing.Size(106, 21);
+            this.viewMode.Size = new System.Drawing.Size(70, 21);
             this.viewMode.TabIndex = 26;
             this.viewMode.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
             // 
             // hideBasic
             // 
             this.hideBasic.AutoSize = true;
-            this.hideBasic.Location = new System.Drawing.Point(9, 67);
-            this.hideBasic.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.hideBasic.Location = new System.Drawing.Point(9, 65);
+            this.hideBasic.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.hideBasic.Name = "hideBasic";
             this.hideBasic.Size = new System.Drawing.Size(198, 17);
             this.hideBasic.TabIndex = 8;
@@ -407,8 +435,7 @@ namespace AATool.Winforms.Controls
             this.labelBadgeAvailability.Name = "labelBadgeAvailability";
             this.labelBadgeAvailability.Size = new System.Drawing.Size(251, 47);
             this.labelBadgeAvailability.TabIndex = 48;
-            this.labelBadgeAvailability.Text = "🛈 These are the badges and frames available to Feinberg. More are available to a" +
-    "ll supporters of the AATool Patreon!";
+            this.labelBadgeAvailability.Text = "🛈 Badge Label";
             // 
             // label18
             // 
@@ -630,5 +657,7 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.ComboBox playerBadge;
         private System.Windows.Forms.Label labelBadgeAvailability;
+        private System.Windows.Forms.Button configureAutoSwitch;
+        private System.Windows.Forms.CheckBox alwaysOnTop;
     }
 }

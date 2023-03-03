@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <flow_panel direction="toptobottom" drawmode="all">
+
+        <!-- day night cycle -->
+        <flow_panel height="128">
+            <textblock name="day_night_igt" height="30" font_size="24" horizontal_align="center" vertical_align="top" margin_top="4"/>
+            <panel draw_mode="childrenonly" height="32">
+                <textblock text="Now" height="16" h_text_align="left" vertical_align="top" padding_left="4" margin_top="-4"/>
+                <textblock text="+30min" height="16" vertical_align="top" margin_top="-4"/>
+                <textblock text="+1hr" height="16" h_text_align="right" vertical_align="top" padding_right="4" margin_top="-4"/>
+
+                <daynightcycle width="250" height="16" margin_left="6" margin_top="20" vertical_align="top"/>
+            </panel>
+            <panel height="30" draw_mode="childrenonly" padding_left="6">
+                <picture texture="slime2" width="24" height="24" horizontal_align="left" margin_left="2"/>
+                <textblock name="slimes" font_size="24" padding_left="30" padding_top="6" h_text_align="center" vertical_align="top"/>
+            </panel>
+            <panel height="30" draw_mode="childrenonly" padding_left="6">
+                <picture texture="black" width="24" height="24" horizontal_align="left" margin_left="2"/>
+                <textblock name="black_cats" font_size="24" padding_left="30" padding_top="6" h_text_align="center" vertical_align="top"/>
+            </panel>
+        </flow_panel>
+
+        <!-- items -->
+        <grid width="1*" height="3 * 38">
+            <rows>
+                <row height="38"/>
+                <row height="38"/>
+                <row height="38"/>
+            </rows>
+            <columns>
+                <column width="0.3333*"/>
+                <column width="0.3333*"/>
+                <column width="0.3333*"/>
+            </columns>
+
+            <!-- row 1 -->
+            <panel row="0" col="0">
+                <picture texture="nautilus_shell" width="32" height="32" horizontal_align="left" margin_left="2"/>
+                <textblock name="shell_count" font_size="24" padding_left="30" padding_top="6" h_text_align="center" vertical_align="top"/>
+            </panel>
+            <panel row="0" col="1">
+                <picture texture="get_wither_skull" width="32" height="32" horizontal_align="left" margin_left="2"/>
+                <textblock name="skull_count" font_size="24" padding_left="30" padding_top="6" h_text_align="center" vertical_align="top"/>
+            </panel>
+            <panel row="0" col="2">
+                <picture name="tear_and_crystal" texture="uneasy_alliance" width="32" height="32" horizontal_align="left" margin_left="2"/>
+                <textblock name="tear_count" font_size="24" padding_left="30" padding_top="6" h_text_align="center" vertical_align="top"/>
+            </panel>
+
+            <!-- row 2 -->
+            <panel row="1" col="0">
+                <picture texture="ender_pearl" width="32" height="32" horizontal_align="left" margin_left="2"/>
+                <textblock name="pearl_count" font_size="24" padding_left="30" padding_top="6" h_text_align="center" vertical_align="top"/>
+            </panel>
+            <panel row="1" col="1">
+                <picture texture="tnt_overview" width="32" height="32" horizontal_align="left" margin_left="2"/>
+                <textblock name="tnt_count" font_size="24" padding_left="30" padding_top="6" h_text_align="center" vertical_align="top"/>
+            </panel>
+            <panel row="1" col="2">
+                <picture texture="gold_overview" width="32" height="32" horizontal_align="left" margin_left="2"/>
+                <textblock name="gold_count" font_size="24" padding_left="30" padding_top="6" h_text_align="center" vertical_align="top"/>
+            </panel>
+
+            <!-- row 3 -->
+            <panel row="2" col="0">
+                <picture texture="obsidian_overview" width="32" height="32" horizontal_align="left" margin_left="2"/>
+                <textblock name="obsidian_count" font_size="24" padding_left="30" padding_top="6" h_text_align="center" vertical_align="top"/>
+            </panel>
+            <panel row="2" col="1">
+                <picture texture="debris_overview" width="32" height="32" horizontal_align="left" margin_left="2"/>
+                <textblock name="debris_count" font_size="24" padding_left="30" padding_top="6" h_text_align="center" vertical_align="top"/>
+            </panel>
+            <panel row="2" col="2">
+                <picture texture="beehive_overview" width="32" height="32" horizontal_align="left" margin_left="2"/>
+                <textblock name="beehive_count" font_size="24" padding_left="30" padding_top="6" h_text_align="center" vertical_align="top"/>
+            </panel>
+        </grid>
+        <panel height="20" collapsed="true">
+            <textblock text="Note: counts are estimated from the stats file" horizontal_align="center" vertical_align="top" margin_top="4"/>
+        </panel>
+
+
+        <!-- chat log -->
+        <panel height="36">
+            <textblock text="Chat Log" height="36" font_size="24" horizontal_align="center" vertical_align="top" margin_top="4"/>
+            <textblock name="chat_log" h_text_align="left" vertical_align="top" margin_top="4"/>
+        </panel>
+
+        <flow_panel row="1" padding_top="13">
+       
+        </flow_panel>
+
+    </flow_panel>
+</control>

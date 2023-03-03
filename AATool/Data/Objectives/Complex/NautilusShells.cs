@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Xml;
+using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Progress;
 
 namespace AATool.Data.Objectives.Complex
 {
-    class NautilusShells : ComplexPickupObjective
+    class NautilusShells : Pickup
     {
         private const string HDWGH = "minecraft:nether/all_effects";
         private const string Conduit = "minecraft:conduit";
@@ -18,7 +19,8 @@ namespace AATool.Data.Objectives.Complex
         private bool hdwghComplete;
 
         public NautilusShells() : base("minecraft:nautilus_shell")
-        { 
+        {
+            this.Name = this.GetType().Name;
         }
 
         protected override void UpdateAdvancedState(ProgressState progress)
@@ -43,18 +45,29 @@ namespace AATool.Data.Objectives.Complex
             this.hdwghComplete = false;
         }
 
+        protected override string GetShortStatus()
+        {
+            if (this.hdwghComplete)
+                return "Done";
+
+            if (this.conduitPlaced)
+                return "Ready";
+
+            return $"{this.Obtained}\0/\0{this.Required}";
+        }
+
         protected override string GetLongStatus()
         {
             if (Tracker.Category is not AllBlocks && this.hdwghComplete)
-                return "HDWGH Complete";
+                return "HDWGH\nComplete";
 
             if (this.conduitPlaced)
-                return "Conduit Placed";
+                return "Conduit\nPlaced";
 
             if (this.conduitCrafted)
-                return "Conduit Crafted";
+                return "Conduit\nCrafted";
 
-            return $"Shells\n{this.Obtained} / {this.Required}";
+            return $"Shells\n{this.Obtained}\0/\0{this.Required}";
         }
 
         protected override string GetCurrentIcon()

@@ -3,7 +3,7 @@ using AATool.Data.Progress;
 
 namespace AATool.Data.Objectives.Complex
 {
-    class Cats : ComplexCriteriaObjective
+    class Cats : MultipartObjective
     {
         private const string TwoByTwo = "minecraft:husbandry/bred_all_animals";
         private const string Cat = "minecraft:cat";

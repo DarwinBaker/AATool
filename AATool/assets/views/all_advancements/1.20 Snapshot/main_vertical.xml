@@ -54,7 +54,7 @@
             </flow_panel>
 
             <!-- info panel -->
-            <leaderboard name="Leaderboard" category="All Advancements" version="1.19" row="0" col="5" rowspan="2" colspan="3"/>
+            <leaderboard name="Leaderboard" category="All Advancements" version="1.20 Snapshot" row="0" col="5" rowspan="2" colspan="3"/>
             <potion_group name="Potion Recipes" row="0" col="5" rowspan="2" colspan="3" padding="8,0,6,0"/>
         </grid>
 

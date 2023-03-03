@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <group name="Nether">
     <advancement id="minecraft:nether/return_to_sender"         name="Return to Sender"           short_name="Sender" type="challenge"/>
-    <advancement id="minecraft:nether/use_lodestone"            name="Country&#160;Lode, Take Me Home"               short_name="Lode Home" half="false"/>
-    <advancement id="minecraft:nether/charge_respawn_anchor"    name='Not Quite "Nine" Lives'     short_name='"Nine" Lives'/>
+    <advancement id="minecraft:nether/use_lodestone"            name="Country&#160;Lode, Take Me Home"               short_name="Lodestone" half="false"/>
+    <advancement id="minecraft:nether/charge_respawn_anchor"    name='Not Quite "Nine" Lives'     short_name="Nine Lives"/>
     <advancement id="minecraft:nether/obtain_crying_obsidian"   name="Who's Cutting Onions?"     short_name="Onions?"/>
     <advancement id="minecraft:nether/loot_bastion"             name="War Pigs"/>
     <advancement id="minecraft:nether/find_bastion"             name="Those Were the Days"        short_name="The Days"/>
@@ -26,7 +26,7 @@
     </advancement>
     <advancement id="minecraft:nether/netherite_armor"      name="Cover Me in&#160;Debris"    short_name="In Debris"    type="challenge" half="false"/>
     
-    <advancement id="minecraft:nether/all_effects"          name="How Did We Get Here?"    short_name="HDWGH?"     type="challenge" half="false"/>
+    <advancement id="minecraft:nether/all_effects"          name="How Did We Get Here?"    short_name="HDWGH"     type="challenge" half="false"/>
     <advancement id="minecraft:nether/all_potions"          name="A Furious Cocktail"      short_name="Cocktail"   type="challenge" half="false"/>
     <advancement id="minecraft:nether/create_full_beacon"   name="Beaconator"              short_name="Beaconator" icon="beacon" type="goal" half="false"/>
     <advancement id="minecraft:nether/create_beacon"        name="Bring Home the Beacon"   short_name="Beacon"     icon="beacon" half="false"/>

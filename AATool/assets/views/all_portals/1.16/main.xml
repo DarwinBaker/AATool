@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid drawmode="all">
+        <rows>
+            <row height="768"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="1150"/>
+        </columns>
+
+        <panel col="1"></panel>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <!-- basic advancements -->
+        <flow_panel row="0" col="1" border_thickness="6" padding="6">
+            <!-- general -->
+            <coordinate_grid width="768">
+                
+            </coordinate_grid>
+
+        </flow_panel>
+
+        <!-- leaderboard -->
+        <leaderboard width="206" height="348" rows="5" category="All Advancements" row="0" col="1" version="1.16" horizontal_align="right" vertical_align="top" margin_right="6" margin_top="6"/>
+
+        <!-- status strip -->
+        <status_bar row="1" col="1" colspan="3" right="340"/>
+    </grid>
+</control>

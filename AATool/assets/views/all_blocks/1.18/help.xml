@@ -527,7 +527,7 @@
                     </panel>
                     <panel width="66" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="all_infested_blocks" layer="fore" width="48" height="48" vertical_align="top" margin_top="8">
-                            <picture texture="silverfish_wiggle" layer="fore" width="32" height="32"/>
+                            <picture texture="silverfish" layer="fore" width="32" height="32"/>
                         </picture>
                         <textblock text="Infested Blocks" vertical_align="top" margin_top="60"/>
                     </panel>

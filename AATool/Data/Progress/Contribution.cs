@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AATool.Data.Objectives;
 using AATool.Net;
+using AATool.UI.Controls;
 
 namespace AATool.Data.Progress
 {
@@ -16,28 +17,35 @@ namespace AATool.Data.Progress
 
         public Contribution(NetworkContribution network) : this(network.UUID)
         {
-            this.Player = network.UUID;
-            this.InGameTime = network.InGameTime;
+            this.Player = new Uuid(network.UUID.String);
             this.ObtainedGodApple = network.ObtainedGodApple;
 
             //add advancements
             foreach (KeyValuePair<string, DateTime> advancement in network.Advancements)
                 this.Advancements[advancement.Key] = new Completion(this.Player, advancement.Value);
+
             //add criteria
-            foreach (string criterion in network.Criteria)
-                this.Criteria[criterion] = default;
+            foreach (NetworkCriteriaSet criteriaSet in network.Multiparts)
+            {
+                foreach (string crit in criteriaSet.List)
+                {
+                    string id = Criterion.Key(criteriaSet.Advancement, crit);
+                    this.Criteria[id] = new Completion(this.Player, default);
+                }
+            }
+                
             //add stats
-            foreach (KeyValuePair<string, int> stat in network.PickupCounts)
+            foreach (KeyValuePair<string, int> stat in network.Pickup)
                 this.PickupCounts[stat.Key] = stat.Value;
-            foreach (KeyValuePair<string, int> stat in network.DropCounts)
+            foreach (KeyValuePair<string, int> stat in network.Drop)
                 this.DropCounts[stat.Key] = stat.Value;
-            foreach (KeyValuePair<string, int> stat in network.MineCounts)
+            foreach (KeyValuePair<string, int> stat in network.Mine)
                 this.MineCounts[stat.Key] = stat.Value;
-            foreach (KeyValuePair<string, int> stat in network.CraftCounts)
+            foreach (KeyValuePair<string, int> stat in network.Craft)
                 this.CraftCounts[stat.Key] = stat.Value;
-            foreach (KeyValuePair<string, int> stat in network.UseCounts)
+            foreach (KeyValuePair<string, int> stat in network.Use)
                 this.UseCounts[stat.Key] = stat.Value;
-            foreach (KeyValuePair<string, int> stat in network.KillCounts)
+            foreach (KeyValuePair<string, int> stat in network.Kill)
                 this.KillCounts[stat.Key] = stat.Value;
         }
 

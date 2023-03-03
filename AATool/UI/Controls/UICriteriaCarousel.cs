@@ -85,10 +85,8 @@ namespace AATool.UI.Controls
             var criterion = this.SourceList[this.NextIndex] as Criterion;
             var control = new UICriterion(3) {
                 IsStatic = true,
-                AdvancementID = criterion.Owner.Id,
-                CriterionID = criterion.Id
             };
-
+            control.SetObjective(criterion);
             //fix ambiguity between some criteria of different advancements
             if (Config.Overlay.ClarifyAmbiguous && criterion.Icon is "hoglin" or "cat" or "tuxedo")
             {

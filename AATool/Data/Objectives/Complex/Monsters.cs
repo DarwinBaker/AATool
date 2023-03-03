@@ -6,7 +6,7 @@ using AATool.Data.Progress;
 
 namespace AATool.Data.Objectives.Complex
 {
-    class Monsters : ComplexCriteriaObjective
+    class Monsters : MultipartObjective
     {
         private static readonly string[] RaidMobs = new string[] {
             "minecraft:ravager", "minecraft:vex", "minecraft:evoker",

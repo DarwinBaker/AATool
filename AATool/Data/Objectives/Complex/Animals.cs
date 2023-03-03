@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace AATool.Data.Objectives.Complex
 {
-    class Animals : ComplexCriteriaObjective
+    class Animals : MultipartObjective
     {
         public override string AdvancementId => "minecraft:husbandry/bred_all_animals";
         public override string Criterion => "Animal";

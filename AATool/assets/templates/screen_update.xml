@@ -44,7 +44,7 @@
         </panel>
         <panel row="1" col="2">
             <panel height="48" padding_top="10" vertical_align="top">
-                <picture texture="silverfish_wiggle" layer="fore" width="32" height="32" margin_left="24" horizontal_align="left" vertical_align="top">
+                <picture texture="silverfish" layer="fore" width="32" height="32" margin_left="24" horizontal_align="left" vertical_align="top">
                     <glow_effect texture="upgrade_glow" brightness="0.9" margin_left="-5" horizontal_align="left" tint="0,255,0"/>
                 </picture>
                 <text_block text="   Bug Fixes" font_size="24"/>

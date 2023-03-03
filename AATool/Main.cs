@@ -1,24 +1,22 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
 using System.Collections.Generic;
-using System;
-using System.Reflection;
-using AATool.Graphics;
-using AATool.UI.Screens;
-using AATool.Configuration;
 using System.Diagnostics;
-using AATool.Utilities;
-using System.IO;
-using AATool.Winforms.Forms;
-using System.Windows.Forms;
-using AATool.Net;
-using System.Linq;
-using AATool.Saves;
-using AATool.Net.Requests;
-using Microsoft.Xna.Framework.Graphics;
 using System.Globalization;
-using AATool.UI.Badges;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
+using AATool.Configuration;
 using AATool.Data.Speedrunning;
-using System.Runtime;
+using AATool.Graphics;
+using AATool.Net;
+using AATool.Net.Requests;
+using AATool.Saves;
+using AATool.UI.Screens;
+using AATool.Utilities;
+using AATool.Winforms.Forms;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace AATool
 {
@@ -55,13 +53,13 @@ namespace AATool
         public static UIMainScreen PrimaryScreen { get; private set; }
         public static UIOverlayScreen OverlayScreen { get; private set; }
         public static Dictionary<Type, UIScreen> SecondaryScreens { get; private set; }
+        public static FNotes NotesWindow { get; private set; }
 
         public static bool IsBeta => FullTitle.ToLower().Contains("beta");
         public static bool IsModded => !string.IsNullOrEmpty(ModderName);
 
         public readonly Time Time;
 
-        private FNotes notesWindow;
         private bool announceUpdate;
 
         public Main()
@@ -151,19 +149,20 @@ namespace AATool
             //update notes screen
             if (Config.Notes.Enabled)
             {
-                if (this.notesWindow is null || this.notesWindow.IsDisposed)
+                if (NotesWindow is null || NotesWindow.IsDisposed)
                 {
-                    this.notesWindow = new FNotes();
-                    this.notesWindow.Show();
+                    NotesWindow = new FNotes();
+                    NotesWindow.Show();
                 }
                 else
                 {
-                    this.notesWindow.UpdateCurrentSave(Tracker.WorldName);
+                    NotesWindow.UpdateCurrentSave(Tracker.WorldName);
                 }
             }
-            else if (this.notesWindow is not null && !this.notesWindow.IsDisposed)
+            else if (NotesWindow is not null && !NotesWindow.IsDisposed)
             {
-                this.notesWindow.Close();
+                NotesWindow.Hiding = true;
+                NotesWindow.Close();
             }
 
             //update window title

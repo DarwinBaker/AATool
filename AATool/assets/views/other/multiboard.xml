@@ -121,7 +121,7 @@
                     </panel>
                     <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
                     <textblock text="Closest Attempts:" vertical_align="top" margin_top="80" height="12"/>
-                    <textblock text="72 by Elysaku, 69 by Couriway" vertical_align="top" margin_top="94" height="12"/>
+                    <textblock text="Taffel: 96, Elysaku: 72, Couri: 69" vertical_align="top" margin_top="94" height="12"/>
                 </panel>
             </panel>
 
@@ -191,8 +191,8 @@
             <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
                 <text_block text="1.0-1.6 AACH" font_size="24"/>
             </panel>
-            
-           
+
+
             <text_block text="1.18" font_size="24" padding_top="2" width="150"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <text_block text="1.17" font_size="24" padding_top="2" width="150"/>

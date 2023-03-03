@@ -314,10 +314,20 @@ namespace AATool.UI.Screens
             //cycle header text
             return this.titleTimer.Index switch {
                 2 or 3 => $"Minecraft JE: {Tracker.Category.Name} ({Tracker.Category.CurrentVersion})",
-                4 or 5 => $"{Main.ShortTitle} {(UpdateRequest.UpdatesAreAvailable() ? "(Outdated)" : "")}",
-                6 or 7 => Paths.Web.PatreonShort,
+                4 or 5 => GetVersionText(),
+                6 or 7 => "Support AATool @ " + Paths.Web.PatreonShort,
                 _ => Tracker.Category.GetStatus()
             };
+        }
+
+        private string GetVersionText()
+        {
+            string text = Main.ShortTitle;
+            if (UpdateRequest.UpdatesAreAvailable())
+                text += " (Outdated)";
+            else if (Config.Main.Layout != Config.RelaxedLayout)
+                text += $" ({Config.Main.Layout.Value.ToLower()} layout)";
+            return text;
         }
 
         private string PrepareStatusText()
@@ -365,7 +375,7 @@ namespace AATool.UI.Screens
             if (this.criteria?.Top != HeaderHeight)
                 this.criteria?.MoveTo(new Point(0, HeaderHeight));
 
-            if (this.advancements.Top != HeaderHeight + criteria)
+            if (this.advancements is not null && this.advancements.Top != HeaderHeight + criteria)
                 this.advancements?.MoveTo(new Point(0, HeaderHeight + criteria));
 
             if (this.pinned?.Top != HeaderHeight + criteria + advancement)

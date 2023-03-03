@@ -44,6 +44,7 @@ namespace AATool.Winforms.Controls
             this.textColor.BackColor    = ColorHelper.ToDrawing(Config.Main.TextColor);
             this.borderColor.BackColor  = ColorHelper.ToDrawing(Config.Main.BorderColor);
             this.notesEnabled.Checked   = Config.Notes.Enabled;
+            this.alwaysOnTop.Checked    = Config.Main.AlwaysOnTop;
 
             this.startupPosition.Text = Config.Main.StartupArrangement.Value.ToString();
             this.UpdateMonitorList();
@@ -64,6 +65,8 @@ namespace AATool.Winforms.Controls
                 this.theme.Text = "Pride Mode";
             else if (string.IsNullOrEmpty(this.theme.Text))
                 this.theme.Text = "Custom";
+
+            this.infoPanel.Enabled = this.viewMode.Text.ToLower() is not "optimized";
 
             this.loaded = true;
         }
@@ -89,6 +92,7 @@ namespace AATool.Winforms.Controls
                 Config.Main.BackColor.Set(ColorHelper.ToXNA(this.backColor.BackColor));
                 Config.Main.TextColor.Set(ColorHelper.ToXNA(this.textColor.BackColor));
                 Config.Main.BorderColor.Set(ColorHelper.ToXNA(this.borderColor.BackColor));
+                Config.Main.AlwaysOnTop.Set(this.alwaysOnTop.Checked);
 
                 Config.Main.StartupDisplay.Set(this.startupMonitor.SelectedIndex + 1);
                 if (Enum.TryParse(this.startupPosition.Text, out WindowSnap position))
@@ -248,6 +252,11 @@ namespace AATool.Winforms.Controls
                 this.startupMonitor.Items.Add($"Display {i} ({Screen.AllScreens[i].Bounds.Width}x{Screen.AllScreens[i].Bounds.Height})");
         }
 
+        public void UpdateNotesState()
+        {
+            this.notesEnabled.Checked = Config.Notes.Enabled;
+        }
+
         private void OnClicked(object sender, EventArgs e)
         {
             if (sender == this.frameStyle)
@@ -322,12 +331,25 @@ namespace AATool.Winforms.Controls
             {
                 Config.Main.PreferredPlayerFrame.Set(this.playerFrame.Text);
             }
+            else if (sender == this.viewMode)
+            {
+                this.infoPanel.Enabled = this.viewMode.Text.ToLower() is not "optimized";
+                if (!this.infoPanel.Enabled)
+                    this.infoPanel.Text = "Leaderboard";
+            }
             this.SaveSettings();
         }
             
         private void OnTextChanged(object sender, EventArgs e) 
         {
             this.SaveSettings();
+        }
+
+        private void OnMoreInfoClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MessageBox.Show("This mode will automatically switch the info panel to show the most relevant information " +
+                "depending on the current progress. It will ", "",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

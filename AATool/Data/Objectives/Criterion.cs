@@ -16,6 +16,8 @@ namespace AATool.Data.Objectives
 
         public bool CompletedByDesignated() => this.CompletedBy(this.DesignatedPlayer);
 
+        public override bool IsComplete() => this.CompletedByDesignated();
+
         public override string FullStatus => this.Name;
         public override string TinyStatus => this.ShortName;
 

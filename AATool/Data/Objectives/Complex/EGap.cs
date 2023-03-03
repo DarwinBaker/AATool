@@ -55,7 +55,7 @@ namespace AATool.Data.Objectives.Complex
             if (this.Looted)
                 return "Obtained";
 
-            return "0";
+            return "God\0Apple";
         }
 
         protected override string GetLongStatus()

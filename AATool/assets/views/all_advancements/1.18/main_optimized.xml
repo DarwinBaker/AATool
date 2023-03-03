@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid drawmode="all">
+        <rows>
+            <row height="360"/>
+            <row height="334"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="1282"/>
+        </columns>
+
+        <panel col="1"></panel>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <!-- basic advancements -->
+        <flow_panel row="0" col="1" border_thickness="6" padding="6">
+            <!-- general -->
+            <flow_panel width="9 * 66">
+                <objective_frame advancement="minecraft:story/upgrade_tools"/>
+                <objective_frame advancement="minecraft:story/iron_tools"/>
+                <objective_frame advancement="minecraft:story/lava_bucket"/>
+                <objective_frame advancement="minecraft:nether/distract_piglin"/>
+                <objective_frame advancement="minecraft:nether/charge_respawn_anchor"/>
+                <objective_frame advancement="minecraft:end/dragon_breath"/>
+                <objective_frame advancement="minecraft:end/kill_dragon"/>
+                <objective_frame advancement="minecraft:story/obtain_armor"/>
+                <objective_frame advancement="minecraft:end/levitate"/>
+                <objective_frame advancement="minecraft:end/dragon_egg"/>
+                <!-- break -->
+                <objective_frame advancement="minecraft:story/enchant_item"/>
+                <objective_frame advancement="minecraft:adventure/trade_at_world_height"/>
+                <objective_frame advancement="minecraft:husbandry/make_a_sign_glow"/>
+                <objective_frame advancement="minecraft:adventure/spyglass_at_parrot"/>
+                <objective_frame advancement="minecraft:husbandry/ride_a_boat_with_a_goat"/>
+                <objective_frame advancement="minecraft:husbandry/kill_axolotl_target"/>
+                <objective_frame advancement="minecraft:adventure/sniper_duel"/>
+                <objective_frame advancement="minecraft:husbandry/silk_touch_nest"/>
+                <!-- break -->
+                <objective_frame advancement="minecraft:adventure/bullseye"/>
+                <objective_frame advancement="minecraft:adventure/summon_iron_golem"/>
+                <objective_frame advancement="minecraft:story/cure_zombie_villager"/>
+                <objective_frame advancement="minecraft:adventure/walk_on_powder_snow_with_leather_boots"/>
+                <objective_frame complex="TridentAdvancements"/>
+                <objective_frame advancement="minecraft:adventure/lightning_rod_with_villager_no_fire"/>
+                <objective_frame advancement="minecraft:adventure/sleep_in_bed"/>
+                <objective_frame advancement="minecraft:adventure/arbalistic"/>
+                <objective_frame advancement="minecraft:adventure/two_birds_one_arrow"/>
+                <!-- break -->
+                <objective_frame advancement="minecraft:husbandry/fishy_business"/>
+                <objective_frame advancement="minecraft:nether/ride_strider_in_overworld_lava"/>
+                <objective_frame advancement="minecraft:adventure/spyglass_at_ghast"/>
+                <objective_frame advancement="minecraft:nether/return_to_sender"/>
+                <objective_frame advancement="minecraft:nether/fast_travel"/>
+                <objective_frame advancement="minecraft:nether/uneasy_alliance"/>
+                <objective_frame advancement="minecraft:nether/use_lodestone"/>
+                <objective_frame advancement="minecraft:adventure/honey_block_slide"/>
+                <objective_frame advancement="minecraft:husbandry/wax_off"/>
+                <!-- break -->
+                <objective_frame advancement="minecraft:adventure/play_jukebox_in_meadows"/>
+                <objective_frame advancement="minecraft:nether/create_full_beacon"/>
+                <objective_frame advancement="minecraft:adventure/whos_the_pillager_now"/>
+                <objective_frame advancement="minecraft:story/deflect_arrow"/>
+                <objective_frame advancement="minecraft:nether/all_effects"/>
+                <objective_frame advancement="minecraft:adventure/totem_of_undying"/>
+                <objective_frame advancement="minecraft:adventure/fall_from_world_height"/>
+                <objective_frame advancement="minecraft:end/respawn_dragon"/>
+                <objective_frame advancement="minecraft:adventure/spyglass_at_dragon"/>
+            </flow_panel>
+
+            <!-- items -->
+            <panel width="6" border_thickness="6" inner_corners="false"/>
+            <flow_panel width="2 * 66" padding_top="34">
+                <objective_frame complex="Trident"/>
+                <objective_frame complex="Egap"/>
+                <objective_frame complex="NautilusShells"/>
+                <objective_frame complex="GoldBlocks"/>
+                <objective_frame complex="WitherSkulls"/>
+                <objective_frame complex="Bees"/>
+                <objective_frame complex="Tnt"/>
+                <objective_frame complex="Netherite"/>
+            </flow_panel>
+
+            <!-- categories -->
+            <panel width="6" border_thickness="6" inner_corners="false"/>
+            <criteria_group width="320" cell_width="105" advancement="minecraft:husbandry/balanced_diet" horizontal_align="left" vertical_align="top"/>
+            <panel width="6" border_thickness="6" inner_corners="false"/>
+        </flow_panel>
+
+        <!-- leaderboard -->
+        <leaderboard width="206" height="348" rows="5" category="All Advancements" row="0" col="1" version="1.18" horizontal_align="right" vertical_align="top" margin_right="6" margin_top="6"/>
+
+        <!-- advancements with subcriteria -->
+        <flow_panel row="1" col="1" colspan="2" padding_bottom="6" border_thickness="6">
+            <panel width="6" border_thickness="6" inner_corners="false"/>
+            <criteria_group width="502" cell_width="125" advancement="minecraft:adventure/adventuring_time"/>
+            <panel width="6" border_thickness="6" inner_corners="false"/>
+            <criteria_group width="310" cell_width="110" advancement="minecraft:adventure/kill_all_mobs"/>
+            <panel width="6" border_thickness="6" inner_corners="false"/>
+            <criteria_group width="186" cell_width="100" advancement="minecraft:husbandry/bred_all_animals"/>
+            <panel width="6" border_thickness="6" inner_corners="false"/>
+            <criteria_group width="124" cell_width="80"  advancement="minecraft:husbandry/complete_catalogue"/>
+            <panel width="6" border_thickness="6" inner_corners="false"/>
+            <criteria_group width="124" cell_width="110" advancement="minecraft:nether/explore_nether"/>
+            <panel width="6" border_thickness="6" inner_corners="false"/>
+        </flow_panel>
+
+        <!-- status strip -->
+        <status_bar row="2" col="1" colspan="3" right="340"/>
+    </grid>
+</control>

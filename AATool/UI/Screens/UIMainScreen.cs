@@ -28,7 +28,6 @@ namespace AATool.UI.Screens
         public const string MultiboardTab = "multiboard";
         public const string RunnersTab = "runners_1.16";
 
-
         public static string ActiveTab { get; private set; } = TrackerTab;
         public static RenderTarget2D RenderCache { get; private set; }
         public static bool Invalidated { get; private set; }
@@ -47,11 +46,14 @@ namespace AATool.UI.Screens
         private UIGrid grid;
         private UILobby lobby;
         private UIStatusBar status;
-        private UILeaderboard leaderboard;
+        private UILeaderboard leaderboard; 
+        private UIRunOverview overview;
         private UIPotionGroup potions;
         private UITextBlock debugLog;
         private UIBlockGrid blockGrid;
-        private UITextBlock largeStatus;
+
+        private UIControl complexOverworld;
+        private UIControl complexNether;
 
         private readonly List<UIPicture> labelTintedIcons = new ();
 
@@ -71,6 +73,7 @@ namespace AATool.UI.Screens
             //set window title
             this.Form.Text = Main.FullTitle;
             this.Form.FormClosing += this.OnClosing;
+            this.Form.TopMost = Config.Main.AlwaysOnTop;
         }
 
         public void RegisterLabelTint(UIPicture control)
@@ -151,6 +154,9 @@ namespace AATool.UI.Screens
             if (!File.Exists(path))
                 path = Path.Combine(Paths.System.ViewsFolder, view, version, $"main_{layout}.xml");
 
+            if (!File.Exists(path) && Config.Main.Layout == Config.OptimizedLayout)
+                path = Path.Combine(Paths.System.ViewsFolder, view, version, $"main_relaxed.xml");
+
             return path;
         }
 
@@ -182,10 +188,12 @@ namespace AATool.UI.Screens
             this.TryGetFirst(out this.lobby);
             this.TryGetFirst(out this.status);
             this.TryGetFirst(out this.leaderboard, "Leaderboard");
+            this.TryGetFirst(out this.overview);
             this.TryGetFirst(out this.potions);
             this.TryGetFirst(out this.debugLog, "debug_log");
             this.TryGetFirst(out this.blockGrid);
-            this.TryGetFirst(out this.largeStatus, "large_status");
+            this.TryGetFirst(out this.complexOverworld, "complex_overworld");
+            this.TryGetFirst(out this.complexNether, "complex_nether");
 
             this.logLines = -1;
 
@@ -198,12 +206,7 @@ namespace AATool.UI.Screens
         public override void ResizeRecursive(Rectangle rectangle)
         {
             base.ResizeRecursive(rectangle);
-            if (this.leaderboard is not null && Tracker.Category is not AllAchievements)
-            {
-                this.leaderboard.Collapse();
-                this.potions?.Collapse();
-            }
-            this.First(Config.Main.InfoPanel)?.Expand();
+            this.UpdateCollapsedStates(true);
 
             if (ActiveTab is MultiboardTab)
             {
@@ -239,10 +242,11 @@ namespace AATool.UI.Screens
             SettingsCooldown.Update(time);
 
             //update game version
-            if (Tracker.ObjectivesChanged || Config.Main.Layout.Changed || NeedsLayoutRefresh)
+            bool reload = Tracker.ObjectivesChanged || Config.Main.Layout.Changed || NeedsLayoutRefresh;
+            if (reload)
                 this.ReloadView();
 
-            this.UpdateCollapsedStates();
+            this.UpdateCollapsedStates(reload);
             this.UpdateShortcuts();
 
             //keep settings menu version up to date
@@ -252,12 +256,17 @@ namespace AATool.UI.Screens
             if (Config.Overlay.Width.Changed)
                 Settings?.UpdateOverlayWidth();
 
+            if (Config.Main.AlwaysOnTop.Changed)
+                this.Form.TopMost = Config.Main.AlwaysOnTop;
+
             _= Tracker.GetMainPlayer();
             if (Tracker.MainPlayerChanged)
             {
                 Settings?.UpdateBadgeList();
                 Settings?.UpdateFrameList();
             }
+
+            Settings?.UpdateNotesState();
 
             if (Config.Main.AppearanceChanged)
             {
@@ -422,11 +431,15 @@ namespace AATool.UI.Screens
             };
             label.SetFont("minecraft", 36);
 
-            if (Config.Main.UseVerticalStyling 
+            if (Config.Main.UseVerticalStyling
                 && (Tracker.Category.GetType() != typeof(AllAdvancements) || Tracker.Category.CurrentMajorVersion is not "1.16"))
+            {
                 label.SetText($"The current vertical layout is still under development :)");
+            }
             else
+            { 
                 label.SetText($"There was an error attempting to load layout file:\n{this.GetCurrentView().Replace("\\", "/")}");
+            }
             this.AddControl(label);
 
             var settings = new UIButton() {
@@ -446,19 +459,29 @@ namespace AATool.UI.Screens
             this.ResizeRecursive(this.Bounds);
         }
 
-        private void UpdateCollapsedStates()
+        private void UpdateCollapsedStates(bool forceInfoPanelRefresh)
         {
+
             if (this.grid is null)
                 return;
 
             //update which info panel to show
-            if (Config.Main.InfoPanel.Changed && this.leaderboard is not null)
+            bool infoPanelInvalidated = Config.Main.InfoPanel.Changed
+                || Config.Main.Layout.Changed || Tracker.Invalidated
+                || forceInfoPanelRefresh;
+
+            if (infoPanelInvalidated)
             {
                 if (Tracker.Category is not AllAchievements)
                 {
                     this.leaderboard?.Collapse();
                     this.potions?.Collapse();
-                    this.First(Config.Main.InfoPanel)?.Expand();
+                    this.overview?.Collapse();
+
+                    string panel = this.GetActiveInfoPanel();
+                    this.complexOverworld?.SetVisibility(panel is not Config.RunOverviewPanel);
+                    this.complexNether?.SetVisibility(panel is not Config.RunOverviewPanel);
+                    this.First(panel)?.Expand();
                 }
                 else
                 {
@@ -467,9 +490,9 @@ namespace AATool.UI.Screens
             }
 
             //update whether or not top row should be shown
-            if (Tracker.Category.GetType() == typeof(AllAdvancements) && Config.Main.ShowBasicAdvancements == this.grid.CollapsedRows[0])
+            if (Tracker.Category is AllAdvancements && Config.Main.ShowBasicAdvancements == this.grid.CollapsedRows[0])
             {
-                if (Config.Main.ShowBasicAdvancements)
+                if (Config.Main.ShowBasicAdvancements || Config.Main.UseOptimizedLayout)
                     this.grid.ExpandRow(0);
                 else if (Tracker.Category is not AllAchievements)
                     this.grid.CollapseRow(0);
@@ -488,6 +511,17 @@ namespace AATool.UI.Screens
                     this.lobby?.Clear();
                 }
             }
+        }
+
+        private string GetActiveInfoPanel()
+        {
+            string setting = Config.Main.InfoPanel;
+            if (string.IsNullOrWhiteSpace(setting))
+                return Config.LeaderboardPanel;
+
+            if (setting is Config.AutoSwitchPanel)
+                return Tracker.IsWorking ? Config.RunOverviewPanel : Config.LeaderboardPanel;
+            return setting;
         }
 
         public override void Prepare()

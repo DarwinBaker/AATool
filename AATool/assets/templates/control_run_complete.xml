@@ -22,9 +22,9 @@
  
             <!-- supporters -->
             <text_block name="supporters_label" text="Thanks to all the donors who make this possible! -------------------------------------------------------------------------" font_size="24" padding_left="20" padding_top="182" h_text_align="left"/>
-            <flow_panel name="supporters_netherite" width="400" cell_width="200" cell_height="32" draw_mode="childrenonly" margin_left="70" padding_top="242" padding_bottom="40" direction="lefttoright" horizontal_align="left">
+            <flow_panel name="supporters_netherite" width="550" cell_height="32" draw_mode="childrenonly" margin_left="30" padding_top="242" padding_bottom="40" direction="lefttoright" horizontal_align="left">
             </flow_panel>
-            <flow_panel name="supporters_diamond" width="400" cell_width="180" cell_height="32" draw_mode="childrenonly" margin_left="510" padding_top="242" padding_bottom="40" direction="lefttoright" horizontal_align="left">
+            <flow_panel name="supporters_diamond" width="500" cell_height="32" draw_mode="childrenonly" margin_left="560" padding_top="242" padding_bottom="40" direction="lefttoright" horizontal_align="left">
             </flow_panel>
 
             <flow_panel name="supporters_gold" collapsed="true" width="400" cell_width="210" cell_height="32" draw_mode="childrenonly" margin_left="70" padding_top="240" padding_bottom="40" direction="toptobottom" horizontal_align="left">
@@ -107,9 +107,9 @@
             </text_block>
 
             <text_block name="fish" height="62" font_size="48" v_text_align="top" padding="20,20,0,0">
-                <picture texture="cod" margin_left="21" width="48" height="48" horizontal_align="left"/>
-                <picture texture="salmon_stats" width="48" height="48" horizontal_align="left"/>
-                <picture texture="enchanted_diamond_axe" margin_left="-24" width="48" height="48" horizontal_align="left"/>
+                <picture texture="cod" margin_left="24" width="48" height="48" horizontal_align="left"/>
+                <picture texture="salmon_stats" margin_left="3" width="48" height="48" horizontal_align="left"/>
+                <picture texture="enchanted_diamond_sword" margin_left="-24" width="48" height="48" horizontal_align="left"/>
             </text_block>
 
             <text_block name="phantoms" height="62" font_size="48" v_text_align="top" padding="20,20,0,0">
@@ -126,8 +126,8 @@
                 <picture texture="enchanted_diamond_pickaxe" margin_left="-24" width="48" height="48" horizontal_align="left"/>
             </text_block>
 
-            <text_block name="gold_blocks" height="62" font_size="48" text_align="center" padding="20,20,0,0">
-                <picture texture="gold_block" width="48" height="48" horizontal_align="left"/>
+            <text_block name="debris" height="62" font_size="48" text_align="center" padding="20,20,0,0">
+                <picture texture="obtain_ancient_debris" width="48" height="48" horizontal_align="left"/>
                 <picture texture="enchanted_diamond_pickaxe" margin_left="-24" width="48" height="48" horizontal_align="left"/>
             </text_block>
 

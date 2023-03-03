@@ -40,6 +40,7 @@ namespace AATool.Winforms.Controls
             this.fastForward = new System.Windows.Forms.Button();
             this.refreshLeaderboards = new System.Windows.Forms.Button();
             this.hideLighting = new System.Windows.Forms.CheckBox();
+            this.openFolder = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cacheDebug
@@ -163,11 +164,22 @@ namespace AATool.Winforms.Controls
             this.hideLighting.UseVisualStyleBackColor = true;
             this.hideLighting.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
             // 
+            // openFolder
+            // 
+            this.openFolder.Location = new System.Drawing.Point(408, 8);
+            this.openFolder.Name = "openFolder";
+            this.openFolder.Size = new System.Drawing.Size(122, 23);
+            this.openFolder.TabIndex = 44;
+            this.openFolder.Text = "Open AATool Folder";
+            this.openFolder.UseVisualStyleBackColor = true;
+            this.openFolder.Click += new System.EventHandler(this.OnClicked);
+            // 
             // CDebugSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
+            this.Controls.Add(this.openFolder);
             this.Controls.Add(this.hideLighting);
             this.Controls.Add(this.refreshLeaderboards);
             this.Controls.Add(this.fastForward);
@@ -198,5 +210,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Button fastForward;
         private System.Windows.Forms.Button refreshLeaderboards;
         private System.Windows.Forms.CheckBox hideLighting;
+        private System.Windows.Forms.Button openFolder;
     }
 }

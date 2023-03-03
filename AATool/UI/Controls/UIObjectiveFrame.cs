@@ -5,7 +5,6 @@ using System.Xml;
 using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
-using AATool.Data.Objectives.Complex;
 using AATool.Graphics;
 using AATool.Net;
 using AATool.UI.Screens;
@@ -14,7 +13,7 @@ using Microsoft.Xna.Framework;
 
 namespace AATool.UI.Controls
 {
-    public class UIObjectiveFrame : UIControl
+    public class UIObjectiveFrame : UIObjectiveControl
     {
         private static readonly Dictionary<FrameType, string> CompleteMinecraftFrames = new () {
             { FrameType.Normal,     "frame_mc_normal_complete"},
@@ -32,9 +31,6 @@ namespace AATool.UI.Controls
         private static Color InactiveTint = Color.Gray * 0.25f;
         private static Color InactiveIconTint = ColorHelper.Fade(Color.DarkGray, 0.1f);
 
-        public Objective Objective { get; private set; }
-        public string ObjectiveId { get; private set; }
-        public string ObjectiveOwnerId { get; private set; }
         public bool IsActive { get; private set; }
         public float OverlayCoverPosition { get; set; }
 
@@ -46,7 +42,6 @@ namespace AATool.UI.Controls
         public UITextBlock Label { get; protected set; }
         public UIButton ManualCheck { get; protected set; }
 
-        private Type objectiveType;
         private Rectangle portraitRectangle;
         private Rectangle avatarRectangle;
         private Rectangle detailRectangle;
@@ -57,16 +52,15 @@ namespace AATool.UI.Controls
         private string incompleteFrame;
         private bool onMainScreen;
 
-        public bool ObjectiveCompleted => this.Objective?.IsComplete() is true;
         public Point IconCenter => this.Icon.Center;
 
-        public UIObjectiveFrame() 
+        public UIObjectiveFrame() : base()
         {
             this.Scale = 2;
             this.BuildFromTemplate();
         }
 
-        public UIObjectiveFrame(Objective objective, int scale = 2)
+        public UIObjectiveFrame(Objective objective, int scale = 2) : base()
         {
             this.SetObjective(objective);
             this.Scale = scale;
@@ -76,46 +70,11 @@ namespace AATool.UI.Controls
         public void ShowText() => this.Label.Expand();
         public void HideText() => this.Label.Collapse();
 
-        public void SetObjective(Objective objective)
+        public override void SetObjective(Objective objective)
         {
-            this.objectiveType = objective?.GetType();
-            this.ObjectiveOwnerId = objective is Criterion criterion
-                ? criterion.OwnerId
-                : string.Empty;
-
-            this.Objective = objective;
-            this.ObjectiveId = objective?.Id;
+            base.SetObjective(objective);
             this.completeFrame = CompleteMinecraftFrames[this.Objective?.Frame ?? FrameType.Normal];
             this.incompleteFrame = IncompleteMinecraftFrames[this.Objective?.Frame ?? FrameType.Normal];
-        }
-
-        public void AutoSetObjective()
-        {
-            if (this.objectiveType == typeof(Advancement))
-            {
-                if (Tracker.TryGetAdvancement(this.ObjectiveId, out Advancement objective))
-                    this.SetObjective(objective);
-            }
-            else if (this.objectiveType == typeof(Criterion))
-            {
-                if (Tracker.TryGetCriterion(this.ObjectiveOwnerId, this.ObjectiveId, out Criterion criterion))
-                    this.SetObjective(criterion);
-            }
-            else if (this.objectiveType == typeof(ComplexObjective))
-            {
-                if (Tracker.TryGetComplexObjective(this.ObjectiveId, out ComplexObjective objective))
-                    this.SetObjective(objective);
-            }
-            else if (this.objectiveType == typeof(Block))
-            {
-                if (Tracker.TryGetBlock(this.ObjectiveId, out Block block))
-                    this.SetObjective(block);
-            }
-            else if (this.objectiveType == typeof(Death))
-            {
-                if (Tracker.TryGetDeath(this.ObjectiveId, out Death death))
-                    this.SetObjective(death);
-            }
         }
 
         private void UpdateManualCheckbox()
@@ -352,7 +311,7 @@ namespace AATool.UI.Controls
             {
                 if (Config.Main.HideCompletedAdvancements
                     && this.Objective?.IsComplete() is true 
-                    && this.Objective is Advancement)
+                    && this.Objective is Advancement or Criterion)
                 {
                     this.Glow?.SkipToBrightness(0);
                     this.Collapse();
@@ -489,7 +448,8 @@ namespace AATool.UI.Controls
                 return;
 
             //draw player head if multiple players have save data
-            if (this.ObjectiveCompleted 
+            if (this.ObjectiveCompleted
+                && this.onMainScreen
                 && this.Objective is Advancement 
                 && (Tracker.State.Players.Count > 1 || Peer.IsConnected))
             {
@@ -517,8 +477,7 @@ namespace AATool.UI.Controls
                     }
                 }
 
-                if (this.onMainScreen)
-                    canvas.Draw($"avatar-{this.Objective.FirstCompletion.Player}", this.avatarRectangle, fade, Layer.Fore);
+                canvas.Draw($"avatar-{this.Objective.FirstCompletion.Player}", this.avatarRectangle, fade, Layer.Fore);
             }
         }
 
@@ -526,55 +485,6 @@ namespace AATool.UI.Controls
         {
             base.ReadNode(node);
             this.Scale = Attribute(node, "scale", this.Scale);
-
-            //check if this frame contains an advancement
-            this.ObjectiveId = Attribute(node, "advancement", string.Empty);
-            if (!string.IsNullOrEmpty(this.ObjectiveId))
-            {
-                this.objectiveType = typeof(Advancement);
-                return;
-            }
-
-            //check if this frame contains an achievement
-            this.ObjectiveId = Attribute(node, "achievement", string.Empty);
-            if (!string.IsNullOrEmpty(this.ObjectiveId))
-            {
-                this.objectiveType = typeof(Advancement);
-                return;
-            }
-
-            //check if this frame contains a criterion
-            this.ObjectiveId = Attribute(node, "criterion", string.Empty);
-            if (!string.IsNullOrEmpty(this.ObjectiveId))
-            {
-                this.objectiveType = typeof(Criterion);
-                this.ObjectiveOwnerId = Attribute(node, "owner", string.Empty);
-                return;
-            }
-
-            //check if this frame contains a pickup counter
-            this.ObjectiveId = Attribute(node, "complex", string.Empty);
-            if (!string.IsNullOrEmpty(this.ObjectiveId))
-            {
-                this.objectiveType = typeof(ComplexObjective);
-                return;
-            }
-
-            //check if this frame contains a block
-            this.ObjectiveId = Attribute(node, "block", string.Empty);
-            if (!string.IsNullOrEmpty(this.ObjectiveId))
-            {
-                this.objectiveType = typeof(Block);
-                return;
-            }
-
-            //check if this frame contains a death message
-            this.ObjectiveId = Attribute(node, "death", string.Empty);
-            if (!string.IsNullOrEmpty(this.ObjectiveId))
-            {
-                this.objectiveType = typeof(Death);
-                return;
-            }
         }
 
         public void SetForeground()

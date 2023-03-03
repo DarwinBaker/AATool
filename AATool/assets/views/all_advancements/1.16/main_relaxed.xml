@@ -37,14 +37,14 @@
             <advancement_group group="husbandry" row="1" col="1"/>
 
             <!-- overworld pickup counts -->
-            <flow_panel row="0" col="3">
+            <flow_panel name="complex_overworld" row="0" col="3">
                 <objective_frame complex="Egap"/>
                 <objective_frame complex="Trident"/>
                 <objective_frame complex="NautilusShells"/>
             </flow_panel>
 
             <!-- nether pickup counts -->
-            <flow_panel row="1" col="3">
+            <flow_panel name="complex_nether" row="1" col="3">
                 <objective_frame complex="WitherSkulls"/>
                 <objective_frame complex="AncientDebris"/>
             </flow_panel>
@@ -52,6 +52,7 @@
             <!-- info panel -->
             <leaderboard name="Leaderboard" category="All Advancements" version="1.16" row="0" col="4" rowspan="2"/>
             <potion_group name="Potion Recipes" row="0" col="4" rowspan="2" padding="8,0,6,0"/>
+            <run_overview name="Run Overview" row="0" col="3" rowspan="2" colspan="2"/>
         </grid>
 
         <!-- advancements with subcriteria -->

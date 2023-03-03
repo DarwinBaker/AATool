@@ -11,7 +11,7 @@
     <advancement id="minecraft:story/obtain_armor"          name="Suit Up"/>
     <advancement id="minecraft:story/shiny_gear"            name="Cover Me With Diamonds"   short_name="W/Diamonds"/>
     <advancement id="minecraft:story/root"                  name="Minecraft"                icon="grass" hidden="relaxed"/>
-    <advancement id="minecraft:story/cure_zombie_villager"  name="Zombie Doctor" short_name="Z Doctor" type="goal" hidden="compact"/>
+    <advancement id="minecraft:story/cure_zombie_villager"  name="Zombie Doctor" short_name="Zombie Doc" type="goal" hidden="compact"/>
     <advancement id="minecraft:story/deflect_arrow"         name="Not Today, Thank You"     short_name="Not Today"/>
     <advancement id="minecraft:story/follow_ender_eye"      name="Eye Spy"/>
     <advancement id="minecraft:story/enter_the_end"         name="The End?"                 icon="end"/>

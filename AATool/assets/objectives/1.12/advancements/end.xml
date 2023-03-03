@@ -8,7 +8,7 @@
     <advancement id="minecraft:end/find_end_city"       name="City at the End of the Game"  icon="find_end_city_1.12" short_name="End City"/>
     
     <advancement id="minecraft:end/dragon_breath"       name="You Need a&#160;Mint"         icon="dragon_breath_1.12" short_name="Need a Mint" type="goal"/>
-    <advancement id="minecraft:end/respawn_dragon"      name="The End... Again..."          icon="respawn_dragon_1.12" short_name="Again..." type="goal"/>
+    <advancement id="minecraft:end/respawn_dragon"      name="The End... Again..."          icon="respawn_dragon_1.12" short_name="End Again" type="goal"/>
     <advancement id="minecraft:end/elytra"              name="Sky's the Limit"              icon="elytra_1.12" short_name="The Limit" type="goal"/>
     <advancement id="minecraft:end/levitate"            name="Great View From Here"      icon="levitate_1.12" short_name="Great View" type="challenge"/>
 </group>

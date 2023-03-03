@@ -9,7 +9,7 @@ using AATool.Net;
 
 namespace AATool.Data.Objectives.Complex
 {
-    class Foods : ComplexCriteriaObjective
+    class Foods : MultipartObjective
     {
         private const string Pufferfish = "Pufferfish";
         private const string SusStew = "Sus Stew";

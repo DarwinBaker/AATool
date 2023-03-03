@@ -6,7 +6,7 @@ using AATool.Data.Progress;
 
 namespace AATool.Data.Objectives.Complex
 {
-    class Biomes : ComplexCriteriaObjective
+    class Biomes : MultipartObjective
     {
         private static readonly string[] MegaTaigaBiomes = new string[] {
             /* 1.18 */ "minecraft:old_growth_spruce_taiga", "minecraft:old_growth_pine_taiga",
@@ -114,9 +114,6 @@ namespace AATool.Data.Objectives.Complex
                 .Replace(" Growth", string.Empty)
                 .Replace(" ", "\0");
         }
-
-        protected override string GetShortStatus() =>
-            $"{this.CurrentCriteria} / {this.RemainingCriteria}";
 
         protected override string GetLongStatus()
         {

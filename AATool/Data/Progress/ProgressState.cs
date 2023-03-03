@@ -23,6 +23,7 @@ namespace AATool.Data.Progress
         public double KilometersFlown { get; set; }
 
         public bool ObtainedGodApple { get; set; }
+        public bool ObtainedLapis { get; set; }
 
         public int Deaths { get; set; }
         public int DamageTaken { get; set; }

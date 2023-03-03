@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control width="1214" height="420">
+    <panel name="panel_congrats" draw_mode="children_only" collapsed="true">
+        <!-- run completion stats -->
+        <run_complete/>
+    </panel>
+    <panel name="panel_carousel" draw_mode="children_only">
+    </panel>  
+</control>

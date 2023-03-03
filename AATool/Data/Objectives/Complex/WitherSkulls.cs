@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Progress;
 using AATool.Net;
@@ -12,6 +13,7 @@ namespace AATool.Data.Objectives.Complex
         public const string LegacyItemId = "minecraft.skull";
         private const string MonsterHunter = "minecraft:adventure/kill_all_mobs";
         private const string Wither = "minecraft:wither";
+        private const string WitherSkeleton = "minecraft:wither_skeleton";
         private const string WitherRose = "minecraft:wither_rose";
         private const string Beacon = "minecraft:beacon";
 
@@ -30,6 +32,7 @@ namespace AATool.Data.Objectives.Complex
         private bool rosePlaced;
         private bool beaconPlaced;
         private bool witherKilled;
+        private int witherSkeletonsKilled;
 
         public int Required => Tracker.Category is AllBlocks ? 4 : 3;
 
@@ -53,12 +56,10 @@ namespace AATool.Data.Objectives.Complex
 
             //check wither rose status
             this.rosePlaced = progress.WasUsed(WitherRose);
-
-            //check beacon status
             this.beaconPlaced = progress.WasUsed(Beacon);
-
-            //check beacon status
             this.witherKilled = progress.CriterionCompleted(MonsterHunter, Wither);
+
+            this.witherSkeletonsKilled = progress.TimesKilled(WitherSkeleton);
 
             if (Tracker.Category is AllBlocks)
             {
@@ -78,9 +79,20 @@ namespace AATool.Data.Objectives.Complex
             this.rosePlaced = false;
             this.beaconPlaced = false;
             this.witherKilled = false;
+            this.witherSkeletonsKilled = 0;
         }
 
-        protected override string GetShortStatus() => $"{this.EstimatedObtained} / {Required}";
+        protected override string GetShortStatus()
+        {
+            if (this.fullBeaconComplete)
+                return "Done";
+
+            if (this.witherKilled)
+                return "Ready";
+
+            return $"{this.EstimatedObtained}\0/\0{this.Required}";
+        }
+            
 
         protected override string GetLongStatus()
         {
@@ -90,9 +102,13 @@ namespace AATool.Data.Objectives.Complex
                     return "Beacon+Rose\nPlaced";
             }
 
-            return this.witherKilled 
-                ? "Wither\0Has\nBeen\0Killed" 
-                : $"Skulls\n{this.EstimatedObtained}\0/\0{this.Required}";
+            if (this.witherKilled)
+                return "Wither\0Has\nBeen\0Killed";
+
+            if (this.EstimatedObtained >= this.Required)
+                return $"{this.EstimatedObtained}\0/\0{this.Required}\nKilled:\0{this.witherSkeletonsKilled}";
+
+            return $"Skulls\n{this.EstimatedObtained}\0/\0{this.Required}";
         }
 
         protected override string GetCurrentIcon()

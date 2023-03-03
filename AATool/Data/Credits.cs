@@ -58,12 +58,13 @@ namespace AATool.Data
 
             new (NetheriteTier, "greasyw00t",   new Uuid("1da9854f-f89a-4607-9d52-d0ef7a18f7bf")),
             new (NetheriteTier, "MathoX",       new Uuid("4c8b46f2-df0c-4417-9bc3-12a025fcca85")),
-            new (NetheriteTier, "the_yuukster", new Uuid("5b7fbb82-62df-4f0f-993a-e2747c2c5530")),
+            new (NetheriteTier, "yuukster",     new Uuid("5b7fbb82-62df-4f0f-993a-e2747c2c5530")),
             new (NetheriteTier, "Toshio",       new Uuid("71c35984-2091-4b64-9601-6e7145c9dffe")),
             new (NetheriteTier, "Feinberg",     new Uuid("9a8e24df-4c85-49d6-96a6-951da84fa5c4")),
             new (NetheriteTier, "PeteZahHutt",  new Uuid("7ac3c39f-23d5-472a-a7c9-24798265fa15")),
             new (NetheriteTier, "Deadpool",     new Uuid("899c63ac-6590-46c0-b77c-4dae1543f707")),
             new (NetheriteTier, "merpmerp",     new Uuid("fc357f37-ebbb-4687-971f-df8016b41a6f")),
+            new (NetheriteTier, "Oliver",       new Uuid("6174765b-7158-4d18-af89-4692b2704ae8")),
 
             new (DiamondTier, "NiceTwice",  new Uuid("e43dad54-4b24-4da9-b690-a12fdc8626dc")),
             new (DiamondTier, "Cube1337x",  new Uuid("1ae14cb9-6a2f-4357-a71e-fac6f7012b59")),
@@ -87,8 +88,9 @@ namespace AATool.Data
             new (GoldTier, "Switch",        new Uuid("b24da04f-8a72-4f28-a7cc-b8cbdfa57991")),
             new (GoldTier, "Melissa",       new Uuid("2482ebed-44c7-4a95-81f0-853ef3a55928")),
             new (GoldTier, "pneguin"),
-            new (GoldTier, "Tomas"),
+            new (GoldTier, "Tompas"),
             new (GoldTier, "Xerionix",      new Uuid("2e0a64c0-bf62-4e41-91b4-be1d39d10324")),
+            new (GoldTier, "Toomm"),
         };
 
         private static void InitializeLookups()

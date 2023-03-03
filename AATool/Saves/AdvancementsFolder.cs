@@ -93,6 +93,13 @@ namespace AATool.Saves
                 state.ObtainedGodApple = true;
                 contribution.ObtainedGodApple = true;
             }
+
+            //detect lapis from chest using lapis block recipe
+            if (this.TryGetCompletionOf("minecraft:recipes/building_blocks/lapis_block", json, out _))
+            {
+                state.ObtainedLapis = true;
+                state.ObtainedLapis = true;
+            }
         }
 
         private void UpdateAdvancements(AdvancementCompletion advancement, WorldState state, Contribution contribution)

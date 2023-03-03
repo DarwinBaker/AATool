@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.AccessControl;
 using AATool.Data.Progress;
 
 namespace AATool.Data.Objectives
@@ -27,6 +28,19 @@ namespace AATool.Data.Objectives
                 if (ComplexObjective.TryCreateInstance(type, out ComplexObjective objective))
                     this.AllByName.Add(type, objective);
             }
+
+            //misc items
+            this.AddPickup("minecraft:nether_wart", "Wart", 3);
+            this.AddPickup("minecraft:ghast_tear", "/\04\0Tears", 4);
+            this.AddPickup("minecraft:pufferfish", "/\02\0Puffers", 2);
+            this.AddPickup("minecraft:azure_bluet", "Azure Bluet", 1);
+            this.AddPickup("minecraft:rabbit_foot", "Rabbit's Foot", 1);
+            this.AddPickup("minecraft:fermented_spider_eye", "Fermented Eye", 1);
+        }
+
+        private void AddPickup(string id, string name, int required)
+        {
+            this.AllByName.Add(id, new Pickup(id, name, required));
         }
 
         public void UpdateState(ProgressState progress)

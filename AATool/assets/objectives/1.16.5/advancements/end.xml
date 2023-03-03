@@ -7,7 +7,7 @@
     <advancement id="minecraft:end/enter_end_gateway"   name="Remote Getaway"                short_name="Getaway"/>
     <advancement id="minecraft:end/find_end_city"       name="City at the End of the Game"      short_name="End City"/>
     <advancement id="minecraft:end/dragon_breath"       name="You Need a&#160;Mint"          short_name="Need a Mint" type="goal"/>
-    <advancement id="minecraft:end/respawn_dragon"      name="The End... Again..."           short_name="Again..." type="goal"/>
+    <advancement id="minecraft:end/respawn_dragon"      name="The End... Again..."           short_name="End Again" type="goal"/>
     <advancement id="minecraft:end/elytra"              name="Sky's the Limit"               short_name="The Limit" type="goal"/>
     <advancement id="minecraft:end/levitate"            name="Great View From Here"          short_name="Great View" type="challenge"/>
 </group>

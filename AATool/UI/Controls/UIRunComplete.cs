@@ -103,6 +103,11 @@ namespace AATool.UI.Controls
 
             this.glowRotation += (float)time.Delta * 0.25f;
             this.pageTimer.Update(time);
+            if (Main.OverlayScreen.FastForwarding)
+            {
+                this.pageTimer.TimeLeft -= 20 * time.Delta;
+            }
+
             if (this.pageTimer.IsExpired)
             {
                 if (!this.fadeOut)
@@ -289,23 +294,26 @@ namespace AATool.UI.Controls
             this.statsMisc.Append($"Save & Quits: {prog.SaveAndQuits}\n");
             */
 
+            int temples = (state.TimesMined("minecraft:tnt") / 9);
+            int fish = state.TimesKilled("minecraft:cod") + state.TimesKilled("minecraft:salmon");
+
             this.First<UITextBlock>("flown").SetText(space      + state.KilometersFlown);
             this.First<UITextBlock>("bread").SetText(space      + state.TimesUsed("minecraft:bread"));
             this.First<UITextBlock>("enchants").SetText(space   + state.ItemsEnchanted);
             this.First<UITextBlock>("pearls").SetText(space     + state.TimesUsed("minecraft:ender_pearl"));
-            this.First<UITextBlock>("temples").SetText(space    + (state.TimesMined("minecraft:tnt") / 9));
+            this.First<UITextBlock>("temples").SetText(space    + fish);
 
             this.First<UITextBlock>("creepers").SetText(space   + state.TimesKilled("minecraft:creeper"));
             this.First<UITextBlock>("drowned").SetText(space    + state.TimesKilled("minecraft:drowned"));
             this.First<UITextBlock>("withers").SetText(space    + state.TimesKilled("minecraft:wither_skeleton"));
-            this.First<UITextBlock>("fish").SetText(space       + (state.TimesKilled("minecraft:cod") + state.TimesKilled("minecraft:salmon")));
+            this.First<UITextBlock>("fish").SetText(space       + fish);
             this.First<UITextBlock>("phantoms").SetText(space   + state.TimesKilled("minecraft:phantom"));
 
+            this.First<UITextBlock>("debris").SetText(space   + state.TimesMined("minecraft:ancient_debris"));
             this.First<UITextBlock>("lecterns").SetText(space   + state.TimesMined("minecraft:lectern"));
-            this.First<UITextBlock>("sugarcane").SetText(space  + state.TimesPickedUp("minecraft:sugarcane"));
+            this.First<UITextBlock>("sugarcane").SetText(space  + state.TimesPickedUp("minecraft:sugar_cane"));
             this.First<UITextBlock>("netherrack").SetText(space + state.TimesMined("minecraft:netherrack"));
-            this.First<UITextBlock>("gold_blocks").SetText(space    + state.TimesMined("minecraft:gold_blocks"));
-            this.First<UITextBlock>("ender_chests").SetText(space   + state.TimesMined("minecraft:ender_chest"));
+            this.First<UITextBlock>("ender_chests").SetText(space + state.TimesMined("minecraft:ender_chest"));
 
             this.PopulateSupporterLists();
             this.Expand();
@@ -373,7 +381,7 @@ namespace AATool.UI.Controls
 
                 UIControl panel = this.supporters[person.Role];
                 var supporter = new UITextBlock() {
-                    FlexWidth  = new Size(donor ? 180 : 220),
+                    FlexWidth  = new Size(donor ? 170 : 220),
                     FlexHeight = new Size(32),
                     HorizontalTextAlign = panel.HorizontalAlign,
                     VerticalTextAlign = VerticalAlign.Top

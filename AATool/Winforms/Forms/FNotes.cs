@@ -12,6 +12,18 @@ namespace AATool.Winforms.Forms
 
         private string CurrentNotesFile => Path.Combine(Paths.System.NotesFolder, $"{this.currentSaveName}.txt");
 
+        public bool Hiding { get; set; }
+        
+        private const int CP_NOCLOSE_BUTTON = 0x200;
+        protected override CreateParams CreateParams
+        {
+            get {
+                CreateParams myCp = base.CreateParams;
+                myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
+                return myCp;
+            }
+        }
+
         public FNotes()
         {
             this.InitializeComponent();
@@ -91,12 +103,6 @@ namespace AATool.Winforms.Forms
             }
         }
 
-        private void OnClosed(object sender, FormClosedEventArgs e)
-        {
-            Config.Notes.Enabled.Set(false);
-            Config.Notes.TrySave();
-        }
-
         private void OnTick(object sender, EventArgs e)
         {
             this.TrySaveNotes();
@@ -140,6 +146,13 @@ namespace AATool.Winforms.Forms
             {
                 this.notes.Cut();
             }
+            else if (sender == this.menuClose)
+            {
+                Config.Notes.Enabled.Set(false);
+                Config.Notes.TrySave();
+                Hiding = true;
+                this.Close();
+            }
         }
 
         private void OnResize(object sender, EventArgs e)
@@ -152,6 +165,13 @@ namespace AATool.Winforms.Forms
             Config.Notes.Width.Set(this.Width);
             Config.Notes.Height.Set(this.Height);
             Config.Notes.TrySave();
+        }
+
+        private void OnFormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!this.Hiding)
+                e.Cancel = true;
+            this.Hiding = false;
         }
     }
 }

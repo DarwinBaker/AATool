@@ -13,6 +13,6 @@
     <advancement id="minecraft:nether/get_wither_skull"     name="Spooky Scary Skeleton" icon="get_wither_skull" short_name="Spooky"/>
     
     <advancement id="minecraft:nether/fast_travel"          name="Subspace Bubble"       icon="fast_travel_1.12" short_name="Subspace" type="challenge"/>
-    <advancement id="minecraft:nether/all_effects"          name="How Did We Get Here?"  icon="all_effects_1.12" short_name="HDWGH?" type="challenge"/>
+    <advancement id="minecraft:nether/all_effects"          name="How Did We Get Here?"  icon="all_effects_1.12" short_name="HDWGH" type="challenge"/>
     <advancement id="minecraft:nether/all_potions"          name="A Furious Cocktail"    icon="all_potions_1.12" short_name="Cocktail" type="challenge"/>
 </group>

@@ -13,7 +13,7 @@ namespace AATool.Configuration
         public static readonly List<string> AllAA = new (){
             "EGap", "Trident", "NautilusShells", "WitherSkulls",
             "AncientDebris", "GoldBlocks", "Bees",
-            "Cats", "Foods", "Animals", "Monsters", "Biomes",
+            "Cats", "Foods", "Animals", "Monsters", "Biomes", "Cauldrons"
         };
 
         public static readonly List<string> AllAB = new (){
@@ -39,6 +39,8 @@ namespace AATool.Configuration
             {
                 if (current < new Version("1.19"))
                     available.Remove("SculkBlocks");
+                if (current != new Version("1.17"))
+                    available.Remove("Cauldrons");
                 if (current < new Version("1.17"))
                     available.Remove("DeepslateEmerald");
                 if (current < new Version("1.16"))
@@ -51,11 +53,19 @@ namespace AATool.Configuration
                     available.Remove("NautilusShells");
                 }
             }
+            else
+            {
+                //latest snapshot
+                available.Remove("Cauldrons");
+            }
             return available;
         }
 
         [JsonProperty]
         public Dictionary<string, List<string>> Pinned = new () {
+            { "All Advancements 1.20 Snapshot", new () {
+                "AncientDebris", "WitherSkulls", "NautilusShells", "Trident", "EGap",
+            }},
             { "All Advancements 1.19", new () {
                 "AncientDebris", "WitherSkulls", "NautilusShells", "Trident", "EGap",
             }},
@@ -63,7 +73,7 @@ namespace AATool.Configuration
                 "AncientDebris", "WitherSkulls", "NautilusShells", "Trident", "EGap",
             }},
             { "All Advancements 1.17", new () {
-                "AncientDebris", "WitherSkulls", "NautilusShells", "Trident", "EGap",
+                "Cauldrons", "AncientDebris", "WitherSkulls", "NautilusShells", "Trident", "EGap",
             }},
             { "All Advancements 1.16.5", new () {
                 "AncientDebris", "WitherSkulls", "NautilusShells", "Trident", "EGap",
@@ -75,7 +85,7 @@ namespace AATool.Configuration
                 "GoldBlocks", "WitherSkulls", "NautilusShells", "Trident", "EGap",
             }},
             { "All Advancements 1.14", new () {
-                "GoldBlocks", "WitherSkulls", "NautilusShells", "Trident", "EGap",
+                "Cats", "GoldBlocks", "WitherSkulls", "NautilusShells", "Trident", "EGap",
             }},
             { "All Advancements 1.13", new () {
                 "GoldBlocks", "WitherSkulls", "NautilusShells", "Trident", "EGap",
@@ -107,7 +117,10 @@ namespace AATool.Configuration
         {
             var names = new List<string>();
             foreach (UIPinnedObjectiveFrame frame in frames)
-                names.Add(frame.Objective.Name);
+            {
+                if (!string.IsNullOrWhiteSpace(frame.Objective.Name))
+                    names.Add(frame.Objective.Name);
+            }
 
             List<string> previous = this.Pinned[$"{Tracker.Category.Name} {Tracker.CurrentVersion}"];
             if (!names.SequenceEqual(previous))

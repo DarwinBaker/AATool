@@ -59,6 +59,7 @@ namespace AATool.UI.Controls
         private bool hideButton;
         private bool isSmall;
         private bool containsMainPlayer;
+        private bool snapshot;
         private int mainPlayerOffset;
         private int scrollOffset;
 
@@ -129,6 +130,20 @@ namespace AATool.UI.Controls
             }
             else
             {
+                this.UpdateMenu();
+            }
+
+            string version = this.Version?.ToLower() ?? string.Empty;
+            this.snapshot = version.Contains("snapshot") || version.Contains("w");
+            if (this.snapshot)
+            { 
+                this.First<UIGrid>()?.RemoveControl(this.spinner);
+                var message = new UITextBlock() {
+                    Row = 1,
+                };
+                message.SetFont("minecraft", 24);
+                message.SetText("No Leaderboard For Snapshots");
+                this.First<UIGrid>().AddControl(message);
                 this.UpdateMenu();
             }
 
@@ -267,8 +282,9 @@ namespace AATool.UI.Controls
                 this.PopuplateSmall();
             }
             else
-            {
-                this.PopulateNormal();
+            { 
+                if (!this.snapshot)
+                    this.PopulateNormal();
                 if (UIMainScreen.ActiveTab is UIMainScreen.MultiboardTab)
                     this.PopuplateMultiboard();
             }
@@ -410,7 +426,7 @@ namespace AATool.UI.Controls
         private void UpdateMenu()
         {
             bool available = Leaderboard.IsLiveAvailable(this.Category, this.Version);
-            this.threeDots.SetVisibility(!available);
+            this.threeDots.SetVisibility(!this.snapshot && !available);
 
             bool menuChanged = false;
             menuChanged |= this.topButton.IsCollapsed == (this.scrollOffset > 0);

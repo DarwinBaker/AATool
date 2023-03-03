@@ -21,6 +21,7 @@ namespace AATool.Winforms.Forms
 
         public void InvalidateSettings() => this.tracker.InvalidateSettings();
         public void UpdateOverlayWidth() => this.overlay.UpdateWidth();
+        public void UpdateNotesState() => this.main.UpdateNotesState();
         public void UpdateBadgeList() => this.main.UpdateBadgeList();
         public void UpdateFrameList() => this.main.UpdateFrameList();
         public void UpdateRainbow(Color color) => this.main.UpdateRainbow(color);

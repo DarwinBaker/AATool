@@ -36,13 +36,14 @@ namespace AATool.Winforms.Forms
             this.alwaysOnTop = new System.Windows.Forms.CheckBox();
             this.menuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.menuClearNotesFolder = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.menuCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.menuPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.menuCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuClear = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuClose = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,17 +92,17 @@ namespace AATool.Winforms.Forms
             this.menuClearNotesFolder.Text = "Clear Old Notes";
             this.menuClearNotesFolder.Click += new System.EventHandler(this.OnClick);
             // 
-            // editToolStripMenuItem
+            // menuEdit
             // 
-            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuCopy,
             this.menuPaste,
             this.menuCut,
             this.toolStripSeparator1,
             this.menuClear});
-            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-            this.editToolStripMenuItem.Text = "Edit";
+            this.menuEdit.Name = "menuEdit";
+            this.menuEdit.Size = new System.Drawing.Size(39, 20);
+            this.menuEdit.Text = "Edit";
             // 
             // menuCopy
             // 
@@ -145,12 +146,20 @@ namespace AATool.Winforms.Forms
             this.menuStrip1.BackColor = System.Drawing.SystemColors.MenuBar;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuFile,
-            this.editToolStripMenuItem});
+            this.menuEdit,
+            this.menuClose});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(404, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // menuClose
+            // 
+            this.menuClose.Name = "menuClose";
+            this.menuClose.Size = new System.Drawing.Size(44, 20);
+            this.menuClose.Text = "Hide";
+            this.menuClose.Click += new System.EventHandler(this.OnClick);
             // 
             // FNotes
             // 
@@ -165,7 +174,7 @@ namespace AATool.Winforms.Forms
             this.Name = "FNotes";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Notes";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OnClosed);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnFormClosing);
             this.ResizeEnd += new System.EventHandler(this.OnResizeEnd);
             this.Resize += new System.EventHandler(this.OnResize);
             this.menuStrip1.ResumeLayout(false);
@@ -181,12 +190,13 @@ namespace AATool.Winforms.Forms
         private System.Windows.Forms.CheckBox alwaysOnTop;
         private System.Windows.Forms.ToolStripMenuItem menuFile;
         private System.Windows.Forms.ToolStripMenuItem menuClearNotesFolder;
-        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuEdit;
         private System.Windows.Forms.ToolStripMenuItem menuCopy;
         private System.Windows.Forms.ToolStripMenuItem menuPaste;
         private System.Windows.Forms.ToolStripMenuItem menuCut;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem menuClear;
         private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem menuClose;
     }
 }

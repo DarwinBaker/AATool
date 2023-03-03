@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using AATool.Configuration;
@@ -254,6 +253,7 @@ namespace AATool
                     "allblocks" => new AllBlocks(),
                     "alldeaths" => new AllDeaths(),
                     "halfdeaths" => new HalfDeaths(),
+                    "allportals" => new AllPortals(),
 
                     _ => throw new ArgumentException($"Category not supported: \"{category}\"."),
                 };
@@ -568,6 +568,9 @@ namespace AATool
             Achievements.UpdateState(activeState);
             Blocks.UpdateState(activeState);
             ComplexObjectives.UpdateState(activeState);
+
+            string jsonString = new NetworkState(State).ToJsonString();
+            File.WriteAllText("C:/Users/CTM/Documents/aatool_test.json", jsonString);
         }
     }
 }

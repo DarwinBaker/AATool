@@ -5,7 +5,7 @@
     <advancement id="minecraft:adventure/shoot_arrow"           name="Take Aim"/>
     
     <advancement id="minecraft:adventure/sleep_in_bed"          name="Sweet Dreams"     short_name="Dreams" icon="sleep_in_bed"/>
-    <advancement id="minecraft:adventure/trade"                 name="What a Deal!"     icon="trade_1.12"/>
+    <advancement id="minecraft:adventure/trade"                 name="What a Deal!" short_name="What a Deal"     icon="trade_1.12"/>
     <advancement id="minecraft:adventure/sniper_duel"           name="Sniper Duel"      type="challenge"/>
     
     <advancement id="minecraft:adventure/summon_iron_golem"     name="Hired Help" icon="summon_iron_golem_1.12" type="goal"/>
