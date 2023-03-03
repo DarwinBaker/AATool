@@ -568,9 +568,6 @@ namespace AATool
             Achievements.UpdateState(activeState);
             Blocks.UpdateState(activeState);
             ComplexObjectives.UpdateState(activeState);
-
-            string jsonString = new NetworkState(State).ToJsonString();
-            File.WriteAllText("C:/Users/CTM/Documents/aatool_test.json", jsonString);
         }
     }
 }
