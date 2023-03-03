@@ -2771,16 +2771,16 @@
     <Content Include="assets\sprites\blocks\ui\block_clear_confirm.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\wood\cherry_sign^32.png">
+    <Content Include="assets\sprites\blocks\cherry\cherry_sign^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\wood\cherry_sign^48.png">
+    <Content Include="assets\sprites\blocks\cherry\cherry_sign^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\wood\cherry_button^32.png">
+    <Content Include="assets\sprites\blocks\cherry\cherry_button^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\wood\cherry_button^48.png">
+    <Content Include="assets\sprites\blocks\cherry\cherry_button^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\badges\glow\badge_rank_netherite_glow~1.png">
