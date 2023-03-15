@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using AATool.Data.Progress;
 
 namespace AATool.Data.Objectives.Complex
@@ -21,6 +22,7 @@ namespace AATool.Data.Objectives.Complex
                 - progress.TimesDropped(PearlId)
                 - progress.TimesUsed(PearlId)
                 - progress.TimesCrafted(EyeId);
+            this.estimate = Math.Max(0, this.estimate);
             this.CompletionOverride = this.estimate > 0;
         }
 
