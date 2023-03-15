@@ -294,14 +294,14 @@ namespace AATool.UI.Controls
             this.statsMisc.Append($"Save & Quits: {prog.SaveAndQuits}\n");
             */
 
-            int temples = (state.TimesMined("minecraft:tnt") / 9);
+            int temples = state.TimesMined("minecraft:tnt") / 9;
             int fish = state.TimesKilled("minecraft:cod") + state.TimesKilled("minecraft:salmon");
 
             this.First<UITextBlock>("flown").SetText(space      + state.KilometersFlown);
             this.First<UITextBlock>("bread").SetText(space      + state.TimesUsed("minecraft:bread"));
             this.First<UITextBlock>("enchants").SetText(space   + state.ItemsEnchanted);
             this.First<UITextBlock>("pearls").SetText(space     + state.TimesUsed("minecraft:ender_pearl"));
-            this.First<UITextBlock>("temples").SetText(space    + fish);
+            this.First<UITextBlock>("temples").SetText(space    + temples);
 
             this.First<UITextBlock>("creepers").SetText(space   + state.TimesKilled("minecraft:creeper"));
             this.First<UITextBlock>("drowned").SetText(space    + state.TimesKilled("minecraft:drowned"));
