@@ -18,6 +18,8 @@ namespace AATool.Data.Objectives.Complex
         private const string BalancedDiet = "minecraft:husbandry/balanced_diet";
         private const string TwoByTwo = "minecraft:husbandry/bred_all_animals";
         private const string StickySituation = "minecraft:adventure/honey_block_slide";
+        private const string WaxOn = "minecraft:husbandry/wax_on";
+        private const string WaxOff = "minecraft:husbandry/wax_off";
         private const string HoneyBottle = "honey_bottle";
         private const string Bee = "minecraft:bee";
 
@@ -36,6 +38,8 @@ namespace AATool.Data.Objectives.Complex
         private bool totalBeelocation;
         private bool beeOurGuest;
         private bool stickySituation;
+        private bool waxOn;
+        private bool waxOff;
         private bool drinkHoney;
         private bool breedBees;
 
@@ -98,6 +102,9 @@ namespace AATool.Data.Objectives.Complex
         private bool CopperAndCandlesAdded => Version.TryParse(Tracker.Category.CurrentVersion,
             out Version current) && current >= CavesAndCliffsPartOne;
 
+        private bool WaxAdvancementsAdded => Version.TryParse(Tracker.Category.CurrentVersion,
+            out Version current) && current >= CavesAndCliffsPartOne;
+
         protected override void UpdateAdvancedState(ProgressState progress)
         {
             this.estimatedCount = progress.TimesPickedUp(BlockId)
@@ -122,6 +129,8 @@ namespace AATool.Data.Objectives.Complex
                 this.totalBeelocation = progress.AdvancementCompleted(TotalBeelocation);
                 this.beeOurGuest = progress.AdvancementCompleted(BeeOurGuest);
                 this.stickySituation = progress.AdvancementCompleted(StickySituation);
+                this.waxOn = progress.AdvancementCompleted(WaxOn);
+                this.waxOff = progress.AdvancementCompleted(WaxOff);
 
                 this.balancedDiet = progress.AdvancementCompleted(BalancedDiet);
                 this.twoByTwo = progress.AdvancementCompleted(TwoByTwo);
@@ -163,6 +172,10 @@ namespace AATool.Data.Objectives.Complex
                     this.remainingObjectives.Add("Needs\0To\nDrink\0Honey");
                 if (!this.breedBees && !this.twoByTwo)
                     this.remainingObjectives.Add("Needs\0To\nBreed\0Bees");
+                if (WaxAdvancementsAdded && !this.waxOn)
+                    this.remainingObjectives.Add("Still\0Needs\nWax\0On");
+                if (WaxAdvancementsAdded && !this.waxOff)
+                    this.remainingObjectives.Add("Still\0Needs\nWax\0Off");
             }
         }
 
@@ -196,6 +209,8 @@ namespace AATool.Data.Objectives.Complex
             this.totalBeelocation = false;
             this.beeOurGuest = false;
             this.stickySituation = false;
+            this.waxOn = false;
+            this.waxOff = false;
             this.drinkHoney = false;
 
             this.balancedDiet = false;

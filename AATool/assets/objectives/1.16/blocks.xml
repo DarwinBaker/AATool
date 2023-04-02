@@ -378,9 +378,9 @@
         <prismarine name="Prismarine" icon="prismarine"/>
         <prismarine_bricks name="Prismarine Bricks" icon="prismarine_bricks"/>
         <prismarine_stairs name="Prismarine Stairs" icon="prismarine_stairs"/>
-        <prismarine_brick_stairs name="Prismarine Stairs" icon="prismarine_brick_stairs"/>
+        <prismarine_brick_stairs name="Prismarine Brick Stairs" icon="prismarine_brick_stairs"/>
         <prismarine_slab name="Prismarine Slab" icon="prismarine_slab"/>
-        <prismarine_brick_slab name="Prismarine Slab" icon="prismarine_brick_slab"/>
+        <prismarine_brick_slab name="Prismarine Brick Slab" icon="prismarine_brick_slab"/>
         <prismarine_wall name="Prismarine Wall" icon="prismarine_wall"/>
         <conduit name="Conduit" icon="conduit" light_level="0.5"/>
         <kelp name="Kelp" icon="kelp" double_height="true"/>

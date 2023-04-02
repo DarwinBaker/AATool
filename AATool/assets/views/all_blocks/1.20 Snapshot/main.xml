@@ -9,7 +9,7 @@
         <columns>
             <column width="160" collapsed="true"/>
             <column width="20"/>
-            <column width="37 * 38"/>
+            <column width="36 * 38"/>
             <column width="200"/>
         </columns>
 
@@ -82,7 +82,6 @@
             <text_block width="38" text="34" padding_top="4"/>
             <text_block width="38" text="35" padding_top="4"/>
             <text_block width="38" text="36" padding_top="4"/>
-            <text_block width="38" text="37" padding_top="4"/>
         </flow_panel>
 
         <!-- top left corner -->
@@ -97,7 +96,7 @@
 
             <block_group group="dirt"
                 margin_left="0" margin_top="38"
-                width="4 * 38" height="1 * 38"/>
+                width="5 * 38" height="1 * 38"/>
 
             <block_group group="stone"
                 margin_left="4 * 38" margin_top="0"
@@ -109,19 +108,19 @@
                 direction="toptobottom"/>
 
             <block_group group="lights"
-                margin_left="15 * 38" margin_top="5 * 38"
-                width="2 * 38" height="3 * 38"/>
+                margin_left="15 * 38" margin_top="6 * 38"
+                width="3 * 38" height="3 * 38"/>
 
             <block_group group="diorite"
                 margin_left="6 * 38" margin_top="0"
                 width="4 * 38" height="2 * 38"/>
 
             <block_group group="granite"
-                margin_left="10 * 38" margin_top="0"
+                margin_left="9 * 38" margin_top="0"
                 width="4 * 38" height="2 * 38"/>
 
             <block_group group="andesite"
-                margin_left="14 * 38" margin_top="0"
+                margin_left="13 * 38" margin_top="0"
                 width="4 * 38" height="2 * 38"/>
 
             <block_group group="deepslate"
@@ -137,12 +136,12 @@
                 width="3 * 38" height="4 * 38"/>
 
             <block_group group="snow"
-                margin_left="5 * 38" margin_top="8 * 38"
+                margin_left="8 * 38" margin_top="8 * 38"
                 width="3 * 38"  height="2 * 38"/>
 
             <block_group group="crops"
-                margin_left="11 * 38" margin_top="5 * 38"
-                width="4 * 38" height="3 * 38"
+                margin_left="11 * 38" margin_top="6 * 38"
+                width="4 * 38" height="2 * 38"
                 direction="toptobottom"/>
 
             <block_group group="tall_grass"
@@ -159,41 +158,33 @@
                 width="12 * 38" height="2 * 38"/>
 
             <block_group group="flowers"
-                margin_left="33 * 38" margin_top="18 * 38"
-                width="2 * 38" height="6 * 38"/>
+                margin_left="33 * 38" margin_top="20 * 38"
+                width="3 * 38" height="4 * 38"/>
 
             <block_group group="vines"
                 margin_left="17 * 38" margin_top="4 * 38"
                 width="3 * 38" height="2 * 38"/>
 
             <block_group group="shrubs"
-                margin_left="18 * 38" margin_top="0"
-                width="2 * 38" height="2 * 38"/>
-
-            <block_group group="torchflowers"
-                margin_left="19 * 38" margin_top="2 * 38"
-                width="38" height="2 * 38"/>
-
-            <block_group group="spore_blossom"
-                margin_left="17 * 38" margin_top="38"
-                width="38" height="38"/>
+                margin_left="16 * 38" margin_top="0"
+                width="4 * 38" height="2 * 38"/>
 
             <block_group group="foliage"
                 margin_left="20 * 38"  margin_top="0"
-                width="2 * 38" height="10 * 38"/>
+                width="2 * 38" height="11 * 38"/>
 
             <block_group group="small_foliage"
                 margin_left="18 * 38" margin_top="6 * 38"
                 width="2 * 38" height="2 * 38"
                 direction="toptobottom"/>
 
-            <block_group group="petals"
-                margin_left="19 * 38" margin_top="8 * 38"
-                width="38" height="38"/>
+            <block_group group="natural_transparent"
+                margin_left="17 * 38" margin_top="8 * 38"
+                width="38 * 3" height="38"/>
 
             <block_group group="wood"
                 margin_left="22 * 38" margin_top="0"
-                width="14 * 38" height="10 * 38"/>
+                width="14 * 38" height="11 * 38"/>
 
             <block_group group="hanging_signs"
                 margin_left="35 * 38" margin_top="0"
@@ -244,24 +235,30 @@
                 direction="toptobottom"/>
 
             <block_group group="specialized"
-                margin_left="21 * 38" margin_top="11 * 38"
+                margin_left="20 * 38" margin_top="11 * 38"
                 width="11 * 38" height="4 * 38"/>
 
             <block_group group="extra_pressure_plates"
-                margin_left="32 * 38" margin_top="11 * 38"
-                width="1 * 38" height="4 * 38"/>
+                margin_left="31 * 38" margin_top="11 * 38"
+                width="2 * 38" height="2 * 38"
+                direction="toptobottom"/>
 
             <block_group group="extra_buttons"
                 margin_left="33 * 38" margin_top="11 * 38"
-                width="1 * 38" height="4 * 38"/>
+                width="2 * 38" height="2 * 38"
+                direction="toptobottom"/>
 
             <block_group group="rails"
-                margin_left="34 * 38" margin_top="11 * 38"
-                width="1 * 38" height="4 * 38"/>
+                margin_left="31 * 38" margin_top="13 * 38"
+                width="4 * 38" height="38"/>
 
-            <block_group group="misc_stuff"
-                margin_left="35 * 38" margin_top="10 * 38"
-                width="4 * 38" height="4 * 38"
+            <block_group group="doors"
+                margin_left="31 * 38" margin_top="14 * 38"
+                width="5 * 38" height="4 * 38"/>
+
+            <block_group group="bamboo_misc"
+                margin_left="35 * 38" margin_top="11 * 38"
+                width="1 * 38" height="3 * 38"
                 direction="toptobottom"/>
 
             <block_group group="stronghold"
@@ -278,10 +275,6 @@
                 margin_left="13 * 38" margin_top="14 * 38"
                 width="4 * 38" height="2 * 38"/>
 
-            <block_group group="doors"
-                margin_left="36 * 38" margin_top="0"
-                width="6 * 38" height="4 * 38"/>
-
             <block_group group="nether_basic"
                 margin_left="0 * 38" margin_top="10 * 38"
                 width="3 * 38" height="3 * 38"/>
@@ -290,44 +283,34 @@
                 margin_left="3 * 38" margin_top="10 * 38"
                 width="5 * 38" height="3 * 38"/>
 
-            <block_group group="chain"
-                margin_left="17 * 38" margin_top="6 * 38"
-                width="1 * 38" height="1 * 38"/>
-
             <block_group group="iron_doors"
                 margin_left="16 * 38" margin_top="10 * 38"
                 width="38" height="38 * 3"
                 direction="toptobottom"/>
 
             <block_group group="redstone_components"
-                margin_left="3 * 38" margin_top="9 * 38"
+                margin_left="6 * 38" margin_top="8 * 38"
                 width="2 * 38" height="38"/>
 
             <block_group group="nether_brick"
                 margin_left="8 * 38" margin_top="10 * 38"
                 width="4 * 38" height="3 * 38"/>
 
-            <block_group group="ocean_monument_1"
-                margin_left="17 * 38" margin_top="15 * 38"
-                width="5 * 38" height="2 * 38"
-                direction="toptobottom"/>
+            <block_group group="ocean_monument"
+                margin_left="17 * 38" margin_top="13 * 38"
+                width="4 * 38" height="3 * 38"/>
 
-            <block_group group="ocean_monument_2"
-                margin_left="17 * 38" margin_top="17 * 38"
-                width="5 * 38" height="1 * 38"
+            <block_group group="ocean_misc"
+                margin_left="17 * 38" margin_top="16 * 38"
+                width="4 * 38" height="2 * 38"
                 direction="toptobottom"/>
 
             <block_group group="coral"
-                margin_left="26 * 38" margin_top="15 * 38"
+                margin_left="21 * 38" margin_top="15 * 38"
                 width="5 * 38" height="3 * 38"/>
 
-            <block_group group="ocean_misc"
-                margin_left="22 * 38" margin_top="15 * 38"
-                width="2 * 38" height="3 * 38"
-                direction="toptobottom"/>
-
             <block_group group="dead_coral"
-                margin_left="31 * 38" margin_top="15 * 38"
+                margin_left="26 * 38" margin_top="15 * 38"
                 width="5 * 38" height="3 * 38"/>
 
             <block_group group="banners"
@@ -372,7 +355,7 @@
 
             <block_group group="food"
                 margin_left="11 * 38"  margin_top="4 * 38"
-                width="6 * 38" height="38"/>
+                width="6 * 38" height="38 * 2"/>
 
             <block_group group="redstone_dust"
                 margin_left="2 * 38" margin_top="16 * 38"
@@ -383,16 +366,16 @@
                 width="38" height="38"/>
 
             <block_group group="heads"
-                margin_left="8 * 38" margin_top="8 * 38"
-                width="6 * 38" height="38"/>
+                margin_left="33 * 38" margin_top="18 * 38"
+                width="3 * 38" height="2 * 38"/>
 
             <block_group group="wither_rose"
-                margin_left="35 * 38" margin_top="17 * 38"
+                margin_left="35 * 38" margin_top="19 * 38"
                 width="38" height="38"/>
 
             <block_group group="deep_dark"
                 margin_left="0" margin_top="8 * 38"
-                width="5 * 38" height="38"/>
+                width="6 * 38" height="38"/>
 
             <block_group group="froglights"
                 margin_left="0" margin_top="9 * 38"
@@ -441,7 +424,7 @@
                 <textblock text="1.20 Leaderboard" font_size="24"/>
             </panel>
 
-            <leaderboard rows="3" height="5 * 38" category="All Blocks" version="1.20" hide_button="true"/>
+            <leaderboard rows="3" height="5 * 38" category="All Blocks" version="1.20 Snapshot" hide_button="true"/>
             
             <panel height="38" padding_top="6" border_thickness="38">
                 <textblock text="Other Records" font_size="24"/>

@@ -114,14 +114,12 @@
             <!-- 100 hardcore challenge -->
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <panel width="180">
-                <textblock text="100 Deathless Hardcore Runs" font_size="24" vertical_align="top" margin_top="2" height="48"/>
-                <panel padding_top="27" horizontal_align="left" draw_mode="childrenonly">
-                    <panel width="36" height="36" vertical_align="top" margin_top="32" border_thickness="2">
-                        <avatar name="100hc_avatar" show_frame="false" label_tint="true" empty="true"/>
-                    </panel>
+                <textblock text="100 Hardcore Challenge" font_size="24" vertical_align="top" margin_top="2" height="48"/>
+                <panel padding_top="30" horizontal_align="left" draw_mode="childrenonly">
+                    <avatar player="Feinberg" show_frame="false" vertical_align="top" margin_top="32"/>
                     <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
-                    <textblock text="Closest Attempts:" vertical_align="top" margin_top="80" height="12"/>
-                    <textblock text="Taffel: 96, Elysaku: 72, Couri: 69" vertical_align="top" margin_top="94" height="12"/>
+                    <textblock text="Feinberg" vertical_align="top" margin_top="80" height="12"/>
+                    <textblock text="5 Deaths, 183 Runs, 23:47 Avg" vertical_align="top" margin_top="94" height="12"/>
                 </panel>
             </panel>
 

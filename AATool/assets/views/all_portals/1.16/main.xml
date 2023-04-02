@@ -18,9 +18,9 @@
         <!-- basic advancements -->
         <flow_panel row="0" col="1" border_thickness="6" padding="6">
             <!-- general -->
-            <coordinate_grid width="768">
-                
-            </coordinate_grid>
+            <stronghold_map width="768">
+
+            </stronghold_map>
 
         </flow_panel>
 

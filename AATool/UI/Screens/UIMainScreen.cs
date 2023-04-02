@@ -141,6 +141,8 @@ namespace AATool.UI.Screens
             string view = Tracker.Category.ViewName;
             string version = Tracker.Category.CurrentMajorVersion ?? Tracker.Category.CurrentVersion;
 
+            //return Path.Combine(Paths.System.ViewsFolder, "other", "primary_version.xml");
+
             if (ActiveTab is HelpTab)
                 return Path.Combine(Paths.System.ViewsFolder, view, version, $"help.xml");
 

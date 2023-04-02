@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace AATool.UI.Badges
 {
-    class HundredThousandBadge : ThousandSeedsBadge
+    class HundredThousandBadge : NoResetsBadge
     {
         private const string ThousandSeedsBack = "badge_1k_couriway";
         private const string ThousandSeedsText = "badge_1k_text";
@@ -19,7 +19,7 @@ namespace AATool.UI.Badges
         private static long LastFrameUpdated = -1;
         private static bool VariantsInitialized = false;
 
-        public HundredThousandBadge(string player) : base (player)
+        public HundredThousandBadge(string player) : base (player, 1)
         {
             if (!VariantsInitialized)
             {

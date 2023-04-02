@@ -22,12 +22,12 @@ namespace AATool.UI.Controls
         private Color backColor;
         private Color lineColor;
 
-        private float blocksPerSquare = 512; 
-        private float viewScale = 64;
-        private float coordScale = 1;
+        protected float BlocksPerSquare = 512;
+        protected float ViewScale = 64;
+        protected float CoordScale = 1;
 
-        private Vector2 offset = Vector2.Zero;
-        private Vector2 targetOffset = Vector2.Zero;
+        protected Vector2 Offset = Vector2.Zero;
+        protected Vector2 targetOffset = Vector2.Zero;
 
         public UICoordinateGrid()
         {
@@ -44,7 +44,7 @@ namespace AATool.UI.Controls
             this.UpdateOffset(time);
 
             float targetScale = this.IsNether ? NetherScale : 1;
-            this.coordScale = MathHelper.Lerp(this.coordScale, targetScale, 16 * (float)time.Delta);
+            this.CoordScale = MathHelper.Lerp(this.CoordScale, targetScale, 16 * (float)time.Delta);
 
             Color targetBackColor = this.IsNether ? NetherBackColor : OverworldBackColor;
             int r = (int)MathHelper.Lerp(this.backColor.R, targetBackColor.R, 4 * (float)time.Delta);
@@ -71,9 +71,9 @@ namespace AATool.UI.Controls
                 this.targetOffset += new Vector2(0, 10);
 
             float lerpAmount = 15 * (float)time.Delta;
-            float x = MathHelper.Lerp(this.offset.X, this.targetOffset.X, lerpAmount);
-            float y = MathHelper.Lerp(this.offset.Y, this.targetOffset.Y, lerpAmount);
-            this.offset = new Vector2(x, y);
+            float x = MathHelper.Lerp(this.Offset.X, this.targetOffset.X, lerpAmount);
+            float y = MathHelper.Lerp(this.Offset.Y, this.targetOffset.Y, lerpAmount);
+            this.Offset = new Vector2(x, y);
         }
 
         public void Recenter()
@@ -98,21 +98,9 @@ namespace AATool.UI.Controls
             //display.DrawRectangle(new Rectangle(ContentRectangle.X - 24, ContentRectangle.Y - 24, ContentRectangle.Width + 48, ContentRectangle.Height + 48), backColor);
             canvas.DrawRectangle(this.Inner, this.backColor, this.lineColor, 1, Layer.Fore);
 
-            /*
-            foreach (var marker in Markers)
-            {
-                var offset = ToScreenSpace(marker.X, marker.Z);
-
-                //vertical
-                display.DrawRectangle(new Rectangle(offset.X, bounds.Top, 1, 512), lineColor);
-                //horizontal
-                display.DrawRectangle(new Rectangle(bounds.Left, offset.Y, 512, 1), lineColor);
-            }
-            */
-
-            float cellSize = Math.Abs(this.blocksPerSquare / this.viewScale / this.coordScale);
-            int wrappedX = (int)Math.Round(this.offset.X % cellSize);
-            int wrappedY = (int)Math.Round(this.offset.Y % cellSize);
+            float cellSize = Math.Abs(this.BlocksPerSquare / this.ViewScale / this.CoordScale);
+            int wrappedX = (int)Math.Round(this.Offset.X % cellSize);
+            int wrappedY = (int)Math.Round(this.Offset.Y % cellSize);
             var wrappedOffset = new Point(wrappedX, wrappedY);
 
             //vertical
@@ -133,8 +121,8 @@ namespace AATool.UI.Controls
             }
 
             //origin lines
-            canvas.DrawRectangle(new Rectangle(Inner.Center.X - (int)Math.Round(offset.X), Inner.Top, 1, Height), Color.Black * 0.25f, null, 0, Layer.Fore);
-            canvas.DrawRectangle(new Rectangle(Inner.Left, Inner.Center.Y - (int)Math.Round(offset.Y), Width, 1), Color.Black * 0.25f, null, 0, Layer.Fore);
+            canvas.DrawRectangle(new Rectangle(Inner.Center.X - (int)Math.Round(Offset.X), Inner.Top, 1, Height), Color.Black * 0.25f, null, 0, Layer.Fore);
+            canvas.DrawRectangle(new Rectangle(Inner.Left, Inner.Center.Y - (int)Math.Round(Offset.Y), Width, 1), Color.Black * 0.25f, null, 0, Layer.Fore);
         }
 
         private void DrawEdges(Canvas canvas)

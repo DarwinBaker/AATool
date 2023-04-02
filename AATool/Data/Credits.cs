@@ -43,6 +43,10 @@ namespace AATool.Data
         public const string Illumina = "46405168-e9ce-40a0-99a4-0b989a912c77";
         public const string IlluminaName = "illumina";
 
+        //first to complete 100 hardcore runs in a row without dying
+        public const string Feinberg = "9a8e24df-4c85-49d6-96a6-951da84fa5c4";
+        public const string FeinbergName = "feinberg";
+
         private static bool Initialized = false;
 
         private static Dictionary<string, Credit> ByName = new Dictionary<string, Credit>();

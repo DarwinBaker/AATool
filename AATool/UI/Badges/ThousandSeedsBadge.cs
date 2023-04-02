@@ -3,14 +3,17 @@ using Microsoft.Xna.Framework;
 
 namespace AATool.UI.Badges
 {
-    class ThousandSeedsBadge : Badge
+    class NoResetsBadge : Badge
     {
-        public override string GetListName => "1,000 Seeds";
+        private int thousand;
 
-        public ThousandSeedsBadge(string player) : base()
+        public override string GetListName => $"{this.thousand},000 Seeds";
+
+        public NoResetsBadge(string player, int thousand) : base()
         {
+            this.thousand = thousand;
             this.BackTexture = $"badge_1k_{player}";
-            this.TextTexture = "badge_1k_text";
+            this.TextTexture = $"badge_{this.thousand}k_text";
 
             if (player is Credits.CouriwayName)
             {
@@ -29,7 +32,7 @@ namespace AATool.UI.Badges
             this.FlexHeight = new (15);
             this.Margin = new Margin (-10, -0, -7, 0);
      
-            this.Description.SetText("Completed Any% on 1,000\nseeds without resetting");
+            this.Description.SetText($"Completed Any% on {thousand},000\nseeds without resetting");
             this.Description.SetTextColor(Color.White);
 
             this.Glow.SetTexture("badge_large_gold_glow");

@@ -60,15 +60,15 @@
 
         <!-- advancements with subcriteria -->
         <flow_panel row="1" col="1" colspan="2">
-            <criteria_group width="580" advancement="minecraft:adventure/adventuring_time" cell_width="140"/>
-            <criteria_group width="371" advancement="minecraft:adventure/kill_all_mobs" cell_width="120"/>
+            <criteria_group width="610" advancement="minecraft:adventure/adventuring_time" cell_width="130"/>
+            <criteria_group width="341" advancement="minecraft:adventure/kill_all_mobs" cell_width="110"/>
         </flow_panel>
         <flow_panel row="2" col="1" colspan="2">
             <criteria_group width="7 * 68" height="268" advancement="minecraft:husbandry/balanced_diet" cell_width="118"/>
-            <criteria_group width="3 * 68" height="268" cell_width="78" advancement="minecraft:husbandry/bred_all_animals"/>
-            <panel width="4 * 68" height="268">
-                <criteria_group height="142" cell_width="90" advancement="minecraft:husbandry/complete_catalogue" vertical_align="top"/>
-                <criteria_group height="126" cell_width="120" advancement="minecraft:nether/explore_nether" vertical_align="bottom"/>
+            <criteria_group width="3.5 * 68" height="268" cell_width="82" advancement="minecraft:husbandry/bred_all_animals"/>
+            <panel width="3.5 * 68" height="268">
+                <criteria_group height="142" cell_width="80" advancement="minecraft:husbandry/complete_catalogue" vertical_align="top"/>
+                <criteria_group height="126" cell_width="110" advancement="minecraft:nether/explore_nether" vertical_align="bottom"/>
             </panel>
         </flow_panel>
 

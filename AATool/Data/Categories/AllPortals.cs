@@ -1,81 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using AATool.Data.Objectives;
+using AATool.Data.Speedrunning;
 using Microsoft.Xna.Framework;
 
 namespace AATool.Data.Categories
 {
-    class StrongholdRing
-    {
-        const int Thickness = 1536;
-
-        public int StrongholdCount { get; }
-        public int FilledPortals { get; }
-        public int StartDistance { get; }
-        public int EndDistance { get; }
-
-        public int OptimalBlindDistance => this.StartDistance + (Thickness / 2);
-
-        public Point ReferenceStronghold { get; private set; }
-        public Point[] BlindEstimates { get; private set; }
-        public float AngleBetween { get; private set; }
-        public float AngleOffset { get; private set; }
-
-        public StrongholdRing(int strongholdCount, int startDistance)
-        {
-            this.BlindEstimates = new Point[strongholdCount - 1];
-            this.StrongholdCount = strongholdCount;
-            this.StartDistance = startDistance;
-            this.EndDistance = startDistance + Thickness;
-            this.AngleBetween = MathHelper.TwoPi / this.StrongholdCount;
-        }
-
-        public void SetReferenceStronghold(Point coords)
-        {
-            this.AngleOffset = Angle(Point.Zero, coords);
-            this.CalculateOptimalBlindCoordinates();
-        }
-
-        private void CalculateOptimalBlindCoordinates()
-        {
-            double nextAngle = this.AngleOffset + this.AngleBetween;
-            for (int i = 0; i < this.BlindEstimates.Length; i++)
-            {
-                nextAngle += this.AngleBetween;
-                this.BlindEstimates[i] = this.EstimatedBlindCoordinates(nextAngle);
-            }
-        }
-
-        public void ClearProgress()
-        { 
-            
-        }
-
-        private static float Angle(Point start, Point end)
-        {
-            return (float)Math.Atan2(end.Y - start.Y, end.X - start.X);
-        }
-
-        private static double Distance(Point start, Point end)
-        {
-            double deltaX = Math.Pow(end.X - start.X, 2);
-            double deltaY = Math.Pow(end.Y - start.Y, 2);
-            return (float)Math.Sqrt(deltaY + deltaX);
-        }
-
-        private Point EstimatedBlindCoordinates(double angle)
-        {
-            int x = (int)Math.Round(this.OptimalBlindDistance * Math.Cos(angle));
-            int y = (int)Math.Round(this.OptimalBlindDistance * Math.Sin(angle));
-            return new Point(x, y);
-        }
-    }
-
     internal class AllPortals : Category
     {
         const int TotalStrongholds = 128;
 
-        static readonly List<StrongholdRing> Rings = new()
+        public static readonly List<StrongholdRing> Rings = new()
         {
             new StrongholdRing(3,  1280),
             new StrongholdRing(6,  4352),
@@ -85,6 +20,12 @@ namespace AATool.Data.Categories
             new StrongholdRing(28, 16640),
             new StrongholdRing(36, 19712),
             new StrongholdRing(9,  22783),
+        };
+
+        static readonly List<Point> TestValues = new()
+        {
+            new Point(1700, 1200),
+            new Point(11770, 6700),
         };
 
         public static readonly List<string> SupportedVersions = new () {
@@ -108,6 +49,15 @@ namespace AATool.Data.Categories
 
         public override void LoadObjectives()
         {
+            foreach (Point testValue in TestValues)
+                this.FillPortal(testValue);
+        }
+
+        public void FillPortal(Point coordinates)
+        {
+            StrongholdRing ring = this.ClosestRing(coordinates);
+            ring.FillPortal(coordinates);
+            this.UpdateTotals();
         }
 
         public void ClearProgress()
@@ -121,7 +71,31 @@ namespace AATool.Data.Categories
         {
             this.filledPortals = 0;
             foreach (StrongholdRing ring in Rings)
-                this.filledPortals += ring.FilledPortals;
+                this.filledPortals += ring.FilledPortalCount;
+        }
+
+        private StrongholdRing ClosestRing(Point coordinates)
+        {
+            double distanceFromOrigin = DistanceBetween(Point.Zero, coordinates);
+            double smallestDifference = double.MaxValue;
+            StrongholdRing closest = Rings[0];
+            for (int i = 0; i < Rings.Count; i++)
+            {
+                double ringDifference = Math.Abs(distanceFromOrigin - Rings[i].OptimalBlindDistance);
+                if (ringDifference < smallestDifference)
+                {
+                    smallestDifference = ringDifference;
+                    closest = Rings[i];
+                }
+            }
+            return closest;
+        }
+
+        private static double DistanceBetween(Point start, Point end)
+        {
+            double deltaX = Math.Pow(end.X - start.X, 2);
+            double deltaY = Math.Pow(end.Y - start.Y, 2);
+            return (float)Math.Sqrt(deltaY + deltaX);
         }
     }
 }

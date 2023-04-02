@@ -24,7 +24,7 @@
             this.Glow.SetTexture("badge_large_gold_glow");
             this.Glow.SkipToBrightness(0.75f);
 
-            this.Description.SetText("Complete 100 deathless\nHC no-reset Any% in a row");
+            this.Description.SetText("Completed 100 deathless\nHC no-reset Any% in a row");
         }
     }
 }

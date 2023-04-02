@@ -43,8 +43,8 @@
             <criterion id="minecraft:old_growth_pine_taiga" name="Old Growth Pine"/>
             <criterion id="minecraft:old_growth_spruce_taiga" name="Old Growth Spruce"/>
             <criterion id="minecraft:snowy_taiga"/>
-            <criterion id="minecraft:grove"/>
 
+            <criterion id="minecraft:grove"/>
             <criterion id="minecraft:ice_spikes"/>
             <criterion id="minecraft:snowy_plains"/>
             <criterion id="minecraft:snowy_slopes"/>
@@ -59,8 +59,8 @@
             <criterion id="minecraft:sunflower_plains" name="Sunflowers"/>
             <criterion id="minecraft:meadow"/>
             <criterion id="minecraft:river"/>
-
             <criterion id="minecraft:beach"/>
+
             <criterion id="minecraft:desert"/>
             <criterion id="minecraft:savanna"/>
             <criterion id="minecraft:savanna_plateau" short_name="Savanna Plat"/>
@@ -78,6 +78,7 @@
             <criterion id="minecraft:deep_lukewarm_ocean" name="Deep&#160;Lukewarm&#160;Ocean"/>
 
             <criterion id="minecraft:mushroom_fields"/>
+            <criterion id="minecraft:cherry_grove"/>
             <criterion id="minecraft:jungle"/>
             <criterion id="minecraft:sparse_jungle"/>
             <criterion id="minecraft:bamboo_jungle"/>

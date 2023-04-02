@@ -306,7 +306,7 @@ namespace AATool.Saves
             SetState(SyncState.LastAutoSave);
             string remote = Path.Combine(Config.Sftp.ServerRoot, WorldName, "level.dat");
             lastWorldSave = default;
-
+            
             try
             {
                 lastWorldSave = sftp.GetLastWriteTimeUtc(remote);

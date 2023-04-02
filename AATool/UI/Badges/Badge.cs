@@ -52,7 +52,7 @@ namespace AATool.UI.Badges
 
 
             //legendary badges
-            if (badge is null && !onLeaderboard && !supporterOverride)
+            if (!onLeaderboard && !supporterOverride)
                 TryGiveLegendaryBadge(uuid, name, ref badge);
 
             //unique badges
@@ -92,8 +92,9 @@ namespace AATool.UI.Badges
                 string player = uuid != Uuid.Empty ? uuid.String : name;
                 badge = player switch {
                     Credits.Elysaku or Credits.ElysakuName => new HalfHeartHardcoreBadge(),
-                    Credits.Couriway or Credits.CouriwayName => new ThousandSeedsBadge(Credits.CouriwayName),
-                    Credits.MoleyG or Credits.MoleyGName => new ThousandSeedsBadge(Credits.MoleyGName),
+                    Credits.Couriway or Credits.CouriwayName => new NoResetsBadge(Credits.CouriwayName, 2),
+                    Credits.MoleyG or Credits.MoleyGName => new NoResetsBadge(Credits.MoleyGName, 1),
+                    Credits.Feinberg or Credits.FeinbergName => new HundredHardcoreBadge(),
                     _ => null
                 };
             }

@@ -34,6 +34,7 @@
             <criterion id="minecraft:llama"/>
             <criterion id="minecraft:goat"/>
             <criterion id="minecraft:panda"/>
+            <criterion id="minecraft:sniffer"/>
             <criterion id="minecraft:turtle"/>
             <criterion id="minecraft:axolotl"/>
             <criterion id="minecraft:frog"/>
