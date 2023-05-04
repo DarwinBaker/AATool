@@ -59,10 +59,10 @@
                 <objective_frame advancement="minecraft:nether/fast_travel"/>
                 <objective_frame advancement="minecraft:nether/uneasy_alliance"/>
                 <objective_frame advancement="minecraft:nether/use_lodestone"/>
-                <objective_frame advancement="minecraft:adventure/avoid_vibration"/>
-                <objective_frame advancement="minecraft:adventure/kill_mob_near_sculk_catalyst"/>
                 <objective_frame advancement="minecraft:husbandry/leash_all_frog_variants"/>
                 <objective_frame advancement="minecraft:husbandry/froglights"/>
+                <objective_frame advancement="minecraft:adventure/avoid_vibration"/>
+                <objective_frame advancement="minecraft:adventure/kill_mob_near_sculk_catalyst"/>
                 <!-- break -->
                 <objective_frame advancement="minecraft:nether/create_full_beacon"/>
                 <objective_frame advancement="minecraft:adventure/whos_the_pillager_now"/>
@@ -70,7 +70,7 @@
                 <objective_frame advancement="minecraft:nether/all_effects"/>
                 <objective_frame advancement="minecraft:adventure/totem_of_undying"/>
                 <objective_frame advancement="minecraft:adventure/honey_block_slide"/>
-                <objective_frame advancement="minecraft:husbandry/wax_off"/>
+                <objective_frame complex="WaxOnOff"/>
                 <objective_frame advancement="minecraft:adventure/fall_from_world_height"/>
                 <objective_frame advancement="minecraft:end/respawn_dragon"/>
                 <objective_frame advancement="minecraft:adventure/spyglass_at_dragon"/>
@@ -103,7 +103,7 @@
             <panel width="6" border_thickness="6" inner_corners="false"/>
             <criteria_group width="524" cell_width="130" advancement="minecraft:adventure/adventuring_time"/>
             <panel width="6" border_thickness="6" inner_corners="false"/>
-            <criteria_group width="335" cell_width="110" advancement="minecraft:adventure/kill_all_mobs"/>
+            <criteria_group width="335" cell_width="118" advancement="minecraft:adventure/kill_all_mobs"/>
             <panel width="6" border_thickness="6" inner_corners="false"/>
             <criteria_group width="186" cell_width="100" advancement="minecraft:husbandry/bred_all_animals"/>
             <panel width="6" border_thickness="6" inner_corners="false"/>

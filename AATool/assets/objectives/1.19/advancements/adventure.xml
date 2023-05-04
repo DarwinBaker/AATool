@@ -17,9 +17,9 @@
     <advancement id="minecraft:adventure/fall_from_world_height" name="Caves and Cliffs" short_name="Caves/Cliffs"/>
     <advancement id="minecraft:adventure/play_jukebox_in_meadows"   name="Sound of Music"           short_name="Music"/>
     <advancement id="minecraft:adventure/summon_iron_golem"     name="Hired Help"               type="goal"/>
-    <advancement id="minecraft:adventure/spyglass_at_parrot"    name="Is It a Bird?"            short_name="A Bird?"     icon="spyglass"/>
-    <advancement id="minecraft:adventure/spyglass_at_ghast"     name="Is It a Balloon?"         short_name="A Balloon?"  icon="spyglass"/>
-    <advancement id="minecraft:adventure/spyglass_at_dragon"    name="Is It a Plane?"           short_name="A Plane?"    icon="spyglass"/>
+    <advancement id="minecraft:adventure/spyglass_at_parrot"    name="Is It a&#xA;Bird?"            short_name="A Bird?"     icon="spyglass"/>
+    <advancement id="minecraft:adventure/spyglass_at_ghast"     name="Is It a&#xA;Balloon?"         short_name="A Balloon?"  icon="spyglass"/>
+    <advancement id="minecraft:adventure/spyglass_at_dragon"    name="Is It a&#xA;Plane?"           short_name="A Plane?"    icon="spyglass"/>
 
     <advancement id="minecraft:adventure/honey_block_slide"     name="Sticky Situation"         short_name="Sticky "/>
     <advancement id="minecraft:adventure/lightning_rod_with_villager_no_fire" name="Surge Protector"  short_name="Surge Prot" icon="lightning_rod"/>

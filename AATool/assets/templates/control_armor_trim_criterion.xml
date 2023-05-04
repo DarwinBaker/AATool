@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control width="105" height="20">
+    <picture name="icon" horizontal_align="left" vertical_align="top"/>
+    <picture texture="smithing_unapplied" layer="fore" width="16" height="16" horizontal_align="left" vertical_align="top" margin_left="20">
+        <picture name="smithing_icon" texture="smithing_applied" layer="fore" horizontal_align="left" vertical_align="top"/>
+    </picture>
+    <text_block name="label" h_text_align="left" v_text_align="top" horizontal_align="left" vertical_align="top" margin="42,0,2,0"/>
+</control>

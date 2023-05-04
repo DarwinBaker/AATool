@@ -29,7 +29,7 @@ namespace AATool.UI.Controls
         };
         private static Color ActiveTint = Color.White;
         private static Color InactiveTint = Color.Gray * 0.25f;
-        private static Color InactiveIconTint = ColorHelper.Fade(Color.DarkGray, 0.1f);
+        private static Color InactiveIconTint = ColorHelper.Fade(Color.DarkGray, 0.25f);
 
         public bool IsActive { get; private set; }
         public float OverlayCoverPosition { get; set; }
@@ -231,7 +231,7 @@ namespace AATool.UI.Controls
         {
             if (this.onMainScreen)
             {
-                this.Label?.SetTextColor(this.IsActive ? Config.Main.TextColor : Config.Main.TextColor.Value * 0.4f);
+                this.Label?.SetTextColor(this.IsActive ? Config.Main.TextColor : Config.Main.TextColor.Value * 0.6f);
             }
             else
             {

@@ -254,6 +254,7 @@ namespace AATool
                     "alldeaths" => new AllDeaths(),
                     "halfdeaths" => new HalfDeaths(),
                     "allportals" => new AllPortals(),
+                    "allsmithingtemplates" => new AllSmithingTemplates(),
 
                     _ => throw new ArgumentException($"Category not supported: \"{category}\"."),
                 };
@@ -320,6 +321,7 @@ namespace AATool
                 UpdateFileSystemWatchers();
             }
             Category.Update();
+            ComplexObjectives.UpdateDynamicIcons(time);
         }
 
         private static void UpdateFileSystemWatchers()

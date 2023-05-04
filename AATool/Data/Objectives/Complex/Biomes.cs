@@ -39,7 +39,10 @@ namespace AATool.Data.Objectives.Complex
 
         protected readonly HashSet<string> RemainingIds = new ();
 
-        public override string AdvancementId => "minecraft:adventure/adventuring_time";
+        public override string AdvancementId => Tracker.CurrentVersion is "1.11"
+            ? "achievement.exploreAllBiomes"
+            : "minecraft:adventure/adventuring_time";
+
         public override string Criterion => "Biome";
         public override string Action => "Visit";
         public override string PastAction => "Visited";
@@ -78,7 +81,7 @@ namespace AATool.Data.Objectives.Complex
 
         private bool OnlyGroupRemaining(string[] group, int maxRemaining)
         {
-            if (Tracker.Category is not AllAdvancements or AllAchievements)
+            if (Tracker.Category is not (AllAdvancements or AllAchievements))
                 return false;
             if (this.RemainingCriteria.Count is 0)
                 return false;
@@ -161,9 +164,19 @@ namespace AATool.Data.Objectives.Complex
             }
             else
             {
-                return this.OnLastCriterion
-                    ? this.LastCriterionIcon
-                    : this.OldBaseTexture;
+                if (this.OnLastCriterion)
+                    return this.LastCriterionIcon;
+
+                if (this.onlyMegaTaigaLeft)
+                    return "giant_tree_taiga";
+                if (this.onlyMushroomLeft)
+                    return "mushroom_fields";
+                if (this.onlyBadlandsLeft)
+                    return "badlands";
+                if (this.onlyBambooLeft)
+                    return "bamboo_jungle";
+
+                return this.OldBaseTexture;
             }
         }
     }

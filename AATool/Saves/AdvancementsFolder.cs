@@ -94,6 +94,13 @@ namespace AATool.Saves
                 contribution.ObtainedGodApple = true;
             }
 
+            foreach (var recipe in ArmorTrims.Recipes)
+            {
+                //detect collection of armor trims
+                if (this.TryGetCompletionOf(recipe, json, out AdvancementCompletion trim))
+                    state.Recipes[recipe] = new Completion(trim.Player, trim.Timestamp);
+            }
+
             //detect lapis from chest using lapis block recipe
             if (this.TryGetCompletionOf("minecraft:recipes/building_blocks/lapis_block", json, out _))
             {

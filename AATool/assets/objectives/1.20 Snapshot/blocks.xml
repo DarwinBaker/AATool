@@ -206,7 +206,6 @@
         <coarse_dirt name="Coarse Dirt" icon="coarse_dirt"/>
         <rooted_dirt name="Rooted Dirt" icon="rooted_dirt"/>
         <gravel name="Gravel" icon="gravel"/>
-        <suspicious_gravel name="Suspicious Gravel" icon="suspicious_gravel"/>
     </dirt>
     <doors>
         <oak_door name="Oak Door" icon="oak_door" double_height="true"/>
@@ -372,7 +371,7 @@
     <lights>
         <torch name="Torch" icon="torch" light_level="0.5"/>
         <soul_torch name="Soul Torch" icon="soul_torch" light_level="0.5"/>
-        <glow_lichen name="Glow Lichen" icon="glow_lichen" light_level="0.6"/>
+        <empty/>
         <lantern name="Lantern" icon="lantern" light_level="0.7"/>
         <soul_lantern name="Soul Lantern" icon="soul_lantern" light_level="0.7"/>
         <chain name="Chain" icon="chain"/>
@@ -593,7 +592,7 @@
         <red_sandstone_stairs name="Red Sandstone Stairs" icon="red_sandstone_stairs"/>
         <red_sandstone_slab name="Red Sandstone Slab" icon="red_sandstone_slab"/>
         <chiseled_red_sandstone name="Chiseled Red Sandstone" icon="chiseled_red_sandstone"/>
-        <decorated_pot name="Decorated Pot" icon="decorated_pot"/>
+        <empty/>
         <cut_red_sandstone_slab name="Cut Red Sandstone Slab" icon="cut_red_sandstone_slab"/>
         <smooth_red_sandstone name="Smooth Red Sandstone" icon="smooth_red_sandstone"/>
         <smooth_red_sandstone_stairs name="Smooth Red Sandstone Stairs" icon="smooth_red_sandstone_stairs"/>
@@ -607,7 +606,7 @@
         <sandstone_stairs name="Sandstone Stairs" icon="sandstone_stairs"/>
         <sandstone_slab name="Sandstone Slab" icon="sandstone_slab"/>
         <chiseled_sandstone name="Chiseled Sandstone" icon="chiseled_sandstone"/>
-        <suspicious_sand name="Suspicious Sand" icon="suspicious_sand"/>
+        <empty/>
         <cut_sandstone_slab name="Cut Sandstone Slab" icon="cut_sandstone_slab"/>
         <smooth_sandstone name="Smooth Sandstone" icon="smooth_sandstone"/>
         <smooth_sandstone_stairs name="Smooth Sandstone Stairs" icon="smooth_sandstone_stairs"/>
@@ -700,16 +699,20 @@
         <chest name="Chest" icon="chest"/>
         <trapped_chest name="Trapped&#xA;Chest" icon="trapped_chest"/>
         <ender_chest name="Ender&#xA;Chest" icon="ender_chest_block" tags="obsidian endcity"/>
-        <flower_pot name="Flower Pot" icon="flower_pot"/>
+        <empty/>
         <honeycomb_block name="Honeycomb Block" icon="honeycomb_block" tags="beewax beeswax"/>
         <tnt name="TNT" icon="tnt_block"/>
     </specialized>
     <stone>
         <stone name="Stone" icon="stone"/>
         <stone_stairs name="Stone Stairs" icon="stone_stairs"/>
-        <empty/>
         <stone_slab name="Stone Slab" icon="stone_slab"/>
+        <glow_lichen name="Glow Lichen" icon="glow_lichen" light_level="0.6"/>
     </stone>
+    <pots>
+        <flower_pot name="Flower Pot" icon="flower_pot"/>
+        <decorated_pot name="Decorated Pot" icon="decorated_pot"/>
+    </pots>
     <stronghold>
         <stone_bricks name="Stone&#160;Bricks" icon="stone_bricks"/>
         <mossy_stone_bricks name="Mossy&#xA;Stone&#160;Bricks" icon="mossy_stone_bricks"/>

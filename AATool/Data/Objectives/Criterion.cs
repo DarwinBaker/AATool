@@ -14,7 +14,7 @@ namespace AATool.Data.Objectives
         public Uuid DesignatedPlayer => this.Owner.DesignatedPlayer;
         public string OwnerId => this.Owner.Id;
 
-        public bool CompletedByDesignated() => this.CompletedBy(this.DesignatedPlayer);
+        public virtual bool CompletedByDesignated() => this.CompletedBy(this.DesignatedPlayer);
 
         public override bool IsComplete() => this.CompletedByDesignated();
 

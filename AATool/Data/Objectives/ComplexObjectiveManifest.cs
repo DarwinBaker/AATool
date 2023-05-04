@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.AccessControl;
+using AATool.Data.Objectives.Complex;
 using AATool.Data.Progress;
 
 namespace AATool.Data.Objectives
@@ -36,6 +37,8 @@ namespace AATool.Data.Objectives
             this.AddPickup("minecraft:azure_bluet", "Azure Bluet", 1);
             this.AddPickup("minecraft:rabbit_foot", "Rabbit's Foot", 1);
             this.AddPickup("minecraft:fermented_spider_eye", "Fermented Eye", 1);
+            this.AddPickup("minecraft:pottery_sherd", "Pottery Shard", 4);
+            this.AddPickup("minecraft:sniffer_egg", "Sniffer Egg", 1);
         }
 
         private void AddPickup(string id, string name, int required)
@@ -47,6 +50,12 @@ namespace AATool.Data.Objectives
         {
             foreach (ComplexObjective objective in this.AllByName.Values)
                 objective.UpdateState(progress);
+        }
+
+        public void UpdateDynamicIcons(Time time)
+        {
+            if (AllByName.TryGetValue(nameof(ArmorTrims).ToLower(), out ComplexObjective trims))
+                (trims as ArmorTrims)?.UpdateDynamicIcon(time);
         }
     }
 }

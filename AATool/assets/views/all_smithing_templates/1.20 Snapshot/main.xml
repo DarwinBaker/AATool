@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <rows>
+            <row height="424"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="0" collapsed="true"/>
+            <column width="7 * 90"/>
+        </columns>
+
+        <flow_panel row="0" col="1" cell_width="120" cell_height="100" padding_left="64" padding_right="64" padding_top="16">
+
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:snout_armor_trim_smithing_template_smithing_trim"/>
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:rib_armor_trim_smithing_template_smithing_trim"/>
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:eye_armor_trim_smithing_template_smithing_trim"/>
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:spire_armor_trim_smithing_template_smithing_trim"/>
+
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:wild_armor_trim_smithing_template_smithing_trim"/>
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:coast_armor_trim_smithing_template_smithing_trim"/>
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:tide_armor_trim_smithing_template_smithing_trim"/>
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:dune_armor_trim_smithing_template_smithing_trim"/>
+
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:sentry_armor_trim_smithing_template_smithing_trim"/>
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:vex_armor_trim_smithing_template_smithing_trim"/>
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:ward_armor_trim_smithing_template_smithing_trim"/>
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:silence_armor_trim_smithing_template_smithing_trim"/>
+            
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:host_armor_trim_smithing_template_smithing_trim"/>
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:shaper_armor_trim_smithing_template_smithing_trim"/>
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:raiser_armor_trim_smithing_template_smithing_trim"/>
+            <objective_frame owner="custom:all_smithing_templates" criterion="armor_trimmed_minecraft:wayfinder_armor_trim_smithing_template_smithing_trim"/>
+            
+            <objective_frame owner="custom:all_smithing_templates" criterion="custom:netherite_upgrade_smithing_template"/>
+
+        </flow_panel>
+
+        <!-- status strip -->
+        <status_bar row="1" col="1" colspan="3" right="0"/>
+    </grid>
+</control>

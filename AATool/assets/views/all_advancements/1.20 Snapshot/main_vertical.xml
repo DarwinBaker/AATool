@@ -3,7 +3,7 @@
     <grid>
         <rows>
             <row height="746"/>
-            <row height="310"/>
+            <row height="330"/>
             <row height="268"/>
             <row height="42"/>
         </rows>
@@ -39,10 +39,15 @@
             <advancement_group group="nether"    draw_mode="childrenonly" width="2 * 68" height="68" margin_left="8 * 68" margin_top="160"  start="minecraft:nether/ride_strider_in_overworld_lava" horizontal_align="left" vertical_align="top"/>
             <advancement_group group="nether"    row="1" col="2" colspan="2" start="minecraft:nether/obtain_ancient_debris" end="minecraft:nether/get_wither_skull"/>
             <advancement_group group="end"       row="1" col="0" colspan="2" exclude="minecraft:end/root"/>
-            <advancement_group group="husbandry" row="2" col="0" colspan="2" end="minecraft:husbandry/allay_deliver_cake_to_note_block"/>
-            <advancement_group group="adventure" row="2" col="2" colspan="3" end="minecraft:adventure/spyglass_at_dragon"/>
+            <advancement_group group="husbandry" row="2" col="0" colspan="2" end="minecraft:husbandry/allay_deliver_cake_to_note_block" exclude="minecraft:husbandry/root"/>
+            <advancement_group group="husbandry" draw_mode="childrenonly" width="4 * 68" height="68" margin_top="656" start="minecraft:husbandry/bred_all_animals" end="minecraft:husbandry/obtain_netherite_hoe"/>
+            <advancement_group group="adventure" row="2" col="2" colspan="3" end="minecraft:adventure/trim_with_all_exclusive_armor_patterns" exclude="minecraft:adventure/root,minecraft:adventure/trade"/>
             <advancement_group group="adventure" row="2" col="5" colspan="3" start="minecraft:adventure/honey_block_slide"/>
-            <advancement_group group="husbandry" draw_mode="childrenonly" width="3 * 68" height="68" margin_left="5 * 68" margin_top="656" start="minecraft:husbandry/froglights" direction="righttoleft"/>
+            <advancement_group group="husbandry" draw_mode="childrenonly" width="3 * 68" height="68" margin_left="5 * 68" margin_top="656" start="minecraft:husbandry/obtain_sniffer_egg" end="minecraft:husbandry/plant_any_sniffer_seed"/>
+            <advancement_group group="husbandry" draw_mode="childrenonly" width="3 * 68" height="68" margin_left="8 * 68" margin_top="656" start="minecraft:husbandry/froglights" direction="righttoleft"/>
+            <objective_frame advancement="minecraft:adventure/spyglass_at_dragon" margin_left="3 * 68" margin_top="328" horizontal_align="left" vertical_align="top"/>
+            <objective_frame advancement="minecraft:adventure/spyglass_at_parrot" margin_left="4 * 68" margin_top="656" horizontal_align="left" vertical_align="top"/>
+            <objective_frame advancement="minecraft:adventure/spyglass_at_ghast" margin_left="9 * 68" margin_top="328" horizontal_align="left" vertical_align="top"/>
 
             <!-- overworld pickup counts -->
             <flow_panel row="0" col="4" rowspan="2" direction="toptobottom">
@@ -60,15 +65,16 @@
 
         <!-- advancements with subcriteria -->
         <flow_panel row="1" col="1" colspan="2">
-            <criteria_group width="610" advancement="minecraft:adventure/adventuring_time" cell_width="130"/>
-            <criteria_group width="341" advancement="minecraft:adventure/kill_all_mobs" cell_width="110"/>
+            <criteria_group width="520" advancement="minecraft:adventure/adventuring_time" cell_width="130"/>
+            <criteria_group width="312" advancement="minecraft:adventure/kill_all_mobs" cell_width="110"/>
+            <criteria_group width="120" advancement="minecraft:husbandry/complete_catalogue"/>
         </flow_panel>
         <flow_panel row="2" col="1" colspan="2">
             <criteria_group width="7 * 68" height="268" advancement="minecraft:husbandry/balanced_diet" cell_width="118"/>
             <criteria_group width="3.5 * 68" height="268" cell_width="82" advancement="minecraft:husbandry/bred_all_animals"/>
             <panel width="3.5 * 68" height="268">
-                <criteria_group height="142" cell_width="80" advancement="minecraft:husbandry/complete_catalogue" vertical_align="top"/>
-                <criteria_group height="126" cell_width="110" advancement="minecraft:nether/explore_nether" vertical_align="bottom"/>
+                <criteria_group height="141" cell_width="120" advancement="minecraft:adventure/trim_with_all_exclusive_armor_patterns" vertical_align="top"/>
+                <criteria_group height="127" cell_width="110" advancement="minecraft:nether/explore_nether" vertical_align="bottom"/>
             </panel>
         </flow_panel>
 

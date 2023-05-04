@@ -669,7 +669,7 @@
                     </panel>
                     <panel width="1" vertical_align="bottom" horizontal_align="right" padding_top="10" inner_corners="false">
                     </panel>
-                    <panel width="70" height="90" vertical_align="bottom" horizontal_align="right">
+                    <panel width="70" height70="90" vertical_align="bottom" horizontal_align="right">
                         <picture texture="blockstate_variants" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
                         <textblock text="Alternate Variants" vertical_align="top" margin_top="60"/>
                     </panel>
@@ -677,7 +677,11 @@
                         <picture texture="all_copper_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
                         <textblock text="Unwaxed Copper" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="240" height="90" vertical_align="bottom" horizontal_align="right">
+                    <panel width="70" height="90" vertical_align="bottom" horizontal_align="right">
+                        <picture texture="frogspawn" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
+                        <textblock text="Frog&#xA;Spawn" vertical_align="top" margin_top="60"/>
+                    </panel>
+                    <panel width="170" height="90" vertical_align="bottom" horizontal_align="right">
                         <picture texture="lily_pad" width="48" height="48" vertical_align="top" margin_top="8"/>
                         <textblock text="Lily Pad" vertical_align="top" margin_top="60"/>
                     </panel>
@@ -692,8 +696,11 @@
                     <panel width="70" vertical_align="bottom" horizontal_align="right">
                         <textblock text="Redundant" vertical_align="top" padding_top="12"/>
                     </panel>
-                    <panel width="240" vertical_align="bottom" horizontal_align="right">
-                        <textblock text="Minecraft doesn't save the 'Times Used' stat for lily pads for some reason" padding_left="10" padding_right="10" vertical_align="top" margin_top="6"/>
+                    <panel width="70" vertical_align="bottom" horizontal_align="right">
+                        <textblock text="Can't Be Obtained" vertical_align="top" padding_top="6"/>
+                    </panel>
+                    <panel width="170" vertical_align="bottom" horizontal_align="right">
+                        <textblock text="Minecraft doesn't save the 'Times Used' stat for lilypads" padding_left="10" padding_right="10" vertical_align="top" margin_top="6"/>
                     </panel>
                 </flow_panel>
             </panel>

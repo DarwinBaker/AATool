@@ -13,7 +13,7 @@ namespace AATool.Configuration
         public static readonly List<string> AllAA = new (){
             "EGap", "Trident", "NautilusShells", "WitherSkulls",
             "AncientDebris", "GoldBlocks", "Bees",
-            "Cats", "Foods", "Animals", "Monsters", "Biomes", "Cauldrons"
+            "Cats", "Foods", "Animals", "Monsters", "Biomes", "Cauldrons", "ArmorTrims"
         };
 
         public static readonly List<string> AllAB = new (){
@@ -37,6 +37,8 @@ namespace AATool.Configuration
 
             if (Version.TryParse(Tracker.CurrentVersion, out Version current))
             {
+                if (current < new Version("1.20"))
+                    available.Remove("ArmorTrims");
                 if (current < new Version("1.19"))
                     available.Remove("SculkBlocks");
                 if (current != new Version("1.17"))
@@ -45,6 +47,8 @@ namespace AATool.Configuration
                     available.Remove("DeepslateEmerald");
                 if (current < new Version("1.16"))
                     available.Remove("AncientDebris");
+                if (current < new Version("1.15"))
+                    available.Remove("Bees");
                 if (current < new Version("1.14"))
                     available.Remove("Cats");
                 if (current < new Version("1.13"))
@@ -64,7 +68,7 @@ namespace AATool.Configuration
         [JsonProperty]
         public Dictionary<string, List<string>> Pinned = new () {
             { "All Advancements 1.20 Snapshot", new () {
-                "AncientDebris", "WitherSkulls", "NautilusShells", "Trident", "EGap",
+                "AncientDebris", "WitherSkulls", "NautilusShells", "Trident", "EGap", "ArmorTrims",
             }},
             { "All Advancements 1.19", new () {
                 "AncientDebris", "WitherSkulls", "NautilusShells", "Trident", "EGap",

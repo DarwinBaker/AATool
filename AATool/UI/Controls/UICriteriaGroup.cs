@@ -5,6 +5,7 @@ using System.Xml;
 using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
+using AATool.Data.Objectives.Complex;
 using AATool.Net;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
@@ -32,6 +33,7 @@ namespace AATool.UI.Controls
         private int playersLoggedIn;
         private bool largePlayers;
         private int cellWidth;
+        private int spacerCells;
 
         public UICriteriaGroup()
         {
@@ -107,13 +109,23 @@ namespace AATool.UI.Controls
             if (!Config.Main.UseCompactStyling && !Config.Main.UseVerticalStyling)
                 this.criteriaPanel.AddControl(spacer);
 
+            for (int i = 0; i < this.spacerCells; i++)
+            {
+                this.criteriaPanel.AddControl(new UIPanel() { 
+                    FlexWidth = new(this.cellWidth),
+                    FlexHeight = new(16),
+                    DrawMode = DrawMode.None,
+                });
+            }
+
             foreach (KeyValuePair<string, Criterion> criterion in this.advancement.Criteria.All)
             {
-                var crit = new UICriterion {
-                    HorizontalAlign = HorizontalAlign.Left,
-                };
+                UICriterion crit = advancement.Id is ArmorTrims.AdvancementId
+                    ? new UIArmorTrimCriterion { HorizontalAlign = HorizontalAlign.Left }
+                    : new UICriterion { HorizontalAlign = HorizontalAlign.Left };
+
                 crit.SetObjective(criterion.Value);
-                if (Config.Main.UseVerticalStyling && this.cellWidth is not 0)
+                if (this.cellWidth is not 0)
                 {
                     crit.FlexWidth = new (this.cellWidth);
                 }
@@ -360,6 +372,7 @@ namespace AATool.UI.Controls
             base.ReadNode(node);
             this.advancementName = Attribute(node, "advancement", string.Empty);
             this.cellWidth = Attribute(node, "cell_width", 0);
+            this.spacerCells = Attribute(node, "spacers", 0);
         }
     }
 }

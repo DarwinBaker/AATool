@@ -315,11 +315,11 @@ namespace AATool.UI.Controls
                 if (i < Leaderboard.ListOfMostRecords.Count - 1)
                     mostRecordsList += ", ";
             }
+            //UIAvatar allBlocks20 = this.Root().First<UIAvatar>("ab_wr_1.20_avatar");
+            //allBlocks20.SetBadge(new RankBadge(1, "All Blocks", "1.20", false));
 
-            UIAvatar avatar = this.Root().First<UIAvatar>("most_records_avatar");
-            avatar?.SetPlayer(Leaderboard.RunnerWithMostWorldRecords);
-            //avatar?.RegisterOnLeaderboard(this.board);
-            //avatar?.RefreshBadge();
+            UIAvatar mostRecords = this.Root().First<UIAvatar>("most_records_avatar");
+            mostRecords?.SetPlayer(Leaderboard.RunnerWithMostWorldRecords);
             this.Root().First<UITextBlock>("most_records_runner")?.SetText(Leaderboard.RunnerWithMostWorldRecords);
             this.Root().First<UITextBlock>("most_records_list")?.SetText(mostRecordsList);
 

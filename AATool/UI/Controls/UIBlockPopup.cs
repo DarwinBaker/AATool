@@ -74,7 +74,9 @@ namespace AATool.UI.Controls
                 x = MathHelper.Clamp(x, -32, this.Root().Width - 32);
                 this.MoveTo(new Point(x, nextLocation.Y + 8));
                 this.previousLocation = nextLocation;
+
             }
+            this.preview?.SetBlockOpacity(1f);
         }
 
         public override void InitializeThis(UIScreen screen)

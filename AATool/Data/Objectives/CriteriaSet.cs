@@ -1,4 +1,5 @@
-﻿using AATool.Data.Progress;
+﻿using AATool.Data.Objectives.Complex;
+using AATool.Data.Progress;
 using AATool.Net;
 using AATool.Utilities;
 using System.Collections.Generic;
@@ -28,7 +29,18 @@ namespace AATool.Data.Objectives
             this.ClosestToCompletion = Uuid.Empty;
             this.Goal = XmlObject.Attribute(node, "goal", "Completed");
 
-            if (node is not null)
+            if (node is null)
+                return;
+            
+            if (this.Owner.Id is ArmorTrims.AdvancementId or ArmorTrims.CategoryId)
+            {
+                foreach (XmlNode criterionNode in node.ChildNodes)
+                {
+                    var criterion = new ArmorTrimCriterion(criterionNode, owner);
+                    this.All[criterion.Id] = criterion;
+                }
+            }
+            else
             {
                 foreach (XmlNode criterionNode in node.ChildNodes)
                 {

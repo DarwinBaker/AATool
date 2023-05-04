@@ -58,7 +58,7 @@
                 <objective_frame advancement="minecraft:nether/uneasy_alliance"/>
                 <objective_frame advancement="minecraft:nether/use_lodestone"/>
                 <objective_frame advancement="minecraft:adventure/honey_block_slide"/>
-                <objective_frame advancement="minecraft:husbandry/wax_off"/>
+                <objective_frame complex="WaxOnOff"/>
                 <!-- break -->
                 <objective_frame advancement="minecraft:adventure/play_jukebox_in_meadows"/>
                 <objective_frame advancement="minecraft:nether/create_full_beacon"/>

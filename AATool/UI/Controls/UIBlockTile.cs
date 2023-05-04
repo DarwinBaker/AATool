@@ -72,6 +72,7 @@ namespace AATool.UI.Controls
         }
 
         public void SetActiveState(bool isActive) => this.IsActive = isActive;
+        public void SetBlockOpacity(float value) => this.opacityBlock = value;
 
         public bool TryToggleHighlight()
         {

@@ -13,7 +13,7 @@
     <advancement id="minecraft:husbandry/safely_harvest_honey"    name="Bee Our Guest"                    short_name="Our Guest"/>
     <advancement id="minecraft:husbandry/wax_on"                  name="Wax On"/>
     <advancement id="minecraft:husbandry/wax_off"                 name="Wax Off"/>
-    <advancement id="minecraft:husbandry/ride_a_boat_with_a_goat" name="Whatever Floats&#160;Your&#160;Goat!"       short_name="Goat Boat"/>
+    <advancement id="minecraft:husbandry/ride_a_boat_with_a_goat" name="Whatev&#160;Floats Your&#160;Goat!"       short_name="Goat Boat"/>
     <advancement id="minecraft:husbandry/bred_all_animals" name="Two by Two" type="challenge">
         <criteria goal="Animals Bred">
             <criterion id="minecraft:pig"/>

@@ -8,7 +8,7 @@
         </rows>
         <columns>
             <column width="160" collapsed="true"/>
-            <column width="20 * 66"/>
+            <column width="21 * 66"/>
             <column width="66"/>
         </columns>
 
@@ -22,10 +22,11 @@
             <advancement_group group="minecraft" exclude="minecraft:story/root" width="5 * 66" height="3 * 68" horizontal_align="left" vertical_align="top"/>
             <advancement_group group="nether"    width="8 * 66" height="3 * 68" margin_left="5 * 66" horizontal_align="left" vertical_align="top" direction="righttoleft"/>
             <advancement_group group="end"       exclude="minecraft:end/root" width="4 * 66" height="2 * 68" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
-            <advancement_group group="adventure" end="minecraft:adventure/spyglass_at_dragon" width="6 * 66" height="3 * 68" margin_left="14 * 66" horizontal_align="left" vertical_align="top"/>
-            <advancement_group group="adventure" start="minecraft:adventure/honey_block_slide" width="6 * 66" height="1 * 68" margin_left="14 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
-            <advancement_group group="husbandry" end="minecraft:husbandry/allay_deliver_cake_to_note_block" width="10 * 66" height="2 * 68" margin_left="4 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="adventure" end="minecraft:adventure/trim_with_all_exclusive_armor_patterns" exclude="minecraft:adventure/root,minecraft:adventure/trade" width="6 * 66" height="3 * 68" margin_left="15 * 66" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="adventure" start="minecraft:adventure/honey_block_slide" width="6 * 66" height="1 * 68" margin_left="15 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="husbandry" end="minecraft:husbandry/obtain_netherite_hoe" exclude="minecraft:husbandry/root" width="11 * 66" height="2 * 68" margin_left="4 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
             <advancement_group group="husbandry" start="minecraft:husbandry/froglights" width="66" height="3 * 68" margin_left="13 * 66" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="adventure" start="minecraft:adventure/spyglass_at_parrot" end="minecraft:adventure/spyglass_at_dragon" width="66" height="3 * 68" margin_left="14 * 66" horizontal_align="left" vertical_align="top"/>
         </panel>
 
         <!-- advancements with subcriteria -->
@@ -35,7 +36,10 @@
             <criteria_group width="306" advancement="minecraft:husbandry/balanced_diet" cell_width="100"/>
             <criteria_group width="166" advancement="minecraft:husbandry/bred_all_animals"/>
             <criteria_group width="87" advancement="minecraft:husbandry/complete_catalogue"/>
-            <criteria_group width="87" advancement="minecraft:nether/explore_nether"/>
+            <panel width="153">
+                <criteria_group height="185" vertical_align="top" advancement="minecraft:adventure/trim_with_all_exclusive_armor_patterns"/>
+                <criteria_group height="125" vertical_align="bottom" advancement="minecraft:nether/explore_nether"/>
+            </panel>
         </flow_panel>
 
         <!-- item count display (trident, shells, skulls etc.) -->

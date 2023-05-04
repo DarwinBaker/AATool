@@ -54,6 +54,12 @@ namespace AATool.Data.Objectives
             if (Tracker.Category is AllAchievements)
                 return;
 
+            if (Tracker.Category is AllSmithingTemplates)
+            {
+                this.ParseFile(Paths.System.ArmorTrimsFile);
+                return;
+            }
+
             //try to get list of all advancement objective files
             bool filesExist = Paths.TryGetAllFiles(Paths.System.AdvancementsFolder, "*.xml",
                 SearchOption.TopDirectoryOnly, out IEnumerable<string> files);

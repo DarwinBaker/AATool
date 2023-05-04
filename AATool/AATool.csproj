@@ -106,6 +106,7 @@
     <Compile Include="Data\Categories\HalfDeaths.cs" />
     <Compile Include="Data\Categories\AllDeaths.cs" />
     <Compile Include="Data\Categories\AllBlocks.cs" />
+    <Compile Include="Data\Categories\AllSmithingTemplates.cs" />
     <Compile Include="Data\Categories\MonstersHunted.cs" />
     <Compile Include="Data\Categories\AllAchievements.cs" />
     <Compile Include="Data\Categories\AllAdvancements.cs" />
@@ -117,9 +118,15 @@
     <Compile Include="Data\Categories\SingleAdvancement.cs" />
     <Compile Include="Data\Cell.cs" />
     <Compile Include="Data\Credits.cs" />
+    <Compile Include="Data\Objectives\ArmorTrimCriterion.cs" />
     <Compile Include="Data\Objectives\Complex\EnderPearls.cs" />
     <Compile Include="Data\Objectives\Complex\Netherite.cs" />
+    <Compile Include="Data\Objectives\Complex\SnifferEgg.cs" />
+    <Compile Include="Data\Objectives\Complex\NetheriteUpgrade.cs" />
+    <Compile Include="Data\Objectives\Complex\PotteryShards.cs" />
     <Compile Include="Data\Objectives\Complex\Pufferfish.cs" />
+    <Compile Include="Data\Objectives\Complex\ArmorTrims.cs" />
+    <Compile Include="Data\Objectives\Complex\WaxOnOff.cs" />
     <Compile Include="Data\Objectives\Complex\TridentAdvancements.cs" />
     <Compile Include="Data\Objectives\MultipartObjective.cs" />
     <Compile Include="Data\Objectives\Complex\Animals.cs" />
@@ -231,6 +238,7 @@
     <Compile Include="UI\Badges\RankBadge.cs" />
     <Compile Include="UI\Badges\HundredThousandBadge.cs" />
     <Compile Include="UI\Badges\HalfHeartHardcoreBadge.cs" />
+    <Compile Include="UI\Controls\UIArmorTrimCriterion.cs" />
     <Compile Include="UI\Controls\UICoordinateGrid.cs" />
     <Compile Include="UI\Controls\UIObjectiveControl.cs" />
     <Compile Include="UI\Controls\UIAchievementTree.cs" />
@@ -522,10 +530,22 @@
     <Content Include="assets\objectives\1.20 Snapshot\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\objectives\1.20 Snapshot\trims.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\objectives\1.20 Snapshot\blocks.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\objectives\1.20 Snapshot\potions.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_heads_1.20%244x4x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\all_suspicious_blocks%242x2x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\ab_guide\frogspawn.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\ab_guide\grass_and_fern%242x2x30.png">
@@ -816,16 +836,16 @@
     <Content Include="assets\sprites\blocks\bamboo\bamboo_trapdoor^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\bamboo\chiseled_bookshelf^32.png">
+    <Content Include="assets\sprites\blocks\special\chiseled_bookshelf^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\bamboo\chiseled_bookshelf^48.png">
+    <Content Include="assets\sprites\blocks\special\chiseled_bookshelf^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\bamboo\chiseled_bookshelf_full^32.png">
+    <Content Include="assets\sprites\blocks\special\chiseled_bookshelf_full^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\bamboo\chiseled_bookshelf_full^48.png">
+    <Content Include="assets\sprites\blocks\special\chiseled_bookshelf_full^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\bamboo\stripped_bamboo_block^32.png">
@@ -2742,7 +2762,7 @@
     <Content Include="assets\sprites\blocks\sculk\sculk^32%2432x32x2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\sculk\calibrated_sculk_sensor^48%24152x24x1.png">
+    <Content Include="assets\sprites\blocks\sculk\calibrated_sculk_sensor^48%2416x16x1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\sculk\sculk_sensor_block^48%2496x24x1.25.png">
@@ -2821,6 +2841,30 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\cherry\cherry_button^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\advancements\adventure\chiseled_bookshelf^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\advancements\adventure\chiseled_bookshelf^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\advancements\adventure\craft_decorated_pot^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\advancements\adventure\craft_decorated_pot^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\advancements\adventure\salvage_sherd.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\advancements\husbandry\obtain_sniffer_egg.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\advancements\husbandry\feed_snifflet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\advancements\husbandry\plant_any_sniffer_seed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\badges\glow\badge_rank_netherite_glow~1.png">
@@ -2907,7 +2951,7 @@
     <Content Include="assets\sprites\global\criteria\animals\sniffer.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\criteria\biomes\cherry_grove.png">
+    <Content Include="assets\sprites\global\criteria\biomes\1.20\cherry_grove.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\criteria\mobs\silverfish^48.png">
@@ -2920,6 +2964,57 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\criteria\mobs\wither^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\upgrade_netherite.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_host.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_coast.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_wild.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_shaper.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_eye.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_sentry.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_raiser.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_dune.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_snout.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_silence.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_wayfinder.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_spire.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_tide.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_ward.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_rib.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\trims\trim_vex.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\glow\glint%24825.png">
@@ -3348,6 +3443,12 @@
     <Content Include="assets\sprites\global\gui\icons\day_night_arrow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\gui\icons\smithing_unapplied.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\smithing_applied.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\gui\moon\moon_1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -3481,6 +3582,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\items\bee_nest_pickup^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\pottery_shard.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\items\cauldron^32.png">
@@ -6984,6 +7088,9 @@
     <Content Include="assets\templates\control_block_tile.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\templates\control_armor_trim_criterion.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\templates\control_run_overview.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -7003,6 +7110,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\adventuring_time\1.16\main.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\adventuring_time\1.20 Snapshot\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\adventuring_time\1.19\main.xml">
@@ -7108,6 +7218,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\all_portals\overlay.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\all_smithing_templates\1.20 Snapshot\main.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\all_smithing_templates\overlay.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\other\multiboard.xml">

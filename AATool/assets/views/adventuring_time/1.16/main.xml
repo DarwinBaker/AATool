@@ -70,16 +70,20 @@
             
             <panel row="0" col="2" rowspan="2" draw_mode="thisonly"></panel>
 
-            <!-- rare -->
-            <flow_panel row="0" col="2" rowspan="2" cell_width="90" draw_mode="childrenonly" direction="toptobottom">
+            <!-- rare top -->
+            <flow_panel row="0" col="2" cell_width="90" draw_mode="childrenonly" direction="toptobottom">
                 <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:badlands"/>
                 <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:badlands_plateau"/>
-                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:wooded_badlands_plateau"/>
                 <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:jungle"/>
                 <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:jungle_edge"/>
-                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:jungle_hills"/>
                 <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:bamboo_jungle"/>
                 <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:bamboo_jungle_hills"/>
+            </flow_panel>
+
+            <!-- rare bottom -->
+            <flow_panel row="1" col="2" cell_width="90" draw_mode="childrenonly" direction="toptobottom">
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:wooded_badlands_plateau"/>
+                <objective_frame owner="minecraft:adventure/adventuring_time" criterion="minecraft:jungle_hills"/>
             </flow_panel>
 
             <!-- ocean -->
