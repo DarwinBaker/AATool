@@ -84,7 +84,6 @@ namespace AATool.Saves
                         return;
                     if (!TryGetWorldSaveTime(sftp, out DateTime latest))
                         return;
-
                     DateTime next = latest.Add(TimeSpan.FromSeconds(SaveInterval));
                     remaining = (next - DateTime.UtcNow).TotalSeconds;
                     if (remaining > 0)
