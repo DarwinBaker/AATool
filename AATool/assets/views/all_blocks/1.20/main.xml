@@ -96,7 +96,7 @@
 
             <block_group group="dirt"
                 margin_left="0" margin_top="38"
-                width="5 * 38" height="1 * 38"/>
+                width="6 * 38" height="1 * 38"/>
 
             <block_group group="stone"
                 margin_left="4 * 38" margin_top="0"

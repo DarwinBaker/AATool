@@ -113,12 +113,14 @@
             <!-- froglights -->
             <panel collapsed="false" margin_left="10 + 350" margin_top="10 + 325" width="223" height="175" horizontal_align="left" vertical_align="top">
                 <panel width="70" horizontal_align="left" padding_top="8" padding_bottom="10">
-                    <textblock text="Frog&#xA;Lights" vertical_align="top"/>
-                    <picture texture="all_froglights" width="48" height="48" layer="fore" vertical_align="top" margin_top="32"/>
-                    <picture texture="all_frogs" width="48" height="48" layer="fore" vertical_align="bottom" margin_bottom="4"/>
+                    <textblock text="Suspicious&#xA;Blocks" vertical_align="top"/>
+                    <picture texture="soul_sand" width="48" height="48" layer="fore" vertical_align="top" margin_top="32 + 78"/>
+                    <picture texture="water" width="48" height="48" layer="fore" vertical_align="top" margin_top="32 + 52"/>
+                    <picture texture="glass" width="48" height="48" layer="fore" vertical_align="top" margin_top="32 + 26"/>
+                    <picture texture="all_suspicious_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="32"/>
                 </panel>
                 <panel width="153" horizontal_align="right" padding_left="10">
-                    <textblock text="Froglights are dropped when a frog eats a tiny magma cube. Frogs can be easily transported using leads.&#xA; &#xA;Tadpoles make the frog type of the biome in which they mature. Feed them lots of slime balls to make them grow faster. This often requires over a stack." text_align="left" v_text_align="top" padding_top="8"/>
+                    <textblock text="The suspicious sand and gravel blocks will drop in their respective item forms when floated in a bubble column for 30 seconds.&#xA; &#xA;Place water above some soul sand directly below the block and drop it in.&#xA; &#xA;It'll bob up and down for a while then drop so you can obtain it." text_align="left" v_text_align="top" padding_top="8"/>
                 </panel>
             </panel>
             <panel margin_left="10 + 481" margin_top="10 + 499" width="92" height="53" horizontal_align="left" vertical_align="top"/>
@@ -584,16 +586,16 @@
                         <textblock text="Infested Blocks" vertical_align="top" margin_top="60"/>
                     </panel>
                     <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="all_suspicious_blocks" layer="fore" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Suspicious Blocks" vertical_align="top" margin_top="60"/>
-                    </panel>
-                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="all_tilled_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
                         <textblock text="Farmland &amp;&#xA;Dirt Path" vertical_align="top" margin_top="60"/>
                     </panel>
                     <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="oak_slab" width="48" height="48" vertical_align="top" margin_top="8"/>
                         <textblock text="Petrified Oak Slab" vertical_align="top" margin_top="60"/>
+                    </panel>
+                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                        <picture texture="frogspawn" layer="fore" width="48" height="48" vertical_align="top" margin_top="8"/>
+                        <textblock text="Frog&#xA;Spawn" vertical_align="top" margin_top="60"/>
                     </panel>
                     <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="chorus_plant" width="48" height="48" vertical_align="top" margin_top="8"/>
@@ -672,11 +674,7 @@
                         <picture texture="all_copper_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="24"/>
                         <textblock text="Unwaxed Copper" vertical_align="top" margin_top="76"/>
                     </panel>
-                    <panel width="70" height="115" vertical_align="bottom" horizontal_align="right">
-                        <picture texture="frogspawn" width="48" height="48" layer="fore" vertical_align="top" margin_top="24"/>
-                        <textblock text="Frog&#xA;Spawn" vertical_align="top" margin_top="76"/>
-                    </panel>
-                    <panel width="268" height="115" vertical_align="bottom" horizontal_align="right">
+                    <panel width="338" height="115" vertical_align="bottom" horizontal_align="right">
                         <picture texture="lily_pad" width="48" height="48" vertical_align="top" margin_top="24"/>
                         <textblock text="Lily Pad" vertical_align="top" margin_top="76"/>
                     </panel>
@@ -691,11 +689,8 @@
                     <panel width="70" vertical_align="bottom" horizontal_align="right">
                         <textblock text="Redundant" vertical_align="top" padding_top="12"/>
                     </panel>
-                    <panel width="70" vertical_align="bottom" horizontal_align="right">
-                        <textblock text="Can't Be Obtained" vertical_align="top" padding_top="6"/>
-                    </panel>
-                    <panel width="268" vertical_align="bottom" horizontal_align="right">
-                        <textblock text="Minecraft doesn't save the 'Times Used' stat for lilypads for some reason, so it can't be tracked" padding_left="10" padding_right="10" vertical_align="top" margin_top="6"/>
+                    <panel width="338" vertical_align="bottom" horizontal_align="right">
+                        <textblock text="Minecraft doesn't save the 'Times Used' stat for lilypads for some reason, so it can't be tracked and thus isn't required" padding_left="10" padding_right="10" vertical_align="top" margin_top="6"/>
                     </panel>
                 </flow_panel>
             </panel>

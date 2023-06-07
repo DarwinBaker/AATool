@@ -206,6 +206,7 @@
         <coarse_dirt name="Coarse Dirt" icon="coarse_dirt"/>
         <rooted_dirt name="Rooted Dirt" icon="rooted_dirt"/>
         <gravel name="Gravel" icon="gravel"/>
+        <suspicious_gravel name="Suspicious&#xA;Gravel" icon="suspicious_gravel"/>
     </dirt>
     <doors>
         <oak_door name="Oak Door" icon="oak_door" double_height="true"/>
@@ -602,7 +603,7 @@
         <sandstone_stairs name="Sandstone Stairs" icon="sandstone_stairs"/>
         <sandstone_slab name="Sandstone Slab" icon="sandstone_slab"/>
         <chiseled_sandstone name="Chiseled Sandstone" icon="chiseled_sandstone"/>
-        <empty/>
+        <suspicious_sand name="Suspicious&#xA;Sand" icon="suspicious_sand"/>
         <cut_sandstone_slab name="Cut Sandstone Slab" icon="cut_sandstone_slab"/>
         <smooth_sandstone name="Smooth Sandstone" icon="smooth_sandstone"/>
         <smooth_sandstone_stairs name="Smooth Sandstone Stairs" icon="smooth_sandstone_stairs"/>
@@ -706,6 +707,7 @@
     <stone>
         <stone name="Stone" icon="stone"/>
         <stone_stairs name="Stone Stairs" icon="stone_stairs"/>
+        <empty/>
         <stone_slab name="Stone Slab" icon="stone_slab"/>
     </stone>
     <lichen>
