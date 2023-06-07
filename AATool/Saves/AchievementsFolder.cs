@@ -73,17 +73,16 @@ namespace AATool.Saves
             {
                 if (IsCompleted(achievement.Id, json))
                 {
-                    state.Advancements.Add(achievement.Id, new Completion(json.Player, default));
-                    contribution.Advancements.Add(achievement.Id, new Completion(json.Player, default));
+                    state.Advancements[achievement.Id] = new Completion(json.Player, default);
+                    contribution.Advancements[achievement.Id] = new Completion(json.Player, default);
                 }
 
                 if (achievement.HasCriteria)
                 {
                     foreach (string criterion in this.GetCompletedCriteria(achievement, json))
                     {
-                        state.Criteria.Add(criterion, new Completion(json.Player, default));
-                        contribution.Criteria.Add(criterion, 
-                            new Completion(json.Player, default));
+                        state.Criteria[criterion] = new Completion(json.Player, default);
+                        contribution.Criteria[criterion] = new Completion(json.Player, default);
                     }
                 }
             }

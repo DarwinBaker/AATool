@@ -11,6 +11,7 @@ namespace AATool.Data.Objectives.Complex
         private const string VVF = "minecraft:adventure/very_very_frightening";
         private const string Surge = "minecraft:adventure/lightning_rod_with_villager_no_fire";
 
+        private static readonly Version PiglinHeadAdded = new ("1.20");
         private static readonly Version AncientCitySkeletonSkulls = new ("1.19");
         private static readonly Version SurgeProtectorAdded = new ("1.17");
 
@@ -20,6 +21,7 @@ namespace AATool.Data.Objectives.Complex
         private bool surgeDone;
         private bool ignoreSurge;
 
+        private bool piglinHead;
         private bool zombieHead;
         private bool creeperHead;
         private bool skeletonSkull;
@@ -43,6 +45,9 @@ namespace AATool.Data.Objectives.Complex
                 bool ancientCitiesExist = Version.TryParse(Tracker.Category.CurrentVersion, out Version current)
                     && current >= AncientCitySkeletonSkulls;
 
+                bool piglinHeadRequired = current is not null 
+                    && current >= PiglinHeadAdded;
+
                 this.zombieHead = progress.WasUsed("minecraft:zombie_head")
                     || progress.WasPickedUp("minecraft:zombie_head");
 
@@ -52,7 +57,13 @@ namespace AATool.Data.Objectives.Complex
                 this.skeletonSkull = progress.WasUsed("minecraft:skeleton_skull")
                     || progress.WasPickedUp("minecraft:skeleton_skull") || ancientCitiesExist;
 
+                this.piglinHead = progress.WasUsed("minecraft:piglin_head")
+                    | progress.WasPickedUp("minecraft:piglin_head");
+
                 this.doneWithHeads = this.zombieHead && this.creeperHead && this.skeletonSkull;
+                if (piglinHeadRequired)
+                    this.doneWithHeads &= this.piglinHead;
+
                 this.CompletionOverride |= this.doneWithHeads;
             }
             else
@@ -135,8 +146,11 @@ namespace AATool.Data.Objectives.Complex
         {
             if (Tracker.Category is AllBlocks)
             {
+                bool piglinHead = Version.TryParse(Tracker.Category.CurrentVersion, out Version current)
+                    && current >= PiglinHeadAdded;
+
                 return this.doneWithHeads
-                    ? "trident_and_heads"
+                    ? (piglinHead ? "trident_and_heads_1.20" : "trident_and_heads")
                     : "trident";
             }
 

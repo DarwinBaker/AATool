@@ -20,6 +20,7 @@ namespace AATool.UI.Screens
         private UIButton nowButton;
         private UIButton laterButton;
         private UIButton githubButton;
+        private UIButton patreonButton;
         private UIButton closeButton;
 
         private UIFlowPanel upgrades;
@@ -99,7 +100,7 @@ namespace AATool.UI.Screens
             if (this.nowButton is not null)
             { 
                 this.nowButton.OnClick += this.OnClick;
-                this.textTinted.Add(this.nowButton?.First<UIPicture>());
+                this.textTinted.Add(this.nowButton.First<UIPicture>());
             }
 
             //remind me later button
@@ -107,7 +108,7 @@ namespace AATool.UI.Screens
             if (this.laterButton is not null)
             { 
                 this.laterButton.OnClick += this.OnClick;
-                this.textTinted.Add(this.laterButton?.First<UIPicture>());  
+                this.textTinted.Add(this.laterButton.First<UIPicture>());  
             }
 
             //github link button
@@ -115,15 +116,23 @@ namespace AATool.UI.Screens
             if (this.githubButton is not null)
             { 
                 this.githubButton.OnClick += this.OnClick;
-                this.textTinted.Add(this.githubButton?.First<UIPicture>());
+                this.textTinted.Add(this.githubButton.First<UIPicture>());
             }
 
+            //patreon link button
+            this.patreonButton = this.First<UIButton>("patreon");
+            if (this.patreonButton is not null)
+            {
+                this.patreonButton.OnClick += this.OnClick;
+                this.textTinted.Add(this.patreonButton.First<UIPicture>());
+            }
+            
             //close button
             this.closeButton = this.First<UIButton>("close");
             if (this.closeButton is not null)
             { 
                 this.closeButton.OnClick += this.OnClick;
-                this.textTinted.Add(this.closeButton?.First<UIPicture>());
+                this.textTinted.Add(this.closeButton.First<UIPicture>());
             }
             
             this.upgrades = this.First<UIFlowPanel>("upgrades");
@@ -216,12 +225,15 @@ namespace AATool.UI.Screens
 
         public override void DrawThis(Canvas canvas)
         {
-            var centered = new Rectangle(
-                this.thumbnailBounds.Left,
-                this.thumbnailBounds.Top, 
-                UpdateRequest.LatestThumb.Width, 
-                UpdateRequest.LatestThumb.Height);
-            canvas.Draw(UpdateRequest.LatestThumb, centered, Color.White, Layer.Fore);
+            if (UpdateRequest.LatestThumb is not null && this.thumbnailBounds is not null)
+            {
+                var centered = new Rectangle(
+                    this.thumbnailBounds.Left,
+                    this.thumbnailBounds.Top,
+                    UpdateRequest.LatestThumb.Width,
+                    UpdateRequest.LatestThumb.Height);
+                canvas.Draw(UpdateRequest.LatestThumb, centered, Color.White, Layer.Fore);
+            }
             base.DrawThis(canvas);
         }
 
@@ -248,6 +260,8 @@ namespace AATool.UI.Screens
                 this.Form.Close();
             else if (sender == this.githubButton)
                 _ = Process.Start(Paths.Web.LatestRelease);
+            else if (sender == this.patreonButton)
+                _ = Process.Start(Paths.Web.PatreonFull);
         }
     }
 }

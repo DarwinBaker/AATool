@@ -362,9 +362,9 @@
         <wither_rose name="Wither Rose" icon="wither_rose" tags="flowers"/>
     </wither_rose>
     <heads>
-        <piglin_head name="Piglin&#xA;Head" icon="piglin_head"/>
         <creeper_head name="Creeper&#xA;Head" icon="creeper_head"/>
         <zombie_head name="Zombie&#xA;Head" icon="zombie_head"/>
+        <piglin_head name="Piglin&#xA;Head" icon="piglin_head"/>
         <skeleton_skull name="Skeleton&#xA;Skull" icon="skeleton_skull"/>
         <wither_skeleton_skull name="Wither&#xA;Skull" icon="wither_skeleton_skull"/>
     </heads>
@@ -576,10 +576,6 @@
     <ladders>
         <ladder name="Ladder" icon="ladder"/>
     </ladders>
-    <redstone_components>
-        <repeater name="Redstone&#xA;Repeater" icon="repeater"/>
-        <comparator name="Redstone&#xA;Comparator" icon="comparator"/>
-    </redstone_components>
     <redstone_dust>
         <redstone name="Redstone Dust" icon="redstone_dust" light_level="0.5"/>
         <redstone_torch name="Redstone Torch" icon="redstone_torch" light_level="0.5"/>
@@ -694,25 +690,27 @@
         <empty/>
         <piston name="Piston" icon="piston"/>
         <sticky_piston name="Sticky Piston" icon="sticky_piston"/>
-        <slime_block name="Slime Block" icon="slime_block_new"/>
         <hopper name="Hopper" icon="hopper"/>
         <chest name="Chest" icon="chest"/>
         <trapped_chest name="Trapped&#xA;Chest" icon="trapped_chest"/>
         <ender_chest name="Ender&#xA;Chest" icon="ender_chest_block" tags="obsidian endcity"/>
-        <empty/>
+        <repeater name="Redstone&#xA;Repeater" icon="repeater"/>
+        <comparator name="Redstone&#xA;Comparator" icon="comparator"/>
         <honeycomb_block name="Honeycomb Block" icon="honeycomb_block" tags="beewax beeswax"/>
         <tnt name="TNT" icon="tnt_block"/>
     </specialized>
-    <stone>
-        <stone name="Stone" icon="stone"/>
-        <stone_stairs name="Stone Stairs" icon="stone_stairs"/>
-        <stone_slab name="Stone Slab" icon="stone_slab"/>
-        <glow_lichen name="Glow Lichen" icon="glow_lichen" light_level="0.6"/>
-    </stone>
     <pots>
         <flower_pot name="Flower Pot" icon="flower_pot"/>
         <decorated_pot name="Decorated Pot" icon="decorated_pot"/>
     </pots>
+    <stone>
+        <stone name="Stone" icon="stone"/>
+        <stone_stairs name="Stone Stairs" icon="stone_stairs"/>
+        <stone_slab name="Stone Slab" icon="stone_slab"/>
+    </stone>
+    <lichen>
+        <glow_lichen name="Glow Lichen" icon="glow_lichen" light_level="0.6"/>
+    </lichen>
     <stronghold>
         <stone_bricks name="Stone&#160;Bricks" icon="stone_bricks"/>
         <mossy_stone_bricks name="Mossy&#xA;Stone&#160;Bricks" icon="mossy_stone_bricks"/>
@@ -973,9 +971,10 @@
         <muddy_mangrove_roots name="Muddy Mangrove Roots" icon="muddy_mangrove_roots"/>
         <mangrove_roots name="Mangrove Roots" icon="mangrove_roots"/>
     </mud>
-    <froglights>
+    <frogs>
+        <slime_block name="Slime Block" icon="slime_block_new"/>
         <verdant_froglight name="Verdant&#xA;Froglight" icon="verdant_froglight" light_level="0.6"/>
         <ochre_froglight name="Ochre&#xA;Froglight" icon="ochre_froglight" light_level="0.6"/>
         <pearlescent_froglight name="Pearlescent&#xA;Froglight" icon="pearlescent_froglight" light_level="0.6"/>
-    </froglights>
+    </frogs>
 </blocks>

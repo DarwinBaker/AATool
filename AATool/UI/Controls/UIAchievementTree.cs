@@ -47,9 +47,6 @@ namespace AATool.UI.Controls
         private void GeneratePaths()
         {
             this.paths = new List<List<Cell>>();
-            if (Peer.IsRunning)
-                return;
-
             foreach (UIObjectiveFrame achievement in this.achievements)
             {
                 //iterate each direct descendant and construct an arrow to it

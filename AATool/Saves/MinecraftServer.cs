@@ -27,6 +27,7 @@ namespace AATool.Saves
         public static SyncState State           { get; private set; }
         public static string MessageOfTheDay    { get; private set; }
         public static string WorldName          { get; private set; }
+        public static bool LinuxMode            { get; private set; }
 
         private static readonly Utilities.Timer RefreshTimer = new ();
 
@@ -46,6 +47,9 @@ namespace AATool.Saves
         public static DateTime GetRefreshEstimate() => IsEnabled
             ? LastWorldSave.Add(TimeSpan.FromSeconds(SaveInterval))
             : default;
+
+        public static string HostAwarePath(params string[] paths) =>
+            LinuxMode ? Path.Combine(paths).Replace("\\", "/") : Path.Combine(paths);
 
         public static void Update(Time time)
         {
@@ -276,7 +280,7 @@ namespace AATool.Saves
             try
             {
                 //download server properties
-                string path = Path.Combine(Config.Sftp.ServerRoot, "server.properties");
+                string path = HostAwarePath(Config.Sftp.ServerRoot, "server.properties");
                 string[] properties = sftp.ReadAllText(path).Split('\n');
                 if (TryGetProperty(properties, "level-name", out string world))
                     WorldName = world.TrimEnd();
@@ -304,12 +308,11 @@ namespace AATool.Saves
         private static bool TryGetWorldSaveTime(SftpClient sftp, out DateTime lastWorldSave, int failures = 0)
         {
             SetState(SyncState.LastAutoSave);
-            string remote = Path.Combine(Config.Sftp.ServerRoot, WorldName, "level.dat");
-            lastWorldSave = default;
-            
+            string remotePath = HostAwarePath(Config.Sftp.ServerRoot, WorldName, "level.dat");
+            lastWorldSave = default;   
             try
             {
-                lastWorldSave = sftp.GetLastWriteTimeUtc(remote);
+                lastWorldSave = sftp.GetLastWriteTimeUtc(remotePath);
                 return true;
             }
             catch (Exception exception)
@@ -318,8 +321,16 @@ namespace AATool.Saves
                 {
                     if (exception is SftpPathNotFoundException)
                     {
+                        if (!LinuxMode)
+                        {
+                            //try switching to linux mode
+                            LinuxMode = true;
+                            Thread.Sleep(AttemptIntervalMs);
+                            return TryGetWorldSaveTime(sftp, out lastWorldSave, failures + 1);
+                        }
+
                         //folder not found, world name might be wrong. refresh it next time
-                        LastError = new SftpPathNotFoundException($"File not found: \"{remote}\".");
+                        LastError = new SftpPathNotFoundException($"File not found: \"{remotePath}\".");
                         InvalidateWorld();
                         return false;
                     }
@@ -346,7 +357,7 @@ namespace AATool.Saves
             SmoothDownloadPercent = 0;
 
             string localPath = Path.Combine(Paths.System.SftpWorldsFolder, WorldName, name);
-            string remotePath = Path.Combine(Config.Sftp.ServerRoot, WorldName, name);
+            string remotePath = HostAwarePath(Config.Sftp.ServerRoot, WorldName, name);
             try
             {
                 //make sure directory exists

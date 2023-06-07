@@ -28,6 +28,8 @@
     <advancement id="minecraft:adventure/hero_of_the_village"   name="Hero of the&#160;Village" short_name="Hero OTV" icon="pillager_banner" type="challenge"/>
     <advancement id="minecraft:adventure/totem_of_undying"      name="Postmortal"               type="goal"/>
 
+    <advancement id="minecraft:adventure/avoid_vibration"  name="Sneak 100" icon="sculk_sensor"/>
+    <advancement id="minecraft:adventure/kill_mob_near_sculk_catalyst"  name="It Spreads" icon="sculk_catalyst" type="challenge"/>
     <advancement id="minecraft:adventure/throw_trident"         name="A Throwaway Joke"         short_name="ATJ"/>
     <advancement id="minecraft:adventure/very_very_frightening" name="Very Very Frightening"    short_name="VVF"/>
     <advancement id="minecraft:adventure/adventuring_time" name="Adventuring Time" short_name="Adventuring" type="challenge">
@@ -127,6 +129,4 @@
             <criterion id="minecraft:ravager"/>
         </criteria>
     </advancement>
-    <advancement id="minecraft:adventure/avoid_vibration"  name="Sneak 100" icon="sculk_sensor"/>
-    <advancement id="minecraft:adventure/kill_mob_near_sculk_catalyst"  name="It Spreads" icon="sculk_catalyst" type="challenge"/>
 </group>

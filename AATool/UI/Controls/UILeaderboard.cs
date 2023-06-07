@@ -160,6 +160,7 @@ namespace AATool.UI.Controls
                     "1.16" => Paths.Web.ABPage16,
                     "1.18" => Paths.Web.ABPage18,
                     "1.19" => Paths.Web.ABPage19,
+                    "1.20" => Paths.Web.ABPage20,
                     _ => string.Empty
                 };
             }
@@ -323,17 +324,23 @@ namespace AATool.UI.Controls
             this.Root().First<UITextBlock>("most_records_runner")?.SetText(Leaderboard.RunnerWithMostWorldRecords);
             this.Root().First<UITextBlock>("most_records_list")?.SetText(mostRecordsList);
 
-            if (!string.IsNullOrEmpty(Leaderboard.RsgRunner))
+            if (!string.IsNullOrEmpty(Leaderboard.AnyRsgRunner))
             {
-                this.Root().First<UIAvatar>("any%_rsg_avatar")?.SetPlayer(Leaderboard.RsgRunner);
-                this.Root().First<UITextBlock>("any%_rsg_runner")?.SetText(Leaderboard.RsgRunner);
-                this.Root().First<UITextBlock>("any%_rsg_time")?.SetText($"{Leaderboard.RsgInGameTime:m':'ss} IGT      {Leaderboard.RsgRealTime:m':'ss} RTA");
+                this.Root().First<UIAvatar>("any%_rsg_avatar")?.SetPlayer(Leaderboard.AnyRsgRunner);
+                this.Root().First<UITextBlock>("any%_rsg_runner")?.SetText(Leaderboard.AnyRsgRunner);
+                this.Root().First<UITextBlock>("any%_rsg_time")?.SetText($"{Leaderboard.AnyRsgInGameTime:m':'ss} IGT    {Leaderboard.AnyRsgRealTime:m':'ss} RTA");
             }
-            if (!string.IsNullOrEmpty(Leaderboard.SsgRunner))
+            if (!string.IsNullOrEmpty(Leaderboard.AnySsgRunner))
             {
-                this.Root().First<UIAvatar>("any%_ssg_avatar")?.SetPlayer(Leaderboard.SsgRunner);
-                this.Root().First<UITextBlock>("any%_ssg_runner")?.SetText(Leaderboard.SsgRunner);
-                this.Root().First<UITextBlock>("any%_ssg_time")?.SetText($"{Leaderboard.SsgInGameTime:m':'ss} IGT      {Leaderboard.SsgRealTime:m':'ss} RTA");
+                this.Root().First<UIAvatar>("any%_ssg_avatar")?.SetPlayer(Leaderboard.AnySsgRunner);
+                this.Root().First<UITextBlock>("any%_ssg_runner")?.SetText(Leaderboard.AnySsgRunner);
+                this.Root().First<UITextBlock>("any%_ssg_time")?.SetText($"{Leaderboard.AnySsgInGameTime:m':'ss} IGT    {Leaderboard.AnySsgRealTime:m':'ss} RTA");
+            }
+            if (!string.IsNullOrEmpty(Leaderboard.AASsgRunner))
+            {
+                this.Root().First<UIAvatar>("aa_ssg_avatar")?.SetPlayer(Leaderboard.AASsgRunner);
+                this.Root().First<UITextBlock>("aa_ssg_runner")?.SetText(Leaderboard.AASsgRunner);
+                this.Root().First<UITextBlock>("aa_ssg_time")?.SetText($"{Leaderboard.AASsgInGameTime:h':'mm':'ss} IGT   {Leaderboard.AASsgRealTime:h':'mm':'ss} RTA");
             }
         }
 

@@ -188,6 +188,7 @@
     <Compile Include="Net\Lobby.cs" />
     <Compile Include="Net\OpenTracker.cs" />
     <Compile Include="Net\PeerStatic.cs" />
+    <Compile Include="Net\Requests\AASsgRequest.cs" />
     <Compile Include="Net\Requests\AnyRsgRequest.cs" />
     <Compile Include="Net\Requests\UuidRequest.cs" />
     <Compile Include="Net\Requests\SpreadsheetRequest.cs" />
@@ -515,28 +516,28 @@
     <Content Include="assets\objectives\1.19\potions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\objectives\1.20 Snapshot\advancements\adventure.xml">
+    <Content Include="assets\objectives\1.20\advancements\adventure.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\objectives\1.20 Snapshot\advancements\end.xml">
+    <Content Include="assets\objectives\1.20\advancements\end.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\objectives\1.20 Snapshot\advancements\husbandry.xml">
+    <Content Include="assets\objectives\1.20\advancements\husbandry.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\objectives\1.20 Snapshot\advancements\minecraft.xml">
+    <Content Include="assets\objectives\1.20\advancements\minecraft.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\objectives\1.20 Snapshot\advancements\nether.xml">
+    <Content Include="assets\objectives\1.20\advancements\nether.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\objectives\1.20 Snapshot\trims.xml">
+    <Content Include="assets\objectives\1.20\trims.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\objectives\1.20 Snapshot\blocks.xml">
+    <Content Include="assets\objectives\1.20\blocks.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\objectives\1.20 Snapshot\potions.xml">
+    <Content Include="assets\objectives\1.20\potions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\ab_guide\all_heads_1.20%244x4x30.png">
@@ -834,6 +835,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\bamboo\bamboo_trapdoor^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\misc\trident_and_heads_1.20^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\blocks\misc\trident_and_heads_1.20^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\special\chiseled_bookshelf^32.png">
@@ -3374,6 +3381,9 @@
     <Content Include="assets\sprites\global\gui\button_icons\button_icon_biomes.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\gui\frames\flags\frame_flag_aroace.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\gui\frames\flags\frame_flag_demigirl.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -3441,6 +3451,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\icons\day_night_arrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\patreon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\icons\smithing_unapplied.png">
@@ -3582,6 +3595,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\items\bee_nest_pickup^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\old_local_brewery.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\items\pottery_shard.png">
@@ -6956,6 +6972,9 @@
     <Content Include="assets\sprites\winforms\frames_main\Pride Flags\Intersex Pride.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\winforms\frames_main\Pride Flags\Aroace Pride.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\winforms\frames_main\Pride Flags\Lesbian Pride.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -6984,6 +7003,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\winforms\frames_overlay\Other\2_Minecraft.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\winforms\frames_overlay\Pride Flags\Aroace Pride.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\winforms\frames_overlay\Solid Colors\90%27s Hacker.png">
@@ -7112,7 +7134,7 @@
     <Content Include="assets\views\adventuring_time\1.16\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\views\adventuring_time\1.20 Snapshot\main.xml">
+    <Content Include="assets\views\adventuring_time\1.20\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\adventuring_time\1.19\main.xml">
@@ -7151,16 +7173,16 @@
     <Content Include="assets\views\all_advancements\1.19\main_optimized.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\views\all_advancements\1.20 Snapshot\main_compact.xml">
+    <Content Include="assets\views\all_advancements\1.20\main_compact.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\views\all_advancements\1.20 Snapshot\main_optimized.xml">
+    <Content Include="assets\views\all_advancements\1.20\main_optimized.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\views\all_advancements\1.20 Snapshot\main_relaxed.xml">
+    <Content Include="assets\views\all_advancements\1.20\main_relaxed.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\views\all_advancements\1.20 Snapshot\main_vertical.xml">
+    <Content Include="assets\views\all_advancements\1.20\main_vertical.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\all_advancements\1.19\main_compact.xml">
@@ -7184,10 +7206,10 @@
     <Content Include="assets\views\all_blocks\1.16\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\views\all_blocks\1.20 Snapshot\help.xml">
+    <Content Include="assets\views\all_blocks\1.20\help.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\views\all_blocks\1.20 Snapshot\main.xml">
+    <Content Include="assets\views\all_blocks\1.20\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\all_blocks\overlay.xml">

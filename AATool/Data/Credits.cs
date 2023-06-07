@@ -69,6 +69,7 @@ namespace AATool.Data
             new (NetheriteTier, "Deadpool",     new Uuid("899c63ac-6590-46c0-b77c-4dae1543f707")),
             new (NetheriteTier, "merpmerp",     new Uuid("fc357f37-ebbb-4687-971f-df8016b41a6f")),
             new (NetheriteTier, "Oliver",       new Uuid("6174765b-7158-4d18-af89-4692b2704ae8")),
+            new (NetheriteTier, "DCMii",        new Uuid("3d71114e-4d3d-469b-8a2c-2aeea4df1e86")),
 
             new (DiamondTier, "NiceTwice",  new Uuid("e43dad54-4b24-4da9-b690-a12fdc8626dc")),
             new (DiamondTier, "Cube1337x",  new Uuid("1ae14cb9-6a2f-4357-a71e-fac6f7012b59")),

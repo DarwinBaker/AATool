@@ -40,7 +40,7 @@ namespace AATool.Winforms.Forms
             this.frames.Location = new System.Drawing.Point(0, 0);
             this.frames.Margin = new System.Windows.Forms.Padding(0);
             this.frames.Name = "frames";
-            this.frames.Size = new System.Drawing.Size(809, 621);
+            this.frames.Size = new System.Drawing.Size(809, 681);
             this.frames.TabIndex = 0;
             // 
             // closeOnSelect
@@ -59,7 +59,7 @@ namespace AATool.Winforms.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(809, 621);
+            this.ClientSize = new System.Drawing.Size(809, 681);
             this.Controls.Add(this.closeOnSelect);
             this.Controls.Add(this.frames);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

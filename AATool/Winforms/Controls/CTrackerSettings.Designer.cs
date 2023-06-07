@@ -346,7 +346,7 @@ namespace AATool.Winforms.Controls
             this.label13.Size = new System.Drawing.Size(234, 42);
             this.label13.TabIndex = 71;
             this.label13.Text = "🛈 If you\'re connecting to a survival server and would like to only see your own " +
-    "advancements, set progress filtering to \"Solo\"";
+    "advancements, set Player Filtering to \"Solo\"";
             // 
             // sftpCompatibility
             // 
@@ -652,8 +652,8 @@ namespace AATool.Winforms.Controls
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.localGroup);
             this.Controls.Add(this.remoteGroup);
+            this.Controls.Add(this.localGroup);
             this.Name = "CTrackerSettings";
             this.Size = new System.Drawing.Size(538, 307);
             this.localGroup.ResumeLayout(false);

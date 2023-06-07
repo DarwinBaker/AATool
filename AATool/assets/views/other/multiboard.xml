@@ -9,7 +9,7 @@
         </rows>
         <columns>
             <column width="160" collapsed="true"/>
-            <column width="1555"/>
+            <column width="1710"/>
         </columns>
 
         <!-- co-op lobby -->
@@ -42,30 +42,15 @@
                 </panel>
             </panel>
 
-            <!-- all blocks world records -->
+            <!-- aa ssg 1.16 world record holder -->
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <panel width="305">
-                <textblock text="All Blocks World Records" font_size="24" vertical_align="top" margin_top="8" height="24"/>
-                <panel width="100" padding_top="30" horizontal_align="left" draw_mode="childrenonly">
-                    <textblock text="1.19" vertical_align="top" margin_top="8" height="12"/>
-                    <avatar name="ab_wr_1.19_avatar" show_frame="false" vertical_align="top" margin_top="32"/>
+            <panel width="150">
+                <textblock text="AA SSG" font_size="24" vertical_align="top" margin_top="10" height="24"/>
+                <panel width="150" padding_top="27" horizontal_align="left" draw_mode="childrenonly">
+                    <avatar name="aa_ssg_avatar" show_frame="false" vertical_align="top" margin_top="32"/>
                     <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
-                    <textblock name="ab_wr_1.19_runner" vertical_align="top" margin_top="80" height="12"/>
-                    <textblock name="ab_wr_1.19_igt" text="__:__:__" vertical_align="top" margin_top="94" height="12"/>
-                </panel>
-                <panel width="100" padding_top="30" horizontal_align="center" draw_mode="childrenonly">
-                    <textblock text="1.18" vertical_align="top" margin_top="8" height="12"/>
-                    <avatar name="ab_wr_1.18_avatar" show_frame="false" vertical_align="top" margin_top="32"/>
-                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
-                    <textblock name="ab_wr_1.18_runner" vertical_align="top" margin_top="80" height="12"/>
-                    <textblock name="ab_wr_1.18_igt" text="__:__:__" vertical_align="top" margin_top="94" height="12"/>
-                </panel>
-                <panel width="100" padding_top="30" horizontal_align="right" draw_mode="childrenonly">
-                    <textblock text="1.16" vertical_align="top" margin_top="8" height="12"/>
-                    <avatar name="ab_wr_1.16_avatar" show_frame="false" vertical_align="top" margin_top="32"/>
-                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
-                    <textblock name="ab_wr_1.16_runner" vertical_align="top" margin_top="80" height="12"/>
-                    <textblock name="ab_wr_1.16_igt" text="__:__:__" vertical_align="top" margin_top="94" height="12"/>
+                    <textblock name="aa_ssg_runner" vertical_align="top" margin_top="80" height="12"/>
+                    <textblock name="aa_ssg_time" vertical_align="top" margin_top="94" height="12"/>
                 </panel>
             </panel>
 
@@ -81,15 +66,53 @@
                 </panel>
             </panel>
 
+            <!-- all blocks world records -->
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel width="305">
+                <textblock text="All Blocks World Records" font_size="24" vertical_align="top" margin_top="8" height="24"/>
+                <flow_panel cell_width="76" padding_top="30" draw_mode="childrenonly">
+                    <panel width="66" draw_mode="childrenonly">
+                        <textblock text="1.20" vertical_align="top" margin_top="8" height="12"/>
+                        <panel width="36" height="36" vertical_align="top" margin_top="32" border_thickness="2">
+                            <avatar name="ab_wr_1.20_avatar" show_frame="false" empty="true"/>
+                        </panel>
+                        <panel width="58" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                        <textblock name="ab_wr_1.20_runner" vertical_align="top" margin_top="80" height="12"/>
+                        <textblock name="ab_wr_1.20_igt" text="__:__:__" vertical_align="top" margin_top="94" height="12"/>
+                    </panel>
+                    <panel width="66" draw_mode="childrenonly">
+                        <textblock text="1.19" vertical_align="top" margin_top="8" height="12"/>
+                        <avatar name="ab_wr_1.19_avatar" show_frame="false" vertical_align="top" margin_top="32"/>
+                        <panel width="58" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                        <textblock name="ab_wr_1.19_runner" vertical_align="top" margin_top="80" height="12"/>
+                        <textblock name="ab_wr_1.19_igt" text="__:__:__" vertical_align="top" margin_top="94" height="12"/>
+                    </panel>
+                    <panel width="66" draw_mode="childrenonly">
+                        <textblock text="1.18" vertical_align="top" margin_top="8" height="12"/>
+                        <avatar name="ab_wr_1.18_avatar" show_frame="false" vertical_align="top" margin_top="32"/>
+                        <panel width="58" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                        <textblock name="ab_wr_1.18_runner" vertical_align="top" margin_top="80" height="12"/>
+                        <textblock name="ab_wr_1.18_igt" text="__:__:__" vertical_align="top" margin_top="94" height="12"/>
+                    </panel>
+                    <panel width="66" draw_mode="childrenonly">
+                        <textblock text="1.16" vertical_align="top" margin_top="8" height="12"/>
+                        <avatar name="ab_wr_1.16_avatar" show_frame="false" vertical_align="top" margin_top="32"/>
+                        <panel width="58" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                        <textblock name="ab_wr_1.16_runner" vertical_align="top" margin_top="80" height="12"/>
+                        <textblock name="ab_wr_1.16_igt" text="__:__:__" vertical_align="top" margin_top="94" height="12"/>
+                    </panel>
+                </flow_panel>
+            </panel>
+
             <!-- half heart hardcore aa world record -->
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <panel width="150">
                 <textblock text="Half Heart Hardcore AA" font_size="24" vertical_align="top" margin_top="2" height="48"/>
                 <panel padding_top="30" horizontal_align="left" draw_mode="childrenonly">
-                    <avatar player="Elysaku" show_frame="false" vertical_align="top" margin_top="32"/>
+                    <avatar name="hhhaa_avatar" player="Elysaku" show_frame="false" vertical_align="top" margin_top="32"/>
                     <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
                     <textblock text="Elysaku" vertical_align="top" margin_top="80" height="12"/>
-                    <textblock text="7:02:31 (1.16)" vertical_align="top" margin_top="94" height="12"/>
+                    <textblock text="5:21:11 (1.16)" vertical_align="top" margin_top="94" height="12"/>
                 </panel>
             </panel>
 
@@ -151,6 +174,10 @@
         <!-- aa leaderboard headers -->
         <flow_panel row="1" col="1" padding="5" border_thickness="5">
             <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="1.20 AA" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
                 <text_block text="1.19 AA" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
@@ -189,48 +216,31 @@
             <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
                 <text_block text="1.0-1.6 AACH" font_size="24"/>
             </panel>
-
-
-            <text_block text="1.18" font_size="24" padding_top="2" width="150"/>
-            <panel width="5" border_thickness="5" inner_corners="false"/>
-            <text_block text="1.17" font_size="24" padding_top="2" width="150"/>
-            <panel width="5" border_thickness="5" inner_corners="false"/>
-            <text_block text="1.16" font_size="24" padding_top="2" width="150"/>
-            <panel width="5" border_thickness="5" inner_corners="false"/>
-            <text_block text="1.15" font_size="24" padding_top="2" width="150"/>
-            <panel width="5" border_thickness="5" inner_corners="false"/>
-            <text_block text="1.14" font_size="24" padding_top="2" width="150"/>
-            <panel width="5" border_thickness="5" inner_corners="false"/>
-            <text_block text="1.13" font_size="24" padding_top="2" width="150"/>
-            <panel width="5" border_thickness="5" inner_corners="false"/>
-            <text_block text="1.12" font_size="24" padding_top="2" width="150"/>
-            <panel width="5" border_thickness="5" inner_corners="false"/>
-            <text_block text="1.8-1.11" font_size="24" padding_top="2" width="150"/>
-            <panel width="5" border_thickness="5" inner_corners="false"/>
-            <text_block text="1.0-1.6" font_size="24" padding_top="2" width="150"/>
         </flow_panel>
 
         <!-- aa leaderboards -->
         <flow_panel row="2" col="1" padding="5" border_thickness="5">
-            <leaderboard category="All Advancements" version="1.19" hide_button="true" small="true" col="1" rows="10" width="150"/>
+            <leaderboard category="All Advancements" version="1.20" hide_button="true" small="true" rows="10" width="150"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <leaderboard category="All Advancements" version="1.18" hide_button="true" small="true" col="1" rows="10" width="150"/>
+            <leaderboard category="All Advancements" version="1.19" hide_button="true" small="true" rows="10" width="150"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <leaderboard category="All Advancements" version="1.17" hide_button="true" small="true" col="2" rows="10" width="150"/>
+            <leaderboard category="All Advancements" version="1.18" hide_button="true" small="true" rows="10" width="150"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <leaderboard category="All Advancements" version="1.16" hide_button="true" small="true" col="3" rows="10" width="150"/>
+            <leaderboard category="All Advancements" version="1.17" hide_button="true" small="true" rows="10" width="150"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <leaderboard category="All Advancements" version="1.15" hide_button="true" small="true" col="4" rows="10" width="150"/>
+            <leaderboard category="All Advancements" version="1.16" hide_button="true" small="true" rows="10" width="150"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <leaderboard category="All Advancements" version="1.14" hide_button="true" small="true" col="5" rows="10" width="150"/>
+            <leaderboard category="All Advancements" version="1.15" hide_button="true" small="true" rows="10" width="150"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <leaderboard category="All Advancements" version="1.13" hide_button="true" small="true" col="6" rows="10" width="150"/>
+            <leaderboard category="All Advancements" version="1.14" hide_button="true" small="true" rows="10" width="150"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <leaderboard category="All Advancements" version="1.12" hide_button="true" small="true" col="7" rows="10" width="150"/>
+            <leaderboard category="All Advancements" version="1.13" hide_button="true" small="true" rows="10" width="150"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <leaderboard category="All Advancements" version="1.11" hide_button="true" small="true" col="8" rows="10" width="150"/>
+            <leaderboard category="All Advancements" version="1.12" hide_button="true" small="true" rows="10" width="150"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <leaderboard category="All Advancements" version="1.6" hide_button="true" small="true" col="9"  rows="10" width="150"/>
+            <leaderboard category="All Advancements" version="1.11" hide_button="true" small="true" rows="10" width="150"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="All Advancements" version="1.6" hide_button="true" small="true"  rows="10" width="150"/>
         </flow_panel>
 
         <!-- needed to load data -->

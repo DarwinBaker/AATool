@@ -63,6 +63,9 @@
                     <picture texture="hourglass" width="26" height="26" horizontal_align="left" margin_left="2"/>
                 </button>
             </panel>
+            <button name="patreon" text="     Support AATool ♥" width="150" height="36" horizontal_align="left" margin_left="7">
+                <picture texture="patreon" width="26" height="26" horizontal_align="left" margin_left="6"/>
+            </button>
             <button name="github" text="   Visit GitHub" width="150" height="36" horizontal_align="right" margin_right="7">
                 <picture texture="github" width="26" height="26" horizontal_align="left" margin_left="6"/>
             </button>

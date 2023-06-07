@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using AATool.Data.Objectives;
 using AATool.Graphics;
 using AATool.Net;
@@ -14,10 +16,13 @@ namespace AATool.Data.Categories
         public const string HelpTextureSet = "ab_guide";
 
         public static readonly List<string> SupportedVersions = new () {
+            "1.20",
             "1.19",
             "1.18",
             "1.16",
         };
+
+        private static bool WritingChecklistFile = false;
 
         public override IEnumerable<string> GetSupportedVersions() => SupportedVersions;
         public override IEnumerable<Objective> GetOverlayObjectives() => Tracker.Blocks.All.Values;
@@ -134,31 +139,46 @@ namespace AATool.Data.Categories
 
             this.BlocksHighlightedCount = 0;
             this.BlocksConfirmedCount = 0;
-            string path = Paths.System.BlockChecklistFile(ActiveInstance.Number, Tracker.WorldName);
-            try
+            var list = new StringBuilder();
+            foreach (Block block in Tracker.Blocks.All.Values)
             {
-                Directory.CreateDirectory(Paths.System.BlockChecklistsFolder);
-                using (StreamWriter file = File.CreateText(path))
+                if (block.Highlighted)
                 {
-                    foreach (Block block in Tracker.Blocks.All.Values)
-                    {
-                        if (block.Highlighted)
-                        { 
-                            file.WriteLine(block.Id);
+                    list.AppendLine(block.Id);
 
-                            //update counts
-                            if (block.IsComplete())
-                                this.BlocksConfirmedCount++;
-                            else
-                                this.BlocksHighlightedCount++;
-                        }
-                    }
+                    //update counts
+                    if (block.IsComplete())
+                        this.BlocksConfirmedCount++;
+                    else
+                        this.BlocksHighlightedCount++;
                 }
             }
-            catch
-            {
 
-            }
+            TryWriteChecklist(list.ToString());
+        }
+
+        private void TryWriteChecklist(string list)
+        {
+            if (WritingChecklistFile)
+                return;
+
+            WritingChecklistFile = true;
+            new Thread(() => {
+                try
+                {
+                    string path = Paths.System.BlockChecklistFile(ActiveInstance.Number, Tracker.WorldName);
+                    Directory.CreateDirectory(Paths.System.BlockChecklistsFolder);
+                    using (StreamWriter file = File.CreateText(path))
+                        file.Write(list);
+                }
+                catch
+                {
+                }
+                finally
+                {
+                    WritingChecklistFile = false;
+                }
+            }).Start();
         }
 
         private void TryLoadChecklist()

@@ -86,8 +86,11 @@ namespace AATool
                     : Path.Combine(BlockChecklistsFolder, $"instance_{instance}-{worldName}.txt");
             }
 
-            public static string AnyPercentRecordFile(bool rsg, string version)
+            public static string SpeedrunDotComRecordFile(bool rsg, bool aa, string version)
             {
+                if (aa)
+                    return Path.Combine(LeaderboardsFolder, $"aa_wr_ssg_{version}.txt");
+
                 return rsg
                     ? Path.Combine(LeaderboardsFolder, $"any_percent_wr_rsg_{version}.txt")
                     : Path.Combine(LeaderboardsFolder, $"any_percent_wr_ssg_{version}.txt");
@@ -142,6 +145,7 @@ namespace AATool
             public const string AAPageOthers = "1283472797";
 
             public const string ABSheet = "1RnN6lE3yi5S_5PBuxMXdWNvN3HayP3054M3Qud_p9BU";
+            public const string ABPage20 = "1664598957";
             public const string ABPage19 = "1912774860";
             public const string ABPage18 = "1706556435";
             public const string ABPage16 = "1572184167";
@@ -151,6 +155,7 @@ namespace AATool
             
             public const string AnyRsgRecord = "https://www.speedrun.com/api/v1/leaderboards/j1npme6p/category/mkeyl926?top=1&embed=players&var-jlzkwql2=mln68v0q&var-r8rg67rn=21d4zvp1";
             public const string AnySsgRecord = "https://www.speedrun.com/api/v1/leaderboards/j1npme6p/category/mkeyl926?top=1&embed=players&var-wl33kewl=4qye4731&var-r8rg67rn=klrzpjo1";
+            public const string AASsgRecord  = "https://www.speedrun.com/api/v1/leaderboards/j1npme6p/category/xk9gz16d?top=1&embed=players&var-38do09zl=5q8rd731&var-r8rg67rn=klrzpjo1";
 
             public static string GetUuidUrl(string name) => 
                 $"https://minecraft-api.com/api/uuid/{name}";

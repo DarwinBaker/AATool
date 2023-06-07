@@ -49,7 +49,6 @@ namespace AATool.Winforms.Forms
 
             this.Text = this.isOverlay ? "Overlay Frame Style" : "Main Window Frame Style";
             this.Width = this.isOverlay ? 945 : 825;
-            this.Height = this.isOverlay ? 710 : 610;
 
             this.style = this.isOverlay ? Config.Overlay.FrameStyle : Config.Main.FrameStyle;
             string prideList = this.isOverlay ? Config.Overlay.PrideFrameList : Config.Main.PrideFrameList;

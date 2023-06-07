@@ -214,6 +214,7 @@ namespace AATool.UI.Screens
             {
                 //this.First<UIPicture>("main_player_avatar")?.SetTexture(Tracker.GetMainPlayer().ToString().Replace("-", ""));
                 this.Root().First<UIAvatar>("100hc_avatar")?.SetBadge(new HundredHardcoreBadge());
+                this.Root().First<UIAvatar>("hhhaa_avatar")?.SetBadge(new HalfHeartHardcoreBadge());
             }
         }
 
@@ -356,6 +357,7 @@ namespace AATool.UI.Screens
                 {
                     new AnyPercentRecordRequest(true).EnqueueOnce();
                     new AnyPercentRecordRequest(false).EnqueueOnce();
+                    new AASsgRequest().EnqueueOnce();
                 }
                 ForceLayoutRefresh();
             }

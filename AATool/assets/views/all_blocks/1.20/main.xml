@@ -136,8 +136,8 @@
                 width="3 * 38" height="4 * 38"/>
 
             <block_group group="snow"
-                margin_left="8 * 38" margin_top="8 * 38"
-                width="3 * 38"  height="2 * 38"/>
+                margin_left="0" margin_top="9 * 38"
+                width="6 * 38"  height="38"/>
 
             <block_group group="crops"
                 margin_left="11 * 38" margin_top="6 * 38"
@@ -289,8 +289,8 @@
                 direction="toptobottom"/>
 
             <block_group group="redstone_components"
-                margin_left="6 * 38" margin_top="8 * 38"
-                width="2 * 38" height="38"/>
+                margin_left="3 * 38" margin_top="8 * 38"
+                width="38" height="2 * 38"/>
 
             <block_group group="nether_brick"
                 margin_left="8 * 38" margin_top="10 * 38"
@@ -377,21 +377,25 @@
                 margin_left="0" margin_top="8 * 38"
                 width="6 * 38" height="38"/>
 
-            <block_group group="froglights"
-                margin_left="0" margin_top="9 * 38"
-                width="3 * 38" height="38"/>
+            <block_group group="frogs"
+                margin_left="11 * 38" margin_top="8 * 38"
+                width="4 * 38" height="38"/>
 
             <block_group group="mud"
                 margin_left="12 * 38" margin_top="9 * 38"
                 width="8 * 38" height="38"/>
 
             <block_group group="ladders"
+                margin_left="10 * 38" margin_top="8 * 38"
+                width="38" height="38"/>
+
+            <block_group group="lichen"
                 margin_left="17 * 38" margin_top="6 * 38"
                 width="38" height="38"/>
 
             <block_group group="pots"
-                margin_left="11 * 38" margin_top="8 * 38"
-                width="38" height="2 * 38"/>
+                margin_left="10 * 38" margin_top="9 * 38"
+                width="2 * 38" height="38"/>
 
         </block_grid>
 
@@ -432,7 +436,7 @@
                 <textblock text="1.20 Leaderboard" font_size="24"/>
             </panel>
 
-            <leaderboard rows="4" height="248" category="All Blocks" version="1.16" hide_button="true"/>
+            <leaderboard rows="4" height="248" category="All Blocks" version="1.20" hide_button="true"/>
             
             <panel height="38" padding_top="6" border_thickness="38">
                 <textblock text="Other Records" font_size="24"/>

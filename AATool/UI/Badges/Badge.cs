@@ -79,13 +79,17 @@ namespace AATool.UI.Badges
             {
                 badge = new MostRecordsBadge();
             }
-            else if (name == Leaderboard.RsgRunner?.ToLower())
+            else if (name == Leaderboard.AnyRsgRunner?.ToLower())
             {
                 badge = new RankBadge(1, $"Any% RSG", "1.16", true);
             }
-            else if (name == Leaderboard.SsgRunner?.ToLower())
+            else if (name == Leaderboard.AnySsgRunner?.ToLower())
             {
                 badge = new RankBadge(1, $"Any% SSG", "1.16", true);
+            }
+            else if (name == Leaderboard.AASsgRunner?.ToLower())
+            {
+                badge = new RankBadge(1, $"AA SSG", "1.16", true);
             }
             else
             {

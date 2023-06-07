@@ -21,7 +21,7 @@
     <advancement id="minecraft:adventure/salvage_sherd" name="Respecting Remnants" short_name="Remnants"/>
     <advancement id="minecraft:adventure/craft_decorated_pot_using_only_sherds" name="Careful Restoration" short_name="Restoration" icon="craft_decorated_pot"/>
     <advancement id="minecraft:adventure/trim_with_any_armor_pattern" name="Crafting a New&#160;Look" short_name="New Look" icon="trim_dune"/>
-    <advancement id="minecraft:adventure/trim_with_all_exclusive_armor_patterns" name="Smithing With&#160;Style" short_name="With Style" icon="trim_silence">
+    <advancement id="minecraft:adventure/trim_with_all_exclusive_armor_patterns" name="Smithing With&#160;Style" short_name="With Style" icon="trim_silence" type="challenge">
         <criteria goal="Trims Applied">
             <criterion id="armor_trimmed_minecraft:snout_armor_trim_smithing_template_smithing_trim"
                 name="Snout" icon="trim_snout" recipe="minecraft:recipes/misc/snout_armor_trim_smithing_template"/>
@@ -53,6 +53,8 @@
     <advancement id="minecraft:adventure/hero_of_the_village"   name="Hero of the&#160;Village" short_name="Hero OTV" icon="pillager_banner" type="challenge"/>
     <advancement id="minecraft:adventure/totem_of_undying"      name="Postmortal"               type="goal"/>
 
+    <advancement id="minecraft:adventure/avoid_vibration"  name="Sneak 100" icon="sculk_sensor"/>
+    <advancement id="minecraft:adventure/kill_mob_near_sculk_catalyst"  name="It Spreads" icon="sculk_catalyst" type="challenge"/>
     <advancement id="minecraft:adventure/throw_trident"         name="A Throwaway Joke"         short_name="ATJ"/>
     <advancement id="minecraft:adventure/very_very_frightening" name="Very Very Frightening"    short_name="VVF"/>
     <advancement id="minecraft:adventure/adventuring_time" name="Adventuring Time" short_name="Adventuring" type="challenge">
@@ -153,6 +155,4 @@
             <criterion id="minecraft:ravager"/>
         </criteria>
     </advancement>
-    <advancement id="minecraft:adventure/avoid_vibration"  name="Sneak 100" icon="sculk_sensor"/>
-    <advancement id="minecraft:adventure/kill_mob_near_sculk_catalyst"  name="It Spreads" icon="sculk_catalyst" type="challenge"/>
 </group>

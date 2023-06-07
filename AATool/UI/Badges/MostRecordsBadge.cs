@@ -27,7 +27,7 @@ namespace AATool.UI.Badges
             }
 
             this.Description.SetTextColor(RankBadge.PopupGoldText);
-            this.Description.SetText($"Holds the most AA records\n ({versionList})");
+            this.Description.SetText($"Most concurrent AA WRs\n ({versionList})");
 
             this.BackTexture = $"badge_most_records";
             this.Glow.SetTexture("badge_large_gold_glow");

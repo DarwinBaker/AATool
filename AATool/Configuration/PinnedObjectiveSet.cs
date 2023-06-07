@@ -67,7 +67,7 @@ namespace AATool.Configuration
 
         [JsonProperty]
         public Dictionary<string, List<string>> Pinned = new () {
-            { "All Advancements 1.20 Snapshot", new () {
+            { "All Advancements 1.20", new () {
                 "AncientDebris", "WitherSkulls", "NautilusShells", "Trident", "EGap", "ArmorTrims",
             }},
             { "All Advancements 1.19", new () {
@@ -99,6 +99,9 @@ namespace AATool.Configuration
             }},
             { "All Achievements 1.11", new () {
                 "GoldBlocks", "WitherSkulls", "Biomes", "EGap",
+            }},
+            { "All Blocks 1.20", new () {
+                "AncientDebris", "DeepslateEmerald", "WitherSkulls", "ShulkerShells", "NautilusShells", "Trident",
             }},
             { "All Blocks 1.19", new () {
                 "AncientDebris", "DeepslateEmerald", "WitherSkulls", "ShulkerShells", "NautilusShells", "Trident",

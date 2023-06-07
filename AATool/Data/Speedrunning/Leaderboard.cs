@@ -25,18 +25,22 @@ namespace AATool.Data.Speedrunning
         public static string RunnerWithMostWorldRecords { get; private set; } = string.Empty;
         public static LeaderboardSheet History { get; private set; }
 
-        public static string RsgRunner { get; private set; }
-        public static TimeSpan RsgInGameTime { get; private set; }
-        public static TimeSpan RsgRealTime { get; private set; }
+        public static string AnyRsgRunner { get; private set; }
+        public static TimeSpan AnyRsgInGameTime { get; private set; }
+        public static TimeSpan AnyRsgRealTime { get; private set; }
 
-        public static string SsgRunner { get; private set; }
-        public static TimeSpan SsgInGameTime { get; private set; }
-        public static TimeSpan SsgRealTime { get; private set; }
+        public static string AnySsgRunner { get; private set; }
+        public static TimeSpan AnySsgInGameTime { get; private set; }
+        public static TimeSpan AnySsgRealTime { get; private set; }
+
+        public static string AASsgRunner { get; private set; }
+        public static TimeSpan AASsgInGameTime { get; private set; }
+        public static TimeSpan AASsgRealTime { get; private set; }
 
 
         public static readonly TimeZoneInfo TimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
 
-        public static readonly string[] AAVersions = { "1.19", "1.18", "1.17", "1.16", "1.15", "1.14", "1.13", "1.12", "1.11", "1.6" };
+        public static readonly string[] AAVersions = { "1.20", "1.19", "1.18", "1.17", "1.16", "1.15", "1.14", "1.13", "1.12", "1.11", "1.6" };
 
         public string Category { get; private set; }
         public string Version { get; private set; }
@@ -58,8 +62,9 @@ namespace AATool.Data.Speedrunning
         {
             foreach (string version in AAVersions)
                 TryLoadCached("All Advancements", version, out _);
-            TryLoadCachedAnyPercent(true, "1.16", out _);
-            TryLoadCachedAnyPercent(false, "1.16", out _);
+            TryLoadCachedSpeedrunDotComRecord(true, false, "1.16", out _);
+            TryLoadCachedSpeedrunDotComRecord(false, false, "1.16", out _);
+            TryLoadCachedSpeedrunDotComRecord(false, true, "1.16", out _);
             UpdateMostWorldRecords();
         }
 
@@ -218,8 +223,10 @@ namespace AATool.Data.Speedrunning
                 versions = new() { "1.18" };
             else if (pageId is Paths.Web.ABPage19)
                 versions = new() { "1.19" };
+            else if (pageId is Paths.Web.ABPage20)
+                versions = new() { "1.20" };
             else
-                versions = new () { "1.19", "1.18", "1.17", "1.15", "1.14", "1.13", "1.12", "1.11", "1.6" };
+                versions = new () { "1.20", "1.19", "1.18", "1.17", "1.15", "1.14", "1.13", "1.12", "1.11", "1.6" };
 
             //parse all the leaderboards
             foreach (string version in versions)
@@ -253,7 +260,7 @@ namespace AATool.Data.Speedrunning
             return NickNamesLoaded;
         }
 
-        public static bool SyncAnyPercentRecord(string jsonString, bool rsg)
+        public static bool SyncSpeedrunDotComRecord(string jsonString, bool rsg, bool aa)
         {
             try
             {
@@ -273,15 +280,21 @@ namespace AATool.Data.Speedrunning
 
                 if (rsg)
                 {
-                    RsgRunner = runner;
-                    RsgInGameTime = igt;
-                    RsgRealTime = rta;
+                    AnyRsgRunner = runner;
+                    AnyRsgInGameTime = igt;
+                    AnyRsgRealTime = rta;
+                }
+                else if (aa)
+                {
+                    AASsgRunner = runner;
+                    AASsgInGameTime = igt;
+                    AASsgRealTime = rta;
                 }
                 else
                 {
-                    SsgRunner = runner;
-                    SsgInGameTime = igt;
-                    SsgRealTime = rta;
+                    AnySsgRunner = runner;
+                    AnySsgInGameTime = igt;
+                    AnySsgRealTime = rta;
                 }
                 return true;
             }
@@ -308,14 +321,14 @@ namespace AATool.Data.Speedrunning
             }
         }
 
-        public static void SaveAnyPercentRecordToCache(string jsonString, bool rsg)
+        public static void SaveSpeedrunDotComRecordToCache(string jsonString, bool rsg, bool aa)
         {
             try
             {
                 //cache leaderboard so it loads instantly next launch
                 //overwrite to keep leaderboard up to date
                 Directory.CreateDirectory(Paths.System.LeaderboardsFolder);
-                string path = Paths.System.AnyPercentRecordFile(rsg, "1.16");
+                string path = Paths.System.SpeedrunDotComRecordFile(rsg, aa, "1.16");
                 File.WriteAllText(path, jsonString);
             }
             catch
@@ -363,16 +376,16 @@ namespace AATool.Data.Speedrunning
             return leaderboard is not null;
         }
 
-        private static bool TryLoadCachedAnyPercent(bool rsg, string version, out string jsonString)
+        private static bool TryLoadCachedSpeedrunDotComRecord(bool rsg, bool aa, string version, out string jsonString)
         {
             jsonString = string.Empty;
-            string leaderboardFile = Paths.System.AnyPercentRecordFile(rsg, version);
+            string leaderboardFile = Paths.System.SpeedrunDotComRecordFile(rsg, aa, version);
             if (File.Exists(leaderboardFile))
             {
                 try
                 {
                     jsonString = File.ReadAllText(leaderboardFile);
-                    SyncAnyPercentRecord(jsonString, rsg);
+                    SyncSpeedrunDotComRecord(jsonString, rsg, aa);
                 }
                 catch
                 {
@@ -388,29 +401,33 @@ namespace AATool.Data.Speedrunning
             foreach (string version in AAVersions)
             {
                 if (!TryGetWorldRecord("All Advancements", version, out Run wr))
-                    return;
+                    continue;
 
                 if (!recordHolders.TryGetValue(wr.Runner, out List<Run> records))
                     recordHolders[wr.Runner] = records = new List<Run>();
                 records.Add(wr);
             }
+
             Version mostLatestVersion = default;
             int mostRecordsCount = 0;
             foreach (KeyValuePair<string, List<Run>> recordHolder in recordHolders)
             {
-                bool foundNew = recordHolder.Value.Count > mostRecordsCount
-                    || (recordHolder.Value.Count == mostRecordsCount && recordHolder.Value.LastOrDefault().GameVersion > mostLatestVersion);
-
-                if (foundNew)
+                int count = recordHolder.Value.Count;
+                Run newestVersion = recordHolder.Value.FirstOrDefault();
+                
+                bool foundNewLeader = count > mostRecordsCount
+                    || (count == mostRecordsCount && newestVersion.GameVersion > mostLatestVersion);
+                
+                if (foundNewLeader)
                 {
-                    mostRecordsCount = recordHolder.Value.Count;
-                    RunnerWithMostWorldRecords = recordHolder.Value.LastOrDefault().Runner;
-                    mostLatestVersion = recordHolder.Value.LastOrDefault().GameVersion;
+                    mostRecordsCount = count;
+                    RunnerWithMostWorldRecords = newestVersion.Runner;
+                    mostLatestVersion = newestVersion.GameVersion;
                 }
             }
             ListOfMostRecords.Clear();
-            foreach (Run run in recordHolders[RunnerWithMostWorldRecords])
-                ListOfMostRecords.Add(run);
+            if (recordHolders.TryGetValue(RunnerWithMostWorldRecords, out List<Run> runs))
+                ListOfMostRecords.AddRange(runs);
 
             /*
             UIAvatar avatar = this.Root().First<UIAvatar>("most_records_avatar");

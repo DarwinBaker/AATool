@@ -29,7 +29,7 @@ namespace AATool.UI.Badges
             this.Glow.SetTexture(HeartGlow);
             this.Glow.SkipToBrightness(0.6f);
 
-            this.Description.SetText("Completed AA on Hardcore\nwith half a heart (twice)");
+            this.Description.SetText("Completed AA on Hardcore\nwith half a heart (4 times)");
         }
 
         protected override void UpdateThis(Time time)

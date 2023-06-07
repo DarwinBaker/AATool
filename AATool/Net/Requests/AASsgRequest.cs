@@ -5,21 +5,17 @@ using AATool.Data.Speedrunning;
 
 namespace AATool.Net.Requests
 {
-    public sealed class AnyPercentRecordRequest : NetRequest
+    public sealed class AASsgRequest : NetRequest
     {
-        public const string RandomSeed = "RSG";
         public const string SetSeed = "SSG";
 
-        private readonly string subCategory;
-
-        public AnyPercentRecordRequest(bool rsg) : base (Paths.Web.GetAnyPercentRecordUrl(rsg)) 
+        public AASsgRequest() : base (Paths.Web.AASsgRecord) 
         {
-            this.subCategory = rsg ? RandomSeed : SetSeed;
         }
 
         public override async Task<bool> DownloadAsync()
         {
-            Debug.Log(Debug.RequestSection, $"Requested Any% {this.subCategory} (1.16) WR from speedrun.com");
+            Debug.Log(Debug.RequestSection, $"Requested AA SSG (1.16) WR from speedrun.com");
             this.BeginTiming();
 
             using var client = new HttpClient() { 
@@ -34,12 +30,12 @@ namespace AATool.Net.Requests
             }
             catch (OperationCanceledException)
             {
-                Debug.Log(Debug.RequestSection, $"-- Any% {this.subCategory} (1.16) WR request cancelled");
+                Debug.Log(Debug.RequestSection, $"-- AA SSG (1.16) WR request cancelled");
                 //request canceled, nothing left to do here
             }
             catch (HttpRequestException e)
             {
-                Debug.Log(Debug.RequestSection, $"-- Any% {this.subCategory} (1.16) WR request failed: {e.Message}");
+                Debug.Log(Debug.RequestSection, $"-- AA SSG (1.16) WR request failed: {e.Message}");
                 //error getting response, safely move on
             }
             this.EndTiming();
@@ -52,10 +48,10 @@ namespace AATool.Net.Requests
             if (string.IsNullOrEmpty(response))
                 return false;
 
-            if (Leaderboard.SyncSpeedrunDotComRecord(response, this.subCategory is RandomSeed, false))
+            if (Leaderboard.SyncSpeedrunDotComRecord(response, false, true))
             {
-                Leaderboard.SaveSpeedrunDotComRecordToCache(response, this.subCategory is RandomSeed, false);
-                Debug.Log(Debug.RequestSection, $"{Incoming} Received Any% {this.subCategory} (1.16) WR from speedrun.com");
+                Leaderboard.SaveSpeedrunDotComRecordToCache(response, false, true);
+                Debug.Log(Debug.RequestSection, $"{Incoming} Received AA SSG (1.16) WR from speedrun.com");
                 return true;
             }
             else

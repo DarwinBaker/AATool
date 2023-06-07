@@ -45,7 +45,6 @@ namespace AATool.UI.Controls
                 FlexHeight = new (16 * this.Scale),
             };
             this.Frame.AddControl(this.foregroundIcon);
-            this.Layer = Layer.Fore;
         }
 
         public override void ResizeThis(Rectangle parent) 
