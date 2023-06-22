@@ -12,6 +12,7 @@ namespace AATool.Data.Objectives.Complex
         public const string ItemId = "minecraft:wither_skeleton_skull";
         public const string LegacyItemId = "minecraft.skull";
         private const string MonsterHunter = "minecraft:adventure/kill_all_mobs";
+        private const string SummonWither = "minecraft:nether/summon_wither";
         private const string Wither = "minecraft:wither";
         private const string WitherSkeleton = "minecraft:wither_skeleton";
         private const string WitherRose = "minecraft:wither_rose";
@@ -31,6 +32,7 @@ namespace AATool.Data.Objectives.Complex
 
         private bool rosePlaced;
         private bool beaconPlaced;
+        private bool witherSummoned;
         private bool witherKilled;
         private int witherSkeletonsKilled;
 
@@ -57,19 +59,22 @@ namespace AATool.Data.Objectives.Complex
             //check wither rose status
             this.rosePlaced = progress.WasUsed(WitherRose);
             this.beaconPlaced = progress.WasUsed(Beacon);
+            this.witherSummoned = progress.AdvancementCompleted(SummonWither);
             this.witherKilled = progress.CriterionCompleted(MonsterHunter, Wither);
 
             this.witherSkeletonsKilled = progress.TimesKilled(WitherSkeleton);
 
             if (Tracker.Category is AllBlocks)
             {
+                this.Partial = !this.rosePlaced && !this.beaconPlaced;
                 this.CompletionOverride = this.EstimatedObtained >= this.Required
-                    || this.witherKilled || this.rosePlaced || this.beaconPlaced;
+                    || this.witherSummoned || this.witherKilled || this.rosePlaced || this.beaconPlaced;
             }
             else
             {
+                this.Partial = !this.witherKilled;
                 this.CompletionOverride = this.EstimatedObtained >= this.Required
-                    || this.fullBeaconComplete || this.witherKilled;
+                    || this.witherSummoned || this.fullBeaconComplete || this.witherKilled;
             }
         }
 
@@ -88,7 +93,7 @@ namespace AATool.Data.Objectives.Complex
                 return "Done";
 
             if (this.witherKilled)
-                return "Ready";
+                return "Done";
 
             return $"{this.EstimatedObtained}\0/\0{this.Required}";
         }
@@ -105,6 +110,9 @@ namespace AATool.Data.Objectives.Complex
             if (this.witherKilled)
                 return "Wither\0Has\nBeen\0Killed";
 
+            if (this.witherSummoned)
+                return "Wither\nSummoned";
+
             if (this.EstimatedObtained >= this.Required)
                 return $"{this.EstimatedObtained}\0/\0{this.Required}\nKilled:\0{this.witherSkeletonsKilled}";
 
@@ -116,7 +124,9 @@ namespace AATool.Data.Objectives.Complex
             if (Tracker.Category is AllBlocks && this.beaconPlaced && this.rosePlaced)
                 return "skull_and_beacon";
 
-            return "get_wither_skull";
+            return this.witherSummoned || this.witherKilled
+                ? "wither_mob"
+                : "get_wither_skull";
         }
     }
 }

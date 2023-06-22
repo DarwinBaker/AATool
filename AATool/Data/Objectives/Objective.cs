@@ -27,6 +27,8 @@ namespace AATool.Data.Objectives
         public string FullStatus { get; }
         public string TinyStatus { get; }
 
+        public bool Partial { get; }
+
         public void UpdateState(ProgressState state);
     }
 
@@ -43,6 +45,7 @@ namespace AATool.Data.Objectives
         public bool CanBeManuallyChecked { get; protected set; }
         public bool CompletionOverride { get; protected set; }
         public bool ManuallyChecked { get; set; }
+        public bool Partial { get; protected set; }
 
         public HashSet<Completion> Completions { get; protected set; }
         public Completion FirstCompletion { get; protected set; }

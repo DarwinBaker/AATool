@@ -3,6 +3,7 @@ using AATool.Data.Objectives;
 using AATool.Data.Objectives.Complex;
 using AATool.Graphics;
 using AATool.UI.Screens;
+using AATool.Utilities;
 using Microsoft.Xna.Framework;
 
 namespace AATool.UI.Controls
@@ -11,6 +12,8 @@ namespace AATool.UI.Controls
     {
         public bool Hovering { get; set; }
         public bool HoveringUnpin { get; set; }
+
+        protected override float GlowLerpSpeed => 3f;
 
         private UIPinnedRow container;
         private UIPicture foregroundIcon;

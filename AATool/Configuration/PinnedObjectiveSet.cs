@@ -12,7 +12,7 @@ namespace AATool.Configuration
     {
         public static readonly List<string> AllAA = new (){
             "EGap", "Trident", "NautilusShells", "WitherSkulls",
-            "AncientDebris", "GoldBlocks", "Bees",
+            "AncientDebris", "GoldBlocks", "Bees", "Sniffers",
             "Cats", "Foods", "Animals", "Monsters", "Biomes", "Cauldrons", "ArmorTrims"
         };
 
@@ -38,7 +38,10 @@ namespace AATool.Configuration
             if (Version.TryParse(Tracker.CurrentVersion, out Version current))
             {
                 if (current < new Version("1.20"))
+                {
                     available.Remove("ArmorTrims");
+                    available.Remove("Sniffers");
+                }
                 if (current < new Version("1.19"))
                     available.Remove("SculkBlocks");
                 if (current != new Version("1.17"))
@@ -67,6 +70,9 @@ namespace AATool.Configuration
 
         [JsonProperty]
         public Dictionary<string, List<string>> Pinned = new () {
+            { "All Advancements 1.20 v2", new () {
+                "WitherSkulls", "NautilusShells", "Trident", "Sniffers", "ArmorTrims",
+            }},
             { "All Advancements 1.20", new () {
                 "AncientDebris", "WitherSkulls", "NautilusShells", "Trident", "EGap", "ArmorTrims",
             }},
@@ -117,9 +123,16 @@ namespace AATool.Configuration
         public bool TryGetCurrentList(out List<string> list) =>
             this.TryGetCurrentList(Tracker.Category.Name, Tracker.Category.CurrentVersion, out list);
 
-        public bool TryGetCurrentList(string category, string version, out List<string> list) =>
-            this.Pinned.TryGetValue($"{category} {version}", out list);
+        public bool TryGetCurrentList(string category, string version, out List<string> list)
+        {
+            //use revised list with sniffers and no god apple
+            string key = category is "All Advancements" && version is "1.20"
+                ? "All Advancements 1.20 v2"
+                : $"{category} {version}";
 
+            return this.Pinned.TryGetValue(key, out list);
+        }
+        
         public bool TrySetCurrentList(List<UIPinnedObjectiveFrame> frames)
         {
             var names = new List<string>();
@@ -129,10 +142,15 @@ namespace AATool.Configuration
                     names.Add(frame.Objective.Name);
             }
 
-            List<string> previous = this.Pinned[$"{Tracker.Category.Name} {Tracker.CurrentVersion}"];
+            //use revised list with sniffers and no god apple
+            string key = Tracker.Category.Name is "All Advancements" && Tracker.CurrentVersion is "1.20"
+                ? $"All Advancements 1.20 v2"
+                : $"{Tracker.Category.Name} {Tracker.CurrentVersion}";
+
+            List<string> previous = this.Pinned[key];
             if (!names.SequenceEqual(previous))
             {
-                this.Pinned[$"{Tracker.Category.Name} {Tracker.CurrentVersion}"] = names;
+                this.Pinned[key] = names;
                 return true;
             }
             return false; 

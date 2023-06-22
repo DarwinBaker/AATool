@@ -1,33 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AATool.Data.Progress;
 
 namespace AATool.Data.Objectives.Complex
 {
-    internal class SnifferEgg : ComplexObjective
+    internal class SnifferEgg : Pickup
     {
         public const string ItemId = "minecraft:sniffer_egg";
 
-        public bool Obtained { get; private set; }
-
-        public SnifferEgg() : base()
+        public SnifferEgg() : base(ItemId, "Eggs", 3)
         {
             this.Icon = "obtain_sniffer_egg";
         }
 
-        protected override void UpdateAdvancedState(ProgressState progress)
+        protected override int GetCount(ProgressState progress)
         {
-            this.CompletionOverride = progress.WasPickedUp(ItemId);
+            int count = progress.TimesPickedUp(this.Id)
+                - progress.TimesDropped(this.Id)
+                - progress.TimesMined(this.Id);
+            return Math.Max(count, 0);
         }
 
-        protected override void ClearAdvancedState()
-        {
-        }
+        protected override string GetShortStatus() => 
+            $"{this.Obtained}\0/\0{this.Required}\0Eggs";
 
-        protected override string GetLongStatus() => "Sniffer Egg";
-        protected override string GetShortStatus() => "Sniffer Egg";
+        protected override string GetLongStatus() => 
+            $"{this.Obtained}\0/\0{this.Required}\0Eggs";
     }
 }

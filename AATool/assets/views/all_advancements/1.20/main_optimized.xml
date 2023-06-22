@@ -85,7 +85,7 @@
             <panel width="6" border_thickness="6" inner_corners="false"/>
             <flow_panel width="2 * 66" padding_top="34">
                 <objective_frame complex="Trident"/>
-                <objective_frame complex="Egap"/>
+                <objective_frame complex="Sniffers"/>
                 <objective_frame complex="NautilusShells"/>
                 <objective_frame complex="GoldBlocks"/>
                 <objective_frame complex="WitherSkulls"/>
@@ -119,6 +119,7 @@
                     <criteria_group width="113" cell_width="110" advancement="minecraft:adventure/trim_with_all_exclusive_armor_patterns"/>
                     <panel width="6" border_thickness="6" inner_corners="false"/>
                     <flow_panel width="114" cell_width="130" padding_left="-12" padding_top="6" direction="toptobottom">
+                        <criterion complex="EGapShort"/>
                         <criterion complex="EnderPearls"/>
                         <criterion pickup="minecraft:nether_wart"/>
                         <criterion pickup="minecraft:ghast_tear"/>
@@ -127,7 +128,6 @@
                         <criterion pickup="minecraft:rabbit_foot"/>
                         <criterion pickup="minecraft:fermented_spider_eye"/>
                         <criterion complex="NetheriteUpgrade"/>
-                        <criterion complex="SnifferEgg"/>
                         <criterion complex="PotteryShards"/>
                     </flow_panel>
                 </flow_panel>

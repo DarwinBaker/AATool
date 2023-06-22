@@ -63,7 +63,11 @@ namespace AATool.Data.Objectives.Complex
                 if (!criterion.IsComplete())
                     this.Remaining.Add(criterion.Id);
             }
-            this.CompletionOverride = adv.IsComplete() || this.AllApplied || this.AllObtained;
+            this.CompletionOverride = adv.IsComplete() 
+                || this.AllApplied 
+                || this.AllObtained
+                || this.OnLast;
+            this.Partial = !adv.IsComplete() && !this.AllApplied && !this.AllObtained;
         }
 
         protected override void ClearAdvancedState()

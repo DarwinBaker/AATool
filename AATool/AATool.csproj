@@ -119,6 +119,7 @@
     <Compile Include="Data\Cell.cs" />
     <Compile Include="Data\Credits.cs" />
     <Compile Include="Data\Objectives\ArmorTrimCriterion.cs" />
+    <Compile Include="Data\Objectives\Complex\EGapShort.cs" />
     <Compile Include="Data\Objectives\Complex\EnderPearls.cs" />
     <Compile Include="Data\Objectives\Complex\Netherite.cs" />
     <Compile Include="Data\Objectives\Complex\SnifferEgg.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Data\Objectives\Complex\ArmorTrims.cs" />
     <Compile Include="Data\Objectives\Complex\WaxOnOff.cs" />
     <Compile Include="Data\Objectives\Complex\TridentAdvancements.cs" />
+    <Compile Include="Data\Objectives\Complex\Sniffers.cs" />
     <Compile Include="Data\Objectives\MultipartObjective.cs" />
     <Compile Include="Data\Objectives\Complex\Animals.cs" />
     <Compile Include="Data\Objectives\Complex\PrismarineBlocks.cs" />
@@ -684,7 +686,7 @@
     <Content Include="assets\sprites\blocks\animated\campfire^32%2480.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\animated\campfire^48%2480.png">
+    <Content Include="assets\sprites\blocks\animated\campfire^48%2480x16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\animated\conduit^32.png">
@@ -697,9 +699,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\animated\enchanting_table^48%24264x30.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="assets\sprites\blocks\animated\end_crystal^32%24119x17.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\animated\end_crystal^48%24119x30x0.75.png">
@@ -744,7 +743,7 @@
     <Content Include="assets\sprites\blocks\animated\soul_campfire^32%2480.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\animated\soul_campfire^48%2480.png">
+    <Content Include="assets\sprites\blocks\animated\soul_campfire^48%2480x16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\animated\stone_cutter^32%243.png">
@@ -2760,7 +2759,7 @@
     <Content Include="assets\sprites\blocks\sandstone\suspicious_sand^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\sculk\calibrated_sculk_sensor^32%24152x24x1.png">
+    <Content Include="assets\sprites\blocks\sculk\calibrated_sculk_sensor^32%2416x16x1.3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\sculk\sculk_sensor_block^32%2496x24x1.25.png">
@@ -2769,7 +2768,7 @@
     <Content Include="assets\sprites\blocks\sculk\sculk^32%2432x32x2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\blocks\sculk\calibrated_sculk_sensor^48%2416x16x1.png">
+    <Content Include="assets\sprites\blocks\sculk\calibrated_sculk_sensor^48%2416x16x1.3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\blocks\sculk\sculk_sensor_block^48%2496x24x1.25.png">
@@ -3450,6 +3449,12 @@
     <Content Include="assets\sprites\global\gui\frames\flags\frame_flag_transgender.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\gui\frames\modern\frame_modern_back_partial^52.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\frames\modern\frame_modern_back_partial^78.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\gui\icons\day_night_arrow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -3597,6 +3602,15 @@
     <Content Include="assets\sprites\global\items\bee_nest_pickup^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\items\conduit^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\conduit^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\conduit_placed^48%24199x21.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\items\old_local_brewery.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -3627,6 +3641,9 @@
     <Content Include="assets\sprites\global\items\obsidian^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\items\conduit_placed^32%24199x21.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\items\smelt_glass.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -3642,6 +3659,24 @@
     <Content Include="assets\sprites\global\items\smithing_none.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\items\sniffer_sniff^32%2431x31x1.25.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\sniffer_sniff^48%2431x31x1.25.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\sniffer_mob^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\sniffer_mob^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\sniffer_hatch^32%244x4x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\sniffer_hatch^48%244x4x30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\items\tnt_block^32.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -3649,6 +3684,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\items\water_bucket.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\wither_mob^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\items\wither_mob^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\items\wither_skull^16.png">
@@ -8134,7 +8175,7 @@
     <Content Include="assets\sprites\global\items\enchanted_elytra%24825.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\items\enchanted_diamond_pickaxe%24256.png">
+    <Content Include="assets\sprites\global\items\enchanted_diamond_pickaxe%24256x13.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\items\iron_axe.png">
@@ -8167,7 +8208,7 @@
     <Content Include="assets\sprites\global\items\trident.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\items\enchanted_diamond_axe%24256.png">
+    <Content Include="assets\sprites\global\items\enchanted_diamond_axe%24256x13.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\potions\enchantment_potion%24825.png">
@@ -9424,7 +9465,7 @@
     <Content Include="assets\sprites\global\advancements\nether\ride_strider.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\advancements\nether\summon_wither%24256.png">
+    <Content Include="assets\sprites\global\advancements\nether\summon_wither%24256x13.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\advancements\nether\uneasy_alliance.png">

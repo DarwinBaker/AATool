@@ -40,6 +40,7 @@ namespace AATool.Data.Objectives.Complex
         {
             base.UpdateAdvancedState(progress);
             this.CompletionOverride |= this.allShulkerVariantsPlaced = this.EveryBlockPlaced(progress);
+            this.Partial = !this.allShulkerVariantsPlaced;
         }
 
         private bool EveryBlockPlaced(ProgressState progress)

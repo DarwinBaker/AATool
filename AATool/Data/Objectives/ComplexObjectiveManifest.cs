@@ -38,7 +38,7 @@ namespace AATool.Data.Objectives
             this.AddPickup("minecraft:rabbit_foot", "Rabbit's Foot", 1);
             this.AddPickup("minecraft:fermented_spider_eye", "Fermented Eye", 1);
             this.AddPickup("minecraft:pottery_sherd", "Pottery Shard", 4);
-            this.AddPickup("minecraft:sniffer_egg", "Sniffer Egg", 1);
+            this.AddPickup("minecraft:sniffer_egg", "Sniffer Eggs", 3);
         }
 
         private void AddPickup(string id, string name, int required)

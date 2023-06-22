@@ -64,6 +64,7 @@ namespace AATool.Data.Objectives.Complex
                 if (piglinHeadRequired)
                     this.doneWithHeads &= this.piglinHead;
 
+                this.Partial = !this.doneWithHeads;
                 this.CompletionOverride |= this.doneWithHeads;
             }
             else
@@ -78,10 +79,12 @@ namespace AATool.Data.Objectives.Complex
                 {
                     //ignore surge protector, not in the game yet (pre-1.17)
                     this.CompletionOverride |= this.vvfDone;
+                    this.Partial = !this.vvfDone;
                 }
                 else
                 {
                     this.CompletionOverride |= this.vvfDone && this.surgeDone;
+                    this.Partial = !(this.vvfDone && this.surgeDone);
                 }
             }
         }
@@ -121,8 +124,8 @@ namespace AATool.Data.Objectives.Complex
 
             //only one of the two thunder-related advancements are complete
             return this.vvfDone
-                ? "Surge\0Prot\nIncomplete"
-                : "VVF\nIncomplete";
+                ? "Still\0Needs\nSurge\0Prot"
+                : "Still\0Needs\nVVF";
         }
 
         protected override string GetShortStatus()
@@ -154,7 +157,10 @@ namespace AATool.Data.Objectives.Complex
                     : "trident";
             }
 
-            if (this.vvfDone && (this.surgeDone || this.ignoreSurge))
+            if (this.vvfDone && !this.surgeDone && !this.ignoreSurge)
+                return "lightning_rod";
+
+            if (this.obtained)
                 return "enchanted_trident";
 
             return "trident";

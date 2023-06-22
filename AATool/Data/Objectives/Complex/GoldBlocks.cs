@@ -44,6 +44,8 @@ namespace AATool.Data.Objectives.Complex
             this.CanBeManuallyChecked = this.estimatedBlocks < Required && !this.fullBeaconComplete;
             if (this.ManuallyChecked)
                 this.CompletionOverride = true;
+
+            this.Partial = !this.fullBeaconComplete;
         }
 
         public static int GetPreciseEstimate(ProgressState progress)
@@ -98,16 +100,21 @@ namespace AATool.Data.Objectives.Complex
             if (this.ManuallyChecked)
                 return $"All\0Gold\nCollected";
 
-            if (this.estimatedBlocks >= Required)   
-                return $"Gold\0Done\n{this.estimatedBlocks}\0/\0{Required}";
-            
             if (this.estimatedBlocks > 0)
                 return $"Gold\0Estimate\n{this.estimatedBlocks}\0/\0{Required}";
 
             return $"Gold\0Blocks\n0\0/\0{Required}";  
         }
 
-        protected override string GetCurrentIcon() => 
-            UseModernTexture ? "gold_blocks" : "gold_block_1.12";
+        protected override string GetCurrentIcon()
+        {
+            if (this.fullBeaconComplete)
+                return "beacon";
+
+            return UseModernTexture 
+                ? "gold_blocks" 
+                : "gold_block_1.12";
+        }
+            
     }
 }

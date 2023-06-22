@@ -34,7 +34,14 @@ namespace AATool.Data.Objectives.Complex
             this.CompletionOverride |= this.conduitCrafted || this.conduitPlaced;
 
             if (Tracker.Category is not AllBlocks)
+            {
                 this.CompletionOverride |= this.hdwghComplete;
+                this.Partial = !this.hdwghComplete;
+            }
+            else
+            {
+                this.Partial = !this.conduitPlaced;
+            }
         }
 
         protected override void ClearAdvancedState()
@@ -73,9 +80,19 @@ namespace AATool.Data.Objectives.Complex
         protected override string GetCurrentIcon()
         {
             if (Tracker.Category is not AllBlocks)
-                return "nautilus_shell";
+            {
+                if (this.hdwghComplete)
+                    return "all_effects";
+                if (this.conduitPlaced)
+                    return "conduit_placed";
+            }
+            else
+            {
+                if (this.conduitPlaced)
+                    return "conduit";
+            }
 
-            return this.conduitCrafted || this.conduitPlaced
+            return this.conduitCrafted 
                 ? "conduit"
                 : "nautilus_shell";
         }

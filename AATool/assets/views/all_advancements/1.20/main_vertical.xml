@@ -51,11 +51,11 @@
 
             <!-- overworld pickup counts -->
             <flow_panel row="0" col="4" rowspan="2" direction="toptobottom">
-                <objective_frame complex="Egap"/>
                 <objective_frame complex="Trident"/>
                 <objective_frame complex="NautilusShells"/>
+                <objective_frame complex="Sniffers"/>
                 <objective_frame complex="WitherSkulls"/>
-                <objective_frame complex="AncientDebris"/>
+                <objective_frame complex="GoldBlocks"/>
             </flow_panel>
 
             <!-- info panel -->

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Xml;
 using AATool.Configuration;
@@ -27,14 +28,16 @@ namespace AATool.UI.Controls
             { FrameType.Challenge,  "frame_mc_challenge_incomplete"},
             { FrameType.Statistic,  "frame_mc_statistic_incomplete"},
         };
-        private static Color ActiveTint = Color.White;
-        private static Color InactiveTint = Color.Gray * 0.25f;
-        private static Color InactiveIconTint = ColorHelper.Fade(Color.DarkGray, 0.25f);
+        protected static Color ActiveTint = Color.White;
+        protected static Color InactiveTint = Color.Gray * 0.25f;
+        protected static Color InactiveIconTint = ColorHelper.Fade(Color.DarkGray, 0.25f);
 
         public bool IsActive { get; private set; }
         public float OverlayCoverPosition { get; set; }
 
         public int Scale { get; protected set; }
+
+        protected virtual float GlowLerpSpeed => 10f;
 
         public UIControl Frame { get; protected set; }
         public UIPicture Icon { get; protected set; }
@@ -51,7 +54,7 @@ namespace AATool.UI.Controls
         private string completeFrame;
         private string incompleteFrame;
         private bool onMainScreen;
-
+        private float edgeGlow;
         public Point IconCenter => this.Icon.Center;
 
         public UIObjectiveFrame() : base()
@@ -229,6 +232,11 @@ namespace AATool.UI.Controls
 
         private void UpdateAppearance(bool forceUpdate = false)
         {
+            if (this.onMainScreen && this.Objective?.Partial is false)  
+                this.Glow.Expand();
+            else if (Config.Main.FrameStyle == "Modern")
+                this.Glow?.Collapse();
+
             if (this.onMainScreen)
             {
                 this.Label?.SetTextColor(this.IsActive ? Config.Main.TextColor : Config.Main.TextColor.Value * 0.6f);
@@ -283,7 +291,7 @@ namespace AATool.UI.Controls
             {
                 if (Math.Abs(current - target) > 0.01f && this.onMainScreen)
                     UIMainScreen.Invalidate();
-                float smoothed = MathHelper.Lerp(this.Glow.Brightness, target, (float)(10 * time.Delta));
+                float smoothed = MathHelper.Lerp(this.Glow.Brightness, target, (float)(this.GlowLerpSpeed * time.Delta));
                 this.Glow.LerpToBrightness(smoothed);
             }
             else
@@ -419,12 +427,21 @@ namespace AATool.UI.Controls
                         canvas.Draw("frame_modern_border", this.Frame.Bounds, InactiveIconTint, this.Layer);
                     }
                     break;
-                default: 
+                default:
                     canvas.Draw("frame_modern_back", this.Frame.Bounds, this.Root().FrameBackColor() * opacity, this.Layer);
                     if (this.IsActive)
                     {
                         Color faded = ColorHelper.Fade(Color.White, this.Glow.Brightness);
-                        canvas.Draw("frame_modern_back_complete", this.Frame.Bounds, faded, this.Layer);
+                        if (this.Objective.Partial && this.ObjectiveCompleted)
+                        {
+                            if (this.onMainScreen)
+                                canvas.Draw("frame_modern_back_complete", this.Frame.Bounds, ColorHelper.Fade(Color.White, 0.15f), this.Layer);
+                            canvas.Draw("frame_modern_back_partial", this.Frame.Bounds, faded, this.Layer);
+                        }
+                        else
+                        { 
+                            canvas.Draw("frame_modern_back_complete", this.Frame.Bounds, faded, this.Layer);
+                        }
                         canvas.Draw("frame_modern_border", this.Frame.Bounds, this.Root().FrameBorderColor(), this.Layer);
                         canvas.Draw("frame_modern_border_complete", this.Frame.Bounds, faded, this.Layer);
                     }

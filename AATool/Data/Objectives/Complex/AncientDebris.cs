@@ -73,6 +73,8 @@ namespace AATool.Data.Objectives.Complex
             this.CanBeManuallyChecked = !this.CompletionOverride;
             if (this.ManuallyChecked)
                 this.CompletionOverride = true;
+
+            this.Partial = !this.AllNetheriteAdvancementsComplete;
         }
 
         protected override void ClearAdvancedState()
@@ -122,8 +124,8 @@ namespace AATool.Data.Objectives.Complex
             if (Tracker.Category is AllBlocks)
                 return "netherite_block";
 
-            if (Config.Main.UseOptimizedLayout)
-                return "obtain_ancient_debris";
+            //if (Config.Main.UseOptimizedLayout)
+            //    return "obtain_ancient_debris";
 
             return this.AllNetheriteAdvancementsComplete
                 ? "supporter_netherite" 

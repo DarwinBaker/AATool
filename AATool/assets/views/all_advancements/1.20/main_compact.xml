@@ -44,11 +44,11 @@
 
         <!-- item count display (trident, shells, skulls etc.) -->
         <flow_panel name="counts" col="2" cell_width="68" cell_height="68" direction="toptobottom">
-            <objective_frame complex="Egap"/>
             <objective_frame complex="Trident"/>
             <objective_frame complex="NautilusShells"/>
+            <objective_frame complex="Sniffers"/>
             <objective_frame complex="WitherSkulls"/>
-            <objective_frame complex="AncientDebris"/>
+            <objective_frame complex="GoldBlocks"/>
         </flow_panel>
 
         <!-- status strip -->
