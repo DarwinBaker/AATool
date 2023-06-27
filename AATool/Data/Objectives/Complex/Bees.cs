@@ -141,7 +141,9 @@ namespace AATool.Data.Objectives.Complex
 
             this.BuildRemainingObjectiveList();
 
-            this.CompletionOverride = this.doneWithBees = !this.remainingObjectives.Any();
+            this.doneWithBees = !this.remainingObjectives.Any();
+            this.Partial = !this.doneWithBees;
+            this.CompletionOverride = this.doneWithBees || this.estimatedPlaced > 0;
         }
 
         private void BuildRemainingObjectiveList()
