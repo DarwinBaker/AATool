@@ -791,7 +791,7 @@
         <oak_pressure_plate name="Oak&#xA;Pressure Plate" icon="oak_pressure_plate"/>
         <oak_button name="Oak&#xA;Button" icon="oak_button"/>
         <oak_sign name="Oak&#xA;Sign" icon="oak_sign"/>
-        <oak_hanging_hanging_sign name="Oak&#xA;Hanging&#xA;Sign" icon="oak_hanging_sign"/>
+        <oak_hanging_sign name="Oak&#xA;Hanging&#xA;Sign" icon="oak_hanging_sign"/>
         <spruce_log name="Spruce&#xA;Log" icon="spruce_log"/>
         <spruce_wood name="Spruce&#xA;Wood" icon="spruce_wood"/>
         <stripped_spruce_log name="Stripped&#xA;Spruce Log" icon="stripped_spruce_log"/>
