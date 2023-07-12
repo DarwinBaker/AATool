@@ -100,6 +100,7 @@ namespace AATool
         public static class Saves
         {
             public const string AppDataShortcut = "%AppData%\\Roaming";
+            private static readonly string AppDataFolderPath = GetFolderPath(SpecialFolder.ApplicationData);
 
             public static string CurrentFolder()
             {
@@ -107,7 +108,7 @@ namespace AATool
                     return System.SftpWorldsFolder;
 
                 return Tracker.Source is TrackerSource.CustomSavesPath
-                    ? Config.Tracking.CustomSavesPath.Value.Replace(AppDataShortcut, GetFolderPath(SpecialFolder.ApplicationData))
+                    ? Config.Tracking.CustomSavesPath.Value.Replace(AppDataShortcut, AppDataFolderPath)
                     : ActiveInstance.SavesPath;
             }
 
