@@ -34,7 +34,8 @@ namespace AATool.Winforms.Controls
             this.alwaysOnTop = new System.Windows.Forms.CheckBox();
             this.configureAutoSwitch = new System.Windows.Forms.Button();
             this.hideCompletedCriteria = new System.Windows.Forms.CheckBox();
-            this.highRes = new System.Windows.Forms.CheckBox();
+            this.highResLabel = new System.Windows.Forms.Label();
+            this.highRes = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.infoPanel = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -80,7 +81,7 @@ namespace AATool.Winforms.Controls
             // notesEnabled
             // 
             this.notesEnabled.AutoSize = true;
-            this.notesEnabled.Location = new System.Drawing.Point(8, 190);
+            this.notesEnabled.Location = new System.Drawing.Point(9, 165);
             this.notesEnabled.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.notesEnabled.Name = "notesEnabled";
             this.notesEnabled.Size = new System.Drawing.Size(126, 17);
@@ -94,6 +95,7 @@ namespace AATool.Winforms.Controls
             this.mainGroupMain.Controls.Add(this.alwaysOnTop);
             this.mainGroupMain.Controls.Add(this.configureAutoSwitch);
             this.mainGroupMain.Controls.Add(this.hideCompletedCriteria);
+            this.mainGroupMain.Controls.Add(this.highResLabel);
             this.mainGroupMain.Controls.Add(this.highRes);
             this.mainGroupMain.Controls.Add(this.label3);
             this.mainGroupMain.Controls.Add(this.infoPanel);
@@ -113,7 +115,7 @@ namespace AATool.Winforms.Controls
             // alwaysOnTop
             // 
             this.alwaysOnTop.AutoSize = true;
-            this.alwaysOnTop.Location = new System.Drawing.Point(8, 165);
+            this.alwaysOnTop.Location = new System.Drawing.Point(9, 140);
             this.alwaysOnTop.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.alwaysOnTop.Name = "alwaysOnTop";
             this.alwaysOnTop.Size = new System.Drawing.Size(98, 17);
@@ -143,18 +145,30 @@ namespace AATool.Winforms.Controls
             this.hideCompletedCriteria.Text = "Hide Completed Criteria";
             this.hideCompletedCriteria.UseVisualStyleBackColor = true;
             this.hideCompletedCriteria.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
-            // 
+
+            //
+            // highResLabel
+            //
+
+            this.highResLabel.AutoSize = true;
+            this.highResLabel.Location = new System.Drawing.Point(191, 22);
+            this.highResLabel.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.highResLabel.Name = "highResLabel";
+            this.highResLabel.Size = new System.Drawing.Size(54, 13);
+            this.highResLabel.TabIndex = 49;
+            this.highResLabel.Text = "Zoom:";
+
+            //
             // highRes
             // 
-            this.highRes.AutoSize = true;
-            this.highRes.Location = new System.Drawing.Point(8, 140);
-            this.highRes.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
+            this.highRes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.highRes.FormattingEnabled = true;
+            this.highRes.Location = new System.Drawing.Point(191, 38);
             this.highRes.Name = "highRes";
-            this.highRes.Size = new System.Drawing.Size(133, 17);
+            this.highRes.Size = new System.Drawing.Size(54, 17);
             this.highRes.TabIndex = 38;
-            this.highRes.Text = "Hi-Res Display Scaling";
-            this.highRes.UseVisualStyleBackColor = true;
-            this.highRes.CheckedChanged += new System.EventHandler(this.OnCheckChanged);
+            this.highRes.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
+
             // 
             // label3
             // 
@@ -183,7 +197,7 @@ namespace AATool.Winforms.Controls
             // 
             this.label12.AutoSize = true;
             this.label12.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.label12.Location = new System.Drawing.Point(4, 208);
+            this.label12.Location = new System.Drawing.Point(5, 181);
             this.label12.Margin = new System.Windows.Forms.Padding(0, 0, 3, 10);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(221, 13);
@@ -643,7 +657,8 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.ComboBox progressBarStyle;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox infoPanel;
-        private System.Windows.Forms.CheckBox highRes;
+        private System.Windows.Forms.Label highResLabel;
+        private System.Windows.Forms.ComboBox highRes;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.ComboBox startupPosition;

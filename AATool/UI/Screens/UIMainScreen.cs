@@ -297,7 +297,9 @@ namespace AATool.UI.Screens
                 RenderCache?.Dispose();
                 RenderCache = new RenderTarget2D(this.GraphicsDevice, width, height);
             }
-            this.Form.ClientSize = new System.Drawing.Size(width * Config.Main.DisplayScale, height * Config.Main.DisplayScale);
+            int clientWidth = Convert.ToInt32(Convert.ToDouble(width) * Config.Main.DisplayScale);
+            int clientHeight = Convert.ToInt32(Convert.ToDouble(height) * Config.Main.DisplayScale);
+            this.Form.ClientSize = new System.Drawing.Size(clientWidth, clientHeight);
 
             //snap window to user's preferred location
             if (!this.Positioned || Config.Main.StartupArrangement.Changed || Config.Main.StartupDisplay.Changed)
