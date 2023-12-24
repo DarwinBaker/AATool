@@ -6,7 +6,7 @@
 ![](info/preview_overlay.gif)
 
 ## What is AATool?
-AATool is a standalone program capable of tracking the advancements, statistics, and blocks of one or more players, either on a local world or on a server over the internet. Multiple players can even network their trackers together into a co-op lobby for coordinated multi-player speedruns. It supports all version of Minecraft from 1.19 all the way back to 1.11. Several different speedrun categories are supported, each with their own specially designed interface, including All Advancements, All Blocks, Half Percent, All Deaths, and more. The tracker itself is highly customizable, and countless hours have gone into designing it to be both very pleasing to look at, and as legible/intuitive as possible.
+AATool is a standalone program capable of tracking the advancements, statistics, and blocks of one or more players, either on a local world or on a server over the internet. Multiple players can even network their trackers together into a co-op lobby for coordinated multi-player speedruns. It supports all version of Minecraft from 1.20 all the way back to 1.11. Several different speedrun categories are supported, each with their own specially designed interface, including All Advancements, All Blocks, Half Percent, All Deaths, and more. The tracker itself is highly customizable, and countless hours have gone into designing it to be both very pleasing to look at, and as legible/intuitive as possible.
 
 AATool is used by countless professional speedrunners. It includes a built-in leaderboard system complete with up-to-date world records, player ranks & badges, and a whole community tab dedicated to the most skilled Minecraft players in the world and the incredible challenges they have accomplished! 
 
