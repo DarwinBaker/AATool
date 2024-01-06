@@ -115,7 +115,7 @@ namespace AATool.Utilities
                 Debug.EndTiming("get_active_instance");
 
                 //verify that process is an instance of minecraft 
-                if (active.ProcessName is "javaw" && active.MainWindowTitle.StartsWith("Minecraft"))
+                if (active.ProcessName.StartsWith("java") && active.MainWindowTitle.StartsWith("Minecraft"))
                     instance = active;
             }
             catch
