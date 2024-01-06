@@ -48,7 +48,7 @@ namespace AATool.Net
             if (IdCache.TryGetValue(name, out Uuid id))
                 return id;
 
-            using (HttpClient client = new() { Timeout = TimeSpan.FromMilliseconds(Protocol.Requests.TimeoutMs) })
+            using (HttpClient client = new() { Timeout = TimeSpan.FromMilliseconds(Protocol.Requests.TimeoutNormalMs) })
             {
                 try
                 {

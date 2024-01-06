@@ -7,7 +7,7 @@
         </rows>
         <panel row="0">
             <panel padding="8" draw_mode="childrenonly">
-                <button name="show_multiboard" global="true" border_thickness="3" text="MCSR Community" font_size="24" padding_top="-1"/>
+                <button name="show_community" global="true" border_thickness="3" text="MCSR Community" font_size="24" padding_top="-1"/>
             </panel>
             <textblock collapsed="true" name="title" font_size="24" horizontal_align="center" vertical_align="top" margin_top="4"/>
         </panel>

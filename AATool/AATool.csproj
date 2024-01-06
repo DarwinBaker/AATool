@@ -167,6 +167,10 @@
     <Compile Include="Data\Objectives\Complex\EGap.cs" />
     <Compile Include="Data\Objectives\Complex\Trident.cs" />
     <Compile Include="Data\Objectives\Complex\WitherSkulls.cs" />
+    <Compile Include="Data\Speedrunning\HardcoreStreak.cs" />
+    <Compile Include="Data\Speedrunning\LeaderboardSrcJson.cs" />
+    <Compile Include="Data\Speedrunning\AllVersionsRun.cs" />
+    <Compile Include="Data\Speedrunning\RunnerProfile.cs" />
     <Compile Include="Data\Speedrunning\StrongholdRing.cs" />
     <Compile Include="Data\Progress\Completion.cs" />
     <Compile Include="Data\Progress\NetworkContribution.cs" />
@@ -179,6 +183,7 @@
     <Compile Include="Data\Speedrunning\LeaderboardSheet.cs" />
     <Compile Include="Data\Speedrunning\Spreadsheet.cs" />
     <Compile Include="Data\Progress\Timeline.cs" />
+    <Compile Include="Data\SupporterSheet.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Exceptions\InvalidPathException.cs" />
     <Compile Include="Exceptions\NoSavesFolderException.cs" />
@@ -190,8 +195,10 @@
     <Compile Include="Net\Lobby.cs" />
     <Compile Include="Net\OpenTracker.cs" />
     <Compile Include="Net\PeerStatic.cs" />
+    <Compile Include="Net\Requests\SrcLeaderboardRequest.cs" />
     <Compile Include="Net\Requests\AASsgRequest.cs" />
     <Compile Include="Net\Requests\AnyRsgRequest.cs" />
+    <Compile Include="Net\Requests\SrcProfileRequest.cs" />
     <Compile Include="Net\Requests\UuidRequest.cs" />
     <Compile Include="Net\Requests\SpreadsheetRequest.cs" />
     <Compile Include="Net\Requests\UpdateRequest.cs" />
@@ -230,7 +237,8 @@
     <Compile Include="Tracker.cs" />
     <Compile Include="UI\Badges\Badge.cs" />
     <Compile Include="UI\Badges\HundredHardcoreBadge.cs" />
-    <Compile Include="UI\Badges\MostRecordsBadge.cs" />
+    <Compile Include="UI\Badges\MostConsecutiveRecordsBadge.cs" />
+    <Compile Include="UI\Badges\MostConcurrentRecordsBadge.cs" />
     <Compile Include="UI\Badges\DeveloperBadge.cs" />
     <Compile Include="UI\Badges\SquareBadge.cs" />
     <Compile Include="UI\Badges\ModBadge.cs" />
@@ -242,7 +250,12 @@
     <Compile Include="UI\Badges\HundredThousandBadge.cs" />
     <Compile Include="UI\Badges\HalfHeartHardcoreBadge.cs" />
     <Compile Include="UI\Controls\UIArmorTrimCriterion.cs" />
+    <Compile Include="UI\Controls\UICommunityTabs.cs" />
     <Compile Include="UI\Controls\UICoordinateGrid.cs" />
+    <Compile Include="UI\Controls\UIHundredThousandGrid.cs" />
+    <Compile Include="UI\Controls\UILeaderboardHardcoreChallenge.cs" />
+    <Compile Include="UI\Controls\UILeaderboardHalfHeartHardcore.cs" />
+    <Compile Include="UI\Controls\UILeaderboardSpeedrunDotCom.cs" />
     <Compile Include="UI\Controls\UIObjectiveControl.cs" />
     <Compile Include="UI\Controls\UIAchievementTree.cs" />
     <Compile Include="UI\Controls\UIAllayTrack.cs" />
@@ -254,10 +267,23 @@
     <Compile Include="UI\Controls\UICarouselCover.cs" />
     <Compile Include="UI\Controls\UIDayNightCycle.cs" />
     <Compile Include="UI\Controls\UIObjectiveTray.cs" />
+    <Compile Include="UI\Controls\UIPersonalBestHardcoreChallenge.cs" />
     <Compile Include="UI\Controls\UIPinnedObjectiveFrame.cs" />
     <Compile Include="UI\Controls\UIPinnedRow.cs" />
+    <Compile Include="UI\Controls\UIRecordHolder.cs" />
+    <Compile Include="UI\Controls\UIRecordHolderHalfHeartHardcore.cs" />
+    <Compile Include="UI\Controls\UIRecordHolderMostAnyPercent.cs" />
+    <Compile Include="UI\Controls\UIRecordHolderSetSeed.cs" />
+    <Compile Include="UI\Controls\UIRecordHolderMostConsecutive.cs" />
+    <Compile Include="UI\Controls\UIRecordHolderMostConcurrent.cs" />
+    <Compile Include="UI\Controls\UIRecordHolderSpeedrunDotCom.cs" />
+    <Compile Include="UI\Controls\UIRecordsAllBlocks.cs" />
+    <Compile Include="UI\Controls\UIRunnerProfile.cs" />
+    <Compile Include="UI\Controls\UISlider.cs" />
     <Compile Include="UI\Controls\UIStrongholdMap.cs" />
     <Compile Include="UI\Controls\UIRunOverview.cs" />
+    <Compile Include="UI\Controls\UISupporterAvatar.cs" />
+    <Compile Include="UI\Controls\UISupporterList.cs" />
     <Compile Include="UI\Controls\UITextInput.cs" />
     <Compile Include="UI\Controls\UIObjectiveFrame.cs" />
     <Compile Include="UI\Controls\UIGlowEffect.cs" />
@@ -2879,7 +2905,28 @@
     <Content Include="assets\sprites\global\badges\glow\badge_rank_diamond_glow~1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\badges\legendary\badge_100k.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\legendary\badge_10k.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\legendary\badge_1k.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\legendary\badge_hc_silver.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\legendary\badge_hc_bronze.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\badges\legendary\badge_2k_text.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\legendary\badge_large_silver_glow~1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\badges\legendary\badge_most_records_wide.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\badges\player_frames\player_frame_netherite.png">
@@ -3050,10 +3097,10 @@
     <Content Include="assets\sprites\global\badges\legendary\badge_hhhaa_text.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\legendary\badge_100hc_text.png">
+    <Content Include="assets\sprites\global\badges\legendary\badge_hc_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\badges\legendary\badge_100hc.png">
+    <Content Include="assets\sprites\global\badges\legendary\badge_hc_gold.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\badges\legendary\badge_1k_moleyg.png">
@@ -3449,22 +3496,76 @@
     <Content Include="assets\sprites\global\gui\frames\flags\frame_flag_transgender.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\gui\frames\minecraft\frame_mc_challenge_complete^52.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\frames\minecraft\frame_mc_goal_complete^52.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\frames\minecraft\frame_mc_normal_complete^52.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\frames\minecraft\frame_mc_statistic_complete^52.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\gui\frames\modern\frame_modern_back_partial^52.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\frames\modern\frame_modern_back_partial^78.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\gui\grid\grid_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\gui\icons\day_night_arrow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\gui\icons\100k_arrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\patreon_large.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\paypal_large.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\gui\icons\patreon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\slider_grip_horizontal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\slider_track_right.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\slider_track_left.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\slider_track_bottom.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\slider_grip_vertical.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\hc_completion.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\icons\smithing_unapplied.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\icons\smithing_applied.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\open_link.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\twitch_vod.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\slider_track_top.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\youtube_vod.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\moon\moon_1.png">
@@ -7154,6 +7255,57 @@
     <Content Include="assets\templates\control_armor_trim_criterion.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\templates\control_community_tabs.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_leaderboard_hardcorechallenge.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_leaderboard_halfhearthardcore.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_leaderboard_speedrundotcom.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_personal_best_hardcorechallenge.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_hundred_thousand_grid.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_record_holder_speedrun_dot_com.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_record_holder_most_any_percent.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_records_all_blocks.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_record_holder_set_seed.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_record_holder_half_heart_hardcore.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_record_holder_most_concurrent.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_record_holder_most_consecutive.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_record_holder.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_runner_profile.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_supporter_avatar.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\templates\control_record_graph.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\templates\control_run_overview.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -7289,7 +7441,22 @@
     <Content Include="assets\views\all_smithing_templates\overlay.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\views\other\multiboard.xml">
+    <Content Include="assets\views\other\challenges.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\other\any_percent_rankings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\other\aa_rankings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\other\mcsr_overview.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\other\runner_profile.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\views\other\multiboard2.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\other\timeline.xml">
@@ -7298,7 +7465,7 @@
     <Content Include="assets\views\other\runners_aa_1.16.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\views\other\primary_version.xml">
+    <Content Include="assets\views\other\record_graph.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\views\half_percent\1.16\main_compact.xml">
@@ -9195,25 +9362,25 @@
     <Content Include="assets\sprites\global\gui\progress_bars\experience\bar_experience_inactive_right.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\frames\minecraft\frame_mc_challenge_complete.png">
+    <Content Include="assets\sprites\global\gui\frames\minecraft\frame_mc_challenge_complete^78.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\frames\minecraft\frame_mc_challenge_incomplete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\frames\minecraft\frame_mc_statistic_complete.png">
+    <Content Include="assets\sprites\global\gui\frames\minecraft\frame_mc_statistic_complete^78.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\frames\minecraft\frame_mc_statistic_incomplete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\frames\minecraft\frame_mc_goal_complete.png">
+    <Content Include="assets\sprites\global\gui\frames\minecraft\frame_mc_goal_complete^78.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\frames\minecraft\frame_mc_goal_incomplete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\sprites\global\gui\frames\minecraft\frame_mc_normal_complete.png">
+    <Content Include="assets\sprites\global\gui\frames\minecraft\frame_mc_normal_complete^78.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\frames\minecraft_panel_dark.png">
@@ -9559,9 +9726,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\supporters\supporter_emerald.png" />
-    <Content Include="assets\views\overview\relaxed.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\supporters\supporter_dedication.png" />
     <Content Include="Resources\supporters\supporter_beta.gif" />
     <Content Include="Resources\supporters\supporter_patreon_gold.png" />

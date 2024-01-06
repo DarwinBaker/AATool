@@ -4,25 +4,25 @@ using Microsoft.Xna.Framework;
 
 namespace AATool.UI.Badges
 {
-    class MostRecordsBadge : Badge
+    class MostConcurrentRecordsBadge : Badge
     {
-        public override string GetListName => "Most AA Records";
+        public override string GetListName => "Concurrent WRs";
 
-        public MostRecordsBadge()
+        public MostConcurrentRecordsBadge()
         {
             this.FlexWidth = new (32);
             this.FlexHeight = new (15);
-            this.Margin = new Margin(-9, -0, -7, 0);
+            this.Margin = new Margin(-8, -0, -7, 0);
 
             this.PopupBackColor = RankBadge.PopupGoldBack;
             this.PopupBorderColor = RankBadge.PopupGoldBorder;
             this.PopupTextColor = RankBadge.PopupGoldText;
 
             string versionList = string.Empty;
-            for (int i = 0; i < Leaderboard.ListOfMostRecords.Count; i++)
+            for (int i = 0; i < Leaderboard.ListOfMostConcurrentRecords.Count; i++)
             {
-                versionList += Leaderboard.ListOfMostRecords[i].GameVersion;
-                if (i < Leaderboard.ListOfMostRecords.Count - 1)
+                versionList += Leaderboard.ListOfMostConcurrentRecords[i].GameVersion;
+                if (i < Leaderboard.ListOfMostConcurrentRecords.Count - 1)
                     versionList += ", ";
             }
 
@@ -36,7 +36,7 @@ namespace AATool.UI.Badges
             var label = new UITextBlock() {
                 Layer = Layer.Fore,
             };
-            label.SetText($"{Leaderboard.ListOfMostRecords.Count}xWR");
+            label.SetText($"{Leaderboard.ListOfMostConcurrentRecords.Count}xWR");
             label.SetTextColor(Color.White);
             this.AddControl(label);
         }

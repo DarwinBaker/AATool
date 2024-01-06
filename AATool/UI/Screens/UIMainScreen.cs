@@ -9,6 +9,7 @@ using AATool.Configuration;
 using AATool.Data.Categories;
 using AATool.Data.Objectives;
 using AATool.Data.Objectives.Complex;
+using AATool.Data.Speedrunning;
 using AATool.Graphics;
 using AATool.Net;
 using AATool.Net.Requests;
@@ -25,8 +26,18 @@ namespace AATool.UI.Screens
     {
         public const string TrackerTab = "tracker";
         public const string HelpTab = "help";
-        public const string MultiboardTab = "multiboard";
-        public const string RunnersTab = "runners_1.16";
+
+        //public const string MultiboardTab = "multiboard";
+
+        public const string OverviewTab = "mcsr_overview";
+        public const string RunnerProfileTab = "runner_profile";
+        public const string RecordGraphTab = "record_graph";
+        public const string AARankingsTab = "aa_rankings";
+        public const string AnyPercentRankingsTab = "any_percent_rankings";
+        public const string ChallengesTab = "challenges";
+        public const string ExtensionsTab = "extensions";
+
+        //public const string RunnersTab = "runners_1.16";
 
         public static string ActiveTab { get; private set; } = TrackerTab;
         public static RenderTarget2D RenderCache { get; private set; }
@@ -55,6 +66,9 @@ namespace AATool.UI.Screens
         private UIControl complexOverworld;
         private UIControl complexNether;
 
+        private UIButton supportPatreon;
+        private UIButton supportPaypal;
+
         private readonly List<UIPicture> labelTintedIcons = new ();
 
         private int logOffset;
@@ -63,6 +77,8 @@ namespace AATool.UI.Screens
         private int activeRequests;
         private int completedRequests;
         private int timedOutRequests;
+
+        private static string LastCommunityTab;
 
         public bool DimScreen => this.blockGrid?.DimScreen is true;
         public override Color FrameBackColor() => Config.Main.BackColor;
@@ -143,6 +159,8 @@ namespace AATool.UI.Screens
 
             //return Path.Combine(Paths.System.ViewsFolder, "other", "primary_version.xml");
 
+            //return Path.Combine(Paths.System.ViewsFolder, "other", $"timeline.xml");
+
             if (ActiveTab is HelpTab)
                 return Path.Combine(Paths.System.ViewsFolder, view, version, $"help.xml");
 
@@ -197,6 +215,11 @@ namespace AATool.UI.Screens
             this.TryGetFirst(out this.complexOverworld, "complex_overworld");
             this.TryGetFirst(out this.complexNether, "complex_nether");
 
+            if (this.TryGetFirst(out this.supportPatreon, "support_patreon"))
+                this.supportPatreon.OnClick += this.Click;
+            if (this.TryGetFirst(out this.supportPaypal, "support_paypal"))
+                this.supportPaypal.OnClick += this.Click;
+
             this.logLines = -1;
 
             if (Tracker.Category is AllBlocks)
@@ -209,13 +232,14 @@ namespace AATool.UI.Screens
         {
             base.ResizeRecursive(rectangle);
             this.UpdateCollapsedStates(true);
-
+            /*
             if (ActiveTab is MultiboardTab)
             {
                 //this.First<UIPicture>("main_player_avatar")?.SetTexture(Tracker.GetMainPlayer().ToString().Replace("-", ""));
                 this.Root().First<UIAvatar>("100hc_avatar")?.SetBadge(new HundredHardcoreBadge());
                 this.Root().First<UIAvatar>("hhhaa_avatar")?.SetBadge(new HalfHeartHardcoreBadge());
             }
+            */
         }
 
         private void UpdateShortcuts()
@@ -350,21 +374,54 @@ namespace AATool.UI.Screens
                 else if (Tracker.TryGetDeath(id, out Death death))
                     death.ToggleManualCheck();
             }
+            else if (sender == this.supportPatreon)
+            {
+                Process.Start(Paths.Web.PatreonFull);
+            }
+            else if (sender == this.supportPaypal)
+            {
+                Process.Start(Paths.Web.PayPal);
+            }
+            else if (sender.Name == "show_community")
+            {
+                SetActiveTab(LastCommunityTab ?? "mcsr_overview");
+            }
             else if (sender.Name.StartsWith("show_"))
             {
-                ActiveTab = sender.Name.Replace("show_", "");
-                if (ActiveTab == MultiboardTab)
-                {
-                    new AnyPercentRecordRequest(true).EnqueueOnce();
-                    new AnyPercentRecordRequest(false).EnqueueOnce();
-                    new AASsgRequest().EnqueueOnce();
-                }
-                ForceLayoutRefresh();
+                SetActiveTab(sender.Name.Replace("show_", ""));
             }
             else if (sender.Name.StartsWith("https://"))
             {
                 Process.Start(sender.Name);
             }
+        }
+
+        public static void SetActiveTab(string tab)
+        {
+            //if (tab is AARankingsTab)
+                //new SpreadsheetRequest("history_aa_1.16", Paths.Web.AASheet, Paths.Web.PrimaryAAHistory).EnqueueOnce();
+
+            ActiveTab = tab;
+            if (ActiveTab is not (TrackerTab or HelpTab))
+            { 
+                Leaderboard.TryLoadCachedHistory();
+                LastCommunityTab = ActiveTab;
+            }
+
+            if (ActiveTab is OverviewTab or AnyPercentRankingsTab)
+            {
+                //new AnyPercentRecordRequest(true).EnqueueOnce();
+                //new AnyPercentRecordRequest(false).EnqueueOnce();
+            }
+            if (ActiveTab is OverviewTab)
+            {
+                //new AASsgRequest().EnqueueOnce();
+            }
+            if (ActiveTab is ChallengesTab or RunnerProfileTab)
+            {
+                new SpreadsheetRequest("Challenges", Paths.Web.ABSheet, Paths.Web.ABPageChallenges).EnqueueOnce();
+            }
+            ForceLayoutRefresh();
         }
 
         private void UpdateLog()

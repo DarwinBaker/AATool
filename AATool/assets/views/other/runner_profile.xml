@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <rows>
+            <row height="60"/>
+            <row height="8"/>
+            <row height="60"/>
+            <row height="700"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="260"/>
+            <column width="130"/>
+            <column width="1320"/>
+        </columns>
+
+        <!-- tabs -->
+        <community_tabs row="0" col="1" colspan="4"/>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <panel row="2" col="1" colspan="2">
+            <panel draw_mode="childrenonly" padding="19,10,0,0">
+                <text_input name="runner_search" font_size="36" height="40" border_thickness="3">
+                    <!-- <picture name="block_search_shortcut" layer="fore" texture="ctrl+f" width="64" height="24"/> -->
+                </text_input>
+            </panel>
+            <!-- <text_block name="runner_name" font_size="36" padding_top="10"/> -->
+            <panel border_thickness="8" inner_corners="false" width="10" horizontal_align="left"/>            
+        </panel>
+
+        <panel row="3" col="1">
+            <runner_profile/>
+            <panel border_thickness="8" inner_corners="false" height="8" vertical_align="top"/>
+            <panel border_thickness="8" inner_corners="false" width="10" horizontal_align="left"/>
+        </panel>
+
+        <panel row="1" col="2" border_thickness="8" inner_corners="false"/>
+
+        <panel row="2" col="3">
+            <text_block name="runner_graph_title" text="1.16 All Advancements Progression" font_size="36" padding_top="10"/>
+            <panel border_thickness="8" inner_corners="false" width="8" horizontal_align="left"/>
+            <panel border_thickness="8" inner_corners="false" width="8" horizontal_align="right"/>
+        </panel>
+
+        <!-- graph -->
+        <panel row="3" col="2" colspan="2">
+            <hundred_thousand_grid draw_mode="none" padding="11"/>
+            <panel border_thickness="8" inner_corners="false" height="8" vertical_align="top"/>
+        </panel>
+        <record_graph row="3" col="2" colspan="2" runner_mode="true"/>
+    
+</grid>
+
+</control>

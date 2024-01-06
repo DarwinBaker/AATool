@@ -107,7 +107,7 @@ namespace AATool.UI.Controls
             this.Shown = DateTime.Now > Config.Tracking.LastOpenedAllBlocks.Value.AddDays(DaysBetweenReminders);
             if (Credits.TryGet(Tracker.GetMainPlayer(), out Credit supporter))
             {
-                if (supporter.Role is Credits.NetheriteTier)
+                if (supporter.HighestRole is Credits.NetheriteTier)
                     this.Shown = Config.Tracking.LastOpenedAllBlocks == DateTime.MinValue;
             }
             this.First<UIGrid>()?.Collapse();
@@ -160,7 +160,7 @@ namespace AATool.UI.Controls
                     if (!Credits.TryGet(currentPlayer, out Credit supporter))
                         Credits.TryGet(name, out supporter);
 
-                    string role = supporter.Role;
+                    string role = supporter.HighestRole;
                     this.panelButtonsPromo.SetVisibility(role is not Credits.NetheriteTier);
                     this.panelButtonsThanks.SetVisibility(role is Credits.NetheriteTier);
 

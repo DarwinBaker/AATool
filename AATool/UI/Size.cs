@@ -57,32 +57,28 @@ namespace AATool.UI
             if (string.IsNullOrEmpty(code))
                 return Zero;
 
-            string[] tokens = code.Split(' ');
-            return tokens.Length is 1
-                ? ParseSimple(code, tokens)
-                : ParseExpression(tokens);
-        }
-
-        private static Size ParseSimple(string code, string[] tokens)
-        {
+            SizeMode mode = SizeMode.Absolute;
             if (code.Last() is RelativeSuffix)
             {
-                //handle relative size
-                string number = code.Substring(0, code.Length - 1);
-                return double.TryParse(number, NumberStyles.Any, CultureInfo.InvariantCulture, out double value)
-                    ? new Size(value, SizeMode.Relative)
-                    : Zero;
+                mode = SizeMode.Relative;
+                code = code.Substring(0, code.Length - 1);
             }
-            else
-            {
-                //simple number
-                return double.TryParse(tokens[0], NumberStyles.Any, CultureInfo.InvariantCulture, out double value)
-                    ? new Size(value)
-                    : Zero;
-            }
+
+            string[] tokens = code.Split(' ');
+            return tokens.Length is 1
+                ? ParseSimple(tokens, mode)
+                : ParseExpression(tokens, mode);
         }
 
-        private static Size ParseExpression(string[] tokens)
+        private static Size ParseSimple(string[] tokens, SizeMode mode)
+        {
+            //simple number
+            return double.TryParse(tokens[0], NumberStyles.Any, CultureInfo.InvariantCulture, out double value)
+                ? new Size(value, mode)
+                : Zero;
+        }
+
+        private static Size ParseExpression(string[] tokens, SizeMode mode)
         {
             //handle expressions
             if (!double.TryParse(tokens[0], NumberStyles.Any, CultureInfo.InvariantCulture, out double x))
@@ -91,11 +87,11 @@ namespace AATool.UI
                 return Zero;
 
             return tokens[1] switch {
-                "+" => new Size(x + y),
-                "-" => new Size(x - y),
-                "*" => new Size(x * y),
-                "/" => new Size(x / y),
-                "%" => new Size(x % y),
+                "+" => new Size(x + y, mode),
+                "-" => new Size(x - y, mode),
+                "*" => new Size(x * y, mode),
+                "/" => new Size(x / y, mode),
+                "%" => new Size(x % y, mode),
                 "^" => new Size(Math.Pow(x, y)),
                 _ => Zero
             };

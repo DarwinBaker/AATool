@@ -100,6 +100,7 @@ namespace AATool
         }
 
         private static readonly FileSystemWatcher WorldWatcher = new ();
+        private static readonly FileSystemWatcher PracticeWorldWatcher = new ();
         private static readonly FileSystemWatcher AdvancementsWatcher = new ();
         private static readonly FileSystemWatcher StatisticsWatcher = new ();
 
@@ -189,6 +190,11 @@ namespace AATool
             WorldWatcher.Deleted += FileSystemChanged;
             WorldWatcher.Changed += FileSystemChanged;
             WorldWatcher.Deleted += FileSystemChanged;
+
+            PracticeWorldWatcher.Created += FileSystemChanged;
+            PracticeWorldWatcher.Deleted += FileSystemChanged;
+            PracticeWorldWatcher.Changed += FileSystemChanged;
+            PracticeWorldWatcher.Created += FileSystemChanged;
 
             AdvancementsWatcher.Created += FileSystemChanged;
             AdvancementsWatcher.Deleted += FileSystemChanged;
@@ -351,8 +357,11 @@ namespace AATool
                 WorldLocked = false;
 
             string savesPath = string.Empty;
+            string practiceSavesPath = string.Empty;
             string worldPath = string.Empty;
             DirectoryInfo latestWorld = null;
+            bool isPracticeWorld = false;
+            bool practiceFolderExists = false;
             try
             {
                 if (Source is TrackerSource.SpecificWorld && !Config.Tracking.UseSftp)
@@ -387,6 +396,7 @@ namespace AATool
                 {
                     //get current saves folder
                     savesPath = Paths.Saves.CurrentFolder();
+                    practiceSavesPath = Paths.Saves.CurrentPracticeSavesFolder();
 
                     //exit early if path invalid
                     if (LastError is InvalidPathException && savesPath == PreviousSavesPath)
@@ -440,6 +450,34 @@ namespace AATool
                             if (worldFolder == Paths.Saves.MostRecentlyWritten(worldFolder, latestWorld))
                                 latestWorld = worldFolder;
                         }
+
+                        //include practice saves if present
+                        DirectoryInfo[] potentialPracticeWorlds = Array.Empty<DirectoryInfo>();
+                        if (Directory.Exists(practiceSavesPath))
+                        {
+                            practiceFolderExists = true;
+                            try
+                            {
+                                potentialPracticeWorlds = new DirectoryInfo(practiceSavesPath).GetDirectories();
+                            }
+                            catch
+                            {
+                            }
+                        }
+
+                        foreach (DirectoryInfo worldFolder in potentialPracticeWorlds)
+                        {
+                            //skip any folders that definitely aren't worlds
+                            if (!Paths.Saves.MightBeWorldFolder(worldFolder))
+                                continue;
+
+                            //sort by write time
+                            if (worldFolder == Paths.Saves.MostRecentlyWritten(worldFolder, latestWorld))
+                            {
+                                latestWorld = worldFolder;
+                                isPracticeWorld = true;
+                            }
+                        }
                         worldPath = latestWorld?.FullName;
                     }
                 }
@@ -455,7 +493,17 @@ namespace AATool
                 if (latestWorld.FullName != World.FullName)
                 {
                     World.SetPath(latestWorld);
-                    WorldWatcher.Path = latestWorld.Parent?.FullName;
+                    if (practiceFolderExists && isPracticeWorld)
+                    {
+                        PracticeWorldWatcher.Path = practiceSavesPath;
+                        PracticeWorldWatcher.EnableRaisingEvents = true;
+                        WorldWatcher.Path = Path.Combine(latestWorld.Parent.Parent.FullName, "saves");
+                    }
+                    else
+                    {
+                        WorldWatcher.Path = latestWorld.Parent?.FullName;
+                    }
+
                     WorldWatcher.EnableRaisingEvents = true;
                     AdvancementsWatcher.EnableRaisingEvents = false;
                     StatisticsWatcher.EnableRaisingEvents = false;

@@ -37,7 +37,7 @@ namespace AATool.UI.Controls
             this.header = this.First<UITextBlock>("header");
             if (this.cancel is not null)
             {
-                this.cancel.UseCustomColor = true;
+                this.cancel.UseCustomColors = true;
                 this.cancel.OnClick += this.OnClick;
             }
             this.Populate();
@@ -117,7 +117,7 @@ namespace AATool.UI.Controls
                     Layer = Layer.Fore,
                     BorderThickness = 4,
                     Tag = objectiveName,
-                    UseCustomColor = true,
+                    UseCustomColors = true,
                 };
                 button.AddControl(frame);
                 return true;

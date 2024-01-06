@@ -139,10 +139,10 @@ namespace AATool.UI.Controls
             foreach (Advancement advancement in Tracker.Advancements.AllAdvancements.Values)
             { 
                 this.sortedObjectives.Add(advancement);
-                if (advancement.HasCriteria && advancement.Id is "minecraft:adventure/adventuring_time")
+                if (advancement.HasCriteria && advancement.Id is not "minecraft:nether/explore_nether")
                 {
-                    foreach (Criterion criterion in advancement.Criteria.All.Values)
-                        this.sortedObjectives.Add(criterion);
+                    //foreach (Criterion criterion in advancement.Criteria.All.Values)
+                    //    this.sortedObjectives.Add(criterion);
                 }
             }
             Sort(this.sortedObjectives, out this.start, out this.end);
@@ -150,8 +150,8 @@ namespace AATool.UI.Controls
             //remove unimportant advancements
             for (int i = this.sortedObjectives.Count - 1; i > 0; i--)
             {
-                //if (!important.Contains(this.sortedAdvancements[i].Id) || !this.sortedAdvancements[i].IsComplete())
-                //    this.sortedAdvancements.RemoveAt(i);
+                if (!important.Contains(this.sortedObjectives[i].Id) || !this.sortedObjectives[i].IsComplete())
+                    this.sortedObjectives.RemoveAt(i);
             }
 
             for (int i = 0; i < this.sortedObjectives.Count; i++)

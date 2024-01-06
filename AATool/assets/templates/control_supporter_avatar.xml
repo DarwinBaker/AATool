@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control width="70" height="70">
+    <avatar scale="4"/>
+    <text_block name="label" v_text_align="top" padding_top="56"/>
+</control>

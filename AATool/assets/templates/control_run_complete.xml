@@ -27,7 +27,7 @@
             <flow_panel name="supporters_diamond" width="500" cell_height="32" draw_mode="childrenonly" margin_left="560" padding_top="242" padding_bottom="40" direction="lefttoright" horizontal_align="left">
             </flow_panel>
 
-            <flow_panel name="supporters_gold" collapsed="true" width="400" cell_width="210" cell_height="32" draw_mode="childrenonly" margin_left="70" padding_top="240" padding_bottom="40" direction="toptobottom" horizontal_align="left">
+            <flow_panel name="supporters_gold" collapsed="true" width="400" cell_width="185" cell_height="32" draw_mode="childrenonly" margin_left="35" padding_top="240" padding_bottom="40" direction="toptobottom" horizontal_align="left">
             </flow_panel>
 
             <!-- beta testers -->

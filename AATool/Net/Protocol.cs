@@ -4,7 +4,7 @@ namespace AATool.Net
 {
     public static class Protocol
     {
-        public static readonly Version Version = new ("9.0");
+        public static readonly Version Version = new ("10.0");
 
         public const int BufferSize = 1024 * 1000;
         public const char CommandPrefix = '/';
@@ -26,7 +26,8 @@ namespace AATool.Net
             public const int MaxConcurrent = 3;
             public const int MaxRetries = 2;
 
-            public const int TimeoutMs = 10 * 1000;
+            public const int TimeoutNormalMs = 10 * 1000;
+            public const int TimeoutLongerMs = 20 * 1000;
             public const double UpdateRate = 0.25;
             public const double RetryCooldown = 10 * 60 * 1000;
         }

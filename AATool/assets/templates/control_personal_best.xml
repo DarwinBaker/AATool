@@ -1,17 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <control height="58">
-    <grid padding="8,0,10,32">
+    <grid padding="8,0,5,32">
         <rows>
             <row height="38"/>
             <row height="18"/>
         </rows>
         <columns>
-            <column width="32"/>
+            <column width="38"/>
             <column width="1*"/>
         </columns>
 
-        <panel row="0" col="0" horizontal_align="left" vertical_align="top" square="true" border_thickness="2" margin_left="6">
-            <avatar scale="4"/>
+        <panel name="profile_panel" row="0" col="0" horizontal_align="left" vertical_align="top" square="true" border_thickness="2" margin_left="6">
+            <button name="profile" width="38" height="38" margin="0,-1,0,-1">
+                <avatar scale="4"/>
+            </button>
         </panel>
         
         <!-- 
@@ -22,6 +24,11 @@
 
         <text_block name="name" row="0" col="1" h_text_align="left" vertical_align="top" padding_left="14" margin_top="2"/>
         <text_block name="igt" row="0" col="1" h_text_align="left" vertical_align="top" padding_left="14" margin_top="17"/>
+
+        <button name="link" width="14" height="14" row="0" col="1" vertical_align="top" horizontal_align="right"
+            margin_right="8" margin_top="26" border_thickness="1">
+            <picture texture="open_link" label_tint="true" width="10" height="10"/>
+        </button>
 
         <text_block name="date" row="0" col="1" h_text_align="right" vertical_align="top" padding_right="14" margin_top="2"/>
         <text_block name="age" row="0" col="1" h_text_align="right" vertical_align="top" padding_right="14" margin_top="17"/>

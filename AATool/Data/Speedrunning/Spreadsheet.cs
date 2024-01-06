@@ -55,7 +55,7 @@ namespace AATool.Data.Speedrunning
         protected bool TryGetCell(int row, int col, out string value)
         {
             value = string.Empty;
-            if (this.IsValid && col >= 0 && this.TryGetRow(row, out string[] cells))
+            if (col >= 0 && this.IsValid && this.TryGetRow(row, out string[] cells))
                 value = cells[col];
             return !string.IsNullOrEmpty(value);
         }

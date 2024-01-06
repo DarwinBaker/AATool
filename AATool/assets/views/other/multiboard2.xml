@@ -2,21 +2,24 @@
 <control>
     <grid name="all_versions">
         <rows>
+            <row height="60"/>
             <row height="148"/>
             <row height="40"/>
             <row height="600"/>
-            <row height="40"/>
         </rows>
         <columns>
             <column width="160" collapsed="true"/>
             <column width="1710"/>
         </columns>
 
+        <!-- status strip -->
+        <community_tabs row="0" col="1" colspan="3"/>
+        
         <!-- co-op lobby -->
         <lobby row="0" col="0" rowspan="3"/>
 
         <!-- top panel -->
-        <flow_panel row="0" col="1" colspan="3" border_thickness="5" padding_top="5" draw_mode="childrenonly">
+        <flow_panel row="1" col="1" colspan="3" border_thickness="5" padding_top="5" draw_mode="childrenonly">
 
             <!-- any% rsg 1.16 world record holder -->
             <panel width="5" border_thickness="5" inner_corners="false"/>
@@ -172,54 +175,54 @@
         </flow_panel>
 
         <!-- aa leaderboard headers -->
-        <flow_panel row="1" col="1" padding="5" border_thickness="5">
+        <flow_panel row="2" col="1" padding="5" border_thickness="5">
             <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
-                <text_block text="1.20 AA" font_size="24"/>
+                <text_block text="1.20" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
-                <text_block text="1.19 AA" font_size="24"/>
+                <text_block text="1.19" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
-                <text_block text="1.18 AA" font_size="24"/>
+                <text_block text="1.18" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
-                <text_block text="1.17 AA" font_size="24"/>
+                <text_block text="1.17" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
-                <text_block text="1.16 AA" font_size="24"/>
+                <text_block text="1.16" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
-                <text_block text="1.15 AA" font_size="24"/>
+                <text_block text="1.15" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
-                <text_block text="1.14 AA" font_size="24"/>
+                <text_block text="1.14" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
-                <text_block text="1.13 AA" font_size="24"/>
+                <text_block text="1.13" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
-                <text_block text="1.12 AA" font_size="24"/>
+                <text_block text="1.12" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
-                <text_block text="1.8-1.11 AACH" font_size="24"/>
+                <text_block text="1.8-1.11" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <panel padding_top="5" width="150" margin_top="5" border_thickness="1" inner_corners="true">
-                <text_block text="1.0-1.6 AACH" font_size="24"/>
+                <text_block text="1.0-1.6" font_size="24"/>
             </panel>
         </flow_panel>
 
         <!-- aa leaderboards -->
-        <flow_panel row="2" col="1" padding="5" border_thickness="5">
+        <flow_panel row="3" col="1" padding="5" border_thickness="5">
             <leaderboard category="All Advancements" version="1.20" hide_button="true" small="true" rows="10" width="150"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <leaderboard category="All Advancements" version="1.19" hide_button="true" small="true" rows="10" width="150"/>
@@ -247,9 +250,6 @@
         <leaderboard category="All Blocks" version="1.19" draw_mode="none"/>
         <leaderboard category="All Blocks" version="1.18" draw_mode="none"/>
         <leaderboard category="All Blocks" version="1.16" draw_mode="none"/>
-
-        <!-- status strip -->
-        <status_bar row="3" col="1" colspan="3" right="540"/>
 
     </grid>
 
