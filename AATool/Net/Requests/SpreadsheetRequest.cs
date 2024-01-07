@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AATool.Data;
 using AATool.Data.Speedrunning;
 
 namespace AATool.Net.Requests
@@ -30,7 +31,7 @@ namespace AATool.Net.Requests
             Downloads++;
 
             using var client = new HttpClient() { 
-                Timeout = TimeSpan.FromMilliseconds(Protocol.Requests.TimeoutMs) 
+                Timeout = TimeSpan.FromMilliseconds(Protocol.Requests.TimeoutNormalMs) 
             };
             try
             {
@@ -60,21 +61,32 @@ namespace AATool.Net.Requests
 
         private bool HandleResponse(string csv)
         {
+            if (this.sheet is Paths.Web.SupporterSheet)
+            {
+                Debug.Log(Debug.RequestSection, $"{Incoming} Received supporter spreadsheet in {this.ResponseTime}");
+                return Credits.SyncSheet(csv);
+            }
+
             if (this.sheet is Paths.Web.NicknameSheet)
             {
                 Debug.Log(Debug.RequestSection, $"{Incoming} Received nickname spreadsheet in {this.ResponseTime}");
                 return Leaderboard.SyncNicknames(csv);
             }
-            else if (this.page == Paths.Web.PrimaryAAHistory)
+
+            if (this.page == Paths.Web.PrimaryAAHistory)
             {
                 Debug.Log(Debug.RequestSection, $"{Incoming} Received submission history spreadsheet in {this.ResponseTime}");
-                return Leaderboard.SyncHistory(csv);
+                return Leaderboard.SyncHistory(csv, true);
             }
-            else
+
+            if (this.page == Paths.Web.ABPageChallenges)
             {
                 Debug.Log(Debug.RequestSection, $"{Incoming} Received spreadsheet {this.name} in {this.ResponseTime}");
-                return Leaderboard.SyncRecords(this.sheet, this.page, csv);
+                return Leaderboard.SyncChallengeLeaderboards(csv);
             }
+
+            Debug.Log(Debug.RequestSection, $"{Incoming} Received spreadsheet {this.name} in {this.ResponseTime}");
+            return Leaderboard.SyncSheetLeaderboard(this.sheet, this.page, csv);
         }
     }
 }

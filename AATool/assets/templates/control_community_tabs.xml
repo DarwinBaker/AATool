@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <columns>
+            <column width="1 / 7*"/>
+            <column width="1 / 7*"/>
+            <column width="1 / 7*"/>
+            <column width="1 / 7*"/>
+            <column width="1 / 7*"/>
+            <column width="1 / 7*"/>
+            <column width="1 / 7*"/>
+        </columns>
+
+        <panel col="0" padding="8,0,8,8" draw_mode="childrenonly">
+            <button name="mcsr_overview" text="Community" font_size="24" border_thickness="3" padding_top="-2"/>
+        </panel>
+        <panel col="1" padding="8,0,8,8" draw_mode="childrenonly">
+            <button name="runner_profile" text="Runner Profile" font_size="24" border_thickness="3" padding_top="-3"/>
+        </panel>
+        <panel col="2" padding="8,0,8,8" draw_mode="childrenonly">
+            <button name="record_graph" text="Record Graph" font_size="24" border_thickness="3" padding_top="-2"/>
+        </panel>
+        <panel col="3" padding="8,0,8,8" draw_mode="childrenonly">
+            <button name="aa_rankings" text="AA Rankings" font_size="24" border_thickness="3" padding_top="-2"/>
+        </panel>
+        <panel col="4" padding="8,0,8,8" draw_mode="childrenonly">
+            <button name="any_percent_rankings" text="Any% Rankings" font_size="24" border_thickness="3" padding_top="-2"/>
+        </panel>
+        <panel col="5" padding="8,0,8,8" draw_mode="childrenonly">
+            <button name="challenges" text="Challenges" font_size="24" border_thickness="3" padding_top="-2"/>
+        </panel>
+        <panel col="6" padding="8,8,8,8" draw_mode="childrenonly">
+            <button name="tracker" text="Tracker" font_size="24" border_thickness="3" padding_top="-3"/>
+        </panel>
+    </grid>
+</control>

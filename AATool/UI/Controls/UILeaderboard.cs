@@ -17,7 +17,7 @@ namespace AATool.UI.Controls
 {
     class UILeaderboard : UIFlowPanel
     {
-        private readonly Dictionary<string, UIPersonalBest> runs;
+        protected readonly Dictionary<string, UIPersonalBest> Runs;
 
         public const int MinimumRows = 6;
 
@@ -28,21 +28,23 @@ namespace AATool.UI.Controls
         private readonly Timer scrollWaitTimer = new (0.25, true);
         private readonly Timer scrollHoldTimer = new (0.05, true);
 
-        private Leaderboard board;
-        private UITextBlock title;
-        private UIFlowPanel players;
-        private UIFlowPanel menu;
-        private UIPicture spinner;
-        private UIPicture threeDots;
+        protected Leaderboard Board;
 
-        private UIButton upButton;
-        private UIPicture upIcon;
+        protected UIFlowPanel Players;
+        protected UITextBlock Title;
+        protected UIFlowPanel Menu;
 
-        private UIButton downButton;
-        private UIPicture downIcon;
+        protected UIPicture Spinner;
+        protected UIPicture ThreeDots;
 
-        private UIButton topButton;
-        private UIPicture topIcon;
+        protected UIButton UpButton;
+        protected UIPicture UpIcon;
+
+        protected UIButton DownButton;
+        protected UIPicture DownIcon;
+
+        protected UIButton TopButton;
+        protected UIPicture TopIcon;
 
         private UIButton recenterButton;
         private UIPicture recenterOutline;
@@ -51,25 +53,25 @@ namespace AATool.UI.Controls
         private UIButton refreshButton;
         private UIPicture refreshIcon;
 
-        private string sourceSheet;
-        private string sourcePage;
-        private string mostRecords;
-        private bool needsLayoutRefresh;
-        private bool upToDate;
-        private bool hideButton;
-        private bool isSmall;
-        private bool containsMainPlayer;
-        private bool snapshot;
-        private int mainPlayerOffset;
-        private int scrollOffset;
+        protected string SourceSheet;
+        protected string SourcePage;
+        protected string MostRecords;
+        protected bool NeedsLayoutRefresh;
+        protected bool UpToDate;
+        protected bool HideButton;
+        protected bool IsSmall;
+        protected bool ContainsMainPlayer;
+        protected bool Snapshot;
+        protected int MainPlayerOffset;
+        protected int ScrollOffset;
 
         public UILeaderboard()
         {
-            this.runs = new();
+            this.Runs = new();
             this.BuildFromTemplate();
         }
 
-        public bool LiveBoardAvailable => SpreadsheetRequest.DownloadedPages.Contains((this.sourceSheet, this.sourcePage));
+        public virtual bool LiveBoardAvailable => SpreadsheetRequest.DownloadedPages.Contains((this.SourceSheet, this.SourcePage));
 
         public void ScrollUp(int rows) => this.TryScroll(-rows);
         public void ScrollDown(int rows) => this.TryScroll(rows);
@@ -78,20 +80,20 @@ namespace AATool.UI.Controls
         {
             base.InitializeRecursive(screen);
 
-            if (this.hideButton)
+            if (this.HideButton)
                 this.First<UIGrid>()?.CollapseRow(0);
 
-            this.upButton = this.First<UIButton>("up");
-            this.upButton.OnClick += this.OnClick;
-            this.upIcon = this.upButton?.First<UIPicture>();
+            this.UpButton = this.First<UIButton>("up");
+            this.UpButton.OnClick += this.OnClick;
+            this.UpIcon = this.UpButton?.First<UIPicture>();
 
-            this.downButton = this.First<UIButton>("down");
-            this.downButton.OnClick += this.OnClick;
-            this.downIcon = this.downButton?.First<UIPicture>();
+            this.DownButton = this.First<UIButton>("down");
+            this.DownButton.OnClick += this.OnClick;
+            this.DownIcon = this.DownButton?.First<UIPicture>();
 
-            this.topButton = this.First<UIButton>("top");
-            this.topButton.OnClick += this.OnClick;
-            this.topIcon = this.topButton?.First<UIPicture>();
+            this.TopButton = this.First<UIButton>("top");
+            this.TopButton.OnClick += this.OnClick;
+            this.TopIcon = this.TopButton?.First<UIPicture>();
 
             this.recenterButton = this.First<UIButton>("recenter");
             this.recenterButton.OnClick += this.OnClick;
@@ -105,16 +107,16 @@ namespace AATool.UI.Controls
             //this.recenterButton = this.First<UIButton>("recenter");
             //this.recenterButton.OnClick += this.OnClick;
 
-            this.title = this.First<UITextBlock>("title");
-            this.players = this.First<UIFlowPanel>("pb_list");
-            this.menu = this.First<UIFlowPanel>("menu");
-            this.spinner = this.First<UIPicture>("spinner");
-            this.threeDots = this.First<UIPicture>("three_dots");
+            this.Title = this.First<UITextBlock>("title");
+            this.Players = this.First<UIFlowPanel>("pb_list");
+            this.Menu = this.First<UIFlowPanel>("menu");
+            this.Spinner = this.First<UIPicture>("spinner");
+            this.ThreeDots = this.First<UIPicture>("three_dots");
 
             //this.button.SetVisibility(UIMainScreen.ActiveTab == UIMainScreen.TrackerTab);
             //this.title.SetVisibility(UIMainScreen.ActiveTab != UIMainScreen.TrackerTab);
 
-            if (this.isSmall)
+            if (this.IsSmall)
                 this.First<UIGrid>().SetRowHeight(0, new (36));
 
             this.UpdateTitle();
@@ -122,11 +124,11 @@ namespace AATool.UI.Controls
             //attempt to populate with cached data
             if (Leaderboard.TryGet(this.Category, this.Version, out Leaderboard board))
             {
-                this.board = board;
-                this.scrollOffset = this.mainPlayerOffset;
+                this.Board = board;
+                this.ScrollOffset = this.MainPlayerOffset;
                 this.Populate();
-                if (UIMainScreen.ActiveTab == UIMainScreen.TrackerTab)
-                    this.ScrollTo(Tracker.GetMainPlayer());
+                bool performScroll = UIMainScreen.ActiveTab == UIMainScreen.TrackerTab;
+                this.UpdateMainPlayerScroll(Tracker.GetMainPlayer(), performScroll);
             }
             else
             {
@@ -134,10 +136,10 @@ namespace AATool.UI.Controls
             }
 
             string version = this.Version?.ToLower() ?? string.Empty;
-            this.snapshot = version.Contains("snapshot") || version.Contains("w");
-            if (this.snapshot)
+            this.Snapshot = version.Contains("snapshot") || version.Contains("w");
+            if (this.Snapshot)
             { 
-                this.First<UIGrid>()?.RemoveControl(this.spinner);
+                this.First<UIGrid>()?.RemoveControl(this.Spinner);
                 var message = new UITextBlock() {
                     Row = 1,
                 };
@@ -151,12 +153,12 @@ namespace AATool.UI.Controls
             this.RequestRefresh();
         }
 
-        private void RequestRefresh()
+        protected virtual void RequestRefresh()
         {
             if (this.Category is "All Blocks")
             {
-                this.sourceSheet = Paths.Web.ABSheet;
-                this.sourcePage = this.Version switch {
+                this.SourceSheet = Paths.Web.ABSheet;
+                this.SourcePage = this.Version switch {
                     "1.16" => Paths.Web.ABPage16,
                     "1.18" => Paths.Web.ABPage18,
                     "1.19" => Paths.Web.ABPage19,
@@ -164,48 +166,58 @@ namespace AATool.UI.Controls
                     _ => string.Empty
                 };
             }
-            else
+            else if (this.Category is "All Advancements")
             {
-                this.sourceSheet = Paths.Web.AASheet;
-                this.sourcePage = this.Version is "1.16" ? Paths.Web.AAPage16 : Paths.Web.AAPageOthers;
+                this.SourceSheet = Paths.Web.AASheet;
+                this.SourcePage = this.Version is "1.16" ? Paths.Web.AAPage16 : Paths.Web.AAPageOthers;
+            }
+            else 
+            {
+                this.SourceSheet = Paths.Web.ABSheet;
+                this.SourcePage = Paths.Web.ABPageChallenges;
             }
 
             if (!this.LiveBoardAvailable)
             {
-                new SpreadsheetRequest($"{this.Version} {this.Category}", this.sourceSheet, this.sourcePage).EnqueueOnce();
+                new SpreadsheetRequest($"{this.Version} {this.Category}", this.SourceSheet, this.SourcePage).EnqueueOnce();
                 new SpreadsheetRequest("Player Nicknames", Paths.Web.NicknameSheet).EnqueueOnce();
             }
         }
 
+        protected virtual void InvokeLeaderboardRefresh()
+        { 
+            Leaderboard.Refresh(this.Category, this.Version);
+        }
+
         private void OnClick(UIControl sender)
         {
-            int oldOffset = this.scrollOffset;
+            int oldOffset = this.ScrollOffset;
             if (sender == this.refreshButton)
             {
-                Leaderboard.Refresh(this.Category, this.Version);
+                this.InvokeLeaderboardRefresh();
                 this.RequestRefresh();
                 UIMainScreen.ForceLayoutRefresh();
             }
-            else if (sender == this.upButton)
+            else if (sender == this.UpButton)
             {
                 this.ScrollUp(1);
             }
-            else if (sender == this.downButton)
+            else if (sender == this.DownButton)
             {
                 this.ScrollDown(1);
             }
-            else if (sender == this.topButton)
+            else if (sender == this.TopButton)
             {
-                this.scrollOffset = 0;
+                this.ScrollOffset = 0;
             }
             else if (sender == this.recenterButton)
             {
-                this.scrollOffset = this.mainPlayerOffset;
+                this.ScrollOffset = this.MainPlayerOffset;
             }
-            this.needsLayoutRefresh = this.scrollOffset != oldOffset;
+            this.NeedsLayoutRefresh = this.ScrollOffset != oldOffset;
         }
 
-        private void ScrollTo(Uuid mainPlayer)
+        private void UpdateMainPlayerScroll(Uuid mainPlayer, bool performScroll)
         {
             string name;
             if (Player.NameCache.Any())
@@ -216,11 +228,14 @@ namespace AATool.UI.Controls
             if (Leaderboard.TryGetRank(name, this.Category, this.Version, out int rank) && rank > 0)
             {
                 this.recenterIcon.SetTexture($"avatar-{name.ToLower()}");
-                int totalRuns = this.board?.Runs.Count ?? 0;
-                int maxOffset = Math.Max(totalRuns - this.runs.Count, 0);
-                this.mainPlayerOffset = MathHelper.Clamp(rank - 3, 0, maxOffset);
-                this.scrollOffset = this.mainPlayerOffset;
-                this.needsLayoutRefresh = true;
+                int totalRuns = this.Board?.Runs.Count ?? 0;
+                int maxOffset = Math.Max(totalRuns - this.Runs.Count, 0);
+                this.MainPlayerOffset = MathHelper.Clamp(rank - 3, 0, maxOffset);
+                if (performScroll)
+                {
+                    this.ScrollOffset = this.MainPlayerOffset;
+                    this.NeedsLayoutRefresh = true;
+                }
             }
             else
             {
@@ -247,14 +262,14 @@ namespace AATool.UI.Controls
                 _ => string.Empty
             };
 
-            if (this.isSmall)
+            if (this.IsSmall)
             {
                 string version = this.Version switch {
                     "1.6" => "1.0-1.6",
                     "1.11" => "1.8-1.11",
                     _ => this.Version,
                 };
-                this.title.SetText($"{version}");
+                this.Title.SetText($"{version}");
                 return;
             }
 
@@ -263,65 +278,71 @@ namespace AATool.UI.Controls
                 "1.11" => "Unofficial 1.8-1.11\nAACH Leaderboard",
                 _ => $"The Unofficial {this.Version}\n{acronym} Leaderboard",
             };
-            this.title.SetText(header);
+            this.Title.SetText(header);
         }
 
-        private void Clear()
+        protected void Clear()
         {
-            this.players.Children.Clear();
-            this.runs.Clear();
+            this.Players.Children.Clear();
+            this.Runs.Clear();
         }
 
         private void Populate()
         {
             if (this.Category is "All Blocks" && this.DrawMode is DrawMode.None)
             {
-                this.PopuplateAllBlocks();
+                this.PopulateAllBlocks();
             }
-            else if (UIMainScreen.ActiveTab is UIMainScreen.RunnersTab)
-            {
-                this.PopuplateSmall();
-            }
+            //else if (UIMainScreen.ActiveTab is UIMainScreen.RunnersTab)
+            //{
+            //    this.PopulateSmall();
+            //}
             else
             { 
-                if (!this.snapshot)
+                if (!this.Snapshot)
                     this.PopulateNormal();
-                if (UIMainScreen.ActiveTab is UIMainScreen.MultiboardTab)
-                    this.PopuplateMultiboard();
+                if (UIMainScreen.ActiveTab is not UIMainScreen.TrackerTab)
+                    this.PopulateMultiboard();
             }
             this.UpdateMenu();
-            this.needsLayoutRefresh = false;
+            this.NeedsLayoutRefresh = false;
         }
 
-        private void PopuplateAllBlocks()
+        private void PopulateAllBlocks()
         {
-            if (this.board.Runs.Any())
+            if (this.Board.Runs.Any())
             {
-                Run wr = this.board.Runs[0];
+                Run wr = this.Board.Runs[0];
+
+                if (this.Root().TryGetFirst(out UIButton button, $"ab_wr_{this.Version}_button"))
+                    button.Tag = wr.Runner;
+
+                new AvatarRequest(wr.Runner).EnqueueOnce();
+
                 this.Root().First<UIAvatar>($"ab_wr_{this.Version}_avatar")?.SetPlayer(wr.Runner);
-                this.Root().First<UIAvatar>($"ab_wr_{this.Version}_avatar")?.RegisterOnLeaderboard(this.board);
+                this.Root().First<UIAvatar>($"ab_wr_{this.Version}_avatar")?.RegisterOnLeaderboard(this.Board);
                 this.Root().First<UIAvatar>($"ab_wr_{this.Version}_avatar")?.RefreshBadge();
                 this.Root().First<UITextBlock>($"ab_wr_{this.Version}_runner")?.SetText(wr.Runner);
                 this.Root().First<UITextBlock>($"ab_wr_{this.Version}_igt")?.SetText((int)wr.InGameTime.TotalHours + wr.InGameTime.ToString("':'mm':'ss"));
-                this.Root().First<UITextBlock>($"ab_wr_{this.Version}_blocks")?.SetText($"({wr.Blocks} Blocks)");
+                this.Root().First<UITextBlock>($"ab_wr_{this.Version}_blocks")?.SetText($"({wr.ExtraStat} Blocks)");
             }
         }
 
-        private void PopuplateMultiboard()
+        private void PopulateMultiboard()
         {
             string mostRecordsList = string.Empty;
-            for (int i = 0; i < Leaderboard.ListOfMostRecords.Count; i++)
+            for (int i = 0; i < Leaderboard.ListOfMostConcurrentRecords.Count; i++)
             {
-                mostRecordsList += Leaderboard.ListOfMostRecords[i].GameVersion;
-                if (i < Leaderboard.ListOfMostRecords.Count - 1)
+                mostRecordsList += Leaderboard.ListOfMostConcurrentRecords[i].GameVersion;
+                if (i < Leaderboard.ListOfMostConcurrentRecords.Count - 1)
                     mostRecordsList += ", ";
             }
             //UIAvatar allBlocks20 = this.Root().First<UIAvatar>("ab_wr_1.20_avatar");
             //allBlocks20.SetBadge(new RankBadge(1, "All Blocks", "1.20", false));
 
             UIAvatar mostRecords = this.Root().First<UIAvatar>("most_records_avatar");
-            mostRecords?.SetPlayer(Leaderboard.RunnerWithMostWorldRecords);
-            this.Root().First<UITextBlock>("most_records_runner")?.SetText(Leaderboard.RunnerWithMostWorldRecords);
+            mostRecords?.SetPlayer(Leaderboard.RunnerWithMostConcurrentRecords);
+            this.Root().First<UITextBlock>("most_records_runner")?.SetText(Leaderboard.RunnerWithMostConcurrentRecords);
             this.Root().First<UITextBlock>("most_records_list")?.SetText(mostRecordsList);
 
             if (!string.IsNullOrEmpty(Leaderboard.AnyRsgRunner))
@@ -344,18 +365,18 @@ namespace AATool.UI.Controls
             }
         }
 
-        private void PopuplateSmall()
+        private void PopulateSmall()
         {
             this.Clear();
             UIFlowPanel list = this.Root().First<UIFlowPanel>("runner_list");
             if (list is not null && list.Children.Count is 0)
             {
                 list.ClearControls();
-                for (int i = 0; i < this.board.Runs.Count; i++)
+                for (int i = 0; i < this.Board.Runs.Count; i++)
                 {
-                    var control = new UIPersonalBest(this.board) { FlexWidth = new (150), IsSmall = true };
-                    Run run = this.board.Runs[i + this.scrollOffset];
-                    this.runs[run.Runner] = control;
+                    var control = new UIPersonalBest(this.Board) { FlexWidth = new (150), IsSmall = true };
+                    Run run = this.Board.Runs[i + this.ScrollOffset];
+                    this.Runs[run.Runner] = control;
                     new AvatarRequest(Leaderboard.GetRealName(run.Runner)).EnqueueOnce();
 
                     control.SetRun(run);
@@ -366,61 +387,64 @@ namespace AATool.UI.Controls
             list.ReflowChildren();
         }
 
-        private void PopulateNormal()
+        protected virtual void PopulateNormal()
         {
             this.Clear();
-            this.containsMainPlayer = false;
+            this.ContainsMainPlayer = false;
             Run run = null;
             for (int i = 0; i < this.Rows; i++)
             {
-                bool claimed = i < this.board.Runs.Count;
-                var control = new UIPersonalBest(this.board) { IsSmall = this.isSmall, Rank = i + this.scrollOffset + 1 };
+                bool claimed = i < this.Board.Runs.Count;
+                var control = new UIPersonalBest(this.Board) { IsSmall = this.IsSmall, Rank = i + this.ScrollOffset + 1 };
                 if (claimed)
                 {
-                    run = this.board.Runs[i + this.scrollOffset];
-                    this.runs[run.Runner] = control;
+                    run = this.Board.Runs[i + this.ScrollOffset];
+                    this.Runs[run.Runner] = control;
                     new AvatarRequest(Leaderboard.GetRealName(run.Runner)).EnqueueOnce();
                 }
                 else
                 {
+                    run = null;
                     control.SetRank(i + 1);
                 }
                 control.SetRun(run, claimed);
                 control.InitializeRecursive(this.Root());
-                this.players.AddControl(control);
-                this.containsMainPlayer |= control.IsMainPlayer;
+                this.Players.AddControl(control);
+                this.ContainsMainPlayer |= control.IsMainPlayer;
             }
-            this.players.ResizeRecursive(this.hideButton ? this.Bounds : this.players.Bounds);
-            this.First<UIGrid>()?.RemoveControl(this.spinner);
+            this.Players.ResizeRecursive(this.HideButton ? this.Bounds : this.Players.Bounds);
+            this.First<UIGrid>()?.RemoveControl(this.Spinner);
         }
 
         public override void ResizeRecursive(Rectangle rectangle)
         {
             base.ResizeRecursive(rectangle);
-            this.players.ResizeRecursive(this.hideButton ? this.Bounds : this.players.Bounds);
+            this.Players.ResizeRecursive(this.HideButton ? this.Bounds : this.Players.Bounds);
         }
 
         protected override void UpdateThis(Time time)
         {
-            if (!this.upToDate && this.LiveBoardAvailable)
+            if (!this.UpToDate && this.LiveBoardAvailable)
             {
                 if (Leaderboard.TryGet(this.Category, this.Version, out Leaderboard live))
                 {
-                    this.board = live;
+                    this.Board = live;
                     this.Populate();
                     this.UpdateMenu();
                 }  
-                this.upToDate = true;
+                this.UpToDate = true;
             }
 
             if (Config.Tracking.FilterChanged)
                 UIMainScreen.Invalidate();
 
-            Uuid mainPlayer = Tracker.GetMainPlayer();
             if (Tracker.MainPlayerChanged)
-                this.ScrollTo(mainPlayer);
+            {
+                bool performScroll = UIMainScreen.ActiveTab == UIMainScreen.TrackerTab;
+                this.UpdateMainPlayerScroll(Tracker.GetMainPlayer(), performScroll);
+            }    
 
-            if (this.needsLayoutRefresh)
+            if (this.NeedsLayoutRefresh)
                 this.Populate();
 
             if (Config.Main.AppearanceChanged)
@@ -433,38 +457,38 @@ namespace AATool.UI.Controls
         private void UpdateMenu()
         {
             bool available = Leaderboard.IsLiveAvailable(this.Category, this.Version);
-            this.threeDots.SetVisibility(!this.snapshot && !available);
+            this.ThreeDots.SetVisibility(!this.Snapshot && !available);
 
             bool menuChanged = false;
-            menuChanged |= this.topButton.IsCollapsed == (this.scrollOffset > 0);
+            menuChanged |= this.TopButton.IsCollapsed == (this.ScrollOffset > 0);
             menuChanged |= this.refreshButton.IsCollapsed == available;
-            menuChanged |= this.recenterButton.IsCollapsed == (this.scrollOffset != this.mainPlayerOffset);
+            menuChanged |= this.recenterButton.IsCollapsed == (this.ScrollOffset != this.MainPlayerOffset);
 
-            int runs = this.board?.Runs.Count ?? 0;
-            this.upButton.SetVisibility(this.Rows < runs);
-            this.downButton.SetVisibility(this.Rows < runs);
-            this.topButton.SetVisibility(this.Rows < runs);
+            int runs = this.Board?.Runs.Count ?? 0;
+            this.UpButton.SetVisibility(this.Rows < runs);
+            this.DownButton.SetVisibility(this.Rows < runs);
+            this.TopButton.SetVisibility(this.Rows < runs);
             this.recenterButton.SetVisibility(this.Rows < runs);
 
-            this.upButton.Enabled = this.scrollOffset > 0;
-            this.topButton.Enabled = this.scrollOffset > 0;
+            this.UpButton.Enabled = this.ScrollOffset > 0;
+            this.TopButton.Enabled = this.ScrollOffset > 0;
 
-            int totalRuns = this.board?.Runs.Count ?? 0;
-            int maxOffset = Math.Max(totalRuns - this.runs.Count, 0);
-            this.downButton.Enabled = this.scrollOffset < maxOffset;
+            int totalRuns = this.Board?.Runs.Count ?? 0;
+            int maxOffset = Math.Max(totalRuns - this.Runs.Count, 0);
+            this.DownButton.Enabled = this.ScrollOffset < maxOffset;
 
             this.refreshButton.Enabled = available;
-            this.recenterButton.SetVisibility(!this.containsMainPlayer && !string.IsNullOrEmpty(this.recenterIcon.Texture));
+            this.recenterButton.SetVisibility(!this.ContainsMainPlayer && !string.IsNullOrEmpty(this.recenterIcon.Texture));
 
             Color dim = ColorHelper.Fade(Config.Main.TextColor, 0.1f);
-            this.upIcon.SetTint(this.upButton.Enabled ? Config.Main.TextColor : dim);
-            this.downIcon.SetTint(this.downButton.Enabled ? Config.Main.TextColor : dim);
-            this.topIcon.SetTint(this.topButton.Enabled ? Config.Main.TextColor : dim);
+            this.UpIcon.SetTint(this.UpButton.Enabled ? Config.Main.TextColor : dim);
+            this.DownIcon.SetTint(this.DownButton.Enabled ? Config.Main.TextColor : dim);
+            this.TopIcon.SetTint(this.TopButton.Enabled ? Config.Main.TextColor : dim);
             this.refreshIcon.SetTint(this.refreshButton.Enabled ? Config.Main.TextColor : dim);
             this.recenterOutline.SetTint(Config.Main.TextColor);
 
             if (menuChanged)
-                this.menu.ReflowChildren();
+                this.Menu.ReflowChildren();
         }
 
         private void UpdateHoldScroll(Time time)
@@ -476,18 +500,18 @@ namespace AATool.UI.Controls
                 Point cursor = Input.Cursor(this.Root());
                 if (this.scrollWaitTimer.IsExpired && this.scrollHoldTimer.IsExpired)
                 {
-                    int oldOffset = this.scrollOffset;
-                    if (this.upButton.Bounds.Contains(cursor))
+                    int oldOffset = this.ScrollOffset;
+                    if (this.UpButton.Bounds.Contains(cursor))
                     {
                         this.ScrollUp(1);
                         this.scrollHoldTimer.Reset();
                     }
-                    else if (this.downButton.Bounds.Contains(cursor))
+                    else if (this.DownButton.Bounds.Contains(cursor))
                     {
                         this.ScrollDown(1);
                         this.scrollHoldTimer.Reset();
                     }
-                    this.needsLayoutRefresh = this.scrollOffset != oldOffset;
+                    this.NeedsLayoutRefresh = this.ScrollOffset != oldOffset;
                 }
                 
             }
@@ -502,12 +526,12 @@ namespace AATool.UI.Controls
         {
             base.DrawRecursive(canvas);
 
-            if (this.SkipDraw || this.runs.Count is 0)
+            if (this.SkipDraw || this.Runs.Count is 0)
                 return;
 
-            for (int i = 0; i < Math.Min(this.players.Children.Count, this.Rows - 1); i++)
+            for (int i = 0; i < Math.Min(this.Players.Children.Count, this.Rows - 1); i++)
             {
-                Rectangle bounds = this.players.Children[i].Bounds;
+                Rectangle bounds = this.Players.Children[i].Bounds;
                 var splitter = new Rectangle(bounds.Left + 8, bounds.Bottom - 8, bounds.Width - 16, 2);
                 canvas.DrawRectangle(splitter, Config.Main.BorderColor);
             }
@@ -519,28 +543,28 @@ namespace AATool.UI.Controls
             this.Category = Attribute(node, "category", Tracker.Category.Name);
             this.Version = Attribute(node, "version", Tracker.Category.CurrentMajorVersion);
             this.Rows = Attribute(node, "rows", this.Rows);
-            this.hideButton = Attribute(node, "hide_button", false);
-            this.isSmall = Attribute(node, "small", false);
+            this.HideButton = Attribute(node, "hide_button", false);
+            this.IsSmall = Attribute(node, "small", false);
         }
 
-        private void TryScroll(int rows)
+        protected virtual void TryScroll(int rows)
         {
-            int totalRuns = this.board?.Runs.Count ?? 0;
-            int maxOffset = Math.Max(totalRuns - this.runs.Count, 0);
-            this.scrollOffset = MathHelper.Clamp(this.scrollOffset + rows, 0, maxOffset);
+            int totalRuns = this.Board?.Runs.Count ?? 0;
+            int maxOffset = Math.Max(totalRuns - this.Runs.Count, 0);
+            this.ScrollOffset = MathHelper.Clamp(this.ScrollOffset + rows, 0, maxOffset);
         }
 
         private void UpdateScrollWheel()
         {
-            int oldOffset = this.scrollOffset;
-            if (this.players.Bounds.Contains(Input.Cursor(this.Root())))
+            int oldOffset = this.ScrollOffset;
+            if (this.Players.Bounds.Contains(Input.Cursor(this.Root())))
             {
                 if (Input.ScrolledUp())
                     this.ScrollUp(1);
                 else if (Input.ScrolledDown())
                     this.ScrollDown(1);
 
-                if (this.scrollOffset != oldOffset)
+                if (this.ScrollOffset != oldOffset)
                     this.Populate();
             }
         }

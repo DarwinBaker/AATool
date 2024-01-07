@@ -19,7 +19,7 @@ namespace AATool.Net.Requests
             this.BeginTiming();
 
             using var client = new HttpClient() { 
-                Timeout = TimeSpan.FromMilliseconds(Protocol.Requests.TimeoutMs) 
+                Timeout = TimeSpan.FromMilliseconds(Protocol.Requests.TimeoutNormalMs) 
             };
             try
             {

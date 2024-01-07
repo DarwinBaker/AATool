@@ -39,11 +39,13 @@ namespace AATool
             public const string ArchivedConfigFolder = "config/legacy_settings_(unused)/";
             public const string NotesFolder  = "notes/";
 
-            //remote world temp folder
             public const string CacheFolder = "assets/cache/";
-            public const string SftpWorldsFolder = CacheFolder + "sftp_worlds/";
             public const string LeaderboardsFolder = CacheFolder + "leaderboards/";
             public const string BlockChecklistsFolder = CacheFolder + "block_checklists/";
+            public const string ProfilePicturesCacheFolder = CacheFolder + "runner_profiles/pictures/";
+            public const string ProfileDetailsCacheFolder = CacheFolder + "runner_profiles/details/";
+            //remote world temp folder
+            public const string SftpWorldsFolder = CacheFolder + "sftp_worlds/";
 
             //constant asset paths
             public const string DataFolder        = "data/";
@@ -76,7 +78,16 @@ namespace AATool
             public static string CrashLogFile => Path.Combine(LogsFolder, $"crash_report_{DateTime.Now:yyyy_M_dd_h_mm_ss}.txt");
             public static string CreditsFile => Path.Combine(CreditsFolder, "credits.xml");
 
-            public static string LeaderboardFile(string fileName) => 
+            public static string HistoryFile =>
+                Path.Combine(LeaderboardsFolder, $"history_aa_1.16.csv");
+
+            public static string ChallengesFile =>
+                Path.Combine(LeaderboardsFolder, $"leaderboard_challenges.csv");
+
+            public static string SupportersFile =>
+                Path.Combine(LeaderboardsFolder, "supporters.csv");
+
+            public static string LeaderboardFile(string fileName) =>
                 Path.Combine(LeaderboardsFolder, $"{fileName}.csv");
 
             public static string BlockChecklistFile(int instance, string worldName)
@@ -84,6 +95,11 @@ namespace AATool
                 return instance < 1
                     ? Path.Combine(BlockChecklistsFolder, $"{worldName}.txt")
                     : Path.Combine(BlockChecklistsFolder, $"instance_{instance}-{worldName}.txt");
+            }
+
+            public static string SpeedrunDotComLeaderboardFile(string category, string version)
+            {
+                return Path.Combine(LeaderboardsFolder, $"speedrundotcom_leaderboard_{category}_{version}.json");
             }
 
             public static string SpeedrunDotComRecordFile(bool rsg, bool aa, string version)
@@ -95,6 +111,12 @@ namespace AATool
                     ? Path.Combine(LeaderboardsFolder, $"any_percent_wr_rsg_{version}.txt")
                     : Path.Combine(LeaderboardsFolder, $"any_percent_wr_ssg_{version}.txt");
             }
+
+            public static string SpeedrunDotComProfilePicture(string id) =>
+                Path.Combine(ProfilePicturesCacheFolder, $"{id}.png");
+
+            public static string SpeedrunDotComProfileJson(string idOrName) =>
+                Path.Combine(ProfileDetailsCacheFolder, $"{idOrName}.json");
         }
 
         public static class Saves
@@ -110,6 +132,16 @@ namespace AATool
                 return Tracker.Source is TrackerSource.CustomSavesPath
                     ? Config.Tracking.CustomSavesPath.Value.Replace(AppDataShortcut, AppDataFolderPath)
                     : ActiveInstance.SavesPath;
+            }
+
+            public static string CurrentPracticeSavesFolder()
+            {
+                if (Config.Tracking.UseSftp)
+                    return string.Empty;
+
+                return Tracker.Source is TrackerSource.CustomSavesPath
+                    ? string.Empty
+                    : ActiveInstance.PracticeSavesPath;
             }
 
             public static string DefaultAppDataSavesPath => Path.Combine(
@@ -141,6 +173,8 @@ namespace AATool
             public const string PatreonFull   = "https://www.patreon.com/_ctm";
             public const string PatreonShort  = "Patreon.com/_CTM";
 
+            public const string PayPal = "https://www.paypal.com/donate/?hosted_button_id=EN29468P8CY24";
+
             public const string AASheet = "107ijqjELTQQ29KW4phUmtvYFTX9-pfHsjb18TKoWACk";
             public const string AAPage16 = "1706556435";
             public const string AAPageOthers = "1283472797";
@@ -150,8 +184,10 @@ namespace AATool
             public const string ABPage19 = "1912774860";
             public const string ABPage18 = "1706556435";
             public const string ABPage16 = "1572184167";
+            public const string ABPageChallenges = "2045031868";
 
-            public const string NicknameSheet = "1j2APgxS_En7em5lcVF2OWjEvsUY2DHVX4QvdVGhSR_o";
+            public const string SupporterSheet = "1Vj1e2kREWuw8XzMu6OazHmbvC-QXCVBH08CaQXnrOD4";
+            public const string NicknameSheet = "16VS6VkitZdyrfVAFd-UdkVSrXO0nhdMyNeueIFoqvZY";
             public const string PrimaryAAHistory = "735237004";
             
             public const string AnyRsgRecord = "https://www.speedrun.com/api/v1/leaderboards/j1npme6p/category/mkeyl926?top=1&embed=players&var-jlzkwql2=mln68v0q&var-r8rg67rn=21d4zvp1";
@@ -176,6 +212,12 @@ namespace AATool
             public static string GetSpreadsheetUrl(string sheet, string page) =>
                 $"https://docs.google.com/spreadsheets/d/{sheet}/export?gid={page}&format=csv";
 
+            public static string GetSpeedrunDotComProfileUrl(string id) =>
+                $"https://www.speedrun.com/api/v1/users/{id}";
+
+            public static string GetSpeedrunDotComPictureUrl(string id) =>
+                $"https://www.speedrun.com/static/user/{id}/image.png";
+            
             public static string GetAnyPercentRecordUrl(bool rsg) => rsg ? AnyRsgRecord : AnySsgRecord;
         }
     }

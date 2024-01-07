@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid name="all_versions">
+        <rows>
+            <row height="60"/>
+            <row height="72"/>
+            <row height="696"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="1710"/>
+        </columns>
+
+        <!-- tabs -->
+        <community_tabs row="0" col="1" colspan="3"/>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <!-- version headers -->
+        <flow_panel row="1" col="1" padding="5" border_thickness="5">
+            <panel padding_top="8" padding_bottom="11" width="220" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="Half-Heart" v_text_align="top" font_size="24"/>
+                <text_block text="Hardcore AA" v_text_align="bottom" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="8" padding_bottom="11" width="300" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="100 Hardcore" v_text_align="top" font_size="24"/>
+                <text_block text="No-Reset Challenge" v_text_align="bottom" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="8" padding_bottom="11" width="220" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="Thousand Seeds" v_text_align="top" font_size="24"/>
+                <text_block text="No-Reset Challenge" v_text_align="bottom" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="8" padding_bottom="11" width="220" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="All Versions" v_text_align="top" font_size="24"/>
+                <text_block text="Hardcore No-F3" v_text_align="bottom" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="8" padding_bottom="11" width="177" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="All Blocks" v_text_align="top" font_size="24"/>
+                <text_block text="1.20" v_text_align="bottom" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="8" padding_bottom="11" width="176" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="All Blocks" v_text_align="top" font_size="24"/>
+                <text_block text="1.19" v_text_align="bottom" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="8" padding_bottom="11" width="176" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="All Blocks" v_text_align="top" font_size="24"/>
+                <text_block text="1.18" v_text_align="bottom" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <panel padding_top="8" padding_bottom="11" width="176" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="All Blocks" v_text_align="top" font_size="24"/>
+                <text_block text="1.16" v_text_align="bottom" font_size="24"/>
+            </panel>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+        </flow_panel>
+
+        <!-- aa leaderboards -->
+        <flow_panel row="2" col="1" padding="5" border_thickness="5">
+            <leaderboard_halfhearthardcore category="HHHAA" version="1.16" hide_button="true" rows="12" width="220"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard_hardcorechallenge category="Hardcore No Reset" version="1.16" hide_button="true" rows="5" width="300"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="1K No Reset" version="1.16" hide_button="true" rows="11" small="true" width="220"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="All Versions" version="1.16" hide_button="true" rows="11" width="220"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="All Blocks" version="1.20" hide_button="true" rows="11" small="true" width="177"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="All Blocks" version="1.19" hide_button="true" rows="11" small="true" width="176"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="All Blocks" version="1.18" hide_button="true" rows="11" small="true" width="176"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+            <leaderboard category="All Blocks" version="1.16" hide_button="true" rows="11" small="true" width="176"/>
+            <panel width="5" border_thickness="5" inner_corners="false"/>
+        </flow_panel>
+
+    </grid>
+
+</control>

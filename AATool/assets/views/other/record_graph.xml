@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid>
+        <rows>
+            <row height="60"/>
+            <row height="768"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="1710"/>
+        </columns>
+
+        <!-- tabs -->
+        <community_tabs row="0" col="1" colspan="2"/>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <!-- graph -->
+        <record_graph row="1" col="1"/>
+
+    </grid>
+
+</control>

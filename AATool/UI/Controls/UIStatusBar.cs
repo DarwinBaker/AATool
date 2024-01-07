@@ -86,7 +86,7 @@ namespace AATool.UI.Controls
             {
                 if (this.rightPanelWidth > 0)
                 {
-                    this.patreonButton.UseCustomColor = true;
+                    this.patreonButton.UseCustomColors = true;
                     this.patreonButton.SetTextColor(Color.Black);
                     this.patreonButton.OnClick += this.Click;
                 }

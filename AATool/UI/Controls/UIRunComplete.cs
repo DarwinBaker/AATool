@@ -375,11 +375,11 @@ namespace AATool.UI.Controls
 
             foreach (Credit person in Credits.All)
             {
-                bool donor = person.Role.ToLower() is not ("developer" or "beta testers" or "special dedication");
+                bool donor = person.HighestRole.ToLower() is not ("developer" or "beta testers" or "special dedication");
                 if (!donor)
                     continue;
 
-                UIControl panel = this.supporters[person.Role];
+                UIControl panel = this.supporters[person.HighestRole];
                 var supporter = new UITextBlock() {
                     FlexWidth  = new Size(donor ? 170 : 220),
                     FlexHeight = new Size(32),
@@ -396,7 +396,7 @@ namespace AATool.UI.Controls
                     VerticalAlign   = VerticalAlign.Top
                 };
 
-                tier.SetTexture(person.Role);
+                tier.SetTexture(person.HighestRole);
                 if (supporter.HorizontalTextAlign is HorizontalAlign.Left)
                     supporter.SetText($"     {person.Name}");
                 else

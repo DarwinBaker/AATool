@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control height="120" margin_bottom="12">
+    <grid padding="8,0,5,32">
+        <rows>
+            <row height="38"/>
+            <row height="18"/>
+            <row height="64"/>
+        </rows>
+        <columns>
+            <column width="38"/>
+            <column width="150"/>
+            <column width="1*"/>
+        </columns>
+
+        <panel row="0" col="0" horizontal_align="left" vertical_align="top" square="true" border_thickness="2" margin_left="6">
+            <button name="profile" width="38" height="38" margin="0,-1,0,-1">
+                <avatar scale="4"/>
+            </button>
+        </panel>
+        
+        <!-- 
+        <picture collapsed="true" name="generic_badge" layer="fore" width="35" height="15" row="0" col="0" vertical_align="top" padding_left="-3" margin_top="-7">
+            <text_block name="place" layer="fore" h_text_align="left" padding_left="5" padding_top="1"/>
+        </picture> 
+        -->
+
+        <text_block name="name" row="0" col="1" h_text_align="left" vertical_align="top" padding_left="14" margin_top="2"/>
+        <text_block name="best" row="0" col="1" h_text_align="left" vertical_align="top" padding_left="14" margin_top="22"/>
+
+        <button name="link" width="14" height="14" row="0" col="1" vertical_align="top" horizontal_align="right"
+            margin_right="8" margin_top="26" border_thickness="1">
+            <picture texture="open_link" label_tint="true" width="10" height="10"/>
+        </button>
+
+        <text_block name="date" row="0" col="1" h_text_align="right" vertical_align="top" margin_top="2"/>
+        <text_block name="age" row="0" col="1" h_text_align="right" vertical_align="top" margin_top="22"/>
+
+        <flow_panel col="2" rowspan="3" flow_direction="toptobottom" cell_height="12" padding_top="4" draw_mode="childrenonly">
+            <text_block name="deaths_label" height="12" text="Total Deaths" h_text_align="center"/>
+            <text_block name="deaths" height="12" h_text_align="center"/>
+            <panel name="deaths_splitter" height="2" padding_left="12" padding_right="12" draw_mode="childrenonly">
+                <panel inner_corners="false"></panel>
+            </panel>
+
+            <text_block name="runs_label" height="12" text="Total Runs" h_text_align="center"/>
+            <text_block height="12" name="runs" h_text_align="center"/>
+            <panel name="runs_splitter" height="2" padding_left="12" padding_right="12" draw_mode="childrenonly">
+                <panel inner_corners="false"></panel>
+            </panel>
+
+            <text_block name="igt_label" height="12" text="Average IGT" h_text_align="center"/>
+            <text_block name="igt" height="12" h_text_align="center"/>
+        </flow_panel>
+
+    </grid>
+</control>

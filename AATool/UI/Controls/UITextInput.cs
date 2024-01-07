@@ -7,6 +7,7 @@ using AATool.UI.Screens;
 using AATool.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AATool.UI.Controls
 {
@@ -19,10 +20,10 @@ namespace AATool.UI.Controls
         public bool ClearOnLeave { get; set; }
         public ControlState State { get; private set; }
         public int BorderThickness { get; set; }
-        public string UserInput { get; private set; } = string.Empty;
+        public string UserInput { get; set; } = string.Empty;
+        public int MaxLength { get; set; } = 13;
         public int Length => this.UserInput.Length;
 
-        private int maxLength = 13;
         private bool selectedAll;
         private bool cursorBlink;
         private bool ignoreInput;
@@ -66,6 +67,12 @@ namespace AATool.UI.Controls
                 OnTextChanged?.Invoke(this);
             if (string.IsNullOrEmpty(text))
                 this.TextBounds = Rectangle.Empty;
+        }
+
+        public void GoToEnd()
+        {
+            this.UserInput = this.rawValue;
+            this.cursor = this.UserInput.Length;
         }
 
         public UITextInput()
@@ -152,7 +159,7 @@ namespace AATool.UI.Controls
                 }
                 this.selectedAll = false;
                 this.cursor = this.UserInput.Length;
-                this.UserInput = this.UserInput.Substring(0, Math.Min(this.UserInput.Length, this.maxLength));
+                this.UserInput = this.UserInput.Substring(0, Math.Min(this.UserInput.Length, this.MaxLength));
                 this.SetText(this.UserInput);
             }
             catch
@@ -327,9 +334,9 @@ namespace AATool.UI.Controls
             {
                 int cappedCursor = Math.Min(this.cursor, this.UserInput.Length);
                 this.UserInput = this.selectedAll ? keyText : this.UserInput.Insert(cappedCursor, keyText);
-                this.UserInput = this.UserInput.Substring(0, Math.Min(this.UserInput.Length, this.maxLength));
+                this.UserInput = this.UserInput.Substring(0, Math.Min(this.UserInput.Length, this.MaxLength));
                 this.SetText(this.UserInput);
-                this.cursor = Math.Min(cappedCursor + keyText.Length, this.maxLength);
+                this.cursor = Math.Min(cappedCursor + keyText.Length, this.MaxLength);
                 this.selectedAll = false;
             }
         }

@@ -7,11 +7,10 @@ namespace AATool.UI.Controls
 {
     public class UIPanel : UIControl
     {
-        public int BorderThickness  { get; set; }
         public Color BackColor      { get; set; }
         public Color BorderColor    { get; set; }
-
-        private bool innerCorners = true;
+        public int BorderThickness  { get; set; } = 1;
+        public bool InnerCorners    { get; set; } = true;
 
         public UIPanel()
         {
@@ -23,7 +22,7 @@ namespace AATool.UI.Controls
             if (this.SkipDraw)
                 return;
 
-            if (this.innerCorners)
+            if (this.InnerCorners)
             {
                 canvas.DrawRectangle(this.Bounds,
                     Config.Main.BackColor,
@@ -44,8 +43,8 @@ namespace AATool.UI.Controls
         public override void ReadNode(XmlNode node)
         {
             base.ReadNode(node);
-            this.BorderThickness = Attribute(node, "border_thickness", 1);
-            this.innerCorners = Attribute(node, "inner_corners", true);
+            this.BorderThickness = Attribute(node, "border_thickness", this.BorderThickness);
+            this.InnerCorners = Attribute(node, "inner_corners", this.InnerCorners);
         }
     }
 }

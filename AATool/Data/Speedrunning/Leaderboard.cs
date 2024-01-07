@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AATool.Configuration;
 using AATool.Net;
 using AATool.Net.Requests;
 using AATool.UI.Badges;
+using Renci.SshNet;
 
 namespace AATool.Data.Speedrunning
 {
     public sealed class Leaderboard
     {
-        private static readonly Dictionary<(string category, string version), Leaderboard> AllBoards = new ();
+        public static readonly Dictionary<(string category, string version), Leaderboard> AllBoards = new ();
         private static readonly HashSet<(string category, string version)> LiveBoards = new ();
         private static readonly HashSet<string> RequestedIdentities = new ();
 
@@ -21,8 +23,13 @@ namespace AATool.Data.Speedrunning
         private static HashSet<string> AllRunnerNames = new ();
         private static HashSet<Uuid> AllRunners = new ();
 
-        public static List<Run> ListOfMostRecords { get; private set; } = new();
-        public static string RunnerWithMostWorldRecords { get; private set; } = string.Empty;
+        public static Dictionary<(string runner, DateTime date), string> AALinks { get; private set; } = new();
+        public static Leaderboard HalfHeartHardcoreCompletions { get; private set; }
+        public static List<Run> HundredHardcoreCompletions { get; private set; } = new();
+        public static List<Run> ListOfMostConcurrentRecords { get; private set; } = new();
+        public static string RunnerWithMostConcurrentRecords { get; private set; } = string.Empty;
+        public static int MostConsecutiveRecordsCount { get; private set; }
+        public static string RunnerWithMostConsecutiveRecords { get; private set; } = string.Empty;
         public static LeaderboardSheet History { get; private set; }
 
         public static string AnyRsgRunner { get; private set; }
@@ -41,6 +48,9 @@ namespace AATool.Data.Speedrunning
         public static readonly TimeZoneInfo TimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
 
         public static readonly string[] AAVersions = { "1.20", "1.19", "1.18", "1.17", "1.16", "1.15", "1.14", "1.13", "1.12", "1.11", "1.6" };
+        public static readonly string[] AnyPercentVersions = { "1.16+", "1.13-1.15", "1.9-1.12", "1.18", "pre-1.18" };
+
+        static bool SecondaryCachesLoaded;
 
         public string Category { get; private set; }
         public string Version { get; private set; }
@@ -48,24 +58,36 @@ namespace AATool.Data.Speedrunning
         public Dictionary<string, int> Ranks = new ();
         public List<Run> Runs = new ();
 
-        private readonly LeaderboardSheet sheet;
+        //private readonly LeaderboardSheet sheet;
 
-        public int TotalRows => this.sheet?.Rows.Length ?? 0;
+        static bool CachedChallengesLoaded;
+        static bool CachedHistoryLoaded;
 
         public static bool NickNamesLoaded { get; private set; }
         public static (string category, string version) Current => (Tracker.Category.Name, Tracker.Category.CurrentMajorVersion);
-        public static bool IsLiveAvailable(string category, string version) => LiveBoards.Contains((category, version));
         public static bool IdentityAlreadyRequested(string name) => RequestedIdentities.Contains(name);
         public static bool IsRunner(Uuid player, string name = null) => AllRunners.Contains(player) || AllRunnerNames.Contains(name);
+
+        public static bool IsLiveAvailable(string category, string version)
+        {
+            if (category is "HHHAA")
+                return History is not null;
+            return LiveBoards.Contains((category, version));
+        }
 
         public static void Initialize()
         {
             foreach (string version in AAVersions)
                 TryLoadCached("All Advancements", version, out _);
+            foreach (string version in AAVersions)
+                TryLoadCached("All Advancements", version, out _);
+
             TryLoadCachedSpeedrunDotComRecord(true, false, "1.16", out _);
             TryLoadCachedSpeedrunDotComRecord(false, false, "1.16", out _);
             TryLoadCachedSpeedrunDotComRecord(false, true, "1.16", out _);
-            UpdateMostWorldRecords();
+            TryLoadCachedChallenges();
+            UpdateMostConcurrentRecords();
+            UpdateMostConsecutiveRecords();
         }
 
         public static void Refresh(string category = null, string version = null)
@@ -86,10 +108,29 @@ namespace AATool.Data.Speedrunning
             }
         }
 
-        public static string GuidanceHeader(string cateogy, string version)
+        public static void RefreshSrc(string category = null, string version = null)
+        {
+            NetRequest.ClearHistory();
+            Player.IdentitiesAlreadyRequested.Clear();
+            Player.NamesAlreadyRequested.Clear();
+            Badge.HoverTimer.Reset();
+            NickNamesLoaded = false;
+            if (category is null)
+            {
+                SrcLeaderboardRequest.DownloadedLeaderboards.Clear();
+                LiveBoards.Clear();
+            }
+            else
+            {
+                SrcLeaderboardRequest.DownloadedLeaderboards.Remove((category, version));
+                LiveBoards.Remove((category, version));
+            }
+        }
+
+        public static string GuidanceHeader(string caterogy, string version)
         {
             //1.16 aa has its own separate page
-            return (cateogy is "All Advancements" && version is "1.16") || cateogy is "All Blocks"
+            return (caterogy is "All Advancements" && version is "1.16") || caterogy is "All Blocks"
                 ? null
                 : $"{version} rsg";
         }
@@ -112,36 +153,110 @@ namespace AATool.Data.Speedrunning
         {
             if (category is "All Blocks")
                 return $"leaderboard_all_blocks_{version}";
+            if (category is "Challenge")
+                return $"leaderboard_challenges";
             return version is "1.16" ? "leaderboard_aa_primary" : "leaderboard_aa_others";
+        }
+
+        public Leaderboard(string category, string version)
+        {
+            this.Category = category;
+            this.Version = version;
         }
 
         public Leaderboard(LeaderboardSheet sheet, string category, string version)
         {
             this.Category = category;
             this.Version = version;
-            this.sheet = sheet;
             lock (this.Ranks)
             {
-                for (int i = 2; i < this.sheet.Rows.Length; i++)
+                if (category is "Hardcore No Reset")
                 {
-                    if (Run.TryParse(this.sheet, i, this.Version, out Run pb))
+                    for (int i = 2; i < sheet.Rows.Length; i++)
                     {
-                        int rank = i - 1;
-                        this.Runs.Add(pb);
-                        this.Ranks[pb.Runner.ToLower()] = rank;
+                        if (HardcoreStreak.TryParse(sheet, i, this.Version, out HardcoreStreak run))
+                        {
+                            //int rank = i - 1;
+                            int rank = run.BestStreak switch {
+                                >= 100 => 1,
+                                >= 50 => 2,
+                                _ => int.MaxValue
+                            };
+                            this.AddRun(run, rank);
 
-                        string realName = GetRealName(pb.Runner);
-                        _= AllRunnerNames.Add(realName);
-                        _= AllRunnerNames.Add(pb.Runner);
-                        if (Player.TryGetUuid(realName, out Uuid id))
-                            _= AllRunners.Add(id);
+                            if (rank is 1)
+                                HundredHardcoreCompletions.Add(run);
+                        }
+                    }
+                }
+                else if (category is "All Versions")
+                {
+                    for (int i = 2; i < sheet.Rows.Length; i++)
+                    {
+                        if (AllVersionsRun.TryParse(sheet, i, this.Version, out Run run))
+                        {
+                            int rank = i - 1;
+                            this.AddRun(run, rank);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 2; i < sheet.Rows.Length; i++)
+                    {
+                        if (Run.TryParse(sheet, i, this.Version, out Run run))
+                        {
+                            int rank = i - 1;
+                            this.AddRun(run, rank);
+                        }
+                    }
+
+                    if (category is "1K No Reset")
+                    {
+                        foreach (Run run in this.Runs)
+                        {
+                            run.Comment = "1K No Reset";
+                        }
                     }
                 }
             }
         }
 
+        public Leaderboard(LeaderboardSrcJson json, string category, string version)
+        {
+            this.Category = category;
+            this.Version = version;
+            lock (this.Ranks)
+            {
+                for (int i = 0; i < json.Runs.Count; i++)
+                {
+                    Run run = json.Runs[i];
+                    int rank = i + 1;
+                    this.AddRun(run, rank);
+                }
+            }
+        }
+
+        public void AddRun(Run run, int rank)
+        {
+            this.Runs.Add(run);
+            this.Ranks[run.Runner.ToLower()] = rank;
+
+            string realName = GetRealName(run.Runner);
+            _= AllRunnerNames.Add(realName);
+            _= AllRunnerNames.Add(run.Runner);
+            if (Player.TryGetUuid(realName, out Uuid id))
+                _= AllRunners.Add(id);
+        }
+
         public static bool TryGet(string category, string version, out Leaderboard leaderboard)
         {
+            if (category is "HHHAA")
+            {
+                leaderboard = HalfHeartHardcoreCompletions;
+                return leaderboard is not null;
+            }
+
             return AllBoards.TryGetValue((category, version), out leaderboard)
                 ? leaderboard is not null
                 : TryLoadCached(category, version, out leaderboard);
@@ -203,7 +318,7 @@ namespace AATool.Data.Speedrunning
             return wr is not null;
         }
 
-        public static bool SyncRecords(string sheetId, string pageId, string csv)
+        public static bool SyncSheetLeaderboard(string sheetId, string pageId, string csv)
         {
             LeaderboardSheet sheet = null;
             string category = sheetId switch {
@@ -216,7 +331,7 @@ namespace AATool.Data.Speedrunning
 
             List<string> versions;
             if (sheetId is Paths.Web.AASheet && pageId is Paths.Web.AAPage16)
-                versions = new () { "1.16" };
+                versions = new() { "1.16" };
             else if (sheetId is Paths.Web.ABSheet && pageId is Paths.Web.ABPage16)
                 versions = new() { "1.16" };
             else if (pageId is Paths.Web.ABPage18)
@@ -226,7 +341,7 @@ namespace AATool.Data.Speedrunning
             else if (pageId is Paths.Web.ABPage20)
                 versions = new() { "1.20" };
             else
-                versions = new () { "1.20", "1.19", "1.18", "1.17", "1.15", "1.14", "1.13", "1.12", "1.11", "1.6" };
+                versions = new() { "1.20", "1.19", "1.18", "1.17", "1.15", "1.14", "1.13", "1.12", "1.11", "1.6" };
 
             //parse all the leaderboards
             foreach (string version in versions)
@@ -237,15 +352,71 @@ namespace AATool.Data.Speedrunning
                     LiveBoards.Add((category, version));
                 }
             }
-            UpdateMostWorldRecords();
+            UpdateMostConcurrentRecords();
             sheet?.SaveToCache();
             return sheet is not null;
         }
 
-        public static bool SyncHistory(string csv)
+        public static bool SyncChallengeLeaderboards(string csv)
         {
-            if (LeaderboardSheet.TryParse(csv, "history_1.16", null, out LeaderboardSheet sheet))
+            LeaderboardSheet sheet = null;
+            string[] challenges = new string[] { "Hardcore No Reset", "1K No Reset", "All Items", "All Versions" };
+            foreach (string challenge in challenges)
+            {
+                if (LeaderboardSheet.TryParse(csv, GetKey("Challenge", ""), challenge.ToLower(), out sheet))
+                {
+                    AllBoards[(challenge, "1.16")] = new Leaderboard(sheet, challenge, "1.16");
+                    LiveBoards.Add((challenge, "1.16"));
+                }
+            }
+            sheet?.SaveToCache();
+            return sheet is not null;
+        }
+
+        public static bool SyncHistory(string csv, bool save)
+        {
+            if (LeaderboardSheet.TryParse(csv, "history_aa_1.16", null, out LeaderboardSheet sheet))
+            {
                 History = sheet;
+                AALinks.Clear();
+                var hhhRuns = new List<Run>();
+                for (int i = 1; i < History.Rows.Length; i++)
+                {
+                    if (!History.TryGetRunner(i, out string runner))
+                        continue;
+                    if (string.IsNullOrEmpty(runner))
+                        continue;
+                    if (!History.TryGetDate(i, out DateTime date))
+                        continue;
+
+                    if (History.TryGetLink(i, out string link))
+                        AALinks[(runner, date)] = link;
+
+                    if (History.TryGetComment(i, out string comment) && comment is "Modded (HHH mod)")
+                    {
+                        if (!History.TryGetIgt(i, out TimeSpan igt))
+                            continue;
+                        History.TryGetIgt(i, out TimeSpan rta);
+
+                        hhhRuns.Add(new Run() { 
+                            Runner = runner,
+                            Date = date,
+                            InGameTime = igt,
+                            RealTime = rta,
+                            Link = link
+                        });
+                    }
+                }
+                hhhRuns = hhhRuns.OrderBy(x => x.InGameTime).ToList();
+                if (hhhRuns.Count > 0)
+                {
+                    HalfHeartHardcoreCompletions = new Leaderboard("HHHAA", "1.16");
+                    for (int i = 0; i < hhhRuns.Count; i++)
+                        HalfHeartHardcoreCompletions.AddRun(hhhRuns[i], i + 1);
+                }
+            }
+            if (save)
+                sheet?.SaveToCache();
             return sheet is not null;
         }
 
@@ -258,6 +429,17 @@ namespace AATool.Data.Speedrunning
                 sheet.SaveToCache();
             }
             return NickNamesLoaded;
+        }
+
+        internal static bool SyncSpeedrunDotComLeaderboard(string json, string category, string version)
+        {
+            if (LeaderboardSrcJson.TryParse(json, version, out LeaderboardSrcJson valid))
+            {
+                AllBoards[(category, version)] = new Leaderboard(valid, category, version);
+                LiveBoards.Add((category, version));
+                return true;
+            }
+            return false;
         }
 
         public static bool SyncSpeedrunDotComRecord(string jsonString, bool rsg, bool aa)
@@ -321,6 +503,22 @@ namespace AATool.Data.Speedrunning
             }
         }
 
+        public static void SaveSpeedrunDotComLeaderboardToCache(string jsonString, string category, string version)
+        {
+            try
+            {
+                //cache leaderboard so it loads instantly next launch
+                //overwrite to keep leaderboard up to date
+                Directory.CreateDirectory(Paths.System.LeaderboardsFolder);
+                string path = Paths.System.SpeedrunDotComLeaderboardFile(category, version);
+                File.WriteAllText(path, jsonString);
+            }
+            catch
+            {
+                //couldn't save file. ignore and move on
+            }
+        }
+
         public static void SaveSpeedrunDotComRecordToCache(string jsonString, bool rsg, bool aa)
         {
             try
@@ -340,6 +538,20 @@ namespace AATool.Data.Speedrunning
         private static bool TryLoadCached(string category, string version, out Leaderboard leaderboard)
         {
             leaderboard = null;
+            if (category.ToLower().Contains("any%"))
+            {
+                return TryLoadCachedSrc(category, version, out leaderboard);
+            }
+            else if (category is "1K No Reset")
+            {
+                if (TryLoadCachedChallenges())
+                {
+                    leaderboard = AllBoards[(category, "1.16")];
+                    return true;
+                }
+                return false;
+            }
+
             string key = GetKey(category, version);
             string leaderboardFile = Paths.System.LeaderboardFile(key);
             if (File.Exists(leaderboardFile))
@@ -376,6 +588,72 @@ namespace AATool.Data.Speedrunning
             return leaderboard is not null;
         }
 
+        public static bool TryLoadCachedHistory()
+        {
+            if (CachedHistoryLoaded)
+                return false;
+
+            CachedHistoryLoaded = true;
+            string leaderboardFile = Paths.System.HistoryFile;
+            if (File.Exists(leaderboardFile))
+            {
+                try
+                {
+                    string csv = File.ReadAllText(leaderboardFile);
+                    return SyncHistory(csv, false);
+                }
+                catch
+                {
+                    //couldn't read cached history, move on 
+                }
+            }
+            return false;
+        }
+
+        public static bool TryLoadCachedChallenges()
+        {
+            if (CachedChallengesLoaded)
+                return false;
+
+            CachedChallengesLoaded = true;
+            string leaderboardFile = Paths.System.ChallengesFile;
+            if (File.Exists(leaderboardFile))
+            {
+                try
+                {
+                    string csv = File.ReadAllText(leaderboardFile);
+                    return SyncChallengeLeaderboards(csv);
+                }
+                catch
+                {
+                    //couldn't read cached history, move on 
+                }
+            }
+            return false;
+        }
+
+        public static bool TryLoadCachedSrc(string category, string version, out Leaderboard leaderboard)
+        {
+            leaderboard = null;
+            string leaderboardFile = Paths.System.SpeedrunDotComLeaderboardFile(category, version);
+            if (File.Exists(leaderboardFile))
+            {
+                try
+                {
+                    string json = File.ReadAllText(leaderboardFile);
+                    if (LeaderboardSrcJson.TryParse(json, version, out LeaderboardSrcJson sheet))
+                        AllBoards[(category, version)] = leaderboard = new Leaderboard(sheet, category, version);
+                    else
+                        AllBoards[(category, version)] = null;
+                }
+                catch
+                {
+                    //couldn't read cached leaderboard, move on 
+                }
+            }
+            return leaderboard is not null;
+        }
+
         private static bool TryLoadCachedSpeedrunDotComRecord(bool rsg, bool aa, string version, out string jsonString)
         {
             jsonString = string.Empty;
@@ -395,7 +673,7 @@ namespace AATool.Data.Speedrunning
             return jsonString is not null;
         }
 
-        private static void UpdateMostWorldRecords()
+        private static void UpdateMostConcurrentRecords()
         {
             Dictionary<string, List<Run>> recordHolders = new ();
             foreach (string version in AAVersions)
@@ -421,22 +699,59 @@ namespace AATool.Data.Speedrunning
                 if (foundNewLeader)
                 {
                     mostRecordsCount = count;
-                    RunnerWithMostWorldRecords = newestVersion.Runner;
+                    RunnerWithMostConcurrentRecords = newestVersion.Runner;
                     mostLatestVersion = newestVersion.GameVersion;
                 }
             }
-            ListOfMostRecords.Clear();
-            if (recordHolders.TryGetValue(RunnerWithMostWorldRecords, out List<Run> runs))
-                ListOfMostRecords.AddRange(runs);
+            ListOfMostConcurrentRecords.Clear();
+            if (recordHolders.TryGetValue(RunnerWithMostConcurrentRecords, out List<Run> runs))
+                ListOfMostConcurrentRecords.AddRange(runs);
+        }
 
-            /*
-            UIAvatar avatar = this.Root().First<UIAvatar>("most_records_avatar");
-            avatar?.SetPlayer(mostRecordsName);
-            //avatar?.RegisterOnLeaderboard(this.board);
-            //avatar?.RefreshBadge();
-            this.Root().First<UITextBlock>("most_records_runner")?.SetText(mostRecordsName);
-            this.Root().First<UITextBlock>("most_records_list")?.SetText(mostRecordsList);
-            */
+        private static void UpdateMostConsecutiveRecords()
+        {
+            TryLoadCachedHistory();
+
+            if (History is null || !History.Rows.Any())
+                return;
+
+            TimeSpan wr = TimeSpan.MaxValue;
+            var streaks = new List<(string runner, int records, DateTime date)>();
+            string previousRecordHolder = null;
+
+            (string runner, int records, DateTime date) current = default;
+            for (int row = 1; row < History.Rows.Length; row++)
+            {
+                if (!Run.TryParse(History, row, "1.16", out Run run))
+                    continue;
+                if (run.InGameTime > wr)
+                    continue;
+
+                wr = run.InGameTime;
+
+                if (current == default || current.runner != run.Runner)
+                {
+                    current = new(run.Runner, 1, run.Date);
+                    streaks.Add(current);
+                }
+
+                if (run.Runner == previousRecordHolder)
+                {
+                    current = new(current.runner, current.records + 1, current.date);
+                    streaks[streaks.Count - 1] = current;
+                }
+                previousRecordHolder = run.Runner;
+            }
+
+            (string runner, int records, DateTime date) most = default;
+            foreach ((string runner, int records, DateTime date) streak in streaks)
+            {
+                if (streak.records > most.records)
+                    most = streak;
+            }
+
+            RunnerWithMostConsecutiveRecords = most.runner;
+            MostConsecutiveRecordsCount = most.records;
         }
     }
 }

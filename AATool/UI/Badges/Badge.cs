@@ -27,7 +27,11 @@ namespace AATool.UI.Badges
         {
             //yes this is spaghetti code, i do not care
 
-            bool multiboard = UIMainScreen.ActiveTab == UIMainScreen.MultiboardTab;
+            if (category is "HHHAA")
+            {
+                badge = new HalfHeartHardcoreBadge();
+                return true;
+            }
 
             badge = null;
             name = name?.ToLower();
@@ -49,7 +53,6 @@ namespace AATool.UI.Badges
                 badge = new RankBadge(rank, category, version, true);
 
             bool supporterOverride = isMainPlayer && Config.Main.PreferredPlayerBadge.Value is "Gold" or "Diamond" or "Netherite";
-
 
             //legendary badges
             if (!onLeaderboard && !supporterOverride)
@@ -75,9 +78,17 @@ namespace AATool.UI.Badges
 
         private static void TryGiveLegendaryBadge(Uuid uuid, string name, ref Badge badge)
         {
-            if (name == Leaderboard.RunnerWithMostWorldRecords.ToLower())
+            string nickName = Leaderboard.GetNickName(name)?.ToLower();
+
+            if (nickName == Leaderboard.RunnerWithMostConsecutiveRecords.ToLower()
+                && Config.Main.PreferredPlayerBadge.Value is "Default" or "Consecutive WRs")
             {
-                badge = new MostRecordsBadge();
+                badge = new MostConsecutiveRecordsBadge();
+            }
+            else if (nickName == Leaderboard.RunnerWithMostConcurrentRecords.ToLower()
+                && Config.Main.PreferredPlayerBadge.Value is "Default" or "Concurrent WRs")
+            {
+                badge = new MostConcurrentRecordsBadge();
             }
             else if (name == Leaderboard.AnyRsgRunner?.ToLower())
             {
@@ -96,9 +107,9 @@ namespace AATool.UI.Badges
                 string player = uuid != Uuid.Empty ? uuid.String : name;
                 badge = player switch {
                     Credits.Elysaku or Credits.ElysakuName => new HalfHeartHardcoreBadge(),
-                    Credits.Couriway or Credits.CouriwayName => new NoResetsBadge(Credits.CouriwayName, 2),
-                    Credits.MoleyG or Credits.MoleyGName => new NoResetsBadge(Credits.MoleyGName, 1),
-                    Credits.Feinberg or Credits.FeinbergName => new HundredHardcoreBadge(),
+                    Credits.Couriway or Credits.CouriwayName => new NoResetsBadge(Credits.CouriwayName, 2000),
+                    Credits.MoleyG or Credits.MoleyGName => new NoResetsBadge(Credits.MoleyGName, 1000),
+                    Credits.Feinberg or Credits.FeinbergName => new HundredHardcoreBadge(100),
                     _ => null
                 };
             }
@@ -143,7 +154,7 @@ namespace AATool.UI.Badges
             if (Credits.TryGet(uuid, out Credit supporter) || Credits.TryGet(name, out supporter))
             {
                 name ??= string.Empty;
-                if (supporter.Role is Credits.NetheriteTier)
+                if (supporter.HighestRole is Credits.NetheriteTier)
                 {
                     if (uuid != mainPlayer && name.ToLower() != mainName?.ToLower())
                         variant = "netherite";
@@ -156,7 +167,7 @@ namespace AATool.UI.Badges
                     else
                         variant = "netherite";
                 }
-                else if (supporter.Role is Credits.DiamondTier)
+                else if (supporter.HighestRole is Credits.DiamondTier)
                 {
                     if (uuid != mainPlayer && name.ToLower() != mainName?.ToLower())
                         variant = "diamond";
@@ -167,7 +178,7 @@ namespace AATool.UI.Badges
                     else
                         variant = "diamond";
                 }
-                else if (supporter.Role is Credits.GoldTier)
+                else if (supporter.HighestRole is Credits.GoldTier)
                 {
                     if (uuid != mainPlayer && name.ToLower() != mainName?.ToLower())
                         variant = "gold";
@@ -186,7 +197,7 @@ namespace AATool.UI.Badges
             string role = null;
             if (Credits.TryGet(uuid, out Credit supporter) || Credits.TryGet(name, out supporter))
             {
-                if (supporter.Role is Credits.NetheriteTier or Credits.Developer)
+                if (supporter.HighestRole is Credits.NetheriteTier or Credits.Developer)
                 {
                     if (Config.Main.PreferredPlayerBadge == "Basic Rank")
                         role = null;
@@ -197,7 +208,7 @@ namespace AATool.UI.Badges
                     else
                         role = Credits.NetheriteTier;
                 }
-                else if (supporter.Role is Credits.DiamondTier)
+                else if (supporter.HighestRole is Credits.DiamondTier)
                 {
                     if (Config.Main.PreferredPlayerBadge == "Basic Rank")
                         role = null;
@@ -206,7 +217,7 @@ namespace AATool.UI.Badges
                     else
                         role = Credits.DiamondTier;
                 }
-                else if (supporter.Role is Credits.GoldTier)
+                else if (supporter.HighestRole is Credits.GoldTier)
                 {
                     if (Config.Main.PreferredPlayerBadge == "Basic Rank")
                         role = null;

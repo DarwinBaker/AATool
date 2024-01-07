@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using AATool.Configuration;
+using AATool.Data;
 using AATool.Data.Speedrunning;
 using AATool.Graphics;
 using AATool.Net;
@@ -37,6 +38,12 @@ namespace AATool
         ||       */const string ModderName = "";/*                ||
         ||                                                        ||
         ||       //Thanks!                                        ||
+        ||                                                        ||
+        ||       Note: This is a "fast n' dirty" project that     ||
+        ||          has evolved far beyond its original scope     ||
+        ||          and has incurred a lot of technical debt.     ||
+        ||          As such, the codebase is a bit of a mess :p   ||
+        ||                                                        ||
         ||                                                        ||
         ====================================================HDWGH?*/
 
@@ -87,6 +94,8 @@ namespace AATool
             Tracker.Initialize();
             FontSet.Initialize();
             Leaderboard.Initialize();
+            RunnerProfile.Initialize();
+            Credits.Initialize();
 
             //get last player's identity
             if (!string.IsNullOrEmpty(Config.Tracking.LastPlayer))

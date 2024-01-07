@@ -14,6 +14,8 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<string> LastSession = new (string.Empty);
             [JsonProperty] public readonly Setting<string> LastPlayer = new (string.Empty);
             [JsonProperty] public readonly Setting<Uuid> LastUuid = new (Uuid.Empty);
+            [JsonProperty] public readonly Setting<string> CurrentRunnerProfileId = new (string.Empty);
+            [JsonProperty] public readonly Setting<string> CurrentRunnerProfileName = new (string.Empty);
 
             [JsonProperty] public readonly Setting<string> GameCategory = new ("All Advancements");
             [JsonProperty] public readonly Setting<string> GameVersion = new ("1.16");
@@ -33,6 +35,10 @@ namespace AATool.Configuration
             [JsonProperty] public readonly Setting<string> OpenTrackerUrl = new (string.Empty);
 
             [JsonProperty] public readonly Setting<DateTime> LastOpenedAllBlocks = new (default);
+
+            [JsonIgnore]
+            public string CurrentRunnerProfileNameOrId => !string.IsNullOrEmpty(this.CurrentRunnerProfileId)
+                ? this.CurrentRunnerProfileId : this.CurrentRunnerProfileName;
 
             [JsonIgnore]
             public bool WatchActiveInstance => !this.UseSftp 

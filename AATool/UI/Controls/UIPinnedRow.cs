@@ -58,7 +58,7 @@ namespace AATool.UI.Controls
         public override void InitializeThis(UIScreen screen)
         {
             this.pinButton = new UIButton() {
-                UseCustomColor = true,
+                UseCustomColors = true,
                 BorderThickness = 4,
                 Layer = Layer.Fore,
                 FlexWidth = new (54),

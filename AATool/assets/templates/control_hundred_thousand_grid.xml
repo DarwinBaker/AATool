@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control border_thickness="5">
+    <grid>
+        <columns>
+            <column width="0.33333*"/>
+            <column width="0.33333*"/>
+            <column width="0.33333*"/>
+        </columns>
+
+        <textblock col="0" text="Total Runs Completed" font_size="24" vertical_align="top" margin_top="10"/>
+        <textblock col="0" name="progress" font_size="24" vertical_align="top" margin_top="40"/>
+
+        <textblock col="1" text="Overall Progress" font_size="24" vertical_align="top" margin_top="10"/>
+        <textblock col="1" name="percent" font_size="24" vertical_align="top" margin_top="40"/>
+
+        <textblock col="2" text="Estimated In-Game Time Remaining" font_size="24" vertical_align="top" margin_top="10"/>
+        <textblock col="2" name="remaining" font_size="24" vertical_align="top" margin_top="40"/>
+
+    </grid>
+</control>

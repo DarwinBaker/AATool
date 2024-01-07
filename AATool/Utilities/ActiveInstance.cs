@@ -24,7 +24,9 @@ namespace AATool.Utilities
         const string GameDirFlag = "--gameDir ";
         const string NativesFlag = "-Djava.library.path=";
 
+        public static string DotMinecraftPath { get; private set; } = string.Empty;
         public static string SavesPath { get; private set; } = string.Empty;
+        public static string PracticeSavesPath { get; private set; } = string.Empty;
         public static string LogFile { get; private set; } = string.Empty;
         public static int Number { get; private set; } = -1;
         public static int LastActiveId { get; private set; } = -1;
@@ -58,8 +60,16 @@ namespace AATool.Utilities
 
                     //update saves folder
                     string args = instance.CommandLine();
-                    SavesPath = TryParseDotMinecraft(args, out DirectoryInfo dotMinecraft)
-                        ? Path.Combine(dotMinecraft.FullName, "saves")
+                    DotMinecraftPath = TryParseDotMinecraft(args, out DirectoryInfo dotMinecraft)
+                        ? dotMinecraft.FullName
+                        : string.Empty;
+
+                    SavesPath = !string.IsNullOrWhiteSpace(DotMinecraftPath)
+                        ? Path.Combine(DotMinecraftPath, "saves")
+                        : string.Empty;
+
+                    PracticeSavesPath = !string.IsNullOrWhiteSpace(DotMinecraftPath)
+                        ? Path.Combine(DotMinecraftPath, "practiceSaves")
                         : string.Empty;
 
                     LogFile = dotMinecraft is not null

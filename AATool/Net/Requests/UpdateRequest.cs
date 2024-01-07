@@ -46,7 +46,7 @@ namespace AATool.Net.Requests
         public override async Task<bool> DownloadAsync()
         {
             using var client = new HttpClient() { 
-                Timeout = TimeSpan.FromMilliseconds(Protocol.Requests.TimeoutMs)
+                Timeout = TimeSpan.FromMilliseconds(Protocol.Requests.TimeoutNormalMs)
             };
             try
             {

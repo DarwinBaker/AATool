@@ -24,6 +24,7 @@ namespace AATool.UI.Controls
         public Uuid Player { get; private set; }
         public bool ShowName { get; set; }
         public int Scale { get; set; }
+        public bool LockBadgeAndFrame { get; set; }
 
         private Leaderboard owner;
         private UIPicture face;
@@ -73,7 +74,7 @@ namespace AATool.UI.Controls
                 if (this.Player != Uuid.Empty)
                     Net.Player.FetchIdentityAsync(this.Player);
                 if (Credits.TryGet(player, out Credit supporter))
-                    this.SetFrame(supporter.Role);
+                    this.SetFrame(supporter.HighestRole);
             }
             this.face.SetTexture($"avatar-{this.Player.String}");
         }
@@ -86,11 +87,31 @@ namespace AATool.UI.Controls
             string realName = Leaderboard.GetRealName(name ?? string.Empty).ToLower();
             string nickName = Leaderboard.GetNickName(name ?? string.Empty).ToLower();
             if (Credits.TryGet(realName, out Credit supporter) || Credits.TryGet(nickName, out supporter))
-                this.SetFrame(supporter.Role);
+                this.SetFrame(supporter.HighestRole);
         }
 
-        private void SetFrame(string role)
+        public void SetFrame(string role, bool skipChecks = false)
         {
+            if (skipChecks)
+            {
+                if (role is Credits.GoldTier)
+                {
+                    this.SetGoldFrame();
+                    this.showFrame = true;
+                }
+                else if (role is Credits.DiamondTier)
+                {
+                    this.SetDiamondFrame();
+                    this.showFrame = true;
+                }
+                else if (role is Credits.NetheriteTier)
+                {
+                    this.SetNetheriteFrame();
+                    this.showFrame = true;
+                }
+                return;
+            }
+
             bool isMainPlayer = this.Player == Tracker.GetMainPlayer();
             if (role is Credits.NetheriteTier or Credits.Developer or Credits.BetaTester)
             {
@@ -166,7 +187,7 @@ namespace AATool.UI.Controls
                     this.SetPlayer(this.offlineName);
                 }
             }
-            this.showFrame &= UIMainScreen.ActiveTab is not UIMainScreen.MultiboardTab;
+            this.showFrame &= UIMainScreen.ActiveTab is UIMainScreen.TrackerTab;
             base.InitializeRecursive(screen);
         } 
 
@@ -267,14 +288,17 @@ namespace AATool.UI.Controls
             this.name.SetTextColor(Config.Main.TextColor.Value * this.nameOpacity);
         }
 
-        public void SetBadge(Badge badge)
+        public void SetBadge(Badge badge, bool ignoreSizeCheck = false)
         {
             this.RemoveControl(this.badge);
-            if (this.Width >= 32 && badge is not null)
+            if ((this.Width >= 32 || ignoreSizeCheck) && badge is not null)
             {
                 this.badge = badge;
                 this.AddControl(this.badge);
-                this.badge.ResizeRecursive(this.Inner);
+                if (this.Width >= 32)
+                {
+                    this.badge.ResizeRecursive(this.Inner);
+                }
             }
             this.cacheChecked = true;
             this.liveChecked = true;
@@ -282,8 +306,11 @@ namespace AATool.UI.Controls
 
         public void RefreshFrame()
         {
+            if (this.LockBadgeAndFrame)
+                return;
+
             if (Credits.TryGet(this.Player, out Credit supporter) || Credits.TryGet(this.offlineName, out supporter))
-                this.SetFrame(supporter.Role);
+                this.SetFrame(supporter.HighestRole);
         }
 
         public void RefreshBadge()
@@ -295,6 +322,9 @@ namespace AATool.UI.Controls
 
         public void RefreshBadge(string category, string version)
         {
+            if (this.LockBadgeAndFrame)
+                return;
+
             if (this.emptyLeaderboardSlot && this.badge is not null)
                 return;
 
@@ -327,8 +357,13 @@ namespace AATool.UI.Controls
             this.FlexHeight = new Size(8 * this.Scale);
             base.ResizeThis(parent);
 
+            if (this.owner?.Category is "HHHAA")
+                this.RefreshBadge();
+
             if (this.Width < 32)
                 this.badge?.Collapse();
+            else
+                this.badge?.Expand();
 
             const int FrameThickness = 3;
             this.frameRectangle = new Rectangle(

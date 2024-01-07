@@ -16,7 +16,8 @@ namespace AATool.UI.Controls
         public ControlState State { get; private set; }
         public UITextBlock TextBlock { get; private set; }
 
-        public bool UseCustomColor { get; set; }
+        public bool UseCustomColors { get; set; }
+        public bool UseHighlightedColors { get; set; }
         public bool ShowBorder { get; set; }
 
         public void SetText(string text) => this.TextBlock?.SetText(text);
@@ -80,8 +81,24 @@ namespace AATool.UI.Controls
             if (this.SkipDraw)
                 return;
 
-            Color backColor   = this.UseCustomColor ? this.BackColor   : Config.Main.BackColor;
-            Color borderColor = this.UseCustomColor ? this.BorderColor : Config.Main.BorderColor;
+            Color backColor;
+            Color borderColor;
+            if (this.UseCustomColors)
+            {
+                backColor = this.BackColor;
+                borderColor = this.BorderColor;
+            }
+            else if (this.UseHighlightedColors)
+            {
+                backColor = Config.Main.BorderColor;
+                borderColor = Config.Main.TextColor;
+            }
+            else
+            {
+                backColor = Config.Main.BackColor;
+                borderColor = Config.Main.BorderColor;
+            }
+
             if (!this.ShowBorder)
                 borderColor = backColor;
 
@@ -91,13 +108,23 @@ namespace AATool.UI.Controls
                     canvas.DrawRectangle(this.Bounds, backColor, borderColor, this.BorderThickness, this.Layer);
                     break;
                 case ControlState.Hovered:
-                    canvas.DrawRectangle(this.Bounds, backColor, borderColor * 1.25f, this.BorderThickness, this.Layer);
+                    borderColor = (Config.Main.RainbowMode || borderColor == Color.White) ? borderColor * 0.5f : borderColor * 1.25f;
+                    canvas.DrawRectangle(this.Bounds, backColor, borderColor, this.BorderThickness, this.Layer);
                     break;
                 case ControlState.Pressed:
-                    canvas.DrawRectangle(this.Bounds, backColor * 1.25f, borderColor * 1.5f, this.BorderThickness + (this.BorderThickness / 2), this.Layer);
+                    Color back = (Config.Main.TextColor == borderColor) ? backColor * 0.5f : backColor * 1.25f;
+                    canvas.DrawRectangle(this.Bounds, back, borderColor * 1.5f, this.BorderThickness + (this.BorderThickness / 2), this.Layer);
                     break;
                 case ControlState.Disabled:
-                    canvas.DrawRectangle(this.Bounds, backColor * 1.1f, backColor * 1.2f, this.BorderThickness, this.Layer);
+                    if (this.UseHighlightedColors)
+                    {
+                        Color highlightBack = (!Config.Main.RainbowMode && Config.Main.TextColor == backColor) ? backColor * 0.8f : backColor * 1.25f;
+                        canvas.DrawRectangle(this.Bounds, highlightBack, borderColor, this.BorderThickness + (this.BorderThickness / 2), this.Layer);
+                    }
+                    else
+                    {
+                        canvas.DrawRectangle(this.Bounds, backColor * 1.1f, backColor * 1.2f, this.BorderThickness, this.Layer);
+                    }
                     break;
             }
         }

@@ -19,9 +19,9 @@ namespace AATool.Winforms.Controls
 
         private void Populate()
         {
-            foreach (Credit credit in Credits.All)
+            foreach (Credit credit in Credits.Special)
             {
-                switch (credit.Role)
+                switch (credit.HighestRole)
                 {
                     case "developer":
                         this.developer.Add(credit);
@@ -37,6 +37,10 @@ namespace AATool.Winforms.Controls
                         break;
                 }
             }
+
+            foreach (Credit credit in Credits.All)
+                this.supporters.Add(credit);
+            this.supporters.PopulateSupporters();
         }
 
         private void OnClick(object sender, EventArgs e)

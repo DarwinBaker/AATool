@@ -138,31 +138,54 @@ namespace AATool.Winforms.Controls
 
             if (Credits.TryGet(mainPlayer, out Credit supporter) || Credits.TryGet(name, out supporter))
             {
-                if (supporter.Role is Credits.Developer)
+                if (supporter.HighestRole is Credits.Developer)
                 {
                     this.playerBadge.Items.Add("Developer");
                 }
 
-                if (supporter.Role is Credits.Developer || supporter.Uuids.Contains(Credits.Deadpool))
+                if (supporter.HighestRole is Credits.Developer || supporter.Uuids.Contains(Credits.Deadpool))
                 {
                     this.playerBadge.Items.Add("Moderator");
                     this.playerBadge.Items.Add("VIP");
                 }
 
-                if (supporter.Role is Credits.NetheriteTier or Credits.Developer or Credits.BetaTester)
+                if (supporter.HighestRole is Credits.NetheriteTier or Credits.Developer or Credits.BetaTester)
                 {
                     this.playerBadge.Items.Add("Netherite");
                     this.playerBadge.Items.Add("Diamond");
                     this.playerBadge.Items.Add("Gold");
                 }
-                else if (supporter.Role is Credits.DiamondTier)
+                else if (supporter.HighestRole is Credits.DiamondTier)
                 {
                     this.playerBadge.Items.Add("Diamond");
                     this.playerBadge.Items.Add("Gold");
                 }
-                else if (supporter.Role is Credits.GoldTier)
+                else if (supporter.HighestRole is Credits.GoldTier)
                 {
                     this.playerBadge.Items.Add("Gold");
+                }
+            }
+
+            string nickName = Leaderboard.GetNickName(name);
+
+            if (string.Equals(Leaderboard.RunnerWithMostConsecutiveRecords, nickName, StringComparison.OrdinalIgnoreCase)
+                    && !this.playerBadge.Items.Contains("Consecutive WRs"))
+            {
+                this.playerBadge.Items.Add("Consecutive WRs");
+            }
+
+            if (string.Equals(Leaderboard.RunnerWithMostConcurrentRecords, nickName, StringComparison.OrdinalIgnoreCase)
+                    && !this.playerBadge.Items.Contains("Concurrent WRs"))
+            {
+                this.playerBadge.Items.Add("Concurrent WRs");
+            }
+
+            foreach (Run hundredHardcoreCompletion in Leaderboard.HundredHardcoreCompletions)
+            {
+                if (string.Equals(hundredHardcoreCompletion.Runner, nickName, StringComparison.OrdinalIgnoreCase)
+                    && !this.playerBadge.Items.Contains("100 Hardcore"))
+                {
+                    this.playerBadge.Items.Add("100 Hardcore");
                 }
             }
 
@@ -179,15 +202,15 @@ namespace AATool.Winforms.Controls
             if (!string.IsNullOrEmpty(name))
             {
                 this.labelBadgeAvailability.Text = $"🛈 These are the badges and frames available to {name}.";
-                if (supporter.Role is Credits.NetheriteTier)
+                if (supporter.HighestRole is Credits.NetheriteTier)
                 {
                     this.labelBadgeAvailability.Text += " Thanks for your incredible support!";
                 }
-                else if (supporter.Role is Credits.DiamondTier)
+                else if (supporter.HighestRole is Credits.DiamondTier)
                 {
                     this.labelBadgeAvailability.Text += " Upgrade to netherite tier for more!";
                 }
-                else if (supporter.Role is Credits.DiamondTier)
+                else if (supporter.HighestRole is Credits.DiamondTier)
                 {
                     this.labelBadgeAvailability.Text += " Upgrade to diamond or netherite tier for more!";
                 }
@@ -221,18 +244,18 @@ namespace AATool.Winforms.Controls
 
             if (Credits.TryGet(mainPlayer, out Credit supporter) || Credits.TryGet(name, out supporter))
             {
-                if (supporter.Role is Credits.NetheriteTier or Credits.Developer or Credits.BetaTester)
+                if (supporter.HighestRole is Credits.NetheriteTier or Credits.Developer or Credits.BetaTester)
                 {
                     this.playerFrame.Items.Add("Netherite");
                     this.playerFrame.Items.Add("Diamond");
                     this.playerFrame.Items.Add("Gold");
                 }
-                else if (supporter.Role is Credits.DiamondTier)
+                else if (supporter.HighestRole is Credits.DiamondTier)
                 {
                     this.playerFrame.Items.Add("Diamond");
                     this.playerFrame.Items.Add("Gold");
                 }
-                else if (supporter.Role is Credits.GoldTier)
+                else if (supporter.HighestRole is Credits.GoldTier)
                 {
                     this.playerFrame.Items.Add("Gold");
                 }

@@ -17,7 +17,7 @@ namespace AATool.UI.Badges
         private static long LastFrameUpdated = -1;
         private static bool VariantsInitialized = false;
 
-        public DoubleHardcoreBadge() : base ()
+        public DoubleHardcoreBadge() : base (100)
         {
             if (!VariantsInitialized)
             {

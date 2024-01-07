@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+<!-- 
+    <picture name="avatar" width="96" height="96" vertical_align="top"/>
+    <text_block name="name" font_size="36" padding_top="100"/>
+    <text_block name="pronouns" font_size="24" padding_top="148"/>
+-->
+    <flow_panel name="trophies" border_thickness="0" padding_left="-28" padding_top="-20" width="200" vertical_align="top">
+
+    </flow_panel>
+    <button name="up" width="24" height="24" horizontal_align="right" vertical_align="top" margin_top="8" margin_right="24">
+        <picture texture="leaderboard_up" width="16" height="16"/>
+    </button>
+    <button name="down" width="24" height="24" horizontal_align="right" vertical_align="top" margin_top="8">
+        <picture texture="leaderboard_down" width="16" height="16"/>
+    </button>
+    <text_block name="showing" padding_top="15" padding_right="48"/>
+</control>

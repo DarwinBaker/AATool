@@ -1,4 +1,5 @@
-﻿using AATool.Graphics;
+﻿using AATool.Configuration;
+using AATool.Graphics;
 using AATool.UI.Screens;
 using Microsoft.Xna.Framework;
 using System.Xml;
@@ -51,7 +52,10 @@ namespace AATool.UI.Controls
         {
             base.InitializeThis(screen);
             if (this.labelTint && screen is UIMainScreen mainScreen)
+            {
                 mainScreen.RegisterLabelTint(this);
+                this.SetTint(Config.Main.TextColor);
+            }
         }
 
         public override void DrawThis(Canvas canvas)

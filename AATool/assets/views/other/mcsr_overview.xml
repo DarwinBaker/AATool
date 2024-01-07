@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid name="all_versions">
+        <rows>
+            <row height="60"/>
+            <row height="768"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="5"/>
+            <column width="1262"/>
+            <column width="5"/>
+            <column width="430"/>
+            <column width="8"/>
+        </columns>
+
+        <!-- status strip -->
+        <community_tabs row="0" col="1" colspan="7"/>
+        
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <grid row="1" col="2">
+            <rows>
+                <row height="4"/>
+                <row height="68"/>
+                <row height="173"/>
+                <row height="173"/>
+                <row height="173"/>
+                <row height="173"/>
+            </rows>
+            <columns>
+                <column width="165"/>
+                <column width="150"/>
+                <column width="150"/>
+                <column width="150"/>
+                <column width="150"/>
+                <column width="150"/>
+                <column width="150"/>
+                <column width="198"/>
+            </columns>
+
+            <panel row="1" colspan="7" border_thickness="5" padding_top="15">
+                <text_block font_size="36" text="MCSR Hall of Fame"/>
+            </panel>
+
+            <record_holder_most_consecutive row="2" col="0" border_thickness="5" padding_top="6"/>
+            <record_holder row="2" col="1" border_thickness="5" padding_top="6" category="All Advancements" version="1.20"/>
+            <record_holder row="2" col="2" border_thickness="5" padding_top="6" category="All Advancements" version="1.19"/>
+            <record_holder row="2" col="3" border_thickness="5" padding_top="6" category="All Advancements" version="1.18"/>
+            <record_holder row="2" col="4" border_thickness="5" padding_top="6" category="All Advancements" version="1.17"/>
+            <record_holder row="2" col="5" border_thickness="5" padding_top="6" category="All Advancements" version="1.16"/>
+            <record_holder_set_seed row="2" col="6" border_thickness="5" padding_top="6"/>
+
+            <record_holder_most_concurrent row="3" col="0" border_thickness="5"/>
+            <record_holder row="3" col="1" border_thickness="5" padding_top="6" category="All Advancements" version="1.15"/>
+            <record_holder row="3" col="2" border_thickness="5" padding_top="6" category="All Advancements" version="1.14"/>
+            <record_holder row="3" col="3" border_thickness="5" padding_top="6" category="All Advancements" version="1.13"/>
+            <record_holder row="3" col="4" border_thickness="5" padding_top="6" category="All Advancements" version="1.12"/>
+            <record_holder row="3" col="5" border_thickness="5" padding_top="6" category="All Advancements" version="1.11" title="1.8-1.11 AA"/>
+            <record_holder row="3" col="6" border_thickness="5" padding_top="6" category="All Advancements" version="1.6" title="1.6-1.10 AA"/>
+
+            <record_holder_most_any_percent row="4" col="0" border_thickness="5" padding_top="6"/>
+            <record_holder_half_heart_hardcore row="4" col="1" border_thickness="5" padding_top="6"/>
+            <record_holder_speedrun_dot_com row="4" col="2" border_thickness="5" padding_top="6" category="Any% RSG" version="1.16+"/>
+            <record_holder_speedrun_dot_com row="4" col="3" border_thickness="5" padding_top="6" category="Any% RSG" version="1.13-1.15"/>
+            <record_holder_speedrun_dot_com row="4" col="4" border_thickness="5" padding_top="6" category="Any% RSG" version="1.9-1.12"/>
+            <record_holder_speedrun_dot_com row="4" col="5" border_thickness="5" padding_top="6" category="Any% RSG" version="1.8"/>
+            <record_holder_speedrun_dot_com row="4" col="6" border_thickness="5" padding_top="6" category="Any% RSG" version="Pre-1.8"/>
+
+            <records_all_blocks row="5" col="0" colspan="2" border_thickness="5"/>
+
+            <record_holder_speedrun_dot_com row="5" col="2" border_thickness="5" padding_top="6" category="Any% SSG" version="1.16+"/>
+            <record_holder_speedrun_dot_com row="5" col="3" border_thickness="5" padding_top="6" category="Any% SSG" version="1.13-1.15"/>
+            <record_holder_speedrun_dot_com row="5" col="4" border_thickness="5" padding_top="6" category="Any% SSG" version="1.9-1.12"/>
+            <record_holder_speedrun_dot_com row="5" col="5" border_thickness="5" padding_top="6" category="Any% SSG" version="1.8"/>
+            <record_holder_speedrun_dot_com row="5" col="6" border_thickness="5" padding_top="6" category="Any% SSG" version="Pre-1.8"/>
+
+            <panel row="1" col="7" border_thickness="5" padding_top="15">
+                <text_block font_size="36" text="Team"/>
+            </panel>
+
+            <panel row="2" col="7" border_thickness="5">
+                <textblock text="The Developer&#xA;of AATool" font_size="24" vertical_align="top" margin_top="12" height="24"/>
+                <panel padding_top="55" horizontal_align="left" draw_mode="childrenonly">
+                    <avatar player="60bddec7-939c-4753-a898-cffa33134a4d" show_frame="false" vertical_align="top" margin_top="32"/>
+                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock text="CTM" vertical_align="top" margin_top="80" height="12"/>
+                </panel>
+            </panel>
+            <panel row="3" col="7" border_thickness="5">
+                <textblock text="Leaderboard&#xA;Manager" font_size="24" vertical_align="top" margin_top="12" height="24"/>
+                <panel padding_top="55" horizontal_align="left" draw_mode="childrenonly">
+                    <avatar player="899c63ac-6590-46c0-b77c-4dae1543f707" show_frame="false" vertical_align="top" margin_top="32"/>
+                    <panel width="64" height="2" vertical_align="top" margin_top="72" inner_corners="false"/>
+                    <textblock text="Deadpool" vertical_align="top" margin_top="80" height="12"/>
+                </panel>
+            </panel>
+            <panel row="4" col="7" rowspan="2" border_thickness="5">
+                <textblock text="Want to Show&#xA;Your Support?" font_size="24" vertical_align="top" margin_top="22" height="24"/>
+                <panel padding_top="80" padding_left="24" padding_right="24" draw_mode="childrenonly">
+                    <textblock text="Join the Patreon or&#xA;donate with PayPal!&#xA; &#xA;This helps fund cool new updates and you get your name in the credits of&#xA;every completed AA run!&#xA; &#xA;Every bit helps&#xA; &#xA;Thank you ♥" vertical_align="top" margin_top="10" height="12"/>
+                </panel>
+                <button name="support_patreon" width="60" height="60" border_thickness="3" vertical_align="bottom" horizontal_align="left" margin_left="28" margin_bottom="26">
+                    <picture texture="patreon_large" width="40" height="40"/>
+                </button>
+                <button name="support_paypal" width="60" height="60" border_thickness="3" vertical_align="bottom" horizontal_align="right" margin_right="28" margin_bottom="26">
+                    <picture texture="paypal_large" width="40" height="40"/>
+                </button>
+            </panel>
+
+        </grid>
+
+        <!-- supporters -->
+        <grid row="1" col="4" horizontal_align="right" flow_direction="toptobottom">
+            <rows>
+                <row height="8"/>
+                <row height="60"/>
+                <row height="8"/>
+                <row height="302"/>
+                <row height="8"/>
+                <row height="60"/>
+                <row height="8"/>
+                <row height="1*"/>
+                <row height="8"/>
+            </rows>
+            <panel row="0" border_thickness="8" inner_corners="false"></panel>
+            <panel row="1" padding_top="10">
+                <text_block font_size="36" text="Active Supporters"/>
+            </panel>
+            <panel row="2" border_thickness="8" inner_corners="false"></panel>
+            <supporter_list active_only="true" row="3" padding_left="6" padding_top="4"/>
+            <panel row="4" border_thickness="8" inner_corners="false"></panel>
+            <panel row="5" padding_top="10">
+                <text_block font_size="36" text="Past Supporters"/>
+            </panel>
+            <panel row="6" border_thickness="8" inner_corners="false"></panel>
+            <supporter_list active_only="false" row="7" padding_left="6" padding_top="4"/>
+            <panel row="8" border_thickness="8" inner_corners="false"></panel>
+        </grid>
+
+        <!-- needed to load data -->
+        <leaderboard category="All Blocks" version="1.20" draw_mode="none"/>
+        <leaderboard category="All Blocks" version="1.19" draw_mode="none"/>
+        <leaderboard category="All Blocks" version="1.18" draw_mode="none"/>
+        <leaderboard category="All Blocks" version="1.16" draw_mode="none"/>
+
+    </grid>
+
+</control>
