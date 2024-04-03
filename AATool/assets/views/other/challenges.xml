@@ -34,27 +34,26 @@
                 <text_block text="No-Reset Challenge" v_text_align="bottom" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <panel padding_top="8" padding_bottom="11" width="220" margin_top="5" border_thickness="1" inner_corners="true">
-                <text_block text="All Versions" v_text_align="top" font_size="24"/>
-                <text_block text="Hardcore No-F3" v_text_align="bottom" font_size="24"/>
+            <panel padding_top="8" padding_bottom="11" width="240" margin_top="5" border_thickness="1" inner_corners="true">
+                <text_block text="All Versions" v_text_align="top" padding_top="13" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <panel padding_top="8" padding_bottom="11" width="177" margin_top="5" border_thickness="1" inner_corners="true">
+            <panel padding_top="8" padding_bottom="11" width="172" margin_top="5" border_thickness="1" inner_corners="true">
                 <text_block text="All Blocks" v_text_align="top" font_size="24"/>
                 <text_block text="1.20" v_text_align="bottom" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <panel padding_top="8" padding_bottom="11" width="176" margin_top="5" border_thickness="1" inner_corners="true">
+            <panel padding_top="8" padding_bottom="11" width="171" margin_top="5" border_thickness="1" inner_corners="true">
                 <text_block text="All Blocks" v_text_align="top" font_size="24"/>
                 <text_block text="1.19" v_text_align="bottom" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <panel padding_top="8" padding_bottom="11" width="176" margin_top="5" border_thickness="1" inner_corners="true">
+            <panel padding_top="8" padding_bottom="11" width="171" margin_top="5" border_thickness="1" inner_corners="true">
                 <text_block text="All Blocks" v_text_align="top" font_size="24"/>
                 <text_block text="1.18" v_text_align="bottom" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <panel padding_top="8" padding_bottom="11" width="176" margin_top="5" border_thickness="1" inner_corners="true">
+            <panel padding_top="8" padding_bottom="11" width="171" margin_top="5" border_thickness="1" inner_corners="true">
                 <text_block text="All Blocks" v_text_align="top" font_size="24"/>
                 <text_block text="1.16" v_text_align="bottom" font_size="24"/>
             </panel>
@@ -69,15 +68,15 @@
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <leaderboard category="1K No Reset" version="1.16" hide_button="true" rows="11" small="true" width="220"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <leaderboard category="All Versions" version="1.16" hide_button="true" rows="11" width="220"/>
+            <leaderboard category="All Versions" version="1.16" hide_button="true" rows="11" width="240"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <leaderboard category="All Blocks" version="1.20" hide_button="true" rows="11" small="true" width="177"/>
+            <leaderboard category="All Blocks" version="1.20" hide_button="true" rows="11" small="true" width="172"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <leaderboard category="All Blocks" version="1.19" hide_button="true" rows="11" small="true" width="176"/>
+            <leaderboard category="All Blocks" version="1.19" hide_button="true" rows="11" small="true" width="171"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <leaderboard category="All Blocks" version="1.18" hide_button="true" rows="11" small="true" width="176"/>
+            <leaderboard category="All Blocks" version="1.18" hide_button="true" rows="11" small="true" width="171"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
-            <leaderboard category="All Blocks" version="1.16" hide_button="true" rows="11" small="true" width="176"/>
+            <leaderboard category="All Blocks" version="1.16" hide_button="true" rows="11" small="true" width="171"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
         </flow_panel>
 

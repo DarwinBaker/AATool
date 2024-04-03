@@ -232,7 +232,22 @@ namespace AATool.UI.Controls
 
             if (!this.IsSmall && this.Run is AllVersionsRun avRun)
             {
-                this.age.SetText($"({avRun.Range})");
+                this.age.SetText(avRun.NoF3
+                    ? $"No-F3 ({avRun.Range})"
+                    : $"({avRun.Range})");
+
+                if (avRun.Hardcore)
+                {
+                    var icon = new UIPicture() {
+                        FlexWidth = new(9),
+                        FlexHeight = new(9),
+                        HorizontalAlign = HorizontalAlign.Left,
+                        VerticalAlign = VerticalAlign.Top,
+                        Margin = new Margin(108, 0, 29, 0)
+                    };
+                    icon.SetTexture("av_hardcore");
+                    this.AddControl(icon);
+                }   
             }
 
             this.face.Glow();

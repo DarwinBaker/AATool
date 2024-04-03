@@ -60,7 +60,6 @@ namespace AATool.Winforms.Controls
             this.toggleCredentials = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.sftpPass = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.sftpHost = new System.Windows.Forms.TextBox();
             this.sftpUser = new System.Windows.Forms.TextBox();
@@ -78,6 +77,11 @@ namespace AATool.Winforms.Controls
             this.filterSoloName = new System.Windows.Forms.TextBox();
             this.keyboardTimer = new System.Windows.Forms.Timer(this.components);
             this.label12 = new System.Windows.Forms.Label();
+            this.sftpAutoSaveMinutes = new System.Windows.Forms.NumericUpDown();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.sftpType = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.localGroup.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -86,6 +90,7 @@ namespace AATool.Winforms.Controls
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.soloAvatar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sftpAutoSaveMinutes)).BeginInit();
             this.SuspendLayout();
             // 
             // autoVersion
@@ -303,6 +308,10 @@ namespace AATool.Winforms.Controls
             // 
             // remoteGroup
             // 
+            this.remoteGroup.Controls.Add(this.label15);
+            this.remoteGroup.Controls.Add(this.sftpType);
+            this.remoteGroup.Controls.Add(this.label14);
+            this.remoteGroup.Controls.Add(this.sftpAutoSaveMinutes);
             this.remoteGroup.Controls.Add(this.sftpValidate);
             this.remoteGroup.Controls.Add(this.label13);
             this.remoteGroup.Controls.Add(this.sftpCompatibility);
@@ -436,16 +445,6 @@ namespace AATool.Winforms.Controls
             this.sftpPass.TabIndex = 29;
             this.sftpPass.UseSystemPasswordChar = true;
             this.sftpPass.TextChanged += new System.EventHandler(this.OnTextChanged);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 68);
-            this.label3.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 13);
-            this.label3.TabIndex = 28;
-            this.label3.Text = "Username:";
             // 
             // label6
             // 
@@ -641,6 +640,72 @@ namespace AATool.Winforms.Controls
             this.label12.TabIndex = 71;
             this.label12.Text = "🛈 You can open this window by pressing Escape";
             // 
+            // sftpAutoSaveMinutes
+            // 
+            this.sftpAutoSaveMinutes.Location = new System.Drawing.Point(9, 134);
+            this.sftpAutoSaveMinutes.Maximum = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            this.sftpAutoSaveMinutes.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.sftpAutoSaveMinutes.Name = "sftpAutoSaveMinutes";
+            this.sftpAutoSaveMinutes.Size = new System.Drawing.Size(45, 20);
+            this.sftpAutoSaveMinutes.TabIndex = 72;
+            this.sftpAutoSaveMinutes.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.sftpAutoSaveMinutes.ValueChanged += new System.EventHandler(this.OnValueChanged);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 118);
+            this.label14.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(134, 13);
+            this.label14.TabIndex = 73;
+            this.label14.Text = "Server Autosave (minutes):";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 68);
+            this.label3.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.TabIndex = 28;
+            this.label3.Text = "Username:";
+            // 
+            // sftpType
+            // 
+            this.sftpType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.sftpType.FormattingEnabled = true;
+            this.sftpType.Items.AddRange(new object[] {
+            "Windows",
+            "Linux"});
+            this.sftpType.Location = new System.Drawing.Point(175, 129);
+            this.sftpType.Name = "sftpType";
+            this.sftpType.Size = new System.Drawing.Size(96, 21);
+            this.sftpType.TabIndex = 74;
+            this.sftpType.SelectedIndexChanged += new System.EventHandler(this.OnIndexChanged);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(172, 113);
+            this.label15.Margin = new System.Windows.Forms.Padding(3, 6, 3, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(68, 13);
+            this.label15.TabIndex = 75;
+            this.label15.Text = "Server Type:";
+            // 
             // CTrackerSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -670,6 +735,7 @@ namespace AATool.Winforms.Controls
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.soloAvatar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sftpAutoSaveMinutes)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -687,7 +753,6 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.GroupBox remoteGroup;
         private System.Windows.Forms.Button sftpValidate;
         private System.Windows.Forms.TextBox sftpUser;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox sftpPass;
         private System.Windows.Forms.Button toggleCredentials;
@@ -724,5 +789,10 @@ namespace AATool.Winforms.Controls
         private System.Windows.Forms.Timer keyboardTimer;
         private System.Windows.Forms.PictureBox soloAvatar;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.NumericUpDown sftpAutoSaveMinutes;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ComboBox sftpType;
     }
 }

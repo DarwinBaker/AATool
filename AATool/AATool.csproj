@@ -193,7 +193,6 @@
     <Compile Include="Input.cs" />
     <Compile Include="Net\AAKey.cs" />
     <Compile Include="Net\Lobby.cs" />
-    <Compile Include="Net\OpenTracker.cs" />
     <Compile Include="Net\PeerStatic.cs" />
     <Compile Include="Net\Requests\SrcLeaderboardRequest.cs" />
     <Compile Include="Net\Requests\AASsgRequest.cs" />
@@ -3521,6 +3520,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\icons\100k_arrow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\gui\icons\av_hardcore.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\gui\icons\patreon_large.png">

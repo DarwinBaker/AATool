@@ -139,7 +139,6 @@ namespace AATool
             ActiveInstance.Update(this.Time);
             MinecraftServer.Update(this.Time);
             Tracker.Update(this.Time);
-            OpenTracker.Update(this.Time);
             SpriteSheet.Update(this.Time);
             Canvas.Update(this.Time);
 

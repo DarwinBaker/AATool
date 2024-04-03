@@ -52,6 +52,8 @@ namespace AATool.Winforms.Controls
             this.sftpUser.Text = Config.Sftp.Username;
             this.sftpPass.Text = Config.Sftp.Password;
             this.sftpRoot.Text = Config.Sftp.ServerRoot;
+            this.sftpAutoSaveMinutes.Value = Config.Sftp.AutoSaveMinutes;
+            this.sftpType.Text = Config.Sftp.Linux ? "Linux" : "Windows";
 
             this.UpdateSaveGroupPanel();
             this.UpdateFilterPanel();
@@ -109,6 +111,8 @@ namespace AATool.Winforms.Controls
                 Config.Sftp.Username.Set(this.sftpUser.Text);
                 Config.Sftp.Password.Set(this.sftpPass.Text);
                 Config.Sftp.ServerRoot.Set(this.sftpRoot.Text);
+                Config.Sftp.AutoSaveMinutes.Set((int)Math.Max(1, this.sftpAutoSaveMinutes.Value));
+                Config.Sftp.Linux.Set(this.sftpType.Text == "Linux");
                 Config.Sftp.TrySave();
             }
         }
@@ -304,6 +308,11 @@ namespace AATool.Winforms.Controls
                 }
                 catch { }
             }
+        }
+
+        private void OnValueChanged(object sender, EventArgs e)
+        {
+            this.SaveSettings();
         }
     }
 }

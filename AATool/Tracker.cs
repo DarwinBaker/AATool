@@ -213,7 +213,7 @@ namespace AATool
             TrySetVersion(lastVersion);
         }
 
-        private static void FileSystemChanged(object sender, FileSystemEventArgs e)
+        public static void FileSystemChanged(object sender, FileSystemEventArgs e)
         {
             FileSystemEventRaised = true;
         }
@@ -550,9 +550,6 @@ namespace AATool
 
                 SetState(State);
 
-                if (Config.Tracking.BroadcastProgress)
-                    OpenTracker.BroadcastProgress();
-
                 LastRefresh = time.TotalSeconds;
             }
         }
@@ -579,10 +576,6 @@ namespace AATool
                 //broadcast changes to connected clients if server is running
                 if (Server.TryGet(out Server server) && server.Connected())
                     server.SendProgress();
-
-                //broadcast progress to opentracker
-                if (Config.Tracking.BroadcastProgress)
-                    OpenTracker.BroadcastProgress();
 
                 LastRefresh = time.TotalSeconds;
             }

@@ -17,7 +17,6 @@ namespace AATool.Saves
     public static class MinecraftServer
     {
         private const string SftpPrefix     = "sftp://";
-        private const double SaveInterval   = (5 * 60) + 5;
         private const double RetryInterval  = 10;
         private const int MaximumRetries    = 3;
         private const int AttemptIntervalMs = 5000;
@@ -27,14 +26,15 @@ namespace AATool.Saves
         public static SyncState State           { get; private set; }
         public static string MessageOfTheDay    { get; private set; }
         public static string WorldName          { get; private set; }
-        public static bool LinuxMode            { get; private set; }
 
         private static readonly Utilities.Timer RefreshTimer = new ();
 
         private static ConnectionInfo Credentials;
         private static int CurrentDownloadPercent;
         private static float SmoothDownloadPercent;
+        private static bool LinuxMode;
 
+        public static double SaveInterval => (Config.Sftp.AutoSaveMinutes * 60) + 5;
         public static bool CredentialsValidated => Credentials is not null;
         public static bool LastSyncFailed => LastError is not null;
         public static bool IsDownloading => State is SyncState.Advancements or SyncState.Statistics;
@@ -48,8 +48,9 @@ namespace AATool.Saves
             ? LastWorldSave.Add(TimeSpan.FromSeconds(SaveInterval))
             : default;
 
-        public static string HostAwarePath(params string[] paths) =>
-            LinuxMode ? Path.Combine(paths).Replace("\\", "/") : Path.Combine(paths);
+        public static string HostAwarePath(params string[] paths) => LinuxMode
+            ? Path.Combine(paths).Replace(@"\", "/") 
+            : Path.Combine(paths).Replace("/", @"\");
 
         public static void Update(Time time)
         {
@@ -80,6 +81,7 @@ namespace AATool.Saves
             {
                 SftpClient sftp = null;
                 double remaining = 0;
+                bool success = false;
                 try
                 {
                     if (!TryConnect(out sftp))
@@ -105,7 +107,7 @@ namespace AATool.Saves
                         if (Server.TryGet(out Server server))
                             server.SendNextRefresh();
 
-                        Tracker.Invalidate();
+                        success = true;
                     }
                 }
                 finally
@@ -122,6 +124,12 @@ namespace AATool.Saves
                     if (RefreshTimer.IsExpired || (LastSyncFailed && LastError is not ArgumentException))
                         RefreshTimer.SetAndStart(RetryInterval);
                     SetState(SyncState.Ready);
+
+                    if (success)
+                    {
+                        Tracker.FileSystemChanged(null, null);
+                        Tracker.Invalidate();
+                    }
                 }
             });
         }
@@ -213,6 +221,8 @@ namespace AATool.Saves
 
         private static bool TryConnect(out SftpClient sftp)
         {
+            LinuxMode = Config.Sftp.Linux;
+
             LastError = null;
             sftp = null;
             ApplyCredentials();
@@ -321,16 +331,9 @@ namespace AATool.Saves
                 {
                     if (exception is SftpPathNotFoundException)
                     {
-                        if (!LinuxMode)
-                        {
-                            //try switching to linux mode
-                            LinuxMode = true;
-                            Thread.Sleep(AttemptIntervalMs);
-                            return TryGetWorldSaveTime(sftp, out lastWorldSave, failures + 1);
-                        }
-
                         //folder not found, world name might be wrong. refresh it next time
-                        LastError = new SftpPathNotFoundException($"File not found: \"{remotePath}\".");
+                        string otherOS = Config.Sftp.Linux ? "Windows" : "Linux";
+                        LastError = new SftpPathNotFoundException($"File not found (server might be {otherOS}): \"{remotePath}\".");
                         InvalidateWorld();
                         return false;
                     }
