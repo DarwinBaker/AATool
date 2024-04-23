@@ -155,7 +155,10 @@ namespace AATool.UI.Screens
         public override string GetCurrentView()
         {
             string view = Tracker.Category.ViewName;
-            string version = Tracker.Category.CurrentMajorVersion ?? Tracker.Category.CurrentVersion;
+
+            string version = Tracker.Category.CurrentVersion == "1.16.5" 
+                ? "1.16" 
+                : Tracker.Category.CurrentVersion;
 
             //return Path.Combine(Paths.System.ViewsFolder, "other", "primary_version.xml");
 

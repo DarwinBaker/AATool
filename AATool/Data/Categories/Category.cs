@@ -47,10 +47,20 @@ namespace AATool.Data.Categories
         {
             if (Version.TryParse(version, out Version number))
             {
-                //handle sub-versioning of 1.16 due to piglin brutes
-                version = number > Version.Parse("1.16.1") && number < Version.Parse("1.17")
-                    ? "1.16.5"
-                    : $"{number.Major}.{number.Minor}";
+                if (number > Version.Parse("1.20.4") && number < Version.Parse("1.21"))
+                {
+                    //handle sub-versioning of 1.20 due to wolves and armadillos
+                    version = "1.20.5";
+                }
+                else if (number > Version.Parse("1.16.1") && number < Version.Parse("1.17"))
+                {
+                    //handle sub-versioning of 1.16 due to piglin brutes
+                    version = "1.16.5";
+                }
+                else
+                {
+                    version = $"{number.Major}.{number.Minor}";
+                }
             }
 
             if (this.GetSupportedVersions().Contains(version))

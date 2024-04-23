@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="All Smithing Templates">
+    <advancement id="custom:all_smithing_templates">
+        <criteria goal="Smithing Templates Obtained">
+
+            <criterion id="armor_trimmed_minecraft:snout_armor_trim_smithing_template_smithing_trim"
+                name="Snout" icon="trim_snout" recipe="minecraft:recipes/misc/snout_armor_trim_smithing_template"/>
+
+            <criterion id="armor_trimmed_minecraft:rib_armor_trim_smithing_template_smithing_trim"
+                name="Rib" icon="trim_rib" recipe="minecraft:recipes/misc/rib_armor_trim_smithing_template"/>
+
+            <criterion id="armor_trimmed_minecraft:eye_armor_trim_smithing_template_smithing_trim"
+                name="Eye" icon="trim_eye" recipe="minecraft:recipes/misc/eye_armor_trim_smithing_template"/>
+
+            <criterion id="armor_trimmed_minecraft:spire_armor_trim_smithing_template_smithing_trim"
+                name="Spire" icon="trim_spire" recipe="minecraft:recipes/misc/spire_armor_trim_smithing_template"/>
+
+
+            <criterion id="armor_trimmed_minecraft:wild_armor_trim_smithing_template_smithing_trim"
+                name="Wild" icon="trim_wild" recipe="minecraft:recipes/misc/wild_armor_trim_smithing_template"/>
+
+            <criterion id="armor_trimmed_minecraft:coast_armor_trim_smithing_template_smithing_trim"
+                name="Coast" icon="trim_coast" recipe="minecraft:recipes/misc/coast_armor_trim_smithing_template"/>
+
+            <criterion id="armor_trimmed_minecraft:tide_armor_trim_smithing_template_smithing_trim"
+                name="Tide" icon="trim_tide" recipe="minecraft:recipes/misc/tide_armor_trim_smithing_template"/>
+
+            <criterion id="armor_trimmed_minecraft:dune_armor_trim_smithing_template_smithing_trim"
+                name="Dune" icon="trim_dune" recipe="minecraft:recipes/misc/dune_armor_trim_smithing_template"/>
+
+
+            <criterion id="armor_trimmed_minecraft:sentry_armor_trim_smithing_template_smithing_trim"
+                name="Sentry" icon="trim_sentry" recipe="minecraft:recipes/misc/sentry_armor_trim_smithing_template"/>
+
+            <criterion id="armor_trimmed_minecraft:vex_armor_trim_smithing_template_smithing_trim"
+                name="Vex" icon="trim_vex" recipe="minecraft:recipes/misc/vex_armor_trim_smithing_template"/>
+
+            <criterion id="armor_trimmed_minecraft:ward_armor_trim_smithing_template_smithing_trim"
+                name="Ward" icon="trim_ward" recipe="minecraft:recipes/misc/ward_armor_trim_smithing_template"/>
+
+            <criterion id="armor_trimmed_minecraft:silence_armor_trim_smithing_template_smithing_trim"
+                name="Silence" icon="trim_silence" recipe="minecraft:recipes/misc/silence_armor_trim_smithing_template"/>
+
+
+            <criterion id="armor_trimmed_minecraft:host_armor_trim_smithing_template_smithing_trim"
+                name="Host" icon="trim_host" recipe="minecraft:recipes/misc/host_armor_trim_smithing_template"/>
+
+            <criterion id="armor_trimmed_minecraft:shaper_armor_trim_smithing_template_smithing_trim"
+                name="Shaper" icon="trim_shaper" recipe="minecraft:recipes/misc/shaper_armor_trim_smithing_template"/>
+
+            <criterion id="armor_trimmed_minecraft:raiser_armor_trim_smithing_template_smithing_trim"
+                name="Raiser" icon="trim_raiser" recipe="minecraft:recipes/misc/raiser_armor_trim_smithing_template"/>
+
+            <criterion id="armor_trimmed_minecraft:wayfinder_armor_trim_smithing_template_smithing_trim"
+                name="Wayfinder" icon="trim_wayfinder" recipe="minecraft:recipes/misc/wayfinder_armor_trim_smithing_template"/>
+
+
+            <criterion id="custom:netherite_upgrade_smithing_template"
+                name="Netherite Upgrade" icon="upgrade_netherite" recipe="minecraft:recipes/misc/netherite_upgrade_smithing_template"/>
+       
+        </criteria>
+    </advancement>
+</group>
