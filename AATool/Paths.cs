@@ -195,10 +195,10 @@ namespace AATool
             public const string AASsgRecord  = "https://www.speedrun.com/api/v1/leaderboards/j1npme6p/category/xk9gz16d?top=1&embed=players&var-38do09zl=5q8rd731&var-r8rg67rn=klrzpjo1";
 
             public static string GetUuidUrl(string name) => 
-                $"https://minecraft-api.com/api/uuid/{name}";
+                $"https://api.mojang.com/users/profiles/minecraft/{name}";
 
             public static string GetNameUrl(string uuid) => 
-                $"https://minecraft-api.com/api/pseudo/{uuid.Replace("-", "")}";
+                $"https://api.mojang.com/user/profile/{uuid.Replace("-", "")}";
 
             public static string GetAvatarUrlFallback(Uuid uuid, int size) =>
                 $"https://crafatar.com/avatars/{uuid}?size={size}&overlay=true";

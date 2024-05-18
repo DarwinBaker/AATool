@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace AATool.Net.Requests
@@ -55,7 +57,9 @@ namespace AATool.Net.Requests
             if (string.IsNullOrEmpty(response))
                 return false;
 
-            if (Uuid.TryParse(response, out Uuid id))
+            var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
+
+            if (Uuid.TryParse(values["id"], out Uuid id))
             {
                 Debug.Log(Debug.RequestSection, $"{Incoming} Received UUID for \"{this.name}\" ({response}) in {this.ResponseTime}");
 

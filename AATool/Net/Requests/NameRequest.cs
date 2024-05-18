@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -53,10 +54,14 @@ namespace AATool.Net.Requests
         private bool HandleResponse(string response)
         {
             response = response.Trim();
-            if (string.IsNullOrEmpty(response) || response.Contains(" "))
+            if (string.IsNullOrEmpty(response))
                 return false;
 
-            Player.Cache(this.id, response);
+            var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
+
+            string name = values["name"];
+
+            Player.Cache(this.id, name);
             Debug.Log(Debug.RequestSection, $"{Incoming} Received name \"{response}\" for UUID: {this.shortId} in {this.ResponseTime}");
             return true;
         }

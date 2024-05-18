@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AATool.Configuration;
 using AATool.Net.Requests;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace AATool.Net
@@ -57,7 +58,9 @@ namespace AATool.Net
                     if (string.IsNullOrEmpty(response))
                         return Uuid.Empty;
 
-                    if (Uuid.TryParse(response, out id))
+                    var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(response);
+
+                    if (Uuid.TryParse(values["id"], out id))
                     {
                         Cache(id, name);
                         new AvatarRequest(id).EnqueueOnce();
