@@ -34,17 +34,20 @@
             <advancement_group group="minecraft" row="0" col="0" colspan="2" exclude="minecraft:story/root"/>
             <advancement_group group="nether"    row="0" col="2" colspan="3" direction="righttoleft"/>
             <advancement_group group="end"       row="1" col="0"/>
-			<advancement_group group="adventure" row="0" col="5" rowspan="2" exclude="minecraft:adventure/spyglass_at_parrot,minecraft:adventure/spyglass_at_ghast,minecraft:adventure/spyglass_at_dragon"/>
+			<advancement_group group="adventure" row="0" col="5" end="minecraft:adventure/spyglass_at_dragon" exclude="minecraft:adventure/spyglass_at_parrot,minecraft:adventure/spyglass_at_ghast,minecraft:adventure/spyglass_at_dragon"/>
+			<advancement_group group="adventure" row="1" col="5" start="minecraft:adventure/avoid_vibration"/>
 
 			<advancement_group group="husbandry" row="1" col="1" colspan="2" end="minecraft:husbandry/whole_pack" exclude="minecraft:husbandry/root,minecraft:husbandry/breed_an_animal"/>
             <advancement_group group="husbandry" row="1" col="3" start="minecraft:husbandry/froglights"/>
 			<advancement_group group="adventure" row="1" col="4" start="minecraft:adventure/spyglass_at_parrot" end="minecraft:adventure/spyglass_at_dragon"/>
 
-            <!-- pickup counts -->
-            <flow_panel row="0" col="6" rowspan="2">
-                <objective_frame complex="Trident"/>
-                <objective_frame complex="NautilusShells"/>
-                <objective_frame complex="Sniffers"/>
+			<!-- pickup counts -->
+			<flow_panel row="0" col="6">
+				<objective_frame complex="Trident"/>
+				<objective_frame complex="NautilusShells"/>
+				<objective_frame complex="Sniffers"/>
+			</flow_panel>
+			<flow_panel row="1" col="6">
 				<objective_frame complex="WitherSkulls"/>
 				<objective_frame complex="GoldBlocks"/>
 				<objective_frame complex="Bees"/>
