@@ -611,7 +611,7 @@
     </sandstone>
     <shrubs>
         <empty/>
-        <grass name="Grass" icon="short_grass"/>
+        <grass name="Grass" icon="short_grass" alternate_ids="minecraft:short_grass"/>
         <fern name="Fern" icon="fern" tags="grass"/>
         <dead_bush name="Dead Bush" icon="dead_bush"/>
         <spore_blossom name="Spore Blossom" icon="spore_blossom" tags="lush"/>
