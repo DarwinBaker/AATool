@@ -45,12 +45,13 @@
             </panel>
 
             <record_holder_most_consecutive row="2" col="0" border_thickness="5" padding_top="6"/>
-            <record_holder row="2" col="1" border_thickness="5" padding_top="6" category="All Advancements" version="1.20"/>
-            <record_holder row="2" col="2" border_thickness="5" padding_top="6" category="All Advancements" version="1.19"/>
-            <record_holder row="2" col="3" border_thickness="5" padding_top="6" category="All Advancements" version="1.18"/>
-            <record_holder row="2" col="4" border_thickness="5" padding_top="6" category="All Advancements" version="1.17"/>
-            <record_holder row="2" col="5" border_thickness="5" padding_top="6" category="All Advancements" version="1.16"/>
-            <record_holder_set_seed row="2" col="6" border_thickness="5" padding_top="6"/>
+			<record_holder row="2" col="1" border_thickness="5" padding_top="6" category="All Advancements" version="1.21"/>
+			<record_holder row="2" col="2" border_thickness="5" padding_top="6" category="All Advancements" version="1.20"/>
+            <record_holder row="2" col="3" border_thickness="5" padding_top="6" category="All Advancements" version="1.19"/>
+            <record_holder row="2" col="4" border_thickness="5" padding_top="6" category="All Advancements" version="1.18"/>
+            <record_holder row="2" col="5" border_thickness="5" padding_top="6" category="All Advancements" version="1.17"/>
+            <record_holder row="2" col="6" border_thickness="5" padding_top="6" category="All Advancements" version="1.16"/>
+            <!-- we will re-add this at some point, but for now 1.21 will replace it <record_holder_set_seed row="2" col="6" border_thickness="5" padding_top="6"/> -->
 
             <record_holder_most_concurrent row="3" col="0" border_thickness="5"/>
             <record_holder row="3" col="1" border_thickness="5" padding_top="6" category="All Advancements" version="1.15"/>

@@ -8,7 +8,7 @@
         </rows>
         <columns>
             <column width="160" collapsed="true"/>
-            <column width="1710"/>
+            <column width="1865"/>
         </columns>
 
         <!-- tabs -->
@@ -19,6 +19,10 @@
 
         <!-- leaderboard headers -->
         <flow_panel row="1" col="1" padding="5" border_thickness="5">
+			<panel padding_top="10" width="150" margin_top="5" border_thickness="1" inner_corners="true">
+				<text_block text="1.21" font_size="24"/>
+			</panel>
+			<panel width="5" border_thickness="5" inner_corners="false"/>
             <panel padding_top="10" width="150" margin_top="5" border_thickness="1" inner_corners="true">
                 <text_block text="1.20" font_size="24"/>
             </panel>
@@ -66,8 +70,10 @@
 
         <!-- aa leaderboards -->
         <flow_panel row="2" col="1" padding="5" border_thickness="5">
-            <leaderboard category="All Advancements" version="1.20" hide_button="true" small="true" rows="12" width="150"/>
-            <panel width="5" border_thickness="5" inner_corners="false"/>
+			<leaderboard category="All Advancements" version="1.21" hide_button="true" small="true" rows="12" width="150"/>
+			<panel width="5" border_thickness="5" inner_corners="false"/>
+			<leaderboard category="All Advancements" version="1.20" hide_button="true" small="true" rows="12" width="150"/>
+			<panel width="5" border_thickness="5" inner_corners="false"/>
             <leaderboard category="All Advancements" version="1.19" hide_button="true" small="true" rows="12" width="150"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <leaderboard category="All Advancements" version="1.18" hide_button="true" small="true" rows="12" width="150"/>
