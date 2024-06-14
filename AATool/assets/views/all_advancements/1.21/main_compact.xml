@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<control>
+    <grid drawmode="all">
+        <rows>
+            <row height="414"/>
+            <row height="310"/>
+            <row height="42"/>
+        </rows>
+        <columns>
+            <column width="160" collapsed="true"/>
+            <column width="20 * 66"/>
+            <column width="3 * 66"/>
+        </columns>
+
+        <panel col="1"></panel>
+
+        <!-- co-op lobby -->
+        <lobby row="0" col="0" rowspan="3"/>
+
+        <!-- basic advancements -->
+        <panel row="0" col="1" drawmode="all" padding_bottom="4">
+            <advancement_group group="minecraft" exclude="minecraft:story/root" width="5 * 66" height="3 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="nether"    width="8 * 66" height="3 * 68" margin_left="5 * 66" horizontal_align="left" vertical_align="top" direction="righttoleft"/>
+            <advancement_group group="end"       width="3 * 66" height="3 * 68" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="adventure" width="7 * 66" height="6 * 68" margin_left="13 * 66" horizontal_align="left" vertical_align="top" exclude="minecraft:adventure/spyglass_at_parrot,minecraft:adventure/spyglass_at_ghast,minecraft:adventure/spyglass_at_dragon"/>
+            <advancement_group group="husbandry" end="minecraft:husbandry/whole_pack" exclude="minecraft:husbandry/root,minecraft:husbandry/breed_an_animal" width="8 * 66" height="3 * 68" margin_left="3 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
+            
+			<advancement_group group="husbandry" start="minecraft:husbandry/froglights" width="66" height="3 * 68" margin_left="11 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="adventure" start="minecraft:adventure/spyglass_at_parrot" end="minecraft:adventure/spyglass_at_dragon" width="66" height="3 * 68" margin_left="12 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
+        </panel>
+
+        <!-- advancements with subcriteria -->
+        <flow_panel row="1" col="1" colspan="2" drawmode="all">
+            <criteria_group width="455" advancement="minecraft:adventure/adventuring_time" cell_width="110"/>
+            <criteria_group width="276" advancement="minecraft:adventure/kill_all_mobs"/>
+            <criteria_group width="306" advancement="minecraft:husbandry/balanced_diet" cell_width="100"/>
+            <criteria_group width="171" advancement="minecraft:husbandry/bred_all_animals"/>
+            <criteria_group width="85" advancement="minecraft:husbandry/complete_catalogue"/>
+            <criteria_group width="85" advancement="minecraft:husbandry/whole_pack"/>
+            <panel width="140">
+                <criteria_group height="185" vertical_align="top" advancement="minecraft:adventure/trim_with_all_exclusive_armor_patterns"/>
+                <criteria_group height="125" vertical_align="bottom" advancement="minecraft:nether/explore_nether"/>
+            </panel>
+        </flow_panel>
+
+        <!-- item count display (trident, shells, skulls etc.) -->
+        <flow_panel name="counts" col="2" cell_width="68" cell_height="68" direction="toptobottom" padding_left="66">
+            <objective_frame complex="Trident"/>
+            <objective_frame complex="NautilusShells"/>
+            <objective_frame complex="Sniffers"/>
+            <objective_frame complex="WitherSkulls"/>
+			<objective_frame complex="GoldBlocks"/>
+			<objective_frame complex="Bees"/>
+        </flow_panel>
+
+        <!-- status strip -->
+        <status_bar row="2" col="1" colspan="3" right="462"/> 
+    </grid>
+</control>

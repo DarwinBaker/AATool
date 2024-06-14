@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Adventure">
+    <advancement id="minecraft:adventure/root"                  name="Adventure"                icon="adventure"/>
+    <advancement id="minecraft:adventure/sleep_in_bed"          name="Sweet Dreams"             short_name="Dreams"/>
+    <advancement id="minecraft:adventure/kill_a_mob"            name="Monster Hunter"           short_name="Hunter"/>
+    <advancement id="minecraft:adventure/shoot_arrow"           name="Take Aim"/>
+    <advancement id="minecraft:adventure/sniper_duel"           name="Sniper Duel"              type="challenge"/>
+    <advancement id="minecraft:adventure/ol_betsy"              name="Ol' Betsy"/>
+    <advancement id="minecraft:adventure/whos_the_pillager_now" name="Who's the Pillager Now?"  short_name="The Pillager"/>
+
+	<advancement id="minecraft:adventure/trade"                 name="What a Deal!" short_name="What a Deal"/>
+    <advancement id="minecraft:adventure/trade_at_world_height" name="Star Trader" icon="trade"/>
+    <advancement id="minecraft:adventure/summon_iron_golem"     name="Hired Help"               type="goal"/>
+    <advancement id="minecraft:adventure/bullseye"              name="Bullseye"                 type="challenge"/>
+    <advancement id="minecraft:adventure/read_power_of_chiseled_bookshelf"  name="The&#160;Power of&#160;Books" short_name="Book Power" icon="chiseled_bookshelf"/>
+    <advancement id="minecraft:adventure/two_birds_one_arrow"   name="Two Birds, One Arrow"     short_name="Two Birds" type="challenge"/>
+    <advancement id="minecraft:adventure/arbalistic"            name="Arbalistic"               type="challenge"/>
+
+    <advancement id="minecraft:adventure/fall_from_world_height" name="Caves and Cliffs" short_name="Caves/Cliffs"/>
+    <advancement id="minecraft:adventure/play_jukebox_in_meadows"   name="Sound of Music"           short_name="Music"/>
+	<advancement id="minecraft:adventure/brush_armadillo"    name="Isn't it Scute?"           short_name="Scute?"    icon="brush_armadillo"/>
+    <advancement id="minecraft:adventure/salvage_sherd" name="Respecting Remnants" short_name="Remnants"/>
+    <advancement id="minecraft:adventure/craft_decorated_pot_using_only_sherds" name="Careful Restoration" short_name="Restoration" icon="craft_decorated_pot"/>
+    <advancement id="minecraft:adventure/trim_with_any_armor_pattern" name="Crafting a New&#160;Look" short_name="New Look" icon="trim_dune"/>
+    <advancement id="minecraft:adventure/trim_with_all_exclusive_armor_patterns" name="Smithing With&#160;Style" short_name="With Style" icon="trim_silence" type="challenge">
+        <criteria goal="Trims Applied">
+            <criterion id="armor_trimmed_minecraft:snout_armor_trim_smithing_template_smithing_trim"
+                name="Snout" icon="trim_snout" recipe="minecraft:recipes/misc/snout_armor_trim_smithing_template"/>
+            <criterion id="armor_trimmed_minecraft:rib_armor_trim_smithing_template_smithing_trim"
+                name="Rib" icon="trim_rib" recipe="minecraft:recipes/misc/rib_armor_trim_smithing_template"/>
+            <criterion id="armor_trimmed_minecraft:spire_armor_trim_smithing_template_smithing_trim"
+                name="Spire" icon="trim_spire" recipe="minecraft:recipes/misc/spire_armor_trim_smithing_template"/>
+            <criterion id="armor_trimmed_minecraft:tide_armor_trim_smithing_template_smithing_trim"
+                name="Tide" icon="trim_tide" recipe="minecraft:recipes/misc/tide_armor_trim_smithing_template"/>
+            <criterion id="armor_trimmed_minecraft:wayfinder_armor_trim_smithing_template_smithing_trim"
+                name="Wayfinder" icon="trim_wayfinder" recipe="minecraft:recipes/misc/wayfinder_armor_trim_smithing_template"/>
+            <criterion id="armor_trimmed_minecraft:vex_armor_trim_smithing_template_smithing_trim"
+                name="Vex" icon="trim_vex" recipe="minecraft:recipes/misc/vex_armor_trim_smithing_template"/>
+            <criterion id="armor_trimmed_minecraft:ward_armor_trim_smithing_template_smithing_trim"
+                name="Ward" icon="trim_ward" recipe="minecraft:recipes/misc/ward_armor_trim_smithing_template"/>
+            <criterion id="armor_trimmed_minecraft:silence_armor_trim_smithing_template_smithing_trim"
+                name="Silence" icon="trim_silence" recipe="minecraft:recipes/misc/silence_armor_trim_smithing_template"/>
+        </criteria>
+    </advancement>
+
+    <advancement id="minecraft:adventure/spyglass_at_parrot"    name="Is It a&#xA;Bird?"            short_name="A Bird?"     icon="spyglass"/>
+    <advancement id="minecraft:adventure/spyglass_at_ghast"     name="Is It a&#xA;Balloon?"         short_name="A Balloon?"  icon="spyglass"/>
+    <advancement id="minecraft:adventure/spyglass_at_dragon"    name="Is It a&#xA;Plane?"           short_name="A Plane?"    icon="spyglass"/>
+
+	<advancement id="minecraft:adventure/avoid_vibration"  name="Sneak 100" icon="sculk_sensor"/>
+	<advancement id="minecraft:adventure/kill_mob_near_sculk_catalyst"  name="It Spreads" icon="sculk_catalyst" type="challenge"/>
+	<advancement id="minecraft:adventure/crafters_crafting_crafters"    name="Crafters Crafting" short_name="Crafters"/>
+	<advancement id="minecraft:adventure/minecraft_trials_edition"      name="Trial(s) Edition" short_name="Trial(s)"/>
+	<advancement id="minecraft:adventure/lighten_up"                    name="Lighten Up" short_name="Lighten Up"/>
+	<advancement id="minecraft:adventure/who_needs_rockets"             name="Who Needs Rockets?" short_name="Rockets?"/>
+	<advancement id="minecraft:adventure/blowback"                      name="Blowback" short_name="Blowback"/>
+	<advancement id="minecraft:adventure/under_lock_and_key"            name="Under Lock and Key" short_name="Lock/Key"/>
+	<advancement id="minecraft:adventure/revaulting"                    name="Revaulting" short_name="Revaulting"/>
+	<advancement id="minecraft:adventure/overoverkill"                  name="Over-Overkill" short_name="Overkill"/>
+	<advancement id="minecraft:adventure/totem_of_undying"      name="Postmortal"               type="goal"/>
+	<advancement id="minecraft:adventure/walk_on_powder_snow_with_leather_boots"   name="Light as a&#160;Rabbit" short_name="LaaR"  icon="leather_boots"/>
+
+	<advancement id="minecraft:adventure/honey_block_slide"     name="Sticky Situation"         short_name="Sticky "/>
+
+    <advancement id="minecraft:adventure/lightning_rod_with_villager_no_fire" name="Surge Protector"  short_name="Surge Prot" icon="lightning_rod"/>
+    <advancement id="minecraft:adventure/voluntary_exile"       name="Voluntary Exile"          short_name="Exile" icon="pillager_banner"/>
+    <advancement id="minecraft:adventure/hero_of_the_village"   name="Hero of the&#160;Village" short_name="Hero OTV" icon="pillager_banner" type="challenge"/>
+
+    <advancement id="minecraft:adventure/throw_trident"         name="A Throwaway Joke"         short_name="ATJ"/>
+    <advancement id="minecraft:adventure/very_very_frightening" name="Very Very Frightening"    short_name="VVF"/>
+    <advancement id="minecraft:adventure/adventuring_time" name="Adventuring Time" short_name="Adventuring" type="challenge">
+        <criteria goal="Biomes Visited">
+            <criterion id="minecraft:plains"/>
+            <criterion id="minecraft:forest"/>
+            <criterion id="minecraft:birch_forest"/>
+            <criterion id="minecraft:old_growth_birch_forest" name="Old Birch"/>
+            <criterion id="minecraft:dark_forest"/>
+            <criterion id="minecraft:swamp"/>
+            <criterion id="minecraft:mangrove_swamp"/>
+            <criterion id="minecraft:taiga"/>
+            <criterion id="minecraft:old_growth_pine_taiga" name="Old Growth Pine"/>
+            <criterion id="minecraft:old_growth_spruce_taiga" name="Old Growth Spruce"/>
+            <criterion id="minecraft:snowy_taiga"/>
+
+            <criterion id="minecraft:grove"/>
+            <criterion id="minecraft:ice_spikes"/>
+            <criterion id="minecraft:snowy_plains"/>
+            <criterion id="minecraft:snowy_slopes"/>
+            <criterion id="minecraft:snowy_beach"/>
+            <criterion id="minecraft:frozen_river"/>
+            <criterion id="minecraft:frozen_peaks"/>
+            <criterion id="minecraft:jagged_peaks"/>
+            <criterion id="minecraft:stony_peaks"/>
+            <criterion id="minecraft:stony_shore"/>
+            <criterion id="minecraft:windswept_hills" short_name="Windswept Hill"/>
+            <criterion id="minecraft:flower_forest"/>
+            <criterion id="minecraft:sunflower_plains" name="Sunflowers"/>
+            <criterion id="minecraft:meadow"/>
+            <criterion id="minecraft:river"/>
+            <criterion id="minecraft:beach"/>
+
+            <criterion id="minecraft:desert"/>
+            <criterion id="minecraft:savanna"/>
+            <criterion id="minecraft:savanna_plateau" short_name="Savanna Plat"/>
+            <criterion id="minecraft:windswept_savanna" short_name="WS Savanna"/>
+            <criterion id="minecraft:windswept_forest" short_name="WS Forest"/>
+            <criterion id="minecraft:windswept_gravelly_hills" name="Windswept Gravel" short_name="WS Gravel"/>
+            <criterion id="minecraft:ocean"/>
+            <criterion id="minecraft:cold_ocean"/>
+            <criterion id="minecraft:warm_ocean"/>
+            <criterion id="minecraft:lukewarm_ocean"/>
+            <criterion id="minecraft:frozen_ocean"/>
+            <criterion id="minecraft:deep_ocean"/>
+            <criterion id="minecraft:deep_cold_ocean"/>
+            <criterion id="minecraft:deep_frozen_ocean" name="Deep&#160;Frozen&#160;Ocean"/>
+            <criterion id="minecraft:deep_lukewarm_ocean" name="Deep&#160;Lukewarm&#160;Ocean"/>
+
+            <criterion id="minecraft:mushroom_fields"/>
+            <criterion id="minecraft:cherry_grove"/>
+            <criterion id="minecraft:jungle"/>
+            <criterion id="minecraft:sparse_jungle"/>
+            <criterion id="minecraft:bamboo_jungle"/>
+            <criterion id="minecraft:badlands"/>
+            <criterion id="minecraft:wooded_badlands"/>
+            <criterion id="minecraft:eroded_badlands"/>
+            <criterion id="minecraft:dripstone_caves"/>
+            <criterion id="minecraft:lush_caves"/>
+            <criterion id="minecraft:deep_dark"/>
+        </criteria>
+    </advancement>
+    <advancement id="minecraft:adventure/kill_all_mobs" name="Monsters Hunted" short_name="Monsters" type="challenge">
+        <criteria goal="Monsters Killed">
+            <criterion id="minecraft:creeper"/>
+            <criterion id="minecraft:zombie"/>
+            <criterion id="minecraft:skeleton"/>
+            <criterion id="minecraft:husk"/>
+            <criterion id="minecraft:drowned"/>
+            <criterion id="minecraft:stray"/>
+            <criterion id="minecraft:spider"/>
+            <criterion id="minecraft:cave_spider"/>
+            <criterion id="minecraft:enderman"/>
+            <criterion id="minecraft:slime"/>
+            <criterion id="minecraft:magma_cube"/>
+            <criterion id="minecraft:ghast"/>
+            <criterion id="minecraft:blaze"/>
+            <criterion id="minecraft:wither_skeleton" name="Wither Skeleton" short_name="W Skeleton"/>
+			<criterion id="minecraft:wither"/>
+            <criterion id="minecraft:piglin"/>
+            <criterion id="minecraft:piglin_brute"/>
+            <criterion id="minecraft:zombified_piglin" name="Zombie Piglin"/>
+            <criterion id="minecraft:hoglin"/>
+            <criterion id="minecraft:zoglin"/>
+            <criterion id="minecraft:silverfish"/>
+            <criterion id="minecraft:ender_dragon"/>
+            <criterion id="minecraft:endermite"/>
+            <criterion id="minecraft:shulker"/>
+            <criterion id="minecraft:phantom"/>
+            <criterion id="minecraft:guardian"/>
+            <criterion id="minecraft:elder_guardian"/>
+            <criterion id="minecraft:zombie_villager" short_name="Z-Villager"/>
+            <criterion id="minecraft:witch"/>
+            <criterion id="minecraft:pillager"/>
+            <criterion id="minecraft:vindicator"/>
+            <criterion id="minecraft:evoker"/>
+            <criterion id="minecraft:vex" icon="vex_1.19.3"/>
+            <criterion id="minecraft:ravager"/>
+        </criteria>
+    </advancement>
+</group>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="Minecraft">
+    <advancement id="minecraft:story/mine_stone"            name="Stone Age"/>
+    <advancement id="minecraft:story/upgrade_tools"         name="Getting an Upgrade"       short_name="Upgrade"/>
+    <advancement id="minecraft:story/iron_tools"            name="Isn't It Iron&#160;Pick"  short_name="Iron Pick"/>
+    <advancement id="minecraft:story/smelt_iron"            name="Acquire Hardware"         short_name="Hardware"/>
+    <advancement id="minecraft:story/mine_diamond"          name="Diamonds!"/>
+    <advancement id="minecraft:story/lava_bucket"           name="Hot Stuff"/>
+    <advancement id="minecraft:story/form_obsidian"         name="Ice Bucket Challenge"     short_name="Ice Bucket"/>
+    <advancement id="minecraft:story/enter_the_nether"      name="We Need to Go Deeper"     short_name="Go Deeper"/>
+    <advancement id="minecraft:story/obtain_armor"          name="Suit Up"/>
+    <advancement id="minecraft:story/shiny_gear"            name="Cover Me With Diamonds"   short_name="W/Diamonds"/>
+    <advancement id="minecraft:story/cure_zombie_villager"  name="Zombie Doctor"            short_name="Zombie Doc" type="goal"/>
+    <advancement id="minecraft:story/root"                  name="Minecraft"                icon="grass"/>
+    <advancement id="minecraft:story/deflect_arrow"         name="Not Today, Thank You"     short_name="Not Today"/>
+    <advancement id="minecraft:story/follow_ender_eye"      name="Eye Spy"/>
+    <advancement id="minecraft:story/enter_the_end"         name="The End?"                 icon="end"/>
+    <advancement id="minecraft:story/enchant_item"          name="Enchanter"/>
+</group>

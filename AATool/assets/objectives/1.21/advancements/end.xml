@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<group name="End">
+    <advancement id="minecraft:end/root"                name="The End"                       icon="end" hidden="true"/>
+    
+    <advancement id="minecraft:end/kill_dragon"         name="&#160;Free&#160;the&#160; End" short_name="Free End"/>
+    <advancement id="minecraft:end/dragon_egg"          name="The Next Generation"           short_name="Next Gen" type="goal"/>
+    <advancement id="minecraft:end/enter_end_gateway"   name="Remote Getaway"                short_name="Getaway"/>
+    <advancement id="minecraft:end/find_end_city"       name="City at End of the Game"       short_name="End City"/>
+    <advancement id="minecraft:end/dragon_breath"       name="You Need a&#160;Mint"          short_name="Need a Mint" type="goal"/>
+    <advancement id="minecraft:end/respawn_dragon"      name="The End... Again..."           short_name="End Again" type="goal"/>
+    <advancement id="minecraft:end/elytra"              name="Sky's the Limit"               short_name="The Limit" type="goal"/>
+    <advancement id="minecraft:end/levitate"            name="Great View From Here"          short_name="Great View" type="challenge"/>
+</group>

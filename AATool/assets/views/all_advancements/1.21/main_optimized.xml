@@ -2,7 +2,7 @@
 <control>
     <grid drawmode="all">
         <rows>
-            <row height="360"/>
+            <row height="428"/>
             <row height="334"/>
             <row height="42"/>
         </rows>
@@ -73,6 +73,13 @@
                 <objective_frame advancement="minecraft:adventure/kill_mob_near_sculk_catalyst"/>
                 <!-- break -->
                 <objective_frame advancement="minecraft:adventure/trim_with_all_exclusive_armor_patterns"/>
+				<objective_frame advancement="minecraft:adventure/crafters_crafting_crafters"/>
+				<objective_frame advancement="minecraft:adventure/lighten_up"/>
+				<objective_frame advancement="minecraft:adventure/who_needs_rockets"/>
+				<objective_frame advancement="minecraft:adventure/blowback"/>
+				<objective_frame advancement="minecraft:adventure/under_lock_and_key"/>
+				<objective_frame advancement="minecraft:adventure/revaulting"/>
+				<objective_frame advancement="minecraft:adventure/overoverkill"/>
                 <objective_frame advancement="minecraft:nether/create_full_beacon"/>
                 <objective_frame advancement="minecraft:adventure/whos_the_pillager_now"/>
                 <objective_frame advancement="minecraft:story/deflect_arrow"/>
@@ -83,12 +90,12 @@
                 <objective_frame advancement="minecraft:husbandry/wax_off"/>
                 <objective_frame advancement="minecraft:adventure/fall_from_world_height"/>
                 <objective_frame advancement="minecraft:end/respawn_dragon"/>
-                <objective_frame advancement="minecraft:adventure/spyglass_at_dragon"/>
+				<objective_frame advancement="minecraft:adventure/spyglass_at_dragon"/>
             </flow_panel>
 
             <!-- items -->
             <panel width="6" border_thickness="6" inner_corners="false"/>
-            <flow_panel width="2 * 66" padding_top="34">
+            <flow_panel width="2 * 66" padding_top="68">
                 <objective_frame complex="Trident"/>
                 <objective_frame complex="Sniffers"/>
                 <objective_frame complex="NautilusShells"/>
@@ -106,7 +113,7 @@
         </flow_panel>
 
         <!-- leaderboard -->
-        <leaderboard width="206" height="348" rows="5" category="All Advancements" row="0" col="1" version="1.20" horizontal_align="right" vertical_align="top" margin_right="6" margin_top="6"/>
+        <leaderboard width="206" height="348" rows="5" category="All Advancements" row="0" col="1" version="1.21" horizontal_align="right" vertical_align="top" margin_right="6" margin_top="6"/>
 
         <!-- advancements with subcriteria -->
         <flow_panel row="1" col="1" colspan="2" padding_bottom="6" border_thickness="6">

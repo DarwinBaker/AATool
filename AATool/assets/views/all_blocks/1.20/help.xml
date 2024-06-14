@@ -114,13 +114,11 @@
             <panel collapsed="false" margin_left="10 + 350" margin_top="10 + 325" width="223" height="175" horizontal_align="left" vertical_align="top">
                 <panel width="70" horizontal_align="left" padding_top="8" padding_bottom="10">
                     <textblock text="Suspicious&#xA;Blocks" vertical_align="top"/>
-                    <picture texture="soul_sand" width="48" height="48" layer="fore" vertical_align="top" margin_top="32 + 78"/>
-                    <picture texture="water" width="48" height="48" layer="fore" vertical_align="top" margin_top="32 + 52"/>
-                    <picture texture="glass" width="48" height="48" layer="fore" vertical_align="top" margin_top="32 + 26"/>
+                    <picture texture="cobweb" width="48" height="48" layer="fore" vertical_align="top" margin_top="32 + 52"/>
                     <picture texture="all_suspicious_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="32"/>
                 </panel>
                 <panel width="153" horizontal_align="right" padding_left="10">
-                    <textblock text="The suspicious sand and gravel blocks will drop in their respective item forms when floated in a bubble column for 30 seconds.&#xA; &#xA;Place water above some soul sand directly below the block and drop it in.&#xA; &#xA;It'll bob up and down for a while then drop so you can obtain it." text_align="left" v_text_align="top" padding_top="8"/>
+                    <textblock text="Suspicious sand and gravel will drop in their respective item forms when dropped into a cobweb. The block will fall through the cobweb for 30 seconds before dropping as an item.&#xA; &#xA;Make sure you leave an empty block beneath the cobweb, otherwise the block will break without actually dropping anything." text_align="left" v_text_align="top" padding_top="8"/>
                 </panel>
             </panel>
             <panel margin_left="10 + 481" margin_top="10 + 499" width="92" height="53" horizontal_align="left" vertical_align="top"/>

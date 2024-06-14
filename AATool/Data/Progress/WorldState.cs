@@ -93,6 +93,15 @@ namespace AATool.Data.Progress
                 {
                     if (player.Value.UseCounts.ContainsKey(block.Id) is true)
                         completionists.Add(new Completion(player.Key, default));
+
+                    if (block.HasAlternateIds)
+                    {
+                        foreach (string id in block.AlternateIds)
+                        {
+                            if (player.Value.UseCounts.ContainsKey(id) is true)
+                                completionists.Add(new Completion(player.Key, default));
+                        }
+                    }
                 }
             }
             else if (objective is Death death)

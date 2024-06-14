@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using AATool.Data.Progress;
@@ -14,6 +15,9 @@ namespace AATool.Data.Objectives
         public bool PickedUp { get; private set; }
         public bool Obtained { get; private set; }
         public string SearchTags { get; private set; }
+        public string[] AlternateIds { get; private set; } = Array.Empty<string>();
+
+        public bool HasAlternateIds => this.AlternateIds.Length > 0;
 
         public bool Glows => this.LightLevel > 0;
 
@@ -34,6 +38,12 @@ namespace AATool.Data.Objectives
             this.DoubleHeight = XmlObject.Attribute(node, "double_height", false);
             this.LightLevel = XmlObject.Attribute(node, "light_level", 0f);
             this.SearchTags = XmlObject.Attribute(node, "tags", string.Empty);
+
+            string alternateIds = XmlObject.Attribute(node, "alternate_ids", string.Empty);
+            if (alternateIds != string.Empty)
+            {
+                this.AlternateIds = alternateIds.Split(',');
+            }
         }
 
         public override void UpdateState(ProgressState progress)

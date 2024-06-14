@@ -6,6 +6,7 @@ namespace AATool.Data.Categories
     public class AllAdvancements : Category
     {
         public static readonly List<string> SupportedVersions = new () {
+            "1.21",
             "1.20.5",
             "1.20",
             "1.19",
