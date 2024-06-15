@@ -49,6 +49,8 @@ namespace AATool.Data.Progress
 
                 //enchanted golden apple
                 this.ObtainedGodApple |= contribution.ObtainedGodApple;
+                //heavy core
+                this.ObtainedHeavyCore |= contribution.ObtainedHeavyCore;
                 //lapis
                 this.ObtainedLapis |= contribution.ObtainedLapis;
             }

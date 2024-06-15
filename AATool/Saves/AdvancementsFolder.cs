@@ -94,6 +94,13 @@ namespace AATool.Saves
                 contribution.ObtainedGodApple = true;
             }
 
+            //detect heavy core from vault using mace recipe
+            if (this.TryGetCompletionOf(HeavyCore.MaceRecipe, json, out _))
+            {
+                state.ObtainedHeavyCore = true;
+                contribution.ObtainedHeavyCore = true;
+            }
+
             foreach (var recipe in ArmorTrims.Recipes)
             {
                 //detect collection of armor trims

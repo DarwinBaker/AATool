@@ -19,6 +19,7 @@ namespace AATool.Data.Progress
         {
             this.Player = new Uuid(network.UUID.String);
             this.ObtainedGodApple = network.ObtainedGodApple;
+            this.ObtainedHeavyCore = network.ObtainedHeavyCore;
 
             //add advancements
             foreach (KeyValuePair<string, DateTime> advancement in network.Advancements)
