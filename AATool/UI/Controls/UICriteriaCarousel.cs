@@ -42,8 +42,11 @@ namespace AATool.UI.Controls
         {
             //populate source list with all criteria
             this.SourceList.Clear();
-            this.SourceList.AddRange(Tracker.RemainingCriteria.Values);
 
+            //avoid a crash if the remaining criteria were to change during the add range operation
+            Criterion[] newValues = Tracker.RemainingCriteria.Values.ToArray();
+
+            this.SourceList.AddRange(newValues);
         }
 
         protected override void Fill()
