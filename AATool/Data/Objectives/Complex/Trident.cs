@@ -14,6 +14,7 @@ namespace AATool.Data.Objectives.Complex
         private static readonly Version PiglinHeadAdded = new ("1.20");
         private static readonly Version AncientCitySkeletonSkulls = new ("1.19");
         private static readonly Version SurgeProtectorAdded = new ("1.17");
+        private static readonly Version TridentFoundInVaults = new ("1.21");
 
         private bool obtained;
 
@@ -37,16 +38,20 @@ namespace AATool.Data.Objectives.Complex
 
         protected override void UpdateAdvancedState(ProgressState progress)
         {
-            this.CompletionOverride = this.obtained = progress.WasPickedUp(this.Id);
+            this.obtained = progress.WasPickedUp(this.Id);
+
+            Version.TryParse(Tracker.Category.CurrentVersion, out Version current);
+            current ??= new Version();
+
+            this.CanBeManuallyChecked = current >= TridentFoundInVaults && !this.obtained;
+
+            this.CompletionOverride = this.obtained || (this.ManuallyChecked && this.CanBeManuallyChecked);
 
             if (Tracker.Category is AllBlocks)
             {
                 //post-1.19, skeleton skulls are available in ancient city and no longer require thunder
-                bool ancientCitiesExist = Version.TryParse(Tracker.Category.CurrentVersion, out Version current)
-                    && current >= AncientCitySkeletonSkulls;
-
-                bool piglinHeadRequired = current is not null 
-                    && current >= PiglinHeadAdded;
+                bool ancientCitiesExist = current >= AncientCitySkeletonSkulls;
+                bool piglinHeadRequired = current >= PiglinHeadAdded;
 
                 this.zombieHead = progress.WasUsed("minecraft:zombie_head")
                     || progress.WasPickedUp("minecraft:zombie_head");
@@ -72,8 +77,7 @@ namespace AATool.Data.Objectives.Complex
                 //get advancements requiring thunder
                 this.vvfDone = progress.AdvancementCompleted(VVF);
                 this.surgeDone = progress.AdvancementCompleted(Surge);
-                this.ignoreSurge = Version.TryParse(Tracker.Category.CurrentVersion, out Version current) 
-                    && current < SurgeProtectorAdded;
+                this.ignoreSurge = current < SurgeProtectorAdded;
 
                 if (this.ignoreSurge)
                 {
@@ -117,7 +121,7 @@ namespace AATool.Data.Objectives.Complex
             if (this.vvfDone == this.surgeDone || this.ignoreSurge)
             {
                 //not done with either, see if we still need trident too
-                return this.obtained
+                return this.obtained || (this.ManuallyChecked && this.CanBeManuallyChecked)
                     ? "Awaiting\nThunder"
                     : "Obtain\nTrident";
             }
@@ -132,7 +136,10 @@ namespace AATool.Data.Objectives.Complex
         {
             if (this.vvfDone && (this.surgeDone || this.ignoreSurge))
                 return "Done";
-            return this.obtained ? "Obtained" : "Trident";
+
+            return this.obtained || (this.ManuallyChecked && this.CanBeManuallyChecked) 
+                ? "Obtained" 
+                : "Trident";
         }
 
         private string GetStatusAB()
@@ -140,7 +147,7 @@ namespace AATool.Data.Objectives.Complex
             if (this.doneWithHeads)
                 return "Done\0With\nThunder";
 
-            return this.obtained
+            return this.obtained || (this.ManuallyChecked && this.CanBeManuallyChecked)
                 ? "Awaiting\nThunder"
                 : "Obtain\nTrident";
         }
