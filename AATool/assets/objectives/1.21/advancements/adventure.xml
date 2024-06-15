@@ -136,6 +136,7 @@
             <criterion id="minecraft:husk"/>
             <criterion id="minecraft:drowned"/>
             <criterion id="minecraft:stray"/>
+			<criterion id="minecraft:bogged"/>
             <criterion id="minecraft:spider"/>
             <criterion id="minecraft:cave_spider"/>
             <criterion id="minecraft:enderman"/>
@@ -164,6 +165,7 @@
             <criterion id="minecraft:evoker"/>
             <criterion id="minecraft:vex" icon="vex_1.19.3"/>
             <criterion id="minecraft:ravager"/>
+			<criterion id="minecraft:breeze"/>
         </criteria>
     </advancement>
 </group>
