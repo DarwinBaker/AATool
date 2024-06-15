@@ -21,7 +21,18 @@ namespace AATool.Net
         {
             this.Id = id;
             this.Pronouns = pronouns;
-            this.preferredName = preferredName;
+
+            //set preferred name to real name if not provided and real name is known
+            if (string.IsNullOrWhiteSpace(preferredName))
+            {
+                this.preferredName = Player.TryGetName(preferredName, out string realName)
+                    ? realName
+                    : preferredName;
+            }
+            else
+            {
+                this.preferredName = preferredName;
+            }
 
             //abbreviate name if too long
             if (preferredName is not null && preferredName.Length > MAX_NAME_LENGTH)

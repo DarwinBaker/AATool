@@ -69,7 +69,7 @@ namespace AATool.UI.Controls
         {
             if (this.Player.String != player.String)
             {
-                this.Player = player;
+                this.Player = new Uuid(player.String);
                 this.RefreshBadge();
                 if (this.Player != Uuid.Empty)
                     Net.Player.FetchIdentityAsync(this.Player);
@@ -199,10 +199,11 @@ namespace AATool.UI.Controls
             string category = this.RegisteredOnLeaderboard ? this.owner.Category : Leaderboard.Current.category;
             string version = this.RegisteredOnLeaderboard ? this.owner.Version : Leaderboard.Current.version;
 
-            bool invalidated = !this.cacheChecked && Leaderboard.TryGet(category, version, out _);
-            invalidated |= !this.liveChecked && Leaderboard.IsLiveAvailable(category, version);
-            invalidated |= Config.Main.PreferredPlayerBadge.Changed;
-            invalidated |= Config.Main.PreferredPlayerFrame.Changed;
+            bool invalidated = (!this.cacheChecked && Leaderboard.TryGet(category, version, out _))
+                || (!this.liveChecked && Leaderboard.IsLiveAvailable(category, version))
+                || Config.Main.PreferredPlayerBadge.Changed
+                || Config.Main.PreferredPlayerFrame.Changed
+                || (Net.Player.IdentityCacheInvalidated && !this.RegisteredOnLeaderboard);
             if (invalidated)
             {
                 this.RefreshBadge(category, version);

@@ -18,7 +18,7 @@
         <community_tabs row="0" col="1" colspan="4"/>
 
         <!-- co-op lobby -->
-        <lobby row="0" col="0" rowspan="3"/>
+        <lobby row="0" col="0" rowspan="4"/>
 
         <panel row="2" col="1" colspan="2">
             <panel draw_mode="childrenonly" padding="19,10,0,0">

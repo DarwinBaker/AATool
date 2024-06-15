@@ -49,6 +49,14 @@ namespace AATool.UI.Controls
         protected override void UpdateThis(Time time)
         {
             this.UpdateItemCarousel();
+
+            if (Net.Player.IdentityCacheInvalidated)
+            {
+                if (Net.Player.TryGetName(this.Player.Id, out string name))
+                {
+                    this.First<UITextBlock>("label_name").SetText(name);
+                }
+            }
         }
 
         private void UpdateItemCarousel()

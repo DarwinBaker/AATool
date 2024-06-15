@@ -141,6 +141,7 @@ namespace AATool
             Tracker.Update(this.Time);
             SpriteSheet.Update(this.Time);
             Canvas.Update(this.Time);
+            Player.SetFlags();
 
             //update visibilty of update popup
             if (UpdateRequest.IsDone && !UpdateRequest.Suppress)
@@ -191,6 +192,7 @@ namespace AATool
             Config.ClearAllFlags();
             Tracker.ClearFlags();
             Peer.ClearFlags();
+            Player.ClearFlags();
             Input.EndUpdate();
 
             Debug.EndTiming("update_main");

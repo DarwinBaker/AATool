@@ -21,6 +21,12 @@ namespace AATool.Net
         public static readonly HashSet<string> NamesAlreadyRequested = new ();
         public static readonly HashSet<Uuid> IdentitiesAlreadyRequested = new ();
 
+        //invalidation comes from within an async net request
+        //we need to ensure it's updated before we call update on the current screen
+        //using two variables allows for us to ensure this through some basic synchronization logic
+        private static bool IdentityCacheInvalidatedPrivate { get; set; }
+        public static bool IdentityCacheInvalidated { get; set; }
+
         public static bool TryGetUuid(string name, out Uuid id) => Uuid.TryParse(name, out id) || IdCache.TryGetValue(name ?? "", out id);
         public static bool TryGetName(Uuid id, out string name) => NameCache.TryGetValue(id, out name);
         public static bool TryGetColor(Uuid id, out Color color) => id != Uuid.Empty & IdColorCache.TryGetValue(id, out color);
@@ -83,6 +89,19 @@ namespace AATool.Net
 
             if (name == Config.Tracking.SoloFilterName)
                 Config.Tracking.SoloFilterName.InvokeChange();
+
+            IdentityCacheInvalidatedPrivate = true;
+        }
+
+        public static void SetFlags()
+        {
+            IdentityCacheInvalidated = IdentityCacheInvalidatedPrivate;
+        }
+
+        public static void ClearFlags()
+        {
+            if (IdentityCacheInvalidated)
+                IdentityCacheInvalidated = IdentityCacheInvalidatedPrivate = false;
         }
 
         public static void Cache(Uuid id, Color color)
