@@ -24,7 +24,7 @@
 			</panel>
 			<panel width="5" border_thickness="5" inner_corners="false"/>
             <panel padding_top="10" width="150" margin_top="5" border_thickness="1" inner_corners="true">
-                <text_block text="1.20" font_size="24"/>
+                <text_block text="1.20.5" font_size="24"/>
             </panel>
             <panel width="5" border_thickness="5" inner_corners="false"/>
             <panel padding_top="10" width="150" margin_top="5" border_thickness="1" inner_corners="true">
@@ -72,7 +72,23 @@
         <flow_panel row="2" col="1" padding="5" border_thickness="5">
 			<leaderboard category="All Advancements" version="1.21" hide_button="true" small="true" rows="12" width="150"/>
 			<panel width="5" border_thickness="5" inner_corners="false"/>
-			<leaderboard category="All Advancements" version="1.20" hide_button="true" small="true" rows="12" width="150"/>
+			<grid width="150" border_thickness="0">
+				<rows>
+					<row height="351"/>
+					<row height="5"/>
+					<row height="45"/>
+					<row height="5"/>
+					<row height="302"/>
+                </rows>
+				<leaderboard row="0" category="All Advancements" version="1.20.5" hide_button="true" small="true" rows="6"/>
+				<panel row="1" border_thickness="5" inner_corners="false"/>
+				<panel row="2" padding_top="10" width="150" margin_top="5" border_thickness="1" inner_corners="true">
+					<text_block text="1.20" font_size="24"/>
+				</panel>
+				<panel row="3" border_thickness="5" inner_corners="false"/>
+				<leaderboard row="4" category="All Advancements" version="1.20" hide_button="true" small="true" rows="5"/>
+			</grid>
+			
 			<panel width="5" border_thickness="5" inner_corners="false"/>
             <leaderboard category="All Advancements" version="1.19" hide_button="true" small="true" rows="12" width="150"/>
             <panel width="5" border_thickness="5" inner_corners="false"/>
