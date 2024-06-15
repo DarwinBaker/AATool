@@ -71,7 +71,7 @@
             <criterion id="shulker"/>
             <criterion id="guardian"/>
             <criterion id="polar_bear"/>
-            <criterion id="zombie_villager"     icon="zombie_villager_1.12" short_name="Z-Villager"/>
+            <criterion id="zombie_villager"     icon="zombie_villager_1.12" short_name="Zillager"/>
             <criterion id="witch"               icon="witch_1.12"/>
             <criterion id="vindicator"          icon="vindicator_1.12"/>
             <criterion id="evoker"              icon="evoker_1.12"/>

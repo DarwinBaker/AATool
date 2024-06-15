@@ -116,7 +116,7 @@
             <criterion id="minecraft:phantom"/>
             <criterion id="minecraft:guardian"/>
             <criterion id="minecraft:elder_guardian"/>
-            <criterion id="minecraft:zombie_villager" short_name="Z-Villager"/>
+            <criterion id="minecraft:zombie_villager" short_name="Zillager"/>
             <criterion id="minecraft:witch"/>
             <criterion id="minecraft:pillager"/>
             <criterion id="minecraft:vindicator"/>

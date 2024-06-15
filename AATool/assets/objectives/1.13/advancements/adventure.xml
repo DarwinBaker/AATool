@@ -35,7 +35,7 @@
             <criterion id="minecraft:phantom"/>
             <criterion id="minecraft:guardian"/>
             <criterion id="minecraft:polar_bear"/>
-            <criterion id="minecraft:zombie_villager"     icon="zombie_villager_1.12" short_name="Z-Villager"/>
+            <criterion id="minecraft:zombie_villager"     icon="zombie_villager_1.12" short_name="Zillager"/>
             <criterion id="minecraft:witch"               icon="witch_1.12"/>
             <criterion id="minecraft:vindicator"          icon="vindicator_1.12"/>
             <criterion id="minecraft:evoker"              icon="evoker_1.12"/>
