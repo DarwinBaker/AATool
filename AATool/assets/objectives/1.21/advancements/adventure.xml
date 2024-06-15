@@ -20,8 +20,8 @@
     <advancement id="minecraft:adventure/play_jukebox_in_meadows"   name="Sound of Music"           short_name="Music"/>
 	<advancement id="minecraft:adventure/brush_armadillo"    name="Isn't it Scute?"           short_name="Scute?"    icon="brush_armadillo"/>
     <advancement id="minecraft:adventure/salvage_sherd" name="Respecting Remnants" short_name="Remnants"/>
-    <advancement id="minecraft:adventure/craft_decorated_pot_using_only_sherds" name="Careful Restoration" short_name="Restoration" icon="craft_decorated_pot"/>
-    <advancement id="minecraft:adventure/trim_with_any_armor_pattern" name="Crafting a New&#160;Look" short_name="New Look" icon="trim_dune"/>
+    <advancement id="minecraft:adventure/craft_decorated_pot_using_only_sherds" name="Careful Restoration" short_name="Restoration" icon="craft_decorated_pot"/>   
+	<advancement id="minecraft:adventure/trim_with_any_armor_pattern" name="Crafting a New&#160;Look" short_name="New Look" icon="trim_dune"/>
     <advancement id="minecraft:adventure/trim_with_all_exclusive_armor_patterns" name="Smithing With&#160;Style" short_name="With Style" icon="trim_silence" type="challenge">
         <criteria goal="Trims Applied">
             <criterion id="armor_trimmed_minecraft:snout_armor_trim_smithing_template_smithing_trim"
@@ -42,7 +42,7 @@
                 name="Silence" icon="trim_silence" recipe="minecraft:recipes/misc/silence_armor_trim_smithing_template"/>
         </criteria>
     </advancement>
-
+	
     <advancement id="minecraft:adventure/spyglass_at_parrot"    name="Is It a&#xA;Bird?"            short_name="A Bird?"     icon="spyglass"/>
     <advancement id="minecraft:adventure/spyglass_at_ghast"     name="Is It a&#xA;Balloon?"         short_name="A Balloon?"  icon="spyglass"/>
     <advancement id="minecraft:adventure/spyglass_at_dragon"    name="Is It a&#xA;Plane?"           short_name="A Plane?"    icon="spyglass"/>
@@ -54,18 +54,17 @@
 	<advancement id="minecraft:adventure/lighten_up"                    name="Lighten Up" short_name="Lighten Up"/>
 	<advancement id="minecraft:adventure/who_needs_rockets"             name="Who Needs Rockets?" short_name="Rockets?"/>
 	<advancement id="minecraft:adventure/blowback"                      name="Blowback" short_name="Blowback"/>
+	
 	<advancement id="minecraft:adventure/under_lock_and_key"            name="Under Lock and Key" short_name="Lock/Key"/>
 	<advancement id="minecraft:adventure/revaulting"                    name="Revaulting" short_name="Revaulting"/>
 	<advancement id="minecraft:adventure/overoverkill"                  name="Over-Overkill" short_name="Overkill"/>
 	<advancement id="minecraft:adventure/totem_of_undying"      name="Postmortal"               type="goal"/>
 	<advancement id="minecraft:adventure/walk_on_powder_snow_with_leather_boots"   name="Light as a&#160;Rabbit" short_name="LaaR"  icon="leather_boots"/>
-
 	<advancement id="minecraft:adventure/honey_block_slide"     name="Sticky Situation"         short_name="Sticky "/>
-
     <advancement id="minecraft:adventure/lightning_rod_with_villager_no_fire" name="Surge Protector"  short_name="Surge Prot" icon="lightning_rod"/>
-    <advancement id="minecraft:adventure/voluntary_exile"       name="Voluntary Exile"          short_name="Exile" icon="pillager_banner"/>
+    
+	<advancement id="minecraft:adventure/voluntary_exile"       name="Voluntary Exile"          short_name="Exile" icon="pillager_banner"/>
     <advancement id="minecraft:adventure/hero_of_the_village"   name="Hero of the&#160;Village" short_name="Hero OTV" icon="pillager_banner" type="challenge"/>
-
     <advancement id="minecraft:adventure/throw_trident"         name="A Throwaway Joke"         short_name="ATJ"/>
     <advancement id="minecraft:adventure/very_very_frightening" name="Very Very Frightening"    short_name="VVF"/>
     <advancement id="minecraft:adventure/adventuring_time" name="Adventuring Time" short_name="Adventuring" type="challenge">
@@ -145,7 +144,6 @@
             <criterion id="minecraft:ghast"/>
             <criterion id="minecraft:blaze"/>
             <criterion id="minecraft:wither_skeleton" name="Wither Skeleton" short_name="W Skeleton"/>
-			<criterion id="minecraft:wither"/>
             <criterion id="minecraft:piglin"/>
             <criterion id="minecraft:piglin_brute"/>
             <criterion id="minecraft:zombified_piglin" name="Zombie Piglin"/>
@@ -155,17 +153,18 @@
             <criterion id="minecraft:ender_dragon"/>
             <criterion id="minecraft:endermite"/>
             <criterion id="minecraft:shulker"/>
+			<criterion id="minecraft:wither"/>
             <criterion id="minecraft:phantom"/>
             <criterion id="minecraft:guardian"/>
             <criterion id="minecraft:elder_guardian"/>
-            <criterion id="minecraft:zombie_villager" short_name="Z-Villager"/>
+			<criterion id="minecraft:breeze"/>
+			<criterion id="minecraft:zombie_villager" name="Zillager" short_name="Zillager"/>
             <criterion id="minecraft:witch"/>
             <criterion id="minecraft:pillager"/>
             <criterion id="minecraft:vindicator"/>
             <criterion id="minecraft:evoker"/>
             <criterion id="minecraft:vex" icon="vex_1.19.3"/>
             <criterion id="minecraft:ravager"/>
-			<criterion id="minecraft:breeze"/>
         </criteria>
     </advancement>
 </group>

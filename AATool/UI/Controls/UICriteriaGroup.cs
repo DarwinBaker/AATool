@@ -35,6 +35,8 @@ namespace AATool.UI.Controls
         private int cellWidth;
         private int spacerCells;
 
+        private Dictionary<int, int> spacers = new();
+
         public UICriteriaGroup()
         {
             this.BuildFromTemplate();
@@ -109,17 +111,22 @@ namespace AATool.UI.Controls
             if (!Config.Main.UseCompactStyling && !Config.Main.UseVerticalStyling)
                 this.criteriaPanel.AddControl(spacer);
 
-            for (int i = 0; i < this.spacerCells; i++)
-            {
-                this.criteriaPanel.AddControl(new UIPanel() { 
-                    FlexWidth = new(this.cellWidth),
-                    FlexHeight = new(16),
-                    DrawMode = DrawMode.None,
-                });
-            }
-
+            int index = 0;
             foreach (KeyValuePair<string, Criterion> criterion in this.advancement.Criteria.All)
             {
+                //handle spacers to allow for finer control of layouts
+                if (this.spacers.TryGetValue(index, out int spacerCount))
+                {
+                    for (int i = 0; i < spacerCount; i++)
+                    {
+                        this.criteriaPanel.AddControl(new UIPanel() {
+                            FlexWidth = new(this.cellWidth),
+                            FlexHeight = new(16),
+                            DrawMode = DrawMode.None,
+                        });
+                    }
+                }
+
                 UICriterion crit = advancement.Id is ArmorTrims.AdvancementId
                     ? new UIArmorTrimCriterion { HorizontalAlign = HorizontalAlign.Left }
                     : new UICriterion { HorizontalAlign = HorizontalAlign.Left };
@@ -130,6 +137,8 @@ namespace AATool.UI.Controls
                     crit.FlexWidth = new (this.cellWidth);
                 }
                 this.criteriaPanel.AddControl(crit);
+
+                index++;
             }
         }
 
@@ -372,7 +381,37 @@ namespace AATool.UI.Controls
             base.ReadNode(node);
             this.advancementName = Attribute(node, "advancement", string.Empty);
             this.cellWidth = Attribute(node, "cell_width", 0);
-            this.spacerCells = Attribute(node, "spacers", 0);
+            this.ReadSpacers(node);
+        }
+
+        private void ReadSpacers(XmlNode node) 
+        {
+            string list = Attribute(node, "spacers", string.Empty);
+            if (string.IsNullOrEmpty(list))
+                return;
+            
+            string[] entries = list.Split(',');
+
+            if (entries.Length == 1)
+            {
+                if (int.TryParse(entries[0], out int count))
+                {
+                    this.spacers[0] = count;
+                    return;
+                }
+            }
+
+            foreach (string entry in list.Split(','))
+            {
+                string[] tokens = entry.Split('@');
+
+                if (tokens.Length == 2 
+                    && int.TryParse(tokens[0], out int count) 
+                    && int.TryParse(tokens[1], out int index))
+                {
+                    this.spacers[index] = count;
+                }
+            }
         }
     }
 }

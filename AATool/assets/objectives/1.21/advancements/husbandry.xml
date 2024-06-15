@@ -9,21 +9,20 @@
     <advancement id="minecraft:husbandry/axolotl_in_a_bucket"     name="The Cutest Predator"              short_name="Predator"/>
     <advancement id="minecraft:husbandry/kill_axolotl_target"     name="Healing&#160;Power of Friendship"      short_name="Friendship"/>
     <advancement id="minecraft:husbandry/make_a_sign_glow"        name="Glow and Behold!"                 short_name="Behold!"/>
+	<advancement id="minecraft:husbandry/ride_a_boat_with_a_goat" name="Whatev&#160;Floats Your&#160;Goat!" short_name="Goat Boat"/>
+	
     <advancement id="minecraft:husbandry/safely_harvest_honey"    name="Bee Our Guest"                    short_name="Our Guest"/>
     <advancement id="minecraft:husbandry/wax_on"                  name="Wax On"/>
     <advancement id="minecraft:husbandry/wax_off"                 name="Wax Off"/>
     <advancement id="minecraft:husbandry/silk_touch_nest"         name="Total Beelocation"                short_name="Beelocation"/>
-     <advancement id="minecraft:husbandry/obtain_netherite_hoe" name="Serious Dedication" short_name="Dedication" type="challenge"/>
-
     <advancement id="minecraft:husbandry/repair_wolf_armor"   name="Good as New"   short_name="Repair" icon="repair_wolf_armor"/>
     <advancement id="minecraft:husbandry/remove_wolf_armor"   name="Shear Brilliance"   short_name="Shear" icon="shears"/>
-    <advancement id="minecraft:husbandry/ride_a_boat_with_a_goat" name="Whatev&#160;Floats Your&#160;Goat!" short_name="Goat Boat"/>
     <advancement id="minecraft:husbandry/allay_deliver_item_to_player"      name="You Got a Friend in Me"    short_name="A Friend" icon="cookie"/>
     <advancement id="minecraft:husbandry/allay_deliver_cake_to_note_block"  name="Birthday Song"    short_name="Birthday" icon="birthday"/>
-    <advancement id="minecraft:husbandry/obtain_sniffer_egg"   name="Smells Interesting"   short_name="Smells" icon="obtain_sniffer_egg"/>
+    
+	<advancement id="minecraft:husbandry/obtain_sniffer_egg"   name="Smells Interesting"   short_name="Smells" icon="obtain_sniffer_egg"/>
     <advancement id="minecraft:husbandry/feed_snifflet"   name="Little Sniffs"   short_name="Lil Sniffs" icon="feed_snifflet"/>
     <advancement id="minecraft:husbandry/plant_any_sniffer_seed"   name="Planting The&#160;Past"   short_name="The Past" icon="plant_any_sniffer_seed"/>
-
     <advancement id="minecraft:husbandry/bred_all_animals" name="Two by Two" type="challenge">
         <criteria goal="Animals Bred">
             <criterion id="minecraft:pig"/>
@@ -125,6 +124,7 @@
             <criterion id="minecraft:woods"     name="Woods"        icon="wolf_woods"/>
         </criteria>
     </advancement>
+	<advancement id="minecraft:husbandry/obtain_netherite_hoe" name="Serious Dedication" short_name="Dedication" type="challenge"/>
    
     <advancement id="minecraft:husbandry/froglights"            name="Our&#160;Powers Combined!"       short_name="Froglights" type="challenge"/>
     <advancement id="minecraft:husbandry/leash_all_frog_variants"   name="Squad Hops Into Town"   short_name="The Squad" icon="tame_an_animal"/>
