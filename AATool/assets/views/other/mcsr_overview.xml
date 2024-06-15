@@ -31,27 +31,28 @@
             </rows>
             <columns>
                 <column width="165"/>
-                <column width="150"/>
-                <column width="150"/>
-                <column width="150"/>
-                <column width="150"/>
-                <column width="150"/>
-                <column width="150"/>
-                <column width="198"/>
+                <column width="130"/>
+                <column width="130"/>
+                <column width="130"/>
+                <column width="130"/>
+                <column width="130"/>
+				<column width="130"/>
+				<column width="130"/>
+                <column width="188"/>
             </columns>
 
-            <panel row="1" colspan="7" border_thickness="5" padding_top="15">
+            <panel row="1" colspan="8" border_thickness="5" padding_top="15">
                 <text_block font_size="36" text="MCSR Hall of Fame"/>
             </panel>
 
             <record_holder_most_consecutive row="2" col="0" border_thickness="5" padding_top="6"/>
 			<record_holder row="2" col="1" border_thickness="5" padding_top="6" category="All Advancements" version="1.21"/>
-			<record_holder row="2" col="2" border_thickness="5" padding_top="6" category="All Advancements" version="1.20"/>
-            <record_holder row="2" col="3" border_thickness="5" padding_top="6" category="All Advancements" version="1.19"/>
-            <record_holder row="2" col="4" border_thickness="5" padding_top="6" category="All Advancements" version="1.18"/>
-            <record_holder row="2" col="5" border_thickness="5" padding_top="6" category="All Advancements" version="1.17"/>
-            <record_holder row="2" col="6" border_thickness="5" padding_top="6" category="All Advancements" version="1.16"/>
-            <!-- we will re-add this at some point, but for now 1.21 will replace it <record_holder_set_seed row="2" col="6" border_thickness="5" padding_top="6"/> -->
+			<record_holder row="2" col="2" border_thickness="5" padding_top="6" category="All Advancements" version="1.20.5"/>
+			<record_holder row="2" col="3" border_thickness="5" padding_top="6" category="All Advancements" version="1.20"/>
+            <record_holder row="2" col="4" border_thickness="5" padding_top="6" category="All Advancements" version="1.19"/>
+            <record_holder row="2" col="5" border_thickness="5" padding_top="6" category="All Advancements" version="1.18"/>
+            <record_holder row="2" col="6" border_thickness="5" padding_top="6" category="All Advancements" version="1.17"/>
+            <record_holder row="2" col="7" border_thickness="5" padding_top="6" category="All Advancements" version="1.16"/>
 
             <record_holder_most_concurrent row="3" col="0" border_thickness="5"/>
             <record_holder row="3" col="1" border_thickness="5" padding_top="6" category="All Advancements" version="1.15"/>
@@ -60,28 +61,30 @@
             <record_holder row="3" col="4" border_thickness="5" padding_top="6" category="All Advancements" version="1.12"/>
             <record_holder row="3" col="5" border_thickness="5" padding_top="6" category="All Advancements" version="1.11" title="1.8-1.11 AA"/>
             <record_holder row="3" col="6" border_thickness="5" padding_top="6" category="All Advancements" version="1.6" title="1.6-1.10 AA"/>
+			<record_holder_set_seed row="3" col="7" border_thickness="5" padding_top="6"/>
 
-            <record_holder_most_any_percent row="4" col="0" border_thickness="5" padding_top="6"/>
+			<record_holder_most_any_percent row="4" col="0" border_thickness="5" padding_top="6"/>
             <record_holder_half_heart_hardcore row="4" col="1" border_thickness="5" padding_top="6"/>
-            <record_holder_speedrun_dot_com row="4" col="2" border_thickness="5" padding_top="6" category="Any% RSG" version="1.16+"/>
-            <record_holder_speedrun_dot_com row="4" col="3" border_thickness="5" padding_top="6" category="Any% RSG" version="1.13-1.15"/>
-            <record_holder_speedrun_dot_com row="4" col="4" border_thickness="5" padding_top="6" category="Any% RSG" version="1.9-1.12"/>
-            <record_holder_speedrun_dot_com row="4" col="5" border_thickness="5" padding_top="6" category="Any% RSG" version="1.8"/>
-            <record_holder_speedrun_dot_com row="4" col="6" border_thickness="5" padding_top="6" category="Any% RSG" version="Pre-1.8"/>
+			<record_holder row="4" col="2" border_thickness="5" padding_top="6" category="All Items" version="1.16"/>
+            <record_holder_speedrun_dot_com row="4" col="3" border_thickness="5" padding_top="6" category="Any% RSG" version="1.16+"/>
+            <record_holder_speedrun_dot_com row="4" col="4" border_thickness="5" padding_top="6" category="Any% RSG" version="1.13-1.15"/>
+            <record_holder_speedrun_dot_com row="4" col="5" border_thickness="5" padding_top="6" category="Any% RSG" version="1.9-1.12"/>
+            <record_holder_speedrun_dot_com row="4" col="6" border_thickness="5" padding_top="6" category="Any% RSG" version="1.8"/>
+            <record_holder_speedrun_dot_com row="4" col="7" border_thickness="5" padding_top="6" category="Any% RSG" version="Pre-1.8"/>
 
-            <records_all_blocks row="5" col="0" colspan="2" border_thickness="5"/>
+            <records_all_blocks row="5" col="0" colspan="3" border_thickness="5"/>
 
-            <record_holder_speedrun_dot_com row="5" col="2" border_thickness="5" padding_top="6" category="Any% SSG" version="1.16+"/>
-            <record_holder_speedrun_dot_com row="5" col="3" border_thickness="5" padding_top="6" category="Any% SSG" version="1.13-1.15"/>
-            <record_holder_speedrun_dot_com row="5" col="4" border_thickness="5" padding_top="6" category="Any% SSG" version="1.9-1.12"/>
-            <record_holder_speedrun_dot_com row="5" col="5" border_thickness="5" padding_top="6" category="Any% SSG" version="1.8"/>
-            <record_holder_speedrun_dot_com row="5" col="6" border_thickness="5" padding_top="6" category="Any% SSG" version="Pre-1.8"/>
+            <record_holder_speedrun_dot_com row="5" col="3" border_thickness="5" padding_top="6" category="Any% SSG" version="1.16+"/>
+            <record_holder_speedrun_dot_com row="5" col="4" border_thickness="5" padding_top="6" category="Any% SSG" version="1.13-1.15"/>
+            <record_holder_speedrun_dot_com row="5" col="5" border_thickness="5" padding_top="6" category="Any% SSG" version="1.9-1.12"/>
+            <record_holder_speedrun_dot_com row="5" col="6" border_thickness="5" padding_top="6" category="Any% SSG" version="1.8"/>
+            <record_holder_speedrun_dot_com row="5" col="7" border_thickness="5" padding_top="6" category="Any% SSG" version="Pre-1.8"/>
 
-            <panel row="1" col="7" border_thickness="5" padding_top="15">
+            <panel row="1" col="8" border_thickness="5" padding_top="15">
                 <text_block font_size="36" text="Team"/>
             </panel>
 
-            <panel row="2" col="7" border_thickness="5">
+            <panel row="2" col="8" border_thickness="5">
                 <textblock text="The Developer&#xA;of AATool" font_size="24" vertical_align="top" margin_top="12" height="24"/>
                 <panel padding_top="55" horizontal_align="left" draw_mode="childrenonly">
                     <avatar player="60bddec7-939c-4753-a898-cffa33134a4d" show_frame="false" vertical_align="top" margin_top="32"/>
@@ -89,7 +92,7 @@
                     <textblock text="CTM" vertical_align="top" margin_top="80" height="12"/>
                 </panel>
             </panel>
-            <panel row="3" col="7" border_thickness="5">
+            <panel row="3" col="8" border_thickness="5">
                 <textblock text="Leaderboard&#xA;Manager" font_size="24" vertical_align="top" margin_top="12" height="24"/>
                 <panel padding_top="55" horizontal_align="left" draw_mode="childrenonly">
                     <avatar player="899c63ac-6590-46c0-b77c-4dae1543f707" show_frame="false" vertical_align="top" margin_top="32"/>
@@ -97,7 +100,7 @@
                     <textblock text="Deadpool" vertical_align="top" margin_top="80" height="12"/>
                 </panel>
             </panel>
-            <panel row="4" col="7" rowspan="2" border_thickness="5">
+            <panel row="4" col="8" rowspan="2" border_thickness="5">
                 <textblock text="Want to Show&#xA;Your Support?" font_size="24" vertical_align="top" margin_top="22" height="24"/>
                 <panel padding_top="80" padding_left="24" padding_right="24" draw_mode="childrenonly">
                     <textblock text="Join the Patreon or&#xA;donate with PayPal!&#xA; &#xA;This helps fund cool new updates and you get your name in the credits of&#xA;every completed AA run!&#xA; &#xA;Every bit helps&#xA; &#xA;Thank you ♥" vertical_align="top" margin_top="10" height="12"/>
@@ -141,7 +144,8 @@
         </grid>
 
         <!-- needed to load data -->
-        <leaderboard category="All Blocks" version="1.20" draw_mode="none"/>
+		<leaderboard category="All Blocks" version="1.21" draw_mode="none"/>
+		<leaderboard category="All Blocks" version="1.20" draw_mode="none"/>
         <leaderboard category="All Blocks" version="1.19" draw_mode="none"/>
         <leaderboard category="All Blocks" version="1.18" draw_mode="none"/>
         <leaderboard category="All Blocks" version="1.16" draw_mode="none"/>

@@ -156,7 +156,7 @@ namespace AATool.UI.Controls
             {
                 if (wr.RealTime != default && this.Category is not ("All Blocks" or "All Items"))
                 {
-                    this.Details.SetText($"{wr.InGameTime:m':'ss} IGT    {wr.RealTime:m':'ss} RTA");
+                    this.Details.SetText($"{wr.InGameTime:m':'ss} IGT  {wr.RealTime:m':'ss} RTA");
                 }
                 else
                 {

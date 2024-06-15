@@ -1,7 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <control border_thickness="5">
     <textblock text="All Blocks" font_size="24" vertical_align="top" margin_top="16" height="24"/>
-    <flow_panel cell_width="76" padding_top="44" padding_left="5" draw_mode="childrenonly">
+    <flow_panel cell_width="76" padding_top="44" padding_left="22" draw_mode="childrenonly">
+		<panel width="66" draw_mode="childrenonly">
+			<textblock text="1.21" vertical_align="top" margin_top="0" height="12"/>
+			<button name="ab_wr_1.21_button" width="38" height="38" vertical_align="top" margin_top="28" border_thickness="2">
+				<avatar name="ab_wr_1.21_avatar" show_frame="false" empty="true"/>
+			</button>
+			<panel width="58" height="2" vertical_align="top" margin_top="74" inner_corners="false"/>
+			<textblock name="ab_wr_1.21_runner" vertical_align="top" margin_top="82" height="12"/>
+			<textblock name="ab_wr_1.21_igt" text="__:__:__" vertical_align="top" margin_top="97" height="12"/>
+		</panel>
         <panel width="66" draw_mode="childrenonly">
             <textblock text="1.20" vertical_align="top" margin_top="0" height="12"/>
             <button name="ab_wr_1.20_button" width="38" height="38" vertical_align="top" margin_top="28" border_thickness="2">

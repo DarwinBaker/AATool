@@ -51,7 +51,7 @@ namespace AATool.UI.Controls
             this.SetBadge();
             
             this.Runner.SetText(Leaderboard.AASsgRunner);
-            this.Details.SetText($"{Leaderboard.AASsgInGameTime:h':'mm':'ss} IGT    {Leaderboard.AASsgRealTime:h':'m':'ss} RTA");
+            this.Details.SetText($"{Leaderboard.AASsgInGameTime:h':'mm':'ss} IGT");
         }
 
         protected override void SetBadge()
