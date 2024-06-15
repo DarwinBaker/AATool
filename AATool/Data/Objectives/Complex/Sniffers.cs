@@ -16,7 +16,8 @@ namespace AATool.Data.Objectives.Complex
         public int EstimatedObtained { get; private set; }
         public int EstimatedPlaced { get; private set; }
 
-        public int Required => 3;
+        public int Required => (Version.TryParse(Tracker.CurrentVersion, out Version current) && current >= new Version("1.21")) 
+            ? 2 : 3;
 
         private bool eggObtained;
         private bool sniffersBred;
