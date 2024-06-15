@@ -121,6 +121,7 @@
     <Compile Include="Data\Objectives\ArmorTrimCriterion.cs" />
     <Compile Include="Data\Objectives\Complex\EGapShort.cs" />
     <Compile Include="Data\Objectives\Complex\EnderPearls.cs" />
+    <Compile Include="Data\Objectives\Complex\HeavyCore.cs" />
     <Compile Include="Data\Objectives\Complex\Netherite.cs" />
     <Compile Include="Data\Objectives\Complex\SnifferEgg.cs" />
     <Compile Include="Data\Objectives\Complex\NetheriteUpgrade.cs" />
@@ -2922,6 +2923,12 @@
     <Content Include="assets\sprites\blocks\cherry\cherry_button^48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\sprites\global\advancements\adventure\heavy_core^32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\advancements\adventure\heavy_core^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="assets\sprites\global\advancements\adventure\lighten_up^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -2947,6 +2954,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\advancements\adventure\lighten_up^48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\advancements\adventure\heavy_core^16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\advancements\adventure\overoverkill.png">
@@ -3136,6 +3146,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\criteria\dogs\wolf_ashen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\mobs\breeze.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\sprites\global\criteria\mobs\bogged.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\sprites\global\criteria\mobs\silverfish^48.png">
