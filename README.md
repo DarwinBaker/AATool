@@ -6,13 +6,11 @@
 ![](info/preview_overlay.gif)
 
 ## What is AATool?
-AATool is a standalone program capable of tracking the advancements, statistics, and blocks of one or more players, either on a local world or on a server over the internet. Multiple players can even network their trackers together into a co-op lobby for coordinated multi-player speedruns. It supports all version of Minecraft from 1.20 all the way back to 1.11. Several different speedrun categories are supported, each with their own specially designed interface, including All Advancements, All Blocks, Half Percent, All Deaths, and more. The tracker itself is highly customizable, and countless hours have gone into designing it to be both very pleasing to look at, and as legible/intuitive as possible.
+AATool is a standalone program capable of tracking the advancements, statistics, and blocks of one or more players, either on a local world or on a server over the internet. Multiple players can even network their trackers together into a co-op lobby for coordinated multi-player speedruns. It supports all version of Minecraft from the latest release all the way back to 1.11. Several different speedrun categories are supported, each with their own specially designed interface, including All Advancements, All Blocks, Half Percent, All Deaths, and more. The tracker itself is highly customizable, and countless hours have gone into designing it to be both very pleasing to look at, and as legible/intuitive as possible.
 
 AATool is used by countless professional speedrunners. It includes a built-in leaderboard system complete with up-to-date world records, player ranks & badges, and a whole community tab dedicated to the most skilled Minecraft players in the world and the incredible challenges they have accomplished! 
 
 It also includes the customizable overlay view that you have likely seen if you've watched any All Advancements runs. [For a guide on how to set this up yourself, click here!](info/obs.md)
-
-_As of October 2022, the AATool project now contains over 28,000 lines of code!_ 🎉
 
 ## Want to Contribute?
 If you find this tool helpful or enjoy watching someone else who does, consider supporting me on [Patreon](https://www.patreon.com/_ctm) or making a [PayPal](https://www.paypal.com/donate?hosted_button_id=EN29468P8CY24) donation! This is of course completely optional and this program is and always will be completely free for everyone's use! Also, anyone who donates will have their name added to the tool's credits!
@@ -32,7 +30,7 @@ This tool was designed from the beginning to strictly adhere to the category rul
 ## Installation
 If you're thinking about taking on the All Advancements category or simply want an epic tracker for your survival world, simply download and run "Setup.exe" or extract the zip file from the [Releases](https://github.com/DarwinBaker/AATool/releases) page. (running Setup.exe will install the necessary files in the same folder you ran it). By default the program will look in your `AppData\Roaming\.minecraft\saves` folder, but if you're using a custom launcher or have moved your save directory, custom save paths are supported. If something isn't right after installing or updating, delete the "assets" folder and run "AAUpdate.exe"
 
-You will likely run into a Windows SmartScreen pop up stating "Windows protected your PC" when you first run the program. You can safely ignore this and click "Run Anyway" and it shouldn't ask again. 
+You will likely run into a Windows SmartScreen pop up stating "Windows protected your PC" when you first run the program. You can safely ignore this and click "Run Anyway" and it shouldn't ask again. You may have to click "More info" to get the run button to show. 
 
 
 **DO NOT** install/run any version of this software not downloaded directly from this repository or from the auto-updater. I am not responsible if you run something malicious that looks like this but didn't come from here. This software is provided "as is", without warranty of any kind.
