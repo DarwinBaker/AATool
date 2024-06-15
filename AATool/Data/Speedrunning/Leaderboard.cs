@@ -341,7 +341,7 @@ namespace AATool.Data.Speedrunning
             else if (pageId is Paths.Web.ABPage20)
                 versions = new() { "1.20" };
             else
-                versions = new() { "1.21", "1.20", "1.19", "1.18", "1.17", "1.15", "1.14", "1.13", "1.12", "1.11", "1.6" };
+                versions = new() { "1.21", "1.20.5", "1.20", "1.19", "1.18", "1.17", "1.15", "1.14", "1.13", "1.12", "1.11", "1.6" };
 
             //parse all the leaderboards
             foreach (string version in versions)

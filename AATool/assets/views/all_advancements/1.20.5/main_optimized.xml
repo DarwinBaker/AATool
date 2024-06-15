@@ -106,7 +106,7 @@
         </flow_panel>
 
         <!-- leaderboard -->
-        <leaderboard width="206" height="348" rows="5" category="All Advancements" row="0" col="1" version="1.20" horizontal_align="right" vertical_align="top" margin_right="6" margin_top="6"/>
+        <leaderboard width="206" height="348" rows="5" category="All Advancements" row="0" col="1" version="1.20.5" horizontal_align="right" vertical_align="top" margin_right="6" margin_top="6"/>
 
         <!-- advancements with subcriteria -->
         <flow_panel row="1" col="1" colspan="2" padding_bottom="6" border_thickness="6">
