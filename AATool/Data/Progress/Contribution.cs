@@ -18,8 +18,6 @@ namespace AATool.Data.Progress
         public Contribution(NetworkContribution network) : this(network.UUID)
         {
             this.Player = new Uuid(network.UUID.String);
-            this.ObtainedGodApple = network.ObtainedGodApple;
-            this.ObtainedHeavyCore = network.ObtainedHeavyCore;
 
             //add advancements
             foreach (KeyValuePair<string, DateTime> advancement in network.Advancements)

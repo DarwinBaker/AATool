@@ -24,7 +24,6 @@ namespace AATool.Data.Progress
         [JsonProperty] public Dictionary<string, int> Kill { get; set; }
 
         [JsonProperty] public bool ObtainedGodApple { get; set; }
-        [JsonProperty] public bool ObtainedHeavyCore { get; set; }
 
         [JsonIgnore]
         private static readonly HashSet<string> TrackedStats = new () {
@@ -69,7 +68,6 @@ namespace AATool.Data.Progress
         {
             this.UUID = contribution.Player;
             this.ObtainedGodApple = contribution.ObtainedGodApple;
-            this.ObtainedHeavyCore = contribution.ObtainedHeavyCore;
 
             //add advancements
             foreach (KeyValuePair<string, Completion> advancement in contribution.Advancements)
