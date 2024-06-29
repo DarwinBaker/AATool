@@ -163,6 +163,7 @@ namespace AATool.UI.Controls
                     "1.18" => Paths.Web.ABPage18,
                     "1.19" => Paths.Web.ABPage19,
                     "1.20" => Paths.Web.ABPage20,
+                    "1.21" => Paths.Web.ABPage21,
                     _ => string.Empty
                 };
             }
