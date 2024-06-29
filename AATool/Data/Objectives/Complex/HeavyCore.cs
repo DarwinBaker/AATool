@@ -1,4 +1,5 @@
-﻿using AATool.Data.Progress;
+﻿using AATool.Data.Categories;
+using AATool.Data.Progress;
 
 namespace AATool.Data.Objectives.Complex
 {
@@ -10,6 +11,7 @@ namespace AATool.Data.Objectives.Complex
         public const string OverOverkillAdvancement = "minecraft:adventure/overoverkill";
 
         public bool ObtainedHeavyCore { get; private set; }
+        public bool PlacedHeavyCore { get; private set; }
         public bool MaceCrafted { get; private set; }
         public bool OverOverkillComplete { get; private set; }
         public int OminousVaultsOpened { get; private set; }
@@ -17,6 +19,7 @@ namespace AATool.Data.Objectives.Complex
         protected override void UpdateAdvancedState(ProgressState progress)
         {
             this.ObtainedHeavyCore = progress.WasPickedUp(HeavyCoreId);
+            this.PlacedHeavyCore = progress.WasUsed(HeavyCoreId);
 
             this.MaceCrafted = progress.WasCrafted(MaceId);
 
@@ -24,13 +27,22 @@ namespace AATool.Data.Objectives.Complex
 
             this.OminousVaultsOpened = progress.TimesUsed(OminousTrialKeyId);
 
-            this.Partial = !this.OverOverkillComplete;
-            this.CompletionOverride = this.OverOverkillComplete || this.MaceCrafted || this.ObtainedHeavyCore;
+            if (Tracker.Category is AllBlocks)
+            {
+                this.Partial = !this.PlacedHeavyCore;
+                this.CompletionOverride = this.PlacedHeavyCore || this.ObtainedHeavyCore;
+            }
+            else
+            {
+                this.Partial = !this.OverOverkillComplete;
+                this.CompletionOverride = this.OverOverkillComplete || this.MaceCrafted || this.ObtainedHeavyCore;
+            }
         }
 
         protected override void ClearAdvancedState()
         {
             this.ObtainedHeavyCore = false;
+            this.PlacedHeavyCore = false;
             this.MaceCrafted = false;
             this.OverOverkillComplete = false;
             this.OminousVaultsOpened = 0;
@@ -52,22 +64,32 @@ namespace AATool.Data.Objectives.Complex
 
         protected override string GetLongStatus()
         {
-            if (this.OverOverkillComplete)
-                return "Overkill\nComplete";
+            if (Tracker.Category is AllBlocks)
+            {
+                if (this.PlacedHeavyCore)
+                    return "Heavy\0Core\nPlaced";
+            }
+            else
+            {
+                if (this.OverOverkillComplete)
+                    return "Overkill\nComplete";
 
-            if (this.MaceCrafted)
-                return "Mace\nCrafted";
+                if (this.MaceCrafted)
+                    return "Mace\nCrafted";
+            }
 
-            if (this.ObtainedHeavyCore)
-                return $"Obtained\nVaults:\0{this.OminousVaultsOpened}";
-
-            return "Obtain\nHeavy\0Core";
+            return this.ObtainedHeavyCore 
+                ? $"Obtained\nVaults:\0{this.OminousVaultsOpened}" 
+                : "Obtain\nHeavy\0Core";
         }
 
         protected override string GetCurrentIcon()
         {
-            if (this.OverOverkillComplete || this.MaceCrafted)
-                return "overoverkill";
+            if (Tracker.Category is not AllBlocks)
+            {
+                if (this.OverOverkillComplete || this.MaceCrafted)
+                    return "overoverkill";
+            }
 
             return "heavy_core";
         }

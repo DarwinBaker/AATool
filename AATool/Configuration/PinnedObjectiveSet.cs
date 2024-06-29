@@ -18,7 +18,7 @@ namespace AATool.Configuration
 
         public static readonly List<string> AllAB = new (){
             "Trident", "NautilusShells", "ShulkerShells", "WitherSkulls",
-            "AncientDebris", "DeepslateEmerald", "SculkBlocks", "Mycelium", "RedSand", "Bees",
+            "AncientDebris", "DeepslateEmerald", "SculkBlocks", "Mycelium", "RedSand", "Bees", "HeavyCore"
         };
 
         public static readonly List<string> AllAACH = new (){
@@ -116,6 +116,9 @@ namespace AATool.Configuration
             }},
             { "All Achievements 1.11", new () {
                 "GoldBlocks", "WitherSkulls", "Biomes", "EGap",
+            }},
+            { "All Blocks 1.21", new () {
+                "DeepslateEmerald", "HeavyCore", "WitherSkulls", "ShulkerShells", "NautilusShells", "Trident",
             }},
             { "All Blocks 1.20", new () {
                 "AncientDebris", "DeepslateEmerald", "WitherSkulls", "ShulkerShells", "NautilusShells", "Trident",
