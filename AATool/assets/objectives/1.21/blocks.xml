@@ -1,14 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <blocks>
-    <amethyst_large>
-        <amethyst_block       name="Block of Amethyst"        icon="amethyst_block" light_level="0.4" tags="geode"/>
-        <amethyst_cluster     name="Amethyst Cluster"         icon="amethyst_cluster" light_level="0.4" tags="geode"/>
-    </amethyst_large>
-    <amethyst_small>
-        <small_amethyst_bud   name="Small Amethyst&#xA;Bud"        icon="small_amethyst_bud" light_level="0.2" tags="geode"/>
-        <medium_amethyst_bud  name="Medium Amethyst&#xA;Bud"       icon="medium_amethyst_bud" light_level="0.3" tags="geode"/>
-        <large_amethyst_bud   name="Large Amethyst&#xA;Bud"        icon="large_amethyst_bud" light_level="0.4" tags="geode"/>
-    </amethyst_small>
     <andesite>
         <andesite name="Andesite" icon="andesite"/>
         <andesite_stairs name="Andesite&#xA;Stairs" icon="andesite_stairs"/>
@@ -219,6 +210,7 @@
         <warped_door name="Warped Door" icon="warped_door" double_height="true"/>
         <mangrove_door name="Mangrove Door" icon="mangrove_door" double_height="true"/>
         <cherry_door name="Cherry Door" icon="cherry_door" double_height="true"/>
+        <bamboo_door name="Bamboo Door" icon="bamboo_door" double_height="true"/>
     </doors>
     <end_misc>
         <end_stone name="End Stone" icon="end_stone"/>
@@ -243,12 +235,12 @@
         <blue_orchid name="Blue Orchid" icon="blue_orchid" tags="flowers"/>
         <cornflower name="Cornflower" icon="cornflower" tags="flowers"/>
         <oxeye_daisy name="Oxeye Daisy" icon="oxeye_daisy" tags="flowers"/>
+        <lily_of_the_valley name="Lily of the Valley" icon="lily_of_the_valley" tags="flowers"/>
+        <azure_bluet name="Azure Bluet" icon="azure_bluet" tags="flowers"/>
         <red_tulip name="Red Tulip" icon="red_tulip" tags="flowers"/>
         <orange_tulip name="Orange Tulip" icon="orange_tulip" tags="flowers"/>
-        <lily_of_the_valley name="Lily of the Valley" icon="lily_of_the_valley" tags="flowers"/>
         <pink_tulip name="Pink Tulip" icon="pink_tulip" tags="flowers"/>
         <white_tulip name="White Tulip" icon="white_tulip" tags="flowers"/>
-        <azure_bluet name="Azure Bluet" icon="azure_bluet" tags="flowers"/>
     </flowers>
     <foliage>
         <oak_sapling name="Oak&#xA;Sapling" icon="oak_sapling"/>
@@ -364,10 +356,10 @@
     </wither_rose>
     <heads>
         <creeper_head name="Creeper&#xA;Head" icon="creeper_head"/>
-        <zombie_head name="Zombie&#xA;Head" icon="zombie_head"/>
-        <piglin_head name="Piglin&#xA;Head" icon="piglin_head"/>
         <skeleton_skull name="Skeleton&#xA;Skull" icon="skeleton_skull"/>
         <wither_skeleton_skull name="Wither&#xA;Skull" icon="wither_skeleton_skull"/>
+        <zombie_head name="Zombie&#xA;Head" icon="zombie_head"/>
+        <piglin_head name="Piglin&#xA;Head" icon="piglin_head"/>
     </heads>
     <lights>
         <torch name="Torch" icon="torch" light_level="0.5"/>
@@ -410,35 +402,81 @@
         <deepslate_copper_ore name="Deepslate&#xA;Copper&#xA;Ore" icon="deepslate_copper_ore"/>
         <deepslate_coal_ore name="Deepslate&#xA;Coal&#xA;Ore" icon="deepslate_coal_ore"/>
     </materials>
-    <raw>
+    <minerals>
         <raw_gold_block name="Raw Gold Block" icon="raw_gold_block"/>
         <raw_iron_block name="Raw Iron Block" icon="raw_iron_block"/>
         <raw_copper_block name="Raw Copper Block" icon="raw_copper_block"/>
-    </raw>
-    <minerals>
-        <pointed_dripstone name="Pointed Dripstone" icon="pointed_dripstone"/>
-        <dripstone_block name="Dripstone Block" icon="dripstone_block"/>
-        <tuff name="Tuff" icon="tuff"/>
         <calcite name="Calcite" icon="calcite" tags="geode"/>
+        <amethyst_block       name="Block of Amethyst"        icon="amethyst_block" light_level="0.4" tags="geode"/>
+        <amethyst_cluster     name="Amethyst Cluster"         icon="amethyst_cluster" light_level="0.4" tags="geode"/>
+        <large_amethyst_bud   name="Large Amethyst&#xA;Bud"   icon="large_amethyst_bud" light_level="0.4" tags="geode"/>
+        <medium_amethyst_bud  name="Medium Amethyst&#xA;Bud"  icon="medium_amethyst_bud" light_level="0.3" tags="geode"/>
+        <small_amethyst_bud   name="Small Amethyst&#xA;Bud"   icon="small_amethyst_bud" light_level="0.2" tags="geode"/>
     </minerals>
+    <dripstone>
+        <dripstone_block name="Dripstone Block" icon="dripstone_block"/>
+        <pointed_dripstone name="Pointed Dripstone" icon="pointed_dripstone"/>
+    </dripstone>
+    <tuff>
+        <chiseled_tuff_bricks name="Chiseled&#xA;Tuff&#160;Bricks" icon="chiseled_tuff_bricks"/>
+        <chiseled_tuff name="Chiseled&#xA;Tuff" icon="chiseled_tuff"/>
+        <tuff name="Tuff" icon="tuff"/>
+        <tuff_wall name="Tuff Wall" icon="tuff_wall"/>
+        <tuff_stairs name="Tuff Stairs" icon="tuff_stairs"/>
+        <tuff_slab name="Tuff Slab" icon="tuff_slab"/>
+        <polished_tuff name="Polished&#xA;Tuff" icon="polished_tuff"/>
+        <polished_tuff_wall name="Polished&#xA;Tuff&#160;Wall" icon="polished_tuff_wall"/>
+        <polished_tuff_stairs name="Polished&#xA;Tuff&#160;Stairs" icon="polished_tuff_stairs"/>
+        <polished_tuff_slab name="Polished&#xA;Tuff&#160;Slab" icon="polished_tuff_slab"/>
+        <tuff_bricks name="Tuff&#xA;Bricks" icon="tuff_bricks"/>
+        <tuff_brick_wall name="Tuff Brick&#160;Wall" icon="tuff_brick_wall"/>
+        <tuff_brick_stairs name="Tuff Brick&#160;Stairs" icon="tuff_brick_stairs"/>
+        <tuff_brick_slab name="Tuff Brick&#160;Slab" icon="tuff_brick_slab"/>
+    </tuff>
     <copper>
         <waxed_copper_block name="Waxed&#xA;Block of Copper" icon="copper_block"/>
+        <waxed_chiseled_copper name="Waxed&#xA;Chiseled&#xA;Copper" icon="chiseled_copper"/>
+        <waxed_copper_bulb name="Waxed&#xA;Copper&#xA;Bulb" icon="copper_bulb"/>
+        <waxed_copper_grate name="Waxed&#xA;Copper&#xA;Grate" icon="copper_grate"/>
         <waxed_cut_copper name="Waxed&#xA;Cut&#160;Copper&#xA;Block" icon="cut_copper"/>
         <waxed_cut_copper_stairs name="Waxed&#xA;Cut&#160;Copper&#xA;Stair" icon="cut_copper_stairs"/>
         <waxed_cut_copper_slab name="Waxed&#xA;Cut&#160;Copper&#xA;Slab" icon="cut_copper_slab"/>
+        <waxed_copper_trapdoor name="Waxed&#xA;Copper&#xA;Trapdoor" icon="copper_trapdoor"/>
+        <waxed_copper_door name="Waxed&#xA;Copper&#xA;Door" icon="copper_door" double_height="true"/>
+        
         <waxed_exposed_copper name="Waxed&#xA;Exposed&#xA;Copper" icon="exposed_copper"/>
+        <waxed_exposed_chiseled_copper name="Waxed&#xA;Exposed&#xA;Chiseled" icon="exposed_chiseled_copper"/>
+        <waxed_exposed_copper_bulb name="Waxed&#xA;Exposed&#xA;Bulb" icon="exposed_copper_bulb"/>
+        <waxed_exposed_copper_grate name="Waxed&#xA;Exposed&#xA;Grate" icon="exposed_copper_grate"/>
         <waxed_exposed_cut_copper name="Waxed&#xA;Exposed Cut&#160;Copper" icon="exposed_cut"/>
         <waxed_exposed_cut_copper_stairs name="Waxed&#xA;Exposed&#xA;Copper&#160;Stair" icon="exposed_stairs" tags="cut"/>
         <waxed_exposed_cut_copper_slab name="Waxed&#xA;Exposed&#xA;Copper&#160;Slab" icon="exposed_slab" tags="cut"/>
+        <waxed_exposed_copper_trapdoor name="Waxed&#xA;Exposed&#xA;Trapdoor" icon="exposed_copper_trapdoor"/>
+        <waxed_exposed_copper_door name="Waxed&#xA;Exposed&#xA;Door" icon="exposed_copper_door" double_height="true"/>
+        
         <waxed_weathered_copper name="Waxed&#xA;Weathered&#xA;Copper" icon="weathered_copper"/>
-        <waxed_weathered_cut_copper name="Waxed&#xA;Weathered&#xA;Cut&#160;Copper" icon="weathered_cut"/>
+        <waxed_weathered_chiseled_copper name="Waxed&#xA;Weathered&#xA;Chiseled" icon="weathered_chiseled_copper"/>
+        <waxed_weathered_copper_bulb name="Waxed&#xA;Weathered&#xA;Bulb" icon="weathered_copper_bulb"/>
+        <waxed_weathered_copper_grate name="Waxed&#xA;Weathered&#xA;Grate" icon="weathered_copper_grate"/>
+        <waxed_weathered_cut_copper name="Waxed&#xA;Weathered Cut&#160;Copper" icon="weathered_cut"/>
         <waxed_weathered_cut_copper_stairs name="Waxed&#xA;Weathered&#xA;Copper&#160;Stair" icon="weathered_stairs" tags="cut"/>
         <waxed_weathered_cut_copper_slab name="Waxed&#xA;Weathered&#xA;Copper&#160;Slab" icon="weathered_slab" tags="cut"/>
+        <waxed_weathered_copper_trapdoor name="Waxed&#xA;Weathered&#xA;Trapdoor" icon="weathered_copper_trapdoor"/>
+        <waxed_weathered_copper_door name="Waxed&#xA;Weathered&#xA;Door" icon="weathered_copper_door" double_height="true"/>
+        
         <waxed_oxidized_copper name="Waxed&#xA;Oxidized&#xA;Copper" icon="oxidized_copper"/>
+        <waxed_oxidized_chiseled_copper name="Waxed&#xA;Oxidized&#xA;Chiseled" icon="oxidized_chiseled_copper"/>
+        <waxed_oxidized_copper_bulb name="Waxed&#xA;Oxidized&#xA;Bulb" icon="oxidized_copper_bulb"/>
+        <waxed_oxidized_copper_grate name="Waxed&#xA;Oxidized&#xA;Grate" icon="oxidized_copper_grate"/>
         <waxed_oxidized_cut_copper name="Waxed&#xA;Oxidized Cut&#160;Copper" icon="oxidized_cut"/>
         <waxed_oxidized_cut_copper_stairs name="Waxed&#xA;Oxidized&#xA;Copper&#160;Stair" icon="oxidized_stairs" tags="cut"/>
         <waxed_oxidized_cut_copper_slab name="Waxed&#xA;Oxidized&#xA;Copper&#160;Slab" icon="oxidized_slab" tags="cut"/>
+        <waxed_oxidized_copper_trapdoor name="Waxed&#xA;Oxidized&#xA;Trapdoor" icon="oxidized_copper_trapdoor"/>
+        <waxed_oxidized_copper_door name="Waxed&#xA;Oxidized&#xA;Door" icon="oxidized_copper_door" double_height="true"/>
     </copper>
+    <heavy_core>
+        <heavy_core name="Heavy Core" icon="heavy_core_block"/>
+    </heavy_core>
     <nether_basic>
         <netherrack name="Netherrack" icon="netherrack_block"/>
         <crimson_nylium name="Crimson Nylium" icon="crimson_nylium" tags="netherrack grass silktouch"/>
@@ -498,15 +536,19 @@
         <dark_prismarine_slab name="Dark Prismarine Slab" icon="dark_prismarine_slab"/>
         <conduit name="Conduit" icon="conduit" light_level="0.5"/>
     </ocean_monument>
-    <ocean_misc>
+    <sponge>
         <sponge name="Sponge" icon="sponge"/>
         <wet_sponge name="Wet Sponge" icon="wet_sponge"/>
-        <seagrass name="Seagrass" icon="seagrass"/>
+    </sponge>
+    <ocean_misc>
         <dried_kelp_block name="Dried Kelp Block" icon="dried_kelp_block"/>
-        <kelp name="Kelp" icon="kelp" double_height="true"/>
-        <sea_pickle name="Sea Pickle" icon="sea_pickle"/>
         <turtle_egg name="Turtle Egg" icon="turtle_egg" tags="silktouch"/>
+        <sea_pickle name="Sea Pickle" icon="sea_pickle"/>
+        <seagrass name="Seagrass" icon="seagrass"/>
     </ocean_misc>
+    <ocean_kelp>
+        <kelp name="Kelp" icon="kelp" double_height="true"/>
+    </ocean_kelp>
     <coral>
         <fire_coral_block name="Fire&#160;Coral Block" icon="fire_coral_block" tags="silktouch"/>
         <horn_coral_block name="Horn&#160;Coral Block" icon="horn_coral_block" tags="silktouch"/>
@@ -570,12 +612,9 @@
         <lever name="Lever" icon="lever"/>
         <tripwire_hook name="Tripwire&#xA;Hook" icon="tripwire_hook"/>
     </extra_buttons>
-    <bamboo_misc>
-        <scaffolding name="Scaffolding" icon="scaffolding"/>
-        <bamboo_door name="Bamboo Door" icon="bamboo_door" double_height="true"/>
-    </bamboo_misc>
     <ladders>
         <ladder name="Ladder" icon="ladder"/>
+        <scaffolding name="Scaffolding" icon="scaffolding"/>
     </ladders>
     <redstone_dust>
         <redstone name="Redstone Dust" icon="redstone_dust" light_level="0.5"/>
@@ -644,12 +683,12 @@
         <shulker_box name="Shulker&#xA;Box" icon="shulker_box"/>
     </shulker_boxes>
     <snow>
-        <ice name="Ice" icon="ice" tags="snow"/>
-        <packed_ice name="Packed Ice" icon="packed_ice" tags="snow"/>
-        <blue_ice name="Blue Ice" icon="blue_ice" tags="snow"/>
         <snow_block name="Snow Block" icon="snow_block"/>
         <powder_snow_bucket name="Powder Snow" icon="powder_snow"/>
         <snow name="Snow" icon="snow"/>
+        <ice name="Ice" icon="ice" tags="snow"/>
+        <packed_ice name="Packed Ice" icon="packed_ice" tags="snow"/>
+        <blue_ice name="Blue Ice" icon="blue_ice" tags="snow"/>
     </snow>
     <specialized>
         <crafting_table name="Crafting Table" icon="crafting_table"/>
@@ -676,10 +715,10 @@
         <bee_nest name="Bee Nest" icon="bee_nest"/>
         <daylight_detector name="Daylight Detector" icon="daylight_detector"/>       
  
-        <empty/>
         <dispenser name="Dispenser" icon="dispenser"/>
         <dropper name="Dropper" icon="dropper"/>
         <observer name="Observer" icon="observer"/>
+        <crafter name="Crafter" icon="crafter"/>
         <anvil name="Anvil" icon="anvil" tags="iron"/>
         <chipped_anvil name="Chipped&#xA;Anvil" icon="chipped_anvil" tags="iron"/>
         <damaged_anvil name="Damaged&#xA;Anvil" icon="damaged_anvil" tags="iron"/>
@@ -688,7 +727,6 @@
         <honey_block name="Honey Block" icon="honey_block_new" tags="bees"/>
         <target name="Target" icon="target"/>
 
-        <empty/>
         <piston name="Piston" icon="piston"/>
         <sticky_piston name="Sticky Piston" icon="sticky_piston"/>
         <hopper name="Hopper" icon="hopper"/>
@@ -697,6 +735,7 @@
         <ender_chest name="Ender&#xA;Chest" icon="ender_chest_block" tags="obsidian endcity"/>
         <repeater name="Redstone&#xA;Repeater" icon="repeater"/>
         <comparator name="Redstone&#xA;Comparator" icon="comparator"/>
+        <slime_block name="Slime Block" icon="slime_block_new"/>
         <honeycomb_block name="Honeycomb Block" icon="honeycomb_block" tags="beewax beeswax"/>
         <tnt name="TNT" icon="tnt_block"/>
     </specialized>
@@ -974,7 +1013,6 @@
         <mangrove_roots name="Mangrove Roots" icon="mangrove_roots"/>
     </mud>
     <frogs>
-        <slime_block name="Slime Block" icon="slime_block_new"/>
         <verdant_froglight name="Verdant&#xA;Froglight" icon="verdant_froglight" light_level="0.6"/>
         <ochre_froglight name="Ochre&#xA;Froglight" icon="ochre_froglight" light_level="0.6"/>
         <pearlescent_froglight name="Pearlescent&#xA;Froglight" icon="pearlescent_froglight" light_level="0.6"/>

@@ -22,11 +22,11 @@
             <panel padding="20,20,16,20" margin_left="5" margin_top="5" width="350" height="505" horizontal_align="left" vertical_align="top">
                 <textblock text="Speedrun Category Rules" font_size="24" vertical_align="top"/>
                 <textblock text="Obtain in your inventory then place all blocks in one area.&#xA; &#xA;1 --- All required blocks (or their equivalent item form) must enter your inventory during the run.&#xA; &#xA;2 --- All required blocks must be placed in the same general area. You cannot place blocks down randomly as you travel, you must manage your inventory and bring them back to a central location of your choosing for placing.&#xA; &#xA;3 --- All required blocks must exist in the world at the same time at the end of the run. For example, you can't re-dye the same shulker box repeatedly, you must have&#xA;all 17 of them placed on the ground at the same time.&#xA; &#xA;"
-                    text_align="left" v_text_align="top" padding_top="30" padding_left="8"/>
+                    text_align="left" v_text_align="top" padding_top="50" padding_left="8"/>
                 <textblock text="In addition to these requirements, runs are verified using the general game rules specified by the MCSR moderators"
-                    text_align="left" v_text_align="top" padding_top="210" padding_left="8"/>
-                <button name="https://docs.google.com/document/d/1A7NtP7LegD7SYjho54gQDSlJkYZlofndjw2COu00yMU" global="true" width="120" height="19" vertical_align="bottom" margin_bottom="204" text="Detailed MCSR Rules"/>
-                <picture texture="all_blocks_example" width="320" height="192" vertical_align="bottom"/>
+                    text_align="left" v_text_align="top" padding_top="230" padding_left="8"/>
+                <button name="https://docs.google.com/document/d/1A7NtP7LegD7SYjho54gQDSlJkYZlofndjw2COu00yMU" global="true" width="120" height="19" vertical_align="bottom" margin_bottom="170" text="Detailed MCSR Rules"/>
+                <picture texture="all_blocks_example" width="320" height="118" vertical_align="bottom" margin_bottom="20"/>
             </panel>
 
             <!-- using the tracker -->

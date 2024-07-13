@@ -26,7 +26,7 @@
                 <textblock text="In addition to these requirements, runs are verified using the general game rules specified by the MCSR moderators"
                     text_align="left" v_text_align="top" padding_top="210" padding_left="8"/>
                 <button name="https://docs.google.com/document/d/1A7NtP7LegD7SYjho54gQDSlJkYZlofndjw2COu00yMU" global="true" width="120" height="19" vertical_align="bottom" margin_bottom="124" text="Detailed MCSR Rules"/>
-                <picture texture="all_blocks_example_1.16" width="320" height="118" vertical_align="bottom"/>
+                <picture texture="all_blocks_example" width="320" height="118" vertical_align="bottom"/>
             </panel>
 
             <!-- using the tracker -->

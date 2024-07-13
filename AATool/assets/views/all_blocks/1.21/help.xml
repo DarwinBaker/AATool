@@ -3,13 +3,13 @@
     <grid draw_mode="childrenonly">
         <rows>
             <row height="20"/>
-            <row height="23 * 38"/>
+            <row height="24 * 38"/>
             <row height="42"/>
         </rows>
         <columns>
             <column width="160" collapsed="true"/>
             <column width="20"/>
-            <column width="1530"/>
+            <column width="1568"/>
         </columns>
 
         <!-- co-op lobby -->
@@ -57,19 +57,19 @@
             </panel>
 
             <!-- mob heads -->
-            <panel margin_left="10 + 600" margin_top="5" width="350" height="160" horizontal_align="left" vertical_align="top">
+            <panel margin_left="10 + 600" margin_top="5" width="388" height="160" horizontal_align="left" vertical_align="top">
                 <panel width="70" horizontal_align="left" padding_top="8" padding_bottom="10">
                     <textblock text="Mob&#xA;Heads" vertical_align="top"/>
-                    <picture texture="all_heads" width="48" height="48" layer="fore" vertical_align="top" margin_top="32"/>
+                    <picture texture="all_heads_1.20" width="48" height="48" layer="fore" vertical_align="top" margin_top="32"/>
                     <picture texture="charged_creeper" width="48" height="48" layer="fore" vertical_align="bottom"/>
                 </panel>to
-                <panel width="280" horizontal_align="right" padding_left="10" padding_right="10">
-                    <textblock text="Creepers become charged when struck by lightning and will cause zombies, skeletons, or other creepers killed by their explosion to drop&#xA;a mob head. A single charged creeper can't drop more than one head, even if multiple mobs die.&#xA; &#xA;Use a channeling trident, not lightning rods. If you're in a desert or another biome with no rain the charged creepers may burn to death if you don't extinguish them with a water bucket in time.&#xA; &#xA;Skeleton Skulls can be found in Ancient Cities 1.19+" text_align="left" v_text_align="top" padding_top="8"/>
+                <panel width="318" horizontal_align="right" padding_left="10" padding_right="10">
+                    <textblock text="Creepers become charged when struck by lightning and will cause zombies, skeletons, other creepers, and piglins killed by their explosion to drop a mob head. A single charged creeper can't drop more than one head, even if multiple mobs die from the resulting explosion.&#xA; &#xA;Use a channeling trident, not lightning rods as thunder may be very short. If you're in a desert or another biome with no rain the charged creepers may burn to death if you don't extinguish them with a water bucket in time.&#xA; &#xA;Skeleton Skulls can be found in Ancient Cities 1.19+" text_align="left" v_text_align="top" padding_top="8"/>
                 </panel>
             </panel>
 
             <!-- copper -->
-            <panel margin_left="10 + 600" margin_top="10 + 160" width="350" height="160" horizontal_align="left" vertical_align="top">
+            <panel margin_left="10 + 600" margin_top="10 + 160" width="388" height="160" horizontal_align="left" vertical_align="top">
                 <panel width="70" horizontal_align="left" padding_top="8" padding_bottom="10">
                     <textblock text="Copper&#xA;Blocks" vertical_align="top"/>
                     <picture texture="all_copper_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="32"/>
@@ -77,13 +77,13 @@
                         <picture texture="copper_spacing_lines" label_tint="true" width="48" height="48"/>
                     </picture>
                 </panel>
-                <panel width="280" horizontal_align="right" padding_left="10" padding_right="10">
-                    <textblock text="Only the waxed versions of each copper block are required. If you wax them by right clicking with honeycomb you must pick them back up to obtain them in your inventory then re-place them, so crafting directly is recommended to save time.&#xA; &#xA;To maximize oxidation speed, space out your copper 4 blocks away from each other. Having them any closer significantly slows the process. When spaced optimally it should take ~20 minutes for a block to oxidize 1 level. Oxidation levels can be peeled back by right clicking with an axe." text_align="left" v_text_align="top" padding_top="8"/>
+                <panel width="318" horizontal_align="right" padding_left="10" padding_right="10">
+                    <textblock text="Only the waxed versions of each copper block are required. If you wax them by right clicking with honeycomb you must pick them back up to obtain them in your inventory then re-place them, so crafting directly is recommended to save time.&#xA; &#xA;Copper is found in abundance in Trial Chambers.&#xA; &#xA;To oxidize, space out your copper 4 blocks away from each other. When spaced optimally it should take ~20 minutes for a block to oxidize 1 level. Oxidation levels can be peeled back by right clicking with an axe." text_align="left" v_text_align="top" padding_top="8"/>
                 </panel>
             </panel>
 
             <!-- large fern -->
-            <panel margin_left="15 + 950" margin_top="5" width="280" height="160" horizontal_align="left" vertical_align="top">
+            <panel margin_left="15 + 988" margin_top="5" width="280" height="160" horizontal_align="left" vertical_align="top">
                 <panel width="70" horizontal_align="left" padding_top="8" padding_bottom="10">
                     <textblock text="Large&#xA;Fern" vertical_align="top"/>
                     <picture texture="large_fern" width="32" height="64" vertical_align="top" margin_top="28"/>
@@ -97,7 +97,7 @@
             </panel>
 
             <!-- tall grass -->
-            <panel margin_left="15 + 950" margin_top="10 + 160" width="280" height="160" horizontal_align="left" vertical_align="top">
+            <panel margin_left="15 + 988" margin_top="10 + 160" width="280" height="160" horizontal_align="left" vertical_align="top">
                 <panel width="70" horizontal_align="left" padding_top="8" padding_bottom="10">
                     <textblock text="Tall&#xA;Grass" vertical_align="top"/>
                     <picture texture="tall_grass" width="32" height="64" vertical_align="top" margin_top="28"/>
@@ -111,20 +111,23 @@
             </panel>
 
             <!-- froglights -->
-            <panel collapsed="false" margin_left="10 + 350" margin_top="10 + 325" width="185" height="175" horizontal_align="left" vertical_align="top">
+            <panel collapsed="false" margin_left="10 + 350" margin_top="10 + 325" width="223" height="175" horizontal_align="left" vertical_align="top">
                 <panel width="70" horizontal_align="left" padding_top="8" padding_bottom="10">
-                    <textblock text="Frog&#xA;Lights" vertical_align="top"/>
-                    <picture texture="all_froglights" width="48" height="48" layer="fore" vertical_align="top" margin_top="32"/>
-                    <picture texture="all_frogs" width="48" height="48" layer="fore" vertical_align="bottom" margin_bottom="4"/>
+                    <textblock text="Suspicious&#xA;Blocks" vertical_align="top"/>
+                    <picture texture="cobweb" width="48" height="48" layer="fore" vertical_align="top" margin_top="32 + 52"/>
+                    <picture texture="all_suspicious_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="32"/>
                 </panel>
-                <panel width="115" horizontal_align="right" padding_left="10">
-                    <textblock text="Froglights are dropped when a frog eats a tiny magma cube. Frogs can be easily transported using leads.&#xA; &#xA;Tadpoles make the frog type of the biome in which they mature. Feed slime to grow faster." text_align="left" v_text_align="top" padding_top="8"/>
+                <panel width="153" horizontal_align="right" padding_left="10">
+                    <textblock text="Suspicious sand and gravel will drop in their respective item forms when dropped into a cobweb. The block will fall through the cobweb for 30 seconds before dropping as an item.&#xA; &#xA;Make sure you leave an empty block beneath the cobweb, otherwise the block will break without actually dropping anything." text_align="left" v_text_align="top" padding_top="8"/>
                 </panel>
             </panel>
+            <panel margin_left="10 + 481" margin_top="10 + 499" width="92" height="53" horizontal_align="left" vertical_align="top"/>
+            <panel margin_left="10 + 482" margin_top="10 + 499" width="90" height="3" horizontal_align="left" vertical_align="top" border_thickness="0"/>
+            <panel margin_left="10 + 571" margin_top="10 + 327" width="1" height="223" horizontal_align="left" vertical_align="top" border_thickness="0"/>
 
             <!-- deepslate emerald -->
-            <panel margin_left="15 + 535" margin_top="10 + 325" width="173" height="227" horizontal_align="left" vertical_align="top">
-                <panel height="105" vertical_align="top">t
+            <panel margin_left="15 + 573" margin_top="10 + 325" width="173" height="227" horizontal_align="left" vertical_align="top">
+                <panel height="105" vertical_align="top">
                     <panel width="70" horizontal_align="left" padding_top="8" padding_bottom="10">
                         <textblock text="Deepslate&#xA;Emerald" vertical_align="top"/>
                         <picture texture="deepslate_emerald_ore" width="48" height="48" vertical_align="top" margin_top="32"/>
@@ -140,7 +143,7 @@
             </panel>
 
             <!-- deepslate coal -->
-            <panel margin_left="20 + 708" margin_top="10 + 325" width="172" height="227" horizontal_align="left" vertical_align="top">
+            <panel margin_left="20 + 746" margin_top="10 + 325" width="172" height="227" horizontal_align="left" vertical_align="top">
                 <panel height="105" vertical_align="top">
                     <panel width="70" horizontal_align="left" padding_top="8" padding_bottom="10">
                         <textblock text="Deepslate&#xA;Coal" vertical_align="top"/>
@@ -157,7 +160,7 @@
             </panel>
 
             <!-- ancient debris -->
-            <panel margin_left="25 + 880" margin_top="10 + 325" width="340" height="227" horizontal_align="left" vertical_align="top">
+            <panel margin_left="25 + 918" margin_top="10 + 325" width="340" height="227" horizontal_align="left" vertical_align="top">
                 <panel height="105" vertical_align="top">
                     <panel width="70" horizontal_align="left" padding_top="8" padding_bottom="10">
                         <textblock text="Ancient&#xA;Debris" vertical_align="top"/>
@@ -205,7 +208,7 @@
                     <panel row="0" col="0" rowspan="11" border_thickness="2" inner_corners="false"/>
 
                     <!-- headers -->
-                    <text_block row="0" col="1" colspan="2" text="Bastion Chest Loot Tables&#xA;(odds per chest in 1.19)" padding_top="7"/>
+                    <text_block row="0" col="1" colspan="2" text="Bastion Chest Loot Tables&#xA;(odds per chest in 1.20)" padding_top="7"/>
 
                     <!-- netherite ingot -->
                     <picture row="2" col="1" texture="netherite_ingot" width="16" height="16" margin_left="4" horizontal_align="left"/>
@@ -244,7 +247,7 @@
             </panel>
 
             <!-- item-based blocks -->
-            <flow_panel margin_left="25 + 1225" margin_top="5" width="100" height="558" direction="toptobottom" horizontal_align="left" vertical_align="top">
+            <flow_panel margin_left="25 + 1263" margin_top="5" width="100" height="558" direction="toptobottom" horizontal_align="left" vertical_align="top">
                 <panel height="41" vertical_align="top">
                     <textblock text="Items" font_size="24" padding_top="7"/>
                 </panel>
@@ -304,7 +307,7 @@
                 <panel height="41" vertical_align="top">
                     <textblock text="Misc. Recipes" font_size="24" padding_top="7"/>
                 </panel>
-                <panel height="147" margin_top="0" vertical_align="top">
+                <panel height="153" margin_top="0" vertical_align="top">
                     <panel width="63" horizontal_align="left">
                         <textblock text="Observer" vertical_align="top" margin_top="6"/>
                         <picture texture="observer" width="48" height="48" vertical_align="top" margin_top="28"/>
@@ -322,7 +325,7 @@
                     </panel>
                 </panel>
 
-                <panel height="147" margin_top="0" vertical_align="top">
+                <panel height="153" margin_top="0" vertical_align="top">
                     <panel width="63" horizontal_align="left">
                         <textblock text="Hopper" vertical_align="top" margin_top="6"/>
                         <picture texture="hopper" width="48" height="48" vertical_align="top" margin_top="28"/>
@@ -340,7 +343,7 @@
                     </panel>
                 </panel>
 
-                <panel height="147" margin_top="0" vertical_align="top">
+                <panel height="152" margin_top="0" vertical_align="top">
                     <panel width="63" horizontal_align="left">
                         <textblock text="Cake" vertical_align="top" margin_top="6"/>
                         <picture texture="cake" width="48" height="48" vertical_align="top" margin_top="28"/>
@@ -358,7 +361,7 @@
                     </panel>
                 </panel>
 
-                <panel height="145" margin_top="0" vertical_align="top">
+                <panel height="156" margin_top="0" vertical_align="top">
                     <panel width="63" horizontal_align="left">
                         <textblock text="Repeater" vertical_align="top" margin_top="6"/>
                         <picture texture="repeater" width="48" height="48" vertical_align="top" margin_top="28"/>
@@ -376,7 +379,7 @@
                     </panel>
                 </panel>
 
-                <panel height="145" margin_top="0" vertical_align="top">
+                <panel height="153" margin_top="0" vertical_align="top">
                     <panel width="63" horizontal_align="left">
                         <textblock text="Powered&#xA;Rail" vertical_align="top" margin_top="6"/>
                         <picture texture="powered_rail" width="48" height="48" vertical_align="top" margin_top="28"/>
@@ -397,114 +400,106 @@
 
 
             <!-- requires silk touch -->
-            <panel margin_top="660" width="9 * 60" height="230" margin_left="5" horizontal_align="left" vertical_align="top">
+            <panel margin_top="670" width="8 * 60" height="256" margin_left="5" horizontal_align="left" vertical_align="top">
                 <panel height="50" vertical_align="top">
                     <textblock text="Requires Silk Touch" font_size="24" padding_top="12"/>
                     <picture texture="enchant_item" width="32" height="32" layer="fore" horizontal_align="left" margin_left="12"/>
                     <picture texture="enchant_item" width="32" height="32" layer="fore" horizontal_align="right" margin_right="12"/>
                 </panel>
-                <flow_panel height="180" vertical_align="bottom">
+                <flow_panel height="206" vertical_align="bottom" padding_top="10">
                     <!-- grass blocks -->
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="60" height="100" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="all_grass_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
                         <textblock text="All Grass Blocks" vertical_align="top" margin_top="60"/>
                     </panel>
                     <!-- ores -->
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="60" height="100" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="all_ore_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
                         <textblock text="All Ore Blocks" vertical_align="top" margin_top="60"/>
                     </panel>
                     <!-- mushrooms -->
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="60" height="100" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="mushroom_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
                         <textblock text="Mushroom Blocks" vertical_align="top" margin_top="60"/>
                     </panel>
                     <!-- bee nest -->
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="60" height="100" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="bee_nest" width="48" height="48" vertical_align="top" margin_top="8"/>
                         <textblock text="Bee Nest" vertical_align="top" margin_top="60"/>
                     </panel>
                     <!-- nether -->
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="crimson_nylium" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Crimson Nylium" vertical_align="top" margin_top="60"/>
+                    <panel width="60" height="100" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                        <picture texture="all_nylium" layer="fore" width="48" height="48" vertical_align="top" margin_top="8"/>
+                        <textblock text="Nylium Blocks" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="warped_nylium" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Warped Nylium" vertical_align="top" margin_top="60"/>
+                    <panel width="60" height="100" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                        <picture texture="nether_ores" layer="fore" width="48" height="48" vertical_align="top" margin_top="8"/>
+                        <textblock text="Nether Ores" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="nether_gold_ore" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Nether&#xA;Gold" vertical_align="top" margin_top="60"/>
-                    </panel>
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="nether_quartz_ore" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Nether Quartz" vertical_align="top" margin_top="60"/>
-                    </panel>
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="60" height="100" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="gilded_blackstone" width="48" height="48" vertical_align="top" margin_top="8"/>
                         <textblock text="Gilded Blackstone" vertical_align="top" margin_top="60"/>
                     </panel>
+                    <!-- ice -->
+                    <panel width="60" height="100" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                        <picture texture="ice" width="48" height="48" vertical_align="top" margin_top="8"/>
+                        <textblock text="Ice" vertical_align="top" margin_top="60"/>
+                    </panel>
                     <!-- sculk -->
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="left" draw_mode="childrenonly">
+                    <panel width="60" height="100" vertical_align="bottom" horizontal_align="left" draw_mode="childrenonly">
                         <picture texture="sculk" width="48" height="48" layer="fore" vertical_align="top" margin_top="8">
                             <glow_effect texture="sculk_glow" brightness="1" layer="glow" scale="1.3" vertical_align="top"/>
                         </picture>
                         <textblock text="Sculk" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="60" height="90" vertical_align="bottom" draw_mode="childrenonly">
+                    <panel width="60" height="100" vertical_align="bottom" draw_mode="childrenonly">
                         <picture texture="sculk_catalyst_block" width="48" height="48" layer="fore" vertical_align="top" margin_top="8">
                             <glow_effect texture="sculk_glow" brightness="1" layer="glow" scale="1.3" vertical_align="top"/>
                         </picture>
                         <textblock text="Sculk Catalyst" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="60" height="100" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="sculk_shrieker" width="48" height="48" layer="fore" vertical_align="top" margin_top="8">
                             <glow_effect texture="sculk_glow" brightness="1" layer="glow" scale="1.2" vertical_align="top" margin_top="6"/>
                         </picture>
                         <textblock text="Sculk Shrieker" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="60" height="100" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="sculk_sensor_block" width="48" height="48" layer="fore" vertical_align="top" margin_top="8">
                             <glow_effect texture="sculk_glow" brightness="1" layer="glow" scale="1.2" vertical_align="top" margin_top="6"/>                        
                         </picture>
                         <textblock text="Sculk Sensor" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="60" height="100" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="sculk_vein" width="48" height="48" layer="fore" vertical_align="top" margin_top="8">
                             <glow_effect texture="sculk_glow" brightness="0.5" layer="glow" scale="1.2" vertical_align="top" margin_top="6"/>
                         </picture>
                         <textblock text="Sculk&#xA;Vein" vertical_align="top" margin_top="60"/>
                     </panel>
                     <!-- amethyst -->
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="60" height="100" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="amethyst_crystals" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
                         <textblock text="Amethyst Crystals" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <!-- ice -->
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="ice" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Ice" vertical_align="top" margin_top="60"/>
-                    </panel>
                     <!-- coral -->
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="60" height="100" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="living_coral" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
                         <textblock text="All Living Coral" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="60" height="100" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="turtle_egg" width="48" height="48" vertical_align="top" margin_top="8"/>
                         <textblock text="Turtle&#xA;Eggs" vertical_align="top" margin_top="60"/>
                     </panel>
                 </flow_panel>
             </panel>
 
-            <panel margin_top="515" width="9 * 60" height="140" margin_left="5" horizontal_align="left" vertical_align="top">
+            <panel margin_top="515" width="8 * 60" height="150" margin_left="5" horizontal_align="left" vertical_align="top">
                 <panel height="50" vertical_align="top">
                     <textblock text="Requires Shears" font_size="24" padding_top="12"/>
                     <picture texture="shears" width="32" height="32" horizontal_align="left" margin_left="12"/>
                     <picture texture="shears" width="32" height="32" horizontal_align="right" margin_right="12"/>
                 </panel>
-                <flow_panel height="90" vertical_align="bottom">
+                <flow_panel height="100" vertical_align="bottom" padding_top="5">
                     <!-- leaf blocks -->
                     <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="all_leaf_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
@@ -512,12 +507,8 @@
                     </panel>
                     <!-- shrubs -->
                     <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="short_grass" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Grass" vertical_align="top" margin_top="60"/>
-                    </panel>
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="fern" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Fern" vertical_align="top" margin_top="60"/>
+                        <picture texture="grass_and_fern" layer="fore" width="48" height="48" vertical_align="top" margin_top="8"/>
+                        <textblock text="Grass &amp; Fern" vertical_align="top" margin_top="60"/>
                     </panel>
                     <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="dead_bush" width="48" height="48" vertical_align="top" margin_top="8"/>
@@ -552,77 +543,81 @@
             </panel>
 
             <!-- blocks you don't need -->
-            <panel margin_left="550" margin_top="567" width="800" height="140" horizontal_align="left" vertical_align="top">
+            <panel margin_left="490" margin_top="567" width="898" height="151" horizontal_align="left" vertical_align="top">
                 <panel height="50" vertical_align="top">
                     <textblock text="Excluded Blocks" font_size="24" padding_top="6"/>
                     <textblock text="These blocks are only obtainable in creative mode or by using commands, so they are not required to complete the category" padding_top="32"/>
                     <picture texture="barrier" width="32" height="32" horizontal_align="left" margin_left="12"/>
                     <picture texture="barrier" width="32" height="32" horizontal_align="right" margin_right="12"/>
                 </panel>
-                <flow_panel height="90" vertical_align="bottom">
-                    <panel width="61" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                <flow_panel height="101" vertical_align="bottom">
+                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="bedrock" width="48" height="48" vertical_align="top" margin_top="8"/>
                         <textblock text="Bedrock" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="62" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="end_portal_frames" layer="fore" width="48" height="48" vertical_align="top" margin_top="8">
                             <glow_effect texture="player_glow" brightness="0.8" layer="glow" scale="1"/>
                         </picture>
                         <textblock text="End Portal Frame" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="62" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="reinforced_deepslate" width="48" height="48" vertical_align="top" margin_top="8"/>
                         <textblock text="Reinforced Deepslate" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="62" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="budding_amethyst" layer="fore" width="48" height="48" vertical_align="top" margin_top="8">
                             <glow_effect texture="player_glow" brightness="0.6" layer="glow" scale="1"/>
                         </picture>
                         <textblock text="Budding Amethyst" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="61" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="spawner" layer="fore" width="48" height="48" vertical_align="top" margin_top="8">
+                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                        <picture texture="spawners_and_vaults" layer="fore" width="48" height="48" vertical_align="top" margin_top="8">
                             <glow_effect texture="end_crystal_glow" brightness="0.3" layer="glow" scale="1.3"/>
                         </picture>
-                        <textblock text="Mob Spawner" vertical_align="top" margin_top="60"/>
+                        <textblock text="Spawners &amp;&#xA; Vaults" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="61" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="all_infested_blocks" layer="fore" width="48" height="48" vertical_align="top" margin_top="8">
                             <picture texture="silverfish" layer="fore" width="32" height="32"/>
                         </picture>
                         <textblock text="Infested Blocks" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="62" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="all_tilled_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
                         <textblock text="Farmland &amp;&#xA;Dirt Path" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="62" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="oak_slab" width="48" height="48" vertical_align="top" margin_top="8"/>
                         <textblock text="Petrified Oak Slab" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="61" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                        <picture texture="frogspawn" layer="fore" width="48" height="48" vertical_align="top" margin_top="8"/>
+                        <textblock text="Frog&#xA;Spawn" vertical_align="top" margin_top="60"/>
+                    </panel>
+                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="chorus_plant" width="48" height="48" vertical_align="top" margin_top="8"/>
                         <textblock text="Chorus Plant" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="61" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="fire" width="48" height="48" layer="fore" vertical_align="top" margin_top="8">
                             <glow_effect texture="magma_block_glow" brightness="1" layer="glow" scale="1.3" vertical_align="top" margin_top="6"/>
                         </picture>
                         <textblock text="Fire" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="61" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="nether_portal_block" width="48" height="48" layer="fore" vertical_align="top" margin_top="8">
                             <glow_effect texture="nether_portal_glow" brightness="1" layer="glow" scale="1.3"/>
                         </picture>
                         <textblock text="Nether Portal" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="62" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="void" width="48" height="48" layer="fore" vertical_align="top" margin_top="8">
                             <glow_effect texture="sculk_glow" brightness="1" layer="glow" scale="1.3"/>
                         </picture>
                         <textblock text="End Portal&#xA;&amp; Gateway" vertical_align="top" margin_top="60"/>
                     </panel>
-                    <panel width="62" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                    <panel width="64" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
                         <picture texture="technical_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="8">
                             <glow_effect texture="player_glow" brightness="0.5" layer="glow" scale="1.3"/>
                         </picture>
@@ -632,58 +627,54 @@
             </panel>
 
             <!-- more blocks you don't need -->
-            <panel margin_left="550" margin_top="712" width="800" height="178" horizontal_align="left" vertical_align="top">
+            <panel margin_left="490" margin_top="723" width="898" height="203" horizontal_align="left" vertical_align="top">
                 <panel height="50" vertical_align="top">
                     <textblock text="More Excluded Blocks &amp; Entities" font_size="24" padding_top="12"/>
                     <picture texture="barrier" width="32" height="32" horizontal_align="left" margin_left="12"/>
                     <picture texture="barrier" width="32" height="32" horizontal_align="right" margin_right="12"/>
                 </panel>
-                <flow_panel height="90" vertical_align="top" margin_top="50">
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="small_paintings" layer="fore" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Painting" vertical_align="top" margin_top="60"/>
+                <flow_panel height="115" vertical_align="top" margin_top="50">
+                    <panel width="60" height="115" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                        <picture texture="small_paintings" layer="fore" width="48" height="48" vertical_align="top" margin_top="24"/>
+                        <textblock text="Painting" vertical_align="top" margin_top="76"/>
                     </panel>
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="item_frame_block" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Item&#xA;Frame" vertical_align="top" margin_top="60"/>
+                    <panel width="60" height="115" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                        <picture texture="item_frame_block" width="48" height="48" vertical_align="top" margin_top="24"/>
+                        <textblock text="Item&#xA;Frame" vertical_align="top" margin_top="76"/>
                     </panel>
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="glow_item_frame_block" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Glow Item Frame" vertical_align="top" margin_top="60"/>
+                    <panel width="60" height="115" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                        <picture texture="glow_item_frame_block" width="48" height="48" vertical_align="top" margin_top="24"/>
+                        <textblock text="Glow Item Frame" vertical_align="top" margin_top="76"/>
                     </panel>
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="armor_stand" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Armor Stand" vertical_align="top" margin_top="60"/>
+                    <panel width="60" height="115" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                        <picture texture="armor_stand" width="48" height="48" vertical_align="top" margin_top="24"/>
+                        <textblock text="Armor Stand" vertical_align="top" margin_top="76"/>
                     </panel>
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="boat" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Boats" vertical_align="top" margin_top="60"/>
+                    <panel width="60" height="115" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                        <picture texture="boat" width="48" height="48" vertical_align="top" margin_top="24"/>
+                        <textblock text="Boats" vertical_align="top" margin_top="76"/>
                     </panel>
-                    <panel width="60" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="minecart" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Minecarts" vertical_align="top" margin_top="60"/>
+                    <panel width="60" height="115" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                        <picture texture="minecart" width="48" height="48" vertical_align="top" margin_top="24"/>
+                        <textblock text="Minecarts" vertical_align="top" margin_top="76"/>
                     </panel>
-                    <panel width="59" height="90" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
-                        <picture texture="end_crystal" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
-                        <textblock text="End&#xA;Crystal" vertical_align="top" margin_top="60"/>
+                    <panel width="59" height="115" vertical_align="bottom" horizontal_align="right" draw_mode="childrenonly">
+                        <picture texture="end_crystal" width="48" height="48" layer="fore" vertical_align="top" margin_top="24"/>
+                        <textblock text="End&#xA;Crystal" vertical_align="top" margin_top="76"/>
                     </panel>
                     <panel width="1" vertical_align="bottom" horizontal_align="right" padding_top="10" inner_corners="false">
                     </panel>
-                    <panel width="70" height70="90" vertical_align="bottom" horizontal_align="right">
-                        <picture texture="blockstate_variants" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
-                        <textblock text="Alternate Variants" vertical_align="top" margin_top="60"/>
+                    <panel width="70" height70="115" vertical_align="bottom" horizontal_align="right">
+                        <picture texture="blockstate_variants" width="48" height="48" layer="fore" vertical_align="top" margin_top="24"/>
+                        <textblock text="Alternate Variants" vertical_align="top" margin_top="76"/>
                     </panel>
-                    <panel width="70" height="90" vertical_align="bottom" horizontal_align="right">
-                        <picture texture="all_copper_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
-                        <textblock text="Unwaxed Copper" vertical_align="top" margin_top="60"/>
+                    <panel width="70" height="115" vertical_align="bottom" horizontal_align="right">
+                        <picture texture="all_copper_blocks" width="48" height="48" layer="fore" vertical_align="top" margin_top="24"/>
+                        <textblock text="Unwaxed Copper" vertical_align="top" margin_top="76"/>
                     </panel>
-                    <panel width="70" height="90" vertical_align="bottom" horizontal_align="right">
-                        <picture texture="frogspawn" width="48" height="48" layer="fore" vertical_align="top" margin_top="8"/>
-                        <textblock text="Frog&#xA;Spawn" vertical_align="top" margin_top="60"/>
-                    </panel>
-                    <panel width="170" height="90" vertical_align="bottom" horizontal_align="right">
-                        <picture texture="lily_pad" width="48" height="48" vertical_align="top" margin_top="8"/>
-                        <textblock text="Lily Pad" vertical_align="top" margin_top="60"/>
+                    <panel width="338" height="115" vertical_align="bottom" horizontal_align="right">
+                        <picture texture="lily_pad" width="48" height="48" vertical_align="top" margin_top="24"/>
+                        <textblock text="Lily Pad" vertical_align="top" margin_top="76"/>
                     </panel>
                 </flow_panel>
                 <flow_panel height="38" vertical_align="bottom">
@@ -696,11 +687,8 @@
                     <panel width="70" vertical_align="bottom" horizontal_align="right">
                         <textblock text="Redundant" vertical_align="top" padding_top="12"/>
                     </panel>
-                    <panel width="70" vertical_align="bottom" horizontal_align="right">
-                        <textblock text="Can't Be Obtained" vertical_align="top" padding_top="6"/>
-                    </panel>
-                    <panel width="170" vertical_align="bottom" horizontal_align="right">
-                        <textblock text="Minecraft doesn't save the 'Times Used' stat for lilypads" padding_left="10" padding_right="10" vertical_align="top" margin_top="6"/>
+                    <panel width="338" vertical_align="bottom" horizontal_align="right">
+                        <textblock text="Minecraft doesn't save the 'Times Used' stat for lilypads for some reason, so it can't be tracked and thus isn't required" padding_left="10" padding_right="10" vertical_align="top" margin_top="6"/>
                     </panel>
                 </flow_panel>
             </panel>

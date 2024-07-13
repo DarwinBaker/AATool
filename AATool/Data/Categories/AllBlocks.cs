@@ -16,6 +16,7 @@ namespace AATool.Data.Categories
         public const string HelpTextureSet = "ab_guide";
 
         public static readonly List<string> SupportedVersions = new () {
+            "1.21",
             "1.20",
             "1.19",
             "1.18",
