@@ -17,7 +17,7 @@
     
     <advancement id="minecraft:adventure/very_very_frightening" name="Very Very Frightening"    short_name="VVF"/>
     <advancement id="minecraft:adventure/throw_trident"         name="A Throwaway Joke"         short_name="ATJ"/>
-    <advancement id="minecraft:adventure/hero_of_the_village"   name="Hero of the Village"      short_name="Hero OTV" icon="pillager_banner" type="challenge"/>
+    <advancement id="minecraft:adventure/hero_of_the_village"   name="Hero of the Village"      short_name="Hero" icon="pillager_banner" type="challenge"/>
     <advancement id="minecraft:adventure/voluntary_exile"       name="Voluntary Exile"          short_name="Exile" icon="pillager_banner"/>
     
     <advancement id="minecraft:adventure/kill_all_mobs" name="Monsters Hunted" short_name="Monsters" type="challenge">

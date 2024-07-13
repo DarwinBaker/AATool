@@ -50,7 +50,7 @@
     <advancement id="minecraft:adventure/lightning_rod_with_villager_no_fire" name="Surge Protector"  short_name="Surge Prot" icon="lightning_rod"/>
     <advancement id="minecraft:adventure/walk_on_powder_snow_with_leather_boots"   name="Light as a&#160;Rabbit" short_name="LaaR"  icon="leather_boots"/>
     <advancement id="minecraft:adventure/voluntary_exile"       name="Voluntary Exile"          short_name="Exile" icon="pillager_banner"/>
-    <advancement id="minecraft:adventure/hero_of_the_village"   name="Hero of the&#160;Village" short_name="Hero OTV" icon="pillager_banner" type="challenge"/>
+    <advancement id="minecraft:adventure/hero_of_the_village"   name="Hero of the&#160;Village" short_name="Hero" icon="pillager_banner" type="challenge"/>
     <advancement id="minecraft:adventure/totem_of_undying"      name="Postmortal"               type="goal"/>
 
     <advancement id="minecraft:adventure/avoid_vibration"  name="Sneak 100" icon="sculk_sensor"/>

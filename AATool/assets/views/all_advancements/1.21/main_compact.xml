@@ -23,7 +23,7 @@
             <advancement_group group="nether"    width="8 * 66" height="3 * 68" margin_left="5 * 66" horizontal_align="left" vertical_align="top" direction="righttoleft"/>
             <advancement_group group="end"       width="3 * 66" height="3 * 68" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
             <advancement_group group="adventure" width="7 * 66" height="6 * 68" margin_left="13 * 66" horizontal_align="left" vertical_align="top" exclude="minecraft:adventure/spyglass_at_parrot,minecraft:adventure/spyglass_at_ghast,minecraft:adventure/spyglass_at_dragon"/>
-            <advancement_group group="husbandry" end="minecraft:husbandry/whole_pack" exclude="minecraft:husbandry/root,minecraft:husbandry/breed_an_animal" width="8 * 66" height="3 * 68" margin_left="3 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
+            <advancement_group group="husbandry" end="minecraft:husbandry/obtain_netherite_hoe" exclude="minecraft:husbandry/root,minecraft:husbandry/breed_an_animal" width="8 * 66" height="3 * 68" margin_left="3 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
             
 			<advancement_group group="husbandry" start="minecraft:husbandry/froglights" width="66" height="3 * 68" margin_left="11 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
             <advancement_group group="adventure" start="minecraft:adventure/spyglass_at_parrot" end="minecraft:adventure/spyglass_at_dragon" width="66" height="3 * 68" margin_left="12 * 66" margin_top="3 * 68" horizontal_align="left" vertical_align="top"/>
