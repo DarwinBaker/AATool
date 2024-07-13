@@ -20,7 +20,7 @@ namespace AATool.Data.Objectives.Complex
         private const string LegacyBeaconator = "achievement.fullBeacon";
 
         private static readonly Version BlockIdChanged = new ("1.13");
-        private static readonly Version TextureChanged = new ("1.12");
+        private static readonly Version TextureChanged = new ("1.14");
 
         private static bool UseModernId => !Version.TryParse(Tracker.CurrentVersion, out Version current)
             || current >= BlockIdChanged;
