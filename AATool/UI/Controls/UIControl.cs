@@ -18,7 +18,7 @@ namespace AATool.UI.Controls
         private static readonly Dictionary<string, Type> Types = (
             from t in Assembly.GetExecutingAssembly().GetTypes()
             where t.IsClass && t.Namespace == "AATool.UI.Controls"
-            select t).ToDictionary(t => t.Name.ToString().ToLower(),
+            select t).ToDictionary(t => t.Name.ToString().ToLowerInvariant(),
             t => t, StringComparer.OrdinalIgnoreCase);
 
         //static dictionary to hold source documents for initializing controls
@@ -164,7 +164,7 @@ namespace AATool.UI.Controls
                     foreach (string file in Directory.GetFiles(Paths.System.TemplatesFolder, "*.xml"))
                     {
                         string name = Path.GetFileNameWithoutExtension(file).Replace("_", string.Empty);
-                        if (name == "control" + type.Name.ToLower().Substring("ui".Length))
+                        if (name == "control" + type.Name.ToLowerInvariant().Substring("ui".Length))
                         {
                             newTemplate.Load(file);
                             SourceDocs[type] = newTemplate;
