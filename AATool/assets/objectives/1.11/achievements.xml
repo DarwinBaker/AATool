@@ -25,7 +25,7 @@
 
                 <achievement id="buildFurnace" name="Hot Topic">
                     <achievement id="cookFish" name="Delicious Fish"/>
-                    <achievement id="acquireIron" name="Aquire Hardware">
+                    <achievement id="acquireIron" name="Acquire Hardware">
                         <achievement id="onARail"  name="On a Rail" type="challenge"/>
                         <achievement id="diamonds" name="DIAMONDS!">
                             <achievement id="diamondsToYou" name="Diamonds to&#160;You!"/>
