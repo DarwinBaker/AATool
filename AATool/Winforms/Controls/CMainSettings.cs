@@ -35,7 +35,6 @@ namespace AATool.Winforms.Controls
             this.viewMode.Text          = Main.TextInfo.ToTitleCase(Config.Main.Layout.Value);
             this.hideBasic.Checked      = !Config.Main.ShowBasicAdvancements;
             this.ambientGlow.Checked    = Config.Main.ShowAmbientGlow;
-            this.highRes.Checked        = Config.Main.DisplayScale > 1;
             this.frameStyle.Text        = Config.Main.FrameStyle;
             this.progressBarStyle.Text  = Config.Main.ProgressBarStyle;
             this.refreshIcon.Text       = Config.Main.RefreshIcon;
@@ -50,6 +49,15 @@ namespace AATool.Winforms.Controls
             this.UpdateMonitorList();
             this.startupMonitor.SelectedIndex = MathHelper.Clamp(Config.Main.StartupDisplay - 1, 0, this.startupMonitor.Items.Count - 1);
             this.startupMonitor.Enabled = this.startupPosition.Text != "Remember";
+
+            // display scale
+            this.highRes.Items.Clear();
+            foreach (KeyValuePair<string, double> displayScale in Config.MainConfig.DisplayScales)
+            {
+                this.highRes.Items.Add(displayScale.Key);
+                if (Config.Main.DisplayScale == displayScale.Value)
+                    this.highRes.Text = displayScale.Key;
+            }
 
             //colors
             this.theme.Items.Clear();
@@ -82,7 +90,6 @@ namespace AATool.Winforms.Controls
                 Config.Main.HideCompletedAdvancements.Set(this.hideCompletedAdvancements.Checked);
                 Config.Main.HideCompletedCriteria.Set(this.hideCompletedCriteria.Checked);
                 Config.Main.ShowAmbientGlow.Set(this.ambientGlow.Checked);
-                Config.Main.DisplayScale.Set(this.highRes.Checked ? 2 : 1);
                 Config.Main.Layout.Set(this.viewMode.Text.ToLower());
                 Config.Main.FrameStyle.Set(this.frameStyle.Text);
                 Config.Main.ProgressBarStyle.Set(this.progressBarStyle.Text);
@@ -340,6 +347,18 @@ namespace AATool.Winforms.Controls
                     this.textColor.BackColor   = ColorHelper.ToDrawing(Config.Main.TextColor);
                     this.borderColor.BackColor = ColorHelper.ToDrawing(Config.Main.BorderColor);
                     Config.Main.RainbowMode.Set(false);
+                }
+            }
+            if (sender == this.highRes)
+            {
+                string displayScaleText = this.highRes.Text;
+                if (Config.MainConfig.DisplayScales.TryGetValue(displayScaleText, out double displayScale))
+                {
+                    Config.Main.DisplayScale.Set(displayScale);
+                }
+                else
+                {
+                    Config.Main.DisplayScale.Set(1);
                 }
             }
             else if (sender == this.startupPosition)

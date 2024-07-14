@@ -41,11 +41,20 @@ namespace AATool.Configuration
                 {"High Contrast",  (Hex("000000"), Hex("FFFFFF"), Hex("FFFFFF"))}
             };
 
+            public static readonly Dictionary<string, double> DisplayScales = new ()
+            {
+                {"100%", 1 },
+                {"125%", 1.25 },
+                {"150%", 1.5 },
+                {"175%", 1.75 },
+                {"200%", 2 },
+            };
+
             private static Color Hex(string hex) => 
                 ColorHelper.TryGetHexColor(hex, out Color color) ? color : Color.White;
 
             [JsonProperty] public readonly Setting<int> FpsCap = new (60);
-            [JsonProperty] public readonly Setting<int> DisplayScale = new (1);
+            [JsonProperty] public readonly Setting<double> DisplayScale = new (1);
 
             [JsonProperty] public readonly Setting<bool> AllowUserResizing = new (false);
             [JsonProperty] public readonly Setting<bool> HideCompletedAdvancements = new (false);
